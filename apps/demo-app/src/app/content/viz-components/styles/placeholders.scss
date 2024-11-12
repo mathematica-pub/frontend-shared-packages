@@ -1,0 +1,31 @@
+@use 'index' as hsi-adk;
+@use 'functions' as *;
+@use 'vars' as *;
+@use 'colors';
+
+%vic-examples-tooltip-container-styles {
+  background: rgba(white, 0.9);
+  padding: grid(2);
+  border: 1px solid colors.$muted-primary-80;
+  width: 100%;
+
+  .tooltip-label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tooltip-label:not(.category) {
+    padding-top: grid(1);
+  }
+
+  .category {
+    color: var(--color);
+    font-weight: $font-weight-bold;
+    line-height: 1.2;
+    padding-bottom: grid(1);
+  }
+
+  .value-label {
+    @include hsi-adk.label-2xs-caps;
+  }
+}

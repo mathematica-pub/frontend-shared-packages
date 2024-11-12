@@ -1,0 +1,3 @@
+# Stacked Area Component
+
+{{ StackedAreaExampleComponent }}

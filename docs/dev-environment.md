@@ -8,51 +8,31 @@ This project has the following requirements for the developer's/virtual machine:
 - `npm` for package management on a developer's machine
 - optional: python, pipenv for compodoc documentation generation
 
+## Setup
+
+To install necessary dependencies and automatic commit linting for development, run
+`npm run setup-repo`.
+
 ## Beta-releases
 
-Viz-components supports beta-releases so that we can test library code on real projects before
-officially making a feature stable and merging to main. This lets us make sure we can have rigorous
-tests and decent documentation for new features without slowing down project work too much.
+Frontend shared packages support beta-releases so that we can test library code on real projects
+before officially making a feature stable and merging to main. This lets us make sure we can have
+rigorous tests and decent documentation for new features without slowing down project work too much.
+The beta release process is as follows:
 
-To create a beta release:
+1. Open a PR that has at least one commit prefixed with `fix:`, `feat:`, or `perf:` or that has a
+   `BREAKING CHANGE:` footer. This way our automated versioning system can detect that your changes
+   warrant a version bump.
+2. Leave a comment on the PR that says `beta-release-bot: <package name>` (e.g.
+   `beta-release-bot: viz-components`). This should kick off a beta release job.
+3. An automated comment should be left on your PR. This will either indicate success and provide
+   instructions for how to install your beta release or notify you of a workflow failure.
 
-1. Confirm [here](https://github.com/mathematica-org/frontend-shared-packages/branches) that there
-   is not already a remote `beta` branch. If it already exists, complete the following steps using
-   `alpha` instead.
-
-   > There can only be one alpha or beta branch, but ideally they're short-lived. We're essentially
-   > using them as throwaway branches that are purely for triggering the beta release workflow.
-
-   > This is because `semantic-release` automatically appends the branch name to the end of
-   > prerelease packages, so any branch that has numbers in it or has a long name will fail to
-   > deploy.
-
-2. Our automated release system requires that you use at least one conventional commit (see:
-   [formatting guidelines](https://gist.github.com/develar/273e2eb938792cf5f86451fbac2bcd51)). To
-   ensure our automated releasing system detects that a version bump is needed, confirm that you
-   have at least one commit message that
-
-   - Touches code in the package you want to release AND
-   - Is prefixed with `fix:` or `feat:` or has a footer prefixed with `BREAKING CHANGE:`
-
-3. Push the changes from your local branch to a remote `beta` branch
-
-```bash
-// Branch off your development branch
-git checkout -b beta
-
-// Push to beta branch
-git push --set-upstream origin beta
-```
-
-4. You should see a new
-   [workflow](https://github.com/mathematica-org/frontend-shared-packages/actions/workflows/publish-package.yml)
-   kicked off. Once that's complete, your beta release should show up
-   [here](https://github.com/mathematica-org/frontend-shared-packages/releases).
-5. Install the beta release into your project using
-   `npm install @hsi/<PACKAGE>@<BETA RELEASE VERSION>` (e.g. `@hsi/viz-components@3.0.1-beta.1`).
-6. **IMPORTANT:** Once you've successfully installed your beta release, delete the remote beta
-   branch from the `frontend-shared-packages` repo!
+> NOTE: Once you've beta released once from a particular PR, you don't need to add additional
+> `fix:`, `feat:`, `perf:` or `BREAKING CHANGE:` commits if you want to beta release again. The
+> system should automatically increment the beta release version for you and provide you with the
+> version number. E.g. you can release `@hsi/viz-components@1.0.1-beta.0` and then comment again
+> immediately to release `@hsi/viz-components@1.0.1-beta.1`.
 
 ## Locally generating compodoc documentation
 
@@ -74,8 +54,8 @@ To generate documentation, run `npm run build:documentation`.
 ## Adding dependencies to the library
 
 If you are going to add dependencies to the library (an external package such as D3), you should
-manually add the package and appropriate version to `projects/viz-components/package.json` as a
-**peer dependency**.
+manually add the package and appropriate version to `libs/viz-components/package.json` as a **peer
+dependency**.
 
 **Do not install via the command line with npm install** as that will build node_modules inside viz
 components which will cause version conflicts.

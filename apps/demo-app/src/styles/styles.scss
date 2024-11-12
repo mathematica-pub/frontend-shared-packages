@@ -1,0 +1,48 @@
+@use 'vars' as *;
+@use 'placeholders' as *;
+@use 'functions' as *;
+@use 'colors';
+@use 'index' as hsi-adk;
+
+@include hsi-adk.reset(#{$font-sans}, #{colors.$text});
+
+html {
+  @include hsi-adk.create-theme();
+  --hsi-adk-font-sans: #{$font-sans};
+  --hsi-adk-font-serif: #{$font-serif};
+  --hsi-adk-font-mono: #{$font-mono};
+}
+
+.vic-html-tooltip-overlay {
+  display: flex;
+  flex-direction: column;
+}
+
+.vic-html-tooltip-overlay.events-disabled {
+  pointer-events: none;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+// ------- Custom scrollbar -------
+::-webkit-scrollbar {
+  width: $vertical-scrollbar-thickness-thin;
+  height: $horizontal-scrollbar-thickness;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background: colors.$muted-primary-80;
+  border-radius: grid(2);
+}

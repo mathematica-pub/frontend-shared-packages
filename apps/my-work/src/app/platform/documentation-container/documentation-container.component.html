@@ -1,0 +1,16 @@
+@if (contentPath$ && fileConfig) {
+  <hsi-adk-documentation-display
+    [contentPath$]="contentPath$"
+    [fileConfig]="fileConfig"
+    [pathFromAssetsToFile]="pathFromAssetsToFile"
+    [highlightTheme]="highlightTheme"
+    (nextDoc)="navigateToDoc($event)"
+  >
+    <ng-template let-section #component
+      ><p
+        >let's use {{ section.component }} with ngSwitch to inject the
+        component!</p
+      ></ng-template
+    >
+  </hsi-adk-documentation-display>
+}

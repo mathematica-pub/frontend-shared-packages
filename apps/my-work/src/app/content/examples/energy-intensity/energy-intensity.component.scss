@@ -1,0 +1,15 @@
+@use 'functions' as *;
+@use 'index' as hsi-adk;
+
+.title {
+  @include hsi-adk.title-large;
+}
+
+.documentation-text {
+  max-width: 900px;
+  padding-top: grid(4);
+}
+
+.text {
+  padding-bottom: grid(4);
+}

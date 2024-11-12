@@ -1,0 +1,123 @@
+<div
+  class="geographies-example"
+  *ngIf="primaryMarksConfig$ | async as primaryMarksConfig; else loading"
+>
+  <div class="user-selections">
+    <div class="user-selection year">
+      <p class="selection-title effect-title">Select a year</p>
+      <div class="toggle-container">
+        <mat-button-toggle-group
+          name="selectedYear"
+          aria-label="Selected Year"
+          [value]="selectedYear$ | async"
+          (change)="setYear($event)"
+          [hideSingleSelectionIndicator]="true"
+        >
+          <mat-button-toggle value="2020">2020</mat-button-toggle>
+          <mat-button-toggle value="2010">2010</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+    <div class="user-selection bins">
+      <p class="selection-title">Select a data binning strategy</p>
+      <div class="toggle-container">
+        <mat-button-toggle-group
+          name="selectedYear"
+          aria-label="Selected Year"
+          [value]="attributeDataBinType$ | async"
+          (change)="setBinType($event)"
+          [hideSingleSelectionIndicator]="true"
+        >
+          <mat-button-toggle [value]="binTypes[0]">No Bins</mat-button-toggle>
+          <mat-button-toggle [value]="binTypes[1]"
+            >Categorical</mat-button-toggle
+          >
+          <mat-button-toggle [value]="binTypes[2]"
+            >Equal Value Ranges</mat-button-toggle
+          >
+          <mat-button-toggle [value]="binTypes[3]"
+            >Equal Frequencies</mat-button-toggle
+          >
+          <mat-button-toggle [value]="binTypes[4]"
+            >Custom Breaks</mat-button-toggle
+          >
+        </mat-button-toggle-group>
+      </div>
+    </div>
+  </div>
+  <p class="data-binning-description"
+    >Attribute Data Bin Type:
+    <span class="value">{{ attributeDataBinType$ | async }}</span></p
+  >
+  <p class="fill-description"
+    >Patterned states: population less than 1,000,000 (visual legend to be
+    added)</p
+  >
+  <p class="fill-description"
+    >Gray states: missing data; state is part of NoDataGeographies</p
+  >
+  <vic-map-chart
+    class="chart-component"
+    [margin]="margin"
+    [height]="height"
+    [width]="width"
+  >
+    <ng-container html-elements-after>
+      <vic-map-legend
+        class="legend-component"
+        [width]="400"
+        [height]="20"
+        [outlineColor]="outlineColor"
+      ></vic-map-legend>
+    </ng-container>
+    <svg:pattern
+      svg-defs
+      [id]="patternName"
+      x="2"
+      y="2"
+      width="5"
+      height="5"
+      patternUnits="userSpaceOnUse"
+    >
+      <rect x="3" y="3" width="2" height="2" fill="#876fc1" />
+    </svg:pattern>
+    <svg:g
+      vic-primary-marks-geographies
+      svg-elements
+      [config]="primaryMarksConfig"
+      [vicGeographiesHoverActions]="hoverActions"
+      (vicGeographiesHoverOutput)="updateTooltipForNewOutput($event, 'hover')"
+      [vicGeographiesClickActions]="clickActions"
+      [vicGeographiesClickRemoveEvent$]="removeTooltipEvent$"
+      (vicGeographiesClickOutput)="updateTooltipForNewOutput($event, 'click')"
+    >
+      <vic-html-tooltip
+        [config]="tooltipConfig$ | async"
+        [template]="htmlTooltip"
+        (backdropClick)="onBackdropClick()"
+      ></vic-html-tooltip>
+    </svg:g>
+  </vic-map-chart>
+</div>
+<ng-template #loading>Loading...</ng-template>
+
+<ng-template #htmlTooltip>
+  <div
+    [style.--color]="(tooltipData$ | async).color"
+    class="geographies-example-tooltip-container"
+  >
+    <p class="tooltip-label category">
+      {{ (tooltipData$ | async).geography }}
+    </p>
+    <div class="values-container">
+      <p class="tooltip-label x">
+        <span class="value-label">Income</span>
+        @if ((tooltipData$ | async).datum) {
+          {{ (tooltipData$ | async).attributeValue }}
+        } @else {
+          No data available
+        }
+      </p>
+    </div>
+  </div>
+</ng-template>

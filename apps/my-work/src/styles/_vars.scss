@@ -1,0 +1,33 @@
+@use 'sass:map';
+@use 'colors';
+@use 'functions' as *;
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
+
+/* ----- FONTS ----- */
+$font-sans: 'Fira Sans', sans-serif;
+$font-serif: 'PT Serif', monospace;
+$font-mono: 'Fira Code', monospace;
+
+$font-weight-light: var(--hsi-adk-font-weight-light);
+$font-weight-regular: var(--hsi-adk-font-weight-regular);
+$font-weight-medium: var(--hsi-adk-font-weight-medium);
+$font-weight-semibold: var(--hsi-adk-font-weight-semibold);
+$font-weight-bold: var(--hsi-adk-font-weight-bold);
+$line-height-0: var(--hsi-adk-line-height-0);
+$line-height-1: var(--hsi-adk-line-height-1);
+$line-height-2: var(--hsi-adk-line-height-2);
+$line-height-3: var(--hsi-adk-line-height-3);
+$line-height-4: var(--hsi-adk-line-height-4);
+$line-height-5: var(--hsi-adk-line-height-5);
+
+$vertical-scrollbar-thickness-thin: grid(2);
+$vertical-scrollbar-thickness-thick: grid(3);
+$horizontal-scrollbar-thickness: grid(2);
+
+$highlight: (
+  'dark': #0c369e,
+  'default': #1650e1,
+  'light': #4578f6,
+  'hover': #ffeb3b,
+);
