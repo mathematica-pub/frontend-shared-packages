@@ -1,22 +1,24 @@
-<hsi-ui-combobox class="office-locations-dropdown">
-  <hsi-ui-combobox-label>
-    <span>Mathematica Office Locations Combobox</span>
-  </hsi-ui-combobox-label>
-  <hsi-ui-textbox>
-    <p boxLabel>Select the office locations you've been to!</p>
-    <span class="material-symbols-outlined expand-more" boxIcon>
-      expand_more
-    </span>
-  </hsi-ui-textbox>
-  <hsi-ui-listbox [isMultiSelect]="true" (valueChanges)="onSelection($event)">
-    <hsi-ui-listbox-option
-      *ngFor="let option of options"
-      [disabled]="option.disabled"
-      [value]="option.id"
-      >{{ option.displayName }}</hsi-ui-listbox-option
-    >
-  </hsi-ui-listbox>
-</hsi-ui-combobox>
-<p class="combobox-value"
-  >Selected id values: {{ (selected$ | async).join(', ') }}</p
->
+<div class="multi-select-combobox-example disabled-example">
+  <p class="combobox-value"
+    >Combobox selections (id values): {{ (selected$ | async).join(', ') }}</p
+  >
+  <hsi-ui-combobox class="office-locations-dropdown">
+    <hsi-ui-combobox-label>
+      <span>Mathematica Office Locations Combobox</span>
+    </hsi-ui-combobox-label>
+    <hsi-ui-textbox>
+      <p boxLabel>Select the office locations you've been to!</p>
+      <span class="material-symbols-outlined expand-more" boxIcon>
+        expand_more
+      </span>
+    </hsi-ui-textbox>
+    <hsi-ui-listbox [isMultiSelect]="true" (valueChanges)="onSelection($event)">
+      <hsi-ui-listbox-option
+        *ngFor="let option of options"
+        [disabled]="option.disabled"
+        [value]="option.id"
+        >{{ option.displayName }}</hsi-ui-listbox-option
+      >
+    </hsi-ui-listbox>
+  </hsi-ui-combobox>
+</div>

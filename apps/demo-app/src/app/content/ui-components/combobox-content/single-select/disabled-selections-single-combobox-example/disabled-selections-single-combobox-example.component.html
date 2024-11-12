@@ -1,23 +1,27 @@
-<hsi-ui-combobox class="pixar-movies-dropdown">
-  <hsi-ui-combobox-label>
-    <span>Pixar Movies Combobox</span>
-  </hsi-ui-combobox-label>
-  <hsi-ui-textbox>
-    <p boxLabel>This combobox stores your favorite Pixar movie!</p>
-    <span class="material-symbols-outlined expand-more" boxIcon>
-      expand_more
-    </span>
-  </hsi-ui-textbox>
-  <hsi-ui-listbox (valueChanges)="onSelection($event)">
-    <hsi-ui-listbox-label>
-      <span>Select your favorite Pixar movie</span>
-    </hsi-ui-listbox-label>
-    <hsi-ui-listbox-option
-      *ngFor="let option of options"
-      [value]="option.id"
-      [disabled]="option.disabled"
-      >{{ option.displayName }}</hsi-ui-listbox-option
-    >
-  </hsi-ui-listbox>
-</hsi-ui-combobox>
-<p class="combobox-value">Selected id value: {{ selected$ | async }}</p>
+<div class="single-select-combobox-example disabled-example">
+  <p class="combobox-value"
+    >Combobox selection (id value): {{ selected$ | async }}</p
+  >
+  <hsi-ui-combobox class="pixar-movies-dropdown">
+    <hsi-ui-combobox-label>
+      <span>Pixar Movies Combobox</span>
+    </hsi-ui-combobox-label>
+    <hsi-ui-textbox>
+      <p boxLabel>This combobox stores your favorite Pixar movie!</p>
+      <span class="material-symbols-outlined expand-more" boxIcon>
+        expand_more
+      </span>
+    </hsi-ui-textbox>
+    <hsi-ui-listbox (valueChanges)="onSelection($event)">
+      <hsi-ui-listbox-label>
+        <span>Select your favorite Pixar movie</span>
+      </hsi-ui-listbox-label>
+      <hsi-ui-listbox-option
+        *ngFor="let option of options"
+        [value]="option.id"
+        [disabled]="option.disabled"
+        >{{ option.displayName }}</hsi-ui-listbox-option
+      >
+    </hsi-ui-listbox>
+  </hsi-ui-combobox>
+</div>
