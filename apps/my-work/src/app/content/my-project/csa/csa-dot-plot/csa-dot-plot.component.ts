@@ -143,7 +143,11 @@ export class CsaDotPlotComponent implements OnChanges {
   getTickFormat(): string {
     const units = this.rollupData[0].units;
     if (units === 'Percentage') {
-      return '.0%';
+      if (this.trueMax < 0.1) {
+        return '.1%';
+      } else {
+        return '.0%';
+      }
     } else if (this.trueMax < 10) {
       return ',.1f';
     } else {
