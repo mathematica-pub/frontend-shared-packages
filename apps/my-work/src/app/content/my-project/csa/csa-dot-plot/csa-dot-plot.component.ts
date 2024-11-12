@@ -64,7 +64,7 @@ export class CsaDotPlotComponent implements OnChanges {
   rollupDataConfig: StackedBarsConfig<CsaDatum, string>;
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<string>;
-  chartHeight = 600;
+  chartHeight = 300;
 
   constructor(
     private bars: VicStackedBarsConfigBuilder<CsaDatum, string>,
@@ -100,7 +100,11 @@ export class CsaDotPlotComponent implements OnChanges {
     if (this.rollupData.length > 0) {
       const dotMax = max(this.rollupData.map((d) => max(d.plans)));
       const barMax = max(this.rollupData, (d) => d.csa_75);
-      const trueMax = max([dotMax, barMax]) * 1.1;
+      let trueMax = max([dotMax, barMax]) * 1.1;
+      if (this.rollupData[0].units === 'Percentage') {
+        trueMax = min([trueMax, 1]);
+      }
+
       this.rollupData.sort((a, b) => {
         const order = ['Large', 'Medium', 'Small', 'Rural', 'Other'];
         return order.indexOf(a.size) - order.indexOf(b.size);
