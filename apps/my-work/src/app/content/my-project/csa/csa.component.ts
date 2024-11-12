@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -34,6 +39,7 @@ interface SelectionForm {
   templateUrl: './csa.component.html',
   styleUrl: './csa.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class CsaComponent implements OnInit {
   dataPath = 'content/data/Mock_Statistical_Results.csv';
