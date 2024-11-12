@@ -7,6 +7,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { ascending } from 'd3';
 import { combineLatest, filter, map, Observable, startWith } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
 import { ExportContentComponent } from '../../../platform/export-content/export-content.component';
@@ -81,9 +82,15 @@ export class CsaComponent implements OnInit {
 
     this.data$ = data$.pipe(
       map((data) => {
-        this.measureCodes = [...new Set(data.map((x) => x.measureCode))];
-        this.stratVals = [...new Set(data.map((x) => x.stratVal))];
-        this.delivSyss = [...new Set(data.map((x) => x.delivSys))];
+        this.measureCodes = [
+          ...new Set(data.map((x) => x.measureCode).sort(ascending)),
+        ];
+        this.stratVals = [
+          ...new Set(data.map((x) => x.stratVal).sort(ascending)),
+        ];
+        this.delivSyss = [
+          ...new Set(data.map((x) => x.delivSys).sort(ascending)),
+        ];
 
         this.myForm.controls['measureCode'].setValue(this.measureCodes[0]);
         this.myForm.controls['stratVal'].setValue(this.stratVals[0]);
