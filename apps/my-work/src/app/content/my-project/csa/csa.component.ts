@@ -67,7 +67,7 @@ export class CsaComponent implements OnInit {
             units: x.Units,
             value:
               x.CSA_25 && !isNaN(x.CSA_25) && x.CSA_75 && !isNaN(x.CSA_75)
-                ? x.CSA_75 - x.CSA_25
+                ? Math.abs(x.CSA_75 - x.CSA_25)
                 : null,
             planValue: x.Value && !isNaN(x.Value) ? +x.Value : null,
             csa_25: x.CSA_25 && !isNaN(x.CSA_25) ? +x.CSA_25 : null,
