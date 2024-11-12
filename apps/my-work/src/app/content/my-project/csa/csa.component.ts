@@ -40,7 +40,6 @@ export class CsaComponent implements OnInit {
   data$: Observable<CsaDatum[]>;
   filteredData$: Observable<CsaDatum[]>;
   filter$: Observable<FormGroup<SelectionForm>>;
-  rollupData$: Observable<CsaDatum[]>;
   myForm: FormGroup;
   measureCodes: string[] = [];
   stratVals: string[] = [];
