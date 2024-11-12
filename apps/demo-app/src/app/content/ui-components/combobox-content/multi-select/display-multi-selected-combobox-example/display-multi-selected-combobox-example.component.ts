@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ComboboxModule } from '@hsi/ui-components';
 import { BehaviorSubject } from 'rxjs';
+import { officeOptions } from '../../single-select/combobox-options';
 
 @Component({
   selector: 'app-display-multi-selected-combobox-example',
@@ -12,15 +13,7 @@ import { BehaviorSubject } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class DisplayMultiSelectedComboboxExampleComponent {
-  options = [
-    { displayName: 'Cambridge', id: 'cambridge' },
-    { displayName: 'Washington, D.C.', id: 'dc' },
-    { displayName: 'Oakland', id: 'oakland' },
-    { displayName: 'Chicago', id: 'chicago' },
-    { displayName: 'Ann Arbor', id: 'annArbor' },
-    { displayName: 'Woodlawn', id: 'woodlawn' },
-    { displayName: 'Princeton', id: 'princeton' },
-  ];
+  options = officeOptions;
   selected = new BehaviorSubject([]);
   selected$ = this.selected.asObservable();
 

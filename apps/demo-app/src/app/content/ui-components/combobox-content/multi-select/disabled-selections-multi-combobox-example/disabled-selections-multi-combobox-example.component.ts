@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ComboboxModule } from '@hsi/ui-components';
 import { BehaviorSubject } from 'rxjs';
+import { officeOptions } from '../../single-select/combobox-options';
 
 @Component({
   selector: 'app-disabled-selections-multi-combobox-example',
@@ -12,15 +13,7 @@ import { BehaviorSubject } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class DisabledSelectionsMultiComboboxExampleComponent {
-  options = [
-    { displayName: 'Cambridge', id: 'cambridge', disabled: true },
-    { displayName: 'Washington, D.C.', id: 'dc', disabled: true },
-    { displayName: 'Oakland', id: 'oakland', disabled: false },
-    { displayName: 'Chicago', id: 'chicago', disabled: false },
-    { displayName: 'Ann Arbor', id: 'annArbor', disabled: true },
-    { displayName: 'Woodlawn', id: 'woodlawn', disabled: false },
-    { displayName: 'Princeton', id: 'princeton', disabled: true },
-  ];
+  options = officeOptions;
   selected = new BehaviorSubject([]);
   selected$ = this.selected.asObservable();
 

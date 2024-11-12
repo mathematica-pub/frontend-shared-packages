@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ComboboxModule } from 'dist/ui-components';
 import { BehaviorSubject } from 'rxjs';
+import { movieOptions } from '../combobox-options';
 
 @Component({
   selector: 'app-disabled-selections-single-combobox-example',
@@ -12,17 +13,7 @@ import { BehaviorSubject } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class DisabledSelectionsSingleExampleComponent {
-  options = [
-    { displayName: 'Ratatouille', id: 'rat', disabled: true },
-    { displayName: 'Finding Nemo', id: 'nemo', disabled: false },
-    { displayName: 'Toy Story', id: 'toy', disabled: false },
-    { displayName: 'Monsters Inc.', id: 'monstersInc', disabled: true },
-    { displayName: 'WALL-E', id: 'robot', disabled: true },
-    { displayName: 'Cars', id: 'cars', disabled: false },
-    { displayName: 'The Incredibles', id: 'incredibles', disabled: false },
-    { displayName: 'Inside Out', id: 'insideOut', disabled: true },
-    { displayName: 'Up', id: 'up', disabled: false },
-  ];
+  options = movieOptions;
   selected = new BehaviorSubject<string>(null);
   selected$ = this.selected.asObservable();
 

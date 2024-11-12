@@ -16,11 +16,11 @@
       <hsi-ui-listbox-label>
         <span>Select your favorite Pixar movie</span>
       </hsi-ui-listbox-label>
-      <hsi-ui-listbox-option
-        *ngFor="let option of options"
-        [value]="option.id"
-        >{{ option.displayName }}</hsi-ui-listbox-option
-      >
+      @for (option of options; track $index) {
+        <hsi-ui-listbox-option [value]="option.id">{{
+          option.displayName
+        }}</hsi-ui-listbox-option>
+      }
     </hsi-ui-ng-form-listbox-single>
   </hsi-ui-combobox>
 </div>
