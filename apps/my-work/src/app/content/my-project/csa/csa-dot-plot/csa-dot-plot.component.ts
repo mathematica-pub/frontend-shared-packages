@@ -19,7 +19,7 @@ import {
   VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
-import { max } from 'd3';
+import { max, min } from 'd3';
 import { CsaStackedBarsComponent } from './csa-stacked-bars/csa-stacked-bars.component';
 
 export interface CsaDatum {
@@ -88,7 +88,7 @@ export class CsaDotPlotComponent implements OnChanges {
 
         const invisibleStack = structuredClone(plan);
         invisibleStack.series = 'invisible';
-        invisibleStack.value = plan.csa_25;
+        invisibleStack.value = min([plan.csa_25, plan.csa_75]);
 
         this.rollupData.push(visibleStack);
         this.rollupData.push(invisibleStack);
