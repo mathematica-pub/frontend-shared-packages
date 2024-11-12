@@ -9,10 +9,13 @@ import {
   VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
+import { EnergyIntensityDatum } from 'apps/my-work/src/app/content/examples/energy-intensity/energy-intensity.component';
+import { DataService } from 'apps/my-work/src/app/core/services/data.service';
+import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { map, Observable } from 'rxjs';
-import { DataService } from '../../../core/services/data.service';
-import { ExportContentComponent } from '../../../platform/export-content/export-content.component';
-import { EnergyIntensityDatum } from '../../examples/energy-intensity/energy-intensity.component';
+// import { DataService } from '../../../core/services/data.service';
+// import { ExportContentComponent } from '../../../platform/export-content/export-content.component';
+// import { EnergyIntensityDatum } from '../../examples/energy-intensity/energy-intensity.component';
 
 interface MyData {
   date: Date;

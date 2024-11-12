@@ -7,10 +7,10 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { DataService } from 'apps/my-work/src/app/core/services/data.service';
+import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { ascending } from 'd3';
 import { combineLatest, filter, map, Observable, startWith } from 'rxjs';
-import { DataService } from '../../../core/services/data.service';
-import { ExportContentComponent } from '../../../platform/export-content/export-content.component';
 import {
   CsaDatum,
   CsaDotPlotComponent,
