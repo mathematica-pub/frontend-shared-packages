@@ -64,6 +64,7 @@ export class CsaDotPlotComponent implements OnChanges {
   rollupDataConfig: StackedBarsConfig<CsaDatum, string>;
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<string>;
+  trueMax: number;
   chartHeight = 300;
 
   constructor(
@@ -100,9 +101,9 @@ export class CsaDotPlotComponent implements OnChanges {
     if (this.rollupData.length > 0) {
       const dotMax = max(this.rollupData.map((d) => max(d.plans)));
       const barMax = max(this.rollupData, (d) => d.csa_75);
-      let trueMax = max([dotMax, barMax]) * 1.1;
+      this.trueMax = max([dotMax, barMax]) * 1.1;
       if (this.rollupData[0].units === 'Percentage') {
-        trueMax = min([trueMax, 1]);
+        this.trueMax = min([this.trueMax, 1]);
       }
 
       this.rollupData.sort((a, b) => {
@@ -126,7 +127,7 @@ export class CsaDotPlotComponent implements OnChanges {
             .valueAccessor((d) => d.value)
             .formatSpecifier(',.0f')
             .domainPaddingPixels(16)
-            .domain([0, trueMax])
+            .domain([0, this.trueMax])
         )
         .stackOrder(() => [1, 0])
         .getConfig();
@@ -143,6 +144,8 @@ export class CsaDotPlotComponent implements OnChanges {
     const units = this.rollupData[0].units;
     if (units === 'Percentage') {
       return '.0%';
+    } else if (this.trueMax < 10) {
+      return ',.1f';
     } else {
       return ',.0f';
     }
