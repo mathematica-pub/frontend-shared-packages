@@ -101,6 +101,10 @@ export class CsaDotPlotComponent implements OnChanges {
       const dotMax = max(this.rollupData.map((d) => max(d.plans)));
       const barMax = max(this.rollupData, (d) => d.csa_75);
       const trueMax = max([dotMax, barMax]) * 1.1;
+      this.rollupData.sort((a, b) => {
+        const order = ['Large', 'Medium', 'Small', 'Rural', 'Other'];
+        return order.indexOf(a.size) - order.indexOf(b.size);
+      });
 
       console.log('rollupData', this.rollupData);
 
