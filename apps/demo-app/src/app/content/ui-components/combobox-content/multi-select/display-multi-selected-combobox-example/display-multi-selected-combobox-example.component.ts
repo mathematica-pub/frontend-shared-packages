@@ -1,5 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
 import { ComboboxModule } from '@hsi/ui-components';
 import { BehaviorSubject } from 'rxjs';
 import { officeOptions } from '../../single-select/combobox-options';
@@ -10,6 +14,7 @@ import { officeOptions } from '../../single-select/combobox-options';
   imports: [CommonModule, ComboboxModule],
   templateUrl: './display-multi-selected-combobox-example.component.html',
   styleUrl: './display-multi-selected-combobox-example.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class DisplayMultiSelectedComboboxExampleComponent {
