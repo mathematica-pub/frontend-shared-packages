@@ -109,7 +109,7 @@ export class CsaDotPlotComponent implements OnChanges {
       }
 
       this.rollupData.sort((a, b) => {
-        const order = ['Large', 'Medium', 'Small', 'Rural', 'Other'];
+        const order = ['Rural', 'Small', 'Medium', 'Large', 'Other'];
         return order.indexOf(a.size) - order.indexOf(b.size);
       });
 
