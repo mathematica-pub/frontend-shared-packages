@@ -59,7 +59,7 @@ export class CsaStackedBarsComponent
       .selectAll('.plan')
       .data((category: CsaDatum) => category.plans)
       .join('circle')
-      .attr('r', 5)
+      .attr('r', 4)
       .attr('cx', (plan) => this.scales.x(plan))
       .attr('class', 'plan');
   }

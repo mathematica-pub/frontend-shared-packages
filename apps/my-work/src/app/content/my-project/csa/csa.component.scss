@@ -16,3 +16,20 @@ option:checked {
   display: flex;
   gap: 0.4em;
 }
+
+circle {
+  fill: none;
+  stroke: black;
+  stroke-opacity: 50%;
+}
+
+.vic-bars-g {
+  rect {
+    fill: #dbe9f9;
+    stroke: #0b2949;
+  }
+
+  & > g:last-child rect {
+    display: none;
+  }
+}
