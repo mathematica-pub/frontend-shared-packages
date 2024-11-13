@@ -18,10 +18,10 @@ export class CsaStackedBarsComponent
   extends StackedBarsComponent<CsaDatum, string>
   implements OnInit
 {
-  group: Selection<SVGGElement, unknown, null, undefined>;
+  circleGroup: Selection<SVGGElement, unknown, null, undefined>;
 
   override ngOnInit(): void {
-    this.createGroup();
+    this.createCircleGroup();
     super.ngOnInit();
   }
 
@@ -32,17 +32,34 @@ export class CsaStackedBarsComponent
       this.drawBarLabels(transitionDuration);
     }
     this.updateBarElements();
+    this.updateGridlines();
     this.updateCircleElements();
   }
 
-  createGroup(): void {
-    this.group = select(this.chart.svgRef.nativeElement)
+  createCircleGroup(): void {
+    this.circleGroup = select(this.chart.svgRef.nativeElement)
       .append('g')
       .attr('class', 'plans');
   }
 
+  updateGridlines(): void {
+    this.updateGridline('horizontal');
+    this.updateGridline('vertical');
+  }
+
+  updateGridline(orientation: string): void {
+    select(this.chart.svgRef.nativeElement)
+      .selectAll(orientation === 'horizontal' ? '.vic-y .tick' : '.vic-x .tick')
+      .selectAll(`.${orientation}.gridline`)
+      .data((d) => [d])
+      .join('line')
+      .attr('class', `${orientation} gridline`)
+      .attr('x2', orientation === 'horizontal' ? this.chart.width : 0)
+      .attr('y2', orientation === 'vertical' ? -this.chart.height : 0);
+  }
+
   updateCircleElements(): void {
-    this.group
+    this.circleGroup
       .selectAll('.category')
       .data(
         this.config.data.filter(

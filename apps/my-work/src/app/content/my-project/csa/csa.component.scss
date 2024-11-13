@@ -17,6 +17,10 @@ option:checked {
   gap: 0.4em;
 }
 
+.image {
+  padding: 20px 20px 20px 100px !important;
+}
+
 circle {
   fill: none;
   stroke: black;
@@ -32,4 +36,20 @@ circle {
   & > g:last-child rect {
     display: none;
   }
+}
+
+.gridline {
+  stroke: #f0f0f0;
+}
+
+.tick line:not(.gridline) {
+  display: none;
+}
+
+.vic-y .domain {
+  stroke: #bfbfbf;
+}
+
+.vic-x .domain {
+  stroke: #4472c4;
 }
