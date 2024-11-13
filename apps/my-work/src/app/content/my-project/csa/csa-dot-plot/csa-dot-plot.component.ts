@@ -65,7 +65,7 @@ export class CsaDotPlotComponent implements OnChanges {
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<string>;
   trueMax: number;
-  chartHeight = 300;
+  chartHeight: number;
 
   constructor(
     private bars: VicStackedBarsConfigBuilder<CsaDatum, string>,
@@ -99,6 +99,8 @@ export class CsaDotPlotComponent implements OnChanges {
     });
 
     if (this.rollupData.length > 0) {
+      this.chartHeight = this.rollupData.length * 30;
+
       const dotMax = max(this.rollupData.map((d) => max(d.plans)));
       const barMax = max(this.rollupData, (d) => d.csa_75);
       this.trueMax = max([dotMax, barMax]) * 1.1;
