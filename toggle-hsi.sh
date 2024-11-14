@@ -15,14 +15,13 @@ backup_files() {
 switch_to_npm() {
     echo "Switching to npm packages..."
 
-    jq 'del(.compilerOptions.paths)' "tsconfig.json" > "tsconfig.json.tmp"
-    mv 'tsconfig.json.tmp' 'tsconfig.json'
+    node update-tsconfig-to-use-npm-packages.js
     
     echo "Installing @hsi packages..."
     npm install @hsi/viz-components@latest 
     npm install @hsi/ui-components@latest
     npm install @hsi/app-dev-kit@latest
-    
+    npx nx reset
     echo "Successfully switched to npm packages"
 }
 
@@ -41,6 +40,8 @@ restore_local() {
         
     # Run npm install to update dependencies
     npm install
+
+    npx nx reset
     
     echo "Successfully restored local paths"
 }
