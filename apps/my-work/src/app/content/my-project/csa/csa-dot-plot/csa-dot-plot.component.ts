@@ -128,7 +128,6 @@ export class CsaDotPlotComponent implements OnChanges {
           dimension
             .valueAccessor((d) => d.value)
             .formatSpecifier(',.0f')
-            .domainPaddingPixels(16)
             .domain([0, this.trueMax])
         )
         .stackOrder(() => [1, 0])
