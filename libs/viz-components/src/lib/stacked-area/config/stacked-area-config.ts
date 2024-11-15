@@ -16,35 +16,35 @@ import { MarksOptions } from '../../marks/config/marks-options';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { StackedAreaOptions } from './stacked-area-options';
 
-export class StackedAreaConfig<Datum, TCategoricalValue extends DataValue>
+export class StackedAreaConfig<Datum, CategoricalDomain extends DataValue>
   extends XyPrimaryMarksConfig<Datum>
   implements MarksOptions<Datum>
 {
-  color: OrdinalVisualValueDimension<Datum, TCategoricalValue>;
-  categoricalOrder: TCategoricalValue[];
+  color: OrdinalVisualValueDimension<Datum, CategoricalDomain, string>;
+  categoricalOrder: CategoricalDomain[];
   curve: CurveFactory;
   stackOrder: (
     series: Series<
-      [ContinuousValue, InternMap<TCategoricalValue, number>],
-      TCategoricalValue
+      [ContinuousValue, InternMap<CategoricalDomain, number>],
+      CategoricalDomain
     >
   ) => Iterable<number>;
   stackOffset: (
     series: Series<
-      [ContinuousValue, InternMap<TCategoricalValue, number>],
-      TCategoricalValue
+      [ContinuousValue, InternMap<CategoricalDomain, number>],
+      CategoricalDomain
     >,
     order: number[]
   ) => void;
   x: DateChartPositionDimension<Datum> | NumberChartPositionDimension<Datum>;
   y: NumberChartPositionDimension<Datum>;
   series: (SeriesPoint<
-    [ContinuousValue, InternMap<TCategoricalValue, number>]
+    [ContinuousValue, InternMap<CategoricalDomain, number>]
   > & {
     i: number;
   })[][];
 
-  constructor(options: StackedAreaOptions<Datum, TCategoricalValue>) {
+  constructor(options: StackedAreaOptions<Datum, CategoricalDomain>) {
     super();
     Object.assign(this, options);
     this.initPropertiesFromData();
@@ -82,8 +82,8 @@ export class StackedAreaConfig<Datum, TCategoricalValue extends DataValue>
       : this.color.calculatedDomain;
 
     this.series = stack<
-      [ContinuousValue, InternMap<TCategoricalValue, number>],
-      TCategoricalValue
+      [ContinuousValue, InternMap<CategoricalDomain, number>],
+      CategoricalDomain
     >()
       .keys(keys)
       .value(([, I], category) => this.y.values[I.get(category)])

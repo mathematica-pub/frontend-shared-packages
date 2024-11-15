@@ -28,7 +28,11 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private _labelLines: boolean;
   private _lineLabelsFormat: (d: string) => string;
   private _pointerDetectionRadius: number;
-  private colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<Datum>;
+  private colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<
+    Datum,
+    string,
+    string
+  >;
   private pointMarkersBuilder: PointMarkersBuilder<Datum>;
   private strokeBuilder: LinesStrokeBuilder<Datum>;
   private xDimensionBuilder:
@@ -177,8 +181,8 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
       pointerDetectionRadius: this._pointerDetectionRadius,
       pointMarkers: this.pointMarkersBuilder?._build(),
       stroke: this.strokeBuilder._build(),
-      x: this.xDimensionBuilder._build(),
-      y: this.yDimensionBuilder._build(),
+      x: this.xDimensionBuilder._build('X'),
+      y: this.yDimensionBuilder._build('Y'),
       areaFills: this.areaFillsBuilder?._build(),
     });
   }

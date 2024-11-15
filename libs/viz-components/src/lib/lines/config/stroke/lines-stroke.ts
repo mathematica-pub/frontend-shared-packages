@@ -5,7 +5,7 @@ export class LinesStroke<Datum>
   extends StrokeBase
   implements LinesStrokeOptions<Datum>
 {
-  color: OrdinalVisualValueDimension<Datum, string>;
+  color: OrdinalVisualValueDimension<Datum, string, string>;
 
   constructor(options: Partial<LinesStrokeOptions<Datum>>) {
     super();

@@ -24,14 +24,18 @@ import { BarsLabelsBuilder } from './labels/bars-labels-builder';
 @Injectable()
 export class VicBarsConfigBuilder<
   Datum,
-  TOrdinalValue extends DataValue,
+  OrdinalDomain extends DataValue,
 > extends PrimaryMarksBuilder<Datum> {
   protected dimensions: BarsDimensions;
   protected _orientation: 'horizontal' | 'vertical';
-  protected colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<Datum>;
+  protected colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<
+    Datum,
+    string,
+    string
+  >;
   protected ordinalDimensionBuilder: OrdinalChartPositionDimensionBuilder<
     Datum,
-    TOrdinalValue
+    OrdinalDomain
   >;
   protected quantitativeDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
   protected labelsBuilder: BarsLabelsBuilder<Datum>;
@@ -47,7 +51,7 @@ export class VicBarsConfigBuilder<
    */
   color(
     setProperties?: (
-      dimension: OrdinalVisualValueDimensionBuilder<Datum>
+      dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
     ) => void
   ): this {
     this.initColorDimensionBuilder();
@@ -64,12 +68,12 @@ export class VicBarsConfigBuilder<
    */
   horizontal(
     setProperties: (
-      dimension: HorizontalBarsDimensionsBuilder<Datum, TOrdinalValue>
+      dimension: HorizontalBarsDimensionsBuilder<Datum, OrdinalDomain>
     ) => void
   ): this {
     this._orientation = 'horizontal';
     this.dimensions = HORIZONTAL_BARS_DIMENSIONS;
-    const builder = new HorizontalBarsDimensionsBuilder<Datum, TOrdinalValue>();
+    const builder = new HorizontalBarsDimensionsBuilder<Datum, OrdinalDomain>();
     setProperties(builder);
     this.ordinalDimensionBuilder = builder.ordinalDimensionBuilder;
     this.quantitativeDimensionBuilder = builder.quantitativeDimensionBuilder;
@@ -81,12 +85,12 @@ export class VicBarsConfigBuilder<
    */
   vertical(
     setProperties: (
-      dimension: VerticalBarsDimensionsBuilder<Datum, TOrdinalValue>
+      dimension: VerticalBarsDimensionsBuilder<Datum, OrdinalDomain>
     ) => void
   ): this {
     this._orientation = 'vertical';
     this.dimensions = VERTICAL_BARS_DIMENSIONS;
-    const builder = new VerticalBarsDimensionsBuilder<Datum, TOrdinalValue>();
+    const builder = new VerticalBarsDimensionsBuilder<Datum, OrdinalDomain>();
     setProperties(builder);
     this.ordinalDimensionBuilder = builder.ordinalDimensionBuilder;
     this.quantitativeDimensionBuilder = builder.quantitativeDimensionBuilder;
@@ -107,15 +111,19 @@ export class VicBarsConfigBuilder<
    *
    * The user must call this at the end of the chain of methods to build the configuration object.
    */
-  getConfig(): BarsConfig<Datum, TOrdinalValue> {
+  getConfig(): BarsConfig<Datum, OrdinalDomain> {
     this.validateBuilder('Bars');
     return new BarsConfig(this.dimensions, {
-      color: this.colorDimensionBuilder._build(),
+      color: this.colorDimensionBuilder._build('Color'),
       data: this._data,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
-      ordinal: this.ordinalDimensionBuilder._build(),
-      quantitative: this.quantitativeDimensionBuilder._build(),
+      ordinal: this.ordinalDimensionBuilder._build(
+        this.getOrdinalDimensionName()
+      ),
+      quantitative: this.quantitativeDimensionBuilder._build(
+        this.getQuantitativeDimensionName()
+      ),
     });
   }
 
@@ -127,20 +135,30 @@ export class VicBarsConfigBuilder<
     if (!this._orientation) {
       // Technically we could make horizontal the default, but we want to make sure users are thinking about this.
       throw new Error(
-        `${componentName} Builder: Orientation is required. Please use method 'orientation' to set orientation.`
+        `${componentName} Builder: Orientation is required. Please use method 'horizontal' or 'vertical' to set orientation.`
       );
     }
     if (!this.ordinalDimensionBuilder) {
       // Note that the chart will still build if there is not ordinal dimension provided but it will not be full featured/anything we imagine users wanting, so we make this required.
+      const dimension = this.getOrdinalDimensionName();
       throw new Error(
-        `${componentName} Builder: Ordinal dimension is required. Please use method 'createOrdinalDimension' to create dimension.`
+        `${componentName} Builder: ${dimension} dimension is required. Please use ${dimension.toLowerCase()} method to create dimension.`
       );
     }
     if (!this.quantitativeDimensionBuilder) {
+      const dimension = this.getQuantitativeDimensionName();
       throw new Error(
-        `${componentName} Builder: Quantitative dimension is required. Please use method 'createQuantitativeDimension' to create dimension.`
+        `${componentName} Builder: ${dimension} dimension is required. Please use ${dimension.toLowerCase()} method to create dimension.`
       );
     }
+  }
+
+  protected getOrdinalDimensionName(): string {
+    return this._orientation === 'horizontal' ? 'Y' : 'X';
+  }
+
+  protected getQuantitativeDimensionName(): string {
+    return this._orientation === 'horizontal' ? 'X' : 'Y';
   }
 }
 
