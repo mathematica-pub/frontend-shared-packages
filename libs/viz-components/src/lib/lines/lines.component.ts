@@ -13,9 +13,11 @@ import { Selection } from 'd3-selection';
 import { ChartComponent } from '../charts/chart/chart.component';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 import { GenericScale } from '../core';
+import { ValueUtilities } from '../core/utilities/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 import { LinesConfig, LinesMarkerDatum } from './config/lines-config';
+import { LinesEventOutput } from './events/lines-event-output';
 
 export type LinesGroupSelection = Selection<
   SVGGElement,
@@ -29,6 +31,16 @@ export type LinesGroupSelectionDatum = [string, number[]];
 export const LINES = new InjectionToken<LinesComponent<unknown>>(
   'LinesComponent'
 );
+
+export interface LinesTooltipDatum<Datum> {
+  datum: Datum;
+  color: string;
+  values: {
+    x: string;
+    y: string;
+    strokeColor: string;
+  };
+}
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -64,7 +76,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
-    const categorical = this.config.categorical.getScale();
+    const categorical = this.config.stroke.color.getScale();
     this.chart.updateScales({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       x: x as unknown as GenericScale<any, any>,
@@ -251,13 +263,13 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
             .attr('r', this.config.pointMarkers.radius)
             .attr('fill', (d) =>
-              this.scales.categorical(this.config.categorical.values[d.index])
+              this.scales.categorical(this.config.stroke.color.values[d.index])
             )
             .style('display', (d) => d.display),
         (update) =>
           update
             .attr('fill', (d) =>
-              this.scales.categorical(this.config.categorical.values[d.index])
+              this.scales.categorical(this.config.stroke.color.values[d.index])
             )
             .call((update) =>
               update
@@ -289,7 +301,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .attr('class', 'vic-line-label')
             .attr('text-anchor', 'end')
             .attr('fill', (d) =>
-              this.scales.categorical(this.config.categorical.values[d.index])
+              this.scales.categorical(this.config.stroke.color.values[d.index])
             )
             .attr(
               'x',
@@ -303,7 +315,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
         (update) =>
           update
             .attr('fill', (d) =>
-              this.scales.categorical(this.config.categorical.values[d.index])
+              this.scales.categorical(this.config.stroke.color.values[d.index])
             )
             .attr(
               'x',
@@ -316,5 +328,32 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .text((d) => this.config.lineLabelsFormat(d.category)),
         (exit) => exit.remove()
       );
+  }
+
+  getTooltipData(datumIndex: number): LinesEventOutput<Datum> {
+    const datum = this.config.data[datumIndex];
+    return {
+      datum,
+      color: this.scales.categorical(
+        this.config.stroke.color.valueAccessor(datum)
+      ),
+      values: {
+        x: this.config.x.formatFunction
+          ? ValueUtilities.customFormat(datum, this.config.x.formatFunction)
+          : ValueUtilities.d3Format(
+              this.config.x.valueAccessor(datum),
+              this.config.x.formatSpecifier
+            ),
+        y: this.config.y.formatFunction
+          ? ValueUtilities.customFormat(datum, this.config.y.formatFunction)
+          : ValueUtilities.d3Format(
+              this.config.y.valueAccessor(datum),
+              this.config.y.formatSpecifier
+            ),
+        strokeColor: this.config.stroke.color.valueAccessor(datum),
+      },
+      positionX: this.scales.x(this.config.x.values[datumIndex]),
+      positionY: this.scales.y(this.config.y.values[datumIndex]),
+    };
   }
 }

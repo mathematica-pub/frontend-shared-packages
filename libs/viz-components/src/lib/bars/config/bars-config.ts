@@ -13,7 +13,7 @@ export class BarsConfig<Datum, TOrdinalValue extends DataValue>
   implements BarsOptions<Datum, TOrdinalValue>
 {
   barsKeyFunction: (i: number) => string;
-  readonly categorical: OrdinalVisualValueDimension<Datum, string>;
+  readonly color: OrdinalVisualValueDimension<Datum, string>;
   readonly dimensions: BarsDimensions;
   hasNegativeValues: boolean;
   readonly labels: BarsLabels<Datum>;
@@ -40,7 +40,7 @@ export class BarsConfig<Datum, TOrdinalValue extends DataValue>
   protected setDimensionPropertiesFromData(): void {
     this.quantitative.setPropertiesFromData(this.data);
     this.ordinal.setPropertiesFromData(this.data, this.dimensions.isHorizontal);
-    this.categorical.setPropertiesFromData(this.data);
+    this.color.setPropertiesFromData(this.data);
   }
 
   protected setValueIndices(): void {

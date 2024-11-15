@@ -53,8 +53,18 @@ export type BarDatum<T> = {
   index: number;
   quantitative: number;
   ordinal: T;
-  categorical: string;
+  color: string;
 };
+
+export interface BarsTooltipDatum<Datum, TOrdinalValue extends DataValue> {
+  datum: Datum;
+  color: string;
+  values: {
+    x: TOrdinalValue | string;
+    y: TOrdinalValue | string;
+    category: string;
+  };
+}
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -88,7 +98,7 @@ export class BarsComponent<
     const y = this.config[this.config.dimensions.y].getScaleFromRange(
       this.ranges.y
     );
-    const categorical = this.config.categorical.getScale();
+    const categorical = this.config.color.getScale();
     this.chart.updateScales({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       x: x as unknown as GenericScale<any, any>,
@@ -163,7 +173,7 @@ export class BarsComponent<
       index: i,
       quantitative: this.config.quantitative.values[i],
       ordinal: this.config.ordinal.values[i],
-      categorical: this.config.categorical.values[i],
+      color: this.config.color.values[i],
     };
   }
 
@@ -174,7 +184,7 @@ export class BarsComponent<
   }
 
   getBarFill(datum: BarDatum<TOrdinalValue>): string {
-    return this.config.categorical.fillDefs
+    return this.config.color.fillDefs
       ? this.getBarPattern(datum)
       : this.getBarColor(datum);
   }
@@ -192,7 +202,7 @@ export class BarsComponent<
           index: i,
           quantitative: this.config.quantitative.values[i],
           ordinal: this.config.ordinal.values[i],
-          categorical: this.config.categorical.values[i],
+          color: this.config.color.values[i],
         },
       ])
       .join(
@@ -331,12 +341,12 @@ export class BarsComponent<
 
   getBarPattern(d: BarDatum<TOrdinalValue>): string {
     const color = this.getBarColor(d);
-    const patterns = this.config.categorical.fillDefs;
+    const patterns = this.config.color.fillDefs;
     return FillUtilities.getFill(this.config.data[d.index], color, patterns);
   }
 
   getBarColor(d: BarDatum<TOrdinalValue>): string {
-    return this.scales.categorical(d.categorical);
+    return this.scales.categorical(d.color);
   }
 
   getBarLabelText(d: BarDatum<TOrdinalValue>): string {
@@ -538,5 +548,48 @@ export class BarsComponent<
     >('.vic-bar-label');
     this.bars.next(bars);
     this.barLabels.next(barLabels);
+  }
+
+  getTooltipData(
+    barDatum: BarDatum<TOrdinalValue>
+  ): BarsTooltipDatum<Datum, TOrdinalValue> {
+    const datum = this.getUserDatumFromBarDatum(barDatum);
+    const ordinalValue = this.config.ordinal.valueAccessor(datum);
+    const quantitativeValue = this.config.quantitative.formatFunction
+      ? ValueUtilities.customFormat(
+          datum,
+          this.config.quantitative.formatFunction
+        )
+      : ValueUtilities.d3Format(
+          this.config.quantitative.valueAccessor(datum),
+          this.config.quantitative.formatSpecifier
+        );
+
+    const tooltipData: BarsTooltipDatum<Datum, TOrdinalValue> = {
+      datum,
+      color: this.getBarColor(barDatum),
+      values: {
+        x:
+          this.config.dimensions.x === 'ordinal'
+            ? ordinalValue
+            : quantitativeValue,
+        y:
+          this.config.dimensions.y === 'ordinal'
+            ? ordinalValue
+            : quantitativeValue,
+        category: this.config.color.valueAccessor(datum),
+      },
+    };
+    return tooltipData;
+  }
+
+  getUserDatumFromBarDatum(barDatum: BarDatum<TOrdinalValue>): Datum {
+    return this.config.data.find(
+      (d) =>
+        this.config.ordinal.values[barDatum.index] ===
+          this.config.ordinal.valueAccessor(d) &&
+        this.config.quantitative.values[barDatum.index] ===
+          this.config.quantitative.valueAccessor(d)
+    );
   }
 }

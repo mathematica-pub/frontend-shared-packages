@@ -41,6 +41,7 @@ const chartHeight = 400;
 const chartWidth = 600;
 const dateData = QdQnCData;
 const numericData = QnQnCData;
+const tooltipYOffset = 60; // need to offset otherwise the hover will be on the tooltip itself rather than svg
 
 // ***********************************************************
 // Set up Lines component -- can use with Date or numeric values for x axis
@@ -82,13 +83,15 @@ const numericData = QnQnCData;
 
     <ng-template #htmlTooltip>
       <ng-container *ngIf="tooltipData$ | async as tooltipData">
-        <p>{{ tooltipData.category }}</p>
-        <p>{{ tooltipData.x }}</p>
-        <p>{{ tooltipData.y }}</p>
+        <p class="tooltip-text">{{ tooltipData.values.strokeColor }}</p>
+        <p class="tooltip-text">{{
+          getYearFromStringDate(tooltipData.values.x)
+        }}</p>
+        <p class="tooltip-text">{{ tooltipData.values.y }}</p>
       </ng-container>
     </ng-template>
   `,
-  styles: [],
+  styles: ['.tooltip-text { font-size: 12px; }'],
 })
 class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   @Input() linesConfig: LinesConfig<Datum>;
@@ -119,15 +122,20 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
 
   updateTooltipConfig(data: LinesEventOutput<Datum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .setSize((size) => size.minWidth(340))
-      .createOffsetFromOriginPosition((position) =>
-        position
-          .offsetX(data?.positionX)
-          .offsetY(data ? data.positionY - 10 : undefined)
-      )
+      .size((size) => size.minWidth(100))
+      .linesPosition([
+        {
+          offsetX: data?.positionX,
+          offsetY: data ? data.positionY - tooltipYOffset : 0,
+        },
+      ])
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
+  }
+
+  getYearFromStringDate(dateString: string): number {
+    return new Date(dateString).getFullYear();
   }
 }
 
@@ -183,14 +191,10 @@ describe('it creates the correct marks - x axis values are Dates', () => {
   it('should draw the correct number of lines', () => {
     const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(dateData)
-      .createXDateDimension((dimension) =>
-        dimension.valueAccessor((d) => d.year)
-      )
-      .createYDimension((dimension) =>
-        dimension.valueAccessor((d) => d.population)
-      )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.continent)
+      .xDate((xDate) => xDate.valueAccessor((d) => d.year))
+      .y((y) => y.valueAccessor((d) => d.population))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
       .getConfig();
     mountDateLinesComponent(linesConfig);
@@ -219,16 +223,12 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     }, {});
     const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(testData)
-      .createXDateDimension((dimension) =>
-        dimension.valueAccessor((d) => d.year)
+      .xDate((xDate) => xDate.valueAccessor((d) => d.year))
+      .y((y) => y.valueAccessor((d) => d.population))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
-      .createYDimension((dimension) =>
-        dimension.valueAccessor((d) => d.population)
-      )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.continent)
-      )
-      .createPointMarkers((markers) => markers.class('test-point-marker'))
+      .pointMarkers((markers) => markers.class('test-point-marker'))
       .getConfig();
     mountDateLinesComponent(linesConfig);
     cy.get('.test-point-marker')
@@ -257,16 +257,12 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     }, {});
     const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(testData)
-      .createXDateDimension((dimension) =>
-        dimension.valueAccessor((d) => d.year)
+      .xDate((dimension) => dimension.valueAccessor((d) => d.year))
+      .y((dimension) => dimension.valueAccessor((d) => d.population))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
-      .createYDimension((dimension) =>
-        dimension.valueAccessor((d) => d.population)
-      )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.continent)
-      )
-      .createPointMarkers((markers) => markers.class('test-point-marker'))
+      .pointMarkers((markers) => markers.class('test-point-marker'))
       .getConfig();
     mountDateLinesComponent(linesConfig);
     cy.get('.test-point-marker')
@@ -295,16 +291,12 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     }, {});
     const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(testData)
-      .createXDateDimension((dimension) =>
-        dimension.valueAccessor((d) => d.year)
+      .xDate((dimension) => dimension.valueAccessor((d) => d.year))
+      .y((dimension) => dimension.valueAccessor((d) => d.population))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
-      .createYDimension((dimension) =>
-        dimension.valueAccessor((d) => d.population)
-      )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.continent)
-      )
-      .createPointMarkers((markers) => markers.class('test-point-marker'))
+      .pointMarkers((markers) => markers.class('test-point-marker'))
       .getConfig();
     mountDateLinesComponent(linesConfig);
     cy.get('.test-point-marker')
@@ -323,14 +315,12 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
   it('should draw the correct number of lines, one for each category', () => {
     const linesConfig = new VicLinesConfigBuilder<QnQnCDatum>()
       .data(numericData)
-      .createXNumericDimension((dimension) =>
+      .xNumeric((dimension) =>
         dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
       )
-      .createYDimension((dimension) =>
-        dimension.valueAccessor((d) => d.population)
-      )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.continent)
+      .y((dimension) => dimension.valueAccessor((d) => d.population))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
       .getConfig();
     mountNumberLinesComponent(linesConfig);
@@ -350,16 +340,14 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
     it('should draw the correct number of fills, one for each category', () => {
       const linesConfig = new VicLinesConfigBuilder<QnQnCDatum>()
         .data(numericData)
-        .createXNumericDimension((dimension) =>
+        .xNumeric((dimension) =>
           dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
         )
-        .createYDimension((dimension) =>
-          dimension.valueAccessor((d) => d.population)
+        .y((dimension) => dimension.valueAccessor((d) => d.population))
+        .stroke((stroke) =>
+          stroke.color((color) => color.valueAccessor((d) => d.continent))
         )
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.continent)
-        )
-        .createAreaFills()
+        .areaFills()
         .getConfig();
       mountNumberLinesComponent(linesConfig);
       const categories = [];
@@ -383,14 +371,12 @@ describe('if the user specifies a y domain that is smaller than max value', () =
   it('should draw the lines with the users specified y domain - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
     const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(dateData)
-      .createXDateDimension((dimension) =>
-        dimension.valueAccessor((d) => d.year)
-      )
-      .createYDimension((dimension) =>
+      .xDate((dimension) => dimension.valueAccessor((d) => d.year))
+      .y((dimension) =>
         dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
       )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.continent)
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
       .getConfig();
     mountDateLinesComponent(linesConfig);
@@ -417,17 +403,15 @@ describe('if the user specifies an x domain that is smaller than max value', () 
   it('should draw the lines with the users specified x domain - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
     const linesConfig = new VicLinesConfigBuilder<QnQnCDatum>()
       .data(numericData)
-      .createXNumericDimension((dimension) =>
+      .xNumeric((dimension) =>
         dimension
           .valueAccessor((d) => d.year)
           .includeZeroInDomain(false)
           .domain([2020, 2080])
       )
-      .createYDimension((dimension) =>
-        dimension.valueAccessor((d) => d.population)
-      )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.continent)
+      .y((dimension) => dimension.valueAccessor((d) => d.population))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
       .getConfig();
     mountNumberLinesComponent(linesConfig);
@@ -458,14 +442,10 @@ describe('it creates lines with the correct properties per config', () => {
   it('draws lines with the correct colors', () => {
     const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(dateData)
-      .createXDateDimension((dimension) =>
-        dimension.valueAccessor((d) => d.year)
-      )
-      .createYDimension((dimension) =>
-        dimension.valueAccessor((d) => d.population)
-      )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.continent)
+      .xDate((dimension) => dimension.valueAccessor((d) => d.year))
+      .y((dimension) => dimension.valueAccessor((d) => d.population))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
       .getConfig();
     mountDateLinesComponent(linesConfig);
@@ -477,14 +457,12 @@ describe('it creates lines with the correct properties per config', () => {
     const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(dateData)
       .curve(curveBasis)
-      .createXDateDimension((dimension) =>
-        dimension.valueAccessor((d) => d.year)
-      )
-      .createYDimension((dimension) =>
+      .xDate((dimension) => dimension.valueAccessor((d) => d.year))
+      .y((dimension) =>
         dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
       )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.continent)
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
       .getConfig();
     mountDateLinesComponent(linesConfig);
@@ -496,16 +474,14 @@ describe('it creates lines with the correct properties per config', () => {
     it('draws the correct number of point markers', () => {
       const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
         .data(dateData)
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor((d) => d.year)
-        )
-        .createYDimension((dimension) =>
+        .xDate((dimension) => dimension.valueAccessor((d) => d.year))
+        .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
         )
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.continent)
+        .stroke((stroke) =>
+          stroke.color((color) => color.valueAccessor((d) => d.continent))
         )
-        .createPointMarkers((markers) => markers.class(markerClass))
+        .pointMarkers((markers) => markers.class(markerClass))
         .getConfig();
       mountDateLinesComponent(linesConfig);
       cy.get(`.${markerClass}`).should('have.length', 24);
@@ -519,18 +495,14 @@ describe('it creates lines with the correct properties per config', () => {
     it('draws the correct number of point markers with none visible if display is set to false', () => {
       const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
         .data(dateData)
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor((d) => d.year)
-        )
-        .createYDimension((dimension) =>
+        .xDate((dimension) => dimension.valueAccessor((d) => d.year))
+        .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
         )
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.continent)
+        .stroke((stroke) =>
+          stroke.color((color) => color.valueAccessor((d) => d.continent))
         )
-        .createPointMarkers((markers) =>
-          markers.class(markerClass).display(false)
-        )
+        .pointMarkers((markers) => markers.class(markerClass).display(false))
         .getConfig();
       mountDateLinesComponent(linesConfig);
       cy.get(`.${markerClass}`).should('have.length', 24);
@@ -550,16 +522,14 @@ describe('it creates lines with the correct properties per config', () => {
     it('draws the correct number of point markers with the right number visible if display is set to a function', () => {
       const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
         .data(dateData)
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor((d) => d.year)
-        )
-        .createYDimension((dimension) =>
+        .xDate((dimension) => dimension.valueAccessor((d) => d.year))
+        .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
         )
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.continent)
+        .stroke((stroke) =>
+          stroke.color((color) => color.valueAccessor((d) => d.continent))
         )
-        .createPointMarkers((markers) =>
+        .pointMarkers((markers) =>
           markers.class(markerClass).display((d) => d.continent === 'Asia')
         )
         .getConfig();
@@ -583,18 +553,14 @@ describe('it creates lines with the correct properties per config', () => {
       const radius = 4;
       const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
         .data(dateData)
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor((d) => d.year)
-        )
-        .createYDimension((dimension) =>
+        .xDate((dimension) => dimension.valueAccessor((d) => d.year))
+        .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
         )
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.continent)
+        .stroke((stroke) =>
+          stroke.color((color) => color.valueAccessor((d) => d.continent))
         )
-        .createPointMarkers((markers) =>
-          markers.class(markerClass).radius(radius)
-        )
+        .pointMarkers((markers) => markers.class(markerClass).radius(radius))
         .getConfig();
       mountDateLinesComponent(linesConfig);
       cy.get(`.${markerClass}`).each(($pointMarker) => {
@@ -607,17 +573,15 @@ describe('it creates lines with the correct properties per config', () => {
     it('draws lines with the correct properties', () => {
       const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
         .data(dateData)
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor((d) => d.year)
-        )
-        .createYDimension((dimension) =>
+        .xDate((dimension) => dimension.valueAccessor((d) => d.year))
+        .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
         )
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.continent)
+        .stroke((stroke) =>
+          stroke.color((color) => color.valueAccessor((d) => d.continent))
         )
-        .createPointMarkers()
-        .createStroke((stroke) =>
+        .pointMarkers()
+        .stroke((stroke) =>
           stroke.width(3).opacity(0.5).linecap('square').linejoin('miter')
         )
         .getConfig();
@@ -633,14 +597,12 @@ describe('it creates lines with the correct properties per config', () => {
     it('draws the correct number of line labels', () => {
       const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
         .data(dateData)
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor((d) => d.year)
-        )
-        .createYDimension((dimension) =>
+        .xDate((dimension) => dimension.valueAccessor((d) => d.year))
+        .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
         )
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.continent)
+        .stroke((stroke) =>
+          stroke.color((color) => color.valueAccessor((d) => d.continent))
         )
         .labelLines(true)
         .getConfig();
@@ -666,23 +628,23 @@ describe('displays tooltips for correct data per hover position', () => {
   beforeEach(() => {
     const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(dateData)
-      .createXDateDimension((dimension) =>
+      .xDate((xDate) =>
         // When running in headless mode, realHover is finicky with point markers that are on the edge of the svg container
         // Padded the x and y domains to avoid this issue
-        dimension
+        xDate
           .valueAccessor((d) => d.year)
           .domain([new Date('2020-01-02'), new Date('2104-01-02')])
       )
-      .createYDimension((dimension) =>
-        dimension.valueAccessor((d) => d.population).domainPaddingPixels(100)
+      .y((y) => y.valueAccessor((d) => d.population).domainPaddingPixels(100))
+      .stroke((stroke) =>
+        stroke
+          .color((color) => color.valueAccessor((d) => d.continent))
+          .width(3)
+          .opacity(0.5)
+          .linecap('square')
+          .linejoin('miter')
       )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.continent)
-      )
-      .createPointMarkers()
-      .createStroke((stroke) =>
-        stroke.width(3).opacity(0.5).linecap('square').linejoin('miter')
-      )
+      .pointMarkers()
       .getConfig();
     mountDateLinesComponent(linesConfig);
   });
@@ -704,9 +666,7 @@ describe('displays tooltips for correct data per hover position', () => {
         cy.get('.vic-html-tooltip-overlay p')
           .eq(1)
           .then(($el) => {
-            expect(new Date($el.text()).getTime()).to.equal(
-              dateData[i].year.getTime()
-            );
+            expect(+$el.text()).to.equal(dateData[i].year.getFullYear());
           });
         cy.get('.vic-html-tooltip-overlay p')
           .eq(2)
@@ -724,7 +684,10 @@ describe('displays tooltips for correct data per hover position', () => {
                 (markerBox.left + markerBox.right) / 2,
                 1
               );
-              expect(tooltipBox.bottom).to.be.closeTo(markerBox.top, 10);
+              expect(tooltipBox.bottom + tooltipYOffset).to.be.closeTo(
+                markerBox.top,
+                10
+              );
             });
         });
       });

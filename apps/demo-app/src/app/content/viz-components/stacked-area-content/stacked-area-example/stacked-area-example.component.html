@@ -29,8 +29,8 @@
           class="tooltip-line"
           [attr.x1]="tooltipData.positionX"
           [attr.x2]="tooltipData.positionX"
-          [attr.y1]="tooltipData.categoryYMin"
-          [attr.y2]="tooltipData.categoryYMax"
+          [attr.y1]="tooltipData.hoveredAreaTop"
+          [attr.y2]="tooltipData.hoveredAreaBottom"
         ></line>
       </svg:g>
     </ng-container>
@@ -44,7 +44,7 @@
     [style.--color]="data.color"
     class="stacked-area-example-tooltip-container"
   >
-    <p class="tooltip-label category"> {{ data.category }} </p>
+    <p class="tooltip-label category">{{ data.values.color }}</p>
     <div class="values-container">
       <p class="tooltip-label y">
         <span class="value-label">Value</span>

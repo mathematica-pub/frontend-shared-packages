@@ -20,7 +20,7 @@ export class StackedAreaConfig<Datum, TCategoricalValue extends DataValue>
   extends XyPrimaryMarksConfig<Datum>
   implements MarksOptions<Datum>
 {
-  categorical: OrdinalVisualValueDimension<Datum, TCategoricalValue>;
+  color: OrdinalVisualValueDimension<Datum, TCategoricalValue>;
   categoricalOrder: TCategoricalValue[];
   curve: CurveFactory;
   stackOrder: (
@@ -60,12 +60,12 @@ export class StackedAreaConfig<Datum, TCategoricalValue extends DataValue>
   private setDimensionPropertiesFromData(): void {
     this.x.setPropertiesFromData(this.data);
     this.y.setPropertiesFromData(this.data);
-    this.categorical.setPropertiesFromData(this.data);
+    this.color.setPropertiesFromData(this.data);
   }
 
   private setValueIndicies(): void {
     this.valueIndices = range(this.x.values.length).filter((i) =>
-      this.categorical.domainIncludes(this.categorical.values[i])
+      this.color.domainIncludes(this.color.values[i])
     );
   }
 
@@ -74,12 +74,12 @@ export class StackedAreaConfig<Datum, TCategoricalValue extends DataValue>
       this.valueIndices,
       ([i]) => i,
       (i) => this.x.values[i],
-      (i) => this.categorical.values[i]
+      (i) => this.color.values[i]
     );
 
     const keys = this.categoricalOrder
       ? this.categoricalOrder.slice().reverse()
-      : this.categorical.calculatedDomain;
+      : this.color.calculatedDomain;
 
     this.series = stack<
       [ContinuousValue, InternMap<TCategoricalValue, number>],

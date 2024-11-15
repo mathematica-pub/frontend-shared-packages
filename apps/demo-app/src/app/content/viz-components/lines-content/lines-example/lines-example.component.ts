@@ -138,16 +138,12 @@ export class LinesExampleComponent implements OnInit {
     const yAxisConfig = this.yAxisQuantitative.getConfig();
     const dataConfig = this.lines
       .data(data)
-      .createXDateDimension((dimension) =>
-        dimension.valueAccessor((d) => d.date)
+      .xDate((xDate) => xDate.valueAccessor((d) => d.date))
+      .y((y) => y.valueAccessor((d) => d.value).domainPaddingPixels(20))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.division))
       )
-      .createYDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value).domainPaddingPixels(20)
-      )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.division)
-      )
-      .createPointMarkers((markers) =>
+      .pointMarkers((markers) =>
         markers
           .radius(2)
           .growByOnHover(3)
@@ -179,12 +175,13 @@ export class LinesExampleComponent implements OnInit {
   updateTooltipConfig(eventContext: 'click' | 'hover'): void {
     const data = this.tooltipData.getValue();
     const config = this.tooltip
-      .setSize((size) => size.minWidth(340))
-      .createOffsetFromOriginPosition((position) =>
-        position
-          .offsetX(data?.positionX)
-          .offsetY(data ? data.positionY - 16 : undefined)
-      )
+      .size((size) => size.minWidth(340))
+      .linesPosition([
+        {
+          offsetX: data?.positionX,
+          offsetY: data ? data.positionY - 16 : 0,
+        },
+      ])
       .hasBackdrop(eventContext === 'click')
       .show(!!data)
       .getConfig();

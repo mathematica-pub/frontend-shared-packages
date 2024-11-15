@@ -1,4 +1,5 @@
-import { Stroke } from './stroke';
+import { OrdinalVisualValueDimensionBuilder } from '../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
+import { LinesStroke } from './lines-stroke';
 
 const DEFAULT = {
   _dasharray: 'none',
@@ -8,8 +9,8 @@ const DEFAULT = {
   _width: 2,
 };
 
-export class StrokeBuilder {
-  private _color: string;
+export class LinesStrokeBuilder<Datum> {
+  private colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<Datum>;
   private _dasharray: string;
   private _linecap: string;
   private _linejoin: string;
@@ -21,14 +22,22 @@ export class StrokeBuilder {
   }
 
   /**
-   * OPTIONAL. A value for the line's [stroke]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke}
-   *  attribute.
+   * OPTIONAL. Creates a dimension that will control the color of the bars.
    *
-   * @default '#000'
+   * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
    */
-  color(color: string): this {
-    this._color = color;
+  color(
+    setProperties?: (
+      dimension: OrdinalVisualValueDimensionBuilder<Datum>
+    ) => void
+  ): this {
+    this.initColorDimensionBuilder();
+    setProperties?.(this.colorDimensionBuilder);
     return this;
+  }
+
+  private initColorDimensionBuilder() {
+    this.colorDimensionBuilder = new OrdinalVisualValueDimensionBuilder();
   }
 
   /**
@@ -89,14 +98,21 @@ export class StrokeBuilder {
   /**
    * @internal This function is for internal use only and should never be called by the user.
    */
-  _build(): Stroke {
-    return new Stroke({
-      color: this._color,
+  _build(): LinesStroke<Datum> {
+    this.validateBuilder();
+    return new LinesStroke<Datum>({
+      color: this.colorDimensionBuilder._build(),
       dasharray: this._dasharray,
       linecap: this._linecap,
       linejoin: this._linejoin,
       opacity: this._opacity,
       width: this._width,
     });
+  }
+
+  validateBuilder(): void {
+    if (!this.colorDimensionBuilder) {
+      this.initColorDimensionBuilder();
+    }
   }
 }

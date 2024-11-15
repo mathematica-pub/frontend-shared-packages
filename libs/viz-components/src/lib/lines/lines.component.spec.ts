@@ -32,12 +32,12 @@ describe('LinesComponent', () => {
       spyOn(component, 'drawLineLabels');
       component.config = new VicLinesConfigBuilder()
         .data([])
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor(() => null)
-        )
-        .createYDimension((dimension) => dimension.valueAccessor(() => null))
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor(() => null)
+        .xDate((dimension) => dimension.valueAccessor(() => null as any))
+        .y((dimension) => dimension.valueAccessor(() => null as any))
+        .stroke((stroke) =>
+          stroke.color((dimension) =>
+            dimension.valueAccessor(() => null as any)
+          )
         )
         .getConfig();
     });
@@ -56,14 +56,14 @@ describe('LinesComponent', () => {
     it('calls drawPointMarkers once with the correct argument if config.pointMarkers is truthy', () => {
       component.config = new VicLinesConfigBuilder()
         .data([])
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor(() => null)
+        .xDate((dimension) => dimension.valueAccessor(() => null as any))
+        .y((dimension) => dimension.valueAccessor(() => null as any))
+        .stroke((stroke) =>
+          stroke.color((dimension) =>
+            dimension.valueAccessor(() => null as any)
+          )
         )
-        .createYDimension((dimension) => dimension.valueAccessor(() => null))
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor(() => null)
-        )
-        .createPointMarkers()
+        .pointMarkers()
         .getConfig();
       component.drawMarks();
       expect(component.drawPointMarkers).toHaveBeenCalledOnceWith(duration);
@@ -75,12 +75,12 @@ describe('LinesComponent', () => {
     it('calls drawLineLabels once if config.labelLines is true', () => {
       component.config = new VicLinesConfigBuilder()
         .data([])
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor(() => null)
-        )
-        .createYDimension((dimension) => dimension.valueAccessor(() => null))
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor(() => null)
+        .xDate((dimension) => dimension.valueAccessor(() => null as any))
+        .y((dimension) => dimension.valueAccessor(() => null as any))
+        .stroke((stroke) =>
+          stroke.color((dimension) =>
+            dimension.valueAccessor(() => null as any)
+          )
         )
         .labelLines(true)
         .getConfig();

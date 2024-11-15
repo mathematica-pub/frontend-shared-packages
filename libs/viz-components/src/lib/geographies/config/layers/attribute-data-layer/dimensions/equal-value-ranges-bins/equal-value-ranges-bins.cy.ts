@@ -119,14 +119,12 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualValueRangesBinsDimension((bins) =>
-              bins.valueAccessor((d) => d.income)
-            )
+            .equalValueRangesBins((bins) => bins.valueAccessor((d) => d.income))
         )
         .getConfig();
       mountGeographiesComponent(geographiesConfig);
@@ -179,12 +177,12 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualValueRangesBinsDimension((bins) =>
+            .equalValueRangesBins((bins) =>
               bins.valueAccessor((d) => d.income).domain([50000, 80000])
             )
         )
@@ -228,12 +226,12 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualValueRangesBinsDimension((bins) =>
+            .equalValueRangesBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .numBins(numBins)
@@ -275,12 +273,12 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualValueRangesBinsDimension((bins) =>
+            .equalValueRangesBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .numBins(numBins)

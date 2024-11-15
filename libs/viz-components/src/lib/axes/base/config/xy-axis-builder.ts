@@ -68,7 +68,7 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
    *
    * Note: In `Bars`, bar labels are tick labels.
    */
-  createTickWrap(setProperties: (wrap: TickWrapBuilder) => void): this {
+  wrapTickText(setProperties: (wrap: TickWrapBuilder) => void): this {
     this.tickWrapBuilder = new TickWrapBuilder();
     setProperties(this.tickWrapBuilder);
     return this;
