@@ -6,7 +6,7 @@ import {
   NgZone,
 } from '@angular/core';
 import { Transition, area, select } from 'd3';
-import { ChartComponent, XyChartComponent } from '../charts';
+import { ChartComponent, XyChartComponent, XyChartScales } from '../charts';
 import { GenericScale } from '../core';
 import { DataValue } from '../core/types/values';
 import { ValueUtilities } from '../core/utilities/values';
@@ -55,6 +55,13 @@ export class StackedAreaComponent<
 > {
   area;
   areas;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  override scales: { color: GenericScale<any, any> } & XyChartScales = {
+    x: undefined,
+    y: undefined,
+    color: undefined,
+    useTransition: undefined,
+  };
 
   constructor(
     private areasRef: ElementRef<SVGSVGElement>,
@@ -66,14 +73,15 @@ export class StackedAreaComponent<
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
-    const categorical = this.config.color.getScale();
-    this.chart.updateScales({
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      x: x as unknown as GenericScale<any, any>,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      y: y as unknown as GenericScale<any, any>,
-      categorical,
-      useTransition,
+    this.scales.color = this.config.color.getScale();
+    this.zone.run(() => {
+      this.chart.updateScales({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        x: x as unknown as GenericScale<any, any>,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        y: y as unknown as GenericScale<any, any>,
+        useTransition,
+      });
     });
   }
 
@@ -107,7 +115,7 @@ export class StackedAreaComponent<
             .append('path')
             .property('key', ([{ i }]) => this.config.color.values[i])
             .attr('fill', ([{ i }]) =>
-              this.scales.categorical(this.config.color.values[i])
+              this.scales.color(this.config.color.values[i])
             )
             .attr('d', this.area),
         (update) =>
@@ -117,7 +125,7 @@ export class StackedAreaComponent<
               .transition(t as any)
               .attr('d', this.area)
               .attr('fill', ([{ i }]) =>
-                this.scales.categorical(this.config.color.values[i])
+                this.scales.color(this.config.color.values[i])
               )
           ),
         (exit) => exit.remove()
@@ -140,9 +148,7 @@ export class StackedAreaComponent<
             y: this.getXyDimensionValue(datum, 'y'),
             color: this.config.color.valueAccessor(datum),
           },
-          color: this.scales.categorical(
-            this.config.color.valueAccessor(datum)
-          ),
+          color: this.scales.color(this.config.color.valueAccessor(datum)),
         };
       });
     if (this.config.categoricalOrder) {

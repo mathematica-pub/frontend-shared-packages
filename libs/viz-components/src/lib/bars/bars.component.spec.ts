@@ -108,7 +108,6 @@ describe('BarsComponent', () => {
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'quantitative scale',
           y: 'ordinal scale',
-          categorical: 'categorical scale',
           useTransition: false,
         } as any);
       });
@@ -144,7 +143,6 @@ describe('BarsComponent', () => {
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'ordinal scale',
           y: 'quantitative scale',
-          categorical: 'categorical scale',
           useTransition: false,
         } as any);
       });
@@ -691,18 +689,18 @@ describe('BarsComponent', () => {
 
   describe('getBarColor()', () => {
     let datum: BarDatum<string>;
-    let categoricalSpy: jasmine.Spy;
+    let colorSpy: jasmine.Spy;
     beforeEach(() => {
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
-      categoricalSpy = jasmine.createSpy('categorical').and.returnValue('blue');
+      colorSpy = jasmine.createSpy('color').and.returnValue('blue');
       component.scales = {
-        categorical: categoricalSpy,
+        color: colorSpy,
       } as any;
     });
     it('calls categorical scale once with the correct value', () => {
       component.getBarColor(datum);
-      expect(component.scales.categorical).toHaveBeenCalledOnceWith('banana');
+      expect(component.scales.color).toHaveBeenCalledOnceWith('banana');
     });
     it('returns the correct value', () => {
       expect(component.getBarColor(datum)).toEqual('blue');

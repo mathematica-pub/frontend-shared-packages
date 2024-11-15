@@ -10,7 +10,11 @@ const DEFAULT = {
 };
 
 export class LinesStrokeBuilder<Datum> {
-  private colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<Datum>;
+  private colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<
+    Datum,
+    string,
+    string
+  >;
   private _dasharray: string;
   private _linecap: string;
   private _linejoin: string;
@@ -28,7 +32,7 @@ export class LinesStrokeBuilder<Datum> {
    */
   color(
     setProperties?: (
-      dimension: OrdinalVisualValueDimensionBuilder<Datum>
+      dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
     ) => void
   ): this {
     this.initColorDimensionBuilder();
@@ -101,7 +105,7 @@ export class LinesStrokeBuilder<Datum> {
   _build(): LinesStroke<Datum> {
     this.validateBuilder();
     return new LinesStroke<Datum>({
-      color: this.colorDimensionBuilder._build(),
+      color: this.colorDimensionBuilder._build('Lines Stroke Color'),
       dasharray: this._dasharray,
       linecap: this._linecap,
       linejoin: this._linejoin,

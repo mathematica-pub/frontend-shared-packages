@@ -1,19 +1,13 @@
-import { ScaleContinuousNumeric, max, min } from 'd3';
-import { isNumber } from '../../../core/utilities/type-guards';
-import { DataDimension } from '../../dimension';
+import { ScaleContinuousNumeric } from 'd3';
+import { NumberDimension } from '../number-dimension/number-dimension';
 import { ConcreteDomainPadding } from './domain-padding/concrete-domain-padding';
 import { NumberChartPositionDimensionOptions } from './number-chart-position-options';
 
 export class NumberChartPositionDimension<Datum>
-  extends DataDimension<Datum, number>
+  extends NumberDimension<Datum>
   implements NumberChartPositionDimensionOptions<Datum>
 {
-  private calculatedDomain: [number, number];
-  readonly domain: [number, number];
-  domainIncludesZero: boolean;
   readonly domainPadding?: ConcreteDomainPadding;
-  readonly formatSpecifier: string;
-  readonly includeZeroInDomain: boolean;
   readonly scaleFn: (
     domain?: Iterable<number>,
     range?: Iterable<number>
@@ -27,26 +21,6 @@ export class NumberChartPositionDimension<Datum>
   setPropertiesFromData(data: Datum[]): void {
     this.setValues(data);
     this.setDomain();
-  }
-
-  setDomain(valuesOverride?: [number, number]) {
-    const extents: [number, number] =
-      this.domain === undefined
-        ? valuesOverride || [min(this.values), max(this.values)]
-        : this.domain;
-    this.calculatedDomain = this.getCalculatedDomain(extents);
-    this.setDomainIncludesZero();
-  }
-
-  private getCalculatedDomain(domain: [number, number]): [number, number] {
-    return this.includeZeroInDomain
-      ? [min([domain[0], 0]), max([domain[1], 0])]
-      : domain;
-  }
-
-  private setDomainIncludesZero() {
-    this.domainIncludesZero =
-      this.calculatedDomain[0] <= 0 && 0 <= this.calculatedDomain[1];
   }
 
   getScaleFromRange(range: [number, number]) {
@@ -64,12 +38,5 @@ export class NumberChartPositionDimension<Datum>
       this.scaleFn,
       range
     );
-  }
-
-  // returns false if data is undefined or null or not a number
-  // for some charts this may be fine
-  // original intended use case: d3Line can only handle defined values
-  isValidValue(x: unknown): boolean {
-    return isNumber(x);
   }
 }

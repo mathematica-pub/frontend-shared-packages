@@ -11,10 +11,10 @@ const DEFAULT = {
 
 export class OrdinalChartPositionDimensionBuilder<
   Datum,
-  TOrdinalValue extends DataValue,
-> extends DataDimensionBuilder<Datum, TOrdinalValue> {
+  Domain extends DataValue,
+> extends DataDimensionBuilder<Datum, Domain> {
   private _align: number;
-  private _domain: TOrdinalValue[];
+  private _domain: Domain[];
   private _paddingInner: number;
   private _paddingOuter: number;
 
@@ -40,7 +40,7 @@ export class OrdinalChartPositionDimensionBuilder<
    *
    * If not provided, the domain will be determined by the data.
    */
-  domain(domain: TOrdinalValue[]): this {
+  domain(domain: Domain[]): this {
     this._domain = domain;
     return this;
   }
@@ -71,8 +71,11 @@ export class OrdinalChartPositionDimensionBuilder<
 
   /**
    * @internal This method is not intended to be used by consumers of this library.
+   *
+   * @param dimensionName A user-intelligible name for the dimension being built. Used for error messages. Should be title cased.
    */
-  _build(): OrdinalChartPositionDimension<Datum, TOrdinalValue> {
+  _build(dimensionName: string): OrdinalChartPositionDimension<Datum, Domain> {
+    this.validateDimension(dimensionName);
     return new OrdinalChartPositionDimension({
       align: this._align,
       domain: this._domain,
@@ -81,5 +84,9 @@ export class OrdinalChartPositionDimensionBuilder<
       paddingOuter: this._paddingOuter,
       valueAccessor: this._valueAccessor,
     });
+  }
+
+  private validateDimension(dimensionName: string): void {
+    this.validateValueAccessor(dimensionName);
   }
 }
