@@ -77,6 +77,9 @@ export class CsaComponent implements OnInit {
             planValue: x.Value && !isNaN(x.Value) ? +x.Value : null,
             csa_25: x.CSA_25 && !isNaN(x.CSA_25) ? +x.CSA_25 : null,
             csa_75: x.CSA_75 && !isNaN(x.CSA_75) ? +x.CSA_75 : null,
+            CSA_CompVal:
+              x.CSA_CompVal && !isNaN(x.CSA_CompVal) ? +x.CSA_CompVal : null,
+            CSA_CompVal_Desc: x.CSA_CompVal_Desc,
             plans: [],
           };
           return obj;

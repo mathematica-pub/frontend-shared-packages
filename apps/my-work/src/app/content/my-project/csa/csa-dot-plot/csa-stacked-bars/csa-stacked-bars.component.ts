@@ -19,9 +19,11 @@ export class CsaStackedBarsComponent
   implements OnInit
 {
   circleGroup: Selection<SVGGElement, unknown, null, undefined>;
+  comparisonGroup: Selection<SVGGElement, unknown, null, undefined>;
 
   override ngOnInit(): void {
     this.createCircleGroup();
+    this.createComparisonGroup();
     super.ngOnInit();
   }
 
@@ -34,12 +36,22 @@ export class CsaStackedBarsComponent
     this.updateBarElements();
     this.updateGridlines();
     this.updateCircleElements();
+    this.updateComparison();
   }
 
   createCircleGroup(): void {
     this.circleGroup = select(this.chart.svgRef.nativeElement)
       .append('g')
       .attr('class', 'plans');
+  }
+
+  createComparisonGroup(): void {
+    this.comparisonGroup = select(this.chart.svgRef.nativeElement)
+      .append('g')
+      .attr('class', 'comparison');
+
+    this.comparisonGroup.append('line');
+    this.comparisonGroup.append('text').attr('dy', '-0.7em');
   }
 
   updateGridlines(): void {
@@ -79,5 +91,29 @@ export class CsaStackedBarsComponent
       .attr('r', 4)
       .attr('cx', (plan) => this.scales.x(plan))
       .attr('class', 'plan');
+  }
+
+  updateComparison(): void {
+    const compVal = this.config.data[0].CSA_CompVal;
+    const compIsBig = this.scales.x(compVal) > this.chart.width / 2;
+
+    this.comparisonGroup
+      .attr('transform', `translate(${this.scales.x(compVal)}, 0)`)
+      .select('line')
+      .attr('y1', this.chart.height)
+      .attr('y2', -20);
+
+    this.comparisonGroup
+      .select('text')
+      .attr('dx', compIsBig ? '-0.5em' : '0.5em')
+      .attr('text-anchor', compIsBig ? 'end' : null)
+      .text(this.getDescription(this.config.data[0].CSA_CompVal_Desc));
+  }
+
+  getDescription(description: string): string {
+    if (description === 'med') {
+      description = 'Statewide median plan rate';
+    }
+    return description;
   }
 }

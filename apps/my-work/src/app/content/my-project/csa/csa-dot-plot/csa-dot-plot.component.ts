@@ -34,6 +34,8 @@ export interface CsaDatum {
   value: number;
   planValue: number;
   units: string;
+  CSA_CompVal: number;
+  CSA_CompVal_Desc: string;
 }
 
 @Component({

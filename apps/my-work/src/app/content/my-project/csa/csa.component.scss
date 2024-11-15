@@ -1,3 +1,9 @@
+$blue: #4472c4;
+
+svg {
+  font-size: 12px;
+}
+
 form {
   display: flex;
   gap: 2em;
@@ -51,5 +57,18 @@ circle {
 }
 
 .vic-x .domain {
-  stroke: #4472c4;
+  stroke: $blue;
+}
+
+.comparison {
+  line {
+    stroke: $blue;
+    stroke-dasharray: 1 6;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+
+  text {
+    text-transform: capitalize;
+  }
 }
