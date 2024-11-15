@@ -102,10 +102,7 @@
 <ng-template #loading>Loading...</ng-template>
 
 <ng-template #htmlTooltip>
-  <div
-    [style.--color]="(tooltipData$ | async).color"
-    class="geographies-example-tooltip-container"
-  >
+  <div class="geographies-example-tooltip-container">
     <p class="tooltip-label category">
       {{ (tooltipData$ | async).geography }}
     </p>

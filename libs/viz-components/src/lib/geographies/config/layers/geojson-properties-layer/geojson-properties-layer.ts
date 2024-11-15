@@ -2,9 +2,11 @@ import { select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { FillUtilities } from '../../../../core/utilities/fill-utilities';
 import { OrdinalVisualValueDimension } from '../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
-import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
-import { GeographiesLayer } from '../geographies-layer/geographies-layer';
+import {
+  GeographiesLayer,
+  GeographiesTooltipDatum,
+} from '../geographies-layer/geographies-layer';
 import { GeographiesGeojsonPropertiesLayerOptions } from './geojson-properties-layer-options';
 
 export class GeographiesGeojsonPropertiesLayer<
@@ -39,17 +41,17 @@ export class GeographiesGeojsonPropertiesLayer<
       : defaultFill;
   }
 
-  getTooltipData(path: SVGPathElement): GeographiesTooltipData<undefined> {
+  getTooltipData(path: SVGPathElement): GeographiesTooltipDatum<undefined> {
     const feature = select(path).datum() as GeographiesFeature<
       TProperties,
       TGeometry
     >;
     const featureIndex = this.featureIndexAccessor(feature);
-    const tooltipData: GeographiesTooltipData<undefined> = {
-      datum: undefined,
-      geography: featureIndex,
+    const tooltipData: GeographiesTooltipDatum<undefined> = {
       attributeValue: undefined,
+      datum: undefined,
       color: this.getFill(feature),
+      geography: featureIndex,
     };
 
     return tooltipData;

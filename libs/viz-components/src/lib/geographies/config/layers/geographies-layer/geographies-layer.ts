@@ -2,7 +2,6 @@ import * as CSSType from 'csstype';
 import { Geometry } from 'geojson';
 import { ColorUtilities } from '../../../../core/utilities/colors';
 import { Stroke } from '../../../../stroke/stroke';
-import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLabels } from '../labels/geographies-labels';
 import {
@@ -10,6 +9,13 @@ import {
   GeographiesLabelsFontWeightOptions,
 } from '../labels/geographies-labels-options';
 import { GeographiesLayerOptions } from './geographies-layer-options';
+
+export interface GeographiesTooltipDatum<Datum> {
+  attributeValue?: string;
+  color: string;
+  datum?: Datum;
+  geography: string;
+}
 
 export abstract class GeographiesLayer<
   Datum,
@@ -37,7 +43,7 @@ export abstract class GeographiesLayer<
 
   abstract getTooltipData(
     path: SVGPathElement
-  ): GeographiesTooltipData<Datum | undefined>;
+  ): GeographiesTooltipDatum<Datum | undefined>;
 
   getLabelColor(
     feature: GeographiesFeature<TProperties, TGeometry>

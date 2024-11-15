@@ -66,9 +66,9 @@ describe('BarsHoverMoveDirective', () => {
       directive.onElementPointerEnter(event);
       expect(directive.barDatum).toEqual(datum);
     });
-    it('sets elRef to the correct value', () => {
+    it('sets origin to the correct value', () => {
       directive.onElementPointerEnter(event);
-      expect(directive.elRef.nativeElement).toEqual(el);
+      expect(directive.origin).toEqual(el);
     });
   });
 
@@ -168,9 +168,9 @@ describe('BarsHoverMoveDirective', () => {
       expect(directive.barDatum).toBeUndefined();
     });
     it('sets elRef to undefined', () => {
-      directive.elRef = 'elRef' as any;
+      directive.origin = 'elRef' as any;
       directive.onElementPointerLeave();
-      expect(directive.elRef).toBeUndefined();
+      expect(directive.origin).toBeUndefined();
     });
   });
 });
