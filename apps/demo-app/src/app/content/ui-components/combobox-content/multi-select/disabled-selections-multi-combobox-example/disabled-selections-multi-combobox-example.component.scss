@@ -69,7 +69,7 @@
     color: lightgrey;
   }
 
-  .listbox-option.current {
+  .listbox-option.current:not(.selected) {
     background: #f2f2f2;
   }
 }
