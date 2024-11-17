@@ -9,6 +9,7 @@ const DEFAULT = {
 };
 
 export class StrokeBuilder {
+  private _color: string;
   private _dasharray: string;
   private _linecap: string;
   private _linejoin: string;
@@ -17,6 +18,17 @@ export class StrokeBuilder {
 
   constructor() {
     Object.assign(this, DEFAULT);
+  }
+
+  /**
+   * OPTIONAL. A value for the line's [stroke]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke}
+   *  attribute.
+   *
+   * @default '#000'
+   */
+  color(color: string): this {
+    this._color = color;
+    return this;
   }
 
   /**
@@ -79,6 +91,7 @@ export class StrokeBuilder {
    */
   _build(): Stroke {
     return new Stroke({
+      color: this._color,
       dasharray: this._dasharray,
       linecap: this._linecap,
       linejoin: this._linejoin,

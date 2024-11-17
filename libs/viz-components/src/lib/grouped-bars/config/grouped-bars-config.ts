@@ -27,7 +27,7 @@ export class GroupedBarsConfig<Datum, TOrdinalValue extends DataValue>
     this.valueIndices = range(this.ordinal.values.length).filter((i) => {
       return (
         this.ordinal.domainIncludes(this.ordinal.values[i]) &&
-        this.categorical.domainIncludes(this.categorical.values[i])
+        this.color.domainIncludes(this.color.values[i])
       );
     });
   }

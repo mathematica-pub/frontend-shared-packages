@@ -119,12 +119,12 @@ describe('the No Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createNoBinsDimension((dimension) =>
+            .noBins((dimension) =>
               dimension
                 .valueAccessor((d) => d.income)
                 .range(['white', '#ff00ff'])
@@ -187,12 +187,12 @@ describe('the No Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(dataWithFalsyValues)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createNoBinsDimension((dimension) =>
+            .noBins((dimension) =>
               dimension
                 .valueAccessor((d) => d.income)
                 .range(['white', '#ff00ff'])
@@ -234,12 +234,12 @@ describe('the No Bins Attribute Data dimension', () => {
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
         .projection(geoMercator())
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createNoBinsDimension((dimension) =>
+            .noBins((dimension) =>
               dimension
                 .valueAccessor((d) => d.income)
                 .range(['white', '#ff00ff'])

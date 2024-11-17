@@ -121,12 +121,12 @@ describe('the Categorical Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCategoricalBinsDimension((dimension) =>
+            .categoricalBins((dimension) =>
               dimension
                 .valueAccessor((d) => {
                   if (d.income < binValues[0]) {
@@ -182,12 +182,12 @@ describe('the Categorical Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCategoricalBinsDimension((dimension) =>
+            .categoricalBins((dimension) =>
               dimension
                 .valueAccessor((d) => {
                   if (d.income < binValues[0]) {
@@ -246,12 +246,12 @@ describe('the Categorical Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCategoricalBinsDimension((dimension) =>
+            .categoricalBins((dimension) =>
               dimension
                 .valueAccessor((d) => {
                   if (d.income < binValues[0]) {
@@ -323,12 +323,12 @@ describe('the Categorical Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(dataWithFalsyValues)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCategoricalBinsDimension((dimension) =>
+            .categoricalBins((dimension) =>
               dimension
                 .valueAccessor((d) => {
                   if (
@@ -387,12 +387,12 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         .boundary(usBoundary)
         .projection(geoMercator())
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCategoricalBinsDimension((dimension) =>
+            .categoricalBins((dimension) =>
               dimension
                 .valueAccessor((d) => {
                   if (d.income < binValues[0]) {

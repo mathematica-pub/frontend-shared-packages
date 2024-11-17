@@ -17,13 +17,9 @@ const data = [
 function createConfig(): StackedAreaConfig<Datum, string> {
   return new VicStackedAreaConfigBuilder<Datum, string>()
     .data(data)
-    .createXDateDimension((dimension) => dimension.valueAccessor((d) => d.date))
-    .createYNumericDimension((dimension) =>
-      dimension.valueAccessor((d) => d.value)
-    )
-    .createCategoricalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.category)
-    )
+    .xDate((dimension) => dimension.valueAccessor((d) => d.date))
+    .y((dimension) => dimension.valueAccessor((d) => d.value))
+    .color((dimension) => dimension.valueAccessor((d) => d.category))
     .getConfig();
 }
 
@@ -80,7 +76,7 @@ describe('StackedAreaConfig', () => {
       expect(config.y.setPropertiesFromData).toHaveBeenCalledTimes(1);
     });
     it('calls categorical.setPropertiesFromData once', () => {
-      expect(config.categorical.setPropertiesFromData).toHaveBeenCalledTimes(1);
+      expect(config.color.setPropertiesFromData).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -97,13 +93,9 @@ describe('StackedAreaConfig', () => {
     it('sets valueIndicies to an array of length 3 if categorical domain is limited by user', () => {
       config = new VicStackedAreaConfigBuilder<Datum, string>()
         .data(data)
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor((d) => d.date)
-        )
-        .createYNumericDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value)
-        )
-        .createCategoricalDimension((dimension) =>
+        .xDate((dimension) => dimension.valueAccessor((d) => d.date))
+        .y((dimension) => dimension.valueAccessor((d) => d.value))
+        .color((dimension) =>
           dimension.valueAccessor((d) => d.category).domain(['a'])
         )
         .getConfig();

@@ -61,9 +61,11 @@ export class DateChartPositionDimensionBuilder<
 
   /**
    * @internal This function is for internal use only and should never be called by the user.
+   *
+   * @param dimensionName A user-intelligible name for the dimension being built. Used for error messages. Should be title cased.
    */
-  _build(): DateChartPositionDimension<Datum> {
-    this.validateBuilder();
+  _build(dimensionName: string): DateChartPositionDimension<Datum> {
+    this.validateBuilder(dimensionName);
     return new DateChartPositionDimension<Datum>({
       domain: this._domain,
       formatFunction: this._formatFunction,
@@ -73,11 +75,7 @@ export class DateChartPositionDimensionBuilder<
     });
   }
 
-  private validateBuilder(): void {
-    if (!this._valueAccessor) {
-      throw new Error(
-        'Quantitative Date Dimension: valueAccessor is required. Please use method `valueAccessor` to set it.'
-      );
-    }
+  private validateBuilder(dimensionName): void {
+    this.validateValueAccessor(dimensionName);
   }
 }

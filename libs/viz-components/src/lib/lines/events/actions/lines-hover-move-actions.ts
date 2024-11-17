@@ -21,7 +21,7 @@ export class LinesHoverMoveDefaultLinesStyles<
     directive.lines.lineGroups
       .filter(
         ([category]) =>
-          directive.lines.config.categorical.values[
+          directive.lines.config.stroke.color.values[
             directive.closestPointIndex
           ] === category
       )
@@ -32,7 +32,7 @@ export class LinesHoverMoveDefaultLinesStyles<
     directive.lines.lineGroups
       .filter(
         ([category]) =>
-          directive.lines.config.categorical.values[
+          directive.lines.config.stroke.color.values[
             directive.closestPointIndex
           ] !== category
       )
@@ -63,7 +63,7 @@ export class LinesHoverMoveDefaultMarkersStyles<
     directive.lines.lineGroups
       .filter(
         ([category]) =>
-          directive.lines.config.categorical.values[
+          directive.lines.config.stroke.color.values[
             directive.closestPointIndex
           ] === category
       )
@@ -85,7 +85,7 @@ export class LinesHoverMoveDefaultMarkersStyles<
     directive.lines.lineGroups
       .filter(
         ([category]) =>
-          directive.lines.config.categorical.values[
+          directive.lines.config.stroke.color.values[
             directive.closestPointIndex
           ] !== category
       )

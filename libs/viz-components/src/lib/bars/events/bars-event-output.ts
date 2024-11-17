@@ -1,17 +1,9 @@
-import { ElementRef } from '@angular/core';
 import { DataValue } from '../../core/types/values';
+import { BarsTooltipDatum } from '../bars.component';
 
 export interface BarsEventOutput<Datum, TOrdinalValue extends DataValue>
-  extends BarsTooltipData<Datum, TOrdinalValue> {
+  extends BarsTooltipDatum<Datum, TOrdinalValue> {
+  origin: SVGRectElement;
   positionX: number;
   positionY: number;
-}
-
-export interface BarsTooltipData<Datum, TOrdinalValue extends DataValue> {
-  datum: Datum;
-  color: string;
-  ordinal: TOrdinalValue;
-  quantitative: string;
-  category: string;
-  elRef: ElementRef;
 }

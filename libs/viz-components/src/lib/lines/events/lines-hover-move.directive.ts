@@ -7,7 +7,6 @@ import { HoverMoveAction } from '../../events/action';
 import { HoverMoveDirective } from '../../events/hover-move.directive';
 import { LINES, LinesComponent } from '../lines.component';
 import { LinesEventOutput } from './lines-event-output';
-import { linesTooltipMixin } from './lines-tooltip-data';
 
 @Directive({
   selector: '[vicLinesHoverMoveActions]',
@@ -15,7 +14,7 @@ import { linesTooltipMixin } from './lines-tooltip-data';
 export class LinesHoverMoveDirective<
   Datum,
   TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> extends linesTooltipMixin(HoverMoveDirective) {
+> extends HoverMoveDirective {
   @Input('vicLinesHoverMoveActions')
   actions: HoverMoveAction<LinesHoverMoveDirective<Datum, TLinesComponent>>[];
   @Output('vicLinesHoverMoveOutput') eventOutput = new EventEmitter<
@@ -133,7 +132,7 @@ export class LinesHoverMoveDirective<
   }
 
   getEventOutput(): LinesEventOutput<Datum> {
-    const data = this.getLinesTooltipData(this.closestPointIndex, this.lines);
+    const data = this.lines.getTooltipData(this.closestPointIndex);
     return data;
   }
 }

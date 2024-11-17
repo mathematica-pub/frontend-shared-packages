@@ -32,9 +32,9 @@ describe('GeographiesComponent', () => {
       >()
         .boundary('boundary' as any)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
-            .createEqualValueRangesBinsDimension((dimension) =>
+            .equalValueRangesBins((dimension) =>
               dimension.valueAccessor((d) => d.value).numBins(5)
             )
             .geographyIndexAccessor((d) => d.state)
@@ -87,9 +87,9 @@ describe('GeographiesComponent', () => {
       >()
         .boundary('boundary' as any)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
-            .createEqualValueRangesBinsDimension((dimension) =>
+            .equalValueRangesBins((dimension) =>
               dimension
                 .valueAccessor((d) => d.value)
                 .numBins(5)
