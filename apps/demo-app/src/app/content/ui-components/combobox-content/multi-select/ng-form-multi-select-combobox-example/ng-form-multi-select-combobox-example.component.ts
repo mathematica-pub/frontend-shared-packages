@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ComboboxModule } from 'dist/ui-components';
-import { officeOptions } from '../../single-select/combobox-options';
 
 @Component({
   selector: 'app-ng-form-multi-select-combobox-example',
@@ -18,6 +17,14 @@ import { officeOptions } from '../../single-select/combobox-options';
   encapsulation: ViewEncapsulation.None,
 })
 export class NgFormMultiSelectComboboxExampleComponent {
-  options = officeOptions;
+  options = [
+    { displayName: 'Cambridge', id: 'cambridge', disabled: true },
+    { displayName: 'Washington, D.C.', id: 'dc', disabled: true },
+    { displayName: 'Oakland', id: 'oakland', disabled: false },
+    { displayName: 'Chicago', id: 'chicago', disabled: false },
+    { displayName: 'Ann Arbor', id: 'annArbor', disabled: true },
+    { displayName: 'Woodlawn', id: 'woodlawn', disabled: false },
+    { displayName: 'Princeton', id: 'princeton', disabled: true },
+  ];
   control = new FormControl<string[]>([]);
 }
