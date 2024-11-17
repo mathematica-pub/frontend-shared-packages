@@ -28,6 +28,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   @Input() displaySelected = false;
   @Input() findsOptionOnTyping = true;
   @Input() ariaLabel?: string;
+  @Input() autoSelect = false;
   @ViewChild('box') box: ElementRef<HTMLDivElement>;
   @ViewChild('boxIcon') boxIcon: ElementRef<HTMLDivElement>;
   openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' '];
@@ -40,6 +41,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.service.displayValue = this.displaySelected;
+    this.service.autoSelect = this.autoSelect;
   }
 
   ngAfterViewInit(): void {
@@ -71,6 +73,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
       if (event.relatedTarget.id.includes('listbox')) {
         this.service.setVisualFocus(VisualFocus.textbox);
         return;
+        // TODO: Figure out why we implemented this on Scorecard and if it's necessary
       } else if (event.relatedTarget.tagName === 'BODY' && this.isMobile()) {
         this.focusBox();
         return;
@@ -101,7 +104,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
       this.onEscape();
     } else {
       const action = this.getActionFromKeydownEvent(event);
-      this.handleComboboxAction(action, event);
+      this.handleKeyboardAction(action, event);
     }
   }
 
@@ -160,7 +163,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     }
   }
 
-  handleComboboxAction(action: ComboboxActionType, event: KeyboardEvent): void {
+  handleKeyboardAction(action: ComboboxActionType, event: KeyboardEvent): void {
     switch (action) {
       case OptionAction.first:
       case OptionAction.last:

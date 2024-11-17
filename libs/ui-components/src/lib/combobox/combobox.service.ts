@@ -20,7 +20,7 @@ export type VisualFocusType = keyof typeof VisualFocus;
 
 export interface KeyboardEventWithAutocomplete {
   event: KeyboardEvent;
-  autocomplete: AutocompleteType;
+  autoComplete: AutoCompleteType;
   inputHasText: boolean;
 }
 
@@ -68,14 +68,14 @@ export enum TextboxAction {
   type = 'type',
 }
 
-export enum Autocomplete {
+export enum AutoComplete {
   none = 'none',
   list = 'list',
   both = 'both',
   inline = 'inline',
 }
 
-export type AutocompleteType = keyof typeof Autocomplete;
+export type AutoCompleteType = keyof typeof AutoComplete;
 
 export type OptionActionType = keyof typeof OptionAction | string;
 export type ListboxActionType = keyof typeof ListboxAction;
@@ -114,7 +114,8 @@ export class ComboboxService {
   ignoreBlur = false;
   displayValue = true;
   isMultiSelect = false;
-  autocomplete: AutocompleteType = Autocomplete.none;
+  autoComplete: AutoCompleteType = AutoComplete.none;
+  autoSelect: boolean;
 
   constructor(private platform: Platform) {}
 

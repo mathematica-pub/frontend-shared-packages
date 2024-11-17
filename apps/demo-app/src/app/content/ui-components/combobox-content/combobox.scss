@@ -60,4 +60,8 @@
   .listbox-option.disabled {
     color: lightgrey;
   }
+
+  .listbox-option.current {
+    background: #f2f2f2;
+  }
 }

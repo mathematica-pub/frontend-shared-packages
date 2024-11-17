@@ -17,11 +17,11 @@ export class NgFormEditableTextboxComponent
   override displaySelected = false;
   @ViewChild('box') boxElRef: ElementRef<HTMLInputElement>;
   @Input({ required: true }) inputControl: FormControl<string>;
-  override inputValue: never;
+  override textboxValue: never;
 
   override ngOnInit(): void {
     super.ngOnInit();
-    this.onValueChange();
+    this.setEmptyTextboxHandling();
   }
 
   override setInputValue(value: string): void {
@@ -35,16 +35,17 @@ export class NgFormEditableTextboxComponent
     return;
   }
 
-  onValueChange(): void {
+  setEmptyTextboxHandling(): void {
     this.inputControl.valueChanges
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         filter((value) => value === '')
       )
       .subscribe(() => {
-        const optionAction = this.autoSelectWhenTextboxIsEmpty
-          ? OptionAction.zeroActiveIndex
-          : OptionAction.nullActiveIndex;
+        const optionAction =
+          this.autoSelectTrigger === 'any'
+            ? OptionAction.zeroActiveIndex
+            : OptionAction.nullActiveIndex;
         this.service.emitOptionAction(optionAction);
       });
   }

@@ -32,7 +32,7 @@ import {
   withLatestFrom,
 } from 'rxjs';
 import {
-  Autocomplete,
+  AutoComplete,
   ComboboxService,
   OptionAction,
   OptionActionType,
@@ -79,7 +79,6 @@ export class ListboxComponent<T>
     options: ListboxOptionComponent<T>[],
     countSelectedOptionsLabel?: CountSelectedOptionsLabel
   ) => string;
-  @Input() autoSelectionOnClose: boolean = true;
   @Output() valueChanges = new EventEmitter<ListboxValue<T>>();
   @ViewChild('listboxEl') listboxElRef: ElementRef;
   @ContentChild(ListboxLabelComponent, { descendants: false })
@@ -226,9 +225,7 @@ export class ListboxComponent<T>
 
   shouldSelectActiveIndexOptionOnBlur(activeIndex: number) {
     return (
-      !this.isMultiSelect &&
-      (activeIndex !== null ||
-        (this.autoSelectionOnClose && activeIndex === null))
+      activeIndex !== null || (this.service.autoSelect && activeIndex === null)
     );
   }
 
@@ -444,7 +441,7 @@ export class ListboxComponent<T>
       this.activeIndex.next(attempt);
     } else {
       this.service.setVisualFocus(VisualFocus.textbox);
-      if (this.service.autocomplete !== Autocomplete.none) {
+      if (this.service.autoComplete !== AutoComplete.none) {
         this.activeIndex.next(null);
       }
     }
@@ -471,7 +468,7 @@ export class ListboxComponent<T>
     action: OptionActionType
   ): number {
     const pageSize = 10; // used for pageup/pagedown
-    const loop = this.service.autocomplete !== Autocomplete.none;
+    const loop = this.service.autoComplete !== AutoComplete.none;
     const previous = () => {
       if (loop) {
         return currentIndex === 0 ? maxIndex : currentIndex - 1;
