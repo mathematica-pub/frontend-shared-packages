@@ -80,7 +80,7 @@ export class ListboxComponent<T>
     countSelectedOptionsLabel?: CountSelectedOptionsLabel
   ) => string;
   @Output() valueChanges = new EventEmitter<ListboxValue<T>>();
-  @ViewChild('listboxEl') listboxElRef: ElementRef;
+  @ViewChild('scrollContent') scrollContentRef: ElementRef;
   @ContentChild(ListboxLabelComponent, { descendants: false })
   label: ListboxLabelComponent;
   @ContentChildren(ListboxOptionComponent, { descendants: false })
@@ -214,7 +214,7 @@ export class ListboxComponent<T>
       )
       .subscribe(([, [isOpen, activeIndex]]) => {
         if (isOpen) {
-          if (this.shouldSelectActiveIndexOptionOnBlur(activeIndex)) {
+          if (this.shouldAutoSelectOptionOnBlur(activeIndex)) {
             const index = activeIndex ?? 0;
             this.selectOptionFromIndex(index);
           }
@@ -223,9 +223,13 @@ export class ListboxComponent<T>
       });
   }
 
-  shouldSelectActiveIndexOptionOnBlur(activeIndex: number) {
+  shouldAutoSelectOptionOnBlur(activeIndex: number) {
+    const activeIndexOptionIsSelected =
+      this.allOptionsArray[activeIndex]?.isSelected();
     return (
-      activeIndex !== null || (this.service.autoSelect && activeIndex === null)
+      !this.isMultiSelect &&
+      this.service.autoSelect &&
+      !activeIndexOptionIsSelected
     );
   }
 
@@ -312,7 +316,9 @@ export class ListboxComponent<T>
   }
 
   updateSelectedOptionsToEmit(): void {
+    console.log('updateSelectedOptionsToEmit');
     const selected = this.getSelectedOptions();
+    console.log('selected', selected);
     this.selectedOptions.next(selected);
   }
 
@@ -345,8 +351,10 @@ export class ListboxComponent<T>
   }
 
   resetScroll(): void {
-    if (this.scrolling.isScrollable(this.listboxElRef.nativeElement)) {
-      this.scrolling.scrollToTop(this.listboxElRef.nativeElement);
+    if (this.scrolling.isScrollable(this.scrollContentRef.nativeElement)) {
+      this.scrolling.scrollToTop(
+        this.scrollContentRef.nativeElement.parentElement
+      );
     }
   }
 
@@ -450,10 +458,10 @@ export class ListboxComponent<T>
   handleScrollingForNewIndex(index: number): void {
     const indexEl = this.allOptionsArray[index].label?.nativeElement;
     if (indexEl) {
-      if (this.scrolling.isScrollable(this.listboxElRef.nativeElement)) {
+      if (this.scrolling.isScrollable(this.scrollContentRef.nativeElement)) {
         this.scrolling.maintainScrollVisibility(
           indexEl,
-          this.listboxElRef.nativeElement
+          this.scrollContentRef.nativeElement.parentElement
         );
       }
       if (!this.scrolling.isElementInView(indexEl)) {

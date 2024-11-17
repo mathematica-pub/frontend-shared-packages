@@ -28,7 +28,6 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   @Input() displaySelected = false;
   @Input() findsOptionOnTyping = true;
   @Input() ariaLabel?: string;
-  @Input() autoSelect = false;
   @ViewChild('box') box: ElementRef<HTMLDivElement>;
   @ViewChild('boxIcon') boxIcon: ElementRef<HTMLDivElement>;
   openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' '];
@@ -41,7 +40,6 @@ export class TextboxComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.service.displayValue = this.displaySelected;
-    this.service.autoSelect = this.autoSelect;
   }
 
   ngAfterViewInit(): void {

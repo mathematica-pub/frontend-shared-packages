@@ -3,6 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -23,16 +24,25 @@ import { TextboxComponent } from '../textbox/textbox.component';
   templateUrl: './editable-textbox.component.html',
   styleUrls: ['./editable-textbox.component.scss'],
 })
-export class EditableTextboxComponent extends TextboxComponent {
+export class EditableTextboxComponent
+  extends TextboxComponent
+  implements OnInit
+{
   @ViewChild('box') inputElRef: ElementRef<HTMLInputElement>;
   @Input() placeholder = '';
   @Input() inputType: 'text' | 'search' = 'text';
+  @Input() autoSelect = false;
   @Input() autoSelectTrigger: 'any' | 'character' = 'character';
   @Output() textboxValue = new EventEmitter<string>();
   autoComplete: AutoCompleteType = AutoComplete.list;
   moveFocusToTextboxKeys = ['RightArrow', 'LeftArrow', 'Home', 'End'];
   value = '';
   override openKeys = ['ArrowDown', 'ArrowUp'];
+
+  override ngOnInit(): void {
+    super.ngOnInit();
+    this.service.autoSelect = this.autoSelect;
+  }
 
   setInputValue(value: string): void {
     this.inputElRef.nativeElement.value = value;
@@ -50,7 +60,14 @@ export class EditableTextboxComponent extends TextboxComponent {
         this.autoSelectTrigger === 'any'
           ? OptionAction.zeroActiveIndex
           : OptionAction.nullActiveIndex;
-      this.service.emitOptionAction(optionAction);
+      if (this.autoSelect) {
+        this.service.emitOptionAction(optionAction);
+      }
+    } else {
+      this.service.autoSelect = this.autoSelect;
+      if (this.autoSelect) {
+        this.service.emitOptionAction(OptionAction.zeroActiveIndex);
+      }
     }
     this.textboxValue.emit(value);
   }
@@ -71,6 +88,8 @@ export class EditableTextboxComponent extends TextboxComponent {
               ? OptionAction.zeroActiveIndex
               : OptionAction.nullActiveIndex;
           this.service.emitOptionAction(optionAction);
+        } else {
+          this.service.autoSelect = this.autoSelect;
         }
       }
     }
