@@ -4,7 +4,7 @@
   >
   <hsi-ui-combobox class="office-locations-dropdown">
     <hsi-ui-combobox-label>
-      <span>Pixar Movies Combobox/span>
+      <span>Pixar Movies Combobox</span>
     </hsi-ui-combobox-label>
     <hsi-ui-editable-textbox
       placeholder="Search for an office"
@@ -17,9 +17,9 @@
       [isMultiSelect]="false"
       (valueChanges)="onSelection($event)"
     >
-    <hsi-ui-listbox-label>
-      <span>Select your favorite Pixar movie</span>
-    </hsi-ui-listbox-label>
+      <hsi-ui-listbox-label>
+        <span>Select your favorite Pixar movie</span>
+      </hsi-ui-listbox-label>
       @for (option of options$ | async; track $index) {
         <hsi-ui-listbox-option
           [selected]="(selected$ | async).includes(option.id)"

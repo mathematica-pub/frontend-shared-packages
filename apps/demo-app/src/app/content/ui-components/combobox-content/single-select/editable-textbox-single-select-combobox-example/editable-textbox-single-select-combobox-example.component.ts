@@ -22,17 +22,17 @@ export class EditableTextboxSingleSelectComboboxExampleComponent
   implements OnInit
 {
   options = [
-    { displayName: 'Cambridge', id: 'cambridge', disabled: true },
-    { displayName: 'Washington, D.C.', id: 'dc', disabled: true },
-    { displayName: 'Oakland', id: 'oakland', disabled: false },
-    { displayName: 'Chicago', id: 'chicago', disabled: false },
-    { displayName: 'Ann Arbor', id: 'annArbor', disabled: true },
-    { displayName: 'Woodlawn', id: 'woodlawn', disabled: false },
-    { displayName: 'Princeton', id: 'princeton', disabled: true },
+    { displayName: 'Ratatouille', id: 'rat' },
+    { displayName: 'Finding Nemo', id: 'nemo' },
+    { displayName: 'Toy Story', id: 'toy' },
+    { displayName: 'Monsters Inc.', id: 'monstersInc' },
+    { displayName: 'WALL-E', id: 'robot' },
+    { displayName: 'Cars', id: 'cars' },
+    { displayName: 'The Incredibles', id: 'incredibles' },
+    { displayName: 'Inside Out', id: 'insideOut' },
+    { displayName: 'Up', id: 'up' },
   ];
-  options$: Observable<
-    { displayName: string; id: string; disabled: boolean }[]
-  >;
+  options$: Observable<{ displayName: string; id: string }[]>;
   selected = new BehaviorSubject('');
   selected$ = this.selected.asObservable();
   text = new BehaviorSubject('');

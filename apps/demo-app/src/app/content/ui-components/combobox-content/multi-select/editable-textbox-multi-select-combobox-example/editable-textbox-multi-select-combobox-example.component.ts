@@ -30,9 +30,7 @@ export class EditableTextboxMultiSelectComboboxExampleComponent
     { displayName: 'Woodlawn', id: 'woodlawn' },
     { displayName: 'Princeton', id: 'princeton' },
   ];
-  options$: Observable<
-    { displayName: string; id: string; disabled: boolean }[]
-  >;
+  options$: Observable<{ displayName: string; id: string }[]>;
   selected = new BehaviorSubject([]);
   selected$ = this.selected.asObservable();
   text = new BehaviorSubject('');
