@@ -1,7 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
-import { filter } from 'rxjs';
 import { OptionAction } from '../combobox.service';
 import { EditableTextboxComponent } from '../editable-textbox/editable-textbox.component';
 
@@ -21,7 +20,7 @@ export class NgFormEditableTextboxComponent
 
   override ngOnInit(): void {
     super.ngOnInit();
-    this.setEmptyTextboxHandling();
+    this.setTextboxValueChangeHandling();
   }
 
   override setInputValue(value: string): void {
@@ -35,18 +34,17 @@ export class NgFormEditableTextboxComponent
     return;
   }
 
-  setEmptyTextboxHandling(): void {
+  setTextboxValueChangeHandling(): void {
     this.inputControl.valueChanges
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        filter((value) => value === '')
-      )
-      .subscribe(() => {
-        const optionAction =
-          this.autoSelectTrigger === 'any'
-            ? OptionAction.zeroActiveIndex
-            : OptionAction.nullActiveIndex;
-        this.service.emitOptionAction(optionAction);
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        if (this.autoSelect) {
+          if (value === '') {
+            this.setAutoSelectWhenInputIsEmpty();
+          } else {
+            this.service.autoSelect = this.autoSelect;
+          }
+        }
       });
   }
 }

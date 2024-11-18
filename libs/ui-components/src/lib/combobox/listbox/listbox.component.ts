@@ -35,7 +35,6 @@ import {
   AutoComplete,
   ComboboxService,
   OptionAction,
-  OptionActionType,
   VisualFocus,
 } from '../combobox.service';
 import { ListboxFilteringService } from '../listbox-filtering/listbox-filtering.service';
@@ -48,11 +47,6 @@ import {
 import { ListboxScrollService } from '../listbox-scroll/listbox-scroll.service';
 import { SelectAllListboxOptionComponent } from '../select-all-listbox-option/select-all-listbox-option.component';
 
-export type SingleSelectListboxValue<T> = string | T;
-export type MultiSelectListboxValue<T> = (string | T)[];
-export type ListboxValue<T> =
-  | SingleSelectListboxValue<T>
-  | MultiSelectListboxValue<T>;
 export type CountSelectedOptionsLabel = {
   singular: string;
   plural: string;
@@ -67,7 +61,7 @@ export type CountSelectedOptionsLabel = {
     class: 'combobox-listbox-component',
   },
 })
-export class ListboxComponent<T>
+export class ListboxComponent
   implements OnInit, AfterContentInit, AfterViewInit
 {
   @Input() maxHeight = 300;
@@ -76,29 +70,30 @@ export class ListboxComponent<T>
   @Input() findsOptionOnTyping = true;
   @Input() countSelectedOptionsLabel?: CountSelectedOptionsLabel;
   @Input() customTextboxLabel?: (
-    options: ListboxOptionComponent<T>[],
+    options: ListboxOptionComponent[],
     countSelectedOptionsLabel?: CountSelectedOptionsLabel
   ) => string;
-  @Output() valueChanges = new EventEmitter<ListboxValue<T>>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @Output() valueChanges = new EventEmitter<any[]>();
   @ViewChild('scrollContent') scrollContentRef: ElementRef;
   @ContentChild(ListboxLabelComponent, { descendants: false })
   label: ListboxLabelComponent;
   @ContentChildren(ListboxOptionComponent, { descendants: false })
-  options: QueryList<ListboxOptionComponent<T>>;
+  options: QueryList<ListboxOptionComponent>;
   @ContentChildren(ListboxGroupComponent)
-  groups: QueryList<ListboxGroupComponent<T>>;
+  groups: QueryList<ListboxGroupComponent>;
   labels$: Observable<ListboxLabelComponent[]>;
-  options$: Observable<ListboxOptionComponent<T>[]>;
-  selectedOptions: BehaviorSubject<ListboxOptionComponent<T>[]> =
+  options$: Observable<ListboxOptionComponent[]>;
+  selectedOptions: BehaviorSubject<ListboxOptionComponent[]> =
     new BehaviorSubject([]);
   selectedOptions$ = this.selectedOptions.asObservable();
-  optionPropertyChanges$: Observable<ListboxOptionPropertyChange<T>>;
-  groups$: Observable<ListboxGroupComponent<T>[]>;
+  optionPropertyChanges$: Observable<ListboxOptionPropertyChange>;
+  groups$: Observable<ListboxGroupComponent[]>;
   activeIndex: BehaviorSubject<number> = new BehaviorSubject(null);
   activeIndex$ = this.activeIndex.asObservable().pipe(distinctUntilChanged());
   visuallyFocused: boolean;
 
-  get allOptionsArray(): ListboxOptionComponent<T>[] {
+  get allOptionsArray(): ListboxOptionComponent[] {
     if (this.groups.length > 0) {
       return this.groups
         .toArray()
@@ -111,7 +106,7 @@ export class ListboxComponent<T>
 
   constructor(
     public service: ComboboxService,
-    protected filtering: ListboxFilteringService<T>,
+    protected filtering: ListboxFilteringService,
     protected scrolling: ListboxScrollService,
     private destroyRef: DestroyRef
   ) {}
@@ -185,13 +180,16 @@ export class ListboxComponent<T>
         map((options) => {
           const selections = [];
           for (const option of options) {
-            const value = option.value
-              ? option.value
-              : option.label?.nativeElement.innerText.trim();
+            const value = option.valueToEmit;
             selections.push(value);
           }
-          const selected = this.isMultiSelect ? selections : selections[0];
-          return selected;
+          // Add any previous selections that the user may have made that may not be in options anymore due to filtering
+          for (const value of this.service.selectedOptionValues) {
+            if (!selections.includes(value)) {
+              selections.push(value);
+            }
+          }
+          return selections;
         })
       )
       .subscribe((value) => {
@@ -199,7 +197,8 @@ export class ListboxComponent<T>
       });
   }
 
-  emitValue(selections: ListboxValue<T>): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  emitValue(selections: any[]): void {
     this.valueChanges.emit(selections);
   }
 
@@ -226,11 +225,7 @@ export class ListboxComponent<T>
   shouldAutoSelectOptionOnBlur(activeIndex: number) {
     const activeIndexOptionIsSelected =
       this.allOptionsArray[activeIndex]?.isSelected();
-    return (
-      !this.isMultiSelect &&
-      this.service.autoSelect &&
-      !activeIndexOptionIsSelected
-    );
+    return this.service.autoSelect && !activeIndexOptionIsSelected;
   }
 
   setOptionAction() {
@@ -284,7 +279,7 @@ export class ListboxComponent<T>
       });
   }
 
-  actionIsTypingChar(action: OptionActionType): boolean {
+  actionIsTypingChar(action: OptionAction | string): boolean {
     return (
       action !== OptionAction.last &&
       action !== OptionAction.first &&
@@ -303,7 +298,7 @@ export class ListboxComponent<T>
   }
 
   handleOptionSelect(
-    option: ListboxOptionComponent<T>,
+    option: ListboxOptionComponent,
     optionIndex: number,
     groupIndex?: number
   ): void {
@@ -316,9 +311,7 @@ export class ListboxComponent<T>
   }
 
   updateSelectedOptionsToEmit(): void {
-    console.log('updateSelectedOptionsToEmit');
     const selected = this.getSelectedOptions();
-    console.log('selected', selected);
     this.selectedOptions.next(selected);
   }
 
@@ -345,8 +338,8 @@ export class ListboxComponent<T>
         filter((isOpen) => !isOpen)
       )
       .subscribe(() => {
-        this.resetScroll();
         this.setActiveIndexToFirstSelected();
+        this.resetScroll();
       });
   }
 
@@ -359,10 +352,11 @@ export class ListboxComponent<T>
   }
 
   setActiveIndexToFirstSelected(isInit = false): void {
-    if (this.isMultiSelect) {
-      const firstSelected =
-        this.allOptionsArray.findIndex((x) => x.isSelected()) ?? 0;
-      this.activeIndex.next(firstSelected);
+    let firstSelected = this.allOptionsArray.findIndex((x) => x.isSelected());
+    if (firstSelected === -1 && this.service.autoSelect) {
+      firstSelected = 0;
+    }
+    if (firstSelected > -1) {
       if (!isInit) {
         this.setActiveIndex(firstSelected, OptionAction.next);
       } else {
@@ -411,7 +405,7 @@ export class ListboxComponent<T>
     }
   }
 
-  getBoxValuesLabel(options: ListboxOptionComponent<T>[]): string {
+  getBoxValuesLabel(options: ListboxOptionComponent[]): string {
     let label = '';
     if (options) {
       label = options
@@ -459,7 +453,7 @@ export class ListboxComponent<T>
     const indexEl = this.allOptionsArray[index].label?.nativeElement;
     if (indexEl) {
       if (this.scrolling.isScrollable(this.scrollContentRef.nativeElement)) {
-        this.scrolling.maintainScrollVisibility(
+        this.scrolling.maintainElementVisibility(
           indexEl,
           this.scrollContentRef.nativeElement.parentElement
         );
@@ -473,7 +467,7 @@ export class ListboxComponent<T>
   getIndexForAction(
     currentIndex: number,
     maxIndex: number,
-    action: OptionActionType
+    action: OptionAction | string
   ): number {
     const pageSize = 10; // used for pageup/pagedown
     const loop = this.service.autoComplete !== AutoComplete.none;
@@ -512,7 +506,7 @@ export class ListboxComponent<T>
 
   handleOptionClick(
     event: MouseEvent,
-    option: ListboxOptionComponent<T>,
+    option: ListboxOptionComponent,
     optionIndex: number,
     groupIndex?: number
   ): void {
@@ -525,8 +519,8 @@ export class ListboxComponent<T>
   }
 
   isSelectAllListboxOption(
-    option: ListboxOptionComponent<T>
-  ): option is SelectAllListboxOptionComponent<T> {
+    option: ListboxOptionComponent
+  ): option is SelectAllListboxOptionComponent {
     return option instanceof SelectAllListboxOptionComponent;
   }
 
@@ -551,7 +545,7 @@ export class ListboxComponent<T>
     return -1;
   }
 
-  toggleOptionSelected(option: ListboxOptionComponent<T>): void {
+  toggleOptionSelected(option: ListboxOptionComponent): void {
     if (!option || option.isDisabled()) {
       this.service.setVisualFocus(VisualFocus.textbox);
       return;
@@ -564,7 +558,7 @@ export class ListboxComponent<T>
     }
   }
 
-  selectSingleSelectOption(option: ListboxOptionComponent<T>): void {
+  selectSingleSelectOption(option: ListboxOptionComponent): void {
     if (option.isSelected()) return;
     this.allOptionsArray.forEach((o) => {
       if (o !== option) {
@@ -575,7 +569,7 @@ export class ListboxComponent<T>
     this.updateSelectedOptionsToEmit();
   }
 
-  getSelectedOptions(): ListboxOptionComponent<T>[] {
+  getSelectedOptions(): ListboxOptionComponent[] {
     return this.allOptionsArray.filter(
       (option) => !this.isSelectAllListboxOption(option) && option.isSelected()
     );
@@ -602,7 +596,7 @@ export class ListboxComponent<T>
     this.service.ignoreBlur = true;
   }
 
-  trackByFn(index: number, item: ListboxOptionComponent<T>): number {
+  trackByFn(index: number, item: ListboxOptionComponent): number {
     return item.id;
   }
 }

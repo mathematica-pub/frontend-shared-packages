@@ -2,10 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ListboxFilteringService } from '../listbox-filtering/listbox-filtering.service';
 import { ListboxScrollService } from '../listbox-scroll/listbox-scroll.service';
-import {
-  ListboxComponent,
-  SingleSelectListboxValue,
-} from '../listbox/listbox.component';
+import { ListboxComponent } from '../listbox/listbox.component';
 
 @Component({
   selector: 'hsi-ui-ng-form-listbox-single',
@@ -16,12 +13,14 @@ import {
     class: 'combobox-listbox-component',
   },
 })
-export class NgFormListboxSingleComponent<T> extends ListboxComponent<T> {
-  @Input() control: FormControl<SingleSelectListboxValue<T>>;
+export class NgFormListboxSingleComponent extends ListboxComponent {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @Input() control: FormControl<any>;
   override isMultiSelect = false;
   override valueChanges: never;
 
-  override emitValue(selected: SingleSelectListboxValue<T>): void {
-    this.control.setValue(selected as SingleSelectListboxValue<T>);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  override emitValue(selected: any[]): void {
+    this.control.setValue(selected[0]);
   }
 }

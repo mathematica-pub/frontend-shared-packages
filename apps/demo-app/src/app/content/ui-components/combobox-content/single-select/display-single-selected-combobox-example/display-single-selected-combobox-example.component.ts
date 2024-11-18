@@ -4,7 +4,7 @@ import {
   Component,
   ViewEncapsulation,
 } from '@angular/core';
-import { ComboboxModule } from 'dist/ui-components';
+import { ComboboxModule } from '@hsi/ui-components';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -31,7 +31,7 @@ export class DisplaySingleSelectedComboboxExampleComponent {
   selected = new BehaviorSubject<string>(null);
   selected$ = this.selected.asObservable();
 
-  onSelection(selectedId: string): void {
-    this.selected.next(selectedId);
+  onSelection(selectedIds: string[]): void {
+    this.selected.next(selectedIds[0]);
   }
 }

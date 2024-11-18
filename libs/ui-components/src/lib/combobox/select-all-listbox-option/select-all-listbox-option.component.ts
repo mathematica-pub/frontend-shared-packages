@@ -23,17 +23,17 @@ import { ListboxComponent } from '../listbox/listbox.component';
     },
   ],
 })
-export class SelectAllListboxOptionComponent<T>
-  extends ListboxOptionComponent<T>
+export class SelectAllListboxOptionComponent
+  extends ListboxOptionComponent
   implements OnChanges, AfterViewInit
 {
   @Input() override boxDisplayLabel = 'Select all';
 
-  currentControlledOptions: ListboxOptionComponent<T>[] = [];
+  currentControlledOptions: ListboxOptionComponent[] = [];
 
   constructor(
     service: ComboboxService,
-    private listboxComponent: ListboxComponent<T>,
+    private listboxComponent: ListboxComponent,
     private destroyRef: DestroyRef
   ) {
     super(service);
@@ -44,7 +44,7 @@ export class SelectAllListboxOptionComponent<T>
     this.updateSelectAllSelected();
   }
 
-  getControlledOptions(): ListboxOptionComponent<T>[] {
+  getControlledOptions(): ListboxOptionComponent[] {
     if (this.listboxComponent.groups.toArray().length > 0) {
       return this.getControlledOptionsForGroup();
     } else {
@@ -58,7 +58,7 @@ export class SelectAllListboxOptionComponent<T>
     }
   }
 
-  getControlledOptionsForGroup(): ListboxOptionComponent<T>[] {
+  getControlledOptionsForGroup(): ListboxOptionComponent[] {
     // If there are groups, select all only works for its own group
     const groupId = this.listboxComponent.getGroupIndexFromOptionIndex(this.id);
     if (groupId > -1) {

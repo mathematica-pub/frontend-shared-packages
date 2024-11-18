@@ -11,7 +11,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter, skip } from 'rxjs';
 import {
-  ComboboxActionType,
+  ComboboxAction,
   ComboboxService,
   Key,
   ListboxAction,
@@ -111,7 +111,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     this.service.setVisualFocus(VisualFocus.textbox);
   }
 
-  getActionFromKeydownEvent(event: KeyboardEvent): ComboboxActionType {
+  getActionFromKeydownEvent(event: KeyboardEvent): ComboboxAction {
     if (!this.service.isOpen && this.openKeys.includes(event.key)) {
       return ListboxAction.open;
     }
@@ -140,7 +140,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     );
   }
 
-  getActionFromKeyEventWhenOpen(event: KeyboardEvent): ComboboxActionType {
+  getActionFromKeyEventWhenOpen(event: KeyboardEvent): ComboboxAction {
     const { key, altKey } = event;
     if (key === Key.ArrowUp && altKey) {
       return ListboxAction.closeSelect;
@@ -161,7 +161,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     }
   }
 
-  handleKeyboardAction(action: ComboboxActionType, event: KeyboardEvent): void {
+  handleKeyboardAction(action: ComboboxAction, event: KeyboardEvent): void {
     switch (action) {
       case OptionAction.first:
       case OptionAction.last:

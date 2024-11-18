@@ -13,11 +13,11 @@ import { ListboxComponent } from '../listbox/listbox.component';
     class: 'combobox-listbox-component',
   },
 })
-export class NgFormListboxMultiComponent<T>
-  extends ListboxComponent<T>
+export class NgFormListboxMultiComponent
+  extends ListboxComponent
   implements OnInit
 {
-  @Input() control: FormControl<T[]>;
+  @Input() control: FormControl<(string | number | boolean)[]>;
   override isMultiSelect = true;
 
   override emitValue(): void {

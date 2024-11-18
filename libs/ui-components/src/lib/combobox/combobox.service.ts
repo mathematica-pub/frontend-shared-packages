@@ -16,11 +16,11 @@ export enum VisualFocus {
   listbox = 'listbox',
 }
 
-export type VisualFocusType = keyof typeof VisualFocus;
+// export type VisualFocusType = keyof typeof VisualFocus;
 
 export interface KeyboardEventWithAutocomplete {
   event: KeyboardEvent;
-  autoComplete: AutoCompleteType;
+  autoComplete: AutoComplete;
   inputHasText: boolean;
 }
 
@@ -75,16 +75,13 @@ export enum AutoComplete {
   inline = 'inline',
 }
 
-export type AutoCompleteType = keyof typeof AutoComplete;
+// export type AutoCompleteType = keyof typeof AutoComplete;
 
-export type OptionActionType = keyof typeof OptionAction | string;
-export type ListboxActionType = keyof typeof ListboxAction;
-export type TextboxActionType = keyof typeof TextboxAction;
+// export type OptionActionType = keyof typeof OptionAction | string;
+// export type ListboxActionType = keyof typeof ListboxAction;
+// export type TextboxActionType = keyof typeof TextboxAction;
 
-export type ComboboxActionType =
-  | OptionActionType
-  | ListboxActionType
-  | TextboxActionType;
+export type ComboboxAction = OptionAction | ListboxAction | TextboxAction;
 
 @Injectable()
 export class ComboboxService {
@@ -97,10 +94,10 @@ export class ComboboxService {
   label$ = this.label.asObservable();
   scrollWhenOpened = false;
   comboboxElRef: ElementRef;
-  private _visualFocus: BehaviorSubject<VisualFocusType> =
-    new BehaviorSubject<VisualFocusType>(VisualFocus.textbox);
+  private _visualFocus: BehaviorSubject<VisualFocus> =
+    new BehaviorSubject<VisualFocus>(VisualFocus.textbox);
   visualFocus$ = this._visualFocus.asObservable();
-  private optionAction: Subject<OptionActionType> = new Subject();
+  private optionAction: Subject<OptionAction | string> = new Subject();
   optionAction$ = this.optionAction.asObservable();
   private blurEvent: Subject<void> = new Subject();
   blurEvent$ = this.blurEvent.asObservable();
@@ -110,11 +107,13 @@ export class ComboboxService {
   boxLabel$ = this.boxLabel.asObservable();
   private optionChanges: Subject<void> = new Subject();
   optionChanges$ = this.optionChanges.asObservable();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private _selectedOptionValues: any[] = [];
   activeDescendant$: Observable<string>;
   ignoreBlur = false;
   displayValue = true;
   isMultiSelect = false;
-  autoComplete: AutoCompleteType = AutoComplete.none;
+  autoComplete: AutoComplete = AutoComplete.none;
   autoSelect = false;
 
   constructor(private platform: Platform) {}
@@ -123,8 +122,12 @@ export class ComboboxService {
     return this._isOpen.value;
   }
 
-  get visualFocus(): VisualFocusType {
+  get visualFocus(): VisualFocus {
     return this._visualFocus.value;
+  }
+
+  get selectedOptionValues(): (string | number | boolean)[] {
+    return this._selectedOptionValues;
   }
 
   initActiveDescendant(source$?: Observable<string>): void {
@@ -167,15 +170,30 @@ export class ComboboxService {
     this.optionChanges.next();
   }
 
-  setVisualFocus(focus: VisualFocusType): void {
+  setVisualFocus(focus: VisualFocus): void {
     this._visualFocus.next(focus);
   }
 
-  emitOptionAction(action: OptionActionType): void {
+  emitOptionAction(action: OptionAction | string): void {
     this.optionAction.next(action);
   }
 
   isMobile(): boolean {
     return this.platform.ANDROID || this.platform.IOS;
+  }
+
+  // selectedOptionValues are used to retain selection state regardless of options/option filtering
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  addSelection(value: any): void {
+    if (!this._selectedOptionValues.includes(value)) {
+      this._selectedOptionValues = [...this._selectedOptionValues, value];
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  removeSelection(value: any): void {
+    this._selectedOptionValues = this._selectedOptionValues.filter(
+      (v) => v !== value
+    );
   }
 }

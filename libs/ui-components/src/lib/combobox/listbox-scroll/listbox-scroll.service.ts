@@ -22,7 +22,7 @@ export class ListboxScrollService {
     return element && element.parentElement.clientHeight < element.scrollHeight;
   }
 
-  maintainScrollVisibility(
+  maintainElementVisibility(
     activeElement: HTMLElement,
     scrollParent: HTMLElement
   ): void {

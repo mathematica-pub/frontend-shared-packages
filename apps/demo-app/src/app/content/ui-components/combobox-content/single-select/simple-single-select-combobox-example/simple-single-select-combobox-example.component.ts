@@ -31,7 +31,7 @@ export class SimpleSingleSelectComboboxExampleComponent {
   selected = new BehaviorSubject<string>(null);
   selected$ = this.selected.asObservable();
 
-  onSelection(selectedId: string): void {
-    this.selected.next(selectedId);
+  onSelection(selectedIds: string[]): void {
+    this.selected.next(selectedIds[0]);
   }
 }
