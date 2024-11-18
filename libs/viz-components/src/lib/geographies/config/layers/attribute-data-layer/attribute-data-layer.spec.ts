@@ -18,7 +18,7 @@ function createLayer(): GeographiesAttributeDataLayer<
   any
 > {
   return new GeographiesAttributeDataLayerBuilder<Datum, { name: string }>()
-    .createEqualValueRangesBinsDimension((dimension) =>
+    .equalValueRangesBins((dimension) =>
       dimension.valueAccessor((d) => d.value).numBins(5)
     )
     .geographyIndexAccessor((d) => d.state)
@@ -26,12 +26,8 @@ function createLayer(): GeographiesAttributeDataLayer<
     ._build();
 }
 
-describe('GeographiesConfig', () => {
+describe('GeographiesAttributeDataLayer', () => {
   let layer: GeographiesAttributeDataLayer<Datum, { name: string }, any>;
-
-  beforeEach(() => {
-    layer = undefined;
-  });
 
   describe('initPropertiesFromData()', () => {
     beforeEach(() => {

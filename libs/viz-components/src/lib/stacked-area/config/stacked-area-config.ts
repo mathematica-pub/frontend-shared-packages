@@ -16,35 +16,35 @@ import { MarksOptions } from '../../marks/config/marks-options';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { StackedAreaOptions } from './stacked-area-options';
 
-export class StackedAreaConfig<Datum, TCategoricalValue extends DataValue>
+export class StackedAreaConfig<Datum, CategoricalDomain extends DataValue>
   extends XyPrimaryMarksConfig<Datum>
   implements MarksOptions<Datum>
 {
-  categorical: OrdinalVisualValueDimension<Datum, TCategoricalValue>;
-  categoricalOrder: TCategoricalValue[];
+  color: OrdinalVisualValueDimension<Datum, CategoricalDomain, string>;
+  categoricalOrder: CategoricalDomain[];
   curve: CurveFactory;
   stackOrder: (
     series: Series<
-      [ContinuousValue, InternMap<TCategoricalValue, number>],
-      TCategoricalValue
+      [ContinuousValue, InternMap<CategoricalDomain, number>],
+      CategoricalDomain
     >
   ) => Iterable<number>;
   stackOffset: (
     series: Series<
-      [ContinuousValue, InternMap<TCategoricalValue, number>],
-      TCategoricalValue
+      [ContinuousValue, InternMap<CategoricalDomain, number>],
+      CategoricalDomain
     >,
     order: number[]
   ) => void;
   x: DateChartPositionDimension<Datum> | NumberChartPositionDimension<Datum>;
   y: NumberChartPositionDimension<Datum>;
   series: (SeriesPoint<
-    [ContinuousValue, InternMap<TCategoricalValue, number>]
+    [ContinuousValue, InternMap<CategoricalDomain, number>]
   > & {
     i: number;
   })[][];
 
-  constructor(options: StackedAreaOptions<Datum, TCategoricalValue>) {
+  constructor(options: StackedAreaOptions<Datum, CategoricalDomain>) {
     super();
     Object.assign(this, options);
     this.initPropertiesFromData();
@@ -60,12 +60,12 @@ export class StackedAreaConfig<Datum, TCategoricalValue extends DataValue>
   private setDimensionPropertiesFromData(): void {
     this.x.setPropertiesFromData(this.data);
     this.y.setPropertiesFromData(this.data);
-    this.categorical.setPropertiesFromData(this.data);
+    this.color.setPropertiesFromData(this.data);
   }
 
   private setValueIndicies(): void {
     this.valueIndices = range(this.x.values.length).filter((i) =>
-      this.categorical.domainIncludes(this.categorical.values[i])
+      this.color.domainIncludes(this.color.values[i])
     );
   }
 
@@ -74,16 +74,16 @@ export class StackedAreaConfig<Datum, TCategoricalValue extends DataValue>
       this.valueIndices,
       ([i]) => i,
       (i) => this.x.values[i],
-      (i) => this.categorical.values[i]
+      (i) => this.color.values[i]
     );
 
     const keys = this.categoricalOrder
       ? this.categoricalOrder.slice().reverse()
-      : this.categorical.calculatedDomain;
+      : this.color.calculatedDomain;
 
     this.series = stack<
-      [ContinuousValue, InternMap<TCategoricalValue, number>],
-      TCategoricalValue
+      [ContinuousValue, InternMap<CategoricalDomain, number>],
+      CategoricalDomain
     >()
       .keys(keys)
       .value(([, I], category) => this.y.values[I.get(category)])

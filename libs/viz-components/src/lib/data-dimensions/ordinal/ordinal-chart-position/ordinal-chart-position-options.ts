@@ -3,10 +3,10 @@ import { DataDimensionOptions } from '../../dimension-options';
 
 export interface OrdinalChartPositionDimensionOptions<
   Datum,
-  TOrdinalValue extends DataValue,
-> extends DataDimensionOptions<Datum, TOrdinalValue> {
+  Domain extends DataValue,
+> extends DataDimensionOptions<Datum, Domain> {
   align: number;
-  domain: TOrdinalValue[];
+  domain: Domain[];
   paddingInner: number;
   paddingOuter: number;
 }

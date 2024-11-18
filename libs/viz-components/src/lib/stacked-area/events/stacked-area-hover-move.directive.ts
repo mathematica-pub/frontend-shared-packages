@@ -8,7 +8,6 @@ import { HoverMoveAction } from '../../events/action';
 import { HoverMoveDirective } from '../../events/hover-move.directive';
 import { STACKED_AREA, StackedAreaComponent } from '../stacked-area.component';
 import { StackedAreaEventOutput } from './stacked-area-event-output';
-import { stackedAreaTooltipMixin } from './stacked-area-tooltip-data';
 
 @Directive({
   selector: '[vicStackedAreaHoverMoveActions]',
@@ -20,7 +19,7 @@ export class StackedAreaHoverMoveDirective<
     Datum,
     TCategoricalValue
   > = StackedAreaComponent<Datum, TCategoricalValue>,
-> extends stackedAreaTooltipMixin(HoverMoveDirective) {
+> extends HoverMoveDirective {
   @Input('vicStackedAreaHoverMoveActions')
   actions: HoverMoveAction<
     StackedAreaHoverMoveDirective<
@@ -136,12 +135,11 @@ export class StackedAreaHoverMoveDirective<
   }
 
   getTooltipData(): StackedAreaEventOutput<Datum, TCategoricalValue> {
-    const tooltipData = this.getStackedAreaTooltipData(
+    const tooltipData = this.stackedArea.getTooltipData(
       this.closestXIndicies,
       this.categoryYMin,
       this.categoryYMax,
-      this.categoryIndex,
-      this.stackedArea
+      this.categoryIndex
     );
     tooltipData.svgHeight = this.elements[0].clientHeight;
     return tooltipData;

@@ -120,12 +120,12 @@ describe('the Custom Breaks Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCustomBreaksBinsDimension((bins) =>
+            .customBreaksBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .breakValues(breakValues)
@@ -168,12 +168,12 @@ describe('the Custom Breaks Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCustomBreaksBinsDimension((bins) =>
+            .customBreaksBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .breakValues(breakValues)
@@ -220,12 +220,12 @@ describe('the Custom Breaks Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCustomBreaksBinsDimension((bins) =>
+            .customBreaksBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .breakValues([
@@ -286,12 +286,12 @@ describe('the Custom Breaks Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(dataWithFalsyValues)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCustomBreaksBinsDimension((bins) =>
+            .customBreaksBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .breakValues(breakValues)
@@ -336,12 +336,12 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         .boundary(usBoundary)
         .projection(geoMercator())
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCustomBreaksBinsDimension((bins) =>
+            .customBreaksBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .breakValues(breakValues)

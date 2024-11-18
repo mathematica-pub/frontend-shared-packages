@@ -92,7 +92,10 @@ export class GeographiesComponent<
 
   setProjection(): void {
     this.projection = this.config.projection.fitSize(
-      [this.ranges.x[1], this.ranges.y[0]],
+      [
+        this.ranges.x[1] - this.ranges.x[0],
+        this.ranges.y[0] - this.ranges.y[1],
+      ],
       this.config.boundary
     );
   }
@@ -124,6 +127,10 @@ export class GeographiesComponent<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   drawLayers(t: any): void {
     const layerGroup = select(this.elRef.nativeElement)
+      .style(
+        'transform',
+        `translate(${this.chart.margin.left}px, ${this.chart.margin.top}px)`
+      )
       .selectAll<
         SVGGElement,
         | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
@@ -182,8 +189,12 @@ export class GeographiesComponent<
               )
               // layer-index is used on event directives
               .attr('data-layer-index', layer.id)
-              .attr('stroke', layer.strokeColor)
-              .attr('stroke-width', layer.strokeWidth)
+              .attr('stroke', layer.stroke.color)
+              .attr('stroke-dasharray', layer.stroke.dasharray)
+              .attr('stroke-linecap', layer.stroke.linecap)
+              .attr('stroke-join', layer.stroke.linejoin)
+              .attr('stroke-opacity', layer.stroke.opacity)
+              .attr('stroke-width', layer.stroke.width)
               .attr('fill', (feature) => layer.getFill(feature)),
           (update) =>
             update.call((update) =>
@@ -192,10 +203,15 @@ export class GeographiesComponent<
                 .attr('class', (feature) =>
                   this.formatForClassName(layer.featureIndexAccessor(feature))
                 )
-                .attr('stroke', layer.strokeColor)
-                .attr('stroke-width', layer.strokeWidth)
+                .attr('data-layer-index', layer.id)
                 .transition(t)
                 .attr('fill', (feature) => layer.getFill(feature))
+                .attr('stroke', layer.stroke.color)
+                .attr('stroke-dasharray', layer.stroke.dasharray)
+                .attr('stroke-linecap', layer.stroke.linecap)
+                .attr('stroke-join', layer.stroke.linejoin)
+                .attr('stroke-opacity', layer.stroke.opacity)
+                .attr('stroke-width', layer.stroke.width)
             ),
           (exit) => exit.remove()
         );

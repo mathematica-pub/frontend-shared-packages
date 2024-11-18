@@ -1,13 +1,6 @@
 /* eslint-disable @angular-eslint/no-input-rename */
 /* eslint-disable @angular-eslint/no-output-rename */
-import {
-  Directive,
-  ElementRef,
-  EventEmitter,
-  Inject,
-  Input,
-  Output,
-} from '@angular/core';
+import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { filter } from 'rxjs';
@@ -16,7 +9,6 @@ import { HoverMoveAction } from '../../events/action';
 import { HoverMoveDirective } from '../../events/hover-move.directive';
 import { BarDatum, BARS, BarsComponent } from '../bars.component';
 import { BarsEventOutput } from './bars-event-output';
-import { barsTooltipMixin } from './bars-tooltip';
 
 @Directive({
   selector: '[vicBarsHoverMoveActions]',
@@ -28,7 +20,7 @@ export class BarsHoverMoveDirective<
     Datum,
     TOrdinalValue
   >,
-> extends barsTooltipMixin(HoverMoveDirective) {
+> extends HoverMoveDirective {
   @Input('vicBarsHoverMoveActions')
   actions: HoverMoveAction<
     BarsHoverMoveDirective<Datum, TOrdinalValue, TBarsComponent>
@@ -37,7 +29,7 @@ export class BarsHoverMoveDirective<
     BarsEventOutput<Datum, TOrdinalValue>
   >();
   barDatum: BarDatum<TOrdinalValue>;
-  elRef: ElementRef;
+  origin: SVGRectElement;
   pointerX: number;
   pointerY: number;
 
@@ -59,8 +51,8 @@ export class BarsHoverMoveDirective<
 
   onElementPointerEnter(event: PointerEvent): void {
     if (!this.preventAction) {
+      this.origin = event.target as SVGRectElement;
       this.barDatum = this.getBarDatum(event);
-      this.elRef = new ElementRef(event.target);
     }
     if (this.actions && !this.preventAction) {
       this.actions.forEach((action) => {
@@ -89,16 +81,13 @@ export class BarsHoverMoveDirective<
       this.actions.forEach((action) => action.onEnd(this));
     }
     this.barDatum = undefined;
-    this.elRef = undefined;
+    this.origin = undefined;
   }
 
   getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
-    const tooltipData = this.getBarsTooltipData(
-      this.barDatum,
-      this.elRef,
-      this.bars
-    );
+    const tooltipData = this.bars.getTooltipData(this.barDatum);
     const extras = {
+      origin: this.origin,
       positionX: this.pointerX,
       positionY: this.pointerY,
     };

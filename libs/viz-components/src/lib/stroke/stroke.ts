@@ -1,13 +1,11 @@
+import { StrokeBase } from './base/stroke-base';
 import { StrokeOptions } from './stroke-options';
 
-export class Stroke implements StrokeOptions {
-  readonly linecap: string;
-  readonly linejoin: string;
-  readonly opacity: number;
-  readonly width: number;
-  readonly dasharray: string;
+export class Stroke extends StrokeBase implements StrokeOptions {
+  readonly color: string;
 
-  constructor(options?: Partial<StrokeOptions>) {
+  constructor(options: Partial<StrokeOptions>) {
+    super();
     Object.assign(this, options);
   }
 }

@@ -29,15 +29,9 @@ describe('StackedAreaComponent', () => {
         { date: new Date('2020-01-02'), value: 5, category: 'b' },
         { date: new Date('2020-01-03'), value: 6, category: 'b' },
       ])
-      .createYNumericDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
-      )
-      .createXDateDimension((dimension) =>
-        dimension.valueAccessor((d) => d.date)
-      )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.category)
-      )
+      .y((dimension) => dimension.valueAccessor((d) => d.value))
+      .xDate((dimension) => dimension.valueAccessor((d) => d.date))
+      .color((dimension) => dimension.valueAccessor((d) => d.category))
       .getConfig();
   });
 

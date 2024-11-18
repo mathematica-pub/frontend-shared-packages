@@ -1,36 +1,33 @@
 import { InternSet, scaleOrdinal } from 'd3';
-import { DataValue } from '../../../core/types/values';
+import { DataValue, VisualValue } from '../../../core/types/values';
 import { FillDef } from '../../../fill-defs/fill-def';
 import { DataDimension } from '../../dimension';
 import { OrdinalVisualValueDimensionOptions } from './ordinal-visual-value-options';
 
-export type VicCategoricalScale<Domain, Range = string> = (
-  category: Domain
-) => Range;
-
 export class OrdinalVisualValueDimension<
   Datum,
-  TCategoricalValue extends DataValue = string,
-> extends DataDimension<Datum, TCategoricalValue> {
-  private _calculatedDomain: TCategoricalValue[];
-  private readonly domain: TCategoricalValue[];
+  Domain extends DataValue,
+  Range extends VisualValue,
+> extends DataDimension<Datum, Domain> {
+  private _calculatedDomain: Domain[];
+  private readonly domain: Domain[];
   readonly fillDefs: FillDef<Datum>[];
-  private internSetDomain: InternSet<TCategoricalValue>;
-  readonly range: string[];
-  private scale: VicCategoricalScale<TCategoricalValue>;
+  private internSetDomain: InternSet<Domain>;
+  readonly range: Range[];
+  private scale: (category: Domain) => Range;
 
   constructor(
-    options: OrdinalVisualValueDimensionOptions<Datum, TCategoricalValue>
+    options: OrdinalVisualValueDimensionOptions<Datum, Domain, Range>
   ) {
     super();
     Object.assign(this, options);
   }
 
-  get calculatedDomain(): TCategoricalValue[] {
+  get calculatedDomain(): Domain[] {
     return this._calculatedDomain;
   }
 
-  getScale(): VicCategoricalScale<TCategoricalValue> {
+  getScale(): (category: Domain) => Range {
     return this.scale;
   }
 
@@ -55,7 +52,7 @@ export class OrdinalVisualValueDimension<
     }
   }
 
-  domainIncludes(value: TCategoricalValue): boolean {
+  domainIncludes(value: Domain): boolean {
     return this.internSetDomain.has(value);
   }
 }

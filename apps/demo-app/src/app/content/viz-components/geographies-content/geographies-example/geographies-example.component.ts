@@ -81,7 +81,7 @@ export class GeographiesExampleComponent implements OnInit {
   >;
   width = 700;
   height = 400;
-  margin: ElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
+  margin: ElementSpacing = { top: 16, right: 40, bottom: 0, left: 40 };
   outlineColor = colors.base;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
@@ -161,9 +161,9 @@ export class GeographiesExampleComponent implements OnInit {
     const config = this.geographies
       .boundary(this.basemap.us)
       .featureIndexAccessor(this.featureIndexAccessor)
-      .createGeojsonPropertiesLayer((layer) => this.getUsOutlineConfig(layer))
-      .createGeojsonPropertiesLayer((layer) => this.getNoDataLayer(data, layer))
-      .createAttributeDataLayer((layer) => this.getDataLayer(data, layer))
+      .geojsonPropertiesLayer((layer) => this.getUsOutlineConfig(layer))
+      .geojsonPropertiesLayer((layer) => this.getNoDataLayer(data, layer))
+      .attributeDataLayer((layer) => this.getDataLayer(data, layer))
       .getConfig();
     return config;
   }
@@ -173,9 +173,8 @@ export class GeographiesExampleComponent implements OnInit {
   ): GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
     return layer
       .geographies(this.basemap.us.features)
-      .strokeColor(colors.base)
-      .strokeWidth('1')
-      .createCategoricalDimension((dimension) =>
+      .stroke((stroke) => stroke.color(colors.base).width(1))
+      .fillGeojsonProperties((dimension) =>
         dimension.valueAccessor((d) => d.properties.name).range(['none'])
       );
   }
@@ -192,10 +191,10 @@ export class GeographiesExampleComponent implements OnInit {
       d.properties.id;
     return layer
       .geographies(features)
-      .createCategoricalDimension((dimension) =>
+      .fillGeojsonProperties((dimension) =>
         dimension.range(['lightgray']).valueAccessor(this.featureIndexAccessor)
       )
-      .createLabels((labels) =>
+      .labels((labels) =>
         labels
           .valueAccessor(valueAccessor)
           .display(
@@ -265,7 +264,7 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createCategoricalBinsDimension((dimension) =>
+      .categoricalBins((dimension) =>
         dimension
           .valueAccessor((d) =>
             d.income > 75000 ? 'high' : d.income > 60000 ? 'middle' : 'low'
@@ -273,7 +272,7 @@ export class GeographiesExampleComponent implements OnInit {
           .range(['sandybrown', 'mediumseagreen', colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getCustomBreaksLayer(
@@ -291,7 +290,7 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createCustomBreaksBinsDimension((dimension) =>
+      .customBreaksBins((dimension) =>
         dimension
           .valueAccessor((d) => d.income)
           .formatSpecifier(`$${valueFormat.integer}`)
@@ -299,7 +298,7 @@ export class GeographiesExampleComponent implements OnInit {
           .range([colors.white, colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getEqualValueRangesLayer(
@@ -317,7 +316,7 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createEqualValueRangesBinsDimension((dimension) =>
+      .equalValueRangesBins((dimension) =>
         dimension
           .valueAccessor((d) => d.income)
           .formatSpecifier(`$${valueFormat.integer}`)
@@ -325,7 +324,7 @@ export class GeographiesExampleComponent implements OnInit {
           .range([colors.white, colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getEqualFrequenciesLayer(
@@ -340,7 +339,7 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createEqualFrequenciesBinsDimension((dimension) =>
+      .equalFrequenciesBins((dimension) =>
         dimension
           .valueAccessor((d) => d.income)
           .formatSpecifier(`$${valueFormat.integer}`)
@@ -348,7 +347,7 @@ export class GeographiesExampleComponent implements OnInit {
           .range([colors.white, colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getNoBinsLayer(
@@ -366,14 +365,14 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createNoBinsDimension((dimension) =>
+      .noBins((dimension) =>
         dimension
           .valueAccessor((d) => d.income)
           .formatSpecifier(`$${valueFormat.integer}`)
           .range([colors.white, colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getLabels(
@@ -426,10 +425,13 @@ export class GeographiesExampleComponent implements OnInit {
     eventContext: 'hover' | 'click'
   ): void {
     const config = this.tooltip
-      .setSize((size) => size.minWidth(130))
-      .createOffsetFromOriginPosition((position) =>
-        position.offsetX(data?.positionX).offsetY(data?.positionY)
-      )
+      .size((size) => size.minWidth(130))
+      .geographiesPosition(data?.origin, [
+        {
+          offsetX: data?.positionX,
+          offsetY: data ? data.positionY - 16 : undefined,
+        },
+      ])
       .hasBackdrop(eventContext === 'click')
       .show(!!data)
       .getConfig();

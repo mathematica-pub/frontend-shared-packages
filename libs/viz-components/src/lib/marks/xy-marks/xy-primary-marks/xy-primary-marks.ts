@@ -25,7 +25,6 @@ export abstract class VicXyPrimaryMarks<
   requiredScales: (keyof typeof XyContentScale)[] = [
     XyContentScale.x,
     XyContentScale.y,
-    XyContentScale.categorical,
   ];
   public override chart = inject(XyChartComponent);
 
@@ -57,7 +56,9 @@ export abstract class VicXyPrimaryMarks<
         filter((scales) => !!scales)
       )
       .subscribe((scales): void => {
-        this.scales = scales;
+        this.scales.x = scales.x;
+        this.scales.y = scales.y;
+        this.scales.useTransition = scales.useTransition;
         this.drawMarks();
       });
   }
