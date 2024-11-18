@@ -26,6 +26,7 @@ import {
 })
 export class TextboxComponent implements OnInit, AfterViewInit {
   @Input() displaySelected = false;
+  @Input() findsOptionOnTyping = true;
   @Input() ariaLabel?: string;
   @ViewChild('box') box: ElementRef<HTMLDivElement>;
   @ViewChild('boxIcon') boxIcon: ElementRef<HTMLDivElement>;
@@ -119,7 +120,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     if (event.key === Key.End) {
       return OptionAction.last;
     }
-    if (this.isTypingCharacter(event)) {
+    if (this.findsOptionOnTyping && this.isTypingCharacter(event)) {
       return TextboxAction.type;
     }
     if (this.service.isOpen) {
