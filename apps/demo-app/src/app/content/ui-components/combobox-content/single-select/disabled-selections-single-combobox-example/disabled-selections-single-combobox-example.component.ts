@@ -18,15 +18,15 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DisabledSelectionsSingleExampleComponent {
   options = [
-    { displayName: 'Ratatouille', id: 'rat' },
-    { displayName: 'Finding Nemo', id: 'nemo' },
-    { displayName: 'Toy Story', id: 'toy' },
-    { displayName: 'Monsters Inc.', id: 'monstersInc' },
-    { displayName: 'WALL-E', id: 'robot' },
-    { displayName: 'Cars', id: 'cars' },
-    { displayName: 'The Incredibles', id: 'incredibles' },
-    { displayName: 'Inside Out', id: 'insideOut' },
-    { displayName: 'Up', id: 'up' },
+    { displayName: 'Ratatouille', id: 'rat', disabled: true },
+    { displayName: 'Finding Nemo', id: 'nemo', disabled: false },
+    { displayName: 'Toy Story', id: 'toy', disabled: false },
+    { displayName: 'Monsters Inc.', id: 'monstersInc', disabled: true },
+    { displayName: 'WALL-E', id: 'robot', disabled: false },
+    { displayName: 'Cars', id: 'cars', disabled: false },
+    { displayName: 'The Incredibles', id: 'incredibles', disabled: false },
+    { displayName: 'Inside Out', id: 'insideOut', disabled: false },
+    { displayName: 'Up', id: 'up', disabled: false },
   ];
   selected = new BehaviorSubject<string>(null);
   selected$ = this.selected.asObservable();

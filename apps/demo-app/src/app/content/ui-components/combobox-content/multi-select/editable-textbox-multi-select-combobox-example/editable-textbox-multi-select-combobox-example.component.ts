@@ -22,13 +22,13 @@ export class EditableTextboxMultiSelectComboboxExampleComponent
   implements OnInit
 {
   options = [
-    { displayName: 'Cambridge', id: 'cambridge', disabled: true },
-    { displayName: 'Washington, D.C.', id: 'dc', disabled: true },
-    { displayName: 'Oakland', id: 'oakland', disabled: false },
-    { displayName: 'Chicago', id: 'chicago', disabled: false },
-    { displayName: 'Ann Arbor', id: 'annArbor', disabled: true },
-    { displayName: 'Woodlawn', id: 'woodlawn', disabled: false },
-    { displayName: 'Princeton', id: 'princeton', disabled: true },
+    { displayName: 'Cambridge', id: 'cambridge' },
+    { displayName: 'Washington, D.C.', id: 'dc' },
+    { displayName: 'Oakland', id: 'oakland' },
+    { displayName: 'Chicago', id: 'chicago' },
+    { displayName: 'Ann Arbor', id: 'annArbor' },
+    { displayName: 'Woodlawn', id: 'woodlawn' },
+    { displayName: 'Princeton', id: 'princeton' },
   ];
   options$: Observable<
     { displayName: string; id: string; disabled: boolean }[]
