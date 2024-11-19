@@ -7,7 +7,7 @@ describe('DateChartPositionDimension', () => {
   beforeEach(() => {
     dimension = new DateChartPositionDimensionBuilder<Date>()
       .valueAccessor((d) => d)
-      ._build();
+      ._build('Test');
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

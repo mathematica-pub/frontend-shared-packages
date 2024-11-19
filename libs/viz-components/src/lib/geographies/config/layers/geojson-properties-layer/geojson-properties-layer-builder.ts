@@ -13,11 +13,11 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
-  private categoricalBuilder: OrdinalVisualValueDimensionBuilder<
+  private fillBuilder: OrdinalVisualValueDimensionBuilder<
     GeographiesFeature<TProperties, TGeometry>,
+    string,
     string
   >;
-  private _fill: string;
 
   constructor() {
     super();
@@ -25,47 +25,54 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
   }
 
   /**
-   * Set a fill color for all geographies in the layer.
+   * OPTIONAL: Set a fill color for all geographies in the layer.
    *
-   * To set a fill color based on a geography's geojson properties, use the `createCategoricalDimension` method.
+   * To set a fill color based on a geography's geojson properties, use the `fillGeojsonProperties` method.
    *
    * @default 'none'
    */
   fill(fill: string): this {
-    this._fill = fill;
+    this.initFillBuilder();
+    this.fillBuilder.valueAccessor(() => null).range([fill]);
     return this;
   }
 
-  createCategoricalDimension(
+  fillGeojsonProperties(
     setProperties: (
       builder: OrdinalVisualValueDimensionBuilder<
         GeographiesFeature<TProperties, TGeometry>,
+        string,
         string
       >
     ) => void
   ): this {
-    this.initCategricalBuilder();
-    if (setProperties) {
-      setProperties(this.categoricalBuilder);
-    }
-    setProperties(this.categoricalBuilder);
+    this.initFillBuilder();
+    setProperties(this.fillBuilder);
     return this;
   }
 
-  private initCategricalBuilder(): void {
-    this.categoricalBuilder = new OrdinalVisualValueDimensionBuilder();
+  private initFillBuilder(): void {
+    this.fillBuilder = new OrdinalVisualValueDimensionBuilder();
   }
 
   _build(): GeographiesGeojsonPropertiesLayer<TProperties, TGeometry> {
+    this.validateBuilder();
     return new GeographiesGeojsonPropertiesLayer({
-      categorical: this.categoricalBuilder?._build(),
       class: this._class,
       enableEventActions: this._enableEventActions,
-      fill: this._fill,
+      fill: this.fillBuilder._build('Fill'),
       geographies: this._geographies,
       labels: this.labelsBuilder?._build(),
-      strokeColor: this._strokeColor,
-      strokeWidth: this._strokeWidth,
+      stroke: this.strokeBuilder?._build(),
     });
+  }
+
+  validateBuilder(): void {
+    if (!this.fillBuilder) {
+      this.initFillBuilder();
+    }
+    if (!this.strokeBuilder) {
+      this.initStrokeBuilder();
+    }
   }
 }

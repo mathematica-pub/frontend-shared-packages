@@ -59,6 +59,21 @@ class MyConfig<G extends MySpecialJsonGeometry> {
 }
 ```
 
+#### User-exposed method names in builder classes
+
+The names of the various methods in the builder classes are exposed to users and constitute the
+library's programming interface. Extra care should be taken to make sure those names are descriptive
+and precise.
+
+The names of these methods should help the user understand what they can expect to _see_ from
+whatever they provide to the method. For example, a dimension that uses categorical values to set
+the color of the marks should be called `color` rather than `categoricalData`.
+
+For naming color setting methods in particular, if we anticipate the user setting both the stroke
+and fill of the SVG elements, we should use the term `fill`. Otherwise, if the user will only set
+the fill color of the elements, we should use the term `color`. For example, geographies, which we
+expect to have a visible stroke, should use `fill`, where as bars should use `color`.
+
 ### Interface/Class Properties
 
 Properties on interfaces and classes should be in alphabetical order (among analogous properties)

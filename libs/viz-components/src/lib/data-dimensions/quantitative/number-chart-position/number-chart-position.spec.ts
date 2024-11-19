@@ -7,7 +7,7 @@ describe('NumberChartPositionDimension', () => {
   beforeEach(() => {
     dimension = new NumberChartPositionDimensionBuilder<number>()
       .valueAccessor((d) => d)
-      ._build();
+      ._build('Test');
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

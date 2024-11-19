@@ -17,12 +17,10 @@ const data = [
 function getNewConfig(): BarsConfig<Datum, string> {
   return new VicBarsConfigBuilder<Datum, string>()
     .data(data)
-    .orientation('horizontal')
-    .createQuantitativeDimension((dimension) =>
-      dimension.valueAccessor((d) => d.value)
-    )
-    .createOrdinalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.state)
+    .horizontal((bars) =>
+      bars
+        .x((dimension) => dimension.valueAccessor((d) => d.value))
+        .y((dimension) => dimension.valueAccessor((d) => d.state))
     )
     .getConfig();
 }
@@ -84,9 +82,7 @@ describe('BarsConfig', () => {
       );
     });
     it('calls categorical.setPropertiesFromData once', () => {
-      expect(config.categorical.setPropertiesFromData).toHaveBeenCalledOnceWith(
-        data
-      );
+      expect(config.color.setPropertiesFromData).toHaveBeenCalledOnceWith(data);
     });
   });
 
@@ -103,12 +99,12 @@ describe('BarsConfig', () => {
     it('sets valueIndices to the correct array when ordinal domain is limited by user', () => {
       config = new VicBarsConfigBuilder<Datum, string>()
         .data(data)
-        .orientation('horizontal')
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value)
-        )
-        .createOrdinalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.state).domain(['AL', 'AZ', 'CA'])
+        .horizontal((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.value))
+            .y((dimension) =>
+              dimension.valueAccessor((d) => d.state).domain(['AL', 'AZ', 'CA'])
+            )
         )
         .getConfig();
       (config as any).setDimensionPropertiesFromData();

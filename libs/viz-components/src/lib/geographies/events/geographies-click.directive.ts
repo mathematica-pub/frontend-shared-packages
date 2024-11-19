@@ -122,6 +122,7 @@ export class GeographiesClickDirective<
     const tooltipData = this.layer.getTooltipData(this.path);
     return {
       ...tooltipData,
+      origin: this.path,
       positionX: this.pointerX,
       positionY: this.pointerY,
     };

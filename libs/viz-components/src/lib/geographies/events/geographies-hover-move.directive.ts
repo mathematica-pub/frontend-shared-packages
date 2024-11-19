@@ -34,7 +34,7 @@ export class GeographiesHoverMoveDirective<
   layer:
     | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
     | GeographiesGeojsonPropertiesLayer<TProperties, TGeometry>;
-  path: SVGPathElement;
+  origin: SVGPathElement;
   pointerX: number;
   pointerY: number;
 
@@ -56,8 +56,8 @@ export class GeographiesHoverMoveDirective<
 
   onElementPointerEnter(event: PointerEvent): void {
     if (this.actions && !this.preventAction) {
-      this.path = event.target as SVGPathElement;
-      const layerIndex = parseFloat(this.path.dataset['layerIndex']);
+      this.origin = event.target as SVGPathElement;
+      const layerIndex = parseFloat(this.origin.dataset['layerIndex']);
       this.layer =
         layerIndex === 0
           ? this.geographies.config.attributeDataLayer
@@ -84,9 +84,10 @@ export class GeographiesHoverMoveDirective<
   }
 
   getEventOutput(): GeographiesEventOutput<Datum | undefined> {
-    const tooltipData = this.layer.getTooltipData(this.path);
+    const tooltipData = this.layer.getTooltipData(this.origin);
     const output = {
       ...tooltipData,
+      origin: this.origin,
       positionX: this.pointerX,
       positionY: this.pointerY,
     };
