@@ -96,7 +96,7 @@ export class VicGeographiesConfigBuilder<
    *
    * Multiple layers can be used to draw different parts of the map with different styles.
    */
-  createGeojsonPropertiesLayer(
+  geojsonPropertiesLayer(
     setProperties: (
       builder: GeographiesGeojsonPropertiesLayerBuilder<TProperties, TGeometry>
     ) => void
@@ -117,7 +117,7 @@ export class VicGeographiesConfigBuilder<
    *
    * This method can be called only once.
    */
-  createAttributeDataLayer(
+  attributeDataLayer(
     setProperties: (
       builder: GeographiesAttributeDataLayerBuilder<
         Datum,

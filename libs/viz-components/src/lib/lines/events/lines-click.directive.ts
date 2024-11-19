@@ -18,7 +18,6 @@ import { LinesEventOutput } from './lines-event-output';
 import { LinesHoverMoveDirective } from './lines-hover-move.directive';
 import { LinesHoverDirective } from './lines-hover.directive';
 import { LinesInputEventDirective } from './lines-input-event.directive';
-import { linesTooltipMixin } from './lines-tooltip-data';
 
 @Directive({
   selector: '[vicLinesChartClickActions]',
@@ -26,7 +25,7 @@ import { linesTooltipMixin } from './lines-tooltip-data';
 export class LinesClickDirective<
   Datum,
   ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> extends linesTooltipMixin(ClickDirective) {
+> extends ClickDirective {
   @Input('vicLinesChartClickActions')
   actions: EventAction<LinesClickDirective<Datum, ExtendedLinesComponent>>[];
   @Input('vicLinesChartClickRemoveEvent$')
@@ -76,9 +75,8 @@ export class LinesClickDirective<
       );
     }
     if (this.hoverAndMoveDirective.closestPointIndex) {
-      const data = this.getLinesTooltipData(
-        this.hoverAndMoveDirective.closestPointIndex,
-        this.lines
+      const data = this.lines.getTooltipData(
+        this.hoverAndMoveDirective.closestPointIndex
       );
       return data;
     } else {
