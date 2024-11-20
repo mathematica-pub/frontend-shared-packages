@@ -4,7 +4,7 @@
   [style.--max-height]="maxHeight > height ? maxHeight : height"
   [style.--height]="height"
   [style.--overflow-y]="
-    scrollOnOverflow || (selectedTabIndex$ | async) > 0 ? 'auto' : 'visible'
+    exampleTabCanScroll || (selectedTabIndex$ | async) > 0 ? 'auto' : 'visible'
   "
 >
   <hsi-ui-tabs (tabChange)="onTabChange($event)">
