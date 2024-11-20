@@ -225,7 +225,10 @@ export class ListboxComponent
   shouldAutoSelectOptionOnBlur(activeIndex: number) {
     const activeIndexOptionIsSelected =
       this.allOptionsArray[activeIndex]?.isSelected();
-    return this.service.autoSelect && !activeIndexOptionIsSelected;
+    return (
+      this.service.shouldAutoSelectOnListboxClose &&
+      !activeIndexOptionIsSelected
+    );
   }
 
   setOptionAction() {
@@ -353,7 +356,7 @@ export class ListboxComponent
 
   setActiveIndexToFirstSelected(isInit = false): void {
     let firstSelected = this.allOptionsArray.findIndex((x) => x.isSelected());
-    if (firstSelected === -1 && this.service.autoSelect) {
+    if (firstSelected === -1 && this.service.shouldAutoSelectOnListboxClose) {
       firstSelected = 0;
     }
     if (firstSelected > -1) {

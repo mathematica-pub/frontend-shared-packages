@@ -114,7 +114,7 @@ export class ComboboxService {
   displayValue = true;
   isMultiSelect = false;
   autoComplete: AutoComplete = AutoComplete.none;
-  autoSelect = false;
+  shouldAutoSelectOnListboxClose = false;
 
   constructor(private platform: Platform) {}
 

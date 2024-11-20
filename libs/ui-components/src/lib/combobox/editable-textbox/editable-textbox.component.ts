@@ -40,7 +40,7 @@ export class EditableTextboxComponent
 
   override ngOnInit(): void {
     super.ngOnInit();
-    this.service.autoSelect =
+    this.service.shouldAutoSelectOnListboxClose =
       this.autoSelect && this.autoSelectTrigger === 'any';
   }
 
@@ -55,7 +55,7 @@ export class EditableTextboxComponent
     if (value === '') {
       this.setAutoSelectWhenInputIsEmpty();
     } else {
-      this.service.autoSelect = this.autoSelect;
+      this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
     }
     this.textboxValue.emit(value);
   }
@@ -70,7 +70,7 @@ export class EditableTextboxComponent
         if (inputValue === '') {
           this.setAutoSelectWhenInputIsEmpty();
         } else {
-          this.service.autoSelect = this.autoSelect;
+          this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
         }
       }
     }
@@ -78,7 +78,7 @@ export class EditableTextboxComponent
   }
 
   protected setAutoSelectWhenInputIsEmpty(): void {
-    this.service.autoSelect = this.autoSelect
+    this.service.shouldAutoSelectOnListboxClose = this.autoSelect
       ? this.autoSelectTrigger === 'any'
       : false;
   }
@@ -104,7 +104,9 @@ export class EditableTextboxComponent
     } else if (
       event.key === Key.Enter &&
       this.service.visualFocus === VisualFocus.textbox &&
-      (this.service.autoSelect ? !this.service.isOpen : true)
+      (this.service.shouldAutoSelectOnListboxClose
+        ? !this.service.isOpen
+        : true)
     ) {
       return ListboxAction.close;
     } else {

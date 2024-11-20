@@ -42,7 +42,7 @@ export class NgFormEditableTextboxComponent
           if (value === '') {
             this.setAutoSelectWhenInputIsEmpty();
           } else {
-            this.service.autoSelect = this.autoSelect;
+            this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
           }
         }
       });
