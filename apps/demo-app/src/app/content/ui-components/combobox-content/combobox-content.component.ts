@@ -37,4 +37,6 @@ import { SimpleSingleSelectComboboxExampleComponent } from './single-select/simp
   styleUrls: ['../../examples.scss', './combobox-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ComboboxContentComponent {}
+export class ComboboxContentComponent {
+  exampleHeight = '300px';
+}
