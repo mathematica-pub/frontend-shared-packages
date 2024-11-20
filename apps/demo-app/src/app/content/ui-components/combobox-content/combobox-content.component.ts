@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SinglePanelExampleDisplayComponent } from '../../../platform/single-panel-example-display/single-panel-example-display.component';
-import { SplitPanelExampleDisplayComponent } from '../../../platform/split-panel-example-display/split-panel-example-display.component';
 import { ContentContainerComponent } from '../../content-container/content-container.component';
 import { DisabledSelectionsMultiComboboxExampleComponent } from './multi-select/disabled-selections-multi-combobox-example/disabled-selections-multi-combobox-example.component';
 import { DisplayMultiSelectedComboboxExampleComponent } from './multi-select/display-multi-selected-combobox-example/display-multi-selected-combobox-example.component';
@@ -20,7 +19,6 @@ import { SimpleSingleSelectComboboxExampleComponent } from './single-select/simp
   imports: [
     CommonModule,
     SinglePanelExampleDisplayComponent,
-    SplitPanelExampleDisplayComponent,
     SimpleMultiSelectComboboxExampleComponent,
     DisplayMultiSelectedComboboxExampleComponent,
     DisabledSelectionsMultiComboboxExampleComponent,
@@ -38,5 +36,5 @@ import { SimpleSingleSelectComboboxExampleComponent } from './single-select/simp
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComboboxContentComponent {
-  exampleHeight = '300px';
+  exampleHeight = '370px';
 }
