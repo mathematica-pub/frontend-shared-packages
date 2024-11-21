@@ -1,6 +1,6 @@
 import { CurveFactory } from 'd3';
-import { DateChartPositionDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
-import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
+import { DateChartPositionDimension } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position';
+import { NumberChartPositionDimension } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position';
 import { MarksOptions } from '../../marks/config/marks-options';
 import { PointMarkers } from '../../point-markers/point-markers';
 import { AreaFills } from './area-fills/area-fills';

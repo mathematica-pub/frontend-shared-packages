@@ -202,7 +202,7 @@ export class BarsExampleComponent implements OnInit {
       .barsPosition(data?.origin, [
         {
           offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 16 : undefined,
+          offsetY: data ? data.positionY - 12 : undefined,
         },
       ])
       .show(!!data)

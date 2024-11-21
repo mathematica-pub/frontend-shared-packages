@@ -7,6 +7,7 @@ export * from './lib/charts/index';
 export * from './lib/core/index';
 export * from './lib/data-dimensions/index';
 export * from './lib/data-export/index';
+export * from './lib/dots/index';
 export * from './lib/events/index';
 export * from './lib/fill-defs/index';
 export * from './lib/geographies/index';

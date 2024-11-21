@@ -1,6 +1,7 @@
 import { DataValue } from '../../../../../../core/types/values';
 import { DataDimension } from '../../../../../../data-dimensions/dimension';
 import { FillDef } from '../../../../../../fill-defs/fill-def';
+import { BinStrategy } from '../attribute-data-bin-enums';
 import { AttributeDataDimensionOptions } from './attribute-data-dimension-options';
 
 /**
@@ -16,6 +17,7 @@ export abstract class AttributeDataDimension<
   extends DataDimension<Datum, AttributeValue>
   implements AttributeDataDimensionOptions<Datum, AttributeValue, RangeValue>
 {
+  binType: BinStrategy;
   fillDefs: FillDef<Datum>[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolator: (...args: any) => any;
@@ -25,4 +27,8 @@ export abstract class AttributeDataDimension<
   scale: (...args: any) => any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract getScale(): any;
+
+  constructor(dimensionType: 'number' | 'ordinal' | 'date') {
+    super(dimensionType);
+  }
 }
