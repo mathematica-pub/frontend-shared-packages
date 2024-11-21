@@ -1,0 +1,20 @@
+<hsi-ui-combobox class="office-locations-dropdown">
+  <hsi-ui-combobox-label>
+    <span>Mathematica Office Locations Combobox</span>
+  </hsi-ui-combobox-label>
+  <hsi-ui-textbox>
+    <p boxLabel>Select the office locations you've been to!</p>
+    <span class="material-symbols-outlined expand-more" boxIcon>
+      expand_more
+    </span>
+  </hsi-ui-textbox>
+  <hsi-ui-ng-form-listbox-multi [control]="control">
+    <hsi-ui-listbox-label>
+      <span>Select your favorite Pixar movie</span>
+    </hsi-ui-listbox-label>
+    <hsi-ui-listbox-option *ngFor="let option of options" [value]="option.id">{{
+      option.displayName
+    }}</hsi-ui-listbox-option>
+  </hsi-ui-ng-form-listbox-multi>
+</hsi-ui-combobox>
+<p class="combobox-value">Selected id values: {{ control.value.join(', ') }}</p>
