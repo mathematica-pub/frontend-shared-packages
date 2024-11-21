@@ -16,9 +16,7 @@ import {
   AdkActiveHeadingTracker,
   AdkDocumentIndexComponent,
   AdkHtmlHeader,
-  AdkParsedDocumentation,
 } from '@hsi/app-dev-kit';
-import { Observable } from 'rxjs';
 import { ContentFilesService } from '../../core/services/content-files.service';
 import { ContentSection } from '../../core/services/content-parser.service';
 
@@ -33,7 +31,6 @@ import { ContentSection } from '../../core/services/content-parser.service';
 })
 export class ContentContainerComponent implements AfterViewInit {
   @ViewChild('file') file: ElementRef<HTMLDivElement>;
-  content$: Observable<AdkParsedDocumentation>;
   @ContentChild('customAngular', { static: false })
   customAngularTemplateRef: TemplateRef<unknown>;
   ContentSection = ContentSection;
