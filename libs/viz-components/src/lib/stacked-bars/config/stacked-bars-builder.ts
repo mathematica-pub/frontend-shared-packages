@@ -64,6 +64,7 @@ export class VicStackedBarsConfigBuilder<
       data: this._data,
       mixBlendMode: this._mixBlendMode,
       ordinal: this.ordinalDimensionBuilder._build(
+        'band',
         this.getOrdinalDimensionName()
       ),
       quantitative: this.quantitativeDimensionBuilder._build(

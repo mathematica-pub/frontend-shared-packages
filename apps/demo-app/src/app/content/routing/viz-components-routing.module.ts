@@ -20,6 +20,13 @@ const routes = [
           ),
       },
       {
+        path: 'dots',
+        loadComponent: () =>
+          import('../viz-components/dots-content/dots-content.component').then(
+            (m) => m.DotsContentComponent
+          ),
+      },
+      {
         path: 'geographies',
         loadComponent: () =>
           import(

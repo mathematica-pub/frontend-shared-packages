@@ -1,0 +1,14 @@
+@use 'vars' as *;
+@use 'functions' as *;
+@use 'index' as hsi-adk;
+@use '../../styles/placeholders.scss' as *;
+
+.dots-example {
+  .xy-chart {
+    display: block;
+  }
+}
+
+.dots-example-tooltip-container {
+  @extend %vic-examples-tooltip-container-styles;
+}

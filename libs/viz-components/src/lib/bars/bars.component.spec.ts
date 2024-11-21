@@ -67,7 +67,7 @@ describe('BarsComponent', () => {
     component = fixture.componentInstance;
   });
 
-  describe('setPropertiesFromRanges', () => {
+  describe('setChartScalesFromRanges', () => {
     beforeEach(() => {
       component.ranges = {
         x: [1, 2],

@@ -16,3 +16,13 @@ export interface StateIncomeDatum {
   income: number;
   year: number;
 }
+
+export interface WeatherDatum {
+  location: string;
+  date: Date;
+  precipitation: number;
+  tempMax: number;
+  tempMin: number;
+  wind: number;
+  weather: string;
+}

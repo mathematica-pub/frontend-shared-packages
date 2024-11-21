@@ -200,20 +200,31 @@ export class AdkMarkdownParser {
   private getHeaders(
     markdown: string
   ): { id: string; text: string; level: number }[] {
-    const headerRegex = /^(#{1,6})\s*(.+)$/gm;
+    const headerRegex =
+      /^(#{1,6})\s*(.+)$|<h([1-6])(?:\s+[^>]*)?>(.*?)<\/h[1-6]>/gm;
     const headers: { id: string; text: string; level: number }[] = [];
     let match;
 
     while ((match = headerRegex.exec(markdown)) !== null) {
-      const level = match[1].length;
-      const text = match[2].trim();
+      let level: number;
+      let text: string;
+
+      if (match[1]) {
+        // Markdown header, e.g., ## Heading
+        level = match[1].length;
+        text = match[2].trim();
+      } else {
+        // HTML header, e.g., <h2>Heading</h2>
+        level = parseInt(match[3], 10);
+        text = match[4].trim();
+      }
+
       const id = text
         .toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/[^\w-]+/g, '');
       headers.push({ id, text, level });
     }
-
     return headers;
   }
 
