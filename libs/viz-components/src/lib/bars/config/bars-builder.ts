@@ -52,7 +52,7 @@ export class VicBarsConfigBuilder<
    * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
    */
   color(
-    setProperties?: (
+    setProperties: (
       dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
     ) => void
   ): this {
@@ -65,6 +65,11 @@ export class VicBarsConfigBuilder<
     this.colorDimensionBuilder = new OrdinalVisualValueDimensionBuilder();
   }
 
+  /**
+   * OPTIONAL. Sets custom fills for the bars. Intended to be users with a user-provided fill in <defs> that can be referenced here.
+   *
+   * Will override any fill color set by the color dimension.
+   */
   customFills(customFills: FillDefinition<Datum>[]): this {
     this._customFills = customFills;
     return this;
