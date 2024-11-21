@@ -14,13 +14,13 @@ export class CategoricalBinsAttributeDataDimension<
   extends AttributeDataDimension<Datum, string>
   implements CategoricalBinsOptions<Datum, string>
 {
-  readonly binType: BinStrategy.categorical;
+  override readonly binType: BinStrategy.categorical;
   calculatedDomain: string[];
   readonly domain: string[];
   override interpolator: never;
 
   constructor(options: CategoricalBinsOptions<Datum, RangeValue>) {
-    super();
+    super('ordinal');
     this.binType = BinStrategy.categorical;
     Object.assign(this, options);
   }

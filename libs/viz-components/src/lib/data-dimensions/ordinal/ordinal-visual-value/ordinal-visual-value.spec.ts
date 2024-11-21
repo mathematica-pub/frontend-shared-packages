@@ -36,15 +36,15 @@ describe('OrdinalVisualValueDimension', () => {
     });
   });
 
-  describe('integration: setDomain', () => {
+  describe('setDomain()', () => {
     it('sets the domain to the correct value, user did not specify domain', () => {
       dimension.setPropertiesFromData(['a', 'b', 'c', 'a', 'b']);
       expect((dimension as any).calculatedDomain).toEqual(['a', 'b', 'c']);
     });
     it('sets the domain to the correct value, user specified domain', () => {
-      (dimension as any).domain = ['c', 'd', 'b', 'a', 'd'];
+      (dimension as any).domain = ['e', 'f', 'g', 'e'];
       dimension.setPropertiesFromData(['a', 'b', 'c', 'a', 'b']);
-      expect((dimension as any).calculatedDomain).toEqual(['c', 'd', 'b', 'a']);
+      expect((dimension as any).calculatedDomain).toEqual(['e', 'f', 'g']);
     });
   });
 
