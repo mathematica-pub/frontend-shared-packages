@@ -1,0 +1,62 @@
+@use 'vars' as *;
+@use 'functions' as *;
+@use 'colors';
+@use 'index' as hsi-adk;
+
+.documentation-container .documentation-content {
+  .builder-method {
+    padding: grid(6);
+    border: 1px solid colors.$muted-primary-90;
+    background-color: colors.$muted-primary-98;
+    border-radius: grid(2);
+    margin-bottom: grid(10);
+
+    .method-name {
+      font-family: $font-mono;
+      @include hsi-adk.label-large;
+      padding-top: grid(2);
+      padding-bottom: grid(1);
+      border-bottom: 1px solid colors.$muted-primary-90;
+    }
+
+    .params + .method-name {
+      padding-top: grid(10);
+    }
+
+    .description {
+      padding-top: grid(2);
+      padding-bottom: 0;
+    }
+
+    .params {
+      margin-top: grid(6);
+    }
+
+    .param {
+      .param-def {
+        padding-bottom: grid(1);
+      }
+
+      .label {
+        color: colors.$highlight-default;
+        font-family: $font-mono;
+        padding-right: grid(3);
+      }
+
+      .name {
+        font-family: $font-mono;
+
+        padding-right: grid(1);
+      }
+
+      .type-def {
+        color: colors.$highlight-code;
+      }
+
+      .param-description {
+        @include hsi-adk.body-xs;
+        padding-bottom: 0;
+      }
+    }
+  }
+}

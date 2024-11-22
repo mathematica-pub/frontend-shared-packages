@@ -130,7 +130,8 @@ export class GeographiesAttributeDataLayer<
             datum,
             this.attributeDimension.formatFunction
           )
-        : this.attributeDimension.binType !== BinStrategy.categorical
+        : this.attributeDimension.dimensionType !== 'ordinal' &&
+            this.attributeDimension.binType !== BinStrategy.categorical
           ? ValueUtilities.d3Format(
               value as number,
               this.attributeDimension.formatSpecifier

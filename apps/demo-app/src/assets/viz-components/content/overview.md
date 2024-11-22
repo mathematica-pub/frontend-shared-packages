@@ -140,15 +140,12 @@ data: MyDatum[];
 ...
 this.barsConfig = this.bars
   .data(this.data)
-  .orientation('horizontal')
-  .createQuantitativeDimension((dimension) =>
-    dimension
-      .valueAccessor((d) => d.value)
+  .horizontal((bars) =>
+    bars
+      .x((dimension) => dimension.valueAccessor((d) => d.value))
+      .y((dimension) => dimension.valueAccessor((d) => d.division))
   )
-  .createOrdinalDimension((dimension) =>
-    dimension.valueAccessor((d) => d.division)
-  )
-  .createCategoricalDimension((dimension) => dimension.range(['teal']))
+  .fill((dimension) => dimension.range(['teal']))
   .getConfig();
 ```
 
