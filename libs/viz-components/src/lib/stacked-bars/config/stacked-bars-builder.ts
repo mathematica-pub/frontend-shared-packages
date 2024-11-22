@@ -61,6 +61,7 @@ export class VicStackedBarsConfigBuilder<
     this.validateBuilder('Stacked Bars');
     return new StackedBarsConfig(this.dimensions, {
       color: this.colorDimensionBuilder._build('Color'),
+      customFills: this._customFills,
       data: this._data,
       mixBlendMode: this._mixBlendMode,
       ordinal: this.ordinalDimensionBuilder._build(
