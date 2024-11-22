@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ListboxFilteringService } from './listbox-filtering.service';
 
 describe('ListboxFilteringService', () => {
-  let service: ListboxFilteringService<any>;
+  let service: ListboxFilteringService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

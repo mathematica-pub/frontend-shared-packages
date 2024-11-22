@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 
 @Injectable()
-export class ListboxFilteringService<T> {
+export class ListboxFilteringService {
   searchTimeout: ReturnType<typeof setTimeout>;
   searchString: string;
 
@@ -24,7 +24,7 @@ export class ListboxFilteringService<T> {
   }
 
   getIndexByLetter(
-    options: ListboxOptionComponent<T>[],
+    options: ListboxOptionComponent[],
     searchString: string,
     startIndex: number
   ): number {
@@ -53,10 +53,10 @@ export class ListboxFilteringService<T> {
   }
 
   filterOptionsBySearchString(
-    options: ListboxOptionComponent<T>[] = [],
+    options: ListboxOptionComponent[] = [],
     searchString: string,
-    exclude: ListboxOptionComponent<T>[] = []
-  ): ListboxOptionComponent<T>[] {
+    exclude: ListboxOptionComponent[] = []
+  ): ListboxOptionComponent[] {
     return options.filter((option) => {
       const matches =
         option.label?.nativeElement.innerText

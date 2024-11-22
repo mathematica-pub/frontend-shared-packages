@@ -13,7 +13,7 @@ import { ListboxComponent } from '../listbox/listbox.component';
     class: 'combobox-listbox-component',
   },
 })
-export class MultiFiltersListboxComponent<T> extends ListboxComponent<T> {
+export class MultiFiltersListboxComponent extends ListboxComponent {
   /**
    * If the items in listboxGroupsEl are changed dynamically at runtime,
    * this won't work (the array will become out of order; we need the order in handleScrollingForNewIndex);
@@ -29,7 +29,7 @@ export class MultiFiltersListboxComponent<T> extends ListboxComponent<T> {
         .toArray()
         [groupIndex].nativeElement.querySelector('.listbox-group');
       if (this.scrolling.isScrollable(listboxGroupElNativeElement)) {
-        this.scrolling.maintainScrollVisibility(
+        this.scrolling.maintainElementVisibility(
           indexEl,
           listboxGroupElNativeElement
         );

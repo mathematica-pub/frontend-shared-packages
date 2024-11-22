@@ -1,6 +1,10 @@
 @use 'functions' as *;
 
-.single-select-combobox-example.displayed-value-example {
+.multi-select-combobox-example.editable-textbox-example {
+  .combobox-value {
+    padding-bottom: grid(4);
+  }
+
   .combobox-value {
     padding-bottom: grid(4);
   }
@@ -67,5 +71,9 @@
 
   .listbox-option.current:not(.selected) {
     background: #f2f2f2;
+  }
+
+  .listbox-option .checkbox {
+    padding-left: grid(2);
   }
 }

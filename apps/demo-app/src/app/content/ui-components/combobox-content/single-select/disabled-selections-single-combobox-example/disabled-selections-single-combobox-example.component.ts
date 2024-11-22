@@ -1,5 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
 import { ComboboxModule } from 'dist/ui-components';
 import { BehaviorSubject } from 'rxjs';
 
@@ -9,6 +13,7 @@ import { BehaviorSubject } from 'rxjs';
   imports: [CommonModule, ComboboxModule],
   templateUrl: './disabled-selections-single-combobox-example.component.html',
   styleUrl: './disabled-selections-single-combobox-example.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class DisabledSelectionsSingleExampleComponent {
@@ -17,16 +22,16 @@ export class DisabledSelectionsSingleExampleComponent {
     { displayName: 'Finding Nemo', id: 'nemo', disabled: false },
     { displayName: 'Toy Story', id: 'toy', disabled: false },
     { displayName: 'Monsters Inc.', id: 'monstersInc', disabled: true },
-    { displayName: 'WALL-E', id: 'robot', disabled: true },
+    { displayName: 'WALL-E', id: 'robot', disabled: false },
     { displayName: 'Cars', id: 'cars', disabled: false },
     { displayName: 'The Incredibles', id: 'incredibles', disabled: false },
-    { displayName: 'Inside Out', id: 'insideOut', disabled: true },
+    { displayName: 'Inside Out', id: 'insideOut', disabled: false },
     { displayName: 'Up', id: 'up', disabled: false },
   ];
   selected = new BehaviorSubject<string>(null);
   selected$ = this.selected.asObservable();
 
-  onSelection(selectedId: string): void {
-    this.selected.next(selectedId);
+  onSelection(selectedIds: string[]): void {
+    this.selected.next(selectedIds[0]);
   }
 }

@@ -13,6 +13,7 @@ export abstract class ExampleDisplay implements OnInit {
   @Input() maxWidth: string = '1200px';
   @Input() path: string;
   @Input() shikiTheme: ShikiTheme = ShikiTheme.CatppuccinLatte;
+  @Input() exampleTabCanScroll: boolean = true;
   fileList: string[];
   filesHtml$: Observable<SafeHtml[]>;
   selectedTabIndex: BehaviorSubject<number> = new BehaviorSubject<number>(0);

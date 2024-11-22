@@ -1,6 +1,10 @@
 @use 'functions' as *;
 
-.single-select-combobox-example.displayed-value-example {
+.single-select-combobox-example.editable-textbox-example {
+  .combobox-value {
+    padding-bottom: grid(4);
+  }
+
   .combobox-value {
     padding-bottom: grid(4);
   }
