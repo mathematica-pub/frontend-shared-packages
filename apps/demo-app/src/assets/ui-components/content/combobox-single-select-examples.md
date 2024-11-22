@@ -1,17 +1,25 @@
 # Single-select examples
 
-This is a simple single select.
+This is a single-select combobox.
 
-{{SimpleSingleSelect}}
+```custom-angular
+simple single select
+```
 
-This is a single select that displays the selected option.
+This is a single-select combobox that displays the selected option in the textbox.
 
-{{DisplaySingleSelected}}
+```
+display selected option single select
+```
 
-This is a single select that has disabled options.
+This is a single-select combobox that has disabled options.
 
-{{DisabledSelectionsSingleSelect}}
+```
+disabled options single select
+```
 
-This is a single select that uses FormControl.
+This is a single-select combobox that uses a FormControl.
 
-{{NgFormSingleSelect}}
+```
+ng form control single select
+```

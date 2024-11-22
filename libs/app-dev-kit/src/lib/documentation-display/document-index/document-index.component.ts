@@ -17,7 +17,7 @@ import { AdkHtmlHeader } from '../documentation-content-service';
   styleUrls: ['./document-index.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DocumentIndexComponent {
+export class AdkDocumentIndexComponent {
   @Input() headings: AdkHtmlHeader[] = [];
   @Output() activeHeading = new EventEmitter<{
     heading: AdkHtmlHeader;

@@ -189,4 +189,6 @@ arise while using the library or if you have requests for additional features. H
 
 ## Example Chart
 
-{{ QuickStartExampleComponent }}
+```custom-angular
+main example
+```

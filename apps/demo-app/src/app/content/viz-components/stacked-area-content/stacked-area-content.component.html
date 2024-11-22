@@ -1,7 +1,7 @@
 <app-content-container>
-  <ng-template let-section #escapedContent>
-    @switch (section.content.trim()) {
-      @case ('StackedAreaExampleComponent') {
+  <ng-template let-section #customAngular>
+    @switch (section.content) {
+      @case ('main example') {
         <app-single-panel-example-display
           height="600px"
           path="app/content/viz-components/stacked-area-content/stacked-area-example"

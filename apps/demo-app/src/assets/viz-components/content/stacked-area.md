@@ -1,3 +1,5 @@
 # Stacked Area Component
 
-{{ StackedAreaExampleComponent }}
+```custom-angular
+main example
+```

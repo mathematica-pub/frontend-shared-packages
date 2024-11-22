@@ -1,3 +1,5 @@
 # Geographies Component
 
-{{ GeographiesExampleComponent }}
+```custom-angular
+main example
+```
