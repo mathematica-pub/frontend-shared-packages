@@ -2,20 +2,30 @@
 
 This is a simple single-select combobox.
 
-{{SimpleSingleSelect}}
+```custom-angular
+simple single select
+```
 
-This is a single-select combobox that displays the selected option.
+This is a single-select combobox that displays the selected option in the textbox.
 
-{{DisplaySingleSelected}}
+```custom-angular
+display selected option single select
+```
 
 This is a single-select combobox that has disabled options.
 
-{{DisabledSelectionsSingleSelect}}
+```custom-angular
+disabled options single select
+```
 
-This is a single-select combobox that uses FormControl.
+This is a single-select combobox that uses a FormControl.
 
-{{NgFormSingleSelect}}
+```
+ng form control single select
+```
 
 This is a single-select combobox with an editable textbox.
 
-{{EditableTextboxSingleSelect}}
+```
+editable textbox single select
+```

@@ -24,13 +24,16 @@ import { XQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-a
 import { YQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
 import { BarsConfig } from '../bars/config/bars-config';
 import { LinesConfig } from '../lines/config/lines-config';
-import { QOCData, QOCDatum } from '../testing/data/quant-ord-cat-data';
 import {
-  QdQnCData,
-  QdQnCDatum,
-  QnQnCData,
-  QnQnCDatum,
-} from '../testing/data/quant-quant-cat-data';
+  continentPopulationDateYearData,
+  ContinentPopulationDateYearDatum,
+  ContinentPopulationNumYearData,
+  ContinentPopulationNumYearDatum,
+} from '../testing/data/continent-population-year-data';
+import {
+  countryFactsData,
+  CountryFactsDatum,
+} from '../testing/data/country-area-continent';
 import { VicQuantitativeRulesConfigBuilder } from './config/quantitative-rules-builder';
 import { QuantitativeRulesConfig } from './config/quantitative-rules-config';
 
@@ -84,7 +87,7 @@ const barsChartWidth = 600;
   styles: [],
 })
 class TestQuantitativeRulesHorizontalBarsComponent {
-  @Input() barsConfig: BarsConfig<QOCDatum, string>;
+  @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
   @Input() rulesConfig: QuantitativeRulesConfig<number>;
   @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
@@ -100,8 +103,8 @@ const mountHorizontalBarsComponent = (
     .tickFormat(',.0f')
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
-  const barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
-    .data(QOCData)
+  const barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+    .data(countryFactsData)
     .horizontal((bars) =>
       bars
         .x((dimension) =>
@@ -171,7 +174,7 @@ const mountHorizontalBarsComponent = (
   styles: [],
 })
 class TestVerticalBarsComponent {
-  @Input() barsConfig: BarsConfig<QOCDatum, string>;
+  @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
   @Input() rulesConfig: QuantitativeRulesConfig<number>;
   @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
@@ -187,8 +190,8 @@ const mountVerticalBarsComponent = (
   const yAxisConfig = new VicYQuantitativeAxisConfigBuilder()
     .tickFormat('.0f')
     .getConfig();
-  const barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
-    .data(QOCData)
+  const barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+    .data(countryFactsData)
     .vertical((bars) =>
       bars
         .x((dimension) => dimension.valueAccessor((d) => d.country))
@@ -225,8 +228,8 @@ const mountVerticalBarsComponent = (
 const linesMargin = { top: 60, right: 20, bottom: 40, left: 80 };
 const linesChartHeight = 400;
 const linesChartWidth = 600;
-const linesDateData = QdQnCData;
-const linesNumericData = QnQnCData;
+const linesDateData = continentPopulationDateYearData;
+const linesNumericData = ContinentPopulationNumYearData;
 
 // ***********************************************************
 // LINE CHART
@@ -295,25 +298,31 @@ function mountDateLinesComponent<RuleDatum extends number | Date>(
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
-  const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
-    .data(linesDateData)
-    .xDate((dimension) => dimension.valueAccessor((d) => d.year))
-    .y((dimension) => dimension.valueAccessor((d) => d.population))
-    .stroke((stroke) =>
-      stroke.color((color) => color.valueAccessor((d) => d.continent))
-    )
-    .getConfig();
-  const declarations = [TestLinesComponent<QdQnCDatum, Date, RuleDatum>];
-  cy.mount(TestLinesComponent<QdQnCDatum, Date, RuleDatum>, {
-    declarations,
-    imports: lineImports,
-    componentProperties: {
-      linesConfig: linesConfig,
-      rulesConfig: rulesConfig,
-      xQuantitativeAxisConfig: xAxisConfig,
-      yQuantitativeAxisConfig: yAxisConfig,
-    },
-  });
+  const linesConfig =
+    new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
+      .data(linesDateData)
+      .xDate((dimension) => dimension.valueAccessor((d) => d.year))
+      .y((dimension) => dimension.valueAccessor((d) => d.population))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
+      )
+      .getConfig();
+  const declarations = [
+    TestLinesComponent<ContinentPopulationDateYearDatum, Date, RuleDatum>,
+  ];
+  cy.mount(
+    TestLinesComponent<ContinentPopulationDateYearDatum, Date, RuleDatum>,
+    {
+      declarations,
+      imports: lineImports,
+      componentProperties: {
+        linesConfig: linesConfig,
+        rulesConfig: rulesConfig,
+        xQuantitativeAxisConfig: xAxisConfig,
+        yQuantitativeAxisConfig: yAxisConfig,
+      },
+    }
+  );
   cy.wait(axisTickTextWaitTime); // have to wait for axes to render
 }
 
@@ -325,27 +334,33 @@ function mountNumberLinesComponent(
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
-  const linesConfig = new VicLinesConfigBuilder<QnQnCDatum>()
-    .data(linesNumericData)
-    .xNumeric((dimension) =>
-      dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
-    )
-    .y((dimension) => dimension.valueAccessor((d) => d.population))
-    .stroke((stroke) =>
-      stroke.color((color) => color.valueAccessor((d) => d.continent))
-    )
-    .getConfig();
-  const declarations = [TestLinesComponent<QnQnCDatum, number, number>];
-  cy.mount(TestLinesComponent<QnQnCDatum, number, number>, {
-    declarations,
-    imports: lineImports,
-    componentProperties: {
-      linesConfig: linesConfig,
-      rulesConfig: rulesConfig,
-      xQuantitativeAxisConfig: xAxisConfig,
-      yQuantitativeAxisConfig: yAxisConfig,
-    },
-  });
+  const linesConfig =
+    new VicLinesConfigBuilder<ContinentPopulationNumYearDatum>()
+      .data(linesNumericData)
+      .xNumeric((dimension) =>
+        dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
+      )
+      .y((dimension) => dimension.valueAccessor((d) => d.population))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
+      )
+      .getConfig();
+  const declarations = [
+    TestLinesComponent<ContinentPopulationNumYearDatum, number, number>,
+  ];
+  cy.mount(
+    TestLinesComponent<ContinentPopulationNumYearDatum, number, number>,
+    {
+      declarations,
+      imports: lineImports,
+      componentProperties: {
+        linesConfig: linesConfig,
+        rulesConfig: rulesConfig,
+        xQuantitativeAxisConfig: xAxisConfig,
+        yQuantitativeAxisConfig: yAxisConfig,
+      },
+    }
+  );
   cy.wait(axisTickTextWaitTime); // have to wait for axes to render
 }
 

@@ -15,7 +15,7 @@ export class EqualValueRangesAttributeDataDimension<
   extends CalculatedBinsAttributeDataDimension<Datum, RangeValue>
   implements EqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
 {
-  readonly binType: BinStrategy.equalValueRanges;
+  override readonly binType: BinStrategy.equalValueRanges;
   private calculatedDomain: [number, number];
   readonly domain: [number, number];
   readonly numBins: number;
@@ -23,7 +23,7 @@ export class EqualValueRangesAttributeDataDimension<
   constructor(
     options: EqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
   ) {
-    super();
+    super('number');
     this.binType = BinStrategy.equalValueRanges;
     Object.assign(this, options);
     if (!this.valueAccessor) {

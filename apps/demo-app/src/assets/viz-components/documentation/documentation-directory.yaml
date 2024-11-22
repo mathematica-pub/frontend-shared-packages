@@ -18,7 +18,7 @@ primary-marks-components:
         hover-show-labels: 'classes/BarsHoverShowLabels.html'
         hover-move-emit-tooltip-data: 'classes/BarsHoverMoveEmitTooltipData.html'
       internal:
-        tooltip-data: 'interfaces/BarsTooltipData.html'
+        tooltip-datum: 'interfaces/BarsTooltipDatum.html'
         event-output: 'interfaces/BarsEventOutput.html'
     internal:
       config: 'classes/BarsConfig.html'
@@ -28,6 +28,24 @@ primary-marks-components:
         labels-builder: 'classes/BarsLabelsBuilder.html'
         labels: 'classes/BarsLabels.html'
         labels-options: 'interfaces/BarsLabelsOptions.html'
+  dots:
+    component: 'components/DotsComponent.html'
+    builder: 'injectables/VicDotsConfigBuilder.html'
+    events:
+      click: 'directives/DotsClickDirective.html'
+      hover: 'directives/DotsHoverDirective.html'
+      hover-move: 'directives/DotsHoverMoveDirective.html'
+      input-event: 'directives/DotsInputEventDirective.html'
+      actions:
+        hover-default-styles: 'classes/DotsHoverDefaultStyles.html'
+        hover-move-default-styles: 'classes/DotsHoverMoveDefaultStyles.html'
+        hover-move-emit-tooltip-data: 'classes/DotsHoverMoveEmitTooltipData.html'
+      internal:
+        tooltip-datum: 'interfaces/DotsTooltipDatum.html'
+        event-output: 'interfaces/DotsEventOutput.html'
+    internal:
+      config: 'classes/DotsConfig.html'
+      options: 'interfaces/DotsOptions.html'
   geographies:
     component: 'components/GeographiesComponent.html'
     builder: 'injectables/VicGeographiesConfigBuilder.html'
@@ -41,7 +59,7 @@ primary-marks-components:
         hover-emit-tooltip-data: 'classes/GeographiesHoverEmitTooltipData.html'
         hover-move-emit-tooltip-data: 'classes/GeographiesHoverMoveEmitTooltipData.html'
       internal:
-        tooltip-data: 'interfaces/GeographiesTooltipData.html'
+        tooltip-datum: 'interfaces/GeographiesTooltipDatum.html'
         event-output: 'interfaces/GeographiesEventOutput.html'
     internal:
       config: 'classes/GeographiesConfig.html'
@@ -85,7 +103,7 @@ primary-marks-components:
         hover-move-default-styles: 'classes/LinesHoverMoveDefaultStyles.html'
         hover-move-emit-tooltip-data: 'classes/LinesHoverMoveEmitTooltipData.html'
       internal:
-        tooltip-data: 'interfaces/LinesTooltipData.html'
+        tooltip-datum: 'interfaces/LinesTooltipDatum.html'
         event-output: 'interfaces/LinesEventOutput.html'
     internal:
       config: 'classes/LinesConfig.html'
@@ -99,7 +117,7 @@ primary-marks-components:
       actions:
         hover-move-emit-tooltip-data: 'classes/StackedAreaHoverMoveEmitTooltipData.html'
       internal:
-        tooltip-data: 'interfaces/StackedAreaTooltipData.html'
+        tooltip-datum: 'interfaces/StackedAreaTooltipDatum.html'
         event-output: 'interfaces/StackedAreaEventOutput.html'
     internal:
       config: 'classes/StackedAreaConfig.html'

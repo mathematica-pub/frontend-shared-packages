@@ -45,11 +45,13 @@ export class VicGroupedBarsConfigBuilder<
     this.validateBuilder('Grouped Bars');
     return new GroupedBarsConfig(this.dimensions, {
       color: this.colorDimensionBuilder._build('Color'),
+      customFills: this._customFills,
       data: this._data,
       intraGroupPadding: this._intraGroupPadding,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
       ordinal: this.ordinalDimensionBuilder._build(
+        'band',
         this.getOrdinalDimensionName()
       ),
       quantitative: this.quantitativeDimensionBuilder._build(

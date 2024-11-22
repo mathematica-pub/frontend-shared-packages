@@ -36,4 +36,12 @@ export class DataResource {
       AdkAssetResponse.Json
     );
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getWeatherData(): Observable<any> {
+    return this.assets.getAsset(
+      'example-data/weather.json',
+      AdkAssetResponse.Json
+    );
+  }
 }

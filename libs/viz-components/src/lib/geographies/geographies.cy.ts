@@ -21,9 +21,9 @@ import {
 } from '../../public-api';
 import { EventAction } from '../events/action';
 import {
-  StateInComePopulationDatum,
-  stateIncomePopulationData,
-} from '../testing/data/states-population-income-data';
+  StateIncomePopulationYearDatum,
+  stateIncomePopulationYearData,
+} from '../testing/data/state-population-income-year-data';
 import { VicHtmlTooltipConfigBuilder } from '../tooltips/html-tooltip/config/html-tooltip-builder';
 import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
 import { GeographiesConfig } from './config/geographies-config';
@@ -38,7 +38,7 @@ interface StateIncomeDatum {
 const margin = { top: 40, right: 40, bottom: 0, left: 40 };
 const chartHeight = 400;
 const chartWidth = 600;
-const attributeData = stateIncomePopulationData
+const attributeData = stateIncomePopulationYearData
   .filter((x) => x.year === 2020)
   .filter((x) => x.state !== 'Puerto Rico');
 const tooltipYOffset = 40;
@@ -101,7 +101,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
 })
 class TestGeographiesComponent {
   @Input() geographiesConfig: GeographiesConfig<
-    StateInComePopulationDatum,
+    StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >;
   margin = margin;
@@ -150,7 +150,7 @@ class TestGeographiesComponent {
 
 const mountGeographiesComponent = (
   geographiesConfig: GeographiesConfig<
-    StateInComePopulationDatum,
+    StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >
 ): void => {
@@ -175,7 +175,7 @@ const mountGeographiesComponent = (
 // ***********************************************************
 describe('drawing the geography paths for various layers', () => {
   let geographiesConfig: GeographiesConfig<
-    StateInComePopulationDatum,
+    StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >;
   beforeEach(() => {
@@ -197,7 +197,7 @@ describe('drawing the geography paths for various layers', () => {
           TestMapGeometryProperties
         >;
         geographiesConfig = new VicGeographiesConfigBuilder<
-          StateInComePopulationDatum,
+          StateIncomePopulationYearDatum,
           TestMapGeometryProperties
         >()
           .boundary(usBoundary)
@@ -244,7 +244,7 @@ describe('drawing the geography paths for various layers', () => {
           TestMapGeometryProperties
         >;
         geographiesConfig = new VicGeographiesConfigBuilder<
-          StateInComePopulationDatum,
+          StateIncomePopulationYearDatum,
           TestMapGeometryProperties
         >()
           .boundary(usBoundary)
@@ -299,7 +299,7 @@ describe('drawing the geography paths for various layers', () => {
           TestMapGeometryProperties
         >;
         geographiesConfig = new VicGeographiesConfigBuilder<
-          StateInComePopulationDatum,
+          StateIncomePopulationYearDatum,
           TestMapGeometryProperties
         >()
           .boundary(usBoundary)
@@ -355,7 +355,7 @@ describe('drawing the geography paths for various layers', () => {
 // ***********************************************************
 describe('drawing the geography paths for various layers', () => {
   let geographiesConfig: GeographiesConfig<
-    StateInComePopulationDatum,
+    StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >;
   beforeEach(() => {
@@ -390,7 +390,7 @@ describe('drawing the geography paths for various layers', () => {
           .domain(extent(stateNames.map((x) => x.length)))
           .range(['white', 'magenta']);
         geographiesConfig = new VicGeographiesConfigBuilder<
-          StateInComePopulationDatum,
+          StateIncomePopulationYearDatum,
           TestMapGeometryProperties
         >()
           .boundary(usBoundary)
@@ -453,7 +453,7 @@ describe('drawing the geography paths for various layers', () => {
 // ***********************************************************
 describe('drawing the geography labels various layers', () => {
   let geographiesConfig: GeographiesConfig<
-    StateInComePopulationDatum,
+    StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >;
   beforeEach(() => {
@@ -475,7 +475,7 @@ describe('drawing the geography labels various layers', () => {
           TestMapGeometryProperties
         >;
         geographiesConfig = new VicGeographiesConfigBuilder<
-          StateInComePopulationDatum,
+          StateIncomePopulationYearDatum,
           TestMapGeometryProperties
         >()
           .boundary(usBoundary)
@@ -562,7 +562,7 @@ const mountGeographiesForTooltipTests = (json: TestUsMapTopology) => {
     usMap.objects.states
   ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
   const geographiesConfig = new VicGeographiesConfigBuilder<
-    StateInComePopulationDatum,
+    StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >()
     .boundary(usBoundary)
