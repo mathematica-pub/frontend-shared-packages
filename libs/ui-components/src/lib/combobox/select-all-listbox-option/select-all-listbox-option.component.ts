@@ -64,7 +64,7 @@ export class SelectAllListboxOptionComponent
     this.updateSelected(allControlledOptionsSelected);
   }
 
-  getControlledOptions(): ListboxOptionComponent<T>[] {
+  getControlledOptions(): ListboxOptionComponent[] {
     // Currently if there are groups, select all can only work for its own group
     if (this.listboxComponent.groups.toArray().length > 0) {
       const groupId = this.listboxComponent.getGroupIndexFromOptionIndex(
