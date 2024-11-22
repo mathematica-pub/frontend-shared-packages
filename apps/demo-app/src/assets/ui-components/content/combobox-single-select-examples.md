@@ -20,12 +20,12 @@ disabled options single select
 
 This is a single-select combobox that uses a FormControl.
 
-```
+```custom-angular
 ng form control single select
 ```
 
 This is a single-select combobox with an editable textbox.
 
-```
+```custom-angular
 editable textbox single select
 ```

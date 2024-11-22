@@ -18,7 +18,7 @@ This is a multi-select combobox that has disabled options.
 disabled options multi select
 ```
 
-This is a multi-select combobox that uses FormControl.
+This is a multi-select combobox that uses a FormControl.
 
 ```custom-angular
 ng form control multi select
