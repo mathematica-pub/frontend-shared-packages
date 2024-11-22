@@ -223,8 +223,8 @@ describe('BarsComponent', () => {
       expect(component.getBarFill(datum)).toEqual('bar color');
     });
     it('returns the result of getBarPattern if there are pattern fills specified', () => {
-      (component.config.color as any).fillDefs = [
-        { name: 'pattern', useDef: () => true },
+      (component.config as any).customFills = [
+        { defId: 'pattern', shouldApply: () => true },
       ];
       expect(component.getBarFill(datum)).toEqual('bar pattern');
     });
@@ -664,16 +664,16 @@ describe('BarsComponent', () => {
 
   describe('getBarPattern()', () => {
     let datum: BarDatum<string>;
-    const pattern = {
-      name: 'pattern1',
-      useDef: (d) => d.fruit === 'avocado',
+    const customFill = {
+      defId: 'pattern1',
+      shouldApply: (d) => d.fruit === 'avocado',
     };
     beforeEach(() => {
       spyOn(component, 'getBarColor').and.returnValue('blue');
       spyOn(FillUtilities, 'getFill').and.returnValue('return-pattern');
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
-      (component.config.color as any).fillDefs = [pattern];
+      (component.config as any).customFills = [customFill];
     });
     it('calls getBarColor once with the datum', () => {
       component.getBarPattern(datum);
@@ -682,7 +682,7 @@ describe('BarsComponent', () => {
     it('calls getPatternFill once with the correct values', () => {
       component.getBarPattern(datum);
       expect(FillUtilities.getFill).toHaveBeenCalledOnceWith(data[2], 'blue', [
-        pattern,
+        customFill,
       ]);
     });
   });
