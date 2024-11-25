@@ -18,9 +18,18 @@
           <span class="group-label">East Coast Locations</span>
         </hsi-ui-listbox-label>
         @for (option of eastCoastOptions; track $index) {
-          <hsi-ui-listbox-option [value]="option.id">{{
-            option.displayName
-          }}</hsi-ui-listbox-option>
+          <hsi-ui-listbox-option [value]="option.id"
+            >{{ option.displayName }}
+            <span class="material-symbols-outlined icon checkbox" selectedIcon>
+              check_box
+            </span>
+            <span
+              unselectedIcon
+              class="material-symbols-outlined icon checkbox"
+            >
+              check_box_outline_blank
+            </span>
+          </hsi-ui-listbox-option>
         }
       </hsi-ui-listbox-group>
       <hsi-ui-listbox-group>
@@ -28,9 +37,18 @@
           <span class="group-label">Midwest Locations</span>
         </hsi-ui-listbox-label>
         @for (option of midwestOptions; track $index) {
-          <hsi-ui-listbox-option [value]="option.id">{{
-            option.displayName
-          }}</hsi-ui-listbox-option>
+          <hsi-ui-listbox-option [value]="option.id"
+            >{{ option.displayName }}
+            <span class="material-symbols-outlined icon checkbox" selectedIcon>
+              check_box
+            </span>
+            <span
+              unselectedIcon
+              class="material-symbols-outlined icon checkbox"
+            >
+              check_box_outline_blank
+            </span>
+          </hsi-ui-listbox-option>
         }
       </hsi-ui-listbox-group>
       <hsi-ui-listbox-group>
@@ -38,9 +56,18 @@
           <span class="group-label">West Coast Locations</span>
         </hsi-ui-listbox-label>
         @for (option of westCoastOptions; track $index) {
-          <hsi-ui-listbox-option [value]="option.id">{{
-            option.displayName
-          }}</hsi-ui-listbox-option>
+          <hsi-ui-listbox-option [value]="option.id"
+            >{{ option.displayName }}
+            <span class="material-symbols-outlined icon checkbox" selectedIcon>
+              check_box
+            </span>
+            <span
+              unselectedIcon
+              class="material-symbols-outlined icon checkbox"
+            >
+              check_box_outline_blank
+            </span>
+          </hsi-ui-listbox-option>
         }
       </hsi-ui-listbox-group>
     </hsi-ui-listbox>
