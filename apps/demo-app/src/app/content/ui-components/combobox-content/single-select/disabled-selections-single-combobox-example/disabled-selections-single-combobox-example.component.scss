@@ -1,72 +1,71 @@
-.combobox-textbox {
-  background: white;
-  border: 1px solid grey;
-  padding: 12px;
-}
+@use 'functions' as *;
 
-.textbox-label {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: 500px; // required for ellipsis to work; maybe take this off later
-}
+.single-select-combobox-example.disabled-example {
+  .combobox-value {
+    padding-bottom: grid(4);
+  }
 
-.textbox-icon {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+  .combobox-textbox {
+    background: white;
+    border: 1px solid grey;
+    padding: 12px;
+  }
 
-.textbox-icon .material-symbols-outlined {
-  transform: scale(1.5);
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 48;
-}
+  .textbox-label {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 500px; // required for ellipsis to work; maybe take this off later
+  }
 
-.textbox-icon.open {
-  transform: rotate(180deg);
-}
+  .textbox-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
-.combobox-listbox.open {
-  background: white;
-  border-right: 1px solid grey;
-  border-bottom: 1px solid grey;
-  border-left: 1px solid grey;
-  border-radius: 2px;
-}
+  .textbox-icon.open {
+    transform: rotate(180deg);
+  }
 
-.listbox-label {
-  padding: 8px 12px 4px 12px;
-}
+  .textbox-icon .material-symbols-outlined {
+    transform: scale(1.5);
+    font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 48;
+  }
 
-.listbox-option .option-label {
-  padding: 12px;
-}
+  .combobox-listbox.open {
+    background: white;
+    border-right: 1px solid grey;
+    border-bottom: 1px solid grey;
+    border-left: 1px solid grey;
+    border-radius: 2px;
+  }
 
-.listbox-option:hover {
-  background: #f2f2f2;
-}
+  .listbox-label {
+    padding: grid(2) grid(3) grid(1) grid(3);
+  }
 
-.listbox-option.current {
-  outline: 2px solid black;
-  outline-offset: -2px;
-}
+  .listbox-option .option-label {
+    padding: grid(3);
+  }
 
-.listbox-option.current:not(.selected) {
-  background: lightgrey;
-}
+  .listbox-option:hover {
+    background: #f2f2f2;
+  }
 
-.listbox-option.selected {
-  background: lightgrey;
-}
+  .listbox-option.selected {
+    background: lightgrey;
+  }
 
-.listbox-option.disabled {
-  color: lightgrey;
-}
+  .listbox-option.disabled {
+    color: lightgrey;
+  }
 
-.combobox-value {
-  padding-top: 16px;
+  .listbox-option.current:not(.selected) {
+    background: #f2f2f2;
+  }
 }

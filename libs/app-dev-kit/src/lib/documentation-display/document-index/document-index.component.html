@@ -2,7 +2,7 @@
   @if (headings.length > 0) {
     <p class="index-title">On this page</p>
     <ul class="links-container">
-      @for (heading of headings; let i = $index; track i) {
+      @for (heading of headings; track $index) {
         <li class="toc-item">
           <a
             class="toc-link"

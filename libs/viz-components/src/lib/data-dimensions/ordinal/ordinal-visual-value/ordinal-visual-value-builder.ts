@@ -1,6 +1,5 @@
 import { schemeTableau10 } from 'd3';
 import { DataValue, VisualValue } from '../../../core/types/values';
-import { FillDef } from '../../../fill-defs/fill-def';
 import { DataDimensionBuilder } from '../../dimension-builder';
 import { OrdinalVisualValueDimension } from './ordinal-visual-value';
 
@@ -15,7 +14,6 @@ export class OrdinalVisualValueDimensionBuilder<
   Range extends VisualValue,
 > extends DataDimensionBuilder<Datum, Domain> {
   private _domain: Domain[];
-  private _fillDefs: FillDef<Datum>[];
   private _range: Range[];
   private _scale: (category: Domain) => Range;
 
@@ -31,14 +29,6 @@ export class OrdinalVisualValueDimensionBuilder<
    */
   domain(domain: Domain[]): this {
     this._domain = domain;
-    return this;
-  }
-
-  /**
-   * OPTIONAL. Sets an array of fill defs that will be used to fill the categorical values.
-   */
-  fillDefs(fillDefs: FillDef<Datum>[]): this {
-    this._fillDefs = fillDefs;
     return this;
   }
 
@@ -81,7 +71,6 @@ export class OrdinalVisualValueDimensionBuilder<
     this.validateDimension(dimensionName);
     return new OrdinalVisualValueDimension({
       domain: this._domain,
-      fillDefs: this._fillDefs,
       formatFunction: this._formatFunction,
       range: this._range,
       scale: this._scale,
