@@ -298,7 +298,8 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
       </hsi-ui-combobox-label>
       <hsi-ui-textbox class="textbox" [displaySelected]="true">
         <p boxLabel
-          >This combobox stores your favorite pre-Disney Star Wars movie!</p
+          >This combobox stores your favorite of the first 6 Star Wars
+          movies!</p
         >
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
