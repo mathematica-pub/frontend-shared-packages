@@ -1,5 +1,5 @@
 import { Geometry } from 'geojson';
-import { StrokeBuilder } from 'libs/viz-components/src/lib/stroke/stroke-builder';
+import { StrokeBuilder } from '../../../../stroke/stroke-builder';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLabelsBuilder } from '../labels/geographies-labels-builder';
 
