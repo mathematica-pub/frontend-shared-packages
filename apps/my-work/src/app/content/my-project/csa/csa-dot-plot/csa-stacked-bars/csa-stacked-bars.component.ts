@@ -71,14 +71,14 @@ export class CsaStackedBarsComponent
 
     this.percentGroup
       .append('line')
-      .attr('x1', '-1.3em')
-      .attr('x2', '-1.3em')
-      .attr('y1', '0.2em')
+      .attr('x1', '-1.1em')
+      .attr('x2', '-1.1em')
+      .attr('y1', '0.3em')
       .attr('y2', '-0.5em');
     this.percentGroup
       .append('text')
       .attr('class', 'comparison-label')
-      .attr('dx', '-2em')
+      .attr('dx', '-1.7em')
       .attr('dy', '-0.8em');
   }
 
