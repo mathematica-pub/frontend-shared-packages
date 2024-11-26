@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Function to backup original files
 backup_files() {
@@ -20,16 +21,16 @@ backup_files() {
 
 # Function to remove paths and add npm packages
 switch_to_npm() {
-    echo "Switching to npm packages..."
-
-    node update-tsconfig-to-use-npm-packages.js
-    
     echo "Installing @hsi packages..."
     aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi
     npm install @hsi/viz-components@latest 
     npm install @hsi/ui-components@latest
     npm install @hsi/app-dev-kit@latest
     rm -rf dist
+
+    echo "Updating tsconfig paths..."
+    node update-tsconfig-to-use-npm-packages.js
+
     npx nx reset
     echo "Successfully switched to npm packages"
 }
