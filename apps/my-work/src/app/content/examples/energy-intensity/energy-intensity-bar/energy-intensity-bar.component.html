@@ -1,9 +1,5 @@
 <div class="energy-intensity-bar-container">
   <div class="chart-container">
-    <div class="chart-title" [style.marginLeft.px]="200"
-      ><p class="variable">{{ sortVar }}</p
-      ><p class="units">{{ sortVarUnits }}</p></div
-    >
     <vic-xy-chart
       class="sorted-chart"
       [margin]="{ top: 30, right: 0, bottom: 36, left: 200 }"
@@ -11,6 +7,15 @@
       [width]="600"
       [scaleChartWithContainerWidth]="{ width: false, height: false }"
     >
+      <ng-container html-elements-before>
+        <vic-chart-title
+          ><p class="variable">{{ sortVar }}</p
+          ><p class="units">{{ sortVarUnits }}</p></vic-chart-title
+        >
+      </ng-container>
+      <ng-container html-elements-after>
+        <vic-x-axis-label> British Thermal Unit </vic-x-axis-label>
+      </ng-container>
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
         <svg:g vic-x-quantitative-axis [config]="xAxisConfig"></svg:g>

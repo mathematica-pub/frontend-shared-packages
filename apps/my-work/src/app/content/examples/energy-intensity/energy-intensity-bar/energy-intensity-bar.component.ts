@@ -10,6 +10,7 @@ import {
   BarsConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
+  VicChartLabelsModule,
   VicChartModule,
   VicOrdinalAxisConfig,
   VicQuantitativeAxisConfig,
@@ -33,6 +34,7 @@ import { EnergyIntensityDatum } from '../energy-intensity.component';
     VicXyBackgroundModule,
     VicXQuantitativeAxisModule,
     VicYOrdinalAxisModule,
+    VicChartLabelsModule,
   ],
   providers: [
     VicBarsConfigBuilder,

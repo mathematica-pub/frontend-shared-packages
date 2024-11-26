@@ -1,3 +1,7 @@
+export * from './chart-labels/chart-labels.module';
+export * from './chart-labels/chart-title/chart-title.component';
+export * from './chart-labels/x-axis-label/x-axis-label.component';
+export * from './chart-labels/y-axis-label/y-axis-label.component';
 export * from './chart/chart';
 export * from './chart/chart.component';
 export * from './chart/chart.module';

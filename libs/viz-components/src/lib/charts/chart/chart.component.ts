@@ -125,9 +125,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
     if (NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'width')) {
       this.setAspectRatio();
     }
-    if (
-      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'margin')
-    ) {
+    if (NgOnChangesUtilities.inputObjectChanged(changes, 'margin')) {
       this._margin.next(this.margin);
     }
   }
