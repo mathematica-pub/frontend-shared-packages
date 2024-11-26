@@ -80,6 +80,7 @@ export class CsaComponent implements OnInit {
             CSA_CompVal:
               x.CSA_CompVal && !isNaN(x.CSA_CompVal) ? +x.CSA_CompVal : null,
             CSA_CompVal_Desc: x.CSA_CompVal_Desc,
+            directionality: x.Directionality,
             plans: [],
           };
           return obj;

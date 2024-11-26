@@ -36,6 +36,7 @@ export interface CsaDatum {
   units: string;
   CSA_CompVal: number;
   CSA_CompVal_Desc: string;
+  directionality: string;
 }
 
 @Component({
