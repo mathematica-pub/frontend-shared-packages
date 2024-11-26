@@ -18,15 +18,15 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "typeRoots": ["node_modules/@types"],
     "target": "ES2022",
     "module": "es2020",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
+    "paths": {
+      "@hsi/app-dev-kit": ["libs/app-dev-kit/src/public-api"],
+      "@hsi/ui-components": ["libs/ui-components/src/public-api"],
+      "@hsi/viz-components": ["libs/viz-components/src/public-api"]
+    },
     "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
