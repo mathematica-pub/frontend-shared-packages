@@ -27,7 +27,8 @@ option:checked {
   padding: 60px 20px 20px 150px !important;
 }
 
-line {
+line,
+rect {
   shape-rendering: crispedges;
 }
 
@@ -37,10 +38,14 @@ circle {
   stroke-opacity: 50%;
 }
 
+@mixin percentile {
+  fill: #dbe9f9;
+  stroke: #0b2949;
+}
+
 .vic-bars-g {
   rect {
-    fill: #dbe9f9;
-    stroke: #0b2949;
+    @include percentile;
   }
 
   & > g:last-child rect {
@@ -93,4 +98,14 @@ circle {
 
 .size-headers {
   text-anchor: end;
+}
+
+.percentile {
+  rect {
+    @include percentile;
+  }
+
+  text {
+    alignment-baseline: middle;
+  }
 }
