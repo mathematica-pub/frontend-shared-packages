@@ -22,16 +22,21 @@ export class CsaStackedBarsComponent
   comparisonGroup: Selection<SVGGElement, unknown, null, undefined>;
   percentGroup: Selection<SVGGElement, unknown, null, undefined>;
   directionLabel: Selection<SVGTextElement, unknown, null, undefined>;
+  headerGroup: Selection<SVGGElement, unknown, null, undefined>;
   compVal: number;
   compIsBig: boolean;
+  headerOffset = -40;
   yAxisOffset = '-2.8em';
+  radius = 4;
 
   override ngOnInit(): void {
     this.createCircleGroup();
     this.createComparisonGroup();
     this.createPercentGroup();
     this.createDirectionLabel();
+    this.createHeaderGroup();
     this.createSizeHeaderGroup();
+    this.createPlanHeaderGroup();
     super.ngOnInit();
   }
 
@@ -48,6 +53,7 @@ export class CsaStackedBarsComponent
     this.updateComparison();
     this.updatePercentLabels();
     this.updateDirectionLabel();
+    this.updatePlanHeader();
     this.updateYLabels();
   }
 
@@ -63,7 +69,7 @@ export class CsaStackedBarsComponent
       .attr('class', 'comparison');
 
     this.comparisonGroup.append('line');
-    this.comparisonGroup.append('text').attr('dy', '-0.8em');
+    this.comparisonGroup.append('text').attr('y', this.headerOffset);
   }
 
   createPercentGroup(): void {
@@ -91,20 +97,38 @@ export class CsaStackedBarsComponent
       .attr('y', '-1em');
   }
 
-  createSizeHeaderGroup(): void {
-    const sizeHeaders = select(this.chart.svgRef.nativeElement)
+  createHeaderGroup(): void {
+    this.headerGroup = select(this.chart.svgRef.nativeElement)
       .append('g')
-      .attr('class', 'size-headers');
-    sizeHeaders
+      .attr('class', 'headers')
+      .attr('transform', `translate(0, ${this.headerOffset})`);
+  }
+
+  createSizeHeaderGroup(): void {
+    const group = this.headerGroup.append('g').attr('class', 'size-headers');
+    group
       .append('text')
-      .attr('y', '-3.5em')
+      .attr('dy', '-0.6em')
       .attr('x', this.yAxisOffset)
       .text('County Categories');
-    sizeHeaders
+    group
       .append('text')
-      .attr('y', '-2.3em')
+      .attr('dy', '0.6em')
       .attr('x', this.yAxisOffset)
       .text('by Population');
+  }
+
+  createPlanHeaderGroup(): void {
+    const group = this.headerGroup.append('g').attr('class', 'plan-header');
+    group
+      .append('text')
+      .attr('x', this.radius * 2 + 15)
+      .text('Plans');
+    group
+      .append('circle')
+      .attr('r', this.radius)
+      .attr('cx', '1em')
+      .attr('cy', -this.radius);
   }
 
   setCompValues(): void {
@@ -146,7 +170,7 @@ export class CsaStackedBarsComponent
       .selectAll('.plan')
       .data((category: CsaDatum) => category.plans)
       .join('circle')
-      .attr('r', 4)
+      .attr('r', this.radius)
       .attr('cx', (plan) => this.scales.x(plan))
       .attr('class', 'plan');
   }
@@ -156,13 +180,13 @@ export class CsaStackedBarsComponent
       .attr('transform', `translate(${this.scales.x(this.compVal)}, 0)`)
       .select('line')
       .attr('y1', this.chart.height)
-      .attr('y2', -24);
+      .attr('y2', this.headerOffset - 10);
 
     this.comparisonGroup
       .select('text')
       .attr('dx', this.compIsBig ? '-0.5em' : '0.5em')
       .attr('text-anchor', this.compIsBig ? 'end' : null)
-      .text(this.getDescription(this.config.data[0].CSA_CompVal_Desc));
+      .text(this.config.data[0].CSA_CompVal_Desc);
   }
 
   updatePercentLabels(): void {
@@ -206,16 +230,19 @@ export class CsaStackedBarsComponent
       .attr('text-anchor', this.compIsBig ? 'start' : 'end');
   }
 
+  updatePlanHeader(): void {
+    this.headerGroup.select('.plan-header').attr('transform', () => {
+      const x =
+        this.config.data[0].CSA_CompVal < 0.33 * this.scales.x.domain()[1]
+          ? this.chart.width - 60
+          : 0;
+      return `translate(${x}, 0)`;
+    });
+  }
+
   updateYLabels(): void {
     select(this.chart.svgRef.nativeElement)
       .selectAll('.vic-y text')
       .attr('dx', this.yAxisOffset);
-  }
-
-  getDescription(description: string): string {
-    if (description === 'med') {
-      description = 'Statewide median plan rate';
-    }
-    return description;
   }
 }
