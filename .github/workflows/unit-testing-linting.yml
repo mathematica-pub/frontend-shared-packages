@@ -21,14 +21,14 @@ jobs:
         with:
           node-version: 20
 
-      - name: Check for nonexistence of @hsi in package.json
+      - name: Verify nonexistence of @hsi in package.json
         run: |
           if grep -q "@hsi" package.json; then
             echo "Error: Found @hsi in package.json"
             exit 1
           fi
 
-      - name: Check for existence of @hsi in tsconfig.json
+      - name: Verify existence of @hsi in tsconfig.json
         run: |
           if ! grep -q "@hsi" tsconfig.json; then
             echo "Error: Did not find @hsi in tsconfig.json"
