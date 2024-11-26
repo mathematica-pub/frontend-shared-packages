@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { StackedBarsComponent } from '@hsi/viz-components';
-import { select, Selection } from 'd3';
+import { format, select, Selection } from 'd3';
 import { CsaDatum } from '../csa-dot-plot.component';
 
 @Component({
@@ -20,6 +20,7 @@ export class CsaStackedBarsComponent
 {
   circleGroup: Selection<SVGGElement, unknown, null, undefined>;
   comparisonGroup: Selection<SVGGElement, unknown, null, undefined>;
+  percentGroup: Selection<SVGGElement, unknown, null, undefined>;
   directionLabel: Selection<SVGTextElement, unknown, null, undefined>;
   compVal: number;
   compIsBig: boolean;
@@ -27,6 +28,7 @@ export class CsaStackedBarsComponent
   override ngOnInit(): void {
     this.createCircleGroup();
     this.createComparisonGroup();
+    this.createPercentGroup();
     this.createDirectionLabel();
     super.ngOnInit();
   }
@@ -42,7 +44,9 @@ export class CsaStackedBarsComponent
     this.updateGridlines();
     this.updateCircleElements();
     this.updateComparison();
+    this.updatePercentLabels();
     this.updateDirectionLabel();
+    this.updateYLabels();
   }
 
   createCircleGroup(): void {
@@ -57,7 +61,25 @@ export class CsaStackedBarsComponent
       .attr('class', 'comparison');
 
     this.comparisonGroup.append('line');
-    this.comparisonGroup.append('text').attr('dy', '-0.7em');
+    this.comparisonGroup.append('text').attr('dy', '-0.8em');
+  }
+
+  createPercentGroup(): void {
+    this.percentGroup = select(this.chart.svgRef.nativeElement)
+      .append('g')
+      .attr('class', 'percent-labels');
+
+    this.percentGroup
+      .append('line')
+      .attr('x1', '-1.3em')
+      .attr('x2', '-1.3em')
+      .attr('y1', '0.2em')
+      .attr('y2', '-0.5em');
+    this.percentGroup
+      .append('text')
+      .attr('class', 'comparison-label')
+      .attr('dx', '-2em')
+      .attr('dy', '-0.8em');
   }
 
   createDirectionLabel(): void {
@@ -116,13 +138,44 @@ export class CsaStackedBarsComponent
       .attr('transform', `translate(${this.scales.x(this.compVal)}, 0)`)
       .select('line')
       .attr('y1', this.chart.height)
-      .attr('y2', -20);
+      .attr('y2', -24);
 
     this.comparisonGroup
       .select('text')
       .attr('dx', this.compIsBig ? '-0.5em' : '0.5em')
       .attr('text-anchor', this.compIsBig ? 'end' : null)
       .text(this.getDescription(this.config.data[0].CSA_CompVal_Desc));
+  }
+
+  updatePercentLabels(): void {
+    this.percentGroup
+      .selectAll('.percent-label')
+      .data(
+        this.config.data.filter(
+          (category: CsaDatum) => category.series !== 'invisible'
+        )
+      )
+      .join('text')
+      .attr('class', 'percent-label')
+      .attr('dx', '-0.3em')
+      .attr(
+        'y',
+        (category: CsaDatum) =>
+          this.scales.y(category.size) + (this.scales.y as any).bandwidth() / 2
+      )
+      .text((category: CsaDatum) => format('.0%')(category.CSA_PctBelowComp));
+
+    this.percentGroup
+      .select('.comparison-label')
+      .text(
+        `% of plans ${this.getDirection()} the ${this.config.data[0].CSA_CompVal_Desc}`
+      );
+  }
+
+  getDirection(): string {
+    return this.config.data[0].directionality === 'Higher is better'
+      ? 'below'
+      : 'above';
   }
 
   updateDirectionLabel(): void {
@@ -133,6 +186,12 @@ export class CsaStackedBarsComponent
       .attr('y', this.chart.height - padding)
       .attr('x', this.compIsBig ? padding : this.chart.width - padding)
       .attr('text-anchor', this.compIsBig ? 'start' : 'end');
+  }
+
+  updateYLabels(): void {
+    select(this.chart.svgRef.nativeElement)
+      .selectAll('.vic-y text')
+      .attr('dx', '-3em');
   }
 
   getDescription(description: string): string {

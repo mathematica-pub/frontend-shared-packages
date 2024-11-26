@@ -27,6 +27,10 @@ option:checked {
   padding: 20px 20px 20px 100px !important;
 }
 
+line {
+  shape-rendering: crispedges;
+}
+
 circle {
   fill: none;
   stroke: black;
@@ -71,4 +75,17 @@ circle {
   text {
     text-transform: capitalize;
   }
+}
+
+.percent-labels line {
+  stroke: black;
+}
+
+.percent-label {
+  text-anchor: end;
+  alignment-baseline: middle;
+}
+
+.comparison-label {
+  font-weight: bold;
 }

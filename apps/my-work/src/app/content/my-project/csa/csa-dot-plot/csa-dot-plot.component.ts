@@ -37,6 +37,7 @@ export interface CsaDatum {
   CSA_CompVal: number;
   CSA_CompVal_Desc: string;
   directionality: string;
+  CSA_PctBelowComp: number;
 }
 
 @Component({
