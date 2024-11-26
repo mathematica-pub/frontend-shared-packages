@@ -11,7 +11,7 @@ import { SimpleMultiSelectComboboxExampleComponent } from './multi-select/simple
 import { DisabledSelectionsSingleExampleComponent } from './single-select/disabled-selections-single-combobox-example/disabled-selections-single-combobox-example.component';
 import { DisplaySingleSelectedComboboxExampleComponent } from './single-select/display-single-selected-combobox-example/display-single-selected-combobox-example.component';
 import { EditableTextboxSingleSelectComboboxExampleComponent } from './single-select/editable-textbox-single-select-combobox-example/editable-textbox-single-select-combobox-example.component';
-import { GroupedSelectionsSingleComboboxExampleComponent } from './single-select/grouped-selections-single-combobox-example/grouped-selections-single-combobox-example.component.';
+import { GroupedSelectionsSingleComboboxExampleComponent } from './single-select/grouped-selections-single-combobox-example/grouped-selections-single-combobox-example.component';
 import { NgFormSingleSelectComboboxExampleComponent } from './single-select/ng-form-single-select-combobox-example/ng-form-single-select-combobox-example.component';
 import { SimpleSingleSelectComboboxExampleComponent } from './single-select/simple-single-select-combobox-example/simple-single-select-combobox-example.component';
 
