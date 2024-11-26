@@ -4,11 +4,18 @@
 backup_files() {
     echo "Backing up package.json and tsconfig.json"
     if [ -f "tsconfig.json.bak" ]; then
-        echo "Backup files already exist. Skipping backup..."
-        return
+        echo "tsconfig.json.bak already exists. Skipping backup..."
+    else
+        cp tsconfig.json tsconfig.json.bak
+        echo "Backup of tsconfig.json created."
     fi
-    cp tsconfig.json tsconfig.json.bak
-    cp "package.json" "package.json.bak"
+
+    if [ -f "package.json.bak" ]; then
+        echo "package.json.bak already exists. Skipping backup..."
+    else
+        cp "package.json" "package.json.bak"
+        echo "Backup of package.json created."
+    fi
 }
 
 # Function to remove paths and add npm packages
