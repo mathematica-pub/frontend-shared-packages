@@ -18,9 +18,11 @@ switch_to_npm() {
     node update-tsconfig-to-use-npm-packages.js
     
     echo "Installing @hsi packages..."
+    aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi
     npm install @hsi/viz-components@latest 
     npm install @hsi/ui-components@latest
     npm install @hsi/app-dev-kit@latest
+    rm -rf dist
     npx nx reset
     echo "Successfully switched to npm packages"
 }
