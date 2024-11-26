@@ -76,7 +76,6 @@ export class ContentFilesService {
             fileConfig: config.config,
             basePath: `${config.lib}/content`,
             parsingOptions: {
-              detectEscaped: true,
               highlighter: {
                 theme: this.highlightTheme,
               },

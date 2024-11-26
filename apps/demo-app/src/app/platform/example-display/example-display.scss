@@ -15,7 +15,7 @@
   .scroll-container {
     height: var(--height);
     max-height: var(--max-height);
-    overflow-y: auto;
+    overflow-y: var(--overflow-y, auto);
   }
 
   .title-bar,

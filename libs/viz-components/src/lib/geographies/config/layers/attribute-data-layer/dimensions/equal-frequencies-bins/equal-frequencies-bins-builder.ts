@@ -36,7 +36,6 @@ export class EqualFrequenciesAttributeDataDimensionBuilder<
    */
   _build(): EqualFrequenciesAttributeDataDimension<Datum, RangeValue> {
     return new EqualFrequenciesAttributeDataDimension({
-      fillDefs: this._fillDefs,
       formatFunction: this._formatFunction,
       formatSpecifier: this._formatSpecifier,
       interpolator: this._interpolator,

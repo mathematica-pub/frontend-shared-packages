@@ -7,9 +7,9 @@ import {
   Polygon,
 } from 'geojson';
 import {
-  stateIncomePopulationData,
-  StateInComePopulationDatum,
-} from 'libs/viz-components/src/lib/testing/data/states-population-income-data';
+  stateIncomePopulationYearData,
+  StateIncomePopulationYearDatum,
+} from 'libs/viz-components/src/lib/testing/data/state-population-income-year-data';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
@@ -23,7 +23,7 @@ import { GeographiesConfig } from '../../../../geographies-config';
 const margin = { top: 36, right: 36, bottom: 36, left: 36 };
 const chartHeight = 400;
 const chartWidth = 600;
-const attributeData = stateIncomePopulationData
+const attributeData = stateIncomePopulationYearData
   .filter((x) => x.year === 2020)
   .filter((x) => x.state !== 'Puerto Rico');
 
@@ -64,7 +64,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
 })
 class TestGeographiesComponent {
   @Input() geographiesConfig: GeographiesConfig<
-    StateInComePopulationDatum,
+    StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >;
   margin = margin;
@@ -74,7 +74,7 @@ class TestGeographiesComponent {
 
 const mountGeographiesComponent = (
   geographiesConfig: GeographiesConfig<
-    StateInComePopulationDatum,
+    StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >
 ): void => {
@@ -95,7 +95,7 @@ const mountGeographiesComponent = (
 // ***********************************************************
 describe('the No Bins Attribute Data dimension', () => {
   let geographiesConfig: GeographiesConfig<
-    StateInComePopulationDatum,
+    StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >;
   beforeEach(() => {
@@ -114,7 +114,7 @@ describe('the No Bins Attribute Data dimension', () => {
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
       geographiesConfig = new VicGeographiesConfigBuilder<
-        StateInComePopulationDatum,
+        StateIncomePopulationYearDatum,
         TestMapGeometryProperties
       >()
         .boundary(usBoundary)
@@ -182,7 +182,7 @@ describe('the No Bins Attribute Data dimension', () => {
       });
       const nullColor = 'chartreuse';
       geographiesConfig = new VicGeographiesConfigBuilder<
-        StateInComePopulationDatum,
+        StateIncomePopulationYearDatum,
         TestMapGeometryProperties
       >()
         .boundary(usBoundary)
@@ -228,7 +228,7 @@ describe('the No Bins Attribute Data dimension', () => {
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
       const nullColor = 'chartreuse';
       geographiesConfig = new VicGeographiesConfigBuilder<
-        StateInComePopulationDatum,
+        StateIncomePopulationYearDatum,
         TestMapGeometryProperties
       >()
         .boundary(usBoundary)

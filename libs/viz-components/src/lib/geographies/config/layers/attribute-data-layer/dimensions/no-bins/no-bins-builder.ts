@@ -49,7 +49,6 @@ export class NoBinsAttributeDataDimensionBuilder<
   _build(): NoBinsAttributeDataDimension<Datum> {
     return new NoBinsAttributeDataDimension({
       domain: this._domain,
-      fillDefs: this._fillDefs,
       formatFunction: this._formatFunction,
       formatSpecifier: this._formatSpecifier,
       interpolator: this._interpolator,

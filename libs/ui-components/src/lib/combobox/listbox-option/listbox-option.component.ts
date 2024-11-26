@@ -10,12 +10,12 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { ComboboxService } from '../combobox.service';
 
-export interface ListboxOptionPropertyChange<T> {
+export interface ListboxOptionPropertyChange {
   property: 'selected' | 'disabled';
   value: boolean;
   comboboxId: string;
   optionId: number;
-  optionValue: T | string;
+  optionValue: string | number | boolean;
 }
 
 let nextUniqueId = 0;
@@ -25,12 +25,13 @@ let nextUniqueId = 0;
   templateUrl: './listbox-option.component.html',
   styleUrls: ['./listbox-option.component.scss'],
 })
-export class ListboxOptionComponent<T> implements OnChanges {
+export class ListboxOptionComponent implements OnChanges {
   @ViewChild('label')
   label: ElementRef<HTMLDivElement>;
   @ViewChild('option') optionContent: TemplateRef<unknown>;
   @Input() boxDisplayLabel: string;
-  @Input() value: T;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @Input() value: any;
   /** Whether the option is selected.
    * If this property is changed during this component's lifecycle, no new value will be emitted from the listbox.
    * Box label and select all button will respond to changes.
@@ -50,11 +51,16 @@ export class ListboxOptionComponent<T> implements OnChanges {
   selected$ = this._selected.asObservable();
   private _disabled: BehaviorSubject<boolean> = new BehaviorSubject(false);
   disabled$ = this._disabled.asObservable();
-  private changes: BehaviorSubject<ListboxOptionPropertyChange<T>> =
+  private changes: BehaviorSubject<ListboxOptionPropertyChange> =
     new BehaviorSubject(undefined);
   changes$ = this.changes.asObservable();
 
   constructor(protected service: ComboboxService) {}
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  get valueToEmit(): any | string {
+    return this.value || this.label?.nativeElement?.innerText.trim();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['disabled']) {
@@ -69,7 +75,7 @@ export class ListboxOptionComponent<T> implements OnChanges {
 
   getPropertyChange(
     property: 'selected' | 'disabled'
-  ): ListboxOptionPropertyChange<T> {
+  ): ListboxOptionPropertyChange {
     return {
       property,
       value: this[property],
@@ -81,6 +87,11 @@ export class ListboxOptionComponent<T> implements OnChanges {
 
   protected updateSelected(selected: boolean): void {
     this._selected.next(selected);
+    if (selected) {
+      this.service.addSelection(this.valueToEmit);
+    } else {
+      this.service.removeSelection(this.valueToEmit);
+    }
   }
 
   private updateDisabled(disabled: boolean): void {

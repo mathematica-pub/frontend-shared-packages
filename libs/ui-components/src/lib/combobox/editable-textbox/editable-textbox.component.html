@@ -17,7 +17,7 @@
     [attr.aria-labelledby]="service.comboboxLabelId"
     [attr.aria-activedescendant]="service.activeDescendant$ | async"
     [attr.aria-expanded]="service.isOpen$ | async"
-    [attr.aria-autocomplete]="autocomplete"
+    [attr.aria-autocomplete]="autoComplete"
     [attr.aria-controls]="service.id + '-listbox'"
     aria-haspopup="listbox"
     data-cy="editable-textbox-input"

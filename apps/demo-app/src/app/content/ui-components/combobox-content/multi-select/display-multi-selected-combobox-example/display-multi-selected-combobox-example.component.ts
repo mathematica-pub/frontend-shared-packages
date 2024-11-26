@@ -1,5 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
 import { ComboboxModule } from '@hsi/ui-components';
 import { BehaviorSubject } from 'rxjs';
 
@@ -9,17 +13,18 @@ import { BehaviorSubject } from 'rxjs';
   imports: [CommonModule, ComboboxModule],
   templateUrl: './display-multi-selected-combobox-example.component.html',
   styleUrl: './display-multi-selected-combobox-example.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class DisplayMultiSelectedComboboxExampleComponent {
   options = [
-    { displayName: 'Cambridge', id: 'cambridge' },
-    { displayName: 'Washington, D.C.', id: 'dc' },
-    { displayName: 'Oakland', id: 'oakland' },
-    { displayName: 'Chicago', id: 'chicago' },
-    { displayName: 'Ann Arbor', id: 'annArbor' },
-    { displayName: 'Woodlawn', id: 'woodlawn' },
-    { displayName: 'Princeton', id: 'princeton' },
+    { displayName: 'Cambridge', id: 'cambridge', disabled: true },
+    { displayName: 'Washington, D.C.', id: 'dc', disabled: true },
+    { displayName: 'Oakland', id: 'oakland', disabled: false },
+    { displayName: 'Chicago', id: 'chicago', disabled: false },
+    { displayName: 'Ann Arbor', id: 'annArbor', disabled: true },
+    { displayName: 'Woodlawn', id: 'woodlawn', disabled: false },
+    { displayName: 'Princeton', id: 'princeton', disabled: true },
   ];
   selected = new BehaviorSubject([]);
   selected$ = this.selected.asObservable();

@@ -14,14 +14,14 @@ export class EqualFrequenciesAttributeDataDimension<
   extends CalculatedBinsAttributeDataDimension<Datum, RangeValue>
   implements EqualFrequenciesAttributeDataDimensionOptions<Datum, RangeValue>
 {
-  readonly binType: BinStrategy.equalFrequencies;
+  override readonly binType: BinStrategy.equalFrequencies;
   private calculatedDomain: number[];
   readonly numBins: number;
 
   constructor(
     options: EqualFrequenciesAttributeDataDimensionOptions<Datum, RangeValue>
   ) {
-    super();
+    super('number');
     this.binType = BinStrategy.equalFrequencies;
     Object.assign(this, options);
     if (!this.valueAccessor) {

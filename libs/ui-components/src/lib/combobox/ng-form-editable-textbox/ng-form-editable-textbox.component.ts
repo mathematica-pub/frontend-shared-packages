@@ -1,7 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
-import { filter } from 'rxjs';
 import { OptionAction } from '../combobox.service';
 import { EditableTextboxComponent } from '../editable-textbox/editable-textbox.component';
 
@@ -17,11 +16,11 @@ export class NgFormEditableTextboxComponent
   override displaySelected = false;
   @ViewChild('box') boxElRef: ElementRef<HTMLInputElement>;
   @Input({ required: true }) inputControl: FormControl<string>;
-  override inputValue: never;
+  override textboxValue: never;
 
   override ngOnInit(): void {
     super.ngOnInit();
-    this.onValueChange();
+    this.setTextboxValueChangeHandling();
   }
 
   override setInputValue(value: string): void {
@@ -35,17 +34,17 @@ export class NgFormEditableTextboxComponent
     return;
   }
 
-  onValueChange(): void {
+  setTextboxValueChangeHandling(): void {
     this.inputControl.valueChanges
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        filter((value) => value === '')
-      )
-      .subscribe(() => {
-        const optionAction = this.autoSelectWhenTextboxIsEmpty
-          ? OptionAction.zeroActiveIndex
-          : OptionAction.nullActiveIndex;
-        this.service.emitOptionAction(optionAction);
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        if (this.autoSelect) {
+          if (value === '') {
+            this.setAutoSelectWhenInputIsEmpty();
+          } else {
+            this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
+          }
+        }
       });
   }
 }

@@ -14,7 +14,10 @@ import { VicOrdinalAxisConfig } from '../../../axes/ordinal/ordinal-axis-config'
 import { VicQuantitativeAxisConfig } from '../../../axes/quantitative/quantitative-axis-config';
 import { VicBarsConfigBuilder } from '../../../bars/config/bars-builder';
 import { BarsConfig } from '../../../bars/config/bars-config';
-import { QOCData, QOCDatum } from '../../../testing/data/quant-ord-cat-data';
+import {
+  countryFactsData,
+  CountryFactsDatum,
+} from '../../../testing/data/country-area-continent';
 
 const dotsPatternMagenta = 'dotsMagenta';
 const dotsPatternTeal = 'dotsTeal';
@@ -91,7 +94,7 @@ const customCategoricalScale = (d: string) => {
   styles: [],
 })
 class TestHorizontalBarsComponent {
-  @Input() barsConfig: BarsConfig<QOCDatum, string>;
+  @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
   @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   margin = horizontalMargin;
@@ -102,7 +105,7 @@ class TestHorizontalBarsComponent {
 }
 
 const mountHorizontalBarsComponent = (
-  barsConfig: BarsConfig<QOCDatum, string>
+  barsConfig: BarsConfig<CountryFactsDatum, string>
 ): void => {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder()
     .tickFormat('.0f')
@@ -132,15 +135,15 @@ const mountHorizontalBarsComponent = (
 // Marks fill/stroke is correct
 // ***********************************************************
 describe('marks have expected fill', () => {
-  let barsConfig: BarsConfig<QOCDatum, string>;
+  let barsConfig: BarsConfig<CountryFactsDatum, string>;
   beforeEach(() => {
     barsConfig = undefined;
   });
   describe('user does not specify a categorical valueAccessor or a custom scale', () => {
     it('colors every mark by first color in user-provided range if user provides range of length >= 1', () => {
       const color = 'chartreuse';
-      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
-        .data(QOCData)
+      barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+        .data(countryFactsData)
         .horizontal((bars) =>
           bars
             .x((dimension) => dimension.valueAccessor((d) => d.area))
@@ -156,8 +159,8 @@ describe('marks have expected fill', () => {
     });
     it('colors every mark by first color in the default range if user provides no range and no custom scale', () => {
       const color = schemeTableau10[0];
-      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
-        .data(QOCData)
+      barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+        .data(countryFactsData)
         .horizontal((bars) =>
           bars
             .x((dimension) =>
@@ -176,8 +179,8 @@ describe('marks have expected fill', () => {
   describe('user provides a valueAccessor for the categorical dimension', () => {
     it('colors every mark according to the valueAccessor using default color array', () => {
       const color = schemeTableau10;
-      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
-        .data(QOCData)
+      barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+        .data(countryFactsData)
         .horizontal((bars) =>
           bars
             .x((dimension) =>
@@ -190,7 +193,7 @@ describe('marks have expected fill', () => {
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar, i) => {
-        switch (QOCData[i].continent) {
+        switch (countryFactsData[i].continent) {
           case 'Asia':
             expect($bar.attr('fill')).to.equal(color[0]);
             break;
@@ -214,8 +217,8 @@ describe('marks have expected fill', () => {
   });
   describe('user provides a custom scale for the categorical dimension', () => {
     it('colors every mark according to the custom scale when user also provides a value accessor', () => {
-      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
-        .data(QOCData)
+      barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+        .data(countryFactsData)
         .horizontal((bars) =>
           bars
             .x((dimension) =>
@@ -232,7 +235,7 @@ describe('marks have expected fill', () => {
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar, i) => {
-        switch (QOCData[i].continent) {
+        switch (countryFactsData[i].continent) {
           case 'Asia':
             expect($bar.attr('fill')).to.equal('red');
             break;
@@ -254,8 +257,8 @@ describe('marks have expected fill', () => {
       });
     });
     it('colors every mark according to the custom scales behavior with empty string arg when user does not provide a value accessor', () => {
-      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
-        .data(QOCData)
+      barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+        .data(countryFactsData)
         .horizontal((bars) =>
           bars
             .x((dimension) =>
@@ -278,13 +281,13 @@ describe('marks have expected fill', () => {
 // Marks fill/stroke is correct - testing Fill Pattern
 // ***********************************************************
 describe('user provides a fill pattern', () => {
-  let barsConfig: BarsConfig<QOCDatum, string>;
+  let barsConfig: BarsConfig<CountryFactsDatum, string>;
   beforeEach(() => {
     barsConfig = undefined;
   });
-  it('sets bar fill with either the pattern name or the regular fill according to useDef function', () => {
-    barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
-      .data(QOCData)
+  it('sets bar fill with either the pattern name or the regular fill according to shouldApply function', () => {
+    barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+      .data(countryFactsData)
       .horizontal((bars) =>
         bars
           .x((dimension) =>
@@ -292,14 +295,12 @@ describe('user provides a fill pattern', () => {
           )
           .y((dimension) => dimension.valueAccessor((d) => d.country))
       )
-      .color((dimension) =>
-        dimension.fillDefs([
-          {
-            name: dotsPatternMagenta,
-            useDef: (d) => d.continent === 'Africa' && d.area > 500000,
-          },
-        ])
-      )
+      .customFills([
+        {
+          defId: dotsPatternMagenta,
+          shouldApply: (d) => d.continent === 'Africa' && d.area > 500000,
+        },
+      ])
       .labels((labels) => labels.display(true))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig);
@@ -311,9 +312,9 @@ describe('user provides a fill pattern', () => {
       }
     });
   });
-  it('sets bar fill with either the pattern name or the regular fill according to useDef function when user provides a scale and valueAccessor', () => {
-    barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
-      .data(QOCData)
+  it('sets bar fill with either the pattern name or the regular fill according to shouldApply function when user provides a scale and valueAccessor', () => {
+    barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+      .data(countryFactsData)
       .horizontal((bars) =>
         bars
           .x((dimension) =>
@@ -323,15 +324,15 @@ describe('user provides a fill pattern', () => {
       )
       .color((dimension) =>
         dimension
-          .fillDefs([
-            {
-              name: dotsPatternMagenta,
-              useDef: (d) => d.continent === 'Africa' && d.area > 500000,
-            },
-          ])
           .valueAccessor((d) => d.continent)
           .scale(customCategoricalScale)
       )
+      .customFills([
+        {
+          defId: dotsPatternMagenta,
+          shouldApply: (d) => d.continent === 'Africa' && d.area > 500000,
+        },
+      ])
       .labels((labels) => labels.display(true))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig);
@@ -339,7 +340,7 @@ describe('user provides a fill pattern', () => {
       if (i === 2) {
         expect($bar.attr('fill')).to.equal(`url(#${dotsPatternMagenta})`);
       } else {
-        switch (QOCData[i].continent) {
+        switch (countryFactsData[i].continent) {
           case 'Asia':
             expect($bar.attr('fill')).to.equal('red');
             break;
@@ -361,9 +362,9 @@ describe('user provides a fill pattern', () => {
       }
     });
   });
-  it('sets bar fill with the last matching pattern in fillDefs array if two patterns match', () => {
-    barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
-      .data(QOCData)
+  it('sets bar fill with the last matching pattern in customFills array if two patterns match', () => {
+    barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+      .data(countryFactsData)
       .horizontal((bars) =>
         bars
           .x((dimension) =>
@@ -371,20 +372,17 @@ describe('user provides a fill pattern', () => {
           )
           .y((dimension) => dimension.valueAccessor((d) => d.country))
       )
-      .color((dimension) =>
-        dimension
-          .fillDefs([
-            {
-              name: dotsPatternMagenta,
-              useDef: (d) => d.continent === 'Africa' && d.area > 500000,
-            },
-            {
-              name: dotsPatternTeal,
-              useDef: (d) => d.continent === 'Africa' && d.area > 700000,
-            },
-          ])
-          .range(['lightcoral'])
-      )
+      .color((dimension) => dimension.range(['lightcoral']))
+      .customFills([
+        {
+          defId: dotsPatternMagenta,
+          shouldApply: (d) => d.continent === 'Africa' && d.area > 500000,
+        },
+        {
+          defId: dotsPatternTeal,
+          shouldApply: (d) => d.continent === 'Africa' && d.area > 700000,
+        },
+      ])
       .labels((labels) => labels.display(true))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig);

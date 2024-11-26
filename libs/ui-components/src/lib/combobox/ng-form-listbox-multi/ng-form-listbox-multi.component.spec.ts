@@ -9,8 +9,8 @@ import { ListboxScrollServiceStub } from '../testing/listbox-scroll.service.stub
 import { NgFormListboxMultiComponent } from './ng-form-listbox-multi.component';
 
 describe('NgFormListboxMultiComponent', () => {
-  let component: NgFormListboxMultiComponent<any>;
-  let fixture: ComponentFixture<NgFormListboxMultiComponent<any>>;
+  let component: NgFormListboxMultiComponent;
+  let fixture: ComponentFixture<NgFormListboxMultiComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

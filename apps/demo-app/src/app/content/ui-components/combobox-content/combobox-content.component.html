@@ -1,84 +1,114 @@
-<app-content-container>
-  <ng-template let-section #escapedContent>
-    @switch (section.content.trim()) {
-      @case ('SimpleMultiSelect') {
+<app-content-container class="combobox-content-container">
+  <ng-template let-section #customAngular>
+    @switch (section.content) {
+      @case ('simple multi select') {
         <app-single-panel-example-display
-          height="600px"
+          [height]="exampleHeight"
           path="app/content/ui-components/combobox-content/multi-select/simple-multi-select-combobox-example"
           class="example"
-          label="simple multi select combobox example"
+          label="simple multi-select combobox"
+          [exampleTabCanScroll]="false"
         >
           <app-simple-multi-select-combobox-example></app-simple-multi-select-combobox-example>
         </app-single-panel-example-display>
       }
-      @case ('DisplayMultiSelected') {
+      @case ('display selected options multi select') {
         <app-single-panel-example-display
-          height="500px"
+          [height]="exampleHeight"
           path="app/content/ui-components/combobox-content/multi-select/display-multi-selected-combobox-example"
           class="example"
-          label="multi select combobox example that displays selected"
+          label="multi-select combobox that displays selected"
+          [exampleTabCanScroll]="false"
         >
           <app-display-multi-selected-combobox-example></app-display-multi-selected-combobox-example>
         </app-single-panel-example-display>
       }
-      @case ('DisabledSelectionsMultiSelect') {
+      @case ('disabled options multi select') {
         <app-single-panel-example-display
-          height="600px"
+          [height]="exampleHeight"
           path="app/content/ui-components/combobox-content/multi-select/disabled-selections-multi-combobox-example"
           class="example"
-          label="multi select combobox example with disabled options"
+          label="multi-select combobox with disabled options"
+          [exampleTabCanScroll]="false"
         >
           <app-disabled-selections-multi-combobox-example></app-disabled-selections-multi-combobox-example>
         </app-single-panel-example-display>
       }
-      @case ('NgFormMultiSelect') {
+      @case ('ng form control multi select') {
         <app-single-panel-example-display
-          height="600px"
+          [height]="exampleHeight"
           path="app/content/ui-components/combobox-content/multi-select/ng-form-multi-select-combobox-example"
           class="example"
-          label="multi select combobox example that uses FormControl"
+          label="multi-select combobox that uses FormControl"
+          [exampleTabCanScroll]="false"
         >
           <app-ng-form-multi-select-combobox-example></app-ng-form-multi-select-combobox-example>
         </app-single-panel-example-display>
       }
-      @case ('SimpleSingleSelect') {
+      @case ('editable textbox multi select') {
         <app-single-panel-example-display
-          height="500px"
+          [height]="exampleHeight"
+          path="app/content/ui-components/combobox-content/multi-select/editable-textbox-multi-select-combobox-example"
+          class="example"
+          label="editable textbox multi-select combobox"
+          [exampleTabCanScroll]="false"
+        >
+          <app-editable-textbox-multi-select-combobox-example></app-editable-textbox-multi-select-combobox-example>
+        </app-single-panel-example-display>
+      }
+      @case ('simple multi select') {
+        <app-single-panel-example-display
+          [height]="exampleHeight"
           path="app/content/ui-components/combobox-content/single-select/simple-single-select-combobox-example"
           class="example"
-          label="simple single select combobox example"
+          label="simple single-select combobox"
+          [exampleTabCanScroll]="false"
         >
           <app-simple-single-select-combobox-example></app-simple-single-select-combobox-example>
         </app-single-panel-example-display>
       }
-      @case ('DisplaySingleSelected') {
+      @case ('display selected option single select') {
         <app-single-panel-example-display
-          height="500px"
+          [height]="exampleHeight"
           path="app/content/ui-components/combobox-content/single-select/display-single-selected-combobox-example"
           class="example"
-          label="single select combobox example that displays selected"
+          label="single-select combobox that displays selected"
+          [exampleTabCanScroll]="false"
         >
           <app-display-single-selected-combobox-example></app-display-single-selected-combobox-example>
         </app-single-panel-example-display>
       }
-      @case ('DisabledSelectionsSingleSelect') {
+      @case ('disabled options single select') {
         <app-single-panel-example-display
-          height="500px"
+          [height]="exampleHeight"
           path="app/content/ui-components/combobox-content/single-select/disabled-selections-single-combobox-example"
           class="example"
-          label="single select combobox example with disabled options"
+          label="single-select combobox with disabled options"
+          [exampleTabCanScroll]="false"
         >
           <app-disabled-selections-single-combobox-example></app-disabled-selections-single-combobox-example>
         </app-single-panel-example-display>
       }
-      @case ('NgFormSingleSelect') {
+      @case ('ng form control single select') {
         <app-single-panel-example-display
-          height="500px"
+          [height]="exampleHeight"
           path="app/content/ui-components/combobox-content/single-select/ng-form-single-select-combobox-example"
           class="example"
-          label="single select combobox example that uses FormControl"
+          label="single-select combobox that uses FormControl"
+          [exampleTabCanScroll]="false"
         >
           <app-ng-form-single-select-combobox-example></app-ng-form-single-select-combobox-example>
+        </app-single-panel-example-display>
+      }
+      @case ('editable textbox single select') {
+        <app-single-panel-example-display
+          [height]="exampleHeight"
+          path="app/content/ui-components/combobox-content/single-select/editable-textbox-single-select-combobox-example"
+          class="example"
+          label="editable textbox single-select combobox"
+          [exampleTabCanScroll]="false"
+        >
+          <app-editable-textbox-single-select-combobox-example></app-editable-textbox-single-select-combobox-example>
         </app-single-panel-example-display>
       }
     }

@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
-import { ComboboxModule } from 'dist/ui-components';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
+import { ComboboxModule } from '@hsi/ui-components';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -9,6 +13,7 @@ import { BehaviorSubject } from 'rxjs';
   imports: [CommonModule, ComboboxModule],
   templateUrl: './display-single-selected-combobox-example.component.html',
   styleUrl: './display-single-selected-combobox-example.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class DisplaySingleSelectedComboboxExampleComponent {
@@ -26,7 +31,7 @@ export class DisplaySingleSelectedComboboxExampleComponent {
   selected = new BehaviorSubject<string>(null);
   selected$ = this.selected.asObservable();
 
-  onSelection(selectedId: string): void {
-    this.selected.next(selectedId);
+  onSelection(selectedIds: string[]): void {
+    this.selected.next(selectedIds[0]);
   }
 }
