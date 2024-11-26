@@ -24,12 +24,14 @@ export class CsaStackedBarsComponent
   directionLabel: Selection<SVGTextElement, unknown, null, undefined>;
   compVal: number;
   compIsBig: boolean;
+  yAxisOffset = '-2.8em';
 
   override ngOnInit(): void {
     this.createCircleGroup();
     this.createComparisonGroup();
     this.createPercentGroup();
     this.createDirectionLabel();
+    this.createSizeHeaderGroup();
     super.ngOnInit();
   }
 
@@ -87,6 +89,22 @@ export class CsaStackedBarsComponent
       .append('text')
       .attr('class', 'direction-label')
       .attr('y', '-1em');
+  }
+
+  createSizeHeaderGroup(): void {
+    const sizeHeaders = select(this.chart.svgRef.nativeElement)
+      .append('g')
+      .attr('class', 'size-headers');
+    sizeHeaders
+      .append('text')
+      .attr('y', '-3.5em')
+      .attr('x', this.yAxisOffset)
+      .text('County Categories');
+    sizeHeaders
+      .append('text')
+      .attr('y', '-2.3em')
+      .attr('x', this.yAxisOffset)
+      .text('by Population');
   }
 
   setCompValues(): void {
@@ -191,7 +209,7 @@ export class CsaStackedBarsComponent
   updateYLabels(): void {
     select(this.chart.svgRef.nativeElement)
       .selectAll('.vic-y text')
-      .attr('dx', '-3em');
+      .attr('dx', this.yAxisOffset);
   }
 
   getDescription(description: string): string {

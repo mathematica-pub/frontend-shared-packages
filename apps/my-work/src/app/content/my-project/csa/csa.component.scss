@@ -24,7 +24,7 @@ option:checked {
 }
 
 .image {
-  padding: 20px 20px 20px 100px !important;
+  padding: 60px 20px 20px 150px !important;
 }
 
 line {
@@ -89,4 +89,8 @@ circle {
 
 .comparison-label {
   font-weight: bold;
+}
+
+.size-headers {
+  text-anchor: end;
 }
