@@ -1,7 +1,7 @@
 <div class="title">CSA</div>
 <form [formGroup]="myForm">
   <div class="selection">
-    <label for="delivSys">Delivery system:</label>
+    <label for="delivSys">Delivery system</label>
     <select id="delivSys" formControlName="delivSys">
       <option *ngFor="let system of delivSyss" [ngValue]="system">
         {{ system }}
@@ -9,7 +9,7 @@
     </select>
   </div>
   <div class="selection">
-    <label for="measureCode">Measure Code:</label>
+    <label for="measureCode">Measure Code</label>
     <select id="measureCode" formControlName="measureCode">
       <option *ngFor="let code of measureCodes" [ngValue]="code">
         {{ code }}
@@ -17,7 +17,7 @@
     </select>
   </div>
   <div class="selection">
-    <label for="stratVal">Stratification:</label>
+    <label for="stratVal">Stratification</label>
     <select id="stratVal" formControlName="stratVal">
       <option *ngFor="let strat of stratVals" [ngValue]="strat">
         {{ strat }}
