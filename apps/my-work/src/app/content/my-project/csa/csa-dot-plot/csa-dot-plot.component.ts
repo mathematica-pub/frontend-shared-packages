@@ -140,7 +140,7 @@ export class CsaDotPlotComponent implements OnChanges {
       this.yAxisConfig = this.yOrdinalAxis.getConfig();
       this.xAxisConfig = this.xQuantitativeAxis
         .tickFormat(this.getTickFormat())
-        .numTicks(4)
+        .numTicks(5)
         .getConfig();
     }
   }
