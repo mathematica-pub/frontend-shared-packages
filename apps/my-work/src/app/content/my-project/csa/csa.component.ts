@@ -95,19 +95,19 @@ export class CsaComponent implements OnInit {
 
     this.data$ = data$.pipe(
       map((data) => {
+        this.delivSyss = [
+          ...new Set(data.map((x) => x.delivSys).sort(ascending)),
+        ];
         this.measureCodes = [
           ...new Set(data.map((x) => x.measureCode).sort(ascending)),
         ];
         this.stratVals = [
           ...new Set(data.map((x) => x.stratVal).sort(ascending)),
         ];
-        this.delivSyss = [
-          ...new Set(data.map((x) => x.delivSys).sort(ascending)),
-        ];
 
+        this.myForm.controls['delivSys'].setValue(this.delivSyss[0]);
         this.myForm.controls['measureCode'].setValue(this.measureCodes[0]);
         this.myForm.controls['stratVal'].setValue(this.stratVals[0]);
-        this.myForm.controls['delivSys'].setValue(this.delivSyss[0]);
 
         return data;
       })
@@ -116,9 +116,9 @@ export class CsaComponent implements OnInit {
 
   setForm(): void {
     this.myForm = new FormGroup({
+      delivSys: new FormControl(),
       measureCode: new FormControl(),
       stratVal: new FormControl(),
-      delivSys: new FormControl(),
     });
 
     this.filter$ = this.myForm.valueChanges.pipe(
@@ -137,9 +137,9 @@ export class CsaComponent implements OnInit {
   getFilteredData(data: CsaDatum[], filters: any): CsaDatum[] {
     return data.filter(
       (plan) =>
+        plan.delivSys === filters.delivSys &&
         plan.measureCode === filters.measureCode &&
-        plan.stratVal === filters.stratVal &&
-        plan.delivSys === filters.delivSys
+        plan.stratVal === filters.stratVal
     );
   }
 }
