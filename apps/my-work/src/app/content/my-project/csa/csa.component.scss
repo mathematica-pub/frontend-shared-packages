@@ -1,6 +1,8 @@
 $blue: #4472c4;
+$font-family: Segoe UI;
 
 svg {
+  font-family: $font-family;
   font-size: 12px;
 }
 
@@ -57,8 +59,14 @@ circle {
   stroke: #f0f0f0;
 }
 
-.tick line:not(.gridline) {
-  display: none;
+.tick {
+  text {
+    font-family: $font-family;
+  }
+
+  line:not(.gridline) {
+    display: none;
+  }
 }
 
 .vic-y .domain {
