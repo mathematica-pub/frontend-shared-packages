@@ -5,8 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { ComboboxModule } from '../combobox.module';
-import { SingleSelectListboxValue } from '../listbox/listbox.component';
 import { scss } from './combobox-testing.constants';
+
+type SingleSelectListboxValue<T> = string | T;
 
 @Component({
   selector: 'hsi-ui-ng-form-listbox-single-test',
