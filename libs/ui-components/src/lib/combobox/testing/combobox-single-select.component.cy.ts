@@ -60,6 +60,23 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.combobox-textbox').click();
       cy.get('.combobox-listbox').should('be.visible');
     });
+    it('accessibility: opens the combobox on enter when focused', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.combobox-listbox').should('be.visible');
+    });
+    it('accessibility: highlights the first option on enter', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+    });
+    it('accessibility: selects an option using the keyboard and update the value', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+      cy.get('.combobox-textbox').type('{downarrow}{enter}');
+      cy.get('.combobox-value').should('have.text', 'Bananas');
+    });
     it('should emit the correct value on option click', () => {
       cy.get('.combobox-textbox').click();
       cy.get('.listbox-option').first().realClick();

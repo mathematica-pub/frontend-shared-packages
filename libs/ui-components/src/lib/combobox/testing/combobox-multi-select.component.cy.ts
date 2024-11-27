@@ -61,6 +61,26 @@ describe('ComboboxMultiComponent', () => {
     cy.get('.outside-element').realClick();
     cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
   });
+  it('accessibility: opens the combobox on enter when focused', () => {
+    cy.get('.combobox-textbox').focus();
+    cy.get('.combobox-textbox').type('{enter}');
+    cy.get('.combobox-listbox').should('be.visible');
+  });
+  it('accessibility: highlights the first option on enter', () => {
+    cy.get('.combobox-textbox').focus();
+    cy.get('.combobox-textbox').type('{enter}');
+    cy.get('.listbox-option').first().should('have.class', 'current');
+  });
+  it('accessibility: selects and unselects options using the keyboard and updates the value', () => {
+    cy.get('.combobox-textbox').focus();
+    cy.get('.combobox-textbox').type('{enter}');
+    cy.get('.listbox-option').first().should('have.class', 'current');
+    cy.get('.combobox-textbox').type('{downarrow}{enter}');
+    cy.get('.combobox-textbox').type('{downarrow}{downarrow}{enter}');
+    cy.get('.combobox-value').should('have.text', 'Bananas,Durians');
+    cy.get('.combobox-textbox').type('{enter}');
+    cy.get('.combobox-value').should('have.text', 'Bananas');
+  });
 });
 
 // Multi select combobox with dynamic label that updates on option selection
