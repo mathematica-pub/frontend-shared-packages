@@ -12,8 +12,14 @@ form {
   padding-top: 1.5em;
 }
 
-option:checked {
-  display: none;
+option {
+  &:checked {
+    display: none;
+  }
+
+  &[disabled] {
+    color: lightgrey;
+  }
 }
 
 .title {

@@ -15,7 +15,7 @@ import {
 import { DataService } from 'apps/my-work/src/app/core/services/data.service';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { ascending } from 'd3';
-import { combineLatest, filter, map, Observable, startWith } from 'rxjs';
+import { combineLatest, debounceTime, filter, map, Observable } from 'rxjs';
 import {
   CsaDatum,
   CsaDotPlotComponent,
@@ -25,6 +25,11 @@ interface SelectionForm {
   measureCode: AbstractControl<string>;
   delivSys: AbstractControl<string>;
   stratVal: AbstractControl<string>;
+}
+
+interface Option {
+  name: string;
+  disabled: boolean;
 }
 
 @Component({
@@ -44,12 +49,12 @@ interface SelectionForm {
 export class CsaComponent implements OnInit {
   dataPath = 'content/data/Mock_Statistical_Results.csv';
   data$: Observable<CsaDatum[]>;
-  filteredData$: Observable<CsaDatum[]>;
   filter$: Observable<FormGroup<SelectionForm>>;
+  filteredData$: Observable<CsaDatum[]>;
   myForm: FormGroup;
-  measureCodes: string[] = [];
-  stratVals: string[] = [];
-  delivSyss: string[] = [];
+  measureCodes: Option[] = [];
+  stratVals: Option[] = [];
+  delivSyss: Option[] = [];
 
   constructor(private dataService: DataService) {}
 
@@ -94,24 +99,20 @@ export class CsaComponent implements OnInit {
     );
 
     this.data$ = data$.pipe(
-      map((data) => {
-        this.delivSyss = [
-          ...new Set(data.map((x) => x.delivSys).sort(ascending)),
-        ];
-        this.measureCodes = [
-          ...new Set(data.map((x) => x.measureCode).sort(ascending)),
-        ];
-        this.stratVals = [
-          ...new Set(data.map((x) => x.stratVal).sort(ascending)),
-        ];
-
-        this.myForm.controls['delivSys'].setValue(this.delivSyss[0]);
-        this.myForm.controls['measureCode'].setValue(this.measureCodes[0]);
-        this.myForm.controls['stratVal'].setValue(this.stratVals[0]);
-
+      map((data: CsaDatum[]) => {
+        this.setOptions(data);
+        this.myForm.controls['delivSys'].setValue(this.delivSyss[0].name);
+        this.myForm.controls['measureCode'].setValue(this.measureCodes[0].name);
+        this.myForm.controls['stratVal'].setValue(this.stratVals[0].name);
         return data;
       })
     );
+  }
+
+  setOptions(data: CsaDatum[]): void {
+    this.delivSyss = this.getOptions(data, 'delivSys');
+    this.measureCodes = this.getOptions(data, 'measureCode');
+    this.stratVals = this.getOptions(data, 'stratVal');
   }
 
   setForm(): void {
@@ -122,24 +123,67 @@ export class CsaComponent implements OnInit {
     });
 
     this.filter$ = this.myForm.valueChanges.pipe(
-      startWith(this.myForm.value),
       filter((form) => form !== undefined)
     );
 
-    const dataAndFilter$: Observable<[CsaDatum[], FormGroup<SelectionForm>]> =
-      combineLatest([this.data$, this.filter$.pipe(startWith(this.myForm))]);
-
-    this.filteredData$ = dataAndFilter$.pipe(
+    this.filteredData$ = combineLatest([this.data$, this.filter$]).pipe(
+      debounceTime(10),
       map(([data, filters]) => this.getFilteredData(data, filters))
     );
   }
 
   getFilteredData(data: CsaDatum[], filters: any): CsaDatum[] {
+    this.setOptions(data);
+    this.setValidValues();
     return data.filter(
       (plan) =>
         plan.delivSys === filters.delivSys &&
         plan.measureCode === filters.measureCode &&
         plan.stratVal === filters.stratVal
     );
+  }
+
+  getOptions(data: CsaDatum[], type: string): Option[] {
+    const options = [...new Set(data.map((x) => x[type]).sort(ascending))].map(
+      (x: string) => ({
+        name: x,
+        disabled: this.getDisabled(data, type, x),
+      })
+    );
+    return options;
+  }
+
+  getDisabled(data: CsaDatum[], type: string, selectedOption: string): boolean {
+    const delivSys = this.myForm.controls['delivSys'].value;
+    let count = Infinity;
+    if (type === 'measureCode') {
+      count = data.filter(
+        (y) => y.delivSys === delivSys && y.measureCode === selectedOption
+      ).length;
+    } else if (type === 'stratVal') {
+      const measureCode = this.myForm.controls['measureCode'].value;
+      count = data.filter(
+        (y) =>
+          y.delivSys === delivSys &&
+          y.measureCode === measureCode &&
+          y.stratVal === selectedOption
+      ).length;
+    }
+    return count === 0;
+  }
+
+  setValidValues(): void {
+    const types = ['measureCode', 'stratVal'];
+    types.forEach((type: string) => {
+      const selectedOption = this[`${type}s`].find(
+        (x: Option) => x.name === this.myForm.controls[type].value
+      );
+      const validSelection = this[`${type}s`].find(
+        (x: Option) => x.disabled === false
+      )?.name;
+      if (selectedOption?.disabled || !selectedOption?.name) {
+        this.myForm.controls[type].setValue(validSelection);
+      }
+    });
   }
 }
