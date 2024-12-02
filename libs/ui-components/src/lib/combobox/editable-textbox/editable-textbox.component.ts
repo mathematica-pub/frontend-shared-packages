@@ -8,9 +8,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  Autocomplete,
-  AutocompleteType,
-  ComboboxActionType,
+  AutoComplete,
+  ComboboxAction,
   Key,
   ListboxAction,
   OptionAction,
@@ -29,33 +28,20 @@ export class EditableTextboxComponent
   implements OnInit
 {
   @ViewChild('box') inputElRef: ElementRef<HTMLInputElement>;
-  @Input() placeholder = '';
+  @Input() autoComplete: AutoComplete = AutoComplete.list;
+  @Input() autoSelect = false;
+  @Input() autoSelectTrigger: 'any' | 'character' = 'character';
   @Input() inputType: 'text' | 'search' = 'text';
-  @Input() autoSelectionOnTextInput: 'empty' | 'character' | 'none' | 'both' =
-    'both';
-  @Output() inputValue = new EventEmitter<string>();
-  autocomplete: AutocompleteType = Autocomplete.list;
+  @Input() placeholder = '';
+  @Output() textboxValue = new EventEmitter<string>();
   moveFocusToTextboxKeys = ['RightArrow', 'LeftArrow', 'Home', 'End'];
   value = '';
   override openKeys = ['ArrowDown', 'ArrowUp'];
 
   override ngOnInit(): void {
     super.ngOnInit();
-    this.service.autocomplete = this.autocomplete;
-  }
-
-  get autoSelectWhenTextboxIsEmpty(): boolean {
-    return (
-      this.autoSelectionOnTextInput === 'empty' ||
-      this.autoSelectionOnTextInput === 'both'
-    );
-  }
-
-  get autoSelectWhenTextboxHasCharacters(): boolean {
-    return (
-      this.autoSelectionOnTextInput === 'character' ||
-      this.autoSelectionOnTextInput === 'both'
-    );
+    this.service.shouldAutoSelectOnListboxClose =
+      this.autoSelect && this.autoSelectTrigger === 'any';
   }
 
   setInputValue(value: string): void {
@@ -67,12 +53,11 @@ export class EditableTextboxComponent
 
   onInputChange(value: string): void {
     if (value === '') {
-      const optionAction = this.autoSelectWhenTextboxIsEmpty
-        ? OptionAction.zeroActiveIndex
-        : OptionAction.nullActiveIndex;
-      this.service.emitOptionAction(optionAction);
+      this.setAutoSelectWhenInputIsEmpty();
+    } else {
+      this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
     }
-    this.inputValue.emit(value);
+    this.textboxValue.emit(value);
   }
 
   override handleClick(): void {
@@ -80,20 +65,22 @@ export class EditableTextboxComponent
       this.service.closeListbox();
     } else {
       this.service.openListbox();
-      const currentValue = this.inputElRef.nativeElement.value;
-      let optionAction: OptionAction;
-      if (currentValue === '') {
-        optionAction = this.autoSelectWhenTextboxIsEmpty
-          ? OptionAction.zeroActiveIndex
-          : OptionAction.nullActiveIndex;
-      } else {
-        optionAction = this.autoSelectWhenTextboxHasCharacters
-          ? OptionAction.zeroActiveIndex
-          : OptionAction.nullActiveIndex;
+      if (this.autoSelect) {
+        const inputValue = this.inputElRef.nativeElement.value;
+        if (inputValue === '') {
+          this.setAutoSelectWhenInputIsEmpty();
+        } else {
+          this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
+        }
       }
-      this.service.emitOptionAction(optionAction);
     }
     this.service.setVisualFocus(VisualFocus.textbox);
+  }
+
+  protected setAutoSelectWhenInputIsEmpty(): void {
+    this.service.shouldAutoSelectOnListboxClose = this.autoSelect
+      ? this.autoSelectTrigger === 'any'
+      : false;
   }
 
   override onEscape(): void {
@@ -105,7 +92,7 @@ export class EditableTextboxComponent
     }
   }
 
-  override getActionFromKeydownEvent(event: KeyboardEvent): ComboboxActionType {
+  override getActionFromKeydownEvent(event: KeyboardEvent): ComboboxAction {
     if (event.ctrlKey || event.key === 'Shift') {
       return null;
     }
@@ -117,7 +104,9 @@ export class EditableTextboxComponent
     } else if (
       event.key === Key.Enter &&
       this.service.visualFocus === VisualFocus.textbox &&
-      (this.autoSelectWhenTextboxHasCharacters ? !this.service.isOpen : true)
+      (this.service.shouldAutoSelectOnListboxClose
+        ? !this.service.isOpen
+        : true)
     ) {
       return ListboxAction.close;
     } else {
@@ -134,7 +123,7 @@ export class EditableTextboxComponent
     }
   }
 
-  getActionFromKeydownEventWhenOpen(event: KeyboardEvent): ComboboxActionType {
+  getActionFromKeydownEventWhenOpen(event: KeyboardEvent): ComboboxAction {
     const { key } = event;
     if (key === Key.ArrowDown || key === 'Down') {
       return OptionAction.next;
@@ -157,7 +146,7 @@ export class EditableTextboxComponent
     }
   }
 
-  override handleComboboxAction(action: string, event: KeyboardEvent): void {
+  override handleKeyboardAction(action: string, event: KeyboardEvent): void {
     if (action === ListboxAction.closeSelect) {
       event.stopPropagation();
       event.preventDefault();
@@ -205,10 +194,7 @@ export class EditableTextboxComponent
           this.inputElRef.nativeElement.value.length
         );
       }
-      if (
-        this.autoSelectWhenTextboxHasCharacters &&
-        action === TextboxAction.addChar
-      ) {
+      if (this.autoSelect && action === TextboxAction.addChar) {
         this.service.emitOptionAction(OptionAction.zeroActiveIndex);
       } else {
         this.service.emitOptionAction(OptionAction.nullActiveIndex);

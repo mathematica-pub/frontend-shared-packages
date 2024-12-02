@@ -17,7 +17,7 @@ export class CustomBreaksBinsAttributeDataDimension<
   extends AttributeDataDimension<Datum, number, RangeValue>
   implements CustomBreaksBinsAttributeDataDimensionOptions<Datum, RangeValue>
 {
-  readonly binType: BinStrategy.customBreaks;
+  override readonly binType: BinStrategy.customBreaks;
   readonly breakValues: number[];
   private calculatedNumBins: number;
   private calculatedDomain: number[];
@@ -26,7 +26,7 @@ export class CustomBreaksBinsAttributeDataDimension<
   constructor(
     options: CustomBreaksBinsAttributeDataDimensionOptions<Datum, RangeValue>
   ) {
-    super();
+    super('number');
     this.binType = BinStrategy.customBreaks;
     Object.assign(this, options);
     if (!this.valueAccessor) {

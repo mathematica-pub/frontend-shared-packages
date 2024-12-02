@@ -1,3 +1,5 @@
 # Lines Component
 
-{{ LinesExampleComponent}}
+```custom-angular
+main example
+```

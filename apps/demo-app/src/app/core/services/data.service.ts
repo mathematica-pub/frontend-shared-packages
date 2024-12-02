@@ -4,6 +4,7 @@ import {
   IndustryUnemploymentDatum,
   MetroUnemploymentDatum,
   StateIncomeDatum,
+  WeatherDatum,
 } from '../models/data';
 import { DataResource } from '../resources/data.resource';
 
@@ -14,6 +15,7 @@ export class DataService {
   metroUnemploymentData$: Observable<MetroUnemploymentDatum[]>;
   industryUnemploymentData$: Observable<IndustryUnemploymentDatum[]>;
   stateIncomeData$: Observable<StateIncomeDatum[]>;
+  weatherData$: Observable<WeatherDatum[]>;
 
   constructor(private data: DataResource) {}
 
@@ -21,6 +23,7 @@ export class DataService {
     this.setMetroUnemploymentData();
     this.setIndustryUnemploymentData();
     this.setStateIncomeData();
+    this.setWeatherData();
   }
 
   setMetroUnemploymentData(): void {
@@ -52,6 +55,13 @@ export class DataService {
     );
   }
 
+  setWeatherData(): void {
+    this.weatherData$ = this.data.getWeatherData().pipe(
+      map((data) => data.map((datum) => this.weatherDatumTransform(datum))),
+      shareReplay(1)
+    );
+  }
+
   private metroDatumTransform(datum: {
     division: string;
     date: string;
@@ -73,6 +83,26 @@ export class DataService {
       industry: datum.industry,
       date: new Date(datum.date),
       value: datum.unemployed,
+    };
+  }
+
+  private weatherDatumTransform(datum: {
+    location: string;
+    date: string;
+    precipitation: number;
+    temp_max: number;
+    temp_min: number;
+    wind: number;
+    weather: string;
+  }): WeatherDatum {
+    return {
+      location: datum.location,
+      date: new Date(datum.date),
+      precipitation: datum.precipitation,
+      tempMax: datum.temp_max,
+      tempMin: datum.temp_min,
+      wind: datum.wind,
+      weather: datum.weather,
     };
   }
 }

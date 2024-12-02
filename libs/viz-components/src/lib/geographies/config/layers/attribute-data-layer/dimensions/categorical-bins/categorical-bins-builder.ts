@@ -34,7 +34,6 @@ export class CategoricalBinsBuilder<
   _build(): CategoricalBinsAttributeDataDimension<Datum, RangeValue> {
     return new CategoricalBinsAttributeDataDimension({
       domain: this._domain,
-      fillDefs: this._fillDefs,
       formatFunction: this._formatFunction,
       interpolator: this._interpolator,
       nullColor: this._nullColor,

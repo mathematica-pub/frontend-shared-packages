@@ -1,17 +1,31 @@
 # Multi-select examples
 
-This is a simple multi select.
+This is a simple multi-select combobox.
 
-{{SimpleMultiSelect}}
+```custom-angular
+simple multi select
+```
 
-This is a multi select that displays the selected option.
+This is a multi-select combobox that displays the selected options in the textbox.
 
-{{DisplayMultiSelected}}
+```custom-angular
+display selected options multi select
+```
 
-This is a multi select that has disabled options.
+This is a multi-select combobox that has disabled options.
 
-{{DisabledSelectionsMultiSelect}}
+```custom-angular
+disabled options multi select
+```
 
-This is a multi select that uses FormControl.
+This is a multi-select combobox that uses a FormControl.
 
-{{NgFormMultiSelect}}
+```custom-angular
+ng form control multi select
+```
+
+This is a multi-select combobox with an editable textbox.
+
+```custom-angular
+editable textbox multi select
+```

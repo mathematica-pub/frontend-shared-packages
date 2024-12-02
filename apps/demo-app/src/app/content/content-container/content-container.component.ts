@@ -14,23 +14,16 @@ import {
 } from '@angular/core';
 import {
   AdkActiveHeadingTracker,
-  AdkDocumentationDisplayComponent,
+  AdkDocumentIndexComponent,
   AdkHtmlHeader,
-  AdkParsedDocumentation,
-  DocumentIndexComponent,
 } from '@hsi/app-dev-kit';
-import { Observable } from 'rxjs';
 import { ContentFilesService } from '../../core/services/content-files.service';
+import { ContentSection } from '../../core/services/content-parser.service';
 
 @Component({
   selector: 'app-content-container',
   standalone: true,
-  imports: [
-    CommonModule,
-    AdkDocumentationDisplayComponent,
-    DocumentIndexComponent,
-    ContentContainerComponent,
-  ],
+  imports: [CommonModule, AdkDocumentIndexComponent],
   templateUrl: './content-container.component.html',
   styleUrl: './content-container.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,9 +31,9 @@ import { ContentFilesService } from '../../core/services/content-files.service';
 })
 export class ContentContainerComponent implements AfterViewInit {
   @ViewChild('file') file: ElementRef<HTMLDivElement>;
-  content$: Observable<AdkParsedDocumentation>;
-  @ContentChild('escapedContent', { static: false })
-  escapedContentTemplateRef: TemplateRef<unknown>;
+  @ContentChild('customAngular', { static: false })
+  customAngularTemplateRef: TemplateRef<unknown>;
+  ContentSection = ContentSection;
 
   constructor(
     public contentService: ContentFilesService,

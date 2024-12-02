@@ -5,6 +5,7 @@ import { DataDimensionOptions } from './dimension-options';
 export abstract class DataDimension<Datum, TDataValue extends DataValue>
   implements DataDimensionOptions<Datum, TDataValue>
 {
+  readonly dimensionType: 'number' | 'ordinal' | 'date';
   readonly formatFunction: (d: Datum) => string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly valueAccessor: (d: Datum) => TDataValue;
@@ -20,5 +21,9 @@ export abstract class DataDimension<Datum, TDataValue extends DataValue>
   protected abstract setDomain(...args: any): void;
   protected setValues(data: Datum[]): void {
     this.values = map(data, this.valueAccessor);
+  }
+
+  constructor(dimensionType: 'number' | 'ordinal' | 'date') {
+    this.dimensionType = dimensionType;
   }
 }

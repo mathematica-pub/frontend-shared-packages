@@ -23,12 +23,13 @@ export interface AdkFilesConfig {
 
 export type AdkFilesItem = string | null | AdkFilesConfig;
 
-export interface AdkParsedMarkdownFile {
-  sections: AdkParsedContentSection[];
+export interface AdkParsedMarkdownFile<Content = string> {
+  sections: AdkParsedContentSection<Content>[];
   headings: AdkHtmlHeader[];
 }
 
-export interface AdkParsedDocumentation extends AdkParsedMarkdownFile {
+export interface AdkParsedDocumentation<Content = string>
+  extends AdkParsedMarkdownFile<Content> {
   siblings: AdkDocumentationNavigationSiblings;
 }
 
@@ -46,7 +47,9 @@ export interface AdkDocumentationContentOptions {
 
 @Injectable()
 export class AdkDocumentationContentService {
-  private files: { [name: string]: Observable<AdkParsedContentSection[]> } = {};
+  private files: {
+    [name: string]: Observable<AdkParsedContentSection[]>;
+  } = {};
 
   constructor(
     private assetsService: AdkAssetsService,
@@ -84,7 +87,7 @@ export class AdkDocumentationContentService {
         return {
           sections: markdownSections,
           headings: markdownSections.reduce((acc, section) => {
-            if (section.type === 'markdown') {
+            if (section.headers.length > 0) {
               acc.push(...section.headers);
             }
             return acc;

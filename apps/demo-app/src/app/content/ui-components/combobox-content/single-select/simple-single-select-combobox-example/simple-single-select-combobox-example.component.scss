@@ -1,4 +1,10 @@
-.pixar-movies-dropdown {  
+@use 'functions' as *;
+
+.single-select-combobox-example.simple-example {
+  .combobox-value {
+    padding-bottom: grid(4);
+  }
+
   .combobox-textbox {
     background: white;
     border: 1px solid grey;
@@ -18,6 +24,10 @@
     justify-content: center;
   }
 
+  .textbox-icon.open {
+    transform: rotate(180deg);
+  }
+
   .textbox-icon .material-symbols-outlined {
     transform: scale(1.5);
     font-variation-settings:
@@ -25,10 +35,6 @@
       'wght' 400,
       'GRAD' 0,
       'opsz' 48;
-  }
-
-  .textbox-icon.open {
-    transform: rotate(180deg);
   }
 
   .combobox-listbox.open {
@@ -40,31 +46,26 @@
   }
 
   .listbox-label {
-    padding: 8px 12px 4px 12px;
+    padding: grid(2) grid(3) grid(1) grid(3);
   }
 
   .listbox-option .option-label {
-    padding: 12px;
+    padding: grid(3);
   }
 
   .listbox-option:hover {
     background: #f2f2f2;
   }
 
-  .listbox-option.current {
-    outline: 2px solid black;
-    outline-offset: -2px;
-  }
-
-  .listbox-option.current:not(.selected) {
-    background: lightgrey;
-  }
-
   .listbox-option.selected {
     background: lightgrey;
   }
 
-  .combobox-value {
-    padding-top: 16px;
+  .listbox-option.disabled {
+    color: lightgrey;
+  }
+
+  .listbox-option.current:not(.selected) {
+    background: #f2f2f2;
   }
 }

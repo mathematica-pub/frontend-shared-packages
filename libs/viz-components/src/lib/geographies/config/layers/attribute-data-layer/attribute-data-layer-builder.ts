@@ -1,4 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { FillDefinition } from 'libs/viz-components/src/public-api';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
 import { GeographiesAttributeDataLayer } from './attribute-data-layer';
 import { CategoricalBinsBuilder } from './dimensions/categorical-bins/categorical-bins-builder';
@@ -16,6 +17,7 @@ export class GeographiesAttributeDataLayerBuilder<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
+  private _customFills: FillDefinition<Datum>[];
   private _data: Datum[];
   private _geographyIndexAccessor: (d: Datum) => string;
 
@@ -96,6 +98,11 @@ export class GeographiesAttributeDataLayerBuilder<
     return this;
   }
 
+  customFills(customFills: FillDefinition<Datum>[]): this {
+    this._customFills = customFills;
+    return this;
+  }
+
   /**
    * REQUIRED. The data that will be used to color the geographies.
    */
@@ -117,6 +124,7 @@ export class GeographiesAttributeDataLayerBuilder<
     return new GeographiesAttributeDataLayer({
       attributeDimension: this.binsBuilder._build(),
       class: this._class,
+      customFills: this._customFills,
       data: this._data,
       enableEventActions: this._enableEventActions,
       geographies: this._geographies,

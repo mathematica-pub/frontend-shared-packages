@@ -20,7 +20,7 @@ class ConcreteCalculatedBins extends CalculatedBinsAttributeDataDimension<
 describe('CalculatedRangeBinsAttributeDataDimension', () => {
   let dimension: ConcreteCalculatedBins;
   beforeEach(() => {
-    dimension = new ConcreteCalculatedBins();
+    dimension = new ConcreteCalculatedBins('number');
   });
   describe('integration: setRange', () => {
     it('sets the range to the correct values/length', () => {

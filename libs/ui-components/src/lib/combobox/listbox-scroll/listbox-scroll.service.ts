@@ -19,10 +19,10 @@ export class ListboxScrollService {
   }
 
   isScrollable(element: HTMLElement): boolean {
-    return element && element.clientHeight < element.scrollHeight;
+    return element && element.parentElement.clientHeight < element.scrollHeight;
   }
 
-  maintainScrollVisibility(
+  maintainElementVisibility(
     activeElement: HTMLElement,
     scrollParent: HTMLElement
   ): void {

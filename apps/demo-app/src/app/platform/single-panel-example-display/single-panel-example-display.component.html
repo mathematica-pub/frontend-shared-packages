@@ -3,6 +3,9 @@
   [style.--max-width]="maxWidth"
   [style.--max-height]="maxHeight > height ? maxHeight : height"
   [style.--height]="height"
+  [style.--overflow-y]="
+    exampleTabCanScroll || (selectedTabIndex$ | async) > 0 ? 'auto' : 'visible'
+  "
 >
   <hsi-ui-tabs (tabChange)="onTabChange($event)">
     @for (tab of tabList; track $index) {
