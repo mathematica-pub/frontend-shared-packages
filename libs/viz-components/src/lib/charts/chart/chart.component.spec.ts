@@ -19,6 +19,7 @@ describe('ChartComponent', () => {
   });
 
   describe('ngOnChanges()', () => {
+    let changedSpyNotFirstTime: jasmine.Spy;
     let changedSpy: jasmine.Spy;
     beforeEach(() => {
       spyOn(component, 'setAspectRatio');
@@ -26,28 +27,29 @@ describe('ChartComponent', () => {
       spyOn((component as any)._margin, 'next');
       component.height = 80;
       component.margin = 'margin' as any;
-      changedSpy = spyOn(
+      changedSpyNotFirstTime = spyOn(
         NgOnChangesUtilities,
         'inputObjectChangedNotFirstTime'
       );
+      changedSpy = spyOn(NgOnChangesUtilities, 'inputObjectChanged');
     });
     it('calls setAspectRatio if height changed', () => {
-      changedSpy.and.returnValues(true, false, false);
+      changedSpyNotFirstTime.and.returnValues(true, false, false);
       component.ngOnChanges({ height: 100 } as any);
       expect(component.setAspectRatio).toHaveBeenCalledTimes(1);
     });
     it('calls next on heightSubject if height changed', () => {
-      changedSpy.and.returnValues(true, false, false);
+      changedSpyNotFirstTime.and.returnValues(true, false, false);
       component.ngOnChanges({ height: 100 } as any);
       expect((component as any)._height.next).toHaveBeenCalledOnceWith(80);
     });
     it('calls setAspectRatio if width changed', () => {
-      changedSpy.and.returnValues(false, true, false);
+      changedSpyNotFirstTime.and.returnValues(false, true, false);
       component.ngOnChanges({ width: 100 } as any);
       expect(component.setAspectRatio).toHaveBeenCalledTimes(1);
     });
     it('calls next on marginSubject if margin changed', () => {
-      changedSpy.and.returnValues(false, false, true);
+      changedSpy.and.returnValues(true);
       component.ngOnChanges({ margin: 'margin' } as any);
       expect((component as any)._margin.next).toHaveBeenCalledOnceWith(
         'margin'
