@@ -5,6 +5,7 @@ import {
   AdkAssetsService,
   AdkDocumentationConfigParser,
   AdkDocumentationContentService,
+  AdkMarkdownParser,
   AdkShikiHighlighter,
   ShikiTheme,
 } from '@hsi/app-dev-kit';
@@ -19,6 +20,7 @@ import { SidebarComponent } from './platform/sidebar/sidebar.component';
     AdkDocumentationContentService,
     AdkAssetsService,
     AdkDocumentationConfigParser,
+    AdkMarkdownParser,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
