@@ -44,9 +44,10 @@ export class XAxisLabelComponent<Datum> implements OnInit {
 
         const totalWidth = chart.width;
         const contentWidth = totalWidth - margin.left - margin.right;
-        const chartTitleHeight = chart.divRef.nativeElement.parentElement
-          .querySelector('.vic-chart-title')
-          .getBoundingClientRect().height;
+        const chartTitleHeight =
+          chart.divRef.nativeElement.parentElement
+            .querySelector('.vic-chart-title')
+            ?.getBoundingClientRect().height || 0;
         const titleWidth = titleContainer.offsetWidth;
         if (this.position === 'top') {
           this.renderer.setStyle(

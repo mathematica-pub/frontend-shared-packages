@@ -49,11 +49,13 @@ export class YAxisLabelComponent<Datum> implements OnInit {
         }
 
         const totalHeight = chart.height;
-        const chartTitleHeight = chart.divRef.nativeElement.parentElement
-          .querySelector('.vic-chart-title')
-          .getBoundingClientRect().height;
+        const chartTitleHeight =
+          chart.divRef.nativeElement.parentElement
+            .querySelector('.vic-chart-title')
+            ?.getBoundingClientRect().height || 0;
         const contentHeight = totalHeight - margin.top - margin.bottom;
 
+        console.log(chartTitleHeight);
         if (this.position === 'left') {
           this.renderer.setStyle(
             titleContainer,
