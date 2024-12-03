@@ -230,13 +230,19 @@ export class CsaStackedBarsComponent
   }
 
   updateDirectionLabel(): void {
-    const padding = 8;
-
     this.directionLabel
       .text(this.config.data[0].directionality)
-      .attr('y', this.chart.height - padding)
-      .attr('x', this.compIsBig ? padding : this.chart.width - padding)
-      .attr('text-anchor', this.compIsBig ? 'start' : 'end');
+      .attr('y', this.chart.height + 30)
+      .attr(
+        'x',
+        this.config.data[0].directionality.includes('Higher')
+          ? this.chart.width
+          : 0
+      )
+      .attr(
+        'text-anchor',
+        this.config.data[0].directionality.includes('Higher') ? 'end' : 'start'
+      );
   }
 
   updatePlanHeader(): void {
