@@ -44,7 +44,7 @@ there.
 If you need to extend a component and then also extend an event directive, see the code snippet
 below:
 
-```
+```typescript
 export class MyProjectLinesComponent extends LinesComponent {
   myLines = true;
 }
@@ -52,9 +52,7 @@ export class MyProjectLinesComponent extends LinesComponent {
 @Directive()
 export class MyProjectLinesHoverMoveDirective extends LinesHoverMoveDirective<MyProjectLinesComponent> {
   @Input('vicLinesHoverMoveActions')
-  override actions: HoverMoveAction<
-    LinesHoverMoveDirective<MyProjectLinesComponent>
-  >[];
+  override actions: HoverMoveAction<LinesHoverMoveDirective<MyProjectLinesComponent>>[];
 
   constructor(@Inject(LINES) public override lines: MyProjectLinesComponent) {
     super(lines);
