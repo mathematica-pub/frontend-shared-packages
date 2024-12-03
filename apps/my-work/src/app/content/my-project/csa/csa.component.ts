@@ -55,6 +55,7 @@ export class CsaComponent implements OnInit {
   measureCodes: Option[] = [];
   stratVals: Option[] = [];
   delivSyss: Option[] = [];
+  filterTypes = ['delivSys', 'measureCode', 'stratVal'];
 
   constructor(private dataService: DataService) {}
 
@@ -67,7 +68,7 @@ export class CsaComponent implements OnInit {
     const data$ = this.dataService.getDataFile(this.dataPath).pipe(
       filter((data) => data.length > 0),
       map((data) => {
-        const transformed: CsaDatum[] = data.map((x) => {
+        const transformed: CsaDatum[] = data.map((x: any) => {
           const obj: CsaDatum = {
             series: 'percentile',
             size: x.County_Size,
@@ -101,26 +102,26 @@ export class CsaComponent implements OnInit {
     this.data$ = data$.pipe(
       map((data: CsaDatum[]) => {
         this.setOptions(data);
-        this.myForm.controls['delivSys'].setValue(this.delivSyss[0].name);
-        this.myForm.controls['measureCode'].setValue(this.measureCodes[0].name);
-        this.myForm.controls['stratVal'].setValue(this.stratVals[0].name);
+        this.filterTypes.forEach((type: string) => {
+          this.myForm.controls[type].setValue(this[`${type}s`][0].name);
+        });
         return data;
       })
     );
   }
 
   setOptions(data: CsaDatum[]): void {
-    this.delivSyss = this.getOptions(data, 'delivSys');
-    this.measureCodes = this.getOptions(data, 'measureCode');
-    this.stratVals = this.getOptions(data, 'stratVal');
+    this.filterTypes.forEach((type: string) => {
+      this[`${type}s`] = this.getOptions(data, type);
+    });
   }
 
   setForm(): void {
-    this.myForm = new FormGroup({
-      delivSys: new FormControl(),
-      measureCode: new FormControl(),
-      stratVal: new FormControl(),
+    const controls = {};
+    this.filterTypes.forEach((type: string) => {
+      controls[type] = new FormControl();
     });
+    this.myForm = new FormGroup(controls);
 
     this.filter$ = this.myForm.valueChanges.pipe(
       filter((form) => form !== undefined)
@@ -135,12 +136,13 @@ export class CsaComponent implements OnInit {
   getFilteredData(data: CsaDatum[], filters: any): CsaDatum[] {
     this.setOptions(data);
     this.setValidValues();
-    return data.filter(
-      (plan) =>
-        plan.delivSys === filters.delivSys &&
-        plan.measureCode === filters.measureCode &&
-        plan.stratVal === filters.stratVal
-    );
+    let filteredData = data;
+    this.filterTypes.forEach((type: string) => {
+      filteredData = filteredData.filter(
+        (plan) => plan[type] === filters[type]
+      );
+    });
+    return filteredData;
   }
 
   getOptions(data: CsaDatum[], type: string): Option[] {
@@ -154,27 +156,28 @@ export class CsaComponent implements OnInit {
   }
 
   getDisabled(data: CsaDatum[], type: string, selectedOption: string): boolean {
-    const delivSys = this.myForm.controls['delivSys'].value;
+    const type1 = this.myForm.controls[this.filterTypes[0]].value;
     let count = Infinity;
-    if (type === 'measureCode') {
-      count = data.filter(
-        (y) => y.delivSys === delivSys && y.measureCode === selectedOption
-      ).length;
-    } else if (type === 'stratVal') {
-      const measureCode = this.myForm.controls['measureCode'].value;
+    if (type === this.filterTypes[1]) {
       count = data.filter(
         (y) =>
-          y.delivSys === delivSys &&
-          y.measureCode === measureCode &&
-          y.stratVal === selectedOption
+          y[this.filterTypes[0]] === type1 &&
+          y[this.filterTypes[1]] === selectedOption
+      ).length;
+    } else if (type === this.filterTypes[2]) {
+      const type2 = this.myForm.controls[this.filterTypes[1]].value;
+      count = data.filter(
+        (y) =>
+          y[this.filterTypes[0]] === type1 &&
+          y[this.filterTypes[1]] === type2 &&
+          y[this.filterTypes[2]] === selectedOption
       ).length;
     }
     return count === 0;
   }
 
   setValidValues(): void {
-    const types = ['measureCode', 'stratVal'];
-    types.forEach((type: string) => {
+    this.filterTypes.slice(1).forEach((type: string) => {
       const selectedOption = this[`${type}s`].find(
         (x: Option) => x.name === this.myForm.controls[type].value
       );
