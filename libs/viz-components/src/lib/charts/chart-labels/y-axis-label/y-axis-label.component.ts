@@ -39,25 +39,56 @@ export class YAxisLabelComponent<Datum> implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((margin) => {
         const titleContainer =
-          this.el.nativeElement.querySelector('.vic-x-axis-label');
+          this.el.nativeElement.querySelector('.vic-y-axis-label');
+
+        // const titleMainContainer =
+        //   this.el.nativeElement.querySelector('.vic-chart-title');
+
+        // const titleMainHeight =
+        //   titleMainContainer.getBoundingClientRect().height;
+        // chart.height
+
+        // if it's vertical, do some stuff if horizontal, do other stuff
+
+        const textWidth = titleContainer.getBoundingClientRect().height;
+
+        // remove the vertical height from the parent container, vic-y-axis-label
+        // change from inline display to block display to allow for height to be set to zero
+        // get the height of the title container
+        const totalHeight = chart.height;
+        const chartTitleHeight = chart.divRef.nativeElement.parentElement
+          .querySelector('.vic-chart-title')
+          .getBoundingClientRect().height;
+        const chartXAxisHeight = chart.divRef.nativeElement
+          .querySelector('.vic-x')
+          .getBoundingClientRect().height;
+        console.log(chartXAxisHeight);
+        console.log(
+          'margin top: ',
+          margin.top,
+          'Text width: ',
+          textWidth / 2,
+          'chart title height: ',
+          chartTitleHeight
+        );
+        const contentHeight = totalHeight - margin.top - margin.bottom;
+
+        this.renderer.setStyle(titleContainer, 'left', `-${textWidth / 2}px`);
 
         if (this.alignment === 'top') {
           this.renderer.setStyle(
             titleContainer,
-            'marginLeft',
-            `${margin.left}px`
+            'top',
+            `${margin.top + textWidth / 2 + chartTitleHeight}px`
           );
-          this.renderer.setStyle(titleContainer, 'textAlign', 'left');
         } else if (this.alignment === 'center') {
-          const totalWidth = chart.width;
-          const contentWidth = totalWidth - margin.left - margin.right;
-
-          this.renderer.setStyle(titleContainer, 'textAlign', 'center');
-          this.renderer.setStyle(titleContainer, 'width', `${contentWidth}px`);
+          // const totalWidth = chart.width;
+          // const contentWidth = totalWidth - margin.left - margin.right;
+          // this.renderer.setStyle(titleContainer, 'width', `${contentWidth}px`);
           this.renderer.setStyle(
             titleContainer,
-            'marginLeft',
-            `${margin.left}px`
+            'top',
+            `${contentHeight / 2 + textWidth / 2 + chartTitleHeight + chartXAxisHeight}px`
           );
         }
       });

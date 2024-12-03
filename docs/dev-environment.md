@@ -13,6 +13,10 @@ This project has the following requirements for the developer's/virtual machine:
 To install necessary dependencies and automatic commit linting for development, run
 `npm run setup-repo`.
 
+Then run: `npm run start:demo-app` to start the demo application.
+
+In order to get live updates to changes in the code, run `npm run watch:viz-components`
+
 ## Beta-releases
 
 Frontend shared packages support beta-releases so that we can test library code on real projects

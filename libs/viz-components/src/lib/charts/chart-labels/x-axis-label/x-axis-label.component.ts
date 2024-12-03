@@ -40,7 +40,11 @@ export class XAxisLabelComponent<Datum> implements OnInit {
         const titleContainer =
           this.el.nativeElement.querySelector('.vic-x-axis-label');
 
+        const totalWidth = chart.width;
+        const contentWidth = totalWidth - margin.left - margin.right;
+
         if (this.alignment === 'left') {
+          this.renderer.setStyle(titleContainer, 'width', `${contentWidth}px`);
           this.renderer.setStyle(
             titleContainer,
             'marginLeft',
@@ -48,9 +52,6 @@ export class XAxisLabelComponent<Datum> implements OnInit {
           );
           this.renderer.setStyle(titleContainer, 'textAlign', 'left');
         } else if (this.alignment === 'center') {
-          const totalWidth = chart.width;
-          const contentWidth = totalWidth - margin.left - margin.right;
-
           this.renderer.setStyle(titleContainer, 'textAlign', 'center');
           this.renderer.setStyle(titleContainer, 'width', `${contentWidth}px`);
           this.renderer.setStyle(
