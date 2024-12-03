@@ -24,7 +24,9 @@ import { XyChartComponent } from '../../xy-chart/xy-chart.component';
 export class YAxisLabelComponent<Datum> implements OnInit {
   @Input() alignment: 'top' | 'center' = 'top';
   @Input() orientation: 'horizontal' | 'vertical' = 'vertical';
+  @Input() position: 'left' | 'right' = 'left';
   @Input() verticalOffset: number = 0;
+  @Input() horizontalOffset: number = 0;
 
   constructor(
     private el: ElementRef,
@@ -51,6 +53,20 @@ export class YAxisLabelComponent<Datum> implements OnInit {
           .querySelector('.vic-chart-title')
           .getBoundingClientRect().height;
         const contentHeight = totalHeight - margin.top - margin.bottom;
+
+        if (this.position === 'left') {
+          this.renderer.setStyle(
+            titleContainer,
+            'left',
+            `${this.horizontalOffset}px`
+          );
+        } else if (this.position === 'right') {
+          this.renderer.setStyle(
+            titleContainer,
+            'right',
+            `${this.horizontalOffset}px`
+          );
+        }
 
         if (this.alignment === 'top') {
           this.renderer.setStyle(

@@ -23,6 +23,8 @@ import { XyChartComponent } from '../../xy-chart/xy-chart.component';
 })
 export class XAxisLabelComponent<Datum> implements OnInit {
   @Input() alignment: 'left' | 'center' = 'left';
+  @Input() position: 'top' | 'bottom' = 'bottom';
+  @Input() verticalOffset: number = 0;
 
   constructor(
     private el: ElementRef,
@@ -42,22 +44,31 @@ export class XAxisLabelComponent<Datum> implements OnInit {
 
         const totalWidth = chart.width;
         const contentWidth = totalWidth - margin.left - margin.right;
+        const chartTitleHeight = chart.divRef.nativeElement.parentElement
+          .querySelector('.vic-chart-title')
+          .getBoundingClientRect().height;
+        const titleWidth = titleContainer.offsetWidth;
+        if (this.position === 'top') {
+          this.renderer.setStyle(
+            titleContainer,
+            'top',
+            `${this.verticalOffset + chartTitleHeight}px`
+          );
+        } else if (this.position === 'bottom') {
+          this.renderer.setStyle(
+            titleContainer,
+            'bottom',
+            `${this.verticalOffset}px`
+          );
+        }
 
         if (this.alignment === 'left') {
-          this.renderer.setStyle(titleContainer, 'width', `${contentWidth}px`);
-          this.renderer.setStyle(
-            titleContainer,
-            'marginLeft',
-            `${margin.left}px`
-          );
-          this.renderer.setStyle(titleContainer, 'textAlign', 'left');
+          this.renderer.setStyle(titleContainer, 'left', `${margin.left}px`);
         } else if (this.alignment === 'center') {
-          this.renderer.setStyle(titleContainer, 'textAlign', 'center');
-          this.renderer.setStyle(titleContainer, 'width', `${contentWidth}px`);
           this.renderer.setStyle(
             titleContainer,
-            'marginLeft',
-            `${margin.left}px`
+            'left',
+            `${margin.left + contentWidth / 2 - titleWidth / 2}px`
           );
         }
       });
