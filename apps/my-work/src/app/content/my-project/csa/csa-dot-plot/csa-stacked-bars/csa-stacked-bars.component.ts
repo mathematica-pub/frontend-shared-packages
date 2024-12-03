@@ -32,7 +32,6 @@ export class CsaStackedBarsComponent
 
   override ngOnInit(): void {
     this.createCircleGroup();
-    this.createComparisonGroup();
     this.createPercentGroup();
     this.createDirectionLabel();
     this.createHeaderGroup();
@@ -64,15 +63,6 @@ export class CsaStackedBarsComponent
     this.circleGroup = select(this.chart.svgRef.nativeElement)
       .append('g')
       .attr('class', 'plans');
-  }
-
-  createComparisonGroup(): void {
-    this.comparisonGroup = select(this.chart.svgRef.nativeElement)
-      .append('g')
-      .attr('class', 'comparison');
-
-    this.comparisonGroup.append('line');
-    this.comparisonGroup.append('text').attr('y', this.headerOffset);
   }
 
   createPercentGroup(): void {
@@ -185,14 +175,25 @@ export class CsaStackedBarsComponent
   }
 
   updateComparison(): void {
-    this.comparisonGroup
-      .attr('transform', `translate(${this.scales.x(this.compVal)}, 0)`)
-      .select('line')
+    const comparisonGroup = select(this.chart.svgRef.nativeElement)
+      .selectAll('.comparison')
+      .data([this.config.data[0].CSA_CompVal].filter((d) => d !== null))
+      .join('g')
+      .attr('class', 'comparison')
+      .attr('transform', `translate(${this.scales.x(this.compVal)}, 0)`);
+
+    comparisonGroup
+      .selectAll('line')
+      .data((d) => [d])
+      .join('line')
       .attr('y1', this.chart.height)
       .attr('y2', this.headerOffset - 10);
 
-    this.comparisonGroup
-      .select('text')
+    comparisonGroup
+      .selectAll('text')
+      .data((d) => [d])
+      .join('text')
+      .attr('y', this.headerOffset)
       .attr('dx', this.compIsBig ? '-0.5em' : '0.5em')
       .attr('text-anchor', this.compIsBig ? 'end' : null)
       .text(this.config.data[0].CSA_CompVal_Desc);
