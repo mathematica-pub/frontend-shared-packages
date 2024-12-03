@@ -26,7 +26,8 @@ export class CsaStackedBarsComponent
   compVal: number;
   compIsBig: boolean;
   headerOffset = -40;
-  yAxisOffset = '-2.8em';
+  yAxisOffset = -0.8;
+  additionalYAxisOffset = `${this.yAxisOffset - 2}em`;
   radius = 4;
 
   override ngOnInit(): void {
@@ -81,14 +82,14 @@ export class CsaStackedBarsComponent
 
     this.percentGroup
       .append('line')
-      .attr('x1', '-1.1em')
-      .attr('x2', '-1.1em')
+      .attr('x1', `${this.yAxisOffset - 0.8}em`)
+      .attr('x2', `${this.yAxisOffset - 0.8}em`)
       .attr('y1', '0.3em')
       .attr('y2', '-0.5em');
     this.percentGroup
       .append('text')
       .attr('class', 'comparison-label')
-      .attr('dx', '-1.7em')
+      .attr('dx', `${this.yAxisOffset - 1.4}em`)
       .attr('dy', '-0.8em');
   }
 
@@ -111,12 +112,12 @@ export class CsaStackedBarsComponent
     group
       .append('text')
       .attr('dy', '-0.6em')
-      .attr('x', this.yAxisOffset)
+      .attr('x', this.additionalYAxisOffset)
       .text('County Categories');
     group
       .append('text')
       .attr('dy', '0.6em')
-      .attr('x', this.yAxisOffset)
+      .attr('x', this.additionalYAxisOffset)
       .text('by Population');
   }
 
@@ -207,7 +208,7 @@ export class CsaStackedBarsComponent
       )
       .join('text')
       .attr('class', 'percent-label')
-      .attr('dx', '-0.3em')
+      .attr('dx', `${this.yAxisOffset}em`)
       .attr(
         'y',
         (category: CsaDatum) =>
@@ -251,7 +252,7 @@ export class CsaStackedBarsComponent
   updateYLabels(): void {
     select(this.chart.svgRef.nativeElement)
       .selectAll('.vic-y text')
-      .attr('dx', this.yAxisOffset);
+      .attr('dx', this.additionalYAxisOffset);
   }
 
   updatePercentileGroup(): void {
