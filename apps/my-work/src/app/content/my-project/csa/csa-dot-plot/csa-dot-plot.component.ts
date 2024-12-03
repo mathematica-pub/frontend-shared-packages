@@ -78,8 +78,10 @@ export class CsaDotPlotComponent implements OnChanges {
   ) {}
 
   ngOnChanges(): void {
-    console.log('this.data after changes', this.data);
-    this.setProperties();
+    if (this.data[0]) {
+      console.log('this.data after changes', this.data);
+      this.setProperties();
+    }
   }
 
   setProperties(): void {
