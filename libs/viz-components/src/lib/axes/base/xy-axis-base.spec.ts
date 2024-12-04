@@ -2,6 +2,7 @@
 import { TestBed } from '@angular/core/testing';
 import { XyChartComponent } from '@hsi/viz-components';
 import { XyAxisStub } from '../../testing/stubs/xy-axis.stub';
+import { VicXOrdinalAxisConfigBuilder } from '../x-ordinal/x-ordinal-axis-builder';
 
 describe('the XyAxis abstract class', () => {
   let abstractClass: XyAxisStub<number>;
@@ -20,6 +21,47 @@ describe('the XyAxis abstract class', () => {
     it('calls drawMarks once', () => {
       abstractClass.initFromConfig();
       expect(abstractClass.drawMarks).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('setAxisFromScaleAndConfig', () => {
+    let tickSizeOuterSpy: jasmine.Spy;
+    beforeEach(() => {
+      tickSizeOuterSpy = jasmine
+        .createSpy('tickSizeOuter')
+        .and.returnValue('tick size' as any);
+      abstractClass.axisFunction = () => {
+        return {
+          tickSizeOuter: tickSizeOuterSpy,
+        };
+      };
+      spyOn(abstractClass, 'setTicks');
+      abstractClass.scale = 'class scale' as any;
+    });
+    it('calls tickSizeOuter once with the correct value if tickSizeOuter is defined', () => {
+      abstractClass.config = new VicXOrdinalAxisConfigBuilder()
+        .tickSizeOuter(3)
+        .getConfig();
+      abstractClass.setAxisFromScaleAndConfig();
+      expect(tickSizeOuterSpy).toHaveBeenCalledOnceWith(3);
+    });
+    it('does not call tickSizeOuter if tickSizeOuter is undefined', () => {
+      tickSizeOuterSpy.calls.reset();
+      abstractClass.config = new VicXOrdinalAxisConfigBuilder().getConfig();
+      abstractClass.setAxisFromScaleAndConfig();
+      expect(tickSizeOuterSpy).not.toHaveBeenCalled();
+    });
+    it('calls setTicks once with tickFormat if tickFormat is truthy', () => {
+      abstractClass.config = new VicXOrdinalAxisConfigBuilder()
+        .tickFormat('.1f')
+        .getConfig();
+      abstractClass.setAxisFromScaleAndConfig();
+      expect(abstractClass.setTicks).toHaveBeenCalledOnceWith('.1f');
+    });
+    it('does not call setTicks if tickFormat is falsy', () => {
+      abstractClass.config = new VicXOrdinalAxisConfigBuilder().getConfig();
+      abstractClass.setAxisFromScaleAndConfig();
+      expect(abstractClass.setTicks).not.toHaveBeenCalled();
     });
   });
 
