@@ -1,3 +1,12 @@
-<div class="vic-x-axis-label" #xAxisLabelContainer>
-  <ng-content></ng-content>
-</div>
+<ng-container *ngIf="chart?.margin$ | async as margin">
+  <div
+    class="vic-x-axis-label"
+    [ngStyle]="{
+      left: calculateLeft(margin),
+      top: calculateTop(),
+      bottom: verticalOffset + 'px'
+      }"
+  >
+    <ng-content></ng-content>
+  </div>
+</ng-container>
