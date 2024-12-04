@@ -35,7 +35,6 @@ export class CsaStackedBarsComponent
     this.createHeaderGroup();
     this.createSizeHeaderGroup();
     this.createPlanHeaderGroup();
-    this.createPercentileGroup();
     super.ngOnInit();
   }
 
@@ -102,12 +101,6 @@ export class CsaStackedBarsComponent
       .attr('r', this.radius)
       .attr('cx', '1em')
       .attr('cy', -this.radius);
-  }
-
-  createPercentileGroup(): void {
-    const group = this.headerGroup.append('g').attr('class', 'percentile');
-    group.append('rect').attr('width', '11em');
-    group.append('text').attr('dx', '0.5em').text('25th—75th Percentiles');
   }
 
   setCompValues(): void {
@@ -273,17 +266,28 @@ export class CsaStackedBarsComponent
       compPosition > 0.33 && compPosition < 0.66
         ? this.chart.width - 150
         : this.chart.width * 0.2;
-    this.headerGroup
-      .select('.percentile')
+
+    const group = this.headerGroup
+      .selectAll('.percentile')
+      .data([this.config.data[0].CSA_CompVal].filter((d) => d !== null))
+      .join('g')
+      .attr('class', 'percentile')
       .attr(
         'transform',
         `translate(${x}, ${-(this.scales.y as any).bandwidth() / 2 - 4})`
       );
-    this.headerGroup
-      .select('.percentile rect')
+    group
+      .selectAll('rect')
+      .data((d) => [d])
+      .join('rect')
+      .attr('width', '11em')
       .attr('height', (this.scales.y as any).bandwidth());
-    this.headerGroup
-      .select('.percentile text')
-      .attr('dy', (this.scales.y as any).bandwidth() / 2);
+    group
+      .selectAll('text')
+      .data((d) => [d])
+      .join('text')
+      .attr('dx', '0.5em')
+      .attr('dy', (this.scales.y as any).bandwidth() / 2)
+      .text('25th—75th Percentiles');
   }
 }
