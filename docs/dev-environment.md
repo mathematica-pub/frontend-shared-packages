@@ -34,6 +34,22 @@ The beta release process is as follows:
 > version number. E.g. you can release `@hsi/viz-components@1.0.1-beta.0` and then comment again
 > immediately to release `@hsi/viz-components@1.0.1-beta.1`.
 
+## Running applications (e.g. demo-app, my-work) with deployed libraries
+
+To run all apps with the lastest version of all `libs` deployed to codeartifact, set your aws
+credentials, then run:
+
+`bash toggle-hsi.sh --npm`
+
+To revert to refer to local files (as we typically want when doing library development), run:
+
+`bash toggle-hsi.sh --local`
+
+The `toggle-hsi.sh` script toggles all internal `@hsi` libraries back and forth from pointing at
+`dist` (locally compiled files) to pointing at `node_modules/@hsi`. It does this by updating the
+root level `package.json` and `tsconfig.json`, then resetting the `nx` daemon to clear workspace
+dependency caches.
+
 ## Locally generating compodoc documentation
 
 If you don't have python/pyenv/pipenv installed, see
