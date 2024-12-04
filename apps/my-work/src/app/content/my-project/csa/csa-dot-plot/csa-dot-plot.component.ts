@@ -143,6 +143,7 @@ export class CsaDotPlotComponent implements OnChanges {
       this.xAxisConfig = this.xQuantitativeAxis
         .tickFormat(this.getTickFormat())
         .numTicks(5)
+        .tickSizeOuter(0)
         .getConfig();
     }
   }
