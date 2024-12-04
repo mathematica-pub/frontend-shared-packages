@@ -41,9 +41,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   }
 
   drawMarks(): void {
-    if (!this.axisFunction) {
-      this.setAxisFunction();
-    }
+    this.setAxisFunction();
     this.setTranslate();
     this.setScale();
     const transitionDuration = this.getTransitionDuration();
