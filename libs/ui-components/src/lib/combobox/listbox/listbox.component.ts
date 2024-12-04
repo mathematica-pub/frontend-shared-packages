@@ -68,6 +68,7 @@ export class ListboxComponent
   @Input() isMultiSelect = false;
   @Input() labelIsBoxPlaceholder = false;
   @Input() findsOptionOnTyping = true;
+  // TODO: Consider moving this to textbox, feels weird to have it here from a UX perspective
   @Input() countSelectedOptionsLabel?: CountSelectedOptionsLabel;
   @Input() customTextboxLabel?: (
     options: ListboxOptionComponent[],

@@ -27,6 +27,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
         </span>
       </hsi-ui-textbox>
       <hsi-ui-listbox
+        [countSelectedOptionsLabel]="{ singular: 'fruit', plural: 'fruits' }"
         [isMultiSelect]="true"
         (valueChanges)="onSelection($event)"
       >
