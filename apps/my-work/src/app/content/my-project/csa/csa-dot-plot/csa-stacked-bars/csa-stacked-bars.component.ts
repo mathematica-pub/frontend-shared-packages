@@ -246,7 +246,7 @@ export class CsaStackedBarsComponent
   updatePlanHeader(): void {
     this.headerGroup.select('.plan-header').attr('transform', () => {
       const x =
-        this.config.data[0].CSA_CompVal < 0.33 * this.scales.x.domain()[1]
+        this.config.data[0].CSA_CompVal < 0.1 * this.scales.x.domain()[1]
           ? this.chart.width - 60
           : 0;
       return `translate(${x}, 0)`;
@@ -261,9 +261,9 @@ export class CsaStackedBarsComponent
 
   updatePercentileGroup(): void {
     const compPosition =
-      this.config.data[0].CSA_CompVal * this.scales.x.domain()[1];
+      this.config.data[0].CSA_CompVal / this.scales.x.domain()[1];
     const x =
-      compPosition > 0.33 && compPosition < 0.66
+      compPosition > 0.1 && compPosition < 0.66
         ? this.chart.width - 150
         : this.chart.width * 0.2;
 
