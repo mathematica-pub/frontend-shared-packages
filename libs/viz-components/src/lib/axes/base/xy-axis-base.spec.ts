@@ -15,17 +15,7 @@ describe('the XyAxis abstract class', () => {
 
   describe('initFromConfig', () => {
     beforeEach(() => {
-      spyOn(abstractClass, 'setAxisFunction');
-      spyOn(abstractClass, 'setTranslate');
       spyOn(abstractClass, 'drawMarks');
-    });
-    it('calls setAxisFunction once', () => {
-      abstractClass.initFromConfig();
-      expect(abstractClass.setAxisFunction).toHaveBeenCalledTimes(1);
-    });
-    it('calls setTranslate once', () => {
-      abstractClass.initFromConfig();
-      expect(abstractClass.setTranslate).toHaveBeenCalledTimes(1);
     });
     it('calls drawMarks once', () => {
       abstractClass.initFromConfig();
@@ -35,22 +25,21 @@ describe('the XyAxis abstract class', () => {
 
   describe('drawMarks', () => {
     beforeEach(() => {
-      spyOn(abstractClass, 'initFromConfig');
+      spyOn(abstractClass, 'setAxisFunction');
+      spyOn(abstractClass, 'setTranslate');
       spyOn(abstractClass, 'setScale');
       spyOn(abstractClass, 'setAxisFromScaleAndConfig');
       spyOn(abstractClass, 'drawAxis');
       spyOn(abstractClass, 'postProcessAxisFeatures');
       spyOn(abstractClass, 'getTransitionDuration').and.returnValue(200);
     });
-    it('calls initFromConfig once if axisFunction is falsy', () => {
-      abstractClass.axisFunction = undefined;
-      abstractClass.drawMarks();
-      expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(1);
+    it('calls setAxisFunction once', () => {
+      abstractClass.initFromConfig();
+      expect(abstractClass.setAxisFunction).toHaveBeenCalledTimes(1);
     });
-    it('does not call initFromConfig if axisFunction is truthy', () => {
-      abstractClass.axisFunction = 'func' as any;
-      abstractClass.drawMarks();
-      expect(abstractClass.initFromConfig).not.toHaveBeenCalled();
+    it('calls setTranslate once', () => {
+      abstractClass.initFromConfig();
+      expect(abstractClass.setTranslate).toHaveBeenCalledTimes(1);
     });
     it('calls setScale once', () => {
       abstractClass.drawMarks();
