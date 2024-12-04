@@ -37,15 +37,14 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   abstract setScale(): void;
 
   override initFromConfig(): void {
-    this.setAxisFunction();
-    this.setTranslate();
     this.drawMarks();
   }
 
   drawMarks(): void {
     if (!this.axisFunction) {
-      this.initFromConfig();
+      this.setAxisFunction();
     }
+    this.setTranslate();
     this.setScale();
     const transitionDuration = this.getTransitionDuration();
     this.setAxisFromScaleAndConfig();
