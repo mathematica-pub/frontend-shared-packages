@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
@@ -11,7 +11,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
 // Multi select combobox with static label text
 @Component({
-  selector: 'hsi-ui-combobox-static-label-test',
+  selector: 'hsi-ui-combobox-simple-multi-test',
   template: `
     <p class="outside-element"
       >Outside element to click on for outside combobox click</p
@@ -20,7 +20,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox>
+      <hsi-ui-textbox [displaySelected]="displaySelected">
         <p boxLabel>Select a fruit, A-E</p>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
@@ -43,81 +43,47 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
 })
-class ComboboxStaticLabelTestComponent extends ComboboxBaseTestComponent {}
+class ComboboxSimpleMultiSelectTestComponent extends ComboboxBaseTestComponent {
+  @Input() displaySelected = false;
+}
 
 describe('ComboboxMultiComponent', () => {
-  beforeEach(() => {
-    cy.mount(ComboboxStaticLabelTestComponent, {
-      declarations: [ComboboxStaticLabelTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+  describe('With a static textbox label', () => {
+    beforeEach(() => {
+      cy.mount(ComboboxSimpleMultiSelectTestComponent, {
+        declarations: [ComboboxSimpleMultiSelectTestComponent],
+        imports: [ComboboxModule, MatIconModule],
+      });
+    });
+    it('the textbox has the correct label and it does not change with selections', () => {
+      cy.get('.combobox-textbox').realClick();
+      cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+      cy.get('.listbox-option').first().realClick();
+      cy.get('.listbox-option').eq(1).realClick();
+      cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+      cy.get('.outside-element').realClick();
+      cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
     });
   });
-  it('the textbox has the correct label and it does not change with selections', () => {
-    cy.get('.combobox-textbox').realClick();
-    cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
-    cy.get('.listbox-option').first().realClick();
-    cy.get('.listbox-option').eq(1).realClick();
-    cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
-    cy.get('.outside-element').realClick();
-    cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
-  });
-});
-
-// Multi select combobox with dynamic label that updates on option selection
-@Component({
-  selector: 'hsi-ui-combobox-selected-options-count-label-test',
-  template: `
-    <p class="outside-element"
-      >Outside element to click on for outside combobox click</p
-    >
-    <hsi-ui-combobox class="fruits-dropdown">
-      <hsi-ui-combobox-label>
-        <span>Fruits</span>
-      </hsi-ui-combobox-label>
-      <hsi-ui-textbox [displaySelected]="true">
-        <p boxLabel>Select a fruit, A-E</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
-          expand_more
-        </span>
-      </hsi-ui-textbox>
-      <hsi-ui-listbox
-        [countSelectedOptionsLabel]="{ singular: 'fruit', plural: 'fruits' }"
-        [isMultiSelect]="true"
-        (valueChanges)="onSelection($event)"
-      >
-        <hsi-ui-listbox-label>
-          <span>Select a fruit</span>
-        </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option *ngFor="let option of options">{{
-          option.displayName
-        }}</hsi-ui-listbox-option>
-      </hsi-ui-listbox>
-    </hsi-ui-combobox>
-    <p class="combobox-value">{{ value$ | async }}</p>
-  `,
-  encapsulation: ViewEncapsulation.None,
-  styles: [scss],
-})
-class ComboboxSelectedOptionsCountLabelTestComponent extends ComboboxBaseTestComponent {}
-
-describe('ComboboxSelectedOptionsCountLabelTestComponent', () => {
-  beforeEach(() => {
-    cy.mount(ComboboxSelectedOptionsCountLabelTestComponent, {
-      declarations: [ComboboxSelectedOptionsCountLabelTestComponent],
-      imports: [ComboboxModule, MatIconModule],
-      providers: [ComboboxService],
+  describe('with a textbox label that displays selected options', () => {
+    beforeEach(() => {
+      cy.mount(ComboboxSimpleMultiSelectTestComponent, {
+        declarations: [ComboboxSimpleMultiSelectTestComponent],
+        imports: [ComboboxModule, MatIconModule],
+        providers: [ComboboxService],
+        componentProperties: { displaySelected: true },
+      });
     });
-  });
-
-  it('the textbox has the correct label and it changes with selections', () => {
-    cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
-    cy.get('.combobox-textbox').click();
-    cy.get('.textbox-label').should('have.text', '0 fruits selected');
-    cy.get('.listbox-option').eq(0).realClick();
-    cy.get('.listbox-option').eq(1).realClick();
-    cy.get('.textbox-label').should('have.text', '2 fruits selected');
-    cy.get('.listbox-option').eq(1).realClick();
-    cy.get('.textbox-label').should('have.text', '1 fruit selected');
+    it('the textbox has the correct label and it changes with selections', () => {
+      cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+      cy.get('.combobox-textbox').click();
+      cy.get('.textbox-label').should('have.text', '0 fruits selected');
+      cy.get('.listbox-option').eq(0).realClick();
+      cy.get('.listbox-option').eq(1).realClick();
+      cy.get('.textbox-label').should('have.text', '2 fruits selected');
+      cy.get('.listbox-option').eq(1).realClick();
+      cy.get('.textbox-label').should('have.text', '1 fruit selected');
+    });
   });
 });
 
