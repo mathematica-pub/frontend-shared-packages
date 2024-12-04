@@ -105,7 +105,7 @@ export class CsaDotPlotComponent implements OnChanges {
     });
 
     if (this.rollupData.length > 0) {
-      this.chartHeight = this.rollupData.length * 12;
+      this.chartHeight = this.rollupData.length * 15;
 
       const dotMax = max(this.rollupData.map((d) => max(d.plans)));
       const barMax = max(this.rollupData, (d) => d.csa_75);

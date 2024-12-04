@@ -24,7 +24,8 @@ export class CsaStackedBarsComponent
   headerGroup: Selection<SVGGElement, unknown, null, undefined>;
   compVal: number;
   compIsBig: boolean;
-  headerOffset = -40;
+  compPosition: number;
+  headerOffset = -50;
   yAxisOffset = -0.8;
   additionalYAxisOffset = `${this.yAxisOffset - 2}em`;
   radius = 4;
@@ -94,18 +95,19 @@ export class CsaStackedBarsComponent
     const group = this.headerGroup.append('g').attr('class', 'plan-header');
     group
       .append('text')
-      .attr('x', this.radius * 2 + 15)
+      .attr('x', this.radius * 2 + 20)
       .text('Plans');
     group
       .append('circle')
       .attr('r', this.radius)
       .attr('cx', '1em')
-      .attr('cy', -this.radius);
+      .attr('cy', -this.radius - 2);
   }
 
   setCompValues(): void {
     this.compVal = this.config.data[0].CSA_CompVal;
     this.compIsBig = this.scales.x(this.compVal) > this.chart.width / 2;
+    this.compPosition = this.compVal / this.scales.x.domain()[1];
   }
 
   updateGridlines(): void {
@@ -150,7 +152,7 @@ export class CsaStackedBarsComponent
   updateComparison(): void {
     const comparisonGroup = select(this.chart.svgRef.nativeElement)
       .selectAll('.comparison')
-      .data([this.config.data[0].CSA_CompVal].filter((d) => d !== null))
+      .data([this.compVal].filter((d) => d !== null))
       .join('g')
       .attr('class', 'comparison')
       .attr('transform', `translate(${this.scales.x(this.compVal)}, 0)`);
@@ -160,14 +162,14 @@ export class CsaStackedBarsComponent
       .data((d) => [d])
       .join('line')
       .attr('y1', this.chart.height)
-      .attr('y2', this.headerOffset - 10);
+      .attr('y2', this.headerOffset - (this.scales.y as any).bandwidth() / 2);
 
     comparisonGroup
       .selectAll('text')
       .data((d) => [d])
       .join('text')
       .attr('y', this.headerOffset)
-      .attr('dx', this.compIsBig ? '-0.5em' : '0.5em')
+      .attr('dx', this.compIsBig ? '-0.4em' : '0.4em')
       .attr('text-anchor', this.compIsBig ? 'end' : null)
       .text(this.config.data[0].CSA_CompVal_Desc);
   }
@@ -175,7 +177,7 @@ export class CsaStackedBarsComponent
   updatePercentLabels(): void {
     const percentGroup = select(this.chart.svgRef.nativeElement)
       .selectAll('.percent-labels')
-      .data([this.config.data[0].CSA_CompVal].filter((d) => d !== null))
+      .data([this.compVal].filter((d) => d !== null))
       .join('g')
       .attr('class', 'percent-labels');
 
@@ -185,14 +187,14 @@ export class CsaStackedBarsComponent
       .join('line')
       .attr('x1', `${this.yAxisOffset - 0.8}em`)
       .attr('x2', `${this.yAxisOffset - 0.8}em`)
-      .attr('y1', '0.3em')
+      .attr('y1', '0.1em')
       .attr('y2', '-0.5em');
     percentGroup
       .selectAll('.comparison-label')
       .data((d) => [d])
       .join('text')
       .attr('class', 'comparison-label')
-      .attr('dx', `${this.yAxisOffset - 1.4}em`)
+      .attr('dx', `${this.yAxisOffset - 1.7}em`)
       .attr('dy', '-0.8em');
 
     percentGroup
@@ -230,7 +232,7 @@ export class CsaStackedBarsComponent
   updateDirectionLabel(): void {
     this.directionLabel
       .text(this.config.data[0].directionality)
-      .attr('y', this.chart.height + 30)
+      .attr('y', this.chart.height + 40)
       .attr(
         'x',
         this.config.data[0].directionality.includes('Higher')
@@ -245,10 +247,7 @@ export class CsaStackedBarsComponent
 
   updatePlanHeader(): void {
     this.headerGroup.select('.plan-header').attr('transform', () => {
-      const x =
-        this.config.data[0].CSA_CompVal < 0.1 * this.scales.x.domain()[1]
-          ? this.chart.width - 60
-          : 0;
+      const x = this.compPosition < 0.15 ? this.chart.width - 80 : 0;
       return `translate(${x}, 0)`;
     });
   }
@@ -260,12 +259,12 @@ export class CsaStackedBarsComponent
   }
 
   updatePercentileGroup(): void {
-    const compPosition =
-      this.config.data[0].CSA_CompVal / this.scales.x.domain()[1];
-    const x =
-      compPosition > 0.1 && compPosition < 0.66
-        ? this.chart.width - 150
-        : this.chart.width * 0.2;
+    let x = this.chart.width * 0.2;
+    if (this.compPosition > 0.3 && this.compPosition < 0.66) {
+      x = this.chart.width - 220;
+    } else if (this.compPosition > 0.1 && this.compPosition < 0.66) {
+      x = this.chart.width * 0.4;
+    }
 
     const group = this.headerGroup
       .selectAll('.percentile')

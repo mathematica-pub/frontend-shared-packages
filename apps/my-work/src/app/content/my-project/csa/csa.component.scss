@@ -4,7 +4,7 @@ $font-family: Segoe UI;
 
 svg {
   font-family: $font-family;
-  font-size: 12px;
+  font-size: 20px;
 }
 
 form {
@@ -34,7 +34,7 @@ option {
 }
 
 .image {
-  padding: 60px 20px 40px 150px !important;
+  padding: 80px 20px 50px 180px !important;
 }
 
 line,
@@ -102,10 +102,19 @@ circle {
   stroke: black;
 }
 
+$axisFontSize: 16px;
+
 .percent-label {
   text-anchor: end;
   alignment-baseline: middle;
-  font-size: 10px;
+  font-size: $axisFontSize;
+}
+
+.vic-axis-g,
+.size-headers,
+.comparison-label,
+.direction-label {
+  font-size: $axisFontSize;
 }
 
 .comparison-label {
