@@ -5,7 +5,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ComboboxModule } from 'dist/ui-components';
+import { ComboboxModule } from '@hsi/ui-components';
 
 @Component({
   selector: 'app-ng-form-multi-select-combobox-example',
