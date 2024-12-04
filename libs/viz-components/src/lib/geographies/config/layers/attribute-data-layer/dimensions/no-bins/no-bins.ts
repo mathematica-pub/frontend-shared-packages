@@ -7,12 +7,12 @@ export class NoBinsAttributeDataDimension<Datum> extends AttributeDataDimension<
   Datum,
   number
 > {
-  readonly binType: BinStrategy.none;
+  override readonly binType: BinStrategy.none;
   domain: [number, number];
   formatSpecifier: string;
 
   constructor(options: NoBinsAttributeDataDimensionOptions<Datum>) {
-    super();
+    super('number');
     this.binType = BinStrategy.none;
     Object.assign(this, options);
     if (!this.valueAccessor) {

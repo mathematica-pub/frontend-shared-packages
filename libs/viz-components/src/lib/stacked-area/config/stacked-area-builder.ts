@@ -8,9 +8,9 @@ import {
   stackOrderNone,
 } from 'd3';
 import { ContinuousValue, DataValue } from '../../core/types/values';
+import { DateChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position-builder';
+import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder';
 import { OrdinalVisualValueDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
-import { DateChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position-builder';
-import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { StackedAreaConfig } from './stacked-area-config';
 
@@ -32,24 +32,25 @@ const DEFAULT = {
 @Injectable()
 export class VicStackedAreaConfigBuilder<
   Datum,
-  TCategoricalValue extends DataValue,
+  CategoricalDomain extends DataValue,
 > extends PrimaryMarksBuilder<Datum> {
-  private categoricalDimensionBuilder: OrdinalVisualValueDimensionBuilder<
+  private colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<
     Datum,
-    TCategoricalValue
+    CategoricalDomain,
+    string
   >;
-  private _categoricalOrder: TCategoricalValue[];
+  private _categoricalOrder: CategoricalDomain[];
   private _curve: CurveFactory;
   private _stackOrder: (
     series: Series<
-      [ContinuousValue, InternMap<TCategoricalValue, number>],
-      TCategoricalValue
+      [ContinuousValue, InternMap<CategoricalDomain, number>],
+      CategoricalDomain
     >
   ) => Iterable<number>;
   private _stackOffset: (
     series: Series<
-      [ContinuousValue, InternMap<TCategoricalValue, number>],
-      TCategoricalValue
+      [ContinuousValue, InternMap<CategoricalDomain, number>],
+      CategoricalDomain
     >,
     order: number[]
   ) => void;
@@ -66,16 +67,21 @@ export class VicStackedAreaConfigBuilder<
   /**
    * REQUIRED. Sets the categorical dimension for the stacked area chart.
    */
-  createCategoricalDimension(
+  color(
     setProperties: (
-      dimension: OrdinalVisualValueDimensionBuilder<Datum, TCategoricalValue>
+      dimension: OrdinalVisualValueDimensionBuilder<
+        Datum,
+        CategoricalDomain,
+        string
+      >
     ) => void
   ): this {
-    this.categoricalDimensionBuilder = new OrdinalVisualValueDimensionBuilder<
+    this.colorDimensionBuilder = new OrdinalVisualValueDimensionBuilder<
       Datum,
-      TCategoricalValue
+      CategoricalDomain,
+      string
     >();
-    setProperties(this.categoricalDimensionBuilder);
+    setProperties(this.colorDimensionBuilder);
     return this;
   }
 
@@ -84,7 +90,7 @@ export class VicStackedAreaConfigBuilder<
    *
    * If not provided, the order will be determined by d3.
    */
-  categoricalOrder(value: TCategoricalValue[]): this {
+  categoricalOrder(value: CategoricalDomain[]): this {
     this._categoricalOrder = value;
     return this;
   }
@@ -107,8 +113,8 @@ export class VicStackedAreaConfigBuilder<
   stackOrder(
     value: (
       series: Series<
-        [ContinuousValue, InternMap<TCategoricalValue, number>],
-        TCategoricalValue
+        [ContinuousValue, InternMap<CategoricalDomain, number>],
+        CategoricalDomain
       >
     ) => Iterable<number>
   ): this {
@@ -124,8 +130,8 @@ export class VicStackedAreaConfigBuilder<
   stackOffset(
     value: (
       series: Series<
-        [ContinuousValue, InternMap<TCategoricalValue, number>],
-        TCategoricalValue
+        [ContinuousValue, InternMap<CategoricalDomain, number>],
+        CategoricalDomain
       >,
       order: number[]
     ) => void
@@ -137,7 +143,7 @@ export class VicStackedAreaConfigBuilder<
   /**
    * REQUIRED. Sets the x dimension for the stacked area chart when using numeric data.
    */
-  createXNumericDimension(
+  xNumeric(
     setProperties: (
       dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
@@ -150,7 +156,7 @@ export class VicStackedAreaConfigBuilder<
   /**
    * REQUIRED. Sets the x dimension for the stacked area chart when using Date data.
    */
-  createXDateDimension(
+  xDate(
     setProperties: (dimension: DateChartPositionDimensionBuilder<Datum>) => void
   ): this {
     this.xDimensionBuilder = new DateChartPositionDimensionBuilder<Datum>();
@@ -161,7 +167,7 @@ export class VicStackedAreaConfigBuilder<
   /**
    * REQUIRED. Sets the y dimension for the stacked area chart.
    */
-  createYNumericDimension(
+  y(
     setProperties: (
       dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
@@ -174,24 +180,24 @@ export class VicStackedAreaConfigBuilder<
   /**
    * REQUIRED. Builds the configuration object for the stacked area chart.
    */
-  getConfig(): StackedAreaConfig<Datum, TCategoricalValue> {
+  getConfig(): StackedAreaConfig<Datum, CategoricalDomain> {
     this.validateBuilder();
     return new StackedAreaConfig({
-      categorical: this.categoricalDimensionBuilder._build(),
+      color: this.colorDimensionBuilder._build('Color'),
       categoricalOrder: this._categoricalOrder,
       curve: this._curve,
       data: this._data,
       mixBlendMode: this._mixBlendMode,
       stackOrder: this._stackOrder,
       stackOffset: this._stackOffset,
-      x: this.xDimensionBuilder._build(),
-      y: this.yDimensionBuilder._build(),
+      x: this.xDimensionBuilder._build('X'),
+      y: this.yDimensionBuilder._build('Y'),
     });
   }
 
   protected override validateBuilder(): void {
     super.validateBuilder('Stacked Area');
-    if (!this.categoricalDimensionBuilder) {
+    if (!this.colorDimensionBuilder) {
       throw new Error(
         'Stacked Area Builder: Categorical dimension must be created. Please use method `createCategoricalDimension` to set the categorical dimension.'
       );

@@ -1,5 +1,9 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { ElementRef, Injectable } from '@angular/core';
+import {
+  RelativeToCenterTooltipPosition,
+  RelativeToTopLeftTooltipPosition,
+} from '../../../events/event-positions';
 import { HtmlTooltipConfig } from './html-tooltip-config';
 import {
   HtmlTooltipCdkManagedPosition,
@@ -30,7 +34,7 @@ export class VicHtmlTooltipConfigBuilder {
     this._applyEventsDisabledClass = false;
   }
 
-  setSize(setProperties: (size: HtmlTooltipSizeBuilder) => void): this {
+  size(setProperties: (size: HtmlTooltipSizeBuilder) => void): this {
     this.initSizeBuilder();
     setProperties?.(this.sizeBuilder);
     return this;
@@ -70,12 +74,64 @@ export class VicHtmlTooltipConfigBuilder {
     return this;
   }
 
+  barsPosition(
+    origin: SVGRectElement,
+    positions: Partial<ConnectedPosition>[]
+  ): this {
+    this.origin(origin ? new ElementRef(origin) : undefined);
+    const barsPositions = positions.map(
+      (p) => new RelativeToTopLeftTooltipPosition(p)
+    );
+    this._position = new HtmlTooltipCdkManagedPosition(barsPositions);
+    return this;
+  }
+
+  dotsPosition(
+    origin: SVGCircleElement,
+    positions: Partial<ConnectedPosition>[]
+  ): this {
+    this.origin(origin ? new ElementRef(origin) : undefined);
+    const dotsPositions = positions.map(
+      (p) => new RelativeToCenterTooltipPosition(p)
+    );
+    this._position = new HtmlTooltipCdkManagedPosition(dotsPositions);
+    return this;
+  }
+
+  geographiesPosition(
+    origin: SVGPathElement,
+    positions: Partial<ConnectedPosition>[]
+  ): this {
+    this.origin(origin ? new ElementRef(origin) : undefined);
+    const geographiesPositions = positions.map(
+      (p) => new RelativeToTopLeftTooltipPosition(p)
+    );
+    this._position = new HtmlTooltipCdkManagedPosition(geographiesPositions);
+    return this;
+  }
+
+  linesPosition(positions: Partial<ConnectedPosition>[]): this {
+    const linesPositions = positions.map(
+      (p) => new RelativeToTopLeftTooltipPosition(p)
+    );
+    this._position = new HtmlTooltipCdkManagedPosition(linesPositions);
+    return this;
+  }
+
+  stackedAreaPosition(positions: Partial<ConnectedPosition>[]): this {
+    const stackedAreaPositions = positions.map(
+      (p) => new RelativeToTopLeftTooltipPosition(p)
+    );
+    this._position = new HtmlTooltipCdkManagedPosition(stackedAreaPositions);
+    return this;
+  }
+
   cdkManagedPosition(positions: ConnectedPosition[]): this {
     this._position = new HtmlTooltipCdkManagedPosition(positions);
     return this;
   }
 
-  createOffsetFromOriginPosition(
+  offsetFromOriginPosition(
     setProperties?: (
       position: HtmlTooltipOffsetFromOriginPositionBuilder
     ) => void

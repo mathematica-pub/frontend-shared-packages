@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CurveFactory, curveLinear } from 'd3';
+import { DateChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position-builder';
+import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder';
 import { OrdinalVisualValueDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
-import { DateChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position-builder';
-import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { PointMarkersBuilder } from '../../point-markers/point-markers-builder';
-import { StrokeBuilder } from '../../stroke/stroke-builder';
+import { LinesStrokeBuilder } from '../config/stroke/lines-stroke-builder';
 import { AreaFillsBuilder } from './area-fills/area-fills-builder';
 import { LinesConfig } from './lines-config';
 
@@ -28,9 +28,13 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private _labelLines: boolean;
   private _lineLabelsFormat: (d: string) => string;
   private _pointerDetectionRadius: number;
-  private categoricalDimensionBuilder: OrdinalVisualValueDimensionBuilder<Datum>;
+  private colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<
+    Datum,
+    string,
+    string
+  >;
   private pointMarkersBuilder: PointMarkersBuilder<Datum>;
-  private strokeBuilder: StrokeBuilder;
+  private strokeBuilder: LinesStrokeBuilder<Datum>;
   private xDimensionBuilder:
     | NumberChartPositionDimensionBuilder<Datum>
     | DateChartPositionDimensionBuilder<Datum>;
@@ -40,26 +44,6 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   constructor() {
     super();
     Object.assign(this, DEFAULT);
-  }
-
-  /**
-   * OPTIONAL. A config for the behavior of the chart's categorical dimension.
-   *
-   * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
-   */
-  createCategoricalDimension(
-    setProperties?: (
-      dimension: OrdinalVisualValueDimensionBuilder<Datum>
-    ) => void
-  ): this {
-    this.initCatetgoricalBuilder();
-    setProperties?.(this.categoricalDimensionBuilder);
-    return this;
-  }
-
-  private initCatetgoricalBuilder(): void {
-    this.categoricalDimensionBuilder =
-      new OrdinalVisualValueDimensionBuilder<Datum>();
   }
 
   /**
@@ -109,7 +93,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    *
    * Creating this config will create markers on lines.
    */
-  createPointMarkers(
+  pointMarkers(
     setProperties?: (pointMarkers: PointMarkersBuilder<Datum>) => void
   ): this {
     this.pointMarkersBuilder = new PointMarkersBuilder();
@@ -120,20 +104,20 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * OPTIONAL. A config for the behavior of the line stroke.
    */
-  createStroke(setProperties?: (stroke: StrokeBuilder) => void): this {
+  stroke(setProperties?: (stroke: LinesStrokeBuilder<Datum>) => void): this {
     this.initStrokeBuilder();
     setProperties?.(this.strokeBuilder);
     return this;
   }
 
   private initStrokeBuilder(): void {
-    this.strokeBuilder = new StrokeBuilder();
+    this.strokeBuilder = new LinesStrokeBuilder();
   }
 
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
-  createXNumericDimension(
+  xNumeric(
     setProperties: (
       dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
@@ -146,7 +130,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using Date date.
    */
-  createXDateDimension(
+  xDate(
     setProperties: (dimension: DateChartPositionDimensionBuilder<Datum>) => void
   ): this {
     this.xDimensionBuilder = new DateChartPositionDimensionBuilder<Datum>();
@@ -157,7 +141,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * REQUIRED. A config for the behavior of the chart's y dimension.
    */
-  createYDimension(
+  y(
     setProperties: (
       dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
@@ -171,7 +155,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    * OPTIONAL. A config to set fill underneath lines.
    *
    */
-  createAreaFills(
+  areaFills(
     setProperties?: (areaFills: AreaFillsBuilder<Datum>) => void
   ): this {
     this.initBelowLinesAreaFillBuilder();
@@ -189,7 +173,6 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   getConfig(): LinesConfig<Datum> {
     this.validateBuilder();
     return new LinesConfig({
-      categorical: this.categoricalDimensionBuilder._build(),
       curve: this._curve,
       data: this._data,
       labelLines: this._labelLines,
@@ -198,8 +181,8 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
       pointerDetectionRadius: this._pointerDetectionRadius,
       pointMarkers: this.pointMarkersBuilder?._build(),
       stroke: this.strokeBuilder._build(),
-      x: this.xDimensionBuilder._build(),
-      y: this.yDimensionBuilder._build(),
+      x: this.xDimensionBuilder._build('X'),
+      y: this.yDimensionBuilder._build('Y'),
       areaFills: this.areaFillsBuilder?._build(),
     });
   }
@@ -208,9 +191,6 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
     super.validateBuilder('Lines');
     if (this.strokeBuilder === undefined) {
       this.initStrokeBuilder();
-    }
-    if (!this.categoricalDimensionBuilder) {
-      this.initCatetgoricalBuilder();
     }
     if (!this.xDimensionBuilder) {
       throw new Error(

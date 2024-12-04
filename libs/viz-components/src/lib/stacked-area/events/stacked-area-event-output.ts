@@ -1,24 +1,14 @@
 import { DataValue } from '../../core/types/values';
+import { StackedAreaTooltipDatum } from '../stacked-area.component';
 
 export interface StackedAreaEventOutput<
   Datum,
   TCategoricalValue extends DataValue,
 > {
-  data: StackedAreaTooltipData<Datum, TCategoricalValue>[];
+  data: StackedAreaTooltipDatum<Datum, TCategoricalValue>[];
   positionX: number;
-  categoryYMin: number;
-  categoryYMax: number;
-  hoveredDatum: StackedAreaTooltipData<Datum, TCategoricalValue>;
+  hoveredAreaTop: number;
+  hoveredAreaBottom: number;
+  hoveredDatum: StackedAreaTooltipDatum<Datum, TCategoricalValue>;
   svgHeight?: number;
-}
-
-export interface StackedAreaTooltipData<
-  Datum,
-  TCategoricalValue extends DataValue,
-> {
-  datum: Datum;
-  color: string;
-  x: string;
-  y: string;
-  category: TCategoricalValue;
 }

@@ -1,22 +1,21 @@
 import { schemeTableau10 } from 'd3';
-import { DataValue } from '../../../core/types/values';
-import { FillDef } from '../../../fill-defs/fill-def';
+import { DataValue, VisualValue } from '../../../core/types/values';
 import { DataDimensionBuilder } from '../../dimension-builder';
 import { OrdinalVisualValueDimension } from './ordinal-visual-value';
 
 const DEFAULT = {
-  _range: schemeTableau10 as string[],
+  _range: schemeTableau10,
   _valueAccessor: () => '',
 };
 
 export class OrdinalVisualValueDimensionBuilder<
   Datum,
-  TCategoricalValue extends DataValue = string,
-> extends DataDimensionBuilder<Datum, TCategoricalValue> {
-  private _domain: TCategoricalValue[];
-  private _fillDefs: FillDef<Datum>[];
-  private _range: string[];
-  private _scale: (category: TCategoricalValue) => string;
+  Domain extends DataValue,
+  Range extends VisualValue,
+> extends DataDimensionBuilder<Datum, Domain> {
+  private _domain: Domain[];
+  private _range: Range[];
+  private _scale: (category: Domain) => Range;
 
   constructor() {
     super();
@@ -28,16 +27,8 @@ export class OrdinalVisualValueDimensionBuilder<
    *
    * If not provided, the domain will be determined by the data.
    */
-  domain(domain: TCategoricalValue[]): this {
+  domain(domain: Domain[]): this {
     this._domain = domain;
-    return this;
-  }
-
-  /**
-   * OPTIONAL. Sets an array of fill defs that will be used to fill the categorical values.
-   */
-  fillDefs(fillDefs: FillDef<Datum>[]): this {
-    this._fillDefs = fillDefs;
     return this;
   }
 
@@ -52,34 +43,47 @@ export class OrdinalVisualValueDimensionBuilder<
    *
    * @default d3.schemeTableau10
    */
-  range(range: string[]): this {
+  range(range: Range[]): this {
     this._range = range;
     return this;
   }
 
   /**
-   * OPTIONAL. Sets a user-defined function that transforms a categorical value into a graphical value.
+   * OPTIONAL. Sets a user-defined function that transforms a categorical value into a visual value.
    *
    * User must also provide their own implementation of `valueAccessor`.
    *
-   * If a custom valueAccessor function is not provided, this function will not be used (due to default value of `valueAccessor`).
+   * If a custom valueAccessor function is not provided, this function will not be used even if provided (due to default value of `valueAccessor`).
    */
-  scale(scale: (category: TCategoricalValue) => string): this {
+  scale(scale: (category: Domain) => Range): this {
     this._scale = scale;
     return this;
   }
 
   /**
    * @internal This method is not intended to be used by consumers of this library.
+   *
+   * @param dimensionName A user-intelligible name for the dimension being built. Used for error messages. Should be title cased.
    */
-  _build(): OrdinalVisualValueDimension<Datum, TCategoricalValue> {
+  _build(
+    dimensionName: string
+  ): OrdinalVisualValueDimension<Datum, Domain, Range> {
+    this.validateDimension(dimensionName);
     return new OrdinalVisualValueDimension({
       domain: this._domain,
-      fillDefs: this._fillDefs,
       formatFunction: this._formatFunction,
       range: this._range,
       scale: this._scale,
       valueAccessor: this._valueAccessor,
     });
+  }
+
+  private validateDimension(dimensionName: string): void {
+    this.validateValueAccessor(dimensionName);
+    if (!this._range && !this._scale) {
+      throw new Error(
+        `${dimensionName} Dimension: Either a range or a scale must be provided.`
+      );
+    }
   }
 }

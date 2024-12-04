@@ -16,15 +16,15 @@ import {
   VicMapChartModule,
 } from '../../../../../../../public-api';
 import {
-  StateInComePopulationDatum,
-  stateIncomePopulationData,
-} from '../../../../../../testing/data/states-population-income-data';
+  StateIncomePopulationYearDatum,
+  stateIncomePopulationYearData,
+} from '../../../../../../testing/data/state-population-income-year-data';
 import { GeographiesConfig } from '../../../../geographies-config';
 
 const margin = { top: 36, right: 36, bottom: 36, left: 36 };
 const chartHeight = 400;
 const chartWidth = 600;
-const attributeData = stateIncomePopulationData
+const attributeData = stateIncomePopulationYearData
   .filter((x) => x.year === 2020)
   .filter((x) => x.state !== 'Puerto Rico');
 
@@ -65,7 +65,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
 })
 class TestGeographiesComponent {
   @Input() geographiesConfig: GeographiesConfig<
-    StateInComePopulationDatum,
+    StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >;
   margin = margin;
@@ -75,7 +75,7 @@ class TestGeographiesComponent {
 
 const mountGeographiesComponent = (
   geographiesConfig: GeographiesConfig<
-    StateInComePopulationDatum,
+    StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >
 ): void => {
@@ -96,7 +96,7 @@ const mountGeographiesComponent = (
 // ***********************************************************
 describe('the Equal Frequencies Bins Attribute Data dimension', () => {
   let geographiesConfig: GeographiesConfig<
-    StateInComePopulationDatum,
+    StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >;
   beforeEach(() => {
@@ -114,19 +114,17 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
       geographiesConfig = new VicGeographiesConfigBuilder<
-        StateInComePopulationDatum,
+        StateIncomePopulationYearDatum,
         TestMapGeometryProperties
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualFrequenciesBinsDimension((bins) =>
-              bins.valueAccessor((d) => d.income)
-            )
+            .equalFrequenciesBins((bins) => bins.valueAccessor((d) => d.income))
         )
         .getConfig();
       mountGeographiesComponent(geographiesConfig);
@@ -206,17 +204,17 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
       geographiesConfig = new VicGeographiesConfigBuilder<
-        StateInComePopulationDatum,
+        StateIncomePopulationYearDatum,
         TestMapGeometryProperties
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualFrequenciesBinsDimension((bins) =>
+            .equalFrequenciesBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .numBins(5)
@@ -283,17 +281,17 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
       geographiesConfig = new VicGeographiesConfigBuilder<
-        StateInComePopulationDatum,
+        StateIncomePopulationYearDatum,
         TestMapGeometryProperties
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualFrequenciesBinsDimension((bins) =>
+            .equalFrequenciesBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .numBins(numBins)

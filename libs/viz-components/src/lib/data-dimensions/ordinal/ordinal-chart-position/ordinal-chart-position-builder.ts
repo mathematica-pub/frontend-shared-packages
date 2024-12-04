@@ -11,10 +11,10 @@ const DEFAULT = {
 
 export class OrdinalChartPositionDimensionBuilder<
   Datum,
-  TOrdinalValue extends DataValue,
-> extends DataDimensionBuilder<Datum, TOrdinalValue> {
+  Domain extends DataValue,
+> extends DataDimensionBuilder<Datum, Domain> {
   private _align: number;
-  private _domain: TOrdinalValue[];
+  private _domain: Domain[];
   private _paddingInner: number;
   private _paddingOuter: number;
 
@@ -40,13 +40,15 @@ export class OrdinalChartPositionDimensionBuilder<
    *
    * If not provided, the domain will be determined by the data.
    */
-  domain(domain: TOrdinalValue[]): this {
+  domain(domain: Domain[]): this {
     this._domain = domain;
     return this;
   }
 
   /**
    * OPTIONAL. Sets the inner padding of the ordinal scale and is provided to [D3's paddingInner method](https://d3js.org/d3-scale/band#band_paddingInner)
+   *
+   * Will have no effect if the scale is a point scale.
    *
    * The value must be between 0 and 1.
    *
@@ -71,9 +73,15 @@ export class OrdinalChartPositionDimensionBuilder<
 
   /**
    * @internal This method is not intended to be used by consumers of this library.
+   *
+   * @param dimensionName A user-intelligible name for the dimension being built. Used for error messages. Should be title cased.
    */
-  _build(): OrdinalChartPositionDimension<Datum, TOrdinalValue> {
-    return new OrdinalChartPositionDimension({
+  _build(
+    scaleType: 'band' | 'point',
+    dimensionName: string
+  ): OrdinalChartPositionDimension<Datum, Domain> {
+    this.validateDimension(dimensionName);
+    return new OrdinalChartPositionDimension(scaleType, {
       align: this._align,
       domain: this._domain,
       formatFunction: this._formatFunction,
@@ -81,5 +89,9 @@ export class OrdinalChartPositionDimensionBuilder<
       paddingOuter: this._paddingOuter,
       valueAccessor: this._valueAccessor,
     });
+  }
+
+  private validateDimension(dimensionName: string): void {
+    this.validateValueAccessor(dimensionName);
   }
 }

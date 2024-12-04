@@ -1,10 +1,13 @@
 import { InternMap, select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { FillDefinition } from 'libs/viz-components/src/public-api';
 import { FillUtilities } from '../../../../core/utilities/fill-utilities';
 import { ValueUtilities } from '../../../../core/utilities/values';
-import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
-import { GeographiesLayer } from '../geographies-layer/geographies-layer';
+import {
+  GeographiesLayer,
+  GeographiesTooltipDatum,
+} from '../geographies-layer/geographies-layer';
 import { GeographiesAttributeDataLayerOptions } from './attribute-data-layer-options';
 import { BinStrategy } from './dimensions/attribute-data-bin-enums';
 import { CategoricalBinsAttributeDataDimension } from './dimensions/categorical-bins/categorical-bins';
@@ -38,6 +41,7 @@ export class GeographiesAttributeDataLayer<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   attributeScale: any;
   attributeValuesByGeographyIndex: InternMap<string, string | number>;
+  readonly customFills: FillDefinition<Datum>[];
   readonly data: Datum[];
   datumsByGeographyIndex: InternMap<string, Datum>;
   geographyIndexAccessor: (d: Datum) => string;
@@ -93,7 +97,7 @@ export class GeographiesAttributeDataLayer<
 
   getFill(feature: GeographiesFeature<TProperties, TGeometry>): string {
     const geographyIndex = this.featureIndexAccessor(feature);
-    return this.attributeDimension.fillDefs
+    return this.customFills
       ? this.getPatternFill(geographyIndex)
       : this.getAttributeFill(geographyIndex);
   }
@@ -102,8 +106,7 @@ export class GeographiesAttributeDataLayer<
   getPatternFill(geographyIndex: string): string {
     const datum = this.datumsByGeographyIndex.get(geographyIndex);
     const geographyFill = this.getAttributeFill(geographyIndex);
-    const patterns = this.attributeDimension.fillDefs;
-    return FillUtilities.getFill(datum, geographyFill, patterns);
+    return FillUtilities.getFill(datum, geographyFill, this.customFills);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -112,7 +115,7 @@ export class GeographiesAttributeDataLayer<
     return this.attributeScale(dataValue);
   }
 
-  getTooltipData(path: SVGPathElement): GeographiesTooltipData<Datum> {
+  getTooltipData(path: SVGPathElement): GeographiesTooltipDatum<Datum> {
     const feature = select(path).datum() as GeographiesFeature<
       TProperties,
       TGeometry
@@ -120,7 +123,7 @@ export class GeographiesAttributeDataLayer<
     const featureIndex = this.featureIndexAccessor(feature);
     const datum = this.datumsByGeographyIndex.get(featureIndex);
     const value = this.attributeValuesByGeographyIndex.get(featureIndex);
-    const tooltipData: GeographiesTooltipData<Datum> = {
+    const tooltipData: GeographiesTooltipDatum<Datum> = {
       datum,
       geography: this.geographyIndexAccessor(datum),
       attributeValue: this.attributeDimension.formatFunction
@@ -128,7 +131,8 @@ export class GeographiesAttributeDataLayer<
             datum,
             this.attributeDimension.formatFunction
           )
-        : this.attributeDimension.binType !== BinStrategy.categorical
+        : this.attributeDimension.dimensionType !== 'ordinal' &&
+            this.attributeDimension.binType !== BinStrategy.categorical
           ? ValueUtilities.d3Format(
               value as number,
               this.attributeDimension.formatSpecifier

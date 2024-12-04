@@ -1,36 +1,53 @@
 import { InternSet, scaleOrdinal } from 'd3';
-import { DataValue } from '../../../core/types/values';
-import { FillDef } from '../../../fill-defs/fill-def';
+import { DataValue, VisualValue } from '../../../core/types/values';
 import { DataDimension } from '../../dimension';
 import { OrdinalVisualValueDimensionOptions } from './ordinal-visual-value-options';
 
-export type VicCategoricalScale<Domain, Range = string> = (
-  category: Domain
-) => Range;
+/**
+ * A dimension that transforms string / number / Date values into a value of type number or string.
+ *
+ * This dimension is intended to be used to set a visual property of an element in a chart.
+ *
+ * The first generic is the type of the data that will be passed to the dimension. The second generic is the type of the value that will be used to set the visual property. The third generic is the type of the range of the scale / the output value.
+ *
+ * TESTABLE FUNCTIONALITY
+ *
+ * - It extracts values for the dimension from data.
+ *   - tested in: ordinal-visual-value.cy.ts
+ * - It sets the domain of the dimension.
+ *   - tested in: ordinal-visual-value.cy.ts
+ * - It checks if a value is in the domain.
+ * - The domain can be set by the user passing in an array of values.
+ *   - tested in: ordinal-chart-position.spec.ts
+ * - The domain will be unique values from the data if no custom domain is given by the user.
+ *   - tested in: ordinal-chart-position.spec.ts
+ * - The domain will always contain only unique values.
+ *   - tested in: ordinal-chart-position.spec.ts
+ */
 
 export class OrdinalVisualValueDimension<
   Datum,
-  TCategoricalValue extends DataValue = string,
-> extends DataDimension<Datum, TCategoricalValue> {
-  private _calculatedDomain: TCategoricalValue[];
-  private readonly domain: TCategoricalValue[];
-  readonly fillDefs: FillDef<Datum>[];
-  private internSetDomain: InternSet<TCategoricalValue>;
-  readonly range: string[];
-  private scale: VicCategoricalScale<TCategoricalValue>;
+  Domain extends DataValue,
+  Range extends VisualValue,
+> extends DataDimension<Datum, Domain> {
+  private _calculatedDomain: Domain[];
+  private readonly domain: Domain[];
+  private internSetDomain: InternSet<Domain>;
+  readonly range: Range[];
+  private scale: (category: Domain) => Range;
 
   constructor(
-    options: OrdinalVisualValueDimensionOptions<Datum, TCategoricalValue>
+    options: OrdinalVisualValueDimensionOptions<Datum, Domain, Range>
   ) {
-    super();
+    super('ordinal');
     Object.assign(this, options);
   }
 
-  get calculatedDomain(): TCategoricalValue[] {
+  get calculatedDomain(): Domain[] {
     return this._calculatedDomain;
   }
 
-  getScale(): VicCategoricalScale<TCategoricalValue> {
+  getScale(): (category: Domain) => Range {
     return this.scale;
   }
 
@@ -55,7 +72,7 @@ export class OrdinalVisualValueDimension<
     }
   }
 
-  domainIncludes(value: TCategoricalValue): boolean {
+  domainIncludes(value: Domain): boolean {
     return this.internSetDomain.has(value);
   }
 }

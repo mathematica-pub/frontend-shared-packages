@@ -63,9 +63,8 @@ describe('XyPrimaryMarks abstract class', () => {
         abstractClass.scales = {
           x: 'test x',
           y: 'test y',
-          categorical: 'test category',
         } as any;
-        abstractClass.requiredScales = ['x', 'y', 'categorical'];
+        abstractClass.requiredScales = ['x', 'y'];
       });
       it('calls setPropertiesFromRanges once with the correct values', () => {
         abstractClass.subscribeToRanges();
@@ -77,8 +76,8 @@ describe('XyPrimaryMarks abstract class', () => {
 
     describe('if scales are not defined', () => {
       beforeEach(() => {
-        abstractClass.scales = null;
-        abstractClass.requiredScales = ['x', 'y', 'categorical'];
+        abstractClass.scales = null as any;
+        abstractClass.requiredScales = ['x', 'y'];
       });
       it('does not call setPropertiesFromRanges', () => {
         abstractClass.subscribeToRanges();
@@ -96,10 +95,9 @@ describe('XyPrimaryMarks abstract class', () => {
       beforeEach(() => {
         abstractClass.scales = {
           x: 'test x',
-          y: 'test y',
-          categorical: null,
+          y: null,
         } as any;
-        abstractClass.requiredScales = ['x', 'y', 'categorical'];
+        abstractClass.requiredScales = ['x', 'y'];
       });
       it('does not call setPropertiesFromRanges', () => {
         abstractClass.subscribeToRanges();
@@ -123,16 +121,32 @@ describe('XyPrimaryMarks abstract class', () => {
 
     describe('if scales are defined', () => {
       beforeEach(() => {
-        abstractClass.scales = 'test scales' as any;
+        abstractClass.scales = {
+          x: undefined as any,
+          y: undefined as any,
+          useTransition: undefined as any,
+        };
       });
       it('sets scales to the emitted value from the subscription', () => {
         abstractClass.subscribeToScales();
-        (abstractClass.chart as any).scales.next('test scales');
-        expect(abstractClass.scales).toEqual('test scales' as any);
+        (abstractClass.chart as any).scales.next({
+          x: 'test x' as any,
+          y: 'test y' as any,
+          useTransition: true,
+        });
+        expect(abstractClass.scales).toEqual({
+          x: 'test x' as any,
+          y: 'test y' as any,
+          useTransition: true,
+        });
       });
       it('calls drawMarks once with the correct values', () => {
         abstractClass.subscribeToScales();
-        (abstractClass.chart as any).scales.next('test scales');
+        (abstractClass.chart as any).scales.next({
+          x: 'test x' as any,
+          y: 'test y' as any,
+          useTransition: true,
+        });
         expect(abstractClass.drawMarks).toHaveBeenCalledTimes(1);
       });
     });

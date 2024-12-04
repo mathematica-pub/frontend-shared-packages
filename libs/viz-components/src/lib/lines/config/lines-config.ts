@@ -1,13 +1,12 @@
 import { CurveFactory, group, range } from 'd3';
-import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
-import { DateChartPositionDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
-import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
+import { DateChartPositionDimension } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position';
+import { NumberChartPositionDimension } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { PointMarkers } from '../../point-markers/point-markers';
-import { Stroke } from '../../stroke/stroke';
 import { LinesGroupSelectionDatum } from '../lines.component';
 import { AreaFills } from './area-fills/area-fills';
 import { LinesOptions } from './lines-options';
+import { LinesStroke } from './stroke/lines-stroke';
 
 export interface LinesMarkerDatum {
   key: string;
@@ -20,7 +19,6 @@ export class LinesConfig<Datum>
   extends XyPrimaryMarksConfig<Datum>
   implements LinesOptions<Datum>
 {
-  readonly categorical: OrdinalVisualValueDimension<Datum, string>;
   readonly curve: CurveFactory;
   readonly labelLines: boolean;
   readonly lineLabelsFormat: (d: string) => string;
@@ -29,7 +27,7 @@ export class LinesConfig<Datum>
   readonly areaFills: AreaFills<Datum>;
   readonly pointerDetectionRadius: number;
   readonly pointMarkers: PointMarkers<Datum>;
-  readonly stroke: Stroke;
+  readonly stroke: LinesStroke<Datum>;
   readonly x:
     | DateChartPositionDimension<Datum>
     | NumberChartPositionDimension<Datum>;
@@ -51,12 +49,12 @@ export class LinesConfig<Datum>
   private setDimensionPropertiesFromData(): void {
     this.x.setPropertiesFromData(this.data);
     this.y.setPropertiesFromData(this.data);
-    this.categorical.setPropertiesFromData(this.data);
+    this.stroke.color.setPropertiesFromData(this.data);
   }
 
   private setValueIndices(): void {
     this.valueIndices = range(this.x.values.length).filter((i) =>
-      this.categorical.domainIncludes(this.categorical.values[i])
+      this.stroke.color.domainIncludes(this.stroke.color.values[i])
     );
   }
 
@@ -66,7 +64,10 @@ export class LinesConfig<Datum>
         this.x.isValidValue(this.x.values[i]) &&
         this.y.isValidValue(this.y.values[i])
     );
-    this.linesD3Data = group(definedIndices, (i) => this.categorical.values[i]);
+    this.linesD3Data = group(
+      definedIndices,
+      (i) => this.stroke.color.values[i]
+    );
   }
 
   private setLinesKeyFunction(): void {
@@ -78,13 +79,13 @@ export class LinesConfig<Datum>
       return {
         key: this.getMarkerKey(i),
         index: i,
-        category: this.categorical.values[i],
+        category: this.stroke.color.values[i],
         display: this.pointMarkers.display(this.data[i]) ? 'block' : 'none',
       };
     });
   }
 
   private getMarkerKey(i: number): string {
-    return `${this.categorical.values[i]}-${this.x.values[i]}`;
+    return `${this.stroke.color.values[i]}-${this.x.values[i]}`;
   }
 }

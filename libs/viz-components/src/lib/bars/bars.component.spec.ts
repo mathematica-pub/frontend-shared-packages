@@ -23,36 +23,30 @@ const data = [
 function horizontalConfig(): BarsConfig<Datum, string> {
   return new VicBarsConfigBuilder<Datum, string>()
     .data(data)
-    .orientation('horizontal')
-    .createQuantitativeDimension((dimension) =>
-      dimension.valueAccessor((d) => d.value)
+    .horizontal((bars) =>
+      bars
+        .x((dimension) => dimension.valueAccessor((d) => d.value))
+        .y((dimension) => dimension.valueAccessor((d) => d.state))
     )
-    .createOrdinalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.state)
-    )
-    .createCategoricalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.fruit)
-    )
-    .createLabels((labels) => labels.noValueFunction(() => 'no value'))
+    .color((dimension) => dimension.valueAccessor((d) => d.fruit))
+    .labels((labels) => labels.noValueFunction(() => 'no value'))
     .getConfig();
 }
 
 function verticalConfig(): BarsConfig<Datum, string> {
   return new VicBarsConfigBuilder<Datum, string>()
-    .orientation('vertical')
     .data(data)
-    .createQuantitativeDimension((dimension) =>
-      dimension.valueAccessor((d) => d.value)
+    .vertical((bars) =>
+      bars
+        .y((dimension) => dimension.valueAccessor((d) => d.value))
+        .x((dimension) => dimension.valueAccessor((d) => d.state))
     )
-    .createOrdinalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.state)
-    )
-    .createCategoricalDimension((dimension) =>
+    .color((dimension) =>
       dimension
         .valueAccessor((d) => d.fruit)
         .range(['red', 'blue', 'green', 'yellow', 'purple'])
     )
-    .createLabels((labels) => labels.noValueFunction(() => 'no value'))
+    .labels((labels) => labels.noValueFunction(() => 'no value'))
     .getConfig();
 }
 
@@ -73,7 +67,7 @@ describe('BarsComponent', () => {
     component = fixture.componentInstance;
   });
 
-  describe('setPropertiesFromRanges', () => {
+  describe('setChartScalesFromRanges', () => {
     beforeEach(() => {
       component.ranges = {
         x: [1, 2],
@@ -86,7 +80,7 @@ describe('BarsComponent', () => {
     describe('chart is horizontal', () => {
       beforeEach(() => {
         component.config = horizontalConfig();
-        spyOn(component.config.categorical, 'getScale').and.returnValue(
+        spyOn(component.config.color, 'getScale').and.returnValue(
           'categorical scale' as any
         );
         spyOn(component.config.ordinal, 'getScaleFromRange').and.returnValue(
@@ -114,7 +108,6 @@ describe('BarsComponent', () => {
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'quantitative scale',
           y: 'ordinal scale',
-          categorical: 'categorical scale',
           useTransition: false,
         } as any);
       });
@@ -122,7 +115,7 @@ describe('BarsComponent', () => {
     describe('chart is vertical', () => {
       beforeEach(() => {
         component.config = verticalConfig();
-        spyOn(component.config.categorical, 'getScale').and.returnValue(
+        spyOn(component.config.color, 'getScale').and.returnValue(
           'categorical scale' as any
         );
         spyOn(component.config.ordinal, 'getScaleFromRange').and.returnValue(
@@ -150,7 +143,6 @@ describe('BarsComponent', () => {
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'ordinal scale',
           y: 'quantitative scale',
-          categorical: 'categorical scale',
           useTransition: false,
         } as any);
       });
@@ -193,7 +185,7 @@ describe('BarsComponent', () => {
         index: 1,
         quantitative: 2,
         ordinal: 'AK',
-        categorical: 'avocado',
+        color: 'avocado',
       });
     });
   });
@@ -231,8 +223,8 @@ describe('BarsComponent', () => {
       expect(component.getBarFill(datum)).toEqual('bar color');
     });
     it('returns the result of getBarPattern if there are pattern fills specified', () => {
-      (component.config.categorical as any).fillDefs = [
-        { name: 'pattern', useDef: () => true },
+      (component.config as any).customFills = [
+        { defId: 'pattern', shouldApply: () => true },
       ];
       expect(component.getBarFill(datum)).toEqual('bar pattern');
     });
@@ -327,7 +319,7 @@ describe('BarsComponent', () => {
       component.getBarXQuantitative(datum);
       expect(component.scales.x).toHaveBeenCalledWith(10);
     });
-    it('calls xScale once with the correct value if quant value is 0', () => {
+    it('calls xScale once with the origin if quant value is 0', () => {
       datum.quantitative = 0;
       component.getBarXQuantitative(datum);
       expect(component.scales.x).toHaveBeenCalledWith(10);
@@ -440,7 +432,7 @@ describe('BarsComponent', () => {
       component.getBarYQuantitative(datum);
       expect(component.scales.y).toHaveBeenCalledWith(10);
     });
-    it('calls yScale once with the correct value if quant value is 0', () => {
+    it('calls yScale once with the origin if quant value is 0', () => {
       datum.quantitative = 0;
       component.getBarYQuantitative(datum);
       expect(component.scales.y).toHaveBeenCalledWith(10);
@@ -672,16 +664,16 @@ describe('BarsComponent', () => {
 
   describe('getBarPattern()', () => {
     let datum: BarDatum<string>;
-    const pattern = {
-      name: 'pattern1',
-      useDef: (d) => d.fruit === 'avocado',
+    const customFill = {
+      defId: 'pattern1',
+      shouldApply: (d) => d.fruit === 'avocado',
     };
     beforeEach(() => {
       spyOn(component, 'getBarColor').and.returnValue('blue');
       spyOn(FillUtilities, 'getFill').and.returnValue('return-pattern');
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
-      (component.config.categorical as any).fillDefs = [pattern];
+      (component.config as any).customFills = [customFill];
     });
     it('calls getBarColor once with the datum', () => {
       component.getBarPattern(datum);
@@ -690,25 +682,25 @@ describe('BarsComponent', () => {
     it('calls getPatternFill once with the correct values', () => {
       component.getBarPattern(datum);
       expect(FillUtilities.getFill).toHaveBeenCalledOnceWith(data[2], 'blue', [
-        pattern,
+        customFill,
       ]);
     });
   });
 
   describe('getBarColor()', () => {
     let datum: BarDatum<string>;
-    let categoricalSpy: jasmine.Spy;
+    let colorSpy: jasmine.Spy;
     beforeEach(() => {
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
-      categoricalSpy = jasmine.createSpy('categorical').and.returnValue('blue');
+      colorSpy = jasmine.createSpy('color').and.returnValue('blue');
       component.scales = {
-        categorical: categoricalSpy,
+        color: colorSpy,
       } as any;
     });
     it('calls categorical scale once with the correct value', () => {
       component.getBarColor(datum);
-      expect(component.scales.categorical).toHaveBeenCalledOnceWith('banana');
+      expect(component.scales.color).toHaveBeenCalledOnceWith('banana');
     });
     it('returns the correct value', () => {
       expect(component.getBarColor(datum)).toEqual('blue');

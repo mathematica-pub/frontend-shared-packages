@@ -1,0 +1,32 @@
+<div class="multi-select-combobox-example editable-textbox-example">
+  <p class="combobox-value"
+    >Combobox selections (id values): {{ (selected$ | async).join(', ') }}</p
+  >
+  <hsi-ui-combobox class="office-locations-dropdown">
+    <hsi-ui-combobox-label>
+      <span>Mathematica Office Locations Combobox</span>
+    </hsi-ui-combobox-label>
+    <hsi-ui-editable-textbox
+      placeholder="Search for an office"
+      autoSelectTrigger="any"
+      [autoSelect]="true"
+      (textboxValue)="onTyping($event)"
+    >
+    </hsi-ui-editable-textbox>
+    <hsi-ui-listbox [isMultiSelect]="true" (valueChanges)="onSelection($event)">
+      @for (option of options$ | async; track $index) {
+        <hsi-ui-listbox-option
+          [selected]="(selected$ | async).includes(option.id)"
+          [value]="option.id"
+          >{{ option.displayName
+          }}<span class="material-symbols-outlined icon checkbox" selectedIcon>
+            check_box
+          </span>
+          <span unselectedIcon class="material-symbols-outlined icon checkbox">
+            check_box_outline_blank
+          </span></hsi-ui-listbox-option
+        >
+      }
+    </hsi-ui-listbox>
+  </hsi-ui-combobox>
+</div>

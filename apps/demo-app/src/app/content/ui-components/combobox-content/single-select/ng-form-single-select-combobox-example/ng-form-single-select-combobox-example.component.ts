@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ComboboxModule } from 'dist/ui-components';
+import { ComboboxModule } from '@hsi/ui-components';
 
 @Component({
   selector: 'app-ng-form-single-select-combobox-example',
@@ -9,6 +13,7 @@ import { ComboboxModule } from 'dist/ui-components';
   imports: [CommonModule, ComboboxModule],
   templateUrl: './ng-form-single-select-combobox-example.component.html',
   styleUrl: './ng-form-single-select-combobox-example.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class NgFormSingleSelectComboboxExampleComponent {
