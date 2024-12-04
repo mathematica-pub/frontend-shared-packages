@@ -20,7 +20,6 @@ export class CsaStackedBarsComponent
 {
   circleGroup: Selection<SVGGElement, unknown, null, undefined>;
   comparisonGroup: Selection<SVGGElement, unknown, null, undefined>;
-  percentGroup: Selection<SVGGElement, unknown, null, undefined>;
   directionLabel: Selection<SVGTextElement, unknown, null, undefined>;
   headerGroup: Selection<SVGGElement, unknown, null, undefined>;
   compVal: number;
@@ -32,7 +31,6 @@ export class CsaStackedBarsComponent
 
   override ngOnInit(): void {
     this.createCircleGroup();
-    this.createPercentGroup();
     this.createDirectionLabel();
     this.createHeaderGroup();
     this.createSizeHeaderGroup();
@@ -63,24 +61,6 @@ export class CsaStackedBarsComponent
     this.circleGroup = select(this.chart.svgRef.nativeElement)
       .append('g')
       .attr('class', 'plans');
-  }
-
-  createPercentGroup(): void {
-    this.percentGroup = select(this.chart.svgRef.nativeElement)
-      .append('g')
-      .attr('class', 'percent-labels');
-
-    this.percentGroup
-      .append('line')
-      .attr('x1', `${this.yAxisOffset - 0.8}em`)
-      .attr('x2', `${this.yAxisOffset - 0.8}em`)
-      .attr('y1', '0.3em')
-      .attr('y2', '-0.5em');
-    this.percentGroup
-      .append('text')
-      .attr('class', 'comparison-label')
-      .attr('dx', `${this.yAxisOffset - 1.4}em`)
-      .attr('dy', '-0.8em');
   }
 
   createDirectionLabel(): void {
@@ -200,7 +180,29 @@ export class CsaStackedBarsComponent
   }
 
   updatePercentLabels(): void {
-    this.percentGroup
+    const percentGroup = select(this.chart.svgRef.nativeElement)
+      .selectAll('.percent-labels')
+      .data([this.config.data[0].CSA_CompVal].filter((d) => d !== null))
+      .join('g')
+      .attr('class', 'percent-labels');
+
+    percentGroup
+      .selectAll('line')
+      .data((d) => [d])
+      .join('line')
+      .attr('x1', `${this.yAxisOffset - 0.8}em`)
+      .attr('x2', `${this.yAxisOffset - 0.8}em`)
+      .attr('y1', '0.3em')
+      .attr('y2', '-0.5em');
+    percentGroup
+      .selectAll('.comparison-label')
+      .data((d) => [d])
+      .join('text')
+      .attr('class', 'comparison-label')
+      .attr('dx', `${this.yAxisOffset - 1.4}em`)
+      .attr('dy', '-0.8em');
+
+    percentGroup
       .selectAll('.percent-label')
       .data(
         this.config.data.filter(
@@ -217,8 +219,10 @@ export class CsaStackedBarsComponent
       )
       .text((category: CsaDatum) => format('.0%')(category.CSA_PctBelowComp));
 
-    this.percentGroup
-      .select('.comparison-label')
+    percentGroup
+      .selectAll('.comparison-label')
+      .data((d) => [d])
+      .join('text')
       .text(
         `% of plans ${this.getDirection()} the ${this.config.data[0].CSA_CompVal_Desc}`
       );
