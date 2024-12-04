@@ -13,9 +13,9 @@ This project has the following requirements for the developer's/virtual machine:
 To install necessary dependencies and automatic commit linting for development, run
 `npm run setup-repo`.
 
-Then run: `npm run start:demo-app` to start the demo application.
+Then run: `npm run start:{application-name}` to start the {application-name} application.
 
-In order to get live updates to changes in the code, run `npm run watch:viz-components`
+In order to get live updates to changes in the code, run `npm run watch:{application-name}`
 
 ## Beta-releases
 
