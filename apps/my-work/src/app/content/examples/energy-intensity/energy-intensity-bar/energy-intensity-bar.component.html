@@ -1,5 +1,9 @@
 <div class="energy-intensity-bar-container">
   <div class="chart-container">
+    <div class="chart-title" [style.marginLeft.px]="200"
+      ><p class="variable">{{ sortVar }}</p
+      ><p class="units">{{ sortVarUnits }}</p></div
+    >
     <vic-xy-chart
       class="sorted-chart"
       [margin]="{ top: 30, right: 0, bottom: 36, left: 200 }"
