@@ -123,20 +123,15 @@ export class CsaDotPlotComponent implements OnChanges {
 
       this.rollupDataConfig = this.bars
         .data(this.rollupData)
-        .orientation('horizontal')
-        .createOrdinalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.size)
+        .horizontal((bars) =>
+          bars
+            .x((dimension) =>
+              dimension.valueAccessor((d) => d.value).domain([0, this.trueMax])
+            )
+            .y((dimension) => dimension.valueAccessor((d) => d.size))
         )
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.series)
-        )
-        .createQuantitativeDimension((dimension) =>
-          dimension
-            .valueAccessor((d) => d.value)
-            .formatSpecifier(',.0f')
-            .domain([0, this.trueMax])
-        )
-        .stackOrder(() => [1, 0])
+        .color((dimension) => dimension.valueAccessor((d) => d.series))
+        // .stackOrder(() => [1, 0])
         .getConfig();
 
       this.yAxisConfig = this.yOrdinalAxis.getConfig();
