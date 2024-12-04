@@ -269,7 +269,7 @@ export class CsaStackedBarsComponent
 
     const group = this.headerGroup
       .selectAll('.percentile')
-      .data([this.config.data[0].CSA_CompVal].filter((d) => d !== null))
+      .data([this.config.data[0].csa_25].filter((d) => d !== null))
       .join('g')
       .attr('class', 'percentile')
       .attr(
