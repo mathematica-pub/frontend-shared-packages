@@ -14,6 +14,11 @@
     [height]="800"
     [scaleChartWithContainerWidth]="{ width: true, height: false }"
   >
+    <ng-container html-elements-before>
+      <vic-x-axis-label alignment="center">
+        British Thermal Unit
+      </vic-x-axis-label>
+    </ng-container>
     <ng-container svg-elements>
       <svg:g vic-xy-background></svg:g>
       @if ((orientation$ | async) === 'horizontal') {
