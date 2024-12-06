@@ -33,19 +33,26 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract setAxisFunction(): any;
   abstract setTranslate(): void;
-  abstract setAxisFromScaleAndConfig(): void;
+  abstract setTicks(tickFormat: string | ((value: TickValue) => string)): void;
   abstract setScale(): void;
 
   override initFromConfig(): void {
-    this.setAxisFunction();
-    this.setTranslate();
     this.drawMarks();
   }
 
-  drawMarks(): void {
-    if (!this.axisFunction) {
-      this.initFromConfig();
+  setAxisFromScaleAndConfig(): void {
+    this.axis = this.axisFunction(this.scale);
+    if (this.config.tickSizeOuter !== undefined) {
+      this.axis.tickSizeOuter(this.config.tickSizeOuter);
     }
+    if (this.config.tickFormat) {
+      this.setTicks(this.config.tickFormat);
+    }
+  }
+
+  drawMarks(): void {
+    this.setAxisFunction();
+    this.setTranslate();
     this.setScale();
     const transitionDuration = this.getTransitionDuration();
     this.setAxisFromScaleAndConfig();

@@ -13,17 +13,6 @@ export function ordinalAxisMixin<
   abstract class Mixin extends Base {
     @Input() override config: OrdinalAxisConfig<TickValue>;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setAxisFromScaleAndConfig(): void {
-      const tickFormat = this.config.tickFormat ?? undefined;
-      this.axis = this.axisFunction(this.scale).tickSizeOuter(
-        this.config.tickSizeOuter
-      );
-      if (tickFormat) {
-        this.setTicks(tickFormat);
-      }
-    }
-
     setTicks(tickFormat: string | ((value: TickValue) => string)): void {
       this.axis.tickFormat((d) => {
         const formatter = d instanceof Date ? timeFormat : format;

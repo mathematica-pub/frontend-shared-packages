@@ -4,7 +4,8 @@ import { XyAxis, XyAxisScale } from '../../axes/base/xy-axis-base';
 import { DataValue } from '../../core/types/values';
 
 export class XyAxisStub<T extends DataValue> extends XyAxis<T> {
-  setAxisFromScaleAndConfig(): void {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setTicks(tickFormat: string | ((value: T) => string)): void {
     return;
   }
   setScale(): void {
