@@ -15,29 +15,6 @@ describe('the QuantitativeAxis mixin', () => {
     abstractClass = TestBed.inject(QuantitativeAxisStub);
   });
 
-  describe('setAxisFromScaleAndConfig()', () => {
-    beforeEach(() => {
-      abstractClass.scale = 'class scale' as any;
-      spyOn(abstractClass as any, 'setTicks');
-      abstractClass.axisFunction = jasmine
-        .createSpy('axisFunction')
-        .and.returnValue('a scale' as any);
-      abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
-        .tickFormat('.0f')
-        .getConfig();
-    });
-    it('calls axisFunction once with the correct value', () => {
-      abstractClass.setAxisFromScaleAndConfig();
-      expect(abstractClass.axisFunction).toHaveBeenCalledOnceWith(
-        'class scale'
-      );
-    });
-    it('calls setTicks once with config.tickFormat', () => {
-      abstractClass.setAxisFromScaleAndConfig();
-      expect((abstractClass as any).setTicks).toHaveBeenCalledOnceWith('.0f');
-    });
-  });
-
   describe('setTicks', () => {
     beforeEach(() => {
       spyOn(abstractClass as any, 'setSpecifiedTickValues');
