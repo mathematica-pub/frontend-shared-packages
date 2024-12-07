@@ -53,6 +53,16 @@ interface ViewModel {
 }
 const includeFiles = ['line-input-actions.ts'];
 
+enum TooltipEvent {
+  Hover = 'Hover',
+  Click = 'Click',
+}
+
+enum Interactions {
+  Hover = 'Hover',
+  HoverAndClick = 'HoverAndClick',
+}
+
 @Component({
   selector: 'app-lines-example',
   standalone: true,
@@ -107,11 +117,14 @@ export class LinesExampleComponent implements OnInit {
   ];
   includeFiles = includeFiles;
   folderName = 'lines-example';
-  tooltipEvent: BehaviorSubject<'hover' | 'click'> = new BehaviorSubject<
-    'hover' | 'click'
-  >('click');
-  tooltipEvent$ = this.tooltipEvent.asObservable();
+  defaultInteractionsSelection = Interactions.Hover;
+  interactionsSelection: BehaviorSubject<Interactions> = new BehaviorSubject(
+    this.defaultInteractionsSelection
+  );
+  interactionsSelection$ = this.interactionsSelection.asObservable();
   private imageService = inject(VicImageDownloadService);
+  TooltipEvent = TooltipEvent;
+  Interactions = Interactions;
 
   constructor(
     private dataService: DataService,
@@ -129,8 +142,9 @@ export class LinesExampleComponent implements OnInit {
     );
   }
 
-  onEventToggleChange(change: MatButtonToggleChange): void {
-    this.tooltipEvent.next(change.value);
+  onInteractionsToggleChange(change: MatButtonToggleChange): void {
+    console.log('change', change);
+    this.interactionsSelection.next(change.value);
   }
 
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
