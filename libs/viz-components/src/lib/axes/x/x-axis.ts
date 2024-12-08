@@ -46,13 +46,13 @@ export function xAxisMixin<
       const config = this.config.label;
       if (!config) return;
 
-      const spaceFromHorizontalEdge = 4;
+      const spaceFromMarginEdge = 4;
       let x = config.offset.x;
       let y = config.offset.y;
       y +=
         this.config.side === 'top'
-          ? this.chart.margin.top * -1 + spaceFromHorizontalEdge
-          : this.chart.margin.bottom - spaceFromHorizontalEdge;
+          ? this.chart.margin.top * -1 + spaceFromMarginEdge
+          : this.chart.margin.bottom - spaceFromMarginEdge;
       let anchor: 'start' | 'middle' | 'end';
       const range = this.scales.x.range();
 

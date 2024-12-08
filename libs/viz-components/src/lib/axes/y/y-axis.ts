@@ -40,7 +40,7 @@ export function yAxisMixin<
     }
 
     getRightTranslate(range: [number, number]): number {
-      return range[1] + this.chart.margin.right;
+      return range[1];
     }
 
     setScale(): void {
@@ -61,6 +61,7 @@ export function yAxisMixin<
       const config = this.config.label;
       if (!config) return;
 
+      const spaceFromMarginEdge = 4;
       let y = config.offset.y;
       let x = config.offset.x;
       let anchor: 'start' | 'middle' | 'end';
@@ -74,8 +75,8 @@ export function yAxisMixin<
         y += (range[0] - range[1]) / 2 + +this.chart.margin.top;
         x +=
           this.config.side === 'left'
-            ? this.chart.margin.left - 12
-            : this.chart.width - 12;
+            ? this.chart.margin.left - spaceFromMarginEdge
+            : this.chart.width - spaceFromMarginEdge;
         anchor = config.anchor || 'middle';
         rotate = 'rotate(-90)';
       } else {

@@ -81,7 +81,7 @@ export class LinesExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 36,
-    right: 4,
+    right: 12,
     bottom: 36,
     left: 64,
   };
