@@ -56,7 +56,6 @@ export function xAxisMixin<
           : this.chart.margin.bottom - spaceFromHorizontalEdge;
       let anchor: 'start' | 'middle' | 'end';
       const range = this.scales.x.range();
-      console.log('range', range);
 
       if (config.position === 'start') {
         x += range[0];
@@ -68,7 +67,6 @@ export function xAxisMixin<
         x += range[1];
         anchor = config.anchor || 'end';
       }
-      console.log('x', x);
 
       select(this.axisRef.nativeElement).selectAll('.x-axis-label').remove();
 

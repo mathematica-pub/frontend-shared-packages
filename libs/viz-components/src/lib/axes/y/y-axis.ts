@@ -66,7 +66,6 @@ export function yAxisMixin<
       let anchor: 'start' | 'middle' | 'end';
       let rotate: string | null = null;
       const range = this.scales.y.range();
-      console.log(range);
 
       if (config.position === 'start') {
         y = range[1] + config.offset.y;

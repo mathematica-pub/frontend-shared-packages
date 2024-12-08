@@ -79,13 +79,8 @@ const getYTransform = ($barGroup) => {
         <svg:g
           vic-x-quantitative-axis
           [config]="xQuantitativeAxisConfig"
-          side="top"
         ></svg:g>
-        <svg:g
-          vic-y-ordinal-axis
-          [config]="yOrdinalAxisConfig"
-          side="left"
-        ></svg:g>
+        <svg:g vic-y-ordinal-axis [config]="yOrdinalAxisConfig"></svg:g>
         <svg:g
           vic-primary-marks-bars
           [config]="barsConfig"
