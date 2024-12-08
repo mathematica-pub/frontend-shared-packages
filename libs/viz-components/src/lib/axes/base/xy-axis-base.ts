@@ -108,7 +108,6 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   }
 
   postProcessAxisFeatures(): void {
-    console.log('config', this.config);
     if (this.config.removeDomainLine) {
       select(this.axisRef.nativeElement).call((g) =>
         g.select('.domain').remove()

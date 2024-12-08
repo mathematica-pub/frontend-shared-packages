@@ -15,7 +15,6 @@ export function xAxisMixin<
     translate: string;
 
     setTranslate(): void {
-      console.log('setTranslate', this.config);
       const translate = this.getTranslateDistance();
       this.translate = `translate(0, ${translate})`;
     }
@@ -73,7 +72,7 @@ export function xAxisMixin<
       select(this.axisRef.nativeElement).call((g) =>
         g
           .append('text')
-          .attr('class', 'x-axis-label axis-label')
+          .attr('class', 'vic-axis-label vic-x-axis-label')
           .attr('x', x)
           .attr('y', y)
           .attr('text-anchor', anchor)

@@ -61,17 +61,17 @@ export function yAxisMixin<
       const config = this.config.label;
       if (!config) return;
 
-      let y: number;
+      let y = config.offset.y;
       let x = config.offset.x;
       let anchor: 'start' | 'middle' | 'end';
       let rotate: string | null = null;
       const range = this.scales.y.range();
 
       if (config.position === 'start') {
-        y = range[1] + config.offset.y;
+        y += range[1];
         anchor = config.anchor || 'end';
       } else if (config.position === 'middle') {
-        y = (range[0] - range[1]) / 2 + config.offset.y;
+        y += (range[0] - range[1]) / 2 + +this.chart.margin.top;
         x +=
           this.config.side === 'left'
             ? this.chart.margin.left - 12
@@ -79,7 +79,7 @@ export function yAxisMixin<
         anchor = config.anchor || 'middle';
         rotate = 'rotate(-90)';
       } else {
-        y = range[0] + config.offset.y;
+        y += range[0];
         anchor = config.anchor || 'end';
       }
 
@@ -88,7 +88,7 @@ export function yAxisMixin<
       select(this.axisRef.nativeElement).call((g) =>
         g
           .append('text')
-          .attr('class', 'y-axis-label axis-label')
+          .attr('class', 'vic-axis-label vic-y-axis-label')
           .attr('transform', rotate)
           .attr('x', rotate ? y * -1 : x)
           .attr('y', rotate ? x * -1 : y)

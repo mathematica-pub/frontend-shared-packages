@@ -12,7 +12,7 @@ const XOrdinalAxis = xAxisMixin(ordinalAxisMixin(XyAxis));
   templateUrl: '../x/x-axis.html',
   styles: [
     `
-      .vic-axis-g .x-axis-label {
+      .vic-axis-g .vic-x-axis-label {
         fill: currentColor;
       }
     `,
