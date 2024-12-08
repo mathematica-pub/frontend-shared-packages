@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { axisLeft, axisRight } from 'd3';
+import { axisLeft, axisRight, select } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
@@ -55,6 +55,47 @@ export function yAxisMixin<
       } else {
         return Math.floor(defaultNumTicks);
       }
+    }
+
+    createLabel(): void {
+      const config = this.config.label;
+      if (!config) return;
+
+      let y: number;
+      let x = config.offset.x;
+      let anchor: 'start' | 'middle' | 'end';
+      let rotate: string | null = null;
+      const range = this.scales.y.range();
+      console.log(range);
+
+      if (config.position === 'start') {
+        y = range[1] + config.offset.y;
+        anchor = config.anchor || 'end';
+      } else if (config.position === 'middle') {
+        y = (range[0] - range[1]) / 2 + config.offset.y;
+        x +=
+          this.config.side === 'left'
+            ? this.chart.margin.left - 12
+            : this.chart.width - 12;
+        anchor = config.anchor || 'middle';
+        rotate = 'rotate(-90)';
+      } else {
+        y = range[0] + config.offset.y;
+        anchor = config.anchor || 'end';
+      }
+
+      select(this.axisRef.nativeElement).selectAll('.y-axis-label').remove();
+
+      select(this.axisRef.nativeElement).call((g) =>
+        g
+          .append('text')
+          .attr('class', 'y-axis-label axis-label')
+          .attr('transform', rotate)
+          .attr('x', rotate ? y * -1 : x)
+          .attr('y', rotate ? x * -1 : y)
+          .attr('text-anchor', anchor)
+          .text(this.config.label.text)
+      );
     }
   }
 

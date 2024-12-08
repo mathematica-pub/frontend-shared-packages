@@ -1,4 +1,5 @@
 import { VicAuxMarksBuilder } from '../../../marks';
+import { AxisLabelBuilder } from '../../axis-label/axis-label-builder';
 import { TickWrapBuilder } from '../../tick-wrap/tick-wrap-builder';
 
 export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
@@ -11,6 +12,16 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
   protected _tickLabelFontSize: number;
   protected _tickSizeOuter: number;
   protected tickWrapBuilder: TickWrapBuilder;
+  protected labelBuilder: AxisLabelBuilder;
+
+  /**
+   * Specifies properties for an axis label.
+   */
+  label(setProperties: (label: AxisLabelBuilder) => void): this {
+    this.labelBuilder = new AxisLabelBuilder();
+    setProperties(this.labelBuilder);
+    return this;
+  }
 
   /**
    * If true, the default line that D3 creates for the axis will be removed.

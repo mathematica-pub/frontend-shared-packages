@@ -35,6 +35,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   abstract setTranslate(): void;
   abstract setTicks(tickFormat: string | ((value: TickValue) => string)): void;
   abstract setScale(): void;
+  abstract createLabel(): void;
 
   override initFromConfig(): void {
     this.drawMarks();
@@ -107,6 +108,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   }
 
   postProcessAxisFeatures(): void {
+    console.log('config', this.config);
     if (this.config.removeDomainLine) {
       select(this.axisRef.nativeElement).call((g) =>
         g.select('.domain').remove()
@@ -121,6 +123,9 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
       select(this.axisRef.nativeElement).call((g) =>
         g.selectAll('.tick line').remove()
       );
+    }
+    if (this.config.label) {
+      this.createLabel();
     }
   }
 }

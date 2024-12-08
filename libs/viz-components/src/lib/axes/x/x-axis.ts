@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { axisBottom, axisTop } from 'd3';
+import { axisBottom, axisTop, select } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
@@ -15,6 +15,7 @@ export function xAxisMixin<
     translate: string;
 
     setTranslate(): void {
+      console.log('setTranslate', this.config);
       const translate = this.getTranslateDistance();
       this.translate = `translate(0, ${translate})`;
     }
@@ -40,6 +41,46 @@ export function xAxisMixin<
 
     setAxisFunction(): void {
       this.axisFunction = this.config.side === 'top' ? axisTop : axisBottom;
+    }
+
+    createLabel(): void {
+      const config = this.config.label;
+      if (!config) return;
+
+      const spaceFromHorizontalEdge = 4;
+      let x = config.offset.x;
+      let y = config.offset.y;
+      y +=
+        this.config.side === 'top'
+          ? this.chart.margin.top * -1 + spaceFromHorizontalEdge
+          : this.chart.margin.bottom - spaceFromHorizontalEdge;
+      let anchor: 'start' | 'middle' | 'end';
+      const range = this.scales.x.range();
+      console.log('range', range);
+
+      if (config.position === 'start') {
+        x += range[0];
+        anchor = config.anchor || 'start';
+      } else if (config.position === 'middle') {
+        x += (range[1] - range[0]) / 2 + range[0];
+        anchor = config.anchor || 'middle';
+      } else {
+        x += range[1];
+        anchor = config.anchor || 'end';
+      }
+      console.log('x', x);
+
+      select(this.axisRef.nativeElement).selectAll('.x-axis-label').remove();
+
+      select(this.axisRef.nativeElement).call((g) =>
+        g
+          .append('text')
+          .attr('class', 'x-axis-label axis-label')
+          .attr('x', x)
+          .attr('y', y)
+          .attr('text-anchor', anchor)
+          .text(this.config.label.text)
+      );
     }
   }
 

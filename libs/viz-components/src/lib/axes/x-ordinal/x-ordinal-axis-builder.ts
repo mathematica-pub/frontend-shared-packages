@@ -26,6 +26,7 @@ export class VicXOrdinalAxisConfigBuilder<
   getConfig(): XOrdinalAxisConfig<TickValue> {
     return new XOrdinalAxisConfig<TickValue>({
       data: undefined,
+      label: this.labelBuilder?.build('x'),
       mixBlendMode: this._mixBlendMode,
       removeDomainLine: this._removeDomainLine,
       removeTickMarks: this._removeTickMarks,

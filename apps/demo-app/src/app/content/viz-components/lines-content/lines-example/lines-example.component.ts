@@ -80,7 +80,7 @@ export class LinesExampleComponent implements OnInit {
   @ViewChild('imageNode') imageNode: ElementRef<HTMLElement>;
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
-    top: 8,
+    top: 36,
     right: 4,
     bottom: 36,
     left: 64,
@@ -123,6 +123,7 @@ export class LinesExampleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('ini');
     this.vm$ = this.dataService.metroUnemploymentData$.pipe(
       filter((x) => !!x),
       map((x) => this.getViewModel(x))
@@ -134,12 +135,30 @@ export class LinesExampleComponent implements OnInit {
   }
 
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
-    const xAxisConfig = this.xAxisQuantitative.tickFormat('%Y').getConfig();
-    const yAxisConfig = this.yAxisQuantitative.getConfig();
+    console.log('what');
+    const xAxisConfig = this.xAxisQuantitative
+      .tickFormat('%Y')
+      .label((label) => label.position('middle').text('Year'))
+      .getConfig();
+    const yAxisConfig = this.yAxisQuantitative
+      .label((label) =>
+        label
+          .position('start')
+          .text('Percent Unemployment')
+          .anchor('start')
+          .offset({ x: 8, y: 12 })
+      )
+      .tickFormat('.0%')
+      .getConfig();
     const dataConfig = this.lines
       .data(data)
       .xDate((xDate) => xDate.valueAccessor((d) => d.date))
-      .y((y) => y.valueAccessor((d) => d.value).domainPaddingPixels(20))
+      .y((y) =>
+        y
+          .valueAccessor((d) => d.value / 100)
+          .domainPaddingPixels(20)
+          .formatSpecifier('.1%')
+      )
       .stroke((stroke) =>
         stroke.color((color) => color.valueAccessor((d) => d.division))
       )
