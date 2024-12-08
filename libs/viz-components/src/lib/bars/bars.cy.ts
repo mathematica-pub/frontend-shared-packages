@@ -185,15 +185,10 @@ const mountHorizontalBarsComponent = (
       [scaleChartWithContainerWidth]="{ width: true, height: false }"
     >
       <ng-container svg-elements>
-        <svg:g
-          vic-x-ordinal-axis
-          [config]="xOrdinalAxisConfig"
-          side="bottom"
-        ></svg:g>
+        <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
         <svg:g
           vic-y-quantitative-axis
           [config]="yQuantitativeAxisConfig"
-          side="left"
         ></svg:g>
         <svg:g
           vic-primary-marks-bars
