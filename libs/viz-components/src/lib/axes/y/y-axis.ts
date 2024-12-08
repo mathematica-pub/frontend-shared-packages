@@ -83,7 +83,9 @@ export function yAxisMixin<
         anchor = config.anchor || 'end';
       }
 
-      select(this.axisRef.nativeElement).selectAll('.y-axis-label').remove();
+      select(this.axisRef.nativeElement)
+        .selectAll('.vic-y-axis-label')
+        .remove();
 
       select(this.axisRef.nativeElement).call((g) =>
         g
@@ -95,6 +97,12 @@ export function yAxisMixin<
           .attr('text-anchor', anchor)
           .text(this.config.label.text)
       );
+
+      if (config.wrap) {
+        this.config.label.wrap.wrap(
+          select(this.axisRef.nativeElement).select('.vic-y-axis-label')
+        );
+      }
     }
   }
 

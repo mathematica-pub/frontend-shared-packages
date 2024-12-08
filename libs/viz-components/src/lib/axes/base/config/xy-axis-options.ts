@@ -1,6 +1,6 @@
 import { MarksOptions } from '../../../marks';
 import { AxisLabelOptions } from '../../axis-label/axis-label-options';
-import { TickWrap } from '../../tick-wrap/tick-wrap-config';
+import { TickWrap } from '../../tick-wrap/tick-wrap';
 
 export interface XyAxisBaseOptions<TickValue> extends MarksOptions<never> {
   removeDomainLine: boolean;

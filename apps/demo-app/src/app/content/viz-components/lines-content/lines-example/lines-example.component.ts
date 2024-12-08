@@ -123,7 +123,6 @@ export class LinesExampleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('ini');
     this.vm$ = this.dataService.metroUnemploymentData$.pipe(
       filter((x) => !!x),
       map((x) => this.getViewModel(x))
@@ -135,7 +134,6 @@ export class LinesExampleComponent implements OnInit {
   }
 
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
-    console.log('what');
     const xAxisConfig = this.xAxisQuantitative
       .tickFormat('%Y')
       .label((label) => label.position('middle').text('Year'))
@@ -144,8 +142,9 @@ export class LinesExampleComponent implements OnInit {
       .label((label) =>
         label
           .position('start')
-          .text('Percent Unemployment')
+          .text('Percent Unemployment (US Bureau of Labor Statistics)')
           .anchor('start')
+          .wrap((wrap) => wrap.width(110).maintainXPosition(true))
           .offset({ x: 8, y: 12 })
       )
       .tickFormat('.0%')

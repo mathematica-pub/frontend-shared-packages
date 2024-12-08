@@ -1,3 +1,4 @@
+import { SvgTextWrapBuilder } from '../../svg-text-wrap/svg-text-wrap-builder';
 import { AxisLabel } from './axis-label-config';
 
 const DEFAULT = {
@@ -13,6 +14,7 @@ export class AxisLabelBuilder {
   };
   protected _position: 'start' | 'middle' | 'end';
   protected _text: string;
+  protected textWrapBuilder: SvgTextWrapBuilder;
 
   constructor() {
     Object.assign(this, DEFAULT);
@@ -70,6 +72,15 @@ export class AxisLabelBuilder {
   }
 
   /**
+   * Specifies properties for wrapping the text of the label.
+   */
+  wrap(setProperties: (wrap: SvgTextWrapBuilder) => void): this {
+    this.textWrapBuilder = new SvgTextWrapBuilder();
+    setProperties(this.textWrapBuilder);
+    return this;
+  }
+
+  /**
    * @internal Not meant to be called by consumers of the library.
    */
   build(dimension: 'x' | 'y'): AxisLabel {
@@ -78,6 +89,7 @@ export class AxisLabelBuilder {
       position: this._position,
       offset: this._offset,
       text: this._text,
+      wrap: this.textWrapBuilder?.build(),
     });
   }
 

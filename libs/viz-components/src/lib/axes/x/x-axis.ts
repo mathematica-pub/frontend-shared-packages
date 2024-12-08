@@ -67,7 +67,9 @@ export function xAxisMixin<
         anchor = config.anchor || 'end';
       }
 
-      select(this.axisRef.nativeElement).selectAll('.x-axis-label').remove();
+      select(this.axisRef.nativeElement)
+        .selectAll('.vic-x-axis-label')
+        .remove();
 
       select(this.axisRef.nativeElement).call((g) =>
         g
@@ -78,6 +80,12 @@ export function xAxisMixin<
           .attr('text-anchor', anchor)
           .text(this.config.label.text)
       );
+
+      if (config.wrap) {
+        this.config.label.wrap.wrap(
+          select(this.axisRef.nativeElement).select('.vic-x-axis-label')
+        );
+      }
     }
   }
 

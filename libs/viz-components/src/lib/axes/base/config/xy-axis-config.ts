@@ -1,5 +1,5 @@
 import { AxisLabel } from '../../axis-label/axis-label-config';
-import { TickWrap } from '../../tick-wrap/tick-wrap-config';
+import { TickWrap } from '../../tick-wrap/tick-wrap';
 import { XyAxisBaseOptions } from './xy-axis-options';
 
 export abstract class XyAxisConfig<TickValue>

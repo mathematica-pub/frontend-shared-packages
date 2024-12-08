@@ -103,8 +103,8 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     } else {
       width = this.config.wrap.wrapWidth;
     }
-    const config = new SvgTextWrap({ ...properties, width });
-    config.wrap(tickTextSelection);
+    const wrap = new SvgTextWrap({ ...properties, width });
+    wrap.wrap(tickTextSelection);
   }
 
   postProcessAxisFeatures(): void {
