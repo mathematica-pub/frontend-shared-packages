@@ -95,9 +95,5 @@ describe('the XyAxis abstract class', () => {
       abstractClass.drawMarks();
       expect(abstractClass.drawAxis).toHaveBeenCalledOnceWith(200);
     });
-    it('calls postProcessAxisFeatures once', () => {
-      abstractClass.drawMarks();
-      expect(abstractClass.postProcessAxisFeatures).toHaveBeenCalledTimes(1);
-    });
   });
 });

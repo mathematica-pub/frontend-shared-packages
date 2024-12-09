@@ -30,4 +30,10 @@ export class XyAxisStub<T extends DataValue> extends XyAxis<T> {
   setTranslate(): void {
     return;
   }
+  setGridLineOrientation(): void {
+    return;
+  }
+  postProcessAxisFeatures(): void {
+    return;
+  }
 }
