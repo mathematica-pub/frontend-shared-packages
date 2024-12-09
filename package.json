@@ -42,7 +42,9 @@
     "build:docs:ui-components": "npm run compodoc:build:ui-components && npm run process-docs:ui-components",
     "build:docs:viz-components": "npm run compodoc:build:viz-components && npm run process-docs:viz-components",
     "cypress:local:ui-components": "nx run ui-components:cypress-local",
-    "cypress:local:viz-components": "nx run viz-components:cypress-local"
+    "cypress:local:viz-components": "nx run viz-components:cypress-local",
+    "cypress:component:ui-components": "nx component-test ui-components",
+    "cypress:component:viz-components": "nx component-test viz-components"
   },
   "private": true,
   "dependencies": {
