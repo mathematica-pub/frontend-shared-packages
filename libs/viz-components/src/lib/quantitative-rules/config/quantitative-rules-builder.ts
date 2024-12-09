@@ -10,7 +10,7 @@ import {
 } from './quantitative-rules-dimensions';
 
 const DEFAULT = {
-  _color: '#cccccc',
+  _color: () => '#cccccc',
 };
 
 @Injectable()
