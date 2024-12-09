@@ -4,10 +4,17 @@
   "cwd": "${fileDirname}",
   "configurations": [
     {
-      "name": "ng serve",
+      "name": "serve demo app",
       "type": "pwa-chrome",
       "request": "launch",
-      "preLaunchTask": "npm: start",
+      "preLaunchTask": "npm: start:demo-app",
+      "url": "http://localhost:4200/"
+    },
+    {
+      "name": "serve mywork app",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "preLaunchTask": "npm: start:my-work",
       "url": "http://localhost:4200/"
     },
     {
@@ -25,8 +32,8 @@
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}",
       "env": {
-          "PYTHONPATH": "${cwd}"
+        "PYTHONPATH": "${cwd}"
       }
-  }
+    }
   ]
 }
