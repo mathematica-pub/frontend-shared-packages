@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataValue } from '../../core/types/values';
 import { XyAxisBaseBuilder } from '../base/config/xy-axis-builder';
+import { GridLinesBuilder } from '../grid-lines/grid-lines-builder';
 import { XQuantitativeAxisConfig } from './x-quantitative-axis-config';
 
 const DEFAULT = {
@@ -15,6 +16,7 @@ export class VicXQuantitativeAxisConfigBuilder<
   private _numTicks: number;
   private _side: 'top' | 'bottom';
   private _tickValues: TickValue[];
+  private gridLinesBuilder: GridLinesBuilder;
 
   constructor() {
     super();
@@ -36,6 +38,16 @@ export class VicXQuantitativeAxisConfigBuilder<
     return this;
   }
 
+  gridLines(setProperties?: (gridLines: GridLinesBuilder) => void): this {
+    this.initGridLinesBuilder();
+    setProperties?.(this.gridLinesBuilder);
+    return this;
+  }
+
+  private initGridLinesBuilder(): void {
+    this.gridLinesBuilder = new GridLinesBuilder();
+  }
+
   getConfig(): XQuantitativeAxisConfig<TickValue> {
     return new XQuantitativeAxisConfig<TickValue>({
       data: undefined,
@@ -49,7 +61,8 @@ export class VicXQuantitativeAxisConfigBuilder<
       tickLabelFontSize: this._tickLabelFontSize,
       tickSizeOuter: this._tickSizeOuter,
       tickValues: this._tickValues,
-      wrap: this.tickWrapBuilder?.build(),
+      gridLines: this.gridLinesBuilder?._build(),
+      wrap: this.tickWrapBuilder?._build(),
     });
   }
 }

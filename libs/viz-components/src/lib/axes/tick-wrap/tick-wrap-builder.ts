@@ -74,7 +74,7 @@ export class TickWrapBuilder {
   /**
    * @internal Not meant to be called by consumers of the library.
    */
-  build(): TickWrap {
+  _build(): TickWrap {
     return new TickWrap({
       wrapWidth: this._wrapWidth,
       maintainXPosition: this._maintainXPosition,

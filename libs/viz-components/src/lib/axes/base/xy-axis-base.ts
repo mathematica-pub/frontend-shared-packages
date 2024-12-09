@@ -1,7 +1,7 @@
 import { Directive, ElementRef, ViewChild } from '@angular/core';
 import { select } from 'd3';
 import { Observable } from 'rxjs';
-import { GenericScale } from '../../core';
+import { GenericScale, Orientation } from '../../core';
 import { DataValue } from '../../core/types/values';
 import { XyAuxMarks } from '../../marks';
 import { SvgTextWrap } from '../../svg-text-wrap/svg-text-wrap';
@@ -28,6 +28,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   axis: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
+  gridLineOrientation: Orientation;
 
   abstract getScale(): Observable<XyAxisScale>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -35,6 +36,8 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   abstract setTranslate(): void;
   abstract setTicks(tickFormat: string | ((value: TickValue) => string)): void;
   abstract setScale(): void;
+  abstract setGridLineOrientation(): void;
+  abstract postProcessAxisFeatures(): void;
 
   override initFromConfig(): void {
     this.drawMarks();
@@ -57,7 +60,6 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     const transitionDuration = this.getTransitionDuration();
     this.setAxisFromScaleAndConfig();
     this.drawAxis(transitionDuration);
-    this.postProcessAxisFeatures();
   }
 
   drawAxis(transitionDuration: number): void {
@@ -69,15 +71,23 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .transition(t as any)
       .call(this.axis)
+      .selectAll('*')
       .on('end', (d, i, nodes) => {
-        const tickText = select(nodes[i]).selectAll('.tick text');
-        if (this.config.tickLabelFontSize) {
-          this.setTickFontSize(tickText);
-        }
-        if (this.config.wrap) {
-          this.wrapAxisTickText(tickText);
+        const selection = select(nodes[i]);
+        if (selection.classed('tick') && i === nodes.length - 1) {
+          this.postProcessAxisFeatures();
         }
       });
+  }
+
+  styleTicks(): void {
+    const tickText = select(this.axisRef.nativeElement).selectAll('.tick text');
+    if (this.config.tickLabelFontSize) {
+      this.setTickFontSize(tickText);
+    }
+    if (this.config.wrap) {
+      this.wrapAxisTickText(tickText);
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -106,7 +116,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     config.wrap(tickTextSelection);
   }
 
-  postProcessAxisFeatures(): void {
+  removeAxisFeatures(): void {
     if (this.config.removeDomainLine) {
       select(this.axisRef.nativeElement).call((g) =>
         g.select('.domain').remove()

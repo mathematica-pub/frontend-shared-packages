@@ -5,7 +5,7 @@ const DEFAULT = {
   _linecap: 'round',
   _linejoin: 'round',
   _opacity: 1,
-  _width: 2,
+  _width: 1,
 };
 
 export class StrokeBuilder {
