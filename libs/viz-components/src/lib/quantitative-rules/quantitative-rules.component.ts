@@ -66,7 +66,7 @@ export class QuantitativeRulesComponent<
             .attr('stroke', (d) => this.config.color(d))
             .attr('stroke-width', this.config.stroke.width)
             .attr('opacity', this.config.stroke.opacity)
-            .attr('stroke-dasharray', this.config.stroke.opacity)
+            .attr('stroke-dasharray', this.config.stroke.dasharray)
             .attr('stroke-linecap', this.config.stroke.linecap)
             .attr('stroke-linejoin', this.config.stroke.linejoin)
             .attr('x1', 0)
@@ -99,7 +99,9 @@ export class QuantitativeRulesComponent<
           enter
             .append('text')
             .attr('class', (d) => `vic-quantitative-rule-label ${d}`)
-            .style('display', (d) => this.config.labels.display(d))
+            .style('display', (d) =>
+              this.config.labels.display(d) ? null : 'none'
+            )
             .attr('fill', (d) => this.config.labels.color(d))
             .attr('text-anchor', this.config.labels.textAnchor)
             .attr('dominant-baseline', this.config.labels.dominantBaseline)
@@ -111,7 +113,9 @@ export class QuantitativeRulesComponent<
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr('class', (d) => `vic-quantitative-rule-label ${d}`)
-            .style('display', (d) => this.config.labels.display(d))
+            .style('display', (d) =>
+              this.config.labels.display(d) ? null : 'none'
+            )
             .attr('fill', (d) => this.config.labels.color(d))
             .attr('text-anchor', this.config.labels.textAnchor)
             .attr('dominant-baseline', this.config.labels.dominantBaseline)
