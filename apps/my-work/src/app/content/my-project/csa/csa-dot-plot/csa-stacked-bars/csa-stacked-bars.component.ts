@@ -82,12 +82,14 @@ export class CsaStackedBarsComponent
     group
       .append('text')
       .attr('dy', '-0.6em')
-      .attr('x', this.additionalYAxisOffset)
+      .attr('x', -9)
+      .attr('dx', this.additionalYAxisOffset)
       .text('County Categories');
     group
       .append('text')
       .attr('dy', '0.6em')
-      .attr('x', this.additionalYAxisOffset)
+      .attr('x', -9)
+      .attr('dx', this.additionalYAxisOffset)
       .text('by Population');
   }
 
