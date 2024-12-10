@@ -131,7 +131,7 @@ export class CsaDotPlotComponent implements OnChanges {
             .y((dimension) => dimension.valueAccessor((d) => d.size))
         )
         .color((dimension) => dimension.valueAccessor((d) => d.series))
-        // .stackOrder(() => [1, 0])
+        .stackOrder(() => [1, 0])
         .getConfig();
 
       this.yAxisConfig = this.yOrdinalAxis.tickSizeOuter(0).getConfig();
