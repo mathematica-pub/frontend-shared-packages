@@ -80,7 +80,6 @@ export class ComboboxBaseTestComponent {
   value$ = this.value.asObservable();
 
   onSelection(event: any): void {
-    console.log(event);
     this.value.next(event);
   }
 }
