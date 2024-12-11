@@ -13,12 +13,6 @@ export function quantitativeAxisMixin<
   abstract class Mixin extends Base {
     @Input() override config: QuantitativeAxisConfig<TickValue>;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setAxisFromScaleAndConfig(): void {
-      this.axis = this.axisFunction(this.scale);
-      this.setTicks(this.config.tickFormat);
-    }
-
     setTicks(tickFormat: string | ((value: TickValue) => string)): void {
       if (this.config.tickValues) {
         this.setSpecifiedTickValues(tickFormat);
