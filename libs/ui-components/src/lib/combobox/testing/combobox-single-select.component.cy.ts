@@ -69,6 +69,13 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.combobox-textbox').type('{enter}');
       cy.get('.combobox-listbox').should('be.visible');
     });
+    it('accessibility: closes combobox with escape key', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.combobox-listbox').should('be.visible');
+      cy.get('.combobox-textbox').type('{esc}');
+      cy.get('.combobox-listbox').should('not.be.visible');
+    });
     it('accessibility: highlights the first option on enter', () => {
       cy.get('.combobox-textbox').focus();
       cy.get('.combobox-textbox').type('{enter}');
@@ -99,6 +106,22 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.listbox-option').eq(1).realClick();
       cy.get('.textbox').should('include.text', 'Bananas');
       cy.get('.textbox').should('not.include.text', 'Apples');
+    });
+    it('accessiblity: focus remains on first option when up arrow is pressed', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+      cy.get('.combobox-textbox').type('{upArrow}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+    });
+    it('accessiblity: focus remains on last option when down arrow is pressed', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type(
+        '{enter}{downArrow}{downArrow}{downArrow}{downArrow}'
+      );
+      cy.get('.listbox-option').eq(4).should('have.class', 'current');
+      cy.get('.combobox-textbox').type('{downArrow}');
+      cy.get('.listbox-option').eq(4).should('have.class', 'current');
     });
     it('listbox should close on option click', () => {
       cy.get('.combobox-textbox').click();
