@@ -107,14 +107,14 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.textbox').should('include.text', 'Bananas');
       cy.get('.textbox').should('not.include.text', 'Apples');
     });
-    it('accessiblity: focus remains on first option when up arrow is pressed', () => {
+    it('accessibility: focus remains on first option when up arrow is pressed', () => {
       cy.get('.combobox-textbox').focus();
       cy.get('.combobox-textbox').type('{enter}');
       cy.get('.listbox-option').first().should('have.class', 'current');
       cy.get('.combobox-textbox').type('{upArrow}');
       cy.get('.listbox-option').first().should('have.class', 'current');
     });
-    it('accessiblity: focus remains on last option when down arrow is pressed', () => {
+    it('accessibility: focus remains on last option when down arrow is pressed', () => {
       cy.get('.combobox-textbox').focus();
       cy.get('.combobox-textbox').type(
         '{enter}{downArrow}{downArrow}{downArrow}{downArrow}'
