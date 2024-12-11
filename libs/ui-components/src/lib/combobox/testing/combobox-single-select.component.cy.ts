@@ -93,20 +93,6 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.combobox-textbox').type('{downarrow}{enter}');
       cy.get('.combobox-value').should('have.text', 'Bananas');
     });
-    it('should emit the correct value on option click', () => {
-      cy.get('.combobox-textbox').click();
-      cy.get('.listbox-option').first().realClick();
-      cy.get('.combobox-value').should('have.text', 'Apples');
-    });
-    it('should display value on textbox', () => {
-      cy.get('.combobox-textbox').click();
-      cy.get('.listbox-option').first().realClick();
-      cy.get('.textbox').should('include.text', 'Apples');
-      cy.get('.combobox-textbox').click();
-      cy.get('.listbox-option').eq(1).realClick();
-      cy.get('.textbox').should('include.text', 'Bananas');
-      cy.get('.textbox').should('not.include.text', 'Apples');
-    });
     it('accessibility: focus remains on first option when up arrow is pressed', () => {
       cy.get('.combobox-textbox').focus();
       cy.get('.combobox-textbox').type('{enter}');
@@ -122,6 +108,20 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.listbox-option').eq(4).should('have.class', 'current');
       cy.get('.combobox-textbox').type('{downArrow}');
       cy.get('.listbox-option').eq(4).should('have.class', 'current');
+    });
+    it('should emit the correct value on option click', () => {
+      cy.get('.combobox-textbox').click();
+      cy.get('.listbox-option').first().realClick();
+      cy.get('.combobox-value').should('have.text', 'Apples');
+    });
+    it('should display value on textbox', () => {
+      cy.get('.combobox-textbox').click();
+      cy.get('.listbox-option').first().realClick();
+      cy.get('.textbox').should('include.text', 'Apples');
+      cy.get('.combobox-textbox').click();
+      cy.get('.listbox-option').eq(1).realClick();
+      cy.get('.textbox').should('include.text', 'Bananas');
+      cy.get('.textbox').should('not.include.text', 'Apples');
     });
     it('listbox should close on option click', () => {
       cy.get('.combobox-textbox').click();
