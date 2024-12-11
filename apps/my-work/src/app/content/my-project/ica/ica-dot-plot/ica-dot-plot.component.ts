@@ -1,0 +1,160 @@
+import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+} from '@angular/core';
+import {
+  StackedBarsConfig,
+  VicBarsConfigBuilder,
+  VicBarsModule,
+  VicOrdinalAxisConfig,
+  VicQuantitativeAxisConfig,
+  VicStackedBarsConfigBuilder,
+  VicStackedBarsModule,
+  VicXQuantitativeAxisConfigBuilder,
+  VicXQuantitativeAxisModule,
+  VicXyChartModule,
+  VicYOrdinalAxisConfigBuilder,
+  VicYOrdinalAxisModule,
+} from '@hsi/viz-components';
+import { max, min } from 'd3';
+import { IcaStackedBarsComponent } from './ica-stacked-bars/ica-stacked-bars.component';
+
+export interface IcaDatum {
+  series: string;
+  size: string;
+  plans: number[];
+  csa_25: number;
+  csa_75: number;
+  measureCode: string;
+  stratVal: string;
+  delivSys: string;
+  value: number;
+  planValue: number;
+  units: string;
+  CSA_CompVal: number;
+  CSA_CompVal_Desc: string;
+  directionality: string;
+  CSA_PctBelowComp: number;
+}
+
+@Component({
+  selector: 'app-ica-dot-plot',
+  standalone: true,
+  imports: [
+    CommonModule,
+    VicXyChartModule,
+    VicBarsModule,
+    VicStackedBarsModule,
+    VicXQuantitativeAxisModule,
+    VicYOrdinalAxisModule,
+    IcaStackedBarsComponent,
+  ],
+  providers: [
+    VicBarsConfigBuilder,
+    VicStackedBarsConfigBuilder,
+    VicXQuantitativeAxisConfigBuilder,
+    VicYOrdinalAxisConfigBuilder,
+  ],
+  templateUrl: './ica-dot-plot.component.html',
+  styleUrl: './ica-dot-plot.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class IcaDotPlotComponent implements OnChanges {
+  @Input() data: IcaDatum[];
+  rollupData: IcaDatum[] = [];
+  rollupDataConfig: StackedBarsConfig<IcaDatum, string>;
+  xAxisConfig: VicQuantitativeAxisConfig<number>;
+  yAxisConfig: VicOrdinalAxisConfig<string>;
+  trueMax: number;
+  chartHeight: number;
+
+  constructor(
+    private bars: VicStackedBarsConfigBuilder<IcaDatum, string>,
+    private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
+    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>
+  ) {}
+
+  ngOnChanges(): void {
+    if (this.data[0]) {
+      console.log('this.data after changes', this.data);
+      this.setProperties();
+    }
+  }
+
+  setProperties(): void {
+    this.rollupData = [];
+
+    this.data.forEach((plan) => {
+      const visibleStack = structuredClone(plan);
+      const currentRollup = this.rollupData.find((x) => x.size === plan.size);
+      if (!currentRollup) {
+        visibleStack.plans = [];
+
+        const invisibleStack = structuredClone(plan);
+        invisibleStack.series = 'invisible';
+        invisibleStack.value = min([plan.csa_25, plan.csa_75]) ?? null;
+
+        this.rollupData.push(visibleStack);
+        this.rollupData.push(invisibleStack);
+      } else {
+        currentRollup.plans.push(plan.planValue);
+      }
+    });
+
+    if (this.rollupData.length > 0) {
+      this.chartHeight = this.rollupData.length * 15;
+
+      const dotMax = max(this.rollupData.map((d) => max(d.plans)));
+      const barMax = max(this.rollupData, (d) => d.csa_75);
+      this.trueMax = max([dotMax, barMax]) * 1.1;
+      if (this.rollupData[0].units === 'Percentage') {
+        this.trueMax = min([this.trueMax, 1]);
+      }
+
+      this.rollupData.sort((a, b) => {
+        const order = ['Rural', 'Small', 'Medium', 'Large', 'Other'];
+        return order.indexOf(a.size) - order.indexOf(b.size);
+      });
+
+      console.log('rollupData', this.rollupData);
+
+      this.rollupDataConfig = this.bars
+        .data(this.rollupData)
+        .horizontal((bars) =>
+          bars
+            .x((dimension) =>
+              dimension.valueAccessor((d) => d.value).domain([0, this.trueMax])
+            )
+            .y((dimension) => dimension.valueAccessor((d) => d.size))
+        )
+        .color((dimension) => dimension.valueAccessor((d) => d.series))
+        .stackOrder(() => [1, 0])
+        .getConfig();
+
+      this.yAxisConfig = this.yOrdinalAxis.tickSizeOuter(0).getConfig();
+      this.xAxisConfig = this.xQuantitativeAxis
+        .tickFormat(this.getTickFormat())
+        .numTicks(5)
+        .tickSizeOuter(0)
+        .getConfig();
+    }
+  }
+
+  getTickFormat(): string {
+    const units = this.rollupData[0].units;
+    if (units === 'Percentage') {
+      if (this.trueMax < 0.1) {
+        return '.1%';
+      } else {
+        return '.0%';
+      }
+    } else if (this.trueMax < 10) {
+      return ',.1f';
+    } else {
+      return ',.0f';
+    }
+  }
+}
