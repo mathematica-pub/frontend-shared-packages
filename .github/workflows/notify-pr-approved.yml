@@ -1,10 +1,8 @@
 name: Notify open review
 
-# on:
-#   pull_request_review:
-#     types: [submitted]
-
-on: [push]
+on:
+  pull_request_review:
+    types: [submitted]
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
@@ -14,14 +12,12 @@ env:
 
 jobs:
   approved:
-    # if: github.event.review.state == 'APPROVED' && github.event.pull_request.base.ref == 'main'
+    if: github.event.review.state == 'APPROVED' && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -29,19 +25,14 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
-
       - name: Calculate next weekday
         id: next_weekday
         run: bash scripts/get_next_weekday.sh
 
       - name: Send Slack notification for newly approved package version
         env:
-          # FIXME!
-          SLACK_WEBHOOK_URL_VIC: ${{ secrets.SLACK_WEBHOOK_URL_TESTING }}
-          SLACK_WEBHOOK_URL_UIC: ${{ secrets.SLACK_WEBHOOK_URL_TESTING }}
-          SLACK_WEBHOOK_URL_ADK: ${{ secrets.SLACK_WEBHOOK_URL_TESTING }}
+          SLACK_WEBHOOK_URL_VIC: ${{ secrets.SLACK_WEBHOOK_URL_VIC }}
+          SLACK_WEBHOOK_URL_UIC: ${{ secrets.SLACK_WEBHOOK_URL_UIC }}
           next_weekday: ${{ env.next_weekday }}
           pr_title: ${{ github.event.pull_request.title }}
           pr_url: ${{ github.event.pull_request.html_url }}
