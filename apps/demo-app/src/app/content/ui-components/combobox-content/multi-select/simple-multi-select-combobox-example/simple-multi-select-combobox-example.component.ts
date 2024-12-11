@@ -18,18 +18,70 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class SimpleMultiSelectComboboxExampleComponent {
   options = [
-    { displayName: 'Cambridge', id: 'cambridge' },
-    { displayName: 'Washington, D.C.', id: 'dc' },
+    {
+      displayName: 'Cambridge',
+      id: 'cambridge',
+    },
+    {
+      displayName: 'Washington, D.C.',
+      id: 'dc',
+    },
     { displayName: 'Oakland', id: 'oakland' },
     { displayName: 'Chicago', id: 'chicago' },
-    { displayName: 'Ann Arbor', id: 'annArbor' },
-    { displayName: 'Woodlawn', id: 'woodlawn' },
-    { displayName: 'Princeton', id: 'princeton' },
+    {
+      displayName: 'Ann Arbor',
+      id: 'annArbor',
+    },
+    {
+      displayName: 'Woodlawn',
+      id: 'woodlawn',
+    },
+    {
+      displayName: 'Princeton',
+      id: 'princeton',
+    },
   ];
-  selected = new BehaviorSubject([]);
-  selected$ = this.selected.asObservable();
+  externalSelected = new BehaviorSubject<string[]>([]);
+  externalSelected$ = this.externalSelected.asObservable();
+  disabled = new BehaviorSubject<string[]>([]);
+  disabled$ = this.disabled.asObservable();
+  value = new BehaviorSubject<string[]>([]);
+  value$ = this.value.asObservable();
 
   onSelection(selectedIds: string[]): void {
-    this.selected.next(selectedIds);
+    this.value.next(selectedIds);
+    this.externalSelected.next(selectedIds);
+  }
+
+  disableFirst() {
+    const curr = this.disabled.value;
+    this.disabled.next([...curr, this.options[0].id]);
+  }
+
+  enableFirst() {
+    const curr = this.disabled.value;
+    this.disabled.next(curr.filter((id) => id !== this.options[0].id));
+  }
+
+  selectSecond() {
+    const curr = this.externalSelected.value;
+    this.externalSelected.next([...curr, this.options[1].id]);
+  }
+
+  deselectSecond() {
+    const curr = this.externalSelected.value;
+    this.externalSelected.next(curr.filter((id) => id !== this.options[1].id));
+  }
+
+  clearValue() {
+    this.externalSelected.next([]);
+  }
+
+  trackByFn(option: {
+    displayName: string;
+    id: string;
+    disabled: boolean;
+  }): string {
+    return `${option.id}-${option.disabled}`;
   }
 }

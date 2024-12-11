@@ -3,7 +3,6 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
-import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
 import { ComboboxModule } from '../combobox.module';
 import { ComboboxService } from '../combobox.service';
@@ -27,7 +26,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
         </span>
       </hsi-ui-textbox>
       <hsi-ui-listbox
-        [countSelectedOptionsLabel]="{ singular: 'fruit', plural: 'fruits' }"
+        [countSelectedOptionsLabel]="countSelectedOptionsLabel"
         [isMultiSelect]="true"
         (valueChanges)="onSelection($event)"
       >
@@ -46,6 +45,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 })
 class ComboboxSimpleMultiSelectTestComponent extends ComboboxBaseTestComponent {
   @Input() displaySelected = false;
+  @Input() countSelectedOptionsLabel = { singular: 'fruit', plural: 'fruits' };
 }
 
 describe('ComboboxMultiComponent', () => {
@@ -71,7 +71,28 @@ describe('ComboboxMultiComponent', () => {
       cy.mount(ComboboxSimpleMultiSelectTestComponent, {
         declarations: [ComboboxSimpleMultiSelectTestComponent],
         imports: [ComboboxModule, MatIconModule],
-        providers: [ComboboxService],
+        componentProperties: {
+          displaySelected: true,
+          countSelectedOptionsLabel: undefined,
+        },
+      });
+    });
+    it('the textbox has the correct label and it changes with selections', () => {
+      cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+      cy.get('.combobox-textbox').click();
+      cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+      cy.get('.listbox-option').eq(0).realClick();
+      cy.get('.listbox-option').eq(1).realClick();
+      cy.get('.textbox-label').should('have.text', 'Apples, Bananas');
+      cy.get('.listbox-option').eq(1).realClick();
+      cy.get('.textbox-label').should('have.text', 'Apples');
+    });
+  });
+  describe('with a textbox label that displays counts of selected options', () => {
+    beforeEach(() => {
+      cy.mount(ComboboxSimpleMultiSelectTestComponent, {
+        declarations: [ComboboxSimpleMultiSelectTestComponent],
+        imports: [ComboboxModule, MatIconModule],
         componentProperties: { displaySelected: true },
       });
     });
@@ -96,6 +117,22 @@ describe('ComboboxMultiComponent', () => {
     <p class="outside-element"
       >Outside element to click on for outside combobox click</p
     >
+    <button (click)="disableApple()" class="disable-apple"
+      >Disable apple, select banana</button
+    >
+    <button (click)="enableApple()" class="enable-apple-button"
+      >Enable apple</button
+    >
+    <button (click)="selectCoconut()" class="select-coconut-button"
+      >Select coconut</button
+    >
+    <button (click)="deselectCoconut()" class="deselect-coconut-button"
+      >Deelect coconut</button
+    >
+    <button (click)="clearValue()" class="clear-value-button"
+      >Clear value</button
+    >
+    <p class="combobox-value">{{ value$ | async }}</p>
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-combobox-label>
         <span>Fruits</span>
@@ -114,75 +151,69 @@ describe('ComboboxMultiComponent', () => {
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option
-          *ngFor="let option of options$ | async"
-          [selected]="option.selected"
-          [disabled]="option.disabled"
-          >{{ option.displayName }}</hsi-ui-listbox-option
-        >
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option
+            [selected]="(selected$ | async).includes(option.displayName)"
+            [disabled]="(disabled$ | async).includes(option.displayName)"
+            >{{ option.displayName }}</hsi-ui-listbox-option
+          >
+        }
       </hsi-ui-listbox>
     </hsi-ui-combobox>
-    <button
-      (click)="disableAppleSelectBanana()"
-      class="disable-apple-select-banana-button"
-      >Disable apple, select banana</button
-    >
-    <button (click)="selectCoconut()" class="select-coconut-button"
-      >Select coconut</button
-    >
-    <button (click)="enableApple()" class="enable-apple-button"
-      >Enable apple</button
-    >
-    <button (click)="clearValue()" class="clear-value-button"
-      >Clear value</button
-    >
-    <p class="combobox-value">{{ value$ | async }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
 })
 class ComboboxExternalLabelChangeTestComponent {
   options = [
-    { displayName: 'Apples', id: 'appl', selected: true, disabled: false },
-    { displayName: 'Bananas', id: 'bana', selected: false, disabled: false },
-    { displayName: 'Coconuts', id: 'coco', selected: false, disabled: false },
-    { displayName: 'Durians', id: 'duri', selected: false, disabled: false },
+    { displayName: 'Apples', id: 'appl' },
+    { displayName: 'Bananas', id: 'bana' },
+    { displayName: 'Coconuts', id: 'coco' },
+    { displayName: 'Durians', id: 'duri' },
     {
       displayName: 'Elderberries',
       id: 'elde',
-      selected: false,
-      disabled: false,
     },
   ];
-  _options = new BehaviorSubject<any[]>(this.options);
-  options$ = this._options.asObservable();
-  selected = new BehaviorSubject<boolean>(false);
+  selected = new BehaviorSubject<string[]>([]);
   selected$ = this.selected.asObservable();
+  disabled = new BehaviorSubject<string[]>([]);
+  disabled$ = this.disabled.asObservable();
   value = new BehaviorSubject<any>('Apples');
   value$ = this.value.asObservable();
 
-  onSelection(event: any): void {
+  onSelection(event: string[]): void {
     this.value.next(event);
+    this.selected.next(event);
   }
 
-  disableAppleSelectBanana() {
-    const newOptions = cloneDeep(this._options.value);
-    newOptions[0].disabled = true;
-    newOptions[0].selected = false;
-    newOptions[1].selected = true;
-    this._options.next(newOptions);
+  disableApple() {
+    this.addToArray(0, 'disabled');
   }
 
   enableApple() {
-    const newOptions = cloneDeep(this._options.value);
-    newOptions[0].disabled = false;
-    this._options.next(newOptions);
+    this.removeFromArray(0, 'disabled');
   }
 
   selectCoconut() {
-    const newOptions = cloneDeep(this._options.value);
-    newOptions[2].selected = true;
-    this._options.next(newOptions);
+    this.addToArray(2, 'selected');
+  }
+
+  deselectCoconut() {
+    this.removeFromArray(2, 'selected');
+  }
+
+  addToArray(i: number, array: 'selected' | 'disabled'): void {
+    const curr = this[array].value;
+    if (!curr.includes(this.options[i].displayName)) {
+      this[array].next([...curr, this.options[i].displayName]);
+    }
+  }
+
+  removeFromArray(i: number, array: 'selected' | 'disabled'): void {
+    this[array].next(
+      this[array].value.filter((x) => x !== this.options[i].displayName)
+    );
   }
 
   clearValue() {
@@ -199,22 +230,29 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
     });
   });
 
-  it('the textbox has the correct label and it changes with change in input property', () => {
+  it('the textbox has the correct label and it changes with change in input selected property', () => {
+    cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').eq(0).realClick();
     cy.get('.textbox-label').should('have.text', '1 fruit selected');
-    cy.get('.disable-apple-select-banana-button').click();
-    cy.get('.select-coconut-button').click();
+    cy.get('.select-coconut-button').realClick();
     cy.get('.textbox-label').should('have.text', '2 fruits selected');
+    cy.get('.deselect-coconut-button').realClick();
+    cy.get('.textbox-label').should('have.text', '1 fruit selected');
   });
 
-  it('the combobox should not emit with external change in input property', () => {
+  it('the combobox should not emit with external change in input selected property', () => {
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').eq(0).realClick();
     cy.get('.combobox-value').should('have.text', 'Apples');
-    cy.get('.disable-apple-select-banana-button').click();
+    cy.get('.select-coconut-button').click();
     cy.get('.combobox-value').should('have.text', 'Apples');
   });
 
   it('the combobox should emit with clicking on options', () => {
-    cy.get('.combobox-value').should('have.text', 'Apples');
     cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').eq(0).realClick();
+    cy.get('.combobox-value').should('have.text', 'Apples');
     cy.get('.listbox-option').eq(1).realClick();
     cy.get('.listbox-option').eq(2).realClick();
     cy.get('.listbox-option').eq(3).realClick();
@@ -226,24 +264,31 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
     cy.get('.textbox-label').should('have.text', '5 fruits selected');
   });
 
-  it('combobox should emit correctly if there is a click after the selection status is changed programmatically', () => {
-    cy.get('.textbox-label').should('have.text', '1 fruit selected');
-    cy.get('.disable-apple-select-banana-button').click();
+  it('combobox should emit the correct selection if there is a click after the selection status is changed programmatically', () => {
     cy.get('.combobox-textbox').click();
-    cy.get('.listbox-option').eq(2).realClick();
+    cy.get('.listbox-option').eq(0).realClick();
+    cy.get('.textbox-label').should('have.text', '1 fruit selected');
+    cy.get('.select-coconut-button').click();
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').eq(1).realClick();
     cy.get('.listbox-option').eq(3).realClick();
-    cy.get('.combobox-value').should('have.text', 'Bananas,Coconuts,Durians');
+    cy.get('.combobox-value').should(
+      'have.text',
+      'Apples,Bananas,Coconuts,Durians'
+    );
   });
 
   it('combobox should emit correctly if there is a click after the selection status is changed programmatically and the new value is the same as the old', () => {
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').eq(0).realClick();
     cy.get('.textbox-label').should('have.text', '1 fruit selected');
-    cy.get('.disable-apple-select-banana-button').click();
-    cy.get('.enable-apple-button').click();
+    cy.get('.select-coconut-button').realClick();
+    cy.get('.combobox-value').should('have.text', 'Apples');
     cy.get('.clear-value-button').click();
     cy.get('.combobox-value').should('have.text', '');
     cy.get('.combobox-textbox').click();
-    cy.get('.listbox-option').first().realClick();
-    cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
+    cy.get('.listbox-option').eq(2).realClick();
+    cy.get('.combobox-value').should('have.text', 'Apples');
   });
 });
 
@@ -294,7 +339,7 @@ describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
   });
   it('can select non-disabled options', () => {
     cy.get('.combobox-textbox').click();
-    cy.get('.listbox-option').first().realClick();
+    cy.get('.listbox-option').eq(0).realClick();
     cy.get('.listbox-option').eq(1).realClick();
     cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
   });

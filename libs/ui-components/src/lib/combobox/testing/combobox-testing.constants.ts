@@ -56,11 +56,11 @@ export const scss = `
 }
 
 .listbox-option.current:not(.selected) {
-  background: blanchedalmond;
+  background: yellow;
 }
 
 .listbox-option.selected {
-  background: blanchedalmond;
+  background: cyan;
 }
 
 .combobox-value {
@@ -80,6 +80,7 @@ export class ComboboxBaseTestComponent {
   value$ = this.value.asObservable();
 
   onSelection(event: any): void {
+    console.log(event);
     this.value.next(event);
   }
 }

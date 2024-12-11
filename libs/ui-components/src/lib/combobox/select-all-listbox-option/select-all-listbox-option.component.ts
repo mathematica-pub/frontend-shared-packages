@@ -7,7 +7,7 @@ import {
   forwardRef,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, merge } from 'rxjs';
+import { debounceTime, map, merge, mergeAll, switchMap } from 'rxjs';
 import { ComboboxService } from '../combobox.service';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 import { ListboxComponent } from '../listbox/listbox.component';
@@ -28,7 +28,6 @@ export class SelectAllListboxOptionComponent
   implements OnChanges, AfterViewInit
 {
   @Input() override boxDisplayLabel = 'Select all';
-
   currentControlledOptions: ListboxOptionComponent[] = [];
 
   constructor(
@@ -44,12 +43,19 @@ export class SelectAllListboxOptionComponent
     this.updateSelectAllSelected();
   }
 
+  protected override updateSelected(selected: boolean): void {
+    this._selected.next(selected);
+  }
+
   // automatically updates "selected" based on controlled options
   listenForOptionSelections(): void {
-    merge(
-      this.listboxComponent.groups$,
-      this.listboxComponent.optionPropertyChanges$
-    )
+    const optionSelectionChanges$ = this.listboxComponent.allOptions$.pipe(
+      map((options) => options.filter((o) => o !== this)),
+      switchMap((options) => merge(options.map((o) => o.selected$))),
+      mergeAll()
+    );
+
+    optionSelectionChanges$
       .pipe(takeUntilDestroyed(this.destroyRef), debounceTime(0))
       .subscribe(() => {
         this.updateSelectAllSelected();
