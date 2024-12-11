@@ -1,42 +1,23 @@
 #!/usr/bin/env bash
 
 set -e
+set -x
 
-pkgs=("viz-components" "ui-components")
+pkgs=("viz-components" "ui-components" "app-dev-kit")
 for pkg in "${pkgs[@]}"; do
-output=$(aws codeartifact list-package-versions --package $pkg \
-    --domain shared-package-domain \
-    --domain-owner 922539530544 \
-    --namespace hsi \
-    --repository shared-package-repository \
-    --format npm \
-    --output json)
-
-latest_version=$(echo "$output" | jq -r '.versions[] | select(.version | test("^[0-9]+\\.[0-9]+\\.[0-9]+$")) | .version' | sort -V | tail -n 1)
-current_version=$(node -p "require('./libs/$pkg/package.json').version")
-
-echo "Latest version of $pkg: $latest_version"
-echo "Current version of $pkg: $current_version"
-
-curr_version_arr=(${current_version//./ })
-latest_version_arr=(${latest_version//./ })
-
-for i in {0..2}; do
-    if [ "${curr_version_arr[$i]}" -gt "${latest_version_arr[$i]}" ]; then
+    output=$(npx nx version $pkg --base=origin/main~1 --head=origin/main --dryRun --verbose 2>&1)
+    if echo "$output" | grep -q "Nothing changed since last release."; then
+        echo "No changes detected for $pkg since the last release."
+    else
+        new_version=$(echo "$output" | grep -oP 'Calculated new version "\K[0-9]+\.[0-9]+\.[0-9]+(?=")')
+        echo "New version of $pkg: $new_version"
         if [ "$pkg" == "viz-components" ]; then
             SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL_VIC
-        else
+        elif [ "$pkg" == "ui-components" ]; then
             SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL_UIC
+        elif [ "$pkg" == "app-dev-kit" ]; then
+            SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL_ADK
         fi
-        curl -X POST -H "Content-type: application/json" --data "{\"text\": \"$pkg v$current_version (<$pr_url|$pr_title>) was approved and will be released on $next_weekday. Take a look if you'd like!\"}" $SLACK_WEBHOOK_URL
-        break
-    elif [ "${curr_version_arr[$i]}" -lt "${latest_version_arr[$i]}" ]; then
-        echo "Current version of $pkg is less than latest version"
-        break
+        curl -X POST -H "Content-type: application/json" --data "{\"text\": \"$pkg v$new_version (<$pr_url|$pr_title>) was approved and will be released on $next_weekday. Take a look if you'd like!\"}" $SLACK_WEBHOOK_URL
     fi
-done
-
-if [ "$latest_version" == "$current_version" ]; then
-    echo "$pkg version has not been updated"
-fi
 done
