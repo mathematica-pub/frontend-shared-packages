@@ -41,47 +41,10 @@ export class SimpleMultiSelectComboboxExampleComponent {
       id: 'princeton',
     },
   ];
-  externalSelected = new BehaviorSubject<string[]>([]);
-  externalSelected$ = this.externalSelected.asObservable();
-  disabled = new BehaviorSubject<string[]>([]);
-  disabled$ = this.disabled.asObservable();
   value = new BehaviorSubject<string[]>([]);
   value$ = this.value.asObservable();
 
   onSelection(selectedIds: string[]): void {
     this.value.next(selectedIds);
-    this.externalSelected.next(selectedIds);
-  }
-
-  disableFirst() {
-    const curr = this.disabled.value;
-    this.disabled.next([...curr, this.options[0].id]);
-  }
-
-  enableFirst() {
-    const curr = this.disabled.value;
-    this.disabled.next(curr.filter((id) => id !== this.options[0].id));
-  }
-
-  selectSecond() {
-    const curr = this.externalSelected.value;
-    this.externalSelected.next([...curr, this.options[1].id]);
-  }
-
-  deselectSecond() {
-    const curr = this.externalSelected.value;
-    this.externalSelected.next(curr.filter((id) => id !== this.options[1].id));
-  }
-
-  clearValue() {
-    this.externalSelected.next([]);
-  }
-
-  trackByFn(option: {
-    displayName: string;
-    id: string;
-    disabled: boolean;
-  }): string {
-    return `${option.id}-${option.disabled}`;
   }
 }

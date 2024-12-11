@@ -17,9 +17,15 @@
         <span>Select your favorite Pixar movie</span>
       </hsi-ui-listbox-label>
       @for (option of options; track $index) {
-        <hsi-ui-listbox-option [value]="option.id">{{
-          option.displayName
-        }}</hsi-ui-listbox-option>
+        <hsi-ui-listbox-option [value]="option.id"
+          >{{ option.displayName
+          }}<span class="material-symbols-outlined icon checkbox" selectedIcon>
+            check_box
+          </span>
+          <span unselectedIcon class="material-symbols-outlined icon checkbox">
+            check_box_outline_blank
+          </span></hsi-ui-listbox-option
+        >
       }
     </hsi-ui-ng-form-listbox-multi>
   </hsi-ui-combobox>

@@ -17,7 +17,13 @@
         <hsi-ui-listbox-option
           [disabled]="option.id === 'dc' || option.id === 'annArbor'"
           [value]="option.id"
-          >{{ option.displayName }}</hsi-ui-listbox-option
+          >{{ option.displayName
+          }}<span class="material-symbols-outlined icon checkbox" selectedIcon>
+            check_box
+          </span>
+          <span unselectedIcon class="material-symbols-outlined icon checkbox">
+            check_box_outline_blank
+          </span></hsi-ui-listbox-option
         >
       }
     </hsi-ui-listbox>

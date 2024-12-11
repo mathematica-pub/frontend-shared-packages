@@ -1,17 +1,4 @@
 <div class="multi-select-combobox-example simple-example">
-  <button (click)="disableFirst()" class="disable-apple-button"
-    >Disable first</button
-  >
-  <button (click)="enableFirst()" class="enable-apple-button"
-    >Enable first</button
-  >
-  <button (click)="selectSecond()" class="select-coconut-button"
-    >Select second</button
-  >
-  <button (click)="deselectSecond()" class="select-coconut-button"
-    >Deselect second</button
-  >
-  <button (click)="clearValue()" class="clear-value-button">Clear value</button>
   <p class="combobox-value"
     >Combobox value (id values): {{ (value$ | async).join(', ') }}</p
   >
@@ -38,10 +25,7 @@
         </span></hsi-ui-select-all-listbox-option
       >
       @for (option of options; track option.id) {
-        <hsi-ui-listbox-option
-          [value]="option.id"
-          [selected]="(externalSelected$ | async).includes(option.id)"
-          [disabled]="(disabled$ | async).includes(option.id)"
+        <hsi-ui-listbox-option [value]="option.id"
           >{{ option.displayName
           }}<span class="material-symbols-outlined icon checkbox" selectedIcon>
             check_box
