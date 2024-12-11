@@ -60,6 +60,10 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.combobox-textbox').click();
       cy.get('.combobox-listbox').should('be.visible');
     });
+    it('accessibility: focus the textbox on tab', () => {
+      cy.realPress('Tab');
+      cy.get('.combobox-textbox').should('be.focused');
+    });
     it('accessibility: opens the combobox on enter when focused', () => {
       cy.get('.combobox-textbox').focus();
       cy.get('.combobox-textbox').type('{enter}');
