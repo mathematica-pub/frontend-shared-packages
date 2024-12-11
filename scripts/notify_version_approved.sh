@@ -17,7 +17,6 @@ for pkg in "${pkgs[@]}"; do
         elif [ "$pkg" == "app-dev-kit" ]; then
             SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL_ADK
         fi
-        curl -X POST -H "Content-type: application/json" --data "{\"text\": \"$pkg v$current_version (<$pr_url|$pr_title>) was approved and will be released on $next_weekday. Take a look if you'd like!\"}" $SLACK_WEBHOOK_URL
-        break
+        curl -X POST -H "Content-type: application/json" --data "{\"text\": \"$pkg v$new_version (<$pr_url|$pr_title>) was approved and will be released on $next_weekday. Take a look if you'd like!\"}" $SLACK_WEBHOOK_URL
     fi
 done
