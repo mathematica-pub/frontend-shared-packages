@@ -31,8 +31,10 @@ jobs:
 
       - name: Send Slack notification for newly approved package version
         env:
-          SLACK_WEBHOOK_URL_VIC: ${{ secrets.SLACK_WEBHOOK_URL_VIC }}
-          SLACK_WEBHOOK_URL_UIC: ${{ secrets.SLACK_WEBHOOK_URL_UIC }}
+          # FIXME!
+          SLACK_WEBHOOK_URL_VIC: ${{ secrets.SLACK_WEBHOOK_URL_TESTING }}
+          SLACK_WEBHOOK_URL_UIC: ${{ secrets.SLACK_WEBHOOK_URL_TESTING }}
+          SLACK_WEBHOOK_URL_ADK: ${{ secrets.SLACK_WEBHOOK_URL_TESTING }}
           next_weekday: ${{ env.next_weekday }}
           pr_title: ${{ github.event.pull_request.title }}
           pr_url: ${{ github.event.pull_request.html_url }}
