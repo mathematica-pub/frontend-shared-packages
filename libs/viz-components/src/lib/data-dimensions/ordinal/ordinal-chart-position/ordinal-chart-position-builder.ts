@@ -48,6 +48,8 @@ export class OrdinalChartPositionDimensionBuilder<
   /**
    * OPTIONAL. Sets the inner padding of the ordinal scale and is provided to [D3's paddingInner method](https://d3js.org/d3-scale/band#band_paddingInner)
    *
+   * Will have no effect if the scale is a point scale.
+   *
    * The value must be between 0 and 1.
    *
    * @default 0.1.
@@ -74,9 +76,12 @@ export class OrdinalChartPositionDimensionBuilder<
    *
    * @param dimensionName A user-intelligible name for the dimension being built. Used for error messages. Should be title cased.
    */
-  _build(dimensionName: string): OrdinalChartPositionDimension<Datum, Domain> {
+  _build(
+    scaleType: 'band' | 'point',
+    dimensionName: string
+  ): OrdinalChartPositionDimension<Datum, Domain> {
     this.validateDimension(dimensionName);
-    return new OrdinalChartPositionDimension({
+    return new OrdinalChartPositionDimension(scaleType, {
       align: this._align,
       domain: this._domain,
       formatFunction: this._formatFunction,

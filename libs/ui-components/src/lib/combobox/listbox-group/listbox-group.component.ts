@@ -14,13 +14,12 @@ import { ListboxOptionComponent } from '../listbox-option/listbox-option.compone
   selector: 'hsi-ui-listbox-group',
   template: `<ng-content></ng-content>`,
 })
-export class ListboxGroupComponent<T> implements AfterContentInit {
+export class ListboxGroupComponent implements AfterContentInit {
   @ContentChild(ListboxLabelComponent)
   label: ListboxLabelComponent;
-  @ContentChildren(ListboxOptionComponent) options: QueryList<
-    ListboxOptionComponent<T>
-  >;
-  options$: Observable<ListboxOptionComponent<T>[]>;
+  @ContentChildren(ListboxOptionComponent)
+  options: QueryList<ListboxOptionComponent>;
+  options$: Observable<ListboxOptionComponent[]>;
 
   constructor(public service: ComboboxService) {}
 

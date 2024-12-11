@@ -1,27 +1,17 @@
 import { DataValue } from '../../../../../../core/types/values';
 import { DataDimensionBuilder } from '../../../../../../data-dimensions/dimension-builder';
-import { FillDef } from '../../../../../../fill-defs/fill-def';
 
 export abstract class AttributeDataDimensionBuilder<
   Datum,
   AttributeValue extends DataValue,
   RangeValue extends string | number = string,
 > extends DataDimensionBuilder<Datum, AttributeValue> {
-  protected _fillDefs: FillDef<Datum>[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected _interpolator: (...args: any) => any;
   protected _nullColor: string;
   protected _range: RangeValue[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected _scale: (...args: any) => string;
-
-  /**
-   * OPTIONAL. An array of fill patterns that will be applied to the features in this layer with attribute data.
-   */
-  fillDefs(fillDefs: FillDef<Datum>[]): this {
-    this._fillDefs = fillDefs;
-    return this;
-  }
 
   /**
    * OPTIONAL. For binned dimensions, a function that will be used to create the a new range for the attribute data scale if the user's specified numBins is greater than the values in the user's specified range.

@@ -1,3 +1,5 @@
 # Grouped Bars Component
 
-{{ GroupedBarsExampleComponent }}
+```custom-angular
+main example
+```

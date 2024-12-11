@@ -192,7 +192,7 @@ export class BarsComponent<
   }
 
   getBarFill(datum: BarDatum<TOrdinalValue>): string {
-    return this.config.color.fillDefs
+    return this.config.customFills
       ? this.getBarPattern(datum)
       : this.getBarColor(datum);
   }
@@ -351,8 +351,11 @@ export class BarsComponent<
 
   getBarPattern(d: BarDatum<TOrdinalValue>): string {
     const color = this.getBarColor(d);
-    const patterns = this.config.color.fillDefs;
-    return FillUtilities.getFill(this.config.data[d.index], color, patterns);
+    return FillUtilities.getFill(
+      this.config.data[d.index],
+      color,
+      this.config.customFills
+    );
   }
 
   getBarColor(d: BarDatum<TOrdinalValue>): string {

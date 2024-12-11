@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  Autocomplete,
+  AutoComplete,
   ComboboxService,
   OptionAction,
 } from '../combobox.service';
@@ -11,8 +11,8 @@ import { ComboboxMainServiceStub } from '../testing/main.service.stub';
 import { ListboxComponent } from './listbox.component';
 
 describe('ListboxComponent', () => {
-  let component: ListboxComponent<any>;
-  let fixture: ComponentFixture<ListboxComponent<any>>;
+  let component: ListboxComponent;
+  let fixture: ComponentFixture<ListboxComponent>;
   let mainServiceStub: ComboboxMainServiceStub;
 
   beforeEach(() => {
@@ -44,7 +44,7 @@ describe('ListboxComponent', () => {
       spyOn(component.activeIndex, 'next');
       spyOn(component, 'handleScrollingForNewIndex');
       optionsSpy = spyOnProperty(component, 'allOptionsArray', 'get');
-      mainServiceStub.comboboxServiceStub.autocomplete = Autocomplete.none;
+      mainServiceStub.comboboxServiceStub.autoComplete = AutoComplete.none;
     });
     it('should set activeIndex to the input value if its option is not disabled', () => {
       const options = [
@@ -56,7 +56,7 @@ describe('ListboxComponent', () => {
         { value: 5, isDisabled: () => false },
       ] as any;
       optionsSpy.and.returnValue(options);
-      component.setActiveIndex(2, null);
+      component.setActiveIndex(2, OptionAction.next);
       expect(component.activeIndex.next).toHaveBeenCalledWith(2);
     });
     describe('if the option for the input value is disabled', () => {

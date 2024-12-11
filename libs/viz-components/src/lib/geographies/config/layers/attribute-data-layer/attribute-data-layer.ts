@@ -1,5 +1,6 @@
 import { InternMap, select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { FillDefinition } from 'libs/viz-components/src/public-api';
 import { FillUtilities } from '../../../../core/utilities/fill-utilities';
 import { ValueUtilities } from '../../../../core/utilities/values';
 import { GeographiesFeature } from '../../../geographies-feature';
@@ -40,6 +41,7 @@ export class GeographiesAttributeDataLayer<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   attributeScale: any;
   attributeValuesByGeographyIndex: InternMap<string, string | number>;
+  readonly customFills: FillDefinition<Datum>[];
   readonly data: Datum[];
   datumsByGeographyIndex: InternMap<string, Datum>;
   geographyIndexAccessor: (d: Datum) => string;
@@ -95,7 +97,7 @@ export class GeographiesAttributeDataLayer<
 
   getFill(feature: GeographiesFeature<TProperties, TGeometry>): string {
     const geographyIndex = this.featureIndexAccessor(feature);
-    return this.attributeDimension.fillDefs
+    return this.customFills
       ? this.getPatternFill(geographyIndex)
       : this.getAttributeFill(geographyIndex);
   }
@@ -104,8 +106,7 @@ export class GeographiesAttributeDataLayer<
   getPatternFill(geographyIndex: string): string {
     const datum = this.datumsByGeographyIndex.get(geographyIndex);
     const geographyFill = this.getAttributeFill(geographyIndex);
-    const patterns = this.attributeDimension.fillDefs;
-    return FillUtilities.getFill(datum, geographyFill, patterns);
+    return FillUtilities.getFill(datum, geographyFill, this.customFills);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -130,7 +131,8 @@ export class GeographiesAttributeDataLayer<
             datum,
             this.attributeDimension.formatFunction
           )
-        : this.attributeDimension.binType !== BinStrategy.categorical
+        : this.attributeDimension.dimensionType !== 'ordinal' &&
+            this.attributeDimension.binType !== BinStrategy.categorical
           ? ValueUtilities.d3Format(
               value as number,
               this.attributeDimension.formatSpecifier

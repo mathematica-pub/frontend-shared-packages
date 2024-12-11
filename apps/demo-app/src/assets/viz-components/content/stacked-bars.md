@@ -1,3 +1,5 @@
 # Stacked Bars Component
 
-{{ StackedBarsExampleComponent }}
+```custom-angular
+main example
+```

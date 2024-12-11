@@ -8,8 +8,8 @@ import { ComboboxMainServiceStub } from '../testing/main.service.stub';
 import { MultiFiltersListboxComponent } from './multi-scroll-group-listbox.component';
 
 describe('MultiFiltersListboxComponent', () => {
-  let component: MultiFiltersListboxComponent<any>;
-  let fixture: ComponentFixture<MultiFiltersListboxComponent<any>>;
+  let component: MultiFiltersListboxComponent;
+  let fixture: ComponentFixture<MultiFiltersListboxComponent>;
   let mainServiceStub: ComboboxMainServiceStub;
 
   beforeEach(() => {

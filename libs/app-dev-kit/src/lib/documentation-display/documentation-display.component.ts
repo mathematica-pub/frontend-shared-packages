@@ -19,7 +19,7 @@ import {
 import { Observable } from 'rxjs';
 import { ShikiTheme } from '../content-parsing';
 import { AdkActiveHeadingTracker } from './active-heading-tracker';
-import { DocumentIndexComponent } from './document-index/document-index.component';
+import { AdkDocumentIndexComponent } from './document-index/document-index.component';
 import { AdkNestedObject } from './documentation-config-parser';
 import {
   AdkDocumentationContentService,
@@ -31,7 +31,11 @@ import { NavigationSiblingsComponent } from './navigation-siblings/navigation-si
 @Component({
   selector: 'hsi-adk-documentation-display',
   standalone: true,
-  imports: [CommonModule, DocumentIndexComponent, NavigationSiblingsComponent],
+  imports: [
+    CommonModule,
+    AdkDocumentIndexComponent,
+    NavigationSiblingsComponent,
+  ],
   templateUrl: './documentation-display.component.html',
   styleUrls: ['./documentation-display.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

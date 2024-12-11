@@ -1,5 +1,4 @@
 <div
-  #listboxEl
   class="combobox-listbox"
   [id]="service.id + '-listbox'"
   role="listbox"
@@ -12,12 +11,14 @@
   [attr.aria-multiselectable]="isMultiSelect"
 >
   <div class="scroll-container" [id]="service.scrollContainerId">
-    <ng-container
-      *ngTemplateOutlet="label?.labelContent || nullContent"
-    ></ng-container>
-    <ng-container *ngIf="(groups$ | async)?.length > 0; else listbox">
-      <ng-container *ngTemplateOutlet="listboxGroups"></ng-container>
-    </ng-container>
+    <div class="scrollable-content" #scrollContent>
+      <ng-container
+        *ngTemplateOutlet="label?.labelContent || nullContent"
+      ></ng-container>
+      <ng-container *ngIf="(groups$ | async)?.length > 0; else listbox">
+        <ng-container *ngTemplateOutlet="listboxGroups"></ng-container>
+      </ng-container>
+    </div>
   </div>
 </div>
 

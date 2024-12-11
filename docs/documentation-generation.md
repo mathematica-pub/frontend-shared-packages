@@ -53,7 +53,7 @@ thrown.
 ## Regenerating documentation
 
 To generate Compodoc docs, and parse/move files all in one command, you can run
-`npm run build:docs:ui-components` or `npm run viz-components`.
+`npm run build:docs:ui-components` or `npm run build:docs:viz-components`.
 
 Alternately, in some scenarios, you may want to run Compodoc and then parse/move the docs
 separately. In this case you can run `npm run compodoc:build:ui-components` or

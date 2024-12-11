@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ComboboxExampleComponent } from './combobox-example/combobox-example.component';
 import { ComboboxLabelComponent } from './combobox-label/combobox-label.component';
 import { ComboboxComponent } from './combobox.component';
 import { EditableTextboxComponent } from './editable-textbox/editable-textbox.component';
@@ -31,7 +30,6 @@ import { TextboxComponent } from './textbox/textbox.component';
     EditableTextboxComponent,
     MultiFiltersListboxComponent,
     SelectAllListboxOptionComponent,
-    ComboboxExampleComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   exports: [
