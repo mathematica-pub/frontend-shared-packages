@@ -74,6 +74,11 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.combobox-textbox').type('{enter}');
       cy.get('.listbox-option').first().should('have.class', 'current');
     });
+    it('accessibility: highlights the first option on down button', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{downArrow}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+    });
     it('accessibility: selects an option using the keyboard and update the value', () => {
       cy.get('.combobox-textbox').focus();
       cy.get('.combobox-textbox').type('{enter}');
