@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+set -x
 
 version=$(node -p "require('./libs/$pkg/package.json').version")
 
