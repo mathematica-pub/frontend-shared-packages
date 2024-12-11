@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+set -x
 
 pkgs=("viz-components" "ui-components" "app-dev-kit")
 for pkg in "${pkgs[@]}"; do
