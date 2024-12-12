@@ -65,67 +65,68 @@ describe('ComboboxMultiComponent', () => {
       cy.get('.outside-element').realClick();
       cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
     });
-  });
-  it('the textbox has the correct label and it does not change with selections', () => {
-    cy.get('.combobox-textbox').realClick();
-    cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
-    cy.get('.listbox-option').first().realClick();
-    cy.get('.listbox-option').eq(1).realClick();
-    cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
-    cy.get('.outside-element').realClick();
-    cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
-  });
-  it('accessibility: focus the textbox on tab', () => {
-    cy.realPress('Tab');
-    cy.get('.combobox-textbox').should('be.focused');
-  });
-  it('accessibility: opens the combobox on enter when focused', () => {
-    cy.get('.combobox-textbox').focus();
-    cy.get('.combobox-textbox').type('{enter}');
-    cy.get('.combobox-listbox').should('be.visible');
-  });
-  it('accessibility: closes combobox with escape key', () => {
-    cy.get('.combobox-textbox').focus();
-    cy.get('.combobox-textbox').type('{enter}');
-    cy.get('.combobox-listbox').should('be.visible');
-    cy.get('.combobox-textbox').type('{esc}');
-    cy.get('.combobox-listbox').should('not.be.visible');
-  });
-  it('accessibility: highlights the first option on enter', () => {
-    cy.get('.combobox-textbox').focus();
-    cy.get('.combobox-textbox').type('{enter}');
-    cy.get('.listbox-option').first().should('have.class', 'current');
-  });
-  it('accessibility: highlights the first option on down button', () => {
-    cy.get('.combobox-textbox').focus();
-    cy.get('.combobox-textbox').type('{downArrow}');
-    cy.get('.listbox-option').first().should('have.class', 'current');
-  });
-  it('accessibility: selects and unselects options using the keyboard and updates the value', () => {
-    cy.get('.combobox-textbox').focus();
-    cy.get('.combobox-textbox').type('{enter}');
-    cy.get('.listbox-option').first().should('have.class', 'current');
-    cy.get('.combobox-textbox').type('{downarrow}{enter}');
-    cy.get('.combobox-textbox').type('{downarrow}{downarrow}{enter}');
-    cy.get('.combobox-value').should('have.text', 'Bananas,Durians');
-    cy.get('.combobox-textbox').type('{enter}');
-    cy.get('.combobox-value').should('have.text', 'Bananas');
-  });
-  it('accessibility: focus remains on first option when up arrow is pressed', () => {
-    cy.get('.combobox-textbox').focus();
-    cy.get('.combobox-textbox').type('{enter}');
-    cy.get('.listbox-option').first().should('have.class', 'current');
-    cy.get('.combobox-textbox').type('{upArrow}');
-    cy.get('.listbox-option').first().should('have.class', 'current');
-  });
-  it('accessibility: focus remains on last option when down arrow is pressed', () => {
-    cy.get('.combobox-textbox').focus();
-    cy.get('.combobox-textbox').type(
-      '{enter}{downArrow}{downArrow}{downArrow}{downArrow}'
-    );
-    cy.get('.listbox-option').eq(4).should('have.class', 'current');
-    cy.get('.combobox-textbox').type('{downArrow}');
-    cy.get('.listbox-option').eq(4).should('have.class', 'current');
+
+    it('the textbox has the correct label and it does not change with selections', () => {
+      cy.get('.combobox-textbox').realClick();
+      cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+      cy.get('.listbox-option').first().realClick();
+      cy.get('.listbox-option').eq(1).realClick();
+      cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+      cy.get('.outside-element').realClick();
+      cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+    });
+    it('accessibility: focus the textbox on tab', () => {
+      cy.realPress('Tab');
+      cy.get('.combobox-textbox').should('be.focused');
+    });
+    it('accessibility: opens the combobox on enter when focused', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.combobox-listbox').should('be.visible');
+    });
+    it('accessibility: closes combobox with escape key', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.combobox-listbox').should('be.visible');
+      cy.get('.combobox-textbox').type('{esc}');
+      cy.get('.combobox-listbox').should('not.be.visible');
+    });
+    it('accessibility: highlights the first option on enter', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+    });
+    it('accessibility: highlights the first option on down button', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{downArrow}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+    });
+    it('accessibility: selects and unselects options using the keyboard and updates the value', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+      cy.get('.combobox-textbox').type('{downarrow}{enter}');
+      cy.get('.combobox-textbox').type('{downarrow}{downarrow}{enter}');
+      cy.get('.combobox-value').should('have.text', 'Bananas,Durians');
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.combobox-value').should('have.text', 'Bananas');
+    });
+    it('accessibility: focus remains on first option when up arrow is pressed', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+      cy.get('.combobox-textbox').type('{upArrow}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+    });
+    it('accessibility: focus remains on last option when down arrow is pressed', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type(
+        '{enter}{downArrow}{downArrow}{downArrow}{downArrow}'
+      );
+      cy.get('.listbox-option').eq(4).should('have.class', 'current');
+      cy.get('.combobox-textbox').type('{downArrow}');
+      cy.get('.listbox-option').eq(4).should('have.class', 'current');
+    });
   });
 });
 
