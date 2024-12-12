@@ -46,7 +46,7 @@ class NgFormListboxSingleTestComponent {
     { displayName: 'Durians', id: 'duri' },
     { displayName: 'Elderberries', id: 'elde' },
   ];
-  control: FormControl<string> = new FormControl(null);
+  control: FormControl<any> = new FormControl(null);
 }
 
 describe('NgFormListboxSingleTestComponent', () => {
