@@ -66,26 +66,112 @@ describe('ComboboxMultiComponent', () => {
       cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
     });
   });
-  describe('with a textbox label that displays selected options', () => {
-    beforeEach(() => {
-      cy.mount(ComboboxSimpleMultiSelectTestComponent, {
-        declarations: [ComboboxSimpleMultiSelectTestComponent],
-        imports: [ComboboxModule, MatIconModule],
-        componentProperties: {
-          displaySelected: true,
-          countSelectedOptionsLabel: undefined,
-        },
-      });
-    });
-    it('the textbox has the correct label and it changes with selections', () => {
-      cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
-      cy.get('.combobox-textbox').click();
-      cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
-      cy.get('.listbox-option').eq(0).realClick();
-      cy.get('.listbox-option').eq(1).realClick();
-      cy.get('.textbox-label').should('have.text', 'Apples, Bananas');
-      cy.get('.listbox-option').eq(1).realClick();
-      cy.get('.textbox-label').should('have.text', 'Apples');
+  it('the textbox has the correct label and it does not change with selections', () => {
+    cy.get('.combobox-textbox').realClick();
+    cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+    cy.get('.listbox-option').first().realClick();
+    cy.get('.listbox-option').eq(1).realClick();
+    cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+    cy.get('.outside-element').realClick();
+    cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+  });
+  it('accessibility: focus the textbox on tab', () => {
+    cy.realPress('Tab');
+    cy.get('.combobox-textbox').should('be.focused');
+  });
+  it('accessibility: opens the combobox on enter when focused', () => {
+    cy.get('.combobox-textbox').focus();
+    cy.get('.combobox-textbox').type('{enter}');
+    cy.get('.combobox-listbox').should('be.visible');
+  });
+  it('accessibility: closes combobox with escape key', () => {
+    cy.get('.combobox-textbox').focus();
+    cy.get('.combobox-textbox').type('{enter}');
+    cy.get('.combobox-listbox').should('be.visible');
+    cy.get('.combobox-textbox').type('{esc}');
+    cy.get('.combobox-listbox').should('not.be.visible');
+  });
+  it('accessibility: highlights the first option on enter', () => {
+    cy.get('.combobox-textbox').focus();
+    cy.get('.combobox-textbox').type('{enter}');
+    cy.get('.listbox-option').first().should('have.class', 'current');
+  });
+  it('accessibility: highlights the first option on down button', () => {
+    cy.get('.combobox-textbox').focus();
+    cy.get('.combobox-textbox').type('{downArrow}');
+    cy.get('.listbox-option').first().should('have.class', 'current');
+  });
+  it('accessibility: selects and unselects options using the keyboard and updates the value', () => {
+    cy.get('.combobox-textbox').focus();
+    cy.get('.combobox-textbox').type('{enter}');
+    cy.get('.listbox-option').first().should('have.class', 'current');
+    cy.get('.combobox-textbox').type('{downarrow}{enter}');
+    cy.get('.combobox-textbox').type('{downarrow}{downarrow}{enter}');
+    cy.get('.combobox-value').should('have.text', 'Bananas,Durians');
+    cy.get('.combobox-textbox').type('{enter}');
+    cy.get('.combobox-value').should('have.text', 'Bananas');
+  });
+  it('accessibility: focus remains on first option when up arrow is pressed', () => {
+    cy.get('.combobox-textbox').focus();
+    cy.get('.combobox-textbox').type('{enter}');
+    cy.get('.listbox-option').first().should('have.class', 'current');
+    cy.get('.combobox-textbox').type('{upArrow}');
+    cy.get('.listbox-option').first().should('have.class', 'current');
+  });
+  it('accessibility: focus remains on last option when down arrow is pressed', () => {
+    cy.get('.combobox-textbox').focus();
+    cy.get('.combobox-textbox').type(
+      '{enter}{downArrow}{downArrow}{downArrow}{downArrow}'
+    );
+    cy.get('.listbox-option').eq(4).should('have.class', 'current');
+    cy.get('.combobox-textbox').type('{downArrow}');
+    cy.get('.listbox-option').eq(4).should('have.class', 'current');
+  });
+});
+
+// Multi select combobox with dynamic label that updates on option selection
+@Component({
+  selector: 'hsi-ui-combobox-selected-options-count-label-test',
+  template: `
+    <p class="outside-element"
+      >Outside element to click on for outside combobox click</p
+    >
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Fruits</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox [displaySelected]="true">
+        <p boxLabel>Select a fruit, A-E</p>
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [countSelectedOptionsLabel]="{ singular: 'fruit', plural: 'fruits' }"
+        [isMultiSelect]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        <hsi-ui-listbox-label>
+          <span>Select a fruit</span>
+        </hsi-ui-listbox-label>
+        <hsi-ui-listbox-option *ngFor="let option of options">{{
+          option.displayName
+        }}</hsi-ui-listbox-option>
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+    <p class="combobox-value">{{ value$ | async }}</p>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboxSelectedOptionsCountLabelTestComponent extends ComboboxBaseTestComponent {}
+
+describe('ComboboxSelectedOptionsCountLabelTestComponent', () => {
+  beforeEach(() => {
+    cy.mount(ComboboxSelectedOptionsCountLabelTestComponent, {
+      declarations: [ComboboxSelectedOptionsCountLabelTestComponent],
+      imports: [ComboboxModule, MatIconModule],
+      providers: [ComboboxService],
     });
   });
   describe('with a textbox label that displays counts of selected options', () => {
@@ -348,5 +434,91 @@ describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
     cy.get('.listbox-option').eq(2).realClick();
     cy.get('.listbox-option').eq(4).realClick();
     cy.get('.combobox-value').should('not.have.text', 'Coconuts,Elderberries');
+  });
+});
+
+// Multi select combobox with dynamic label that uses groups
+@Component({
+  selector: 'hsi-ui-combobox-grouped-multi-test',
+  template: `
+    <p class="outside-element"
+      >Outside element to click on for outside combobox click</p
+    >
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Fruits</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox [displaySelected]="true">
+        <p boxLabel>Select a fruit, A-E</p>
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [countSelectedOptionsLabel]="{ singular: 'fruit', plural: 'fruits' }"
+        [isMultiSelect]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        <hsi-ui-listbox-group>
+          <hsi-ui-listbox-label>
+            <span>Group 1</span>
+          </hsi-ui-listbox-label>
+          <hsi-ui-listbox-option *ngFor="let option of options1">{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        </hsi-ui-listbox-group>
+        <hsi-ui-listbox-group>
+          <hsi-ui-listbox-label>
+            <span>Group 2</span>
+          </hsi-ui-listbox-label>
+          <hsi-ui-listbox-option *ngFor="let option of options2">{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        </hsi-ui-listbox-group>
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+    <p class="combobox-value">{{ value$ | async }}</p>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboxGroupedMultiTestComponent {
+  options1 = [
+    { displayName: 'Apples', id: 'appl' },
+    { displayName: 'Bananas', id: 'bana' },
+    { displayName: 'Coconuts', id: 'coco' },
+  ];
+  options2 = [
+    { displayName: 'Durians', id: 'duri' },
+    { displayName: 'Elderberries', id: 'elde' },
+  ];
+  value = new BehaviorSubject<any>(null);
+  value$ = this.value.asObservable();
+
+  onSelection(event: any): void {
+    this.value.next(event);
+  }
+}
+
+describe('ComboboxGroupedMultiTestComponent', () => {
+  beforeEach(() => {
+    cy.mount(ComboboxGroupedMultiTestComponent, {
+      declarations: [ComboboxGroupedMultiTestComponent],
+      imports: [ComboboxModule, MatIconModule],
+      providers: [ComboboxService],
+    });
+  });
+
+  it('can select from multiple groups', () => {
+    cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+    cy.get('.combobox-textbox').click();
+    cy.get('.textbox-label').should('have.text', '0 fruits selected');
+    cy.get('.listbox-option').eq(0).realClick();
+    cy.get('.listbox-option').eq(1).realClick();
+    cy.get('.textbox-label').should('have.text', '2 fruits selected');
+    cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
+    cy.get('.listbox-option').eq(1).realClick();
+    cy.get('.textbox-label').should('have.text', '1 fruit selected');
+    cy.get('.combobox-value').should('have.text', 'Apples');
   });
 });
