@@ -7,8 +7,6 @@ import { beforeEach, cy, describe, it } from 'local-cypress';
 import { ComboboxModule } from '../combobox.module';
 import { scss } from './combobox-testing.constants';
 
-type SingleSelectListboxValue<T> = string | T;
-
 @Component({
   selector: 'hsi-ui-ng-form-listbox-single-test',
   template: `
