@@ -1,0 +1,141 @@
+$blue: #4472c4;
+$lightblue: #dbe9f9;
+$font-family: Segoe UI;
+
+svg {
+  font-family: $font-family;
+  font-size: 20px;
+}
+
+form {
+  display: flex;
+  gap: 2em;
+  padding-top: 1.5em;
+}
+
+option {
+  &:checked {
+    background: $lightblue;
+  }
+
+  &[disabled] {
+    color: lightgrey;
+  }
+}
+
+.title {
+  font-size: 2rem;
+}
+
+.selection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+
+.image-container,
+.header {
+  width: fit-content;
+}
+
+.image {
+  padding: 80px 20px 50px 190px !important;
+}
+
+line,
+rect {
+  shape-rendering: crispedges;
+}
+
+circle {
+  fill: none;
+  stroke: black;
+  stroke-opacity: 50%;
+}
+
+@mixin percentile {
+  fill: $lightblue;
+  stroke: #0b2949;
+}
+
+.vic-bars-g {
+  rect {
+    @include percentile;
+  }
+
+  & > g:last-child rect {
+    display: none;
+  }
+}
+
+.gridline {
+  stroke: #f0f0f0;
+}
+
+.tick {
+  text {
+    font-family: $font-family;
+  }
+
+  line:not(.gridline) {
+    display: none;
+  }
+}
+
+.vic-y .domain {
+  stroke: #bfbfbf;
+}
+
+.vic-x .domain {
+  stroke: $blue;
+}
+
+.comparison {
+  line {
+    stroke: $blue;
+    stroke-dasharray: 1 6;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+
+  text {
+    text-transform: capitalize;
+  }
+}
+
+.percent-labels line {
+  stroke: black;
+}
+
+$axisFontSize: 16px;
+
+.percent-label {
+  text-anchor: end;
+  alignment-baseline: middle;
+  font-size: $axisFontSize;
+}
+
+.vic-axis-g,
+.size-headers,
+.comparison-label,
+.direction-label {
+  font-size: $axisFontSize;
+}
+
+.comparison-label {
+  font-weight: bold;
+}
+
+.size-headers {
+  text-anchor: end;
+}
+
+.percentile {
+  rect {
+    @include percentile;
+  }
+
+  text {
+    alignment-baseline: middle;
+  }
+}

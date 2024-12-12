@@ -5,4 +5,5 @@ items:
     - energy-intensity
   my-project:
     - csa
+    - bda
     - ica
