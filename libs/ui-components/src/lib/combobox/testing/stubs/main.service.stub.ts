@@ -1,4 +1,4 @@
-import { ComboboxServiceStub } from './combobox.service.stub';
+import { ComboboxServiceStub } from '../combobox.service.stub';
 import { ListboxFilteringServiceStub } from './listbox-filtering.service.stub';
 import { ListboxScrollServiceStub } from './listbox-scroll.service.stub';
 
