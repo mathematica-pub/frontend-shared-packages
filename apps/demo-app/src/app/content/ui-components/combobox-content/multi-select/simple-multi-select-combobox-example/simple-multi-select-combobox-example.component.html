@@ -13,17 +13,6 @@
       </span>
     </hsi-ui-textbox>
     <hsi-ui-listbox [isMultiSelect]="true" (valueChanges)="onSelection($event)">
-      <hsi-ui-select-all-listbox-option
-        >Select all<span
-          class="material-symbols-outlined icon checkbox"
-          selectedIcon
-        >
-          check_box
-        </span>
-        <span unselectedIcon class="material-symbols-outlined icon checkbox">
-          check_box_outline_blank
-        </span></hsi-ui-select-all-listbox-option
-      >
       @for (option of options; track option.id) {
         <hsi-ui-listbox-option [value]="option.id"
           >{{ option.displayName
