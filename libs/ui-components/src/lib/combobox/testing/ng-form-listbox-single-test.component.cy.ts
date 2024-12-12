@@ -7,8 +7,6 @@ import { beforeEach, cy, describe, it } from 'local-cypress';
 import { ComboboxModule } from '../combobox.module';
 import { scss } from './combobox-testing.constants';
 
-type SingleSelectListboxValue<T> = string | T;
-
 @Component({
   selector: 'hsi-ui-ng-form-listbox-single-test',
   template: `
@@ -47,9 +45,7 @@ class NgFormListboxSingleTestComponent {
     { displayName: 'Durians', id: 'duri' },
     { displayName: 'Elderberries', id: 'elde' },
   ];
-  control: FormControl<SingleSelectListboxValue<string>> = new FormControl(
-    null
-  );
+  control: FormControl<any> = new FormControl(null);
 }
 
 describe('NgFormListboxSingleTestComponent', () => {
