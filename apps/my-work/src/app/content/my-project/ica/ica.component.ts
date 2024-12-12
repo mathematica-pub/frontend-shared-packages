@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 import { DataService } from 'apps/my-work/src/app/core/services/data.service';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
-import { ascending } from 'd3';
+import { ascending, extent } from 'd3';
 import { combineLatest, debounceTime, filter, map, Observable } from 'rxjs';
 import {
   IcaDatum,
@@ -69,28 +69,27 @@ export class IcaComponent implements OnInit {
       filter((data) => data.length > 0),
       map((data) => {
         const transformed: IcaDatum[] = data.map((x: any) => {
+          const filteredPlans = data.filter(
+            (plan: any) =>
+              plan.County === x.County &&
+              plan.DelivSys === x.DelivSys &&
+              plan.Measure_Code === x.Measure_Code &&
+              plan.StratVal === x.StratVal
+          );
+          const extents = extent(filteredPlans.map((plan: any) => plan.Value));
           const obj: IcaDatum = {
             series: 'percentile',
             size: x.County_Size,
+            county: x.County,
             measureCode: x.Measure_Code,
             stratVal: x.StratVal,
             delivSys: x.DelivSys,
             units: x.Units,
-            value:
-              x.CSA_25 && !isNaN(x.CSA_25) && x.CSA_75 && !isNaN(x.CSA_75)
-                ? Math.abs(x.CSA_75 - x.CSA_25)
-                : null,
+            value: +extents[1] - +extents[0],
             planValue: x.Value && !isNaN(x.Value) ? +x.Value : null,
-            csa_25: x.CSA_25 && !isNaN(x.CSA_25) ? +x.CSA_25 : null,
-            csa_75: x.CSA_75 && !isNaN(x.CSA_75) ? +x.CSA_75 : null,
-            CSA_CompVal:
-              x.CSA_CompVal && !isNaN(x.CSA_CompVal) ? +x.CSA_CompVal : null,
-            CSA_CompVal_Desc: x.CSA_CompVal_Desc,
+            ica_25: x.ICA_25 && !isNaN(x.ICA_25) ? +x.ICA_25 : null,
+            ica_75: x.ICA_75 && !isNaN(x.ICA_75) ? +x.ICA_75 : null,
             directionality: x.Directionality,
-            CSA_PctBelowComp:
-              x.CSA_PctBelowComp && !isNaN(x.CSA_PctBelowComp)
-                ? +x.CSA_PctBelowComp
-                : null,
             plans: [],
           };
           return obj;

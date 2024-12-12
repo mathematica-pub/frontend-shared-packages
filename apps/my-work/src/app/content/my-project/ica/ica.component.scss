@@ -43,9 +43,8 @@ rect {
 }
 
 circle {
-  fill: none;
-  stroke: black;
-  stroke-opacity: 50%;
+  fill: white;
+  stroke: #0b2949;
 }
 
 @mixin percentile {
@@ -55,7 +54,7 @@ circle {
 
 .vic-bars-g {
   rect {
-    @include percentile;
+    fill: #5b6771;
   }
 
   & > g:last-child rect {

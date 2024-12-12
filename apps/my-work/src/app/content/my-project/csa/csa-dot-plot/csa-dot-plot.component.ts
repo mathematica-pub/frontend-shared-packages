@@ -91,7 +91,7 @@ export class CsaDotPlotComponent implements OnChanges {
       const visibleStack = structuredClone(plan);
       const currentRollup = this.rollupData.find((x) => x.size === plan.size);
       if (!currentRollup) {
-        visibleStack.plans = [];
+        visibleStack.plans = [plan.planValue];
 
         const invisibleStack = structuredClone(plan);
         invisibleStack.series = 'invisible';

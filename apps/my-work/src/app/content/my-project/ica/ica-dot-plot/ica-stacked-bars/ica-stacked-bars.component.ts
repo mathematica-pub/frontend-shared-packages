@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { StackedBarsComponent } from '@hsi/viz-components';
-import { format, select, Selection } from 'd3';
+import { select, Selection } from 'd3';
 import { IcaDatum } from '../ica-dot-plot.component';
 
 @Component({
@@ -22,12 +22,8 @@ export class IcaStackedBarsComponent
   comparisonGroup: Selection<SVGGElement, unknown, null, undefined>;
   directionLabel: Selection<SVGTextElement, unknown, null, undefined>;
   headerGroup: Selection<SVGGElement, unknown, null, undefined>;
-  compVal: number;
-  compIsBig: boolean;
-  compPosition: number;
   headerOffset = -50;
   yAxisOffset = -0.8;
-  additionalYAxisOffset = `${this.yAxisOffset - 2}em`;
   radius = 4;
 
   override ngOnInit(): void {
@@ -45,16 +41,13 @@ export class IcaStackedBarsComponent
     if (this.config.labels) {
       this.drawBarLabels(transitionDuration);
     }
-    this.setCompValues();
     this.updateBarElements();
     this.updateGridlines();
     this.updateCircleElements();
-    this.updateComparison();
-    this.updatePercentLabels();
+    this.updateBarThickness();
     this.updateDirectionLabel();
     this.updatePlanHeader();
     this.updateYLabels();
-    this.updatePercentileGroup();
   }
 
   createCircleGroup(): void {
@@ -83,13 +76,13 @@ export class IcaStackedBarsComponent
       .append('text')
       .attr('dy', '-0.6em')
       .attr('x', -9)
-      .attr('dx', this.additionalYAxisOffset)
+      .attr('dx', this.yAxisOffset)
       .text('County Categories');
     group
       .append('text')
       .attr('dy', '0.6em')
       .attr('x', -9)
-      .attr('dx', this.additionalYAxisOffset)
+      .attr('dx', this.yAxisOffset)
       .text('by Population');
   }
 
@@ -104,12 +97,6 @@ export class IcaStackedBarsComponent
       .attr('r', this.radius)
       .attr('cx', '1em')
       .attr('cy', -this.radius - 2);
-  }
-
-  setCompValues(): void {
-    this.compVal = this.config.data[0].CSA_CompVal;
-    this.compIsBig = this.scales.x(this.compVal) > this.chart.width / 2;
-    this.compPosition = this.compVal / this.scales.x.domain()[1];
   }
 
   updateGridlines(): void {
@@ -130,99 +117,34 @@ export class IcaStackedBarsComponent
 
   updateCircleElements(): void {
     this.circleGroup
-      .selectAll('.category')
+      .selectAll('.county')
       .data(
-        this.config.data.filter(
-          (category: IcaDatum) => category.series !== 'invisible'
-        )
+        this.config.data.filter((plan: IcaDatum) => plan.series !== 'invisible')
       )
       .join('g')
-      .attr('class', 'category')
+      .attr('class', (county) => county.county + ' county')
       .attr(
         'transform',
-        (category: IcaDatum) =>
-          `translate(0, ${this.scales.y(category.size) + (this.scales.y as any).bandwidth() / 2})`
+        (plan: IcaDatum) =>
+          `translate(0, ${this.scales.y(plan.county) + (this.scales.y as any).bandwidth() / 2})`
       )
       .selectAll('.plan')
-      .data((category: IcaDatum) => category.plans)
+      .data((plan: IcaDatum) => plan.plans)
       .join('circle')
       .attr('r', this.radius)
       .attr('cx', (plan) => this.scales.x(plan))
       .attr('class', 'plan');
   }
 
-  updateComparison(): void {
-    const comparisonGroup = select(this.chart.svgRef.nativeElement)
-      .selectAll('.comparison')
-      .data([this.compVal].filter((d) => d !== null))
-      .join('g')
-      .attr('class', 'comparison')
-      .attr('transform', `translate(${this.scales.x(this.compVal)}, 0)`);
-
-    comparisonGroup
-      .selectAll('line')
-      .data((d) => [d])
-      .join('line')
-      .attr('y1', this.chart.height)
-      .attr('y2', this.headerOffset - (this.scales.y as any).bandwidth() / 2);
-
-    comparisonGroup
-      .selectAll('text')
-      .data((d) => [d])
-      .join('text')
-      .attr('y', this.headerOffset)
-      .attr('dx', this.compIsBig ? '-0.4em' : '0.4em')
-      .attr('text-anchor', this.compIsBig ? 'end' : null)
-      .text(this.config.data[0].CSA_CompVal_Desc);
-  }
-
-  updatePercentLabels(): void {
-    const percentGroup = select(this.chart.svgRef.nativeElement)
-      .selectAll('.percent-labels')
-      .data([this.compVal].filter((d) => d !== null))
-      .join('g')
-      .attr('class', 'percent-labels');
-
-    percentGroup
-      .selectAll('line')
-      .data((d) => [d])
-      .join('line')
-      .attr('x1', `${this.yAxisOffset - 0.8}em`)
-      .attr('x2', `${this.yAxisOffset - 0.8}em`)
-      .attr('y1', '0.1em')
-      .attr('y2', '-0.5em');
-    percentGroup
-      .selectAll('.comparison-label')
-      .data((d) => [d])
-      .join('text')
-      .attr('class', 'comparison-label')
-      .attr('dx', `${this.yAxisOffset - 1.7}em`)
-      .attr('dy', '-0.8em');
-
-    percentGroup
-      .selectAll('.percent-label')
-      .data(
-        this.config.data.filter(
-          (category: IcaDatum) => category.series !== 'invisible'
-        )
+  updateBarThickness(): void {
+    select(this.chart.svgRef.nativeElement)
+      .select('.vic-bars-g')
+      .style(
+        'transform',
+        `translateY(${(this.scales.y as any).bandwidth() / 2 - 1}px)`
       )
-      .join('text')
-      .attr('class', 'percent-label')
-      .attr('dx', `${this.yAxisOffset}em`)
-      .attr(
-        'y',
-        (category: IcaDatum) =>
-          this.scales.y(category.size) + (this.scales.y as any).bandwidth() / 2
-      )
-      .text((category: IcaDatum) => format('.0%')(category.CSA_PctBelowComp));
-
-    percentGroup
-      .selectAll('.comparison-label')
-      .data((d) => [d])
-      .join('text')
-      .text(
-        `% of plans ${this.getDirection()} the ${this.config.data[0].CSA_CompVal_Desc}`
-      );
+      .selectAll('rect')
+      .attr('height', 3);
   }
 
   getDirection(): string {
@@ -249,7 +171,9 @@ export class IcaStackedBarsComponent
 
   updatePlanHeader(): void {
     this.headerGroup.select('.plan-header').attr('transform', () => {
-      const x = this.compPosition < 0.15 ? this.chart.width - 80 : 0;
+      // const x = this.compPosition < 0.15 ? this.chart.width - 80 : 0;
+      // TODO: position based on percentiles
+      const x = 0;
       return `translate(${x}, 0)`;
     });
   }
@@ -257,38 +181,6 @@ export class IcaStackedBarsComponent
   updateYLabels(): void {
     select(this.chart.svgRef.nativeElement)
       .selectAll('.vic-y text')
-      .attr('dx', this.additionalYAxisOffset);
-  }
-
-  updatePercentileGroup(): void {
-    let x = this.chart.width * 0.2;
-    if (this.compPosition > 0.3 && this.compPosition < 0.66) {
-      x = this.chart.width - 220;
-    } else if (this.compPosition > 0.1 && this.compPosition < 0.66) {
-      x = this.chart.width * 0.4;
-    }
-
-    const group = this.headerGroup
-      .selectAll('.percentile')
-      .data([this.config.data[0].csa_25].filter((d) => d !== null))
-      .join('g')
-      .attr('class', 'percentile')
-      .attr(
-        'transform',
-        `translate(${x}, ${-(this.scales.y as any).bandwidth() / 2 - 4})`
-      );
-    group
-      .selectAll('rect')
-      .data((d) => [d])
-      .join('rect')
-      .attr('width', '11em')
-      .attr('height', (this.scales.y as any).bandwidth());
-    group
-      .selectAll('text')
-      .data((d) => [d])
-      .join('text')
-      .attr('dx', '0.5em')
-      .attr('dy', (this.scales.y as any).bandwidth() / 2)
-      .text('25th—75th Percentiles');
+      .attr('dx', this.yAxisOffset);
   }
 }

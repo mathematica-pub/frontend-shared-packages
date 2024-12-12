@@ -19,25 +19,23 @@ import {
   VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
-import { max, min } from 'd3';
+import { descending, extent, max, min } from 'd3';
 import { IcaStackedBarsComponent } from './ica-stacked-bars/ica-stacked-bars.component';
 
 export interface IcaDatum {
   series: string;
   size: string;
+  county: string;
   plans: number[];
-  csa_25: number;
-  csa_75: number;
+  ica_25: number;
+  ica_75: number;
   measureCode: string;
   stratVal: string;
   delivSys: string;
   value: number;
   planValue: number;
   units: string;
-  CSA_CompVal: number;
-  CSA_CompVal_Desc: string;
   directionality: string;
-  CSA_PctBelowComp: number;
 }
 
 @Component({
@@ -89,35 +87,47 @@ export class IcaDotPlotComponent implements OnChanges {
 
     this.data.forEach((plan) => {
       const visibleStack = structuredClone(plan);
-      const currentRollup = this.rollupData.find((x) => x.size === plan.size);
+      const currentRollup = this.rollupData.find(
+        (x) => x.county === plan.county
+      );
+      const currentInvisibleRollup = this.rollupData.find(
+        (x) => x.county === plan.county && x.series === 'invisible'
+      );
       if (!currentRollup) {
-        visibleStack.plans = [];
+        visibleStack.plans = [plan.planValue];
 
         const invisibleStack = structuredClone(plan);
         invisibleStack.series = 'invisible';
-        invisibleStack.value = min([plan.csa_25, plan.csa_75]) ?? null;
+        invisibleStack.plans = [plan.planValue];
 
         this.rollupData.push(visibleStack);
         this.rollupData.push(invisibleStack);
       } else {
         currentRollup.plans.push(plan.planValue);
+        currentInvisibleRollup.plans.push(plan.planValue);
+        currentInvisibleRollup.value = min(currentInvisibleRollup.plans);
       }
     });
+
+    this.rollupData = this.rollupData.filter((d) => d.plans.length > 1);
 
     if (this.rollupData.length > 0) {
       this.chartHeight = this.rollupData.length * 15;
 
-      const dotMax = max(this.rollupData.map((d) => max(d.plans)));
-      const barMax = max(this.rollupData, (d) => d.csa_75);
-      this.trueMax = max([dotMax, barMax]) * 1.1;
-      if (this.rollupData[0].units === 'Percentage') {
-        this.trueMax = min([this.trueMax, 1]);
-      }
+      this.trueMax = max(this.rollupData.map((d) => max(d.plans)));
 
-      this.rollupData.sort((a, b) => {
-        const order = ['Rural', 'Small', 'Medium', 'Large', 'Other'];
-        return order.indexOf(a.size) - order.indexOf(b.size);
-      });
+      this.rollupData
+        .sort((a, b) => {
+          const extentA = extent(a.plans);
+          const extentB = extent(b.plans);
+          const diffA = extentA[1] - extentA[0];
+          const diffB = extentB[1] - extentB[0];
+          return descending(diffA, diffB);
+        })
+        .sort((a, b) => {
+          const order = ['Large', 'Medium', 'Small', 'Rural', 'Other'];
+          return order.indexOf(a.size) - order.indexOf(b.size);
+        });
 
       console.log('rollupData', this.rollupData);
 
@@ -128,10 +138,11 @@ export class IcaDotPlotComponent implements OnChanges {
             .x((dimension) =>
               dimension.valueAccessor((d) => d.value).domain([0, this.trueMax])
             )
-            .y((dimension) => dimension.valueAccessor((d) => d.size))
+            .y((dimension) => dimension.valueAccessor((d) => d.county))
         )
         .color((dimension) => dimension.valueAccessor((d) => d.series))
         .stackOrder(() => [1, 0])
+        .stackOffset(() => 100)
         .getConfig();
 
       this.yAxisConfig = this.yOrdinalAxis.tickSizeOuter(0).getConfig();
