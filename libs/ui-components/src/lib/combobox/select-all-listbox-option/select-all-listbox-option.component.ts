@@ -38,6 +38,13 @@ export class SelectAllListboxOptionComponent
     super(service);
   }
 
+  // select all will not respond to changes in selected or disabled properties
+  // users should not attempt to change these properties
+  // TODO: better architecture for this
+  override ngOnChanges(): void {
+    return;
+  }
+
   ngAfterViewInit(): void {
     this.listenForOptionSelections();
     this.updateSelectAllSelected();

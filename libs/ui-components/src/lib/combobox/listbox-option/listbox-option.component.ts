@@ -62,17 +62,19 @@ export class ListboxOptionComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['disabled']) {
-      if (!(changes['disabled'].isFirstChange() && !this.disabled)) {
-        this.updateDisabled(this.disabled);
-        this.externalPropertyChanges.next(this.getPropertyChange('disabled'));
-      }
+    if (
+      changes['disabled'] &&
+      !(changes['disabled'].isFirstChange() && !this.disabled)
+    ) {
+      this.updateDisabled(this.disabled);
+      this.externalPropertyChanges.next(this.getPropertyChange('disabled'));
     }
-    if (changes['selected']) {
-      if (!(changes['selected'].isFirstChange() && !this.selected)) {
-        this.updateSelected(this.selected);
-        this.externalPropertyChanges.next(this.getPropertyChange('selected'));
-      }
+    if (
+      changes['selected'] &&
+      !(changes['selected'].isFirstChange() && !this.selected)
+    ) {
+      this.updateSelected(this.selected);
+      this.externalPropertyChanges.next(this.getPropertyChange('selected'));
     }
   }
 
