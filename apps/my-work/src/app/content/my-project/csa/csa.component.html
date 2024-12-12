@@ -34,7 +34,16 @@
   </div>
 </form>
 @if (filteredData$ | async; as data) {
-  <app-export-content fileName="csa">
+  <app-export-content
+    [fileName]="
+      'CSA ' +
+      myForm.value[filterTypes[0]] +
+      ' ' +
+      myForm.value[filterTypes[1]] +
+      ' ' +
+      myForm.value[filterTypes[2]]
+    "
+  >
     <app-csa-dot-plot [data]="data"></app-csa-dot-plot>
   </app-export-content>
 }
