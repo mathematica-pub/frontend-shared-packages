@@ -29,3 +29,9 @@ This is a single-select combobox with an editable textbox.
 ```custom-angular
 editable textbox single select
 ```
+
+This is a single-select combobox that uses grouping.
+
+```custom-angular
+grouped single select
+```
