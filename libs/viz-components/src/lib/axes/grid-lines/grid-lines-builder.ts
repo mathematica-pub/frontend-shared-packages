@@ -48,6 +48,10 @@ export class GridLinesBuilder {
     this.strokeBuilder = new StrokeBuilder().width(1);
   }
 
+  /**
+   * @internal
+   * This function is for internal use only and should never be called by the user.
+   */
   _build(axis: 'x' | 'y'): GridLines {
     this.validateBuilder();
     return new GridLines({
