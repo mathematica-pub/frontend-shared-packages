@@ -7,11 +7,11 @@ with various functionalities.
 
 The HSI UI Components combobox follows the
 [W3C Combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/). When the W3C patterns do
-not cover a functionality, we use the
+not cover a functionality (for example, multi-select), we use the
 [Angular Material Combobox](https://material.angular.io/components/combobox/overview) as a
 reference.
 
-A combobox is composed of the following components:
+A combobox is minimally composed of the following components:
 
 - ComboboxComponent
 - TextboxComponent

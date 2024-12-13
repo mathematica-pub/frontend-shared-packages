@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComboboxLabelComponent } from './combobox-label/combobox-label.component';
 import { ComboboxComponent } from './combobox.component';
 import { ComboboxService } from './combobox.service';
-import { ComboboxMainServiceStub } from './testing/main.service.stub';
+import { ComboboxMainServiceStub } from './testing/stubs/main.service.stub';
 
 @Component({
   selector: 'hsi-ui-test-cmp',
