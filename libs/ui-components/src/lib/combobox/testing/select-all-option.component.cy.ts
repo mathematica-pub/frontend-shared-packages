@@ -213,8 +213,6 @@ describe('ComboboxExternalSelectedTestComponent', () => {
     cy.get('.listbox-option').eq(0).should('have.class', 'selected');
   });
 
-  it('the select all option should change the selected properties of all other options if it is selected from outside', () => {});
-
   it('the combobox should not emit a new value when an option is selected from outside and should emit a new value on user selection', () => {
     cy.get('.combobox-textbox').click();
     [1, 2, 3, 4].forEach((i) => {
