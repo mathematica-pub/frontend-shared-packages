@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -25,7 +26,7 @@ import { TextboxComponent } from '../textbox/textbox.component';
 })
 export class EditableTextboxComponent
   extends TextboxComponent
-  implements OnInit
+  implements OnInit, AfterViewInit
 {
   @ViewChild('box') inputElRef: ElementRef<HTMLInputElement>;
   @Input() autoComplete: AutoComplete = AutoComplete.list;
@@ -42,6 +43,7 @@ export class EditableTextboxComponent
     super.ngOnInit();
     this.service.shouldAutoSelectOnListboxClose =
       this.autoSelect && this.autoSelectTrigger === 'any';
+    this.service.nullActiveIdOnClose = true;
   }
 
   setInputValue(value: string): void {

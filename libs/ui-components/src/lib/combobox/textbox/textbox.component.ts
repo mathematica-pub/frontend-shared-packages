@@ -19,15 +19,24 @@ import {
   TextboxAction,
   VisualFocus,
 } from '../combobox.service';
+import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
+import { CountSelectedLabel } from '../listbox/listbox.component';
 
 @Component({
   selector: 'hsi-ui-textbox',
   templateUrl: './textbox.component.html',
 })
 export class TextboxComponent implements OnInit, AfterViewInit {
+  @Input() ariaLabel?: string;
+  @Input() countSelectedLabel?: CountSelectedLabel;
+  @Input() customTextboxLabel?: (
+    options: ListboxOptionComponent[],
+    countSelectedLabel?: CountSelectedLabel
+  ) => string;
   @Input() displaySelected = false;
   @Input() findsOptionOnTyping = true;
-  @Input() ariaLabel?: string;
+  @Input() useListboxLabelAsBoxPlaceholder = false;
+
   @ViewChild('box') box: ElementRef<HTMLDivElement>;
   @ViewChild('boxIcon') boxIcon: ElementRef<HTMLDivElement>;
   openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' '];
@@ -39,7 +48,9 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.service.displayValue = this.displaySelected;
+    this.service.displaySelected = this.displaySelected;
+    this.service.countSelectedLabel = this.countSelectedLabel;
+    this.service.customTextboxLabel = this.customTextboxLabel;
   }
 
   ngAfterViewInit(): void {
@@ -168,7 +179,8 @@ export class TextboxComponent implements OnInit, AfterViewInit {
         this.service.openListbox();
         this.focusBox();
         event.preventDefault();
-        return this.service.emitOptionAction(action);
+        this.service.emitOptionAction(action);
+        break;
 
       case OptionAction.next:
       case OptionAction.pageDown:
@@ -176,31 +188,32 @@ export class TextboxComponent implements OnInit, AfterViewInit {
       case OptionAction.pageUp:
       case OptionAction.select:
         event.preventDefault();
-        return this.service.emitOptionAction(action);
+        this.service.emitOptionAction(action);
+        break;
 
       case ListboxAction.closeSelect:
         event.preventDefault();
         this.service.emitOptionAction(OptionAction.select);
         this.service.closeListbox();
         this.focusBox();
-        return this.service.emitOptionAction(OptionAction.nullActiveIndex);
+        break;
 
       case ListboxAction.close:
         event.preventDefault();
         this.service.closeListbox();
         this.focusBox();
-        return this.service.emitOptionAction(OptionAction.nullActiveIndex);
+        break;
 
       case TextboxAction.type:
         this.service.openListbox();
         this.focusBox();
-        return this.service.emitOptionAction(event.key);
+        this.service.emitOptionAction(event.key);
+        break;
 
       case ListboxAction.open:
         event.preventDefault();
-        this.service.emitOptionAction(OptionAction.zeroActiveIndex);
         this.service.openListbox();
-        return this.focusBox();
+        this.focusBox();
     }
   }
 }

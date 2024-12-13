@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
@@ -19,23 +19,27 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [displaySelected]="displaySelected">
+      <hsi-ui-textbox>
         <p boxLabel>Select a fruit, A-E</p>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
       </hsi-ui-textbox>
       <hsi-ui-listbox
-        [countSelectedOptionsLabel]="countSelectedOptionsLabel"
         [isMultiSelect]="true"
         (valueChanges)="onSelection($event)"
       >
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option *ngFor="let option of options">{{
-          option.displayName
-        }}</hsi-ui-listbox-option>
+        <hsi-ui-listbox-option *ngFor="let option of options"
+          ><span class="material-symbols-outlined icon checkbox" selectedIcon>
+            check_box
+          </span>
+          <span unselectedIcon class="material-symbols-outlined icon checkbox">
+            check_box_outline_blank </span
+          >{{ option.displayName }}</hsi-ui-listbox-option
+        >
       </hsi-ui-listbox>
     </hsi-ui-combobox>
     <p class="combobox-value">{{ value$ | async }}</p>
@@ -43,10 +47,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
 })
-class ComboboxSimpleMultiSelectTestComponent extends ComboboxBaseTestComponent {
-  @Input() displaySelected = false;
-  @Input() countSelectedOptionsLabel = { singular: 'fruit', plural: 'fruits' };
-}
+class ComboboxSimpleMultiSelectTestComponent extends ComboboxBaseTestComponent {}
 
 describe('ComboboxMultiComponent', () => {
   describe('With a static textbox label', () => {
@@ -66,60 +67,58 @@ describe('ComboboxMultiComponent', () => {
       cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
     });
 
-    it('the textbox has the correct label and it does not change with selections', () => {
+    it('the current class is on the first selected option if there is one or on the 0th option when opened', () => {
       cy.get('.combobox-textbox').realClick();
-      cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
-      cy.get('.listbox-option').first().realClick();
-      cy.get('.listbox-option').eq(1).realClick();
-      cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
-      cy.get('.outside-element').realClick();
-      cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
-    });
-    it('accessibility: focus the textbox on tab', () => {
-      cy.realPress('Tab');
-      cy.get('.combobox-textbox').should('be.focused');
-    });
-    it('accessibility: opens the combobox on enter when focused', () => {
-      cy.get('.combobox-textbox').focus();
-      cy.get('.combobox-textbox').type('{enter}');
-      cy.get('.combobox-listbox').should('be.visible');
-    });
-    it('accessibility: closes combobox with escape key', () => {
-      cy.get('.combobox-textbox').focus();
-      cy.get('.combobox-textbox').type('{enter}');
-      cy.get('.combobox-listbox').should('be.visible');
+      cy.get('.listbox-option').first().should('have.class', 'current');
       cy.get('.combobox-textbox').type('{esc}');
       cy.get('.combobox-listbox').should('not.be.visible');
+      cy.get('.combobox-textbox').realClick();
+      cy.get('.listbox-option').eq(2).realClick();
+      cy.get('.listbox-option').eq(2).should('have.class', 'selected');
+      cy.get('.listbox-option').eq(2).should('have.class', 'current');
+      cy.get('.combobox-textbox').type('{esc}');
+      cy.get('.combobox-textbox').realClick();
+      cy.get('.listbox-option').eq(2).should('have.class', 'current');
+      cy.get('.listbox-option').eq(2).realClick();
+      cy.get('.combobox-textbox').type('{esc}');
+      cy.get('.combobox-textbox').realClick();
+      cy.get('.listbox-option').eq(0).should('have.class', 'current');
+      cy.get('.listbox-option').eq(2).realClick();
+      cy.get('.listbox-option').eq(3).realClick();
+      cy.get('.listbox-option').eq(3).should('have.class', 'current');
+      cy.get('.combobox-textbox').type('{esc}');
+      cy.get('.combobox-textbox').realClick();
+      cy.get('.listbox-option').eq(2).should('have.class', 'current');
     });
-    it('accessibility: highlights the first option on enter', () => {
-      cy.get('.combobox-textbox').focus();
+
+    it('correctly responds to keyboard navigation and selection', () => {
+      // textbox receives focus on tab
+      cy.realPress('Tab');
+      cy.get('.combobox-textbox').should('be.focused');
+      // opens the combobox on enter
       cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.combobox-listbox').should('be.visible');
+      // apllies current class to first option on enter
       cy.get('.listbox-option').first().should('have.class', 'current');
-    });
-    it('accessibility: highlights the first option on down button', () => {
+      // closes the combobox with escape
+      cy.get('.combobox-textbox').type('{esc}');
+      cy.get('.combobox-listbox').should('not.be.visible');
+      // applies current class to first option on down arrow
       cy.get('.combobox-textbox').focus();
       cy.get('.combobox-textbox').type('{downArrow}');
       cy.get('.listbox-option').first().should('have.class', 'current');
-    });
-    it('accessibility: selects and unselects options using the keyboard and updates the value', () => {
-      cy.get('.combobox-textbox').focus();
-      cy.get('.combobox-textbox').type('{enter}');
-      cy.get('.listbox-option').first().should('have.class', 'current');
+      // selects and unselects options using the keyboard and updates the value
       cy.get('.combobox-textbox').type('{downarrow}{enter}');
       cy.get('.combobox-textbox').type('{downarrow}{downarrow}{enter}');
       cy.get('.combobox-value').should('have.text', 'Bananas,Durians');
       cy.get('.combobox-textbox').type('{enter}');
       cy.get('.combobox-value').should('have.text', 'Bananas');
-    });
-    it('accessibility: focus remains on first option when up arrow is pressed', () => {
-      cy.get('.combobox-textbox').focus();
-      cy.get('.combobox-textbox').type('{enter}');
+      // focus remains on first option when up arrow is presse
+      cy.get('.combobox-textbox').type('{upArrow}{upArrow}{upArrow}');
       cy.get('.listbox-option').first().should('have.class', 'current');
       cy.get('.combobox-textbox').type('{upArrow}');
       cy.get('.listbox-option').first().should('have.class', 'current');
-    });
-    it('accessibility: focus remains on last option when down arrow is pressed', () => {
-      cy.get('.combobox-textbox').focus();
+      // focus remains on last option when down arrow is pressed
       cy.get('.combobox-textbox').type(
         '{enter}{downArrow}{downArrow}{downArrow}{downArrow}'
       );
@@ -141,14 +140,16 @@ describe('ComboboxMultiComponent', () => {
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [displaySelected]="true">
+      <hsi-ui-textbox
+        [displaySelected]="true"
+        [countSelectedLabel]="{ singular: 'fruit', plural: 'fruits' }"
+      >
         <p boxLabel>Select a fruit, A-E</p>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
       </hsi-ui-textbox>
       <hsi-ui-listbox
-        [countSelectedOptionsLabel]="{ singular: 'fruit', plural: 'fruits' }"
         [isMultiSelect]="true"
         (valueChanges)="onSelection($event)"
       >
@@ -172,15 +173,13 @@ describe('ComboboxSelectedOptionsCountLabelTestComponent', () => {
     cy.mount(ComboboxSelectedOptionsCountLabelTestComponent, {
       declarations: [ComboboxSelectedOptionsCountLabelTestComponent],
       imports: [ComboboxModule, MatIconModule],
-      providers: [ComboboxService],
     });
   });
   describe('with a textbox label that displays counts of selected options', () => {
     beforeEach(() => {
-      cy.mount(ComboboxSimpleMultiSelectTestComponent, {
-        declarations: [ComboboxSimpleMultiSelectTestComponent],
+      cy.mount(ComboboxSelectedOptionsCountLabelTestComponent, {
+        declarations: [ComboboxSelectedOptionsCountLabelTestComponent],
         imports: [ComboboxModule, MatIconModule],
-        componentProperties: { displaySelected: true },
       });
     });
     it('the textbox has the correct label and it changes with selections', () => {
@@ -224,14 +223,16 @@ describe('ComboboxSelectedOptionsCountLabelTestComponent', () => {
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [displaySelected]="true">
+      <hsi-ui-textbox
+        [displaySelected]="true"
+        [countSelectedLabel]="{ singular: 'fruit', plural: 'fruits' }"
+      >
         <p boxLabel>Select a fruit, A-E</p>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
       </hsi-ui-textbox>
       <hsi-ui-listbox
-        [countSelectedOptionsLabel]="{ singular: 'fruit', plural: 'fruits' }"
         [isMultiSelect]="true"
         (valueChanges)="onSelection($event)"
       >
@@ -396,7 +397,7 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
         </span>
       </hsi-ui-textbox>
       <hsi-ui-listbox
-        [labelIsBoxPlaceholder]="true"
+        [useListboxLabelAsBoxPlaceholder]="true"
         [isMultiSelect]="true"
         (valueChanges)="onSelection($event)"
       >
@@ -449,14 +450,16 @@ describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [displaySelected]="true">
+      <hsi-ui-textbox
+        [displaySelected]="true"
+        [countSelectedLabel]="{ singular: 'fruit', plural: 'fruits' }"
+      >
         <p boxLabel>Select a fruit, A-E</p>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
       </hsi-ui-textbox>
       <hsi-ui-listbox
-        [countSelectedOptionsLabel]="{ singular: 'fruit', plural: 'fruits' }"
         [isMultiSelect]="true"
         (valueChanges)="onSelection($event)"
       >

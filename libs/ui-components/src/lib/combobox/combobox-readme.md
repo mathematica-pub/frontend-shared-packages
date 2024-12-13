@@ -89,10 +89,10 @@ Inputs:
   is 300.
 - `isMultiSelect: boolean`: Determines whether the listbox can make one or more than one selection.
   Default is false, which creates a single-select listbox.
-- `labelIsBoxPlaceholder: boolean`: If true, any label projected into the `listboxLabel` slot will
-  also be used as a displayed label in the box component when no selections are made. This will
-  override any static label a user has projected as a `boxLabel` in the box component. Default to
-  false.
+- `useListboxLabelAsBoxPlaceholder: boolean`: If true, any label projected into the `listboxLabel`
+  slot will also be used as a displayed label in the box component when no selections are made. This
+  will override any static label a user has projected as a `boxLabel` in the box component. Default
+  to false.
 - `findsOptionOnTyping: boolean`: Moves simulated focus to option that matches string that a user
   types. If listbox is closed, opens box and moves simulated focus. Replicates native `<select>`
   functionality. Default is true.
@@ -121,10 +121,10 @@ Inputs:
 
 - `maxHeight: number`: Controls the max-height property of the listbox panel, in px. Default value
   is 300.
-- `labelIsBoxPlaceholder: boolean`: If true, any label projected into the `listboxLabel` slot will
-  also be used as a displayed label in the box component when no selections are made. This will
-  override any static label a user has projected as a `boxLabel` in the box component. Default to
-  false.
+- `useListboxLabelAsBoxPlaceholder: boolean`: If true, any label projected into the `listboxLabel`
+  slot will also be used as a displayed label in the box component when no selections are made. This
+  will override any static label a user has projected as a `boxLabel` in the box component. Default
+  to false.
 - `findsOptionOnTyping: boolean`: Moves simulated focus to option that matches string that a user
   types. If listbox is closed, opens box and moves simulated focus. Replicates native `<select>`
   functionality. Default is true.
@@ -143,10 +143,10 @@ Inputs:
 
 - `maxHeight: number`: Controls the max-height property of the listbox panel, in px. Default value
   is 300.
-- `labelIsBoxPlaceholder: boolean`: If true, any label projected into the `listboxLabel` slot will
-  also be used as a displayed label in the box component when no selections are made. This will
-  override any static label a user has projected as a `boxLabel` in the box component. Default to
-  false.
+- `useListboxLabelAsBoxPlaceholder: boolean`: If true, any label projected into the `listboxLabel`
+  slot will also be used as a displayed label in the box component when no selections are made. This
+  will override any static label a user has projected as a `boxLabel` in the box component. Default
+  to false.
 - `findsOptionOnTyping: boolean`: Moves simulated focus to option that matches string that a user
   types. If listbox is closed, opens box and moves simulated focus. Replicates native `<select>`
   functionality. Default is true.
@@ -204,7 +204,7 @@ selectable or focusable.
 
 In an ungrouped context, this label could be useful for reminding users what they are selecting,
 particularly if the box displays the selected value(s). It can also be used as a placeholder label
-in the box if `Listbox.labelIsBoxPlaceholder` is set to `true`.
+in the box if `Listbox.useListboxLabelAsBoxPlaceholder` is set to `true`.
 
 Inside a `ListboxGroup`. the label will serve as a header for the group's options. In this use, it
 cannot serve as placeholder text for the box.

@@ -21,7 +21,7 @@ import { scss } from './combobox-testing.constants';
           expand_more
         </span>
       </hsi-ui-textbox>
-      <hsi-ui-ng-form-listbox-single [control]="control">
+      <hsi-ui-listbox [formControl]="control">
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
@@ -32,7 +32,7 @@ import { scss } from './combobox-testing.constants';
             >{{ option.displayName }}</hsi-ui-listbox-option
           >
         }
-      </hsi-ui-ng-form-listbox-single>
+      </hsi-ui-listbox>
     </hsi-ui-combobox>
   `,
   encapsulation: ViewEncapsulation.None,

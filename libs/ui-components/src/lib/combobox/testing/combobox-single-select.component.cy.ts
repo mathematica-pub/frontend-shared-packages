@@ -25,7 +25,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
         </span>
       </hsi-ui-textbox>
       <hsi-ui-listbox
-        [labelIsBoxPlaceholder]="true"
+        [useListboxLabelAsBoxPlaceholder]="true"
         (valueChanges)="onSelection($event)"
       >
         <hsi-ui-listbox-label>
@@ -176,6 +176,25 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
     });
     // TODO: get typing chars to work
   });
+
+  it('the current class is on the first selected option if there is one or on the 0th option when opened', () => {
+    cy.get('.combobox-textbox').realClick();
+    cy.get('.listbox-option').first().should('have.class', 'current');
+    cy.get('.combobox-textbox').type('{esc}');
+    cy.get('.combobox-listbox').should('not.be.visible');
+    cy.get('.combobox-textbox').realClick();
+    cy.get('.listbox-option').eq(2).realClick();
+    cy.get('.combobox-textbox').realClick();
+    cy.get('.listbox-option').eq(2).should('have.class', 'selected');
+    cy.get('.listbox-option').eq(2).should('have.class', 'current');
+    cy.get('.combobox-textbox').type('{esc}');
+    cy.get('.combobox-textbox').realClick();
+    cy.get('.listbox-option').eq(2).should('have.class', 'current');
+    cy.get('.listbox-option').eq(3).realClick();
+    cy.get('.combobox-textbox').realClick();
+    cy.get('.listbox-option').eq(3).should('have.class', 'selected');
+    cy.get('.listbox-option').eq(3).should('have.class', 'current');
+  });
 });
 
 // Simple single select combobox that does not display selected
@@ -195,7 +214,7 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
         </span>
       </hsi-ui-textbox>
       <hsi-ui-listbox
-        [labelIsBoxPlaceholder]="true"
+        [useListboxLabelAsBoxPlaceholder]="true"
         (valueChanges)="onSelection($event)"
       >
         <hsi-ui-listbox-label>
@@ -246,7 +265,7 @@ describe('ComboboxSingleTestNoDisplaySelectedComponent', () => {
         </span>
       </hsi-ui-textbox>
       <hsi-ui-listbox
-        [labelIsBoxPlaceholder]="true"
+        [useListboxLabelAsBoxPlaceholder]="true"
         (valueChanges)="onSelection($event)"
       >
         <hsi-ui-listbox-label>
@@ -302,7 +321,7 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
         </span>
       </hsi-ui-textbox>
       <hsi-ui-listbox
-        [labelIsBoxPlaceholder]="true"
+        [useListboxLabelAsBoxPlaceholder]="true"
         (valueChanges)="onSelection($event)"
       >
         <hsi-ui-listbox-label>

@@ -12,7 +12,7 @@
         expand_more
       </span>
     </hsi-ui-textbox>
-    <hsi-ui-ng-form-listbox-single [control]="control">
+    <hsi-ui-listbox [formControl]="control">
       <hsi-ui-listbox-label>
         <span>Select your favorite Pixar movie</span>
       </hsi-ui-listbox-label>
@@ -21,6 +21,6 @@
           option.displayName
         }}</hsi-ui-listbox-option>
       }
-    </hsi-ui-ng-form-listbox-single>
+    </hsi-ui-listbox>
   </hsi-ui-combobox>
 </div>

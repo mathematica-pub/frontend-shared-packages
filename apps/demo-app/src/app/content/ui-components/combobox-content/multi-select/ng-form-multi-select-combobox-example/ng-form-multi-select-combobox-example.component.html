@@ -6,13 +6,13 @@
     <hsi-ui-combobox-label>
       <span>Mathematica Office Locations Combobox</span>
     </hsi-ui-combobox-label>
-    <hsi-ui-textbox>
+    <hsi-ui-textbox [displaySelected]="true">
       <p boxLabel>Select the office locations you've been to!</p>
       <span class="material-symbols-outlined expand-more" boxIcon>
         expand_more
       </span>
     </hsi-ui-textbox>
-    <hsi-ui-ng-form-listbox-multi [control]="control">
+    <hsi-ui-listbox [formControl]="control" [isMultiSelect]="true">
       <hsi-ui-listbox-label>
         <span>Select your favorite Pixar movie</span>
       </hsi-ui-listbox-label>
@@ -27,6 +27,6 @@
           </span>
         </hsi-ui-listbox-option>
       }
-    </hsi-ui-ng-form-listbox-multi>
+    </hsi-ui-listbox>
   </hsi-ui-combobox>
 </div>

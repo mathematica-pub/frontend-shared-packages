@@ -27,14 +27,16 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [displaySelected]="displaySelected">
+      <hsi-ui-textbox
+        [displaySelected]="displaySelected"
+        [countSelectedLabel]="countSelectedLabel"
+      >
         <p boxLabel>Select a fruit, A-E</p>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
       </hsi-ui-textbox>
       <hsi-ui-listbox
-        [countSelectedOptionsLabel]="countSelectedOptionsLabel"
         [isMultiSelect]="true"
         (valueChanges)="onSelection($event)"
       >
@@ -55,7 +57,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 })
 class ComboboxSelectAllMultiSelectTestComponent extends ComboboxBaseTestComponent {
   @Input() displaySelected = false;
-  @Input() countSelectedOptionsLabel = { singular: 'fruit', plural: 'fruits' };
+  @Input() countSelectedLabel = { singular: 'fruit', plural: 'fruits' };
 }
 
 describe('ComboboxSelectAllMultiComponent', () => {
@@ -183,7 +185,6 @@ class ComboboxExternalSelectedTestComponent {
   }
 
   clearValue() {
-    console.log('clearing value');
     this.value.next([]);
   }
 }

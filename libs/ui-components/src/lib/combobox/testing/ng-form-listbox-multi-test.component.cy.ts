@@ -21,7 +21,7 @@ import { scss } from './combobox-testing.constants';
           expand_more
         </span>
       </hsi-ui-textbox>
-      <hsi-ui-ng-form-listbox-multi [control]="control">
+      <hsi-ui-listbox [formControl]="control" [isMultiSelect]="true">
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
@@ -32,7 +32,7 @@ import { scss } from './combobox-testing.constants';
             >{{ option.displayName }}</hsi-ui-listbox-option
           >
         }
-      </hsi-ui-ng-form-listbox-multi>
+      </hsi-ui-listbox>
     </hsi-ui-combobox>
     <button (click)="setSelectAll()" class="super-cool-button-pls-click-me"
       >Set all selected</button

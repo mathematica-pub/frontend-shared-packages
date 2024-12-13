@@ -5,7 +5,7 @@ import {
   ContentChildren,
   QueryList,
 } from '@angular/core';
-import { Observable, map, merge, startWith } from 'rxjs';
+import { Observable, map, startWith } from 'rxjs';
 import { ComboboxService } from '../combobox.service';
 import { ListboxLabelComponent } from '../listbox-label/listbox-label.component';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
@@ -24,10 +24,7 @@ export class ListboxGroupComponent implements AfterContentInit {
   constructor(public service: ComboboxService) {}
 
   ngAfterContentInit(): void {
-    this.options$ = merge(
-      this.options.changes,
-      this.service.optionChanges$
-    ).pipe(
+    this.options$ = this.options.changes.pipe(
       startWith(''),
       map(() => this.options.toArray())
     );
