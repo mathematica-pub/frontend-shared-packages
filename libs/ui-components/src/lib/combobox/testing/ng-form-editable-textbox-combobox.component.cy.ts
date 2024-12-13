@@ -20,7 +20,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
       </hsi-ui-combobox-label>
       <hsi-ui-ng-form-editable-textbox
         placeholder="Select a fruit, A-E"
-        [inputControl]="inputControl"
+        [formControl]="inputControl"
         [autoSelectTrigger]="autoSelectTrigger"
         [autoSelect]="autoSelect"
       >

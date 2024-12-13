@@ -15,7 +15,7 @@ export class NgFormEditableTextboxComponent
 {
   override displaySelected = false;
   @ViewChild('box') boxElRef: ElementRef<HTMLInputElement>;
-  @Input({ required: true }) inputControl: FormControl<string>;
+  @Input({ required: true }) formControl: FormControl<string>;
   override textboxValue: never;
 
   override ngOnInit(): void {
@@ -24,7 +24,7 @@ export class NgFormEditableTextboxComponent
   }
 
   override setInputValue(value: string): void {
-    this.inputControl.setValue(value);
+    this.formControl.setValue(value);
     if (value === '') {
       this.service.emitOptionAction(OptionAction.nullActiveIndex);
     }
@@ -35,7 +35,7 @@ export class NgFormEditableTextboxComponent
   }
 
   setTextboxValueChangeHandling(): void {
-    this.inputControl.valueChanges
+    this.formControl.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
         if (this.autoSelect) {

@@ -1,8 +1,15 @@
-# Combobox Component
+# Combobox
 
-The combobox component is a series of Angular components that work together to create the
-functionality outlined in the
-[W3C Combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/).
+## Overview
+
+HSI UI Components provides a set of Angular components that can be composed to create comboboxes
+with various functionalities.
+
+The HSI UI Components combobox follows the
+[W3C Combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/). When the W3C patterns do
+not cover a functionality, we use the
+[Angular Material Combobox](https://material.angular.io/components/combobox/overview) as a
+reference.
 
 A combobox is composed of the following components:
 
