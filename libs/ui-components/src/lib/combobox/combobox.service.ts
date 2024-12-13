@@ -113,6 +113,8 @@ export class ComboboxService {
   optionAction$ = this.optionAction.asObservable();
   private _visualFocus: BehaviorSubject<VisualFocus> =
     new BehaviorSubject<VisualFocus>(VisualFocus.textbox);
+  private touched: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  touched$ = this.touched.asObservable();
   visualFocus$ = this._visualFocus.asObservable();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private _selectedOptionValues: any[] = [];
@@ -165,6 +167,10 @@ export class ComboboxService {
 
   emitBlurEvent(): void {
     this.blurEvent.next();
+  }
+
+  setTouched(): void {
+    this.touched.next(true);
   }
 
   setVisualFocus(focus: VisualFocus): void {

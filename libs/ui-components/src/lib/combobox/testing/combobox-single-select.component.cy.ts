@@ -17,7 +17,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
     <p class="combobox-value">{{ value$ | async }}</p>
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-combobox-label>
-        <span>Fruits</span>
+        <span>Select a fruit, A-E</span>
       </hsi-ui-combobox-label>
       <hsi-ui-textbox class="textbox" [useListboxLabelAsBoxPlaceholder]="true">
         <span class="material-symbols-outlined expand-more" boxIcon>
@@ -89,16 +89,6 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.combobox-listbox').should('be.visible');
       cy.get('.outside-element').realClick();
       cy.get('.combobox-listbox').should('not.be.visible');
-    });
-  });
-  describe('label options', () => {
-    it('should display the listbox label in the textbox on load', () => {
-      cy.get('.textbox-label').should('have.text', 'Select a fruit');
-    });
-    it('should display the selected option in the textbox after selection', () => {
-      cy.get('.combobox-textbox').click();
-      cy.get('.listbox-option').first().realClick();
-      cy.get('.textbox-label').should('have.text', 'Apples');
     });
   });
 

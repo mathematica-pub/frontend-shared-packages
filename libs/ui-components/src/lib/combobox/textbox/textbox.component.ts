@@ -30,7 +30,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   @Input() ariaLabel?: string;
   @Input() countSelectedLabel?: CountSelectedLabel;
   @Input() customTextboxLabel?: (
-    options: ListboxOptionComponent[],
+    selectedOptions: ListboxOptionComponent[],
     countSelectedLabel?: CountSelectedLabel
   ) => string;
   /*
@@ -118,6 +118,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     if (this.service.isOpen) {
       this.service.closeListbox();
     } else {
+      this.service.setTouched();
       this.service.openListbox();
     }
     this.focusBox();
@@ -127,6 +128,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     if (event.key === 'Escape') {
       this.onEscape();
     } else {
+      this.service.setTouched();
       const action = this.getActionFromKeydownEvent(event);
       this.handleKeyboardAction(action, event);
     }

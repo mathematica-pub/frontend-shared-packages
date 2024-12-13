@@ -56,7 +56,7 @@ and listbox options.
 
 Inputs:
 
-- `displaySelected: boolean`: Determines whether the selection value of the listbox is displayed as
+- `dynamicLabel: boolean`: Determines whether the selection value of the listbox is displayed as
   the Combobox box label. Will override user-specified label if true. Default value is `false`;
 
 Outputs: none
@@ -164,7 +164,7 @@ A component that creates a label/visual representation for an option in the list
 Inputs:
 
 - `boxDisplayLabel: string`: Optional. A separate label to display as a selection in the box, when
-  `ComboboxBoxComponent.displaySelected` is true. Use case: Option labels is the full name of a
+  `ComboboxBoxComponent.dynamicLabel` is true. Use case: Option labels is the full name of a
   state, `boxDisplayLabel` is a state abbreviation. May be used on one or all options. If not
   present, the `innerText` of the projected content will be used. Updating this property dynamically
   will not trigger template updates.

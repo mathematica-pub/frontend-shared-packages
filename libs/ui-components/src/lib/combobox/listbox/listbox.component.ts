@@ -269,16 +269,23 @@ export class ListboxComponent
   setBoxLabel(): void {
     if (this.service.dynamicLabel) {
       combineLatest([
+        this.service.touched$,
         this.allOptions$, // when options (not properties) change
         this.selectedOptionsToEmit$, // when a user clicks
         this.optionPropertyChanges$.pipe(startWith(null)), // on an outside change,
       ])
         .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(([options]) => {
+        .subscribe(([touched, options]) => {
           const selectedOptions = this.getSelectedOptions(options);
           let label = '';
           const numSelected = selectedOptions?.length;
-          if (!numSelected && this.service.useListboxLabelAsBoxPlaceholder) {
+          if (
+            this.service.useListboxLabelAsBoxPlaceholder &&
+            ((!numSelected &&
+              !this.service.countSelectedLabel &&
+              !this.service.customTextboxLabel) ||
+              (!numSelected && !touched))
+          ) {
             label = this.label?.label?.nativeElement.innerText || '';
           } else if (
             this.service.customTextboxLabel &&
