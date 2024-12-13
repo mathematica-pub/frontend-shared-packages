@@ -21,11 +21,6 @@ export function ordinalAxisMixin<
           : formatter(tickFormat)(d);
       });
     }
-
-    postProcessAxisFeatures(): void {
-      this.styleTicks();
-      this.removeAxisFeatures();
-    }
   }
 
   return Mixin;

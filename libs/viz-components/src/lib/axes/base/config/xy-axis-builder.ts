@@ -1,4 +1,5 @@
 import { VicAuxMarksBuilder } from '../../../marks';
+import { GridLinesBuilder } from '../../grid-lines/grid-lines-builder';
 import { TickWrapBuilder } from '../../tick-wrap/tick-wrap-builder';
 
 export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
@@ -11,6 +12,7 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
   protected _tickLabelFontSize: number;
   protected _tickSizeOuter: number;
   protected tickWrapBuilder: TickWrapBuilder;
+  protected gridLinesBuilder: GridLinesBuilder;
 
   /**
    * If true, the default line that D3 creates for the axis will be removed.
@@ -71,6 +73,15 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
   wrapTickText(setProperties: (wrap: TickWrapBuilder) => void): this {
     this.tickWrapBuilder = new TickWrapBuilder();
     setProperties(this.tickWrapBuilder);
+    return this;
+  }
+
+  /**
+   * An object to configure grid lines.
+   */
+  gridLines(setProperties?: (gridLines: GridLinesBuilder) => void): this {
+    this.gridLinesBuilder = new GridLinesBuilder();
+    setProperties?.(this.gridLinesBuilder);
     return this;
   }
 }

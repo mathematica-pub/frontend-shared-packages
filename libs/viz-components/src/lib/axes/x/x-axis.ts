@@ -1,6 +1,5 @@
 import { Directive, Input } from '@angular/core';
 import { axisBottom, axisTop } from 'd3';
-import { Orientation } from '../../core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
@@ -37,10 +36,6 @@ export function xAxisMixin<
 
     setScale(): void {
       this.scale = this.scales.x;
-    }
-
-    setGridLineOrientation(): void {
-      this.gridLineOrientation = Orientation.vertical;
     }
 
     setAxisFunction(): void {

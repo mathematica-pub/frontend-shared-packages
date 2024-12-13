@@ -1,6 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { AxisTimeInterval, format, select, timeFormat } from 'd3';
-import { GenericScale, Orientation } from '../../core';
+import { AxisTimeInterval, format, timeFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { ContinuousValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
@@ -114,58 +113,6 @@ export function quantitativeAxisMixin<
           return numValidTicks;
         }
       }
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getGridLineScale(): GenericScale<any, any> {
-      const scale =
-        this.gridLineOrientation === Orientation.horizontal
-          ? this.scales.x
-          : this.scales.y;
-      return scale;
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getGridLineLength(scale: GenericScale<any, any>): number {
-      return Math.abs(scale.range()[0] - scale.range()[1]);
-    }
-
-    drawGridLines(): void {
-      if (this.config.gridLines) {
-        this.setGridLineOrientation();
-        const gridScale = this.getGridLineScale();
-        const gridLineLength = this.getGridLineLength(gridScale);
-        select(this.axisRef.nativeElement).selectAll('.vic-grid-line').remove();
-        select(this.axisRef.nativeElement)
-          .selectAll('.tick')
-          .clone(true)
-          .attr('class', 'vic-grid-line')
-          .style('display', (_, i) =>
-            this.config.gridLines.display(i) ? null : 'none'
-          )
-          .select('line')
-          .attr(
-            this.gridLineOrientation === Orientation.horizontal ? 'x2' : 'y2',
-            gridLineLength
-          )
-          .attr('stroke', (_, i) => this.config.gridLines.color(i))
-          .attr('stroke-dasharray', this.config.gridLines.stroke.dasharray)
-          .attr('stroke-width', this.config.gridLines.stroke.width)
-          .attr('opacity', this.config.gridLines.stroke.opacity)
-          .attr('stroke-linecap', this.config.gridLines.stroke.linecap)
-          .attr('stroke-linejoin', this.config.gridLines.stroke.linejoin);
-        select(this.axisRef.nativeElement)
-          .selectAll('.vic-grid-line text')
-          .remove();
-      } else {
-        select(this.axisRef.nativeElement).selectAll('.vic-grid-line').remove();
-      }
-    }
-
-    postProcessAxisFeatures(): void {
-      this.styleTicks();
-      this.drawGridLines();
-      this.removeAxisFeatures();
     }
   }
 

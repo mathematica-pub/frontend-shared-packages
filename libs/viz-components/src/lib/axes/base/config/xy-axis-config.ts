@@ -1,3 +1,4 @@
+import { GridLines } from '../../grid-lines/grid-lines-config';
 import { TickWrap } from '../../tick-wrap/tick-wrap-config';
 import { XyAxisBaseOptions } from './xy-axis-options';
 
@@ -13,6 +14,7 @@ export abstract class XyAxisConfig<TickValue>
   tickLabelFontSize: number;
   tickSizeOuter: number;
   wrap: TickWrap;
+  gridLines: GridLines;
 
   abstract getSuggestedNumTicksFromChartDimension(dimensions: {
     height: number;

@@ -2,13 +2,13 @@ import { StrokeBuilder } from '../../stroke/stroke-builder';
 import { GridLines } from './grid-lines-config';
 
 const DEFAULT = {
-  _display: () => true,
+  _filter: () => true,
   _color: () => '#cccccc',
 };
 
 export class GridLinesBuilder {
   private _color: (i: number) => string;
-  private _display: (i: number) => boolean;
+  private _filter: (i: number) => boolean;
   private strokeBuilder: StrokeBuilder;
 
   constructor() {
@@ -27,11 +27,11 @@ export class GridLinesBuilder {
   }
 
   /**
-   * OPTIONAL. Determines whether or not to display grid lines. Can specify a boolean value or a function
+   * OPTIONAL. Determines whether or not to display grid lines. Must specify a function
    *  that takes the index of the grid line and returns a boolean.
    */
-  display(display: boolean | ((i: number) => boolean)) {
-    this._display = typeof display === 'boolean' ? () => display : display;
+  filter(filter: (i: number) => boolean) {
+    this._filter = filter;
     return this;
   }
 
@@ -45,15 +45,16 @@ export class GridLinesBuilder {
   }
 
   private initStrokeBuilder(): void {
-    this.strokeBuilder = new StrokeBuilder();
+    this.strokeBuilder = new StrokeBuilder().width(1);
   }
 
-  _build(): GridLines {
+  _build(axis: 'x' | 'y'): GridLines {
     this.validateBuilder();
     return new GridLines({
       color: this._color,
-      display: this._display,
+      filter: this._filter,
       stroke: this.strokeBuilder._build(),
+      axis: axis,
     });
   }
 

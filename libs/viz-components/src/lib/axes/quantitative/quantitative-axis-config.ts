@@ -4,7 +4,6 @@ import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
 import { XyAxisConfig } from '../base/config/xy-axis-config';
 import { XyAxisBaseOptions } from '../base/config/xy-axis-options';
-import { GridLines } from '../grid-lines/grid-lines-config';
 
 export interface VicQuantitativeAxisOptions<TickValue extends DataValue>
   extends XyAxisBaseOptions<TickValue> {
@@ -33,7 +32,6 @@ export interface VicQuantitativeAxisOptions<TickValue extends DataValue>
    *  [tickFormat]{@link XyAxisConfig.tickFormat} or the default format.
    */
   tickValues: TickValue[];
-  gridLines: GridLines;
 }
 
 export function mixinQuantitativeAxisConfig<
@@ -47,7 +45,6 @@ export function mixinQuantitativeAxisConfig<
   {
     numTicks: number | AxisTimeInterval;
     tickValues: TickValue[];
-    gridLines: GridLines;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(...args: any[]) {

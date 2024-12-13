@@ -1,7 +1,7 @@
 import { Directive, ElementRef, ViewChild } from '@angular/core';
 import { select } from 'd3';
 import { Observable } from 'rxjs';
-import { GenericScale, Orientation } from '../../core';
+import { GenericScale } from '../../core';
 import { DataValue } from '../../core/types/values';
 import { XyAuxMarks } from '../../marks';
 import { SvgTextWrap } from '../../svg-text-wrap/svg-text-wrap';
@@ -28,7 +28,6 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   axis: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
-  gridLineOrientation: Orientation;
 
   abstract getScale(): Observable<XyAxisScale>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,8 +35,6 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   abstract setTranslate(): void;
   abstract setTicks(tickFormat: string | ((value: TickValue) => string)): void;
   abstract setScale(): void;
-  abstract setGridLineOrientation(): void;
-  abstract postProcessAxisFeatures(): void;
 
   override initFromConfig(): void {
     this.drawMarks();
@@ -57,27 +54,66 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     this.setAxisFunction();
     this.setTranslate();
     this.setScale();
-    const transitionDuration = this.getTransitionDuration();
     this.setAxisFromScaleAndConfig();
-    this.drawAxis(transitionDuration);
+    this.drawAxis();
+    this.postProcessAxisFeatures();
   }
 
-  drawAxis(transitionDuration: number): void {
-    const t = select(this.axisRef.nativeElement)
-      .transition()
-      .duration(transitionDuration);
+  drawAxis(): void {
+    const axisGroup = select(this.axisRef.nativeElement).select('.vic-axis');
 
-    select(this.axisRef.nativeElement)
+    axisGroup
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .transition(t as any)
+      .transition(this.getTransition(axisGroup))
       .call(this.axis)
-      .selectAll('*')
-      .on('end', (d, i, nodes) => {
-        const selection = select(nodes[i]);
-        if (selection.classed('tick') && i === nodes.length - 1) {
-          this.postProcessAxisFeatures();
-        }
+      .on('end', () => {
+        this.styleTicks();
       });
+
+    select(this.axisRef.nativeElement).select('.vic-grid-lines').remove();
+
+    if (this.config.gridLines) {
+      this.drawGridLines();
+    }
+  }
+
+  getGridLineLength(): number {
+    const gridLineScale =
+      this.config.gridLines.axis === 'x' ? this.scales.y : this.scales.x;
+    return -1 * Math.abs(gridLineScale.range()[1] - gridLineScale.range()[0]);
+  }
+
+  drawGridLines(): void {
+    const gridLinesGroup = select(this.axisRef.nativeElement)
+      .append('g')
+      .attr('class', 'vic-grid-lines');
+
+    gridLinesGroup
+      .transition(this.getTransition(gridLinesGroup))
+      .call(this.axis.tickSizeInner(this.getGridLineLength()))
+      .selectAll('.tick')
+      .attr('class', 'vic-grid-line')
+      .style('display', (_, i) =>
+        this.config.gridLines.filter(i) ? null : 'none'
+      )
+      .select('line')
+      .attr('stroke', (_, i) => this.config.gridLines.color(i))
+      .attr('stroke-dasharray', this.config.gridLines.stroke.dasharray)
+      .attr('stroke-width', this.config.gridLines.stroke.width)
+      .attr('opacity', this.config.gridLines.stroke.opacity)
+      .attr('stroke-linecap', this.config.gridLines.stroke.linecap)
+      .attr('stroke-linejoin', this.config.gridLines.stroke.linejoin);
+
+    gridLinesGroup.call((g) => {
+      g.selectAll('text').remove();
+      g.selectAll('.domain').remove();
+    });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getTransition(selection: any): any {
+    const transitionDuration = this.getTransitionDuration();
+    return selection.transition().duration(transitionDuration);
   }
 
   styleTicks(): void {
@@ -116,21 +152,16 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     config.wrap(tickTextSelection);
   }
 
-  removeAxisFeatures(): void {
+  postProcessAxisFeatures(): void {
+    const axisGroup = select(this.axisRef.nativeElement).select('.vic-axis');
     if (this.config.removeDomainLine) {
-      select(this.axisRef.nativeElement).call((g) =>
-        g.select('.domain').remove()
-      );
+      axisGroup.call((g) => g.select('.domain').remove());
     }
     if (this.config.removeTicks) {
-      select(this.axisRef.nativeElement).call((g) =>
-        g.selectAll('.tick').remove()
-      );
+      axisGroup.call((g) => g.selectAll('.tick').remove());
     }
     if (this.config.removeTickMarks) {
-      select(this.axisRef.nativeElement).call((g) =>
-        g.selectAll('.tick line').remove()
-      );
+      axisGroup.call((g) => g.selectAll('.tick line').remove());
     }
   }
 }

@@ -1,4 +1,5 @@
 import { MarksOptions } from '../../../marks';
+import { GridLines } from '../../grid-lines/grid-lines-config';
 import { TickWrap } from '../../tick-wrap/tick-wrap-config';
 
 export interface XyAxisBaseOptions<TickValue> extends MarksOptions<never> {
@@ -9,4 +10,5 @@ export interface XyAxisBaseOptions<TickValue> extends MarksOptions<never> {
   tickLabelFontSize: number;
   tickSizeOuter: number;
   wrap: TickWrap;
+  gridLines: GridLines;
 }
