@@ -8,15 +8,15 @@ import { ComboboxModule } from '@hsi/ui-components';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'app-display-multi-selected-combobox-example',
+  selector: 'app-display-count-multi-select-combobox-example',
   standalone: true,
   imports: [CommonModule, ComboboxModule],
-  templateUrl: './display-multi-selected-combobox-example.component.html',
-  styleUrl: './display-multi-selected-combobox-example.component.scss',
+  templateUrl: './display-count-multi-select-combobox-example.component.html',
+  styleUrl: './display-count-multi-select-combobox-example.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class DisplayMultiSelectedComboboxExampleComponent {
+export class DisplayCountMultiSelectComboboxExampleComponent {
   options = [
     { displayName: 'Cambridge', id: 'cambridge' },
     { displayName: 'Washington, D.C.', id: 'dc' },

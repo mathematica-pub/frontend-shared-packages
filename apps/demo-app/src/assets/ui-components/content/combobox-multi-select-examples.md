@@ -6,10 +6,10 @@ This is a simple multi-select combobox.
 simple multi select
 ```
 
-This is a multi-select combobox that displays the selected options in the textbox.
+This is a multi-select combobox that displays a count of selected options in the textbox.
 
 ```custom-angular
-display selected options multi select
+display count multi select
 ```
 
 This is a multi-select combobox that has disabled options.

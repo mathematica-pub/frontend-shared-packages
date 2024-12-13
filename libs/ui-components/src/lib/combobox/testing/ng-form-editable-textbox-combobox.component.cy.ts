@@ -51,7 +51,7 @@ class NgFormEditableTextboxTestComponent
 {
   @Input() autoSelect: boolean;
   @Input() autoSelectTrigger: 'any' | 'character';
-  @Input() displaySelected = false;
+  @Input() dynamicLabel = false;
   @Input() isMultiSelect = false;
   options$: Observable<{ displayName: string; id: string }[]>;
   inputControl = new FormControl('');

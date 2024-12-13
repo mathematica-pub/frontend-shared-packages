@@ -15,7 +15,7 @@ import { scss } from './combobox-testing.constants';
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [displaySelected]="true">
+      <hsi-ui-textbox>
         <p boxLabel>Select a fruit, A-E</p>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more

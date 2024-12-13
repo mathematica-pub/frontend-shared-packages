@@ -18,7 +18,7 @@
   aria-haspopup="listbox"
   [class.open]="service.isOpen$ | async"
   ><div
-    *ngIf="displaySelected && service.boxLabel$ | async; else staticLabel"
+    *ngIf="dynamicLabel && service.boxLabel$ | async; else staticLabel"
     class="textbox-label"
     data-cy="textbox-label"
     >{{ service.boxLabel$ | async }}</div

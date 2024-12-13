@@ -8,15 +8,15 @@ import { ComboboxModule } from '@hsi/ui-components';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'app-display-single-selected-combobox-example',
+  selector: 'app-static-label-single-select-combobox-example',
   standalone: true,
   imports: [CommonModule, ComboboxModule],
-  templateUrl: './display-single-selected-combobox-example.component.html',
-  styleUrl: './display-single-selected-combobox-example.component.scss',
+  templateUrl: './static-label-single-select-combobox-example.component.html',
+  styleUrl: './static-label-single-select-combobox-example.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class DisplaySingleSelectedComboboxExampleComponent {
+export class StaticLabelSingleSelectComboboxExampleComponent {
   options = [
     { displayName: 'Ratatouille', id: 'rat' },
     { displayName: 'Finding Nemo', id: 'nemo' },

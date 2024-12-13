@@ -33,8 +33,21 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     options: ListboxOptionComponent[],
     countSelectedLabel?: CountSelectedLabel
   ) => string;
-  @Input() displaySelected = false;
+  /*
+   * Whether the textbox label responds to selections in any way.
+   *
+   * If true, the textbox label will display the selected option(s) if no other label properties are provided.
+   * @default true
+   */
+  @Input() dynamicLabel = true;
   @Input() findsOptionOnTyping = true;
+  /*
+   * Makes a provided listbox label the placeholder for the textbox when there are no selections and dynamicLabel is true.
+   *
+   * Will have no effect if dynamicLabel is false.
+   *
+   * @default false
+   */
   @Input() useListboxLabelAsBoxPlaceholder = false;
 
   @ViewChild('box') box: ElementRef<HTMLDivElement>;
@@ -48,9 +61,11 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.service.displaySelected = this.displaySelected;
+    this.service.dynamicLabel = this.dynamicLabel;
     this.service.countSelectedLabel = this.countSelectedLabel;
     this.service.customTextboxLabel = this.customTextboxLabel;
+    this.service.useListboxLabelAsBoxPlaceholder =
+      this.useListboxLabelAsBoxPlaceholder;
   }
 
   ngAfterViewInit(): void {

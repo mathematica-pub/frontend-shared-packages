@@ -91,12 +91,13 @@ export class ComboboxService {
     options: ListboxOptionComponent[],
     countSelectedLabel?: CountSelectedLabel
   ) => string;
-  displaySelected = false;
+  dynamicLabel = false;
   ignoreBlur = false;
   isMultiSelect = false;
   nullActiveIdOnClose = false;
   scrollWhenOpened = false;
   shouldAutoSelectOnListboxClose = false;
+  useListboxLabelAsBoxPlaceholder = false;
   activeDescendant$: Observable<string>;
   private blurEvent: Subject<void> = new Subject();
   blurEvent$ = this.blurEvent.asObservable();

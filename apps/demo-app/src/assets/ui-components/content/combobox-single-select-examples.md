@@ -6,10 +6,10 @@ This is a simple single-select combobox.
 simple single select
 ```
 
-This is a single-select combobox that displays the selected option in the textbox.
+This is a single-select combobox with a static textbox label.
 
 ```custom-angular
-display selected option single select
+static label single select
 ```
 
 This is a single-select combobox that has disabled options.

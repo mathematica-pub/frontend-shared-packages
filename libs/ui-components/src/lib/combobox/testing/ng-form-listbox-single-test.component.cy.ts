@@ -13,9 +13,9 @@ import { scss } from './combobox-testing.constants';
     <p class="display-control-value">{{ control.value }}</p>
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-combobox-label>
-        <span>Fruits</span>
+        <span>Select a fruit</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [displaySelected]="true">
+      <hsi-ui-textbox>
         <p boxLabel>Select a fruit, A-E</p>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more

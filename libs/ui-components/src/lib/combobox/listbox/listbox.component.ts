@@ -73,7 +73,6 @@ export class ListboxComponent
   @Input() findsOptionOnTyping = true;
   @Input() isMultiSelect = false;
   @Input() maxHeight = 300;
-  @Input() useListboxLabelAsBoxPlaceholder = false;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Output() valueChanges = new EventEmitter<any | any[]>();
   @ViewChild('scrollContent') scrollContentRef: ElementRef<HTMLDivElement>;
@@ -268,7 +267,7 @@ export class ListboxComponent
   }
 
   setBoxLabel(): void {
-    if (this.service.displaySelected) {
+    if (this.service.dynamicLabel) {
       combineLatest([
         this.allOptions$, // when options (not properties) change
         this.selectedOptionsToEmit$, // when a user clicks
@@ -279,7 +278,7 @@ export class ListboxComponent
           const selectedOptions = this.getSelectedOptions(options);
           let label = '';
           const numSelected = selectedOptions?.length;
-          if (!numSelected && this.useListboxLabelAsBoxPlaceholder) {
+          if (!numSelected && this.service.useListboxLabelAsBoxPlaceholder) {
             label = this.label?.label?.nativeElement.innerText || '';
           } else if (
             this.service.customTextboxLabel &&

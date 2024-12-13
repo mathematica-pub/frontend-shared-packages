@@ -28,7 +28,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
         <span>Fruits</span>
       </hsi-ui-combobox-label>
       <hsi-ui-textbox
-        [displaySelected]="displaySelected"
+        [dynamicLabel]="dynamicLabel"
         [countSelectedLabel]="countSelectedLabel"
       >
         <p boxLabel>Select a fruit, A-E</p>
@@ -56,7 +56,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
   styles: [scss],
 })
 class ComboboxSelectAllMultiSelectTestComponent extends ComboboxBaseTestComponent {
-  @Input() displaySelected = false;
+  @Input() dynamicLabel = false;
   @Input() countSelectedLabel = { singular: 'fruit', plural: 'fruits' };
 }
 
@@ -66,7 +66,7 @@ describe('ComboboxSelectAllMultiComponent', () => {
       cy.mount(ComboboxSelectAllMultiSelectTestComponent, {
         declarations: [ComboboxSelectAllMultiSelectTestComponent],
         imports: [ComboboxModule, MatIconModule],
-        componentProperties: { displaySelected: true },
+        componentProperties: { dynamicLabel: true },
       });
     });
     it('correctly selects and deselects options when toggled', () => {
@@ -120,7 +120,7 @@ describe('ComboboxSelectAllMultiComponent', () => {
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [displaySelected]="displaySelected">
+      <hsi-ui-textbox [dynamicLabel]="dynamicLabel">
         <p boxLabel>Select a fruit, A-E</p>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
@@ -149,7 +149,7 @@ describe('ComboboxSelectAllMultiComponent', () => {
   styles: [scss],
 })
 class ComboboxExternalSelectedTestComponent {
-  @Input() displaySelected = false;
+  @Input() dynamicLabel = false;
   options = [
     { displayName: 'Apples', id: 'appl' },
     { displayName: 'Bananas', id: 'bana' },
@@ -194,7 +194,7 @@ describe('ComboboxExternalSelectedTestComponent', () => {
     cy.mount(ComboboxExternalSelectedTestComponent, {
       declarations: [ComboboxExternalSelectedTestComponent],
       imports: [ComboboxModule, MatIconModule],
-      componentProperties: { displaySelected: true },
+      componentProperties: { dynamicLabel: true },
     });
   });
 
@@ -267,7 +267,7 @@ describe('ComboboxExternalSelectedTestComponent', () => {
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [displaySelected]="displaySelected">
+      <hsi-ui-textbox [dynamicLabel]="dynamicLabel">
         <p boxLabel>Select a fruit, A-E</p>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
@@ -296,7 +296,7 @@ describe('ComboboxExternalSelectedTestComponent', () => {
   styles: [scss],
 })
 class ComboboxExternalDisableTestComponent {
-  @Input() displaySelected = false;
+  @Input() dynamicLabel = false;
   options = [
     { displayName: 'Apples', id: 'appl' },
     { displayName: 'Bananas', id: 'bana' },
@@ -332,7 +332,7 @@ describe('ComboboxExternalDisableTestComponent', () => {
     cy.mount(ComboboxExternalDisableTestComponent, {
       declarations: [ComboboxExternalDisableTestComponent],
       imports: [ComboboxModule, MatIconModule],
-      componentProperties: { displaySelected: true },
+      componentProperties: { dynamicLabel: true },
     });
   });
 

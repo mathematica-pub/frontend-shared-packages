@@ -13,7 +13,7 @@ export class NgFormEditableTextboxComponent
   extends EditableTextboxComponent
   implements OnInit
 {
-  override displaySelected = false;
+  override dynamicLabel = false;
   @ViewChild('box') boxElRef: ElementRef<HTMLInputElement>;
   @Input({ required: true }) formControl: FormControl<string>;
   override textboxValue: never;
