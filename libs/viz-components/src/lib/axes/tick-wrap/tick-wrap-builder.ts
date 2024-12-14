@@ -32,7 +32,9 @@ export class TickWrapBuilder {
       | 'bandwidth'
       | number
       | ((chartWidth: number, numOfTicks: number) => number)
+      | null
   ) {
+    if (wrapWidth === null) return this;
     this._wrapWidth = wrapWidth;
     return this;
   }
