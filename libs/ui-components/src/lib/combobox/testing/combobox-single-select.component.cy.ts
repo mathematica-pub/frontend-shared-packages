@@ -14,6 +14,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
     <p class="outside-element"
       >Throwaway element to click on for outside combobox click</p
     >
+    <p class="combobox-value">{{ value$ | async }}</p>
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-combobox-label>
         <span>Fruits</span>
@@ -30,12 +31,13 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option *ngFor="let option of options">{{
-          option.displayName
-        }}</hsi-ui-listbox-option>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
       </hsi-ui-listbox>
     </hsi-ui-combobox>
-    <p class="combobox-value">{{ value$ | async }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
@@ -233,6 +235,7 @@ describe('ComboboxSingleTestNoDisplaySelectedComponent', () => {
     <p class="outside-element"
       >Throwaway element to click on for outside combobox click</p
     >
+    <p class="combobox-value">{{ value$ | async }}</p>
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-combobox-label>
         <span>Fruits</span>
@@ -249,14 +252,13 @@ describe('ComboboxSingleTestNoDisplaySelectedComponent', () => {
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option
-          *ngFor="let option of options"
-          [disabled]="option.displayName.length > 7"
-          >{{ option.displayName }}</hsi-ui-listbox-option
-        >
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option [disabled]="option.displayName.length > 7">{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
       </hsi-ui-listbox>
     </hsi-ui-combobox>
-    <p class="combobox-value">{{ value$ | async }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
@@ -289,6 +291,7 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
     <p class="outside-element"
       >Outside element to click on for outside combobox click</p
     >
+    <p class="combobox-value">{{ value$ | async }}</p>
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-combobox-label>
         <span>Fruits</span>
@@ -305,14 +308,14 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option
-          *ngFor="let option of options; let i = index"
-          [selected]="i === 2"
-          >{{ option.displayName }}</hsi-ui-listbox-option
-        >
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option
+            [selected]="option.displayName === 'Coconuts'"
+            >{{ option.displayName }}</hsi-ui-listbox-option
+          >
+        }
       </hsi-ui-listbox>
     </hsi-ui-combobox>
-    <p class="combobox-value">{{ value$ | async }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
