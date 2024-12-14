@@ -9,8 +9,8 @@ export abstract class XyAxisConfig<TickValue>
   label: AxisLabel;
   mixBlendMode: string;
   removeDomainLine: boolean;
+  removeTickLabels: boolean;
   removeTickMarks: boolean;
-  removeTicks: boolean;
   tickFormat: string | ((value: TickValue) => string);
   tickLabelFontSize: number;
   tickSizeOuter: number;

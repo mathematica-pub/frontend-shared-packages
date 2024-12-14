@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
-  DotsConfig,
+  BarsConfig,
   ElementSpacing,
+  VicBarsConfigBuilder,
+  VicBarsModule,
   VicChartModule,
-  VicDotsConfigBuilder,
-  VicDotsModule,
   VicOrdinalAxisConfig,
   VicQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
@@ -21,33 +21,33 @@ import {
 } from '../../data/location-category-data';
 
 interface ViewModel {
-  dataConfig: DotsConfig<LocationCategoryDatum>;
+  dataConfig: BarsConfig<LocationCategoryDatum, string>;
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<number>;
 }
 
 @Component({
-  selector: 'app-dots-ordinal-quant-example',
+  selector: 'app-bars-simple-states-example',
   standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
-    VicDotsModule,
+    VicBarsModule,
     VicXyChartModule,
     VicXyBackgroundModule,
     VicXQuantitativeAxisModule,
     VicYOrdinalAxisModule,
   ],
-  templateUrl: './dots-ordinal-quant-example.component.html',
-  styleUrl: './dots-ordinal-quant-example.component.scss',
+  templateUrl: './bars-simple-states-example.component.html',
+  styleUrl: './bars-simple-states-example.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    VicDotsConfigBuilder,
+    VicBarsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
   ],
 })
-export class DotsOrdinalQuantExampleComponent implements OnInit {
+export class BarsSimpleStatesExampleComponent implements OnInit {
   vm: ViewModel;
   margin: ElementSpacing = {
     top: 0,
@@ -57,7 +57,7 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
   };
 
   constructor(
-    private dots: VicDotsConfigBuilder<LocationCategoryDatum>,
+    private bars: VicBarsConfigBuilder<LocationCategoryDatum, string>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<number>
   ) {}
@@ -69,29 +69,34 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
   getViewModel(): void {
     const xAxisConfig = this.xQuantitativeAxis
       .tickFormat('.0%')
-      .removeDomainLine()
-      .removeTickMarks()
       .numTicks(5)
+      .label((label) =>
+        label.text('Percentage of Population').offset({ y: 12 })
+      )
       .getConfig();
+
     const yAxisConfig = this.yOrdinalAxis
       .removeDomainLine()
       .removeTickMarks()
       .getConfig();
 
-    const dataConfig = this.dots
-      .data(statesElectionData)
-      .opacity(0.8)
-      .xNumeric((x) =>
-        x
-          .valueAccessor((d) => d.value)
-          .domain([0.42, 0.52])
-          .includeZeroInDomain(false)
+    const dataConfig = this.bars
+      .data(
+        statesElectionData
+          .filter((d) => d.category === 'D')
+          .slice()
+          .sort((a, b) => b.value - a.value)
       )
-      .yOrdinal((y) => y.valueAccessor((d) => d.location))
-      .fillCategorical((fill) =>
-        fill.valueAccessor((d) => d.category).range(['royalblue', 'red'])
+      .horizontal((bars) =>
+        bars
+          .x((x) =>
+            x
+              .valueAccessor((d) => d.value)
+              .domainPaddingRoundUpToInterval(() => 0.2)
+          )
+          .y((y) => y.valueAccessor((d) => d.location))
       )
-      .radius(5)
+      .color((color) => color.range(['royalblue']))
       .getConfig();
 
     this.vm = {

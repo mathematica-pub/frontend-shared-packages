@@ -1,0 +1,40 @@
+@use 'functions' as *;
+
+.axes-content-container {
+  .main-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .small-examples-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: grid(10);
+    align-items: flex-end;
+    align-self: center;
+    padding-bottom: grid(4);
+  }
+
+  .two-quant {
+    transform: translateX(24px);
+  }
+
+  .one-ord-one-quant {
+    transform: translateX(80px);
+  }
+
+  .example-title {
+    font-size: 13px;
+    padding-bottom: grid(1);
+  }
+
+  .dots-example .vic-chart-svg > g:nth-child(2),
+  .dots-example .vic-chart-svg > g:nth-child(5) {
+    display: none;
+  }
+
+  .bars-simple-states-example .vic-chart-svg > g:nth-child(2),
+  .bars-simple-states-example .vic-chart-svg > g:nth-child(5) {
+    display: none;
+  }
+}

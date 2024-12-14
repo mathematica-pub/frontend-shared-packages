@@ -1,0 +1,22 @@
+<app-content-container class="axes-content-container">
+  <ng-template let-section #customAngular>
+    @switch (section.content.trim()) {
+      @case ('small examples') {
+        <div class="small-examples-container">
+          <div class="example">
+            <p class="example-title two-quant">Quantitative X and Y axes</p>
+            <app-dots-scatterplot-example
+              [axisLabels]="true"
+            ></app-dots-scatterplot-example>
+          </div>
+          <div class="example">
+            <p class="example-title one-ord-one-quant"
+              >Quantitative X axis / Ordinal Y axis</p
+            >
+            <app-bars-simple-states-example></app-bars-simple-states-example>
+          </div>
+        </div>
+      }
+    }
+  </ng-template>
+</app-content-container>

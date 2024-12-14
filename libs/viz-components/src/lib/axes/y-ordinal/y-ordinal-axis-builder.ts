@@ -5,6 +5,7 @@ import { YOrdinalAxisConfig } from './y-ordinal-axis-config';
 
 const DEFAULT = {
   _side: 'left',
+  _tickSizeOuter: 0,
 };
 
 @Injectable()
@@ -28,8 +29,8 @@ export class VicYOrdinalAxisConfigBuilder<
       label: this.labelBuilder?.build('y'),
       mixBlendMode: this._mixBlendMode,
       removeDomainLine: this._removeDomainLine,
+      removeTickLabels: this._removeTickLabels,
       removeTickMarks: this._removeTickMarks,
-      removeTicks: this._removeTicks,
       side: this._side,
       tickFormat: this._tickFormat,
       tickLabelFontSize: this._tickLabelFontSize,

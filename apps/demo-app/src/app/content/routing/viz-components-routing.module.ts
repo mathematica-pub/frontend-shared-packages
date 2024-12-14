@@ -10,7 +10,7 @@ const routes = [
       ).then((m) => m.OverviewContentComponent),
   },
   {
-    path: 'primary-marks-examples',
+    path: 'primary-marks',
     children: [
       {
         path: 'bars',
@@ -60,6 +60,18 @@ const routes = [
           import(
             '../viz-components/stacked-bars-content/stacked-bars-content.component'
           ).then((m) => m.StackedBarsContentComponent),
+      },
+    ],
+  },
+  {
+    path: 'aux-marks',
+    children: [
+      {
+        path: 'axes',
+        loadComponent: () =>
+          import('../viz-components/axes-content/axes-content.component').then(
+            (m) => m.AxesContentComponent
+          ),
       },
     ],
   },
