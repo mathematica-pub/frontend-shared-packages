@@ -25,12 +25,13 @@ import { scss } from './combobox-testing.constants';
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option
-          *ngFor="let option of options"
-          [selected]="control.value.includes(option.id)"
-          [value]="option.id"
-          >{{ option.displayName }}</hsi-ui-listbox-option
-        >
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option
+            [selected]="control.value.includes(option.id)"
+            [value]="option.id"
+            >{{ option.displayName }}</hsi-ui-listbox-option
+          >
+        }
       </hsi-ui-ng-form-listbox-multi>
     </hsi-ui-combobox>
     <button (click)="setSelectAll()" class="super-cool-button-pls-click-me"
