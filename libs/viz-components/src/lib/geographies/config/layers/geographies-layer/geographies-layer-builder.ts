@@ -56,12 +56,16 @@ export abstract class GeographiesLayerBuilder<
    * OPTIONAL. Creates a configuration object for labels that will be drawn on the geographies.
    */
   labels(
-    setProperties: (
-      builder: GeographiesLabelsBuilder<TProperties, TGeometry>
-    ) => void
+    labels:
+      | ((labels: GeographiesLabelsBuilder<TProperties, TGeometry>) => void)
+      | null
   ): this {
+    if (labels === null) {
+      this.labelsBuilder = undefined;
+      return this;
+    }
     this.labelsBuilder = new GeographiesLabelsBuilder();
-    setProperties(this.labelsBuilder);
+    labels(this.labelsBuilder);
     return this;
   }
 

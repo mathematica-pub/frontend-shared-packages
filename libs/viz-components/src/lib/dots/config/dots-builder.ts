@@ -32,12 +32,22 @@ export class VicDotsConfigBuilder<
     string
   >;
   private fillBuilderNumber: NumberVisualValueDimensionBuilder<Datum, string>;
+  private fillBuilderConst: OrdinalVisualValueDimensionBuilder<
+    Datum,
+    string,
+    string
+  >;
   private radiusBuilderCategorical: OrdinalVisualValueDimensionBuilder<
     Datum,
     string,
     number
   >;
   private radiusBuilderNumber: NumberVisualValueDimensionBuilder<Datum, number>;
+  private radiusBuilderConst: OrdinalVisualValueDimensionBuilder<
+    Datum,
+    string,
+    number
+  >;
   private strokeBuilder: StrokeBuilder;
   private xBuilderNumeric: NumberChartPositionDimensionBuilder<Datum>;
   private xBuilderDate: DateChartPositionDimensionBuilder<Datum>;
@@ -80,27 +90,39 @@ export class VicDotsConfigBuilder<
   }
 
   /**
-   * OPTIONAL. Sets the appearance of the fill for the dots.
+   * OPTIONAL. Sets the appearance of the fill for the dots using a color string.
    *
    * If a string is passed, it will be used as the color for all dots.
    *
-   * Otherwise the user can pass a function that will set the properties of the fill.
-   *
    * @default 'schemeTableau10[0]'
    */
-  fill(fill: string): this {
-    this.initFillBuilderCategorical();
-    this.fillBuilderCategorical.valueAccessor(() => '').range([fill]);
+  fill(fill: string | null): this {
+    if (fill === null) {
+      this.fillBuilderConst = undefined;
+      return this;
+    }
+    this.fillBuilderConst = new OrdinalVisualValueDimensionBuilder();
+    this.fillBuilderConst.valueAccessor(() => '').range([fill]);
     return this;
   }
 
+  /**
+   * OPTIONAL. Sets the appearance of the fill for the dots using a categorical dimension.
+   *
+   */
   fillCategorical(
-    setProperties: (
-      fill: OrdinalVisualValueDimensionBuilder<Datum, string, string>
-    ) => void
+    fill:
+      | ((
+          fill: OrdinalVisualValueDimensionBuilder<Datum, string, string>
+        ) => void)
+      | null
   ): this {
+    if (fill === null) {
+      this.fillBuilderCategorical = undefined;
+      return this;
+    }
     this.initFillBuilderCategorical();
-    setProperties(this.fillBuilderCategorical);
+    fill(this.fillBuilderCategorical);
     return this;
   }
 
@@ -109,12 +131,16 @@ export class VicDotsConfigBuilder<
   }
 
   fillNumeric(
-    setProperties: (
-      fill: NumberVisualValueDimensionBuilder<Datum, string>
-    ) => void
+    fill:
+      | ((fill: NumberVisualValueDimensionBuilder<Datum, string>) => void)
+      | null
   ): this {
+    if (fill === null) {
+      this.fillBuilderNumber = undefined;
+      return this;
+    }
     this.initFillBuilderNumber();
-    setProperties(this.fillBuilderNumber);
+    fill(this.fillBuilderNumber);
     return this;
   }
 
@@ -141,46 +167,56 @@ export class VicDotsConfigBuilder<
    *
    * @default 2
    */
-  radius(radius: number): this {
-    this.initRadiusBuilderCategorical();
-    this.radiusBuilderCategorical.range([radius]);
+  radius(radius: number | null): this {
+    if (radius === null) {
+      this.radiusBuilderConst = undefined;
+      return this;
+    }
+    this.radiusBuilderConst = new OrdinalVisualValueDimensionBuilder();
+    this.radiusBuilderConst.range([radius]);
     return this;
   }
 
   radiusCategorical(
-    setProperties: (
-      radius: OrdinalVisualValueDimensionBuilder<Datum, string, number>
-    ) => void
+    radius:
+      | ((
+          radius: OrdinalVisualValueDimensionBuilder<Datum, string, number>
+        ) => void)
+      | null
   ): this {
-    this.initRadiusBuilderCategorical();
-    setProperties(this.radiusBuilderCategorical);
-    return this;
-  }
-
-  private initRadiusBuilderCategorical(): void {
+    if (radius === null) {
+      this.radiusBuilderCategorical = undefined;
+      return this;
+    }
     this.radiusBuilderCategorical = new OrdinalVisualValueDimensionBuilder();
+    radius(this.radiusBuilderCategorical);
+    return this;
   }
 
   radiusNumeric(
-    setProperties: (
+    radius: (
       radius: NumberVisualValueDimensionBuilder<Datum, number>
-    ) => void
+    ) => void | null
   ): this {
-    this.initRadiusBuilderNumber();
-    setProperties(this.radiusBuilderNumber);
-    return this;
-  }
-
-  private initRadiusBuilderNumber(): void {
+    if (radius === null) {
+      this.radiusBuilderNumber = undefined;
+      return this;
+    }
     this.radiusBuilderNumber = new NumberVisualValueDimensionBuilder();
+    radius(this.radiusBuilderNumber);
+    return this;
   }
 
   /**
    * OPTIONAL. Sets the appearance of the stroke for the dots.
    */
-  stroke(setProperties?: (stroke: StrokeBuilder) => void): this {
+  stroke(stroke: ((stroke: StrokeBuilder) => void) | null): this {
+    if (stroke === null) {
+      this.strokeBuilder = undefined;
+      return this;
+    }
     this.initStrokeBuilder();
-    setProperties?.(this.strokeBuilder);
+    stroke(this.strokeBuilder);
     return this;
   }
 
@@ -191,11 +227,13 @@ export class VicDotsConfigBuilder<
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
-  xDate(
-    setProperties: (dimension: DateChartPositionDimensionBuilder<Datum>) => void
-  ): this {
+  xDate(x: (x: DateChartPositionDimensionBuilder<Datum>) => void): this {
+    if (x === null) {
+      this.xBuilderDate = undefined;
+      return this;
+    }
     this.xBuilderDate = new DateChartPositionDimensionBuilder<Datum>();
-    setProperties(this.xBuilderDate);
+    x(this.xBuilderDate);
     return this;
   }
 
@@ -203,12 +241,14 @@ export class VicDotsConfigBuilder<
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
   xNumeric(
-    setProperties: (
-      dimension: NumberChartPositionDimensionBuilder<Datum>
-    ) => void
+    x: ((x: NumberChartPositionDimensionBuilder<Datum>) => void) | null
   ): this {
+    if (x === null) {
+      this.xBuilderNumeric = undefined;
+      return this;
+    }
     this.xBuilderNumeric = new NumberChartPositionDimensionBuilder<Datum>();
-    setProperties(this.xBuilderNumeric);
+    x(this.xBuilderNumeric);
     return this;
   }
 
@@ -216,15 +256,21 @@ export class VicDotsConfigBuilder<
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
   xOrdinal(
-    setProperties: (
-      dimension: OrdinalChartPositionDimensionBuilder<Datum, XOrdinalDomain>
-    ) => void
+    x:
+      | ((
+          x: OrdinalChartPositionDimensionBuilder<Datum, XOrdinalDomain>
+        ) => void)
+      | null
   ): this {
+    if (x === null) {
+      this.xBuilderDate = undefined;
+      return this;
+    }
     this.xBuilderOrdinal = new OrdinalChartPositionDimensionBuilder<
       Datum,
       XOrdinalDomain
     >();
-    setProperties(this.xBuilderOrdinal);
+    x(this.xBuilderOrdinal);
     return this;
   }
 
@@ -232,10 +278,14 @@ export class VicDotsConfigBuilder<
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
   yDate(
-    setProperties: (dimension: DateChartPositionDimensionBuilder<Datum>) => void
+    y: ((y: DateChartPositionDimensionBuilder<Datum>) => void) | null
   ): this {
+    if (y === null) {
+      this.yBuilderDate = undefined;
+      return this;
+    }
     this.yBuilderDate = new DateChartPositionDimensionBuilder<Datum>();
-    setProperties(this.yBuilderDate);
+    y(this.yBuilderDate);
     return this;
   }
 
@@ -243,12 +293,14 @@ export class VicDotsConfigBuilder<
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
   yNumeric(
-    setProperties: (
-      dimension: NumberChartPositionDimensionBuilder<Datum>
-    ) => void
+    y: ((y: NumberChartPositionDimensionBuilder<Datum>) => void) | null
   ): this {
+    if (y === null) {
+      this.yBuilderNumeric = undefined;
+      return this;
+    }
     this.yBuilderNumeric = new NumberChartPositionDimensionBuilder<Datum>();
-    setProperties(this.yBuilderNumeric);
+    y(this.yBuilderNumeric);
     return this;
   }
 
@@ -256,15 +308,21 @@ export class VicDotsConfigBuilder<
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
   yOrdinal(
-    setProperties: (
-      dimension: OrdinalChartPositionDimensionBuilder<Datum, YOrdinalDomain>
-    ) => void
+    y:
+      | ((
+          y: OrdinalChartPositionDimensionBuilder<Datum, YOrdinalDomain>
+        ) => void)
+      | null
   ): this {
+    if (y === null) {
+      this.yBuilderOrdinal = undefined;
+      return this;
+    }
     this.yBuilderOrdinal = new OrdinalChartPositionDimensionBuilder<
       Datum,
       YOrdinalDomain
     >();
-    setProperties(this.yBuilderOrdinal);
+    y(this.yBuilderOrdinal);
     return this;
   }
 
@@ -279,18 +337,20 @@ export class VicDotsConfigBuilder<
     const radiusName = 'Dots Radius';
     const xName = 'Dots X';
     const yName = 'Dots Y';
+    const fillBuilder = this.fillBuilderCategorical
+      ? this.fillBuilderCategorical
+      : this.fillBuilderNumber || this.fillBuilderConst;
+    const radiusBuilder = this.radiusBuilderCategorical
+      ? this.radiusBuilderCategorical
+      : this.radiusBuilderNumber || this.radiusBuilderConst;
     return new DotsConfig<Datum, XOrdinalDomain, YOrdinalDomain>({
       data: this._data,
-      fill: this.fillBuilderCategorical
-        ? this.fillBuilderCategorical._build(fillName)
-        : this.fillBuilderNumber._build(fillName),
+      fill: fillBuilder._build(fillName),
       key: this._key,
       mixBlendMode: this._mixBlendMode,
       opacity: this._opacity,
       pointerDetectionRadius: this._pointerDetectionRadius,
-      radius: this.radiusBuilderCategorical
-        ? this.radiusBuilderCategorical._build(radiusName)
-        : this.radiusBuilderNumber._build(radiusName),
+      radius: radiusBuilder._build(radiusName),
       stroke: this.strokeBuilder?._build(),
       x: this.xBuilderDate
         ? this.xBuilderDate._build(xName)
@@ -307,28 +367,38 @@ export class VicDotsConfigBuilder<
 
   protected override validateBuilder(): void {
     super.validateBuilder('Lines');
-    if (
-      this.fillBuilderCategorical === undefined &&
-      this.fillBuilderNumber === undefined
-    ) {
+    const fillBuilders = [
+      this.fillBuilderCategorical,
+      this.fillBuilderNumber,
+      this.fillBuilderConst,
+    ];
+    const numFillBuilders = fillBuilders.filter(
+      (builder) => builder !== undefined
+    ).length;
+    if (numFillBuilders === 0) {
       this.fillBuilderCategorical = new OrdinalVisualValueDimensionBuilder();
       this.fillBuilderCategorical.range([schemeTableau10[0]]);
     }
-    if (this.fillBuilderCategorical && this.fillBuilderNumber) {
+    if (numFillBuilders > 1) {
       throw new Error(
-        'Dots Builder: Fill can only be set for ordinal or number data, not both.'
+        `Dots Builder: Only one fill method can be called with a truthy value. Curently ${numFillBuilders} are called.`
       );
     }
-    if (
-      this.radiusBuilderCategorical === undefined &&
-      this.radiusBuilderNumber === undefined
-    ) {
+    const radiusBuilders = [
+      this.radiusBuilderCategorical,
+      this.radiusBuilderNumber,
+      this.radiusBuilderConst,
+    ];
+    const numRadiusBuilders = radiusBuilders.filter(
+      (builder) => builder !== undefined
+    ).length;
+    if (numRadiusBuilders === 0) {
       this.radiusBuilderCategorical = new OrdinalVisualValueDimensionBuilder();
       this.radiusBuilderCategorical.range([2]);
     }
-    if (this.radiusBuilderCategorical && this.radiusBuilderNumber) {
+    if (numRadiusBuilders > 1) {
       throw new Error(
-        'Dots Builder: Radius can only be set for ordinal or number data, not both.'
+        `Dots Builder: Only one radius method can be called with a truthy value. Curently ${numRadiusBuilders} are called.`
       );
     }
     if (

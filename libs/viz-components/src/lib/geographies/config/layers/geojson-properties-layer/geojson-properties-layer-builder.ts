@@ -6,7 +6,6 @@ import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-
 import { GeographiesGeojsonPropertiesLayer } from './geojson-properties-layer';
 
 const DEFAULT = {
-  _fill: 'none',
   _enableEventActions: false,
 };
 
@@ -29,29 +28,36 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
   }
 
   /**
-   * OPTIONAL: Set a fill color for all geographies in the layer.
+   * OPTIONAL: Set a fill color or function that yields a color for all geographies in the layer.
    *
-   * To set a fill color based on a geography's geojson properties, use the `fillGeojsonProperties` method.
+   * If a string is provided, all geographies will be filled with that color.
    *
-   * @default 'none'
+   * Otherwise, you can use this method to specify how each geography should be filled based on the properties of the geojson feature.
    */
-  fill(fill: string): this {
-    this.initFillBuilder();
-    this.fillBuilder.valueAccessor(() => null).range([fill]);
-    return this;
-  }
-
-  fillGeojsonProperties(
-    setProperties: (
-      builder: OrdinalVisualValueDimensionBuilder<
-        GeographiesFeature<TProperties, TGeometry>,
-        string,
-        string
-      >
-    ) => void
+  fill(
+    fill:
+      | string
+      | (
+          | ((
+              fill: OrdinalVisualValueDimensionBuilder<
+                GeographiesFeature<TProperties, TGeometry>,
+                string,
+                string
+              >
+            ) => void)
+          | null
+        )
   ): this {
     this.initFillBuilder();
-    setProperties(this.fillBuilder);
+    if (fill === null) {
+      this.fillBuilder.valueAccessor(() => null).range(['None']);
+      return this;
+    }
+    if (typeof fill === 'string') {
+      this.fillBuilder.valueAccessor(() => null).range([fill]);
+    } else {
+      fill(this.fillBuilder);
+    }
     return this;
   }
 

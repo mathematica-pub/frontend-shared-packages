@@ -94,19 +94,27 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    * Creating this config will create markers on lines.
    */
   pointMarkers(
-    setProperties?: (pointMarkers: PointMarkersBuilder<Datum>) => void
+    pointMarkers: ((pointMarkers: PointMarkersBuilder<Datum>) => void) | null
   ): this {
+    if (pointMarkers === null) {
+      this.pointMarkersBuilder = undefined;
+      return this;
+    }
     this.pointMarkersBuilder = new PointMarkersBuilder();
-    setProperties?.(this.pointMarkersBuilder);
+    pointMarkers(this.pointMarkersBuilder);
     return this;
   }
 
   /**
    * OPTIONAL. A config for the behavior of the line stroke.
    */
-  stroke(setProperties?: (stroke: LinesStrokeBuilder<Datum>) => void): this {
+  stroke(stroke: ((stroke: LinesStrokeBuilder<Datum>) => void) | null): this {
+    if (stroke === null) {
+      this.strokeBuilder = undefined;
+      return this;
+    }
     this.initStrokeBuilder();
-    setProperties?.(this.strokeBuilder);
+    stroke(this.strokeBuilder);
     return this;
   }
 
@@ -118,12 +126,14 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
   xNumeric(
-    setProperties: (
-      dimension: NumberChartPositionDimensionBuilder<Datum>
-    ) => void
+    x: ((x: NumberChartPositionDimensionBuilder<Datum>) => void) | null
   ): this {
+    if (x === null) {
+      this.xDimensionBuilder = undefined;
+      return this;
+    }
     this.xDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
-    setProperties(this.xDimensionBuilder);
+    x(this.xDimensionBuilder);
     return this;
   }
 
@@ -131,23 +141,27 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    * REQUIRED. A config for the behavior of the chart's x dimension when using Date date.
    */
   xDate(
-    setProperties: (dimension: DateChartPositionDimensionBuilder<Datum>) => void
+    x: ((x: DateChartPositionDimensionBuilder<Datum>) => void) | null
   ): this {
+    if (x === null) {
+      this.xDimensionBuilder = undefined;
+      return this;
+    }
     this.xDimensionBuilder = new DateChartPositionDimensionBuilder<Datum>();
-    setProperties(this.xDimensionBuilder);
+    x(this.xDimensionBuilder);
     return this;
   }
 
   /**
    * REQUIRED. A config for the behavior of the chart's y dimension.
    */
-  y(
-    setProperties: (
-      dimension: NumberChartPositionDimensionBuilder<Datum>
-    ) => void
-  ): this {
+  y(y: ((y: NumberChartPositionDimensionBuilder<Datum>) => void) | null): this {
+    if (y === null) {
+      this.yDimensionBuilder = undefined;
+      return this;
+    }
     this.yDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
-    setProperties(this.yDimensionBuilder);
+    y(this.yDimensionBuilder);
     return this;
   }
 
@@ -156,10 +170,14 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    *
    */
   areaFills(
-    setProperties?: (areaFills: AreaFillsBuilder<Datum>) => void
+    areaFills: ((areaFills: AreaFillsBuilder<Datum>) => void) | null
   ): this {
+    if (areaFills === null) {
+      this.areaFillsBuilder = undefined;
+      return this;
+    }
     this.initBelowLinesAreaFillBuilder();
-    setProperties?.(this.areaFillsBuilder);
+    areaFills(this.areaFillsBuilder);
     return this;
   }
 

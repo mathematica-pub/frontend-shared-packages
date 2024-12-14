@@ -50,7 +50,11 @@ export class BarsLabelsBuilder<Datum> {
    *
    * @default (d: Datum) => 'N/A'
    */
-  noValueFunction(noValueFunction: (d: Datum) => string): this {
+  noValueFunction(noValueFunction: ((d: Datum) => string) | null): this {
+    if (noValueFunction === null) {
+      this._noValueFunction = DEFAULT._noValueFunction;
+      return this;
+    }
     this._noValueFunction = noValueFunction;
     return this;
   }

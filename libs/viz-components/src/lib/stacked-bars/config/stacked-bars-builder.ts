@@ -37,22 +37,34 @@ export class VicStackedBarsConfigBuilder<
   }
 
   stackOffset(
-    stackOffset: (
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      series: Series<any, any>,
-      order: Iterable<number>
-    ) => void
+    stackOffset:
+      | ((
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          series: Series<any, any>,
+          order: Iterable<number>
+        ) => void)
+      | null
   ): this {
+    if (stackOffset === null) {
+      this._stackOffset = DEFAULT._stackOffset;
+      return this;
+    }
     this._stackOffset = stackOffset;
     return this;
   }
 
   stackOrder(
-    stackOrder: (
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      series: Series<any, any>
-    ) => Iterable<number>
+    stackOrder:
+      | ((
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          series: Series<any, any>
+        ) => Iterable<number>)
+      | null
   ): this {
+    if (stackOrder === null) {
+      this._stackOrder = DEFAULT._stackOrder;
+      return this;
+    }
     this._stackOrder = stackOrder;
     return this;
   }

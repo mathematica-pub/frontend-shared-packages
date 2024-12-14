@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+(import { Injectable } from '@angular/core';
 import { VicAuxMarksBuilder } from '../../marks/aux-marks/config/aux-marks-builder';
 import { StrokeBuilder } from '../../stroke/stroke-builder';
 import { RulesLabelsBuilder } from './labels/quantitative-rules-labels-builder';
@@ -69,18 +69,26 @@ export class VicQuantitativeRulesConfigBuilder<
   /**
    * OPTIONAL. A config for the behavior of the rule labels.
    */
-  labels(setProperties?: (labels: RulesLabelsBuilder<Datum>) => void): this {
+  labels(labels: ((labels: RulesLabelsBuilder<Datum>) => void) | null): this {
+    if (labels === null) {
+      this.labelsBuilder = undefined;
+      return this;
+    }
     this.labelsBuilder = new RulesLabelsBuilder();
-    setProperties?.(this.labelsBuilder);
+    labels(this.labelsBuilder);
     return this;
   }
 
   /**
    * OPTIONAL. A config for the behavior of the rule stroke.
    */
-  stroke(setProperties?: (stroke: StrokeBuilder) => void): this {
+  stroke(stroke: ((stroke: StrokeBuilder) => void) | null): this {
+    if (stroke === null) {
+      this.strokeBuilder = undefined;
+      return this;
+    }
     this.initStrokeBuilder();
-    setProperties?.(this.strokeBuilder);
+    stroke(this.strokeBuilder);
     return this;
   }
 

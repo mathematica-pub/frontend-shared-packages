@@ -17,9 +17,13 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
   /**
    * Specifies properties for an axis label.
    */
-  label(setProperties: (label: AxisLabelBuilder) => void): this {
+  label(label: ((label: AxisLabelBuilder) => void) | null): this {
+    if (label === null) {
+      this.labelBuilder = undefined;
+      return this;
+    }
     this.labelBuilder = new AxisLabelBuilder();
-    setProperties(this.labelBuilder);
+    label(this.labelBuilder);
     return this;
   }
 
@@ -53,7 +57,11 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
    *
    * If the formatter does not include a decimal point, a warning will be logged in the console and internal tick validation will be disabled.
    */
-  tickFormat(value: string | ((value: TickValue) => string)): this {
+  tickFormat(value: string | ((value: TickValue) => string) | null): this {
+    if (value === null) {
+      this._tickFormat = undefined;
+      return this;
+    }
     this._tickFormat = value;
     return this;
   }
@@ -79,9 +87,13 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
    *
    * Note: In `Bars`, bar labels are tick labels.
    */
-  wrapTickText(setProperties: (wrap: TickWrapBuilder) => void): this {
+  wrapTickText(wrap: (wrap: TickWrapBuilder) => void | null): this {
+    if (wrap === null) {
+      this.tickWrapBuilder = undefined;
+      return this;
+    }
     this.tickWrapBuilder = new TickWrapBuilder();
-    setProperties(this.tickWrapBuilder);
+    wrap(this.tickWrapBuilder);
     return this;
   }
 }
