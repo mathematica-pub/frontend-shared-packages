@@ -67,11 +67,23 @@ const routes = [
     path: 'aux-marks',
     children: [
       {
-        path: 'axes',
-        loadComponent: () =>
-          import('../viz-components/axes-content/axes-content.component').then(
-            (m) => m.AxesContentComponent
-          ),
+        path: 'xy-axes',
+        children: [
+          {
+            path: 'axes',
+            loadComponent: () =>
+              import(
+                '../viz-components/axes-content/axes-content.component'
+              ).then((m) => m.AxesContentComponent),
+          },
+          {
+            path: 'labels',
+            loadComponent: () =>
+              import(
+                '../viz-components/axes-content/axes-content.component'
+              ).then((m) => m.AxesContentComponent),
+          },
+        ],
       },
     ],
   },

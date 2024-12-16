@@ -42,4 +42,6 @@ viz-components:
       stacked-area: stacked-area.md
       stacked-bars: stacked-bars.md
     aux-marks:
-      axes: axes.md
+      xy-axes:
+        axes: xy-axes.md
+        labels: xy-axis-labels.md

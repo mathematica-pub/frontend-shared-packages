@@ -33,10 +33,14 @@
 <ng-template let-content #method>
   <div class="builder-method">
     @if (content.methods) {
-      <p class="overview">{{ content.overview }}</p>
+      @for (item of content.overview; track $index) {
+        <div class="overview" class="injected-html" [innerHTML]="item"></div>
+      }
       @for (method of content.methods; track $index) {
         <h4 class="method-name" [id]="method.name">{{ method.name }}</h4>
-        <p class="description">{{ method.description }}</p>
+        @for (item of method.description; track $index) {
+          <div class="description injected-html" [innerHTML]="item"></div>
+        }
         <div class="params">
           @for (param of method.params; track $index) {
             <div class="param">
@@ -45,14 +49,21 @@
                 ><span class="name">{{ param.name }}:</span
                 ><code class="type-def">{{ param.type }}</code>
               </p>
-              <p class="param-description">{{ param.description }}</p>
+              @for (item of param.description; track $index) {
+                <div
+                  class="param-description injected-html"
+                  [innerHTML]="item"
+                ></div>
+              }
             </div>
           }
         </div>
       }
     } @else {
       <h4 class="method-name" [id]="content.name">{{ content.name }}</h4>
-      <p class="description">{{ content.description }}</p>
+      @for (item of content.description; track $index) {
+        <div class="description injected-html" [innerHTML]="item"></div>
+      }
       <div class="params">
         @for (param of content.params; track $index) {
           <div class="param">
@@ -61,7 +72,12 @@
               ><span class="name">{{ param.name }}:</span
               ><code class="type-def">{{ param.type }}</code>
             </p>
-            <p class="param-description">{{ param.description }}</p>
+            @for (item of param.description; track $index) {
+              <div
+                class="param-description injected-html"
+                [innerHTML]="item"
+              ></div>
+            }
           </div>
         }
       </div>

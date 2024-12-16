@@ -3,8 +3,8 @@
 ## Overview
 
 Viz Components provides a number of axis components that allow you add visual axes, ticks, and axis
-labels to your charts that have x and y dimensions. The axes work with dimensions whose data is
-either ordinal or continuous-quantitative (`number` or `Date`).
+labels to charts that have x and y dimensions. The axes work with dimensions whose data is either
+ordinal or continuous-quantitative (`number` or `Date`).
 
 ```custom-angular
 small examples
@@ -126,7 +126,7 @@ params:
     description: A function that specifies properties for wrapping the tick text.
 ```
 
-#### X Axis
+#### X Axes
 
 ```builder-method
 name: side
@@ -136,7 +136,7 @@ params:
     type: "'top' | 'bottom'"
 ```
 
-#### Y Axis
+#### Y Axes
 
 ```builder-method
 name: side
@@ -146,11 +146,11 @@ params:
     type: "'left' | 'right'"
 ```
 
-#### Ordinal Axis
+#### Ordinal Axes
 
 There are no methods that are exclusive to ordinal axes.
 
-#### Quantitative Axis
+#### Quantitative Axes
 
 ```builder-method
 name: numTicks
