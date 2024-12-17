@@ -94,7 +94,7 @@ export class AxisLabelBuilder {
     });
   }
 
-  createTextWrapBuilder(dimension: 'x' | 'y'): void {
+  private createTextWrapBuilder(dimension: 'x' | 'y'): void {
     const isRotatedYLabel = dimension === 'y' && this._position === 'middle';
     this.textWrapBuilder = new SvgTextWrapBuilder();
     this.textWrapBuilder.maintainXPosition(isRotatedYLabel);

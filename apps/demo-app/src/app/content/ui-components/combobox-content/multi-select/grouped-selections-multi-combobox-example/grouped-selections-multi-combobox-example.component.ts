@@ -8,24 +8,25 @@ import { ComboboxModule } from '@hsi/ui-components';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'app-display-multi-selected-combobox-example',
+  selector: 'app-grouped-selections-multi-combobox-example',
   standalone: true,
   imports: [CommonModule, ComboboxModule],
-  templateUrl: './display-multi-selected-combobox-example.component.html',
-  styleUrl: './display-multi-selected-combobox-example.component.scss',
+  templateUrl: './grouped-selections-multi-combobox-example.component.html',
+  styleUrl: './grouped-selections-multi-combobox-example.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class DisplayMultiSelectedComboboxExampleComponent {
-  options = [
+export class GroupedSelectionsMultiComboboxExampleComponent {
+  eastCoastOptions = [
     { displayName: 'Cambridge', id: 'cambridge' },
     { displayName: 'Washington, D.C.', id: 'dc' },
-    { displayName: 'Oakland', id: 'oakland' },
-    { displayName: 'Chicago', id: 'chicago' },
-    { displayName: 'Ann Arbor', id: 'annArbor' },
-    { displayName: 'Woodlawn', id: 'woodlawn' },
     { displayName: 'Princeton', id: 'princeton' },
   ];
+  midwestOptions = [
+    { displayName: 'Chicago', id: 'chicago' },
+    { displayName: 'Ann Arbor', id: 'annArbor' },
+  ];
+  westCoastOptions = [{ displayName: 'Oakland', id: 'oakland' }];
   selected = new BehaviorSubject([]);
   selected$ = this.selected.asObservable();
 

@@ -50,7 +50,6 @@ describe('the XyAxis abstract class', () => {
       tickSizeOuterSpy.calls.reset();
       abstractClass.config =
         new VicXQuantitativeAxisConfigBuilder().getConfig();
-      console.log(abstractClass.config);
       abstractClass.setAxisFromScaleAndConfig();
       expect(tickSizeOuterSpy).not.toHaveBeenCalled();
     });

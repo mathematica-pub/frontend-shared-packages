@@ -18,18 +18,33 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class SimpleMultiSelectComboboxExampleComponent {
   options = [
-    { displayName: 'Cambridge', id: 'cambridge' },
-    { displayName: 'Washington, D.C.', id: 'dc' },
+    {
+      displayName: 'Cambridge',
+      id: 'cambridge',
+    },
+    {
+      displayName: 'Washington, D.C.',
+      id: 'dc',
+    },
     { displayName: 'Oakland', id: 'oakland' },
     { displayName: 'Chicago', id: 'chicago' },
-    { displayName: 'Ann Arbor', id: 'annArbor' },
-    { displayName: 'Woodlawn', id: 'woodlawn' },
-    { displayName: 'Princeton', id: 'princeton' },
+    {
+      displayName: 'Ann Arbor',
+      id: 'annArbor',
+    },
+    {
+      displayName: 'Woodlawn',
+      id: 'woodlawn',
+    },
+    {
+      displayName: 'Princeton',
+      id: 'princeton',
+    },
   ];
-  selected = new BehaviorSubject([]);
-  selected$ = this.selected.asObservable();
+  value = new BehaviorSubject<string[]>([]);
+  value$ = this.value.asObservable();
 
   onSelection(selectedIds: string[]): void {
-    this.selected.next(selectedIds);
+    this.value.next(selectedIds);
   }
 }

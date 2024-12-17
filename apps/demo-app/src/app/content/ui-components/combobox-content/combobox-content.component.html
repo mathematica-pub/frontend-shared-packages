@@ -56,7 +56,18 @@
           <app-editable-textbox-multi-select-combobox-example></app-editable-textbox-multi-select-combobox-example>
         </app-single-panel-example-display>
       }
-      @case ('simple multi select') {
+      @case ('grouped multi select') {
+        <app-single-panel-example-display
+          [height]="exampleHeight"
+          path="app/content/ui-components/combobox-content/multi-select/grouped-selections-multi-combobox-example"
+          class="example"
+          label="grouped multi select combobox example"
+          [exampleTabCanScroll]="false"
+        >
+          <app-grouped-selections-multi-combobox-example></app-grouped-selections-multi-combobox-example>
+        </app-single-panel-example-display>
+      }
+      @case ('simple single select') {
         <app-single-panel-example-display
           [height]="exampleHeight"
           path="app/content/ui-components/combobox-content/single-select/simple-single-select-combobox-example"
@@ -109,6 +120,17 @@
           [exampleTabCanScroll]="false"
         >
           <app-editable-textbox-single-select-combobox-example></app-editable-textbox-single-select-combobox-example>
+        </app-single-panel-example-display>
+      }
+      @case ('grouped single select') {
+        <app-single-panel-example-display
+          [height]="exampleHeight"
+          path="app/content/ui-components/combobox-content/single-select/grouped-selections-single-combobox-example"
+          class="example"
+          label="grouped single select combobox example"
+          [exampleTabCanScroll]="false"
+        >
+          <app-grouped-selections-single-combobox-example></app-grouped-selections-single-combobox-example>
         </app-single-panel-example-display>
       }
     }
