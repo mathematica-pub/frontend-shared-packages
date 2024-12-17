@@ -85,6 +85,10 @@ export function xAxisMixin<
         this.config.label.wrap.wrap(
           select(this.axisRef.nativeElement).select('.vic-x-axis-label')
         );
+
+        select(this.axisRef.nativeElement)
+          .selectAll('.vic-x-axis-label tspan')
+          .attr('x', x);
       }
     }
   }

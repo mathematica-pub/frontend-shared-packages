@@ -4,8 +4,8 @@ import { TickWrap } from '../../tick-wrap/tick-wrap';
 
 export interface XyAxisBaseOptions<TickValue> extends MarksOptions<never> {
   removeDomainLine: boolean;
+  removeTickLabels: boolean;
   removeTickMarks: boolean;
-  removeTicks: boolean;
   tickFormat: string | ((value: TickValue) => string);
   tickLabelFontSize: number;
   tickSizeOuter: number;
