@@ -35,6 +35,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   abstract setTranslate(): void;
   abstract setTicks(tickFormat: string | ((value: TickValue) => string)): void;
   abstract setScale(): void;
+  abstract createLabel(): void;
 
   override initFromConfig(): void {
     this.drawMarks();
@@ -102,8 +103,8 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     } else {
       width = this.config.wrap.wrapWidth;
     }
-    const config = new SvgTextWrap({ ...properties, width });
-    config.wrap(tickTextSelection);
+    const wrap = new SvgTextWrap({ ...properties, width });
+    wrap.wrap(tickTextSelection);
   }
 
   postProcessAxisFeatures(): void {
@@ -112,15 +113,21 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
         g.select('.domain').remove()
       );
     }
-    if (this.config.removeTicks) {
+
+    if (this.config.removeTickLabels) {
       select(this.axisRef.nativeElement).call((g) =>
-        g.selectAll('.tick').remove()
+        g.selectAll('.tick text').remove()
       );
     }
+
     if (this.config.removeTickMarks) {
       select(this.axisRef.nativeElement).call((g) =>
         g.selectAll('.tick line').remove()
       );
+    }
+
+    if (this.config.label) {
+      this.createLabel();
     }
   }
 }

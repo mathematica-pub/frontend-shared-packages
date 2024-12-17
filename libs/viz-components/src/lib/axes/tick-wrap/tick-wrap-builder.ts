@@ -1,4 +1,4 @@
-import { TickWrap } from './tick-wrap-config';
+import { TickWrap } from './tick-wrap';
 
 const DEFAULT = {
   _wrapWidth: 'bandwidth',
