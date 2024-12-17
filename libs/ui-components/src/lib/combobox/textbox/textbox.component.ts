@@ -37,6 +37,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
    * Whether the textbox label responds to selections in any way.
    *
    * If true, the textbox label will display the selected option(s) if no other label properties are provided.
+   *
    * @default true
    */
   @Input() dynamicLabel = true;
