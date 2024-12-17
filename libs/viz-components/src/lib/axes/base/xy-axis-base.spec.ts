@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { XyChartComponent } from '@hsi/viz-components';
 import { XyAxisStub } from '../../testing/stubs/xy-axis.stub';
 import { VicXOrdinalAxisConfigBuilder } from '../x-ordinal/x-ordinal-axis-builder';
+import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
 
 describe('the XyAxis abstract class', () => {
   let abstractClass: XyAxisStub<number>;
@@ -47,7 +48,9 @@ describe('the XyAxis abstract class', () => {
     });
     it('does not call tickSizeOuter if tickSizeOuter is undefined', () => {
       tickSizeOuterSpy.calls.reset();
-      abstractClass.config = new VicXOrdinalAxisConfigBuilder().getConfig();
+      abstractClass.config =
+        new VicXQuantitativeAxisConfigBuilder().getConfig();
+      console.log(abstractClass.config);
       abstractClass.setAxisFromScaleAndConfig();
       expect(tickSizeOuterSpy).not.toHaveBeenCalled();
     });
