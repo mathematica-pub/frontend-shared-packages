@@ -34,6 +34,8 @@ export class VicHtmlTooltipConfigBuilder {
     this._applyEventsDisabledClass = false;
   }
 
+  size(size: null): this;
+  size(size: (size: HtmlTooltipSizeBuilder) => void): this;
   size(size: ((size: HtmlTooltipSizeBuilder) => void) | null): this {
     if (size === null) {
       this.sizeBuilder = undefined;
@@ -135,6 +137,11 @@ export class VicHtmlTooltipConfigBuilder {
     return this;
   }
 
+  offsetFromOriginPosition(): this;
+  offsetFromOriginPosition(offset: null): this;
+  offsetFromOriginPosition(
+    offset: (offset: HtmlTooltipOffsetFromOriginPositionBuilder) => void
+  ): this;
   offsetFromOriginPosition(
     offset?: (offset: HtmlTooltipOffsetFromOriginPositionBuilder) => void | null
   ): this {

@@ -44,6 +44,8 @@ export class GeographiesAttributeDataLayerBuilder<
    *
    * For example, if the data for a set of U.S. states had a string property, 'region', this could be used to color the states by region.
    */
+  categoricalBins(bins: null): this;
+  categoricalBins(bins: (bins: CategoricalBinsBuilder<Datum>) => void): this;
   categoricalBins(
     bins: ((bins: CategoricalBinsBuilder<Datum>) => void) | null
   ): this {
@@ -59,6 +61,10 @@ export class GeographiesAttributeDataLayerBuilder<
   /**
    * OPTIONAL. Creates a configuration object that maps data to colors by custom breaks values for bins.
    */
+  customBreaksBins(bins: null): this;
+  customBreaksBins(
+    bins: (bins: CustomBreaksBinsAttributeDataDimensionBuilder<Datum>) => void
+  ): this;
   customBreaksBins(
     bins:
       | ((bins: CustomBreaksBinsAttributeDataDimensionBuilder<Datum>) => void)
@@ -77,6 +83,10 @@ export class GeographiesAttributeDataLayerBuilder<
   /**
    * OPTIONAL. Creates a configuration object that for creating a map without binning values.
    */
+  noBins(bins: null): this;
+  noBins(
+    bins: (bins: NoBinsAttributeDataDimensionBuilder<Datum>) => void
+  ): this;
   noBins(
     bins: ((bins: NoBinsAttributeDataDimensionBuilder<Datum>) => void) | null
   ): this {
@@ -94,6 +104,10 @@ export class GeographiesAttributeDataLayerBuilder<
    *
    * For example, bins may be, 0-10, 10-20, 20-30, etc.
    */
+  equalValueRangesBins(bins: null): this;
+  equalValueRangesBins(
+    bins: (bins: EqualValueRangesBinsBuilder<Datum>) => void
+  ): this;
   equalValueRangesBins(
     bins: ((bins: EqualValueRangesBinsBuilder<Datum>) => void) | null
   ): this {
@@ -111,6 +125,10 @@ export class GeographiesAttributeDataLayerBuilder<
    *
    * This is useful for creating quartiles, deciles, etc.
    */
+  equalFrequenciesBins(bins: null): this;
+  equalFrequenciesBins(
+    bins: (bins: EqualFrequenciesAttributeDataDimensionBuilder<Datum>) => void
+  ): this;
   equalFrequenciesBins(
     bins:
       | ((bins: EqualFrequenciesAttributeDataDimensionBuilder<Datum>) => void)

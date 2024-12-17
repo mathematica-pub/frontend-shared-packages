@@ -36,6 +36,14 @@ export class VicStackedBarsConfigBuilder<
     Object.assign(this, DEFAULT);
   }
 
+  stackOffset(stackOffset: null): this;
+  stackOffset(
+    stackOffset: (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      series: Series<any, any>,
+      order: Iterable<number>
+    ) => void
+  ): this;
   stackOffset(
     stackOffset:
       | ((
@@ -53,6 +61,12 @@ export class VicStackedBarsConfigBuilder<
     return this;
   }
 
+  stackOrder(stackOrder: null): this;
+  stackOrder(
+    stackOrder:
+      | ((series: Series<Datum, TOrdinalValue>) => Iterable<number>)
+      | null
+  ): this;
   stackOrder(
     stackOrder:
       | ((

@@ -27,14 +27,17 @@ export class TickWrapBuilder {
    *
    * @default 'bandwidth'
    */
+  wrapWidth(wrapWidth: 'bandwidth'): this;
+  wrapWidth(wrapWidth: number): this;
+  wrapWidth(
+    wrapWidth: (chartWidth: number, numOfTicks: number) => number
+  ): this;
   wrapWidth(
     wrapWidth:
       | 'bandwidth'
       | number
       | ((chartWidth: number, numOfTicks: number) => number)
-      | null
   ) {
-    if (wrapWidth === null) return this;
     this._wrapWidth = wrapWidth;
     return this;
   }

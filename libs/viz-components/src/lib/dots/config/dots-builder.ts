@@ -96,6 +96,8 @@ export class VicDotsConfigBuilder<
    *
    * @default 'schemeTableau10[0]'
    */
+  fill(fill: null): this;
+  fill(fill: string): this;
   fill(fill: string | null): this {
     if (fill === null) {
       this.fillBuilderConst = undefined;
@@ -110,6 +112,12 @@ export class VicDotsConfigBuilder<
    * OPTIONAL. Sets the appearance of the fill for the dots using a categorical dimension.
    *
    */
+  fillCategorical(fill: null): this;
+  fillCategorical(
+    fill: (
+      fill: OrdinalVisualValueDimensionBuilder<Datum, string, string>
+    ) => void
+  ): this;
   fillCategorical(
     fill:
       | ((
@@ -130,6 +138,10 @@ export class VicDotsConfigBuilder<
     this.fillBuilderCategorical = new OrdinalVisualValueDimensionBuilder();
   }
 
+  fillNumeric(fill: null): this;
+  fillNumeric(
+    fill: (fill: NumberVisualValueDimensionBuilder<Datum, string>) => void
+  ): this;
   fillNumeric(
     fill:
       | ((fill: NumberVisualValueDimensionBuilder<Datum, string>) => void)
@@ -167,6 +179,8 @@ export class VicDotsConfigBuilder<
    *
    * @default 2
    */
+  radius(radius: null): this;
+  radius(radius: number): this;
   radius(radius: number | null): this {
     if (radius === null) {
       this.radiusBuilderConst = undefined;
@@ -177,6 +191,12 @@ export class VicDotsConfigBuilder<
     return this;
   }
 
+  radiusCategorical(radius: null): this;
+  radiusCategorical(
+    radius: (
+      radius: OrdinalVisualValueDimensionBuilder<Datum, string, number>
+    ) => void
+  ): this;
   radiusCategorical(
     radius:
       | ((
@@ -193,6 +213,10 @@ export class VicDotsConfigBuilder<
     return this;
   }
 
+  radiusNumeric(radius: null): this;
+  radiusNumeric(
+    radius: (radius: NumberVisualValueDimensionBuilder<Datum, number>) => void
+  ): this;
   radiusNumeric(
     radius: (
       radius: NumberVisualValueDimensionBuilder<Datum, number>
@@ -210,6 +234,8 @@ export class VicDotsConfigBuilder<
   /**
    * OPTIONAL. Sets the appearance of the stroke for the dots.
    */
+  stroke(stroke: null): this;
+  stroke(stroke: (stroke: StrokeBuilder) => void): this;
   stroke(stroke: ((stroke: StrokeBuilder) => void) | null): this {
     if (stroke === null) {
       this.strokeBuilder = undefined;
@@ -227,7 +253,11 @@ export class VicDotsConfigBuilder<
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
-  xDate(x: (x: DateChartPositionDimensionBuilder<Datum>) => void): this {
+  xDate(x: null): this;
+  xDate(x: (x: DateChartPositionDimensionBuilder<Datum>) => void): this;
+  xDate(
+    x: ((x: DateChartPositionDimensionBuilder<Datum>) => void) | null
+  ): this {
     if (x === null) {
       this.xBuilderDate = undefined;
       return this;
@@ -240,6 +270,8 @@ export class VicDotsConfigBuilder<
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
+  xNumeric(x: null): this;
+  xNumeric(x: (x: NumberChartPositionDimensionBuilder<Datum>) => void): this;
   xNumeric(
     x: ((x: NumberChartPositionDimensionBuilder<Datum>) => void) | null
   ): this {
@@ -255,6 +287,10 @@ export class VicDotsConfigBuilder<
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
+  xOrdinal(x: null): this;
+  xOrdinal(
+    x: (x: OrdinalChartPositionDimensionBuilder<Datum, XOrdinalDomain>) => void
+  ): this;
   xOrdinal(
     x:
       | ((
@@ -277,6 +313,8 @@ export class VicDotsConfigBuilder<
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
+  yDate(y: null): this;
+  yDate(y: (y: DateChartPositionDimensionBuilder<Datum>) => void): this;
   yDate(
     y: ((y: DateChartPositionDimensionBuilder<Datum>) => void) | null
   ): this {
@@ -292,6 +330,8 @@ export class VicDotsConfigBuilder<
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
+  yNumeric(y: null): this;
+  yNumeric(y: (y: NumberChartPositionDimensionBuilder<Datum>) => void): this;
   yNumeric(
     y: ((y: NumberChartPositionDimensionBuilder<Datum>) => void) | null
   ): this {
@@ -307,6 +347,10 @@ export class VicDotsConfigBuilder<
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
+  yOrdinal(y: null): this;
+  yOrdinal(
+    y: (y: OrdinalChartPositionDimensionBuilder<Datum, YOrdinalDomain>) => void
+  ): this;
   yOrdinal(
     y:
       | ((

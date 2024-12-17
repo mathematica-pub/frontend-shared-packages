@@ -96,6 +96,12 @@ export class VicGeographiesConfigBuilder<
    *
    * Multiple layers can be used to draw different parts of the map with different styles.
    */
+  geojsonPropertiesLayer(geojson: null): this;
+  geojsonPropertiesLayer(
+    geojson: (
+      geojson: GeographiesGeojsonPropertiesLayerBuilder<TProperties, TGeometry>
+    ) => void
+  ): this;
   geojsonPropertiesLayer(
     geojson:
       | ((
@@ -126,6 +132,16 @@ export class VicGeographiesConfigBuilder<
    *
    * This method can be called only once.
    */
+  attributeDataLayer(attributeData: null): this;
+  attributeDataLayer(
+    attributeData: (
+      attributeData: GeographiesAttributeDataLayerBuilder<
+        Datum,
+        TProperties,
+        TGeometry
+      >
+    ) => void
+  ): this;
   attributeDataLayer(
     attributeData:
       | ((

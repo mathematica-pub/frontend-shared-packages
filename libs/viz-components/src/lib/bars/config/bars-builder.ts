@@ -51,6 +51,12 @@ export class VicBarsConfigBuilder<
    *
    * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
    */
+  color(color: null): this;
+  color(
+    color: (
+      color: OrdinalVisualValueDimensionBuilder<Datum, string, string>
+    ) => void
+  ): this;
   color(
     color:
       | ((
@@ -84,6 +90,10 @@ export class VicBarsConfigBuilder<
   /**
    * REQUIRED FOR HORIZONTAL BAR CHART.
    */
+  horizontal(bars: null): this;
+  horizontal(
+    bars: (bars: HorizontalBarsDimensionsBuilder<Datum, OrdinalDomain>) => void
+  ): this;
   horizontal(
     bars:
       | ((bars: HorizontalBarsDimensionsBuilder<Datum, OrdinalDomain>) => void)
@@ -106,6 +116,10 @@ export class VicBarsConfigBuilder<
   /**
    * REQUIRED FOR VERTICAL BAR CHART.
    */
+  vertical(bars: null): this;
+  vertical(
+    bars: (bars: VerticalBarsDimensionsBuilder<Datum, OrdinalDomain>) => void
+  ): this;
   vertical(
     bars:
       | ((bars: VerticalBarsDimensionsBuilder<Datum, OrdinalDomain>) => void)
@@ -124,7 +138,9 @@ export class VicBarsConfigBuilder<
   /**
    * OPTIONAL. Creates labels for the bars. If not called, no labels will be created.
    */
-  labels(labels: (labels: BarsLabelsBuilder<Datum>) => void): this {
+  labels(labels: null): this;
+  labels(labels: (labels: BarsLabelsBuilder<Datum>) => void): this;
+  labels(labels: ((labels: BarsLabelsBuilder<Datum>) => void) | null): this {
     if (labels === null) {
       this.labelsBuilder = undefined;
       return this;

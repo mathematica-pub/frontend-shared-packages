@@ -69,6 +69,8 @@ export class VicQuantitativeRulesConfigBuilder<
   /**
    * OPTIONAL. A config for the behavior of the rule labels.
    */
+  labels(labels: null): this;
+  labels(labels: (labels: RulesLabelsBuilder<Datum>) => void): this;
   labels(labels: ((labels: RulesLabelsBuilder<Datum>) => void) | null): this {
     if (labels === null) {
       this.labelsBuilder = undefined;
@@ -82,6 +84,8 @@ export class VicQuantitativeRulesConfigBuilder<
   /**
    * OPTIONAL. A config for the behavior of the rule stroke.
    */
+  stroke(stroke: null): this;
+  stroke(stroke: (stroke: StrokeBuilder) => void): this;
   stroke(stroke: ((stroke: StrokeBuilder) => void) | null): this {
     if (stroke === null) {
       this.strokeBuilder = undefined;

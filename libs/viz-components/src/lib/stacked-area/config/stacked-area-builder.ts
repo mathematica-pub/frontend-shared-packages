@@ -100,6 +100,8 @@ export class VicStackedAreaConfigBuilder<
    *
    * @default curveLinear
    */
+  curve(value: null): this;
+  curve(value: CurveFactory): this;
   curve(value: CurveFactory | null): this {
     if (value === null) {
       this._curve = DEFAULT._curve;
@@ -114,6 +116,15 @@ export class VicStackedAreaConfigBuilder<
    *
    * @default stackOrderNone
    */
+  stackOrder(stackOrder: null): this;
+  stackOrder(
+    stackOrder: (
+      series: Series<
+        [ContinuousValue, InternMap<CategoricalDomain, number>],
+        CategoricalDomain
+      >
+    ) => Iterable<number>
+  ): this;
   stackOrder(
     stackOrder:
       | ((
@@ -137,6 +148,16 @@ export class VicStackedAreaConfigBuilder<
    *
    * @default stackOffsetNone
    */
+  stackOffset(stackOffset: null): this;
+  stackOffset(
+    stackOffset: (
+      series: Series<
+        [ContinuousValue, InternMap<CategoricalDomain, number>],
+        CategoricalDomain
+      >,
+      order: number[]
+    ) => void
+  ): this;
   stackOffset(
     stackOffset:
       | ((
@@ -157,8 +178,24 @@ export class VicStackedAreaConfigBuilder<
   }
 
   /**
+   * REQUIRED. Sets the x dimension for the stacked area chart when using Date data.
+   */
+  xDate(x: null): this;
+  xDate(x: (x: DateChartPositionDimensionBuilder<Datum>) => void): this;
+  xDate(
+    x: ((x: DateChartPositionDimensionBuilder<Datum>) => void) | null
+  ): this {
+    if (x === null) return this;
+    this.xDimensionBuilder = new DateChartPositionDimensionBuilder<Datum>();
+    x(this.xDimensionBuilder);
+    return this;
+  }
+
+  /**
    * REQUIRED. Sets the x dimension for the stacked area chart when using numeric data.
    */
+  xNumeric(x: null): this;
+  xNumeric(x: (x: NumberChartPositionDimensionBuilder<Datum>) => void): this;
   xNumeric(
     x: ((x: NumberChartPositionDimensionBuilder<Datum>) => void) | null
   ): this {
@@ -168,18 +205,6 @@ export class VicStackedAreaConfigBuilder<
     // .xDate((x) => !condition ? x.stuff() : null)
     if (x === null) return this;
     this.xDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
-    x(this.xDimensionBuilder);
-    return this;
-  }
-
-  /**
-   * REQUIRED. Sets the x dimension for the stacked area chart when using Date data.
-   */
-  xDate(
-    x: ((x: DateChartPositionDimensionBuilder<Datum>) => void) | null
-  ): this {
-    if (x === null) return this;
-    this.xDimensionBuilder = new DateChartPositionDimensionBuilder<Datum>();
     x(this.xDimensionBuilder);
     return this;
   }

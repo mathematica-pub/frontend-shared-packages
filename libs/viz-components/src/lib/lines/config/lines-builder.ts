@@ -47,6 +47,28 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   }
 
   /**
+   * OPTIONAL. A config to set fill underneath lines.
+   *
+   */
+  areaFills(areaFills: null): this;
+  areaFills(areaFills: (areaFills: AreaFillsBuilder<Datum>) => void): this;
+  areaFills(
+    areaFills: ((areaFills: AreaFillsBuilder<Datum>) => void) | null
+  ): this {
+    if (areaFills === null) {
+      this.areaFillsBuilder = undefined;
+      return this;
+    }
+    this.initBelowLinesAreaFillBuilder();
+    areaFills(this.areaFillsBuilder);
+    return this;
+  }
+
+  private initBelowLinesAreaFillBuilder(): void {
+    this.areaFillsBuilder = new AreaFillsBuilder();
+  }
+
+  /**
    * OPTIONAL. A function passed to D3's [line.curve()]{@link https://github.com/d3/d3-shape#line_curve}
    *  method.
    *
@@ -93,6 +115,11 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    *
    * Creating this config will create markers on lines. If no argument is provided, the default markers will be created.
    */
+  pointMarkers(): this;
+  pointMarkers(pointMarkers: null): this;
+  pointMarkers(
+    pointMarkers: ((pointMarkers: PointMarkersBuilder<Datum>) => void) | null
+  ): this;
   pointMarkers(
     pointMarkers?: ((pointMarkers: PointMarkersBuilder<Datum>) => void) | null
   ): this {
@@ -108,6 +135,8 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * OPTIONAL. A config for the behavior of the line stroke.
    */
+  stroke(stroke: null): this;
+  stroke(stroke: (stroke: LinesStrokeBuilder<Datum>) => void): this;
   stroke(stroke: ((stroke: LinesStrokeBuilder<Datum>) => void) | null): this {
     if (stroke === null) {
       this.strokeBuilder = undefined;
@@ -125,6 +154,10 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
+  xNumeric(xNumeric: null): this;
+  xNumeric(
+    xNumeric: (x: NumberChartPositionDimensionBuilder<Datum>) => void
+  ): this;
   xNumeric(
     x: ((x: NumberChartPositionDimensionBuilder<Datum>) => void) | null
   ): this {
@@ -140,6 +173,8 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using Date date.
    */
+  xDate(xDate: null): this;
+  xDate(xDate: (x: DateChartPositionDimensionBuilder<Datum>) => void): this;
   xDate(
     x: ((x: DateChartPositionDimensionBuilder<Datum>) => void) | null
   ): this {
@@ -155,6 +190,8 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * REQUIRED. A config for the behavior of the chart's y dimension.
    */
+  y(y: null): this;
+  y(y: (y: NumberChartPositionDimensionBuilder<Datum>) => void): this;
   y(y: ((y: NumberChartPositionDimensionBuilder<Datum>) => void) | null): this {
     if (y === null) {
       this.yDimensionBuilder = undefined;
@@ -163,26 +200,6 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
     this.yDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
     y(this.yDimensionBuilder);
     return this;
-  }
-
-  /**
-   * OPTIONAL. A config to set fill underneath lines.
-   *
-   */
-  areaFills(
-    areaFills: ((areaFills: AreaFillsBuilder<Datum>) => void) | null
-  ): this {
-    if (areaFills === null) {
-      this.areaFillsBuilder = undefined;
-      return this;
-    }
-    this.initBelowLinesAreaFillBuilder();
-    areaFills(this.areaFillsBuilder);
-    return this;
-  }
-
-  private initBelowLinesAreaFillBuilder(): void {
-    this.areaFillsBuilder = new AreaFillsBuilder();
   }
 
   /**

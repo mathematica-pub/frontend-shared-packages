@@ -48,8 +48,12 @@ export class BarsLabelsBuilder<Datum> {
   /**
    * Sets the function to set the text of the label when the value of the bar is null or undefined.
    *
+   * If called with null, the default function is used.
+   *
    * @default (d: Datum) => 'N/A'
    */
+  noValueFunction(noValueFunction: null): this;
+  noValueFunction(noValueFunction: (d: Datum) => string): this;
   noValueFunction(noValueFunction: ((d: Datum) => string) | null): this {
     if (noValueFunction === null) {
       this._noValueFunction = DEFAULT._noValueFunction;

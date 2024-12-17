@@ -41,6 +41,8 @@ export class AxisLabelBuilder {
    *
    * @default { x: 0, y: 0 }
    */
+  offset(offset: null): this;
+  offset(offset: { x?: number; y?: number }): this;
   offset(value: { x?: number; y?: number } | null): this {
     if (value === null) {
       this._offset = DEFAULT._offset;
@@ -78,6 +80,8 @@ export class AxisLabelBuilder {
   /**
    * Specifies properties for wrapping the text of the label.
    */
+  wrap(wrap: null): this;
+  wrap(wrap: (wrap: SvgTextWrapBuilder) => void): this;
   wrap(wrap: ((wrap: SvgTextWrapBuilder) => void) | null): this {
     if (wrap === null) {
       this.textWrapBuilder = undefined;
