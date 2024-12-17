@@ -50,7 +50,6 @@ export class TextboxComponent implements OnInit, AfterViewInit {
    * @default false
    */
   @Input() useListboxLabelAsBoxPlaceholder = false;
-
   @ViewChild('box') box: ElementRef<HTMLDivElement>;
   @ViewChild('boxIcon') boxIcon: ElementRef<HTMLDivElement>;
   openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' '];

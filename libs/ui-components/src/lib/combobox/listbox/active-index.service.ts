@@ -157,7 +157,6 @@ export class ActiveIndexService {
   }
 
   handleActiveIndexWhenCannotBeSet(): void {
-    console.log('cannot set active index');
     this.service.setVisualFocus(VisualFocus.textbox);
     if (this.service.autoComplete !== AutoComplete.none) {
       this.activeIndex.next(null);
