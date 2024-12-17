@@ -64,13 +64,14 @@ const data: Datum[] = [
   ],
 })
 export class DotsScatterplotExampleComponent implements OnInit {
-  @Input() axisLabels = false;
+  @Input() xAxisConfig: VicQuantitativeAxisConfig<number>;
+  @Input() yAxisConfig: VicQuantitativeAxisConfig<number>;
   vm: ViewModel;
   margin: ElementSpacing = {
     top: 0,
     right: 0,
     bottom: 32,
-    left: 24,
+    left: 30,
   };
 
   constructor(
@@ -86,17 +87,14 @@ export class DotsScatterplotExampleComponent implements OnInit {
   getViewModel(): void {
     let xAxisConfig: VicQuantitativeAxisConfig<number>;
     let yAxisConfig: VicQuantitativeAxisConfig<number>;
-    if (this.axisLabels) {
-      xAxisConfig = this.xQuantitativeAxis
-        .tickFormat('.0f')
-        .label((label) => label.text('x-axis-label'))
-        .getConfig();
-      yAxisConfig = this.yQuantitativeAxis
-        .tickFormat('.0f')
-        .label((label) => label.text('y-axis-label'))
-        .getConfig();
+    if (this.xAxisConfig) {
+      xAxisConfig = this.xAxisConfig;
     } else {
       xAxisConfig = this.xQuantitativeAxis.tickFormat('.0f').getConfig();
+    }
+    if (this.yAxisConfig) {
+      yAxisConfig = this.yAxisConfig;
+    } else {
       yAxisConfig = this.yQuantitativeAxis.tickFormat('.0f').getConfig();
     }
 

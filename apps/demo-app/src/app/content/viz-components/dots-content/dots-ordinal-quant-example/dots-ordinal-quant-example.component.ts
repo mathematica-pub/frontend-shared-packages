@@ -52,7 +52,7 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
   margin: ElementSpacing = {
     top: 0,
     right: 0,
-    bottom: 24,
+    bottom: 40,
     left: 80,
   };
 

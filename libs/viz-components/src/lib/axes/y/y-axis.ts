@@ -61,24 +61,28 @@ export function yAxisMixin<
       const config = this.config.label;
       if (!config) return;
 
-      const spaceFromMarginEdge = 4;
       let y = config.offset.y;
       let x = config.offset.x;
       let anchor: 'start' | 'middle' | 'end';
       let rotate: string | null = null;
+      let alignmentBaseline = null;
       const range = this.scales.y.range();
 
       if (config.position === 'start') {
         y += range[1];
         anchor = config.anchor || 'end';
       } else if (config.position === 'middle') {
+        x = config.offset.x * -1;
+        y = config.offset.y;
         y += (range[0] - range[1]) / 2 + +this.chart.margin.top;
         x +=
           this.config.side === 'left'
-            ? this.chart.margin.left - spaceFromMarginEdge
-            : this.chart.width - spaceFromMarginEdge;
+            ? this.chart.margin.left
+            : this.chart.width;
         anchor = config.anchor || 'middle';
         rotate = 'rotate(-90)';
+        alignmentBaseline =
+          this.config.side === 'left' ? 'hanging' : 'baseline';
       } else {
         y += range[0];
         anchor = config.anchor || 'end';
@@ -93,9 +97,10 @@ export function yAxisMixin<
           .append('text')
           .attr('class', 'vic-axis-label vic-y-axis-label')
           .attr('transform', rotate)
-          .attr('x', rotate ? y * -1 : x)
-          .attr('y', rotate ? x * -1 : y)
+          .attr('x', config.position === 'middle' ? y * -1 : x)
+          .attr('y', config.position === 'middle' ? x * -1 : y)
           .attr('text-anchor', anchor)
+          .attr('alignment-baseline', alignmentBaseline)
           .text(this.config.label.text)
       );
 

@@ -7,10 +7,10 @@ labels to charts that have x and y dimensions. The axes work with dimensions who
 ordinal or continuous-quantitative (`number` or `Date`).
 
 ```custom-angular
-small examples
+small axis examples
 ```
 
-## Config Builders
+## Configuration
 
 There are four builders for the axes components, one for each permutation of chart dimensions (x or
 y) and data type for the dimension (ordinal and quantitative):
