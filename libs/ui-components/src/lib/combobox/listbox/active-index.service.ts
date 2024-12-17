@@ -58,7 +58,6 @@ export class ActiveIndexService {
         withLatestFrom(this.activeIndex$, allOptions$)
       )
       .subscribe(([action, activeIndex, options]) => {
-        console.log('action', action);
         if (!this.actionIsTypingChar(action)) {
           if (
             action === OptionAction.last ||
@@ -84,10 +83,6 @@ export class ActiveIndexService {
           this.updateActiveIndexFromKeyChar(action, options);
         }
       });
-
-    this.activeIndex$.subscribe((index) => {
-      console.log('activeIndex emission', index);
-    });
   }
 
   private setNextActiveIndex(
@@ -154,7 +149,6 @@ export class ActiveIndexService {
         if (scrollToIndex) {
           this.handleScrollingForNewIndex(attempt, options);
         }
-        console.log('setting active index', attempt);
         this.activeIndex.next(attempt);
       } else {
         this.handleActiveIndexWhenCannotBeSet();
