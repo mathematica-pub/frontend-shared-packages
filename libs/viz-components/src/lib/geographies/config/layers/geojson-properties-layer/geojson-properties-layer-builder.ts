@@ -34,25 +34,36 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
    *
    * Otherwise, you can use this method to specify how each geography should be filled based on the properties of the geojson feature.
    */
+  fill(fill: null): this;
+  fill(fill: string): this;
+  fill(
+    fill: (
+      fill: OrdinalVisualValueDimensionBuilder<
+        GeographiesFeature<TProperties, TGeometry>,
+        string,
+        string
+      >
+    ) => void
+  ): this;
   fill(
     fill:
       | string
-      | (
-          | ((
-              fill: OrdinalVisualValueDimensionBuilder<
-                GeographiesFeature<TProperties, TGeometry>,
-                string,
-                string
-              >
-            ) => void)
-          | null
-        )
+      | null
+      | ((
+          fill: OrdinalVisualValueDimensionBuilder<
+            GeographiesFeature<TProperties, TGeometry>,
+            string,
+            string
+          >
+        ) => void)
   ): this {
     this.initFillBuilder();
+
     if (fill === null) {
       this.fillBuilder.valueAccessor(() => null).range(['None']);
       return this;
     }
+
     if (typeof fill === 'string') {
       this.fillBuilder.valueAccessor(() => null).range([fill]);
     } else {

@@ -182,6 +182,7 @@ export class GeographiesAttributeDataLayerBuilder<
         `Exactly one bin strategy must be provided. Currently, ${numBinsBuilders} are provided.`
       );
     }
+    this.binsBuilder = binsBuilders.find((builder) => builder);
     if (!this.strokeBuilder) {
       this.initStrokeBuilder();
     }

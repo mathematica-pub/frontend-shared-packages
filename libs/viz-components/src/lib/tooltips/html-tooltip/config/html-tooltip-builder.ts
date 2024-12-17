@@ -136,16 +136,14 @@ export class VicHtmlTooltipConfigBuilder {
   }
 
   offsetFromOriginPosition(
-    offset:
-      | ((offset: HtmlTooltipOffsetFromOriginPositionBuilder) => void)
-      | null
+    offset?: (offset: HtmlTooltipOffsetFromOriginPositionBuilder) => void | null
   ): this {
     if (offset === null) {
       this._position = undefined;
       return this;
     }
     const builder = new HtmlTooltipOffsetFromOriginPositionBuilder();
-    offset(builder);
+    offset?.(builder);
     this._position = builder._build();
     return this;
   }

@@ -91,17 +91,17 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * OPTIONAL. A config for the behavior of markers for each datum on the line.
    *
-   * Creating this config will create markers on lines.
+   * Creating this config will create markers on lines. If no argument is provided, the default markers will be created.
    */
   pointMarkers(
-    pointMarkers: ((pointMarkers: PointMarkersBuilder<Datum>) => void) | null
+    pointMarkers?: ((pointMarkers: PointMarkersBuilder<Datum>) => void) | null
   ): this {
     if (pointMarkers === null) {
       this.pointMarkersBuilder = undefined;
       return this;
     }
     this.pointMarkersBuilder = new PointMarkersBuilder();
-    pointMarkers(this.pointMarkersBuilder);
+    pointMarkers?.(this.pointMarkersBuilder);
     return this;
   }
 
