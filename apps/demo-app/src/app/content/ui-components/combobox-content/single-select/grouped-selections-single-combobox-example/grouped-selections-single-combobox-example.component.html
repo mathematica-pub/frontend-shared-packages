@@ -1,0 +1,43 @@
+<div class="single-select-combobox-example grouped-example">
+  <p class="combobox-value"
+    >Combobox selection (id value): {{ selected$ | async }}</p
+  >
+  <hsi-ui-combobox class="pixar-movies-dropdown">
+    <hsi-ui-combobox-label>
+      <span>Star Wars Movies Combobox</span>
+    </hsi-ui-combobox-label>
+    <hsi-ui-textbox>
+      <p boxLabel
+        >This combobox stores your favorite of the first 6 Star Wars movies!</p
+      >
+      <span class="material-symbols-outlined expand-more" boxIcon>
+        expand_more
+      </span>
+    </hsi-ui-textbox>
+    <hsi-ui-listbox (valueChanges)="onSelection($event)">
+      <hsi-ui-listbox-label>
+        <span>Select your favorite Star Wars movie</span>
+      </hsi-ui-listbox-label>
+      <hsi-ui-listbox-group>
+        <hsi-ui-listbox-label>
+          <span class="group-label">Original Trilogy</span>
+        </hsi-ui-listbox-label>
+        @for (option of originals; track $index) {
+          <hsi-ui-listbox-option [value]="option.id">{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox-group>
+      <hsi-ui-listbox-group>
+        <hsi-ui-listbox-label>
+          <span class="group-label">Prequel Trilogy</span>
+        </hsi-ui-listbox-label>
+        @for (option of prequels; track $index) {
+          <hsi-ui-listbox-option [value]="option.id">{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox-group>
+    </hsi-ui-listbox>
+  </hsi-ui-combobox>
+</div>
