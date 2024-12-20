@@ -39,7 +39,7 @@ option {
 }
 
 .image {
-  padding: 80px 20px 50px 250px !important;
+  padding: 80px 20px 50px 190px !important;
 }
 
 line,
@@ -53,25 +53,8 @@ circle {
   stroke-opacity: 50%;
 }
 
-@mixin percentile {
-  fill: $lightblue;
-  stroke: #0b2949;
-}
-
-$goal: #ed7d31;
-
-.vic-bars-g {
-  rect {
-    fill: $goal;
-  }
-
-  & > g:last-child rect {
-    display: none;
-  }
-}
-
-.goal rect {
-  fill: $goal;
+.vic-bars-g > g:last-child rect {
+  display: none;
 }
 
 .gridline {
@@ -134,26 +117,4 @@ $axisFontSize: 16px;
 
 .size-headers {
   text-anchor: end;
-}
-
-.percentile {
-  rect {
-    @include percentile;
-  }
-
-  text {
-    alignment-baseline: middle;
-  }
-}
-
-.strat-label {
-  text {
-    text-transform: uppercase;
-    text-anchor: middle;
-  }
-
-  line {
-    stroke: black;
-    stroke-width: 2px;
-  }
 }

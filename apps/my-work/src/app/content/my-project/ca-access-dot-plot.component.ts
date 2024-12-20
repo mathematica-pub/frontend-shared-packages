@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -20,30 +21,11 @@ import {
   VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 import { max, min } from 'd3';
-import { BdaStackedBarsComponent } from './bda-stacked-bars/bda-stacked-bars.component';
-
-export interface BdaDatum {
-  series: string;
-  // size: string;
-  plans: number[];
-  // bda_25: number;
-  // bda_75: number;
-  measureCode: string;
-  delivSys: string;
-  value: number;
-  planValue: number;
-  units: string;
-  compVal: number;
-  compValDesc: string;
-  directionality: string;
-  percentBelowGoal: number;
-  goal: number;
-  strat: string;
-  stratVal: string;
-}
+import { CaDatum } from './ca-access-stacked-bars.component';
+import { ExtendedBdaStackedBarsComponent } from './extended-bda/bda-dot-plot/bda-stacked-bars/extended-bda-stacked-bars.component';
 
 @Component({
-  selector: 'app-bda-dot-plot',
+  selector: 'app-ca-access-dot-plot',
   standalone: true,
   imports: [
     CommonModule,
@@ -52,7 +34,7 @@ export interface BdaDatum {
     VicStackedBarsModule,
     VicXQuantitativeAxisModule,
     VicYOrdinalAxisModule,
-    BdaStackedBarsComponent,
+    ExtendedBdaStackedBarsComponent,
   ],
   providers: [
     VicBarsConfigBuilder,
@@ -60,22 +42,22 @@ export interface BdaDatum {
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
   ],
-  templateUrl: './bda-dot-plot.component.html',
-  styleUrl: './bda-dot-plot.component.scss',
+  templateUrl: 'ca-access-dot-plot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BdaDotPlotComponent implements OnChanges {
-  @Input() data: BdaDatum[];
-  rollupData: BdaDatum[] = [];
-  rollupDataConfig: StackedBarsConfig<BdaDatum, string>;
+export class CaAccessDotPlotComponent implements OnChanges {
+  @Input() data: CaDatum[];
+  rollupData: CaDatum[] = [];
+  rollupDataConfig: StackedBarsConfig<any, string>;
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<string>;
   trueMax: number;
   chartHeight: number;
-  labelWidth = 140;
+  labelWidth = Infinity;
+  bandwidth = 15;
 
   constructor(
-    private bars: VicStackedBarsConfigBuilder<BdaDatum, string>,
+    private bars: VicStackedBarsConfigBuilder<any, string>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>
   ) {}
@@ -87,20 +69,47 @@ export class BdaDotPlotComponent implements OnChanges {
     }
   }
 
+  // eslint-disable-next-line
+  getCurrentRollup(x: CaDatum, plan: CaDatum): boolean {
+    console.error('override getCurrentRollup');
+    return false;
+  }
+
+  getInvisibleStackValue(plan: CaDatum): number {
+    console.error('override getInvisibleStackValue');
+    return plan.value;
+  }
+
+  getBarValue(plan: CaDatum): number {
+    console.error('override getBarValue');
+    return plan.value;
+  }
+
+  // eslint-disable-next-line
+  getSortOrder(a: CaDatum, b: CaDatum): number {
+    console.error('override getSortOrder');
+    return 0;
+  }
+
+  getYDimension(plan: CaDatum): string {
+    console.error('override getYDimension');
+    return plan.stratVal;
+  }
+
   setProperties(): void {
     this.rollupData = [];
 
     this.data.forEach((plan) => {
       const visibleStack = structuredClone(plan);
-      const currentRollup = this.rollupData.find(
-        (x) => x.stratVal === plan.stratVal && x.strat === plan.strat
+      const currentRollup = this.rollupData.find((x) =>
+        this.getCurrentRollup(x, plan)
       );
       if (!currentRollup) {
         visibleStack.plans = [plan.planValue];
 
         const invisibleStack = structuredClone(plan);
         invisibleStack.series = 'invisible';
-        invisibleStack.value = plan.value;
+        invisibleStack.value = this.getInvisibleStackValue(plan);
 
         this.rollupData.push(visibleStack);
         this.rollupData.push(invisibleStack);
@@ -110,45 +119,23 @@ export class BdaDotPlotComponent implements OnChanges {
     });
 
     if (this.rollupData.length > 0) {
-      const bandwidth = 26;
-      this.chartHeight = this.rollupData.length * bandwidth;
+      this.chartHeight = this.rollupData.length * this.bandwidth;
 
       const dotMax = max(this.rollupData.map((d) => max(d.plans)));
-      const barMax = max(this.rollupData, (d) => d.value);
+      const barMax = max(this.rollupData, (d) => this.getBarValue(d));
       this.trueMax = max([dotMax, barMax]) * 1.1;
       if (this.rollupData[0].units === 'Percentage') {
         this.trueMax = min([this.trueMax, 1]);
       }
 
-      this.rollupData.sort((a, b) => {
-        const order = {
-          race: {
-            'Race 1 covers two lines': 0,
-            'Race 2': 1,
-            'Race 3 covers two lines': 2,
-            [`Race 4 covers three lines because it's long`]: 3,
-            'Race 5': 4,
-            'No Race Selection and Race 1 or Race 2 Ethnicity': 5,
-            'Some Other Race': 6,
-            'Two or More Races': 7,
-            'Asked But No Answer/Unknown': 8,
-          },
-          ethnicity: {
-            'Ethnicity 1 covers two lines': 9,
-            'Ethnicity 2 covers two lines': 10,
-            'Asked But No Answer/Unknown': 11,
-          },
-        };
-
-        const stratA = a.strat === 'ETHNICITY' ? 'ethnicity' : 'race';
-        const stratB = b.strat === 'ETHNICITY' ? 'ethnicity' : 'race';
-        return order[stratA][a.stratVal] - order[stratB][b.stratVal];
-      });
+      this.rollupData.sort((a, b) => this.getSortOrder(a, b));
 
       this.rollupData.forEach((d) => {
-        // add a space to distinguish between duplicate stratVals (race and ethnicity)
-        const ethnicitySpace = d.strat === 'ETHNICITY' ? ' ' : '';
-        d.stratVal = d.stratVal + ethnicitySpace;
+        if ('strat' in d) {
+          // add a space to distinguish between duplicate stratVals (race and ethnicity)
+          const ethnicitySpace = d.strat === 'ETHNICITY' ? ' ' : '';
+          d.stratVal = d.stratVal + ethnicitySpace;
+        }
       });
 
       console.log('rollupData', this.rollupData);
@@ -160,7 +147,9 @@ export class BdaDotPlotComponent implements OnChanges {
             .x((dimension) =>
               dimension.valueAccessor((d) => d.value).domain([0, this.trueMax])
             )
-            .y((dimension) => dimension.valueAccessor((d) => d.stratVal))
+            .y((dimension) =>
+              dimension.valueAccessor((d) => this.getYDimension(d))
+            )
         )
         .color((dimension) => dimension.valueAccessor((d) => d.series))
         .stackOrder(() => [1, 0])

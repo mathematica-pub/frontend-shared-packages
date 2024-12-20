@@ -3,7 +3,7 @@
   <div class="selection">
     <label for="delivSys">Delivery System</label>
     <select id="delivSys" formControlName="delivSys">
-      <option *ngFor="let system of delivSyss" [ngValue]="system.name">
+      <option *ngFor="let system of filters.delivSyss" [ngValue]="system.name">
         {{ system.name }}
       </option>
     </select>
@@ -12,7 +12,7 @@
     <label for="measureCode">Measure Code</label>
     <select id="measureCode" formControlName="measureCode">
       <option
-        *ngFor="let code of measureCodes"
+        *ngFor="let code of filters.measureCodes"
         [ngValue]="code.name"
         [disabled]="code.disabled"
       >
@@ -27,6 +27,6 @@
       'BDA ' + myForm.value[filterTypes[0]] + ' ' + myForm.value[filterTypes[1]]
     "
   >
-    <app-bda-dot-plot [data]="data"></app-bda-dot-plot>
+    <app-extended-bda-dot-plot [data]="data"></app-extended-bda-dot-plot>
   </app-export-content>
 }

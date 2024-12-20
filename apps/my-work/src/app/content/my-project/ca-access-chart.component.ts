@@ -1,11 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -16,10 +10,8 @@ import { DataService } from 'apps/my-work/src/app/core/services/data.service';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { ascending } from 'd3';
 import { combineLatest, debounceTime, filter, map, Observable } from 'rxjs';
-import {
-  BdaDatum,
-  BdaDotPlotComponent,
-} from './bda-dot-plot/bda-dot-plot.component';
+import { CaAccessDotPlotComponent } from './ca-access-dot-plot.component';
+import { CaDatum } from './ca-access-stacked-bars.component';
 
 interface SelectionForm {
   measureCode: AbstractControl<string>;
@@ -32,28 +24,25 @@ interface Option {
 }
 
 @Component({
-  selector: 'app-bda',
+  selector: 'app-ca-access-chart',
   standalone: true,
   imports: [
     CommonModule,
     ExportContentComponent,
-    BdaDotPlotComponent,
+    CaAccessDotPlotComponent,
     ReactiveFormsModule,
   ],
-  templateUrl: './bda.component.html',
-  styleUrl: './bda.component.scss',
+  templateUrl: 'ca-access-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
-export class BdaComponent implements OnInit {
-  dataPath = 'content/data/Mock_BDA_Results.csv';
-  data$: Observable<BdaDatum[]>;
+export class CaAccessChartComponent implements OnInit {
+  dataPath: string;
+  data$: Observable<CaDatum[]>;
   filter$: Observable<FormGroup<SelectionForm>>;
-  filteredData$: Observable<BdaDatum[]>;
+  filteredData$: Observable<CaDatum[]>;
   myForm: FormGroup;
-  measureCodes: Option[] = [];
-  delivSyss: Option[] = [];
-  filterTypes = ['delivSys', 'measureCode'];
+  filters: Record<string, Option[]> = {};
+  filterTypes: string[];
 
   constructor(private dataService: DataService) {}
 
@@ -66,54 +55,29 @@ export class BdaComponent implements OnInit {
     const data$ = this.dataService.getDataFile(this.dataPath).pipe(
       filter((data) => data.length > 0),
       map((data) => {
-        const transformed: BdaDatum[] = data.map((x: any) => {
-          const obj: BdaDatum = {
-            series: 'percentile',
-            // size: x.County_Size,
-            measureCode: x.Measure_Code,
-            delivSys: x.DelivSys,
-            units: x.Units,
-            // value:
-            //   x.CSA_25 && !isNaN(x.CSA_25) && x.CSA_75 && !isNaN(x.CSA_75)
-            //     ? Math.abs(x.CSA_75 - x.CSA_25)
-            //     : null,
-            value: x.BDA_Goal && !isNaN(x.BDA_Goal) ? +x.BDA_Goal : null,
-            planValue: x.Value && !isNaN(x.Value) ? +x.Value : null,
-            // csa_25: x.CSA_25 && !isNaN(x.CSA_25) ? +x.CSA_25 : null,
-            // csa_75: x.CSA_75 && !isNaN(x.CSA_75) ? +x.CSA_75 : null,
-            compVal:
-              x.BDA_CompVal && !isNaN(x.BDA_CompVal) ? +x.BDA_CompVal : null,
-            compValDesc: x.BDA_CompVal_Desc,
-            directionality: x.Directionality,
-            percentBelowGoal:
-              x.BDA_PctBelowGoal && !isNaN(x.BDA_PctBelowGoal)
-                ? +x.BDA_PctBelowGoal
-                : null,
-            goal: x.BDA_Goal && !isNaN(x.BDA_Goal) ? +x.BDA_Goal : null,
-            strat: x.STRAT,
-            stratVal: x.StratVal_v2,
-            plans: [],
-          };
-          return obj;
-        });
-        return transformed;
+        return this.getTransformedData(data);
       })
     );
 
     this.data$ = data$.pipe(
-      map((data: BdaDatum[]) => {
+      map((data: CaDatum[]) => {
         this.setOptions(data);
         this.filterTypes.forEach((type: string) => {
-          this.myForm.controls[type].setValue(this[`${type}s`][0].name);
+          this.myForm.controls[type].setValue(this.filters[`${type}s`][0].name);
         });
         return data;
       })
     );
   }
 
-  setOptions(data: BdaDatum[]): void {
+  getTransformedData(data: CaDatum[]): CaDatum[] {
+    console.log('override getTransformedData');
+    return data;
+  }
+
+  setOptions(data: CaDatum[]): void {
     this.filterTypes.forEach((type: string) => {
-      this[`${type}s`] = this.getOptions(data, type);
+      this.filters[`${type}s`] = this.getOptions(data, type);
     });
   }
 
@@ -134,7 +98,10 @@ export class BdaComponent implements OnInit {
     );
   }
 
-  getFilteredData(data: BdaDatum[], filters: any): BdaDatum[] {
+  getFilteredData(
+    data: CaDatum[],
+    filters: FormGroup<SelectionForm>
+  ): CaDatum[] {
     this.setOptions(data);
     this.setValidValues();
     let filteredData = data;
@@ -146,7 +113,7 @@ export class BdaComponent implements OnInit {
     return filteredData;
   }
 
-  getOptions(data: BdaDatum[], type: string): Option[] {
+  getOptions(data: CaDatum[], type: string): Option[] {
     const options = [...new Set(data.map((x) => x[type]).sort(ascending))].map(
       (x: string) => ({
         name: x,
@@ -156,7 +123,7 @@ export class BdaComponent implements OnInit {
     return options;
   }
 
-  getDisabled(data: BdaDatum[], type: string, selectedOption: string): boolean {
+  getDisabled(data: CaDatum[], type: string, selectedOption: string): boolean {
     const type1 = this.myForm.controls[this.filterTypes[0]].value;
     let count = Infinity;
     if (type === this.filterTypes[1]) {
@@ -179,10 +146,10 @@ export class BdaComponent implements OnInit {
 
   setValidValues(): void {
     this.filterTypes.slice(1).forEach((type: string) => {
-      const selectedOption = this[`${type}s`].find(
+      const selectedOption = this.filters[`${type}s`].find(
         (x: Option) => x.name === this.myForm.controls[type].value
       );
-      const validSelection = this[`${type}s`].find(
+      const validSelection = this.filters[`${type}s`].find(
         (x: Option) => x.disabled === false
       )?.name;
       if (selectedOption?.disabled || !selectedOption?.name) {

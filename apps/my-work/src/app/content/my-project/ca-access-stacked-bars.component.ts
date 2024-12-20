@@ -6,21 +6,34 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
+import { StackedBarsComponent } from '@hsi/viz-components';
 import { format, select, Selection } from 'd3';
-import { BdaDatum } from '../bda-dot-plot.component';
+
+export interface CaDatum {
+  series: string;
+  plans: number[];
+  measureCode: string;
+  delivSys: string;
+  value: number;
+  planValue: number;
+  units: string;
+  compVal: number;
+  compValDesc: string;
+  directionality: string;
+  pctBelowComp: number;
+  stratVal: string;
+}
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[app-bda-stacked-bars]',
+  selector: '[app-ca-access-stacked-bars]',
   standalone: true,
-  templateUrl: './bda-stacked-bars.component.html',
-  styleUrl: './bda-stacked-bars.component.scss',
+  templateUrl: 'ca-access-stacked-bars.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
 })
-export class BdaStackedBarsComponent
-  extends StackedBarsComponent<BdaDatum, string>
+export class CaAccessStackedBarsComponent
+  extends StackedBarsComponent<any, string>
   implements OnInit
 {
   @Input() labelWidth: number;
@@ -28,16 +41,14 @@ export class BdaStackedBarsComponent
   comparisonGroup: Selection<SVGGElement, unknown, null, undefined>;
   directionLabel: Selection<SVGTextElement, unknown, null, undefined>;
   headerGroup: Selection<SVGGElement, unknown, null, undefined>;
-  stratGroup: Selection<SVGGElement, unknown, null, undefined>;
   compVal: number;
   compIsBig: boolean;
   compPosition: number;
   headerOffset = -50;
   yAxisOffset = -0.8;
-  additionalYAxisOffset = `${this.yAxisOffset - 2.8}em`;
+  additionalYAxisOffset = `${this.yAxisOffset - 2.5}em`;
   radius = 4;
-  goalThickness = 6;
-  stratPadding = 3;
+  percentOffset: string;
 
   override ngOnInit(): void {
     this.createCircleGroup();
@@ -45,7 +56,6 @@ export class BdaStackedBarsComponent
     this.createHeaderGroup();
     this.createSizeHeaderGroup();
     this.createPlanHeaderGroup();
-    this.createStratGroup();
     super.ngOnInit();
   }
 
@@ -64,8 +74,6 @@ export class BdaStackedBarsComponent
     this.updateDirectionLabel();
     this.updatePlanHeader();
     this.updateYLabels();
-    this.updateStratLabels();
-    this.updateGoalGroup();
   }
 
   createCircleGroup(): void {
@@ -93,13 +101,11 @@ export class BdaStackedBarsComponent
     group
       .append('text')
       .attr('dy', '-0.6em')
-      // .attr('x', -9)
       .attr('dx', this.additionalYAxisOffset)
       .text('County Categories');
     group
       .append('text')
       .attr('dy', '0.6em')
-      // .attr('x', -9)
       .attr('dx', this.additionalYAxisOffset)
       .text('by Population');
   }
@@ -115,12 +121,6 @@ export class BdaStackedBarsComponent
       .attr('r', this.radius)
       .attr('cx', '1em')
       .attr('cy', -this.radius - 2);
-  }
-
-  createStratGroup(): void {
-    this.stratGroup = select(this.chart.svgRef.nativeElement)
-      .append('g')
-      .attr('class', 'strat-labels');
   }
 
   setCompValues(): void {
@@ -150,22 +150,27 @@ export class BdaStackedBarsComponent
       .selectAll('.category')
       .data(
         this.config.data.filter(
-          (category: BdaDatum) => category.series !== 'invisible'
+          (category: CaDatum) => category.series !== 'invisible'
         )
       )
       .join('g')
       .attr('class', 'category')
       .attr(
         'transform',
-        (category: BdaDatum) =>
-          `translate(0, ${this.scales.y(category.stratVal) + (this.scales.y as any).bandwidth() / 2})`
+        (category: CaDatum) =>
+          `translate(0, ${this.scales.y(this.getCategory(category)) + (this.scales.y as any).bandwidth() / 2})`
       )
       .selectAll('.plan')
-      .data((category: BdaDatum) => category.plans)
+      .data((category: CaDatum) => category.plans)
       .join('circle')
       .attr('r', this.radius)
       .attr('cx', (plan) => this.scales.x(plan))
       .attr('class', 'plan');
+  }
+
+  getCategory(category: CaDatum): string {
+    console.warn('override getCategory');
+    return category.stratVal;
   }
 
   updateComparison(): void {
@@ -220,26 +225,33 @@ export class BdaStackedBarsComponent
       .selectAll('.percent-label')
       .data(
         this.config.data.filter(
-          (category: BdaDatum) => category.series !== 'invisible'
+          (category: CaDatum) => category.series !== 'invisible'
         )
       )
       .join('text')
       .attr('class', 'percent-label')
       .attr('dx', `${this.yAxisOffset}em`)
-      .attr('dy', '0.07em')
+      .attr('dy', this.percentOffset)
       .attr(
         'y',
-        (category: BdaDatum) =>
-          this.scales.y(category.stratVal) +
+        (category: CaDatum) =>
+          this.scales.y(this.getCategory(category)) +
           (this.scales.y as any).bandwidth() / 2
       )
-      .text((category: BdaDatum) => format('.0%')(category.percentBelowGoal));
+      .text((category: CaDatum) => format('.0%')(category.pctBelowComp));
 
     percentGroup
       .selectAll('.comparison-label')
       .data((d) => [d])
       .join('text')
-      .text(`% of plans ${this.getDirection()} the goal`);
+      .text(
+        `% of plans ${this.getDirection()} the ${this.getComparisonDescription()}`
+      );
+  }
+
+  getComparisonDescription(): string {
+    console.warn('override getComparisonDescription');
+    return 'comparison value';
   }
 
   getDirection(): string {
@@ -274,107 +286,6 @@ export class BdaStackedBarsComponent
   updateYLabels(): void {
     select(this.chart.svgRef.nativeElement)
       .selectAll('.vic-y text')
-      // .attr('dx', this.additionalYAxisOffset);
       .style('transform', `translate(${this.additionalYAxisOffset}, 0)`);
-  }
-
-  updateStratLabels(): void {
-    let data = [...new Set(this.config.data.map((d) => d.strat))];
-    data = data.length > 1 ? data : [];
-    const reverseData = [...this.config.data].reverse();
-
-    const strats = this.stratGroup
-      .selectAll('.strat-label')
-      .data(data)
-      .join('g')
-      .attr('class', 'strat-label');
-
-    const offset = -this.labelWidth - 80;
-
-    strats
-      .selectAll('text')
-      .data((d) => [d])
-      .join('text')
-      .text((d) => d)
-      .attr('x', offset)
-      .attr('y', (d) => this.getAverageY(d, reverseData))
-      .attr('transform', (d) => {
-        const y = this.getAverageY(d, reverseData);
-        return `rotate(-90, ${offset}, ${y})`;
-      });
-
-    strats
-      .selectAll('line')
-      .data((d) => [d])
-      .join('line')
-      .attr('x1', offset + 8)
-      .attr('x2', offset + 8)
-      .attr('y1', (d) => this.getY1(d))
-      .attr('y2', (d) => this.getY2(d, reverseData));
-  }
-
-  getY1(d: any): number {
-    const strat = this.config.data.find((x) => x.strat === d);
-    return this.scales.y(strat.stratVal) + this.stratPadding;
-  }
-
-  getY2(d: any, reverseData: BdaDatum[]): number {
-    const strat = reverseData.find((x) => x.strat === d);
-    return (
-      this.scales.y(strat.stratVal) +
-      (this.scales.y as any).bandwidth() -
-      this.stratPadding
-    );
-  }
-
-  getAverageY(d: any, reverseData: BdaDatum[]): number {
-    const y1 = this.getY1(d);
-    const y2 = this.getY2(d, reverseData);
-    const average = (y1 + y2) / 2;
-    return average;
-  }
-
-  updateGoalGroup(): void {
-    let x = this.chart.width * 0.4;
-    if (this.compPosition > 0.3 && this.compPosition < 0.66) {
-      x = this.chart.width - 60;
-    } else if (this.compPosition > 0.1 && this.compPosition < 0.66) {
-      x = this.chart.width * 0.6;
-    }
-
-    const group = this.headerGroup
-      .selectAll('.goal')
-      .data([this.config.data[0].goal].filter((d) => d !== null))
-      .join('g')
-      .attr('class', 'goal')
-      .attr(
-        'transform',
-        `translate(${x}, ${-(this.scales.y as any).bandwidth() / 2 - 4})`
-      );
-    group
-      .selectAll('rect')
-      .data((d) => [d])
-      .join('rect')
-      .attr('width', this.goalThickness)
-      .attr('height', (this.scales.y as any).bandwidth());
-    group
-      .selectAll('text')
-      .data((d) => [d])
-      .join('text')
-      .attr('dx', '0.5em')
-      .attr('y', (this.scales.y as any).bandwidth() / 2)
-      .attr('dy', '0.3em')
-      .text('Goal');
-  }
-
-  override getStackElementX(datum: StackDatum): number {
-    return (
-      Math.min(this.scales.x(datum[0]), this.scales.x(datum[1])) -
-      this.goalThickness / 2
-    );
-  }
-
-  override getStackElementWidth(): number {
-    return this.goalThickness;
   }
 }
