@@ -49,7 +49,7 @@ describe('the YAxis mixin', () => {
       abstractClass.config = new VicYQuantitativeAxisConfigBuilder()
         .side('right')
         .getConfig();
-      expect(abstractClass.getTranslateDistance()).toBe(110);
+      expect(abstractClass.getTranslateDistance()).toBe(100);
     });
   });
 

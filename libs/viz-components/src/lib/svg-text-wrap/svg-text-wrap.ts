@@ -12,9 +12,11 @@ export class SvgTextWrap {
   }
 
   wrap(textSelection) {
+    console.log('textSelection', textSelection);
     textSelection.each((d, i, nodes) => {
       const text = select(nodes[i]);
       const words = text.text().split(/\s+/).reverse();
+      console.log('words', words);
       let word;
       let line = [];
       let lineNumber = 0;

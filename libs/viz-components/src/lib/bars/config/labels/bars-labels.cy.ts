@@ -142,15 +142,10 @@ const barLabelColorMatchesExpectedRgb = (
       [scaleChartWithContainerWidth]="{ width: true, height: true }"
     >
       <ng-container svg-elements>
-        <svg:g
-          vic-x-ordinal-axis
-          [config]="xOrdinalAxisConfig"
-          side="bottom"
-        ></svg:g>
+        <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
         <svg:g
           vic-y-quantitative-axis
           [config]="yQuantitativeAxisConfig"
-          side="left"
         ></svg:g>
         <svg:g vic-primary-marks-bars [config]="barsConfig"></svg:g>
       </ng-container>
@@ -484,13 +479,8 @@ describe('it correctly positions the vertical bar chart data labels', () => {
         <svg:g
           vic-x-quantitative-axis
           [config]="xQuantitativeAxisConfig"
-          side="top"
         ></svg:g>
-        <svg:g
-          vic-y-ordinal-axis
-          [config]="yOrdinalAxisConfig"
-          side="left"
-        ></svg:g>
+        <svg:g vic-y-ordinal-axis [config]="yOrdinalAxisConfig"></svg:g>
         <svg:g vic-primary-marks-bars [config]="barsConfig"></svg:g>
       </ng-container>
     </vic-xy-chart>

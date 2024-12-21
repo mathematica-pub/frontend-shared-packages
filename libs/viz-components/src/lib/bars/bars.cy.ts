@@ -79,13 +79,8 @@ const getYTransform = ($barGroup) => {
         <svg:g
           vic-x-quantitative-axis
           [config]="xQuantitativeAxisConfig"
-          side="top"
         ></svg:g>
-        <svg:g
-          vic-y-ordinal-axis
-          [config]="yOrdinalAxisConfig"
-          side="left"
-        ></svg:g>
+        <svg:g vic-y-ordinal-axis [config]="yOrdinalAxisConfig"></svg:g>
         <svg:g
           vic-primary-marks-bars
           [config]="barsConfig"
@@ -190,15 +185,10 @@ const mountHorizontalBarsComponent = (
       [scaleChartWithContainerWidth]="{ width: true, height: false }"
     >
       <ng-container svg-elements>
-        <svg:g
-          vic-x-ordinal-axis
-          [config]="xOrdinalAxisConfig"
-          side="bottom"
-        ></svg:g>
+        <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
         <svg:g
           vic-y-quantitative-axis
           [config]="yQuantitativeAxisConfig"
-          side="left"
         ></svg:g>
         <svg:g
           vic-primary-marks-bars
@@ -557,12 +547,12 @@ describe('it creates the correct bars in the correct order for the data', () => 
             const size = parseFloat($bar.attr(barAttr));
             const axisSelector =
               orientation === 'horizontal' ? '.vic-y' : '.vic-x';
-            cy.get(`${axisSelector}.vic-axis-g .domain`).then((domain) => {
-              const domainRect = (
-                domain[0] as unknown as SVGPathElement
-              ).getBBox();
-              expect(size).to.be.above(domainRect[barAttr]);
-            });
+            cy.get<SVGPathElement>(`${axisSelector}.vic-axis-g .domain`).then(
+              (domain) => {
+                const domainRect = domain[0].getBBox();
+                expect(size).to.be.above(domainRect[barAttr]);
+              }
+            );
           });
       });
       it(`has bars with the correct ${barAttr} when values are negative and the smallest values is less than the domain min - CORRECT BEHAVIOR CAUSES VISUAL ERROR`, () => {

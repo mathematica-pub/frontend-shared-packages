@@ -60,12 +60,10 @@ const tooltipYOffset = 60; // need to offset otherwise the hover will be on the 
         <svg:g
           vic-x-quantitative-axis
           [config]="xQuantitativeAxisConfig"
-          side="bottom"
         ></svg:g>
         <svg:g
           vic-y-quantitative-axis
           [config]="yQuantitativeAxisConfig"
-          side="left"
         ></svg:g>
         <svg:g
           vic-primary-marks-lines
