@@ -44,25 +44,25 @@ describe('keyboard navigation with a generic listbox', () => {
       declarations: [ComboboxSingleKeyboardTestComponent],
       imports: [HsiUiComboboxModule, MatIconModule],
     });
-    cy.get('.combobox-textbox').trigger('focus');
+    cy.get('.hsi-ui-textbox').trigger('focus');
   });
-  it('correctly opens the combobox with the open keys ', () => {
+  describe('correctly opens the combobox with the open keys ', () => {
     it('opens the listbox on enter and first option is current, then arrows through', () => {
-      cy.get('.combobox-textbox').trigger('keydown', { key: 'Enter' });
-      cy.get('.combobox-listbox').should('be.visible');
-      cy.get('.listbox-option').first().should('have.class', 'current');
+      cy.get('.hsi-ui-textbox').trigger('keydown', { key: 'Enter' });
+      cy.get('.hsi-ui-listbox').should('be.visible');
+      cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
     });
     it('opens the listbox on space', () => {
-      cy.get('.combobox-textbox').trigger('keydown', { key: ' ' });
-      cy.get('.combobox-listbox').should('be.visible');
+      cy.get('.hsi-ui-textbox').trigger('keydown', { key: ' ' });
+      cy.get('.hsi-ui-listbox').should('be.visible');
     });
     it('opens the listbox on down arrow', () => {
-      cy.get('.combobox-textbox').trigger('keydown', { key: 'ArrowDown' });
-      cy.get('.combobox-listbox').should('be.visible');
+      cy.get('.hsi-ui-textbox').trigger('keydown', { key: 'ArrowDown' });
+      cy.get('.hsi-ui-listbox').should('be.visible');
     });
     it('opens the listbox on up arrow', () => {
-      cy.get('.combobox-textbox').trigger('keydown', { key: 'ArrowUp' });
-      cy.get('.combobox-listbox').should('be.visible');
+      cy.get('.hsi-ui-textbox').trigger('keydown', { key: 'ArrowUp' });
+      cy.get('.hsi-ui-listbox').should('be.visible');
     });
   });
 });
@@ -75,41 +75,40 @@ describe('keyboard navigation with a single select listbox', () => {
     });
   });
   it('correctly responds to keyboard navigation and selection', () => {
-    // realPress('tab') will not work on first mounted component shrug
-    cy.get('.combobox-textbox').should('be.visible');
-    cy.get('.combobox-textbox').focus();
+    cy.get('.hsi-ui-textbox').should('be.visible');
+    cy.get('.hsi-ui-textbox-container').focus();
     // opens the combobox on enter
-    cy.get('.combobox-textbox').type('{enter}');
-    cy.get('.combobox-listbox').should('be.visible');
-    // apllies current class to first option on enter
-    cy.get('.listbox-option').first().should('have.class', 'current');
+    cy.get('.hsi-ui-textbox').type('{enter}');
+    cy.get('.hsi-ui-listbox').should('be.visible');
+    // applies current class to first option on enter
+    cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
     // closes the combobox with escape
-    cy.get('.combobox-textbox').type('{esc}');
-    cy.get('.combobox-listbox').should('not.be.visible');
+    cy.get('.hsi-ui-textbox').type('{esc}');
+    cy.get('.hsi-ui-listbox').should('not.be.visible');
     // applies current class to first option on down arrow
-    cy.get('.combobox-textbox').focus();
-    cy.get('.combobox-textbox').type('{downArrow}');
-    cy.get('.listbox-option').first().should('have.class', 'current');
+    cy.get('.hsi-ui-textbox-container').focus();
+    cy.get('.hsi-ui-textbox').type('{downArrow}');
+    cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
     // selects an option using the keyboard and updates the value
-    cy.get('.combobox-textbox').type('{downarrow}{enter}');
+    cy.get('.hsi-ui-textbox').type('{downarrow}{enter}');
     cy.get('.combobox-value').should('have.text', 'Bananas');
     // focus remains on first option when up arrow is presse
-    cy.get('.combobox-textbox').focus();
-    cy.get('.combobox-textbox').type('{enter}');
-    cy.get('.listbox-option').eq(1).should('have.class', 'current');
-    cy.get('.combobox-textbox').type('{upArrow}');
-    cy.get('.listbox-option').first().should('have.class', 'current');
-    cy.get('.combobox-textbox').type('{upArrow}');
-    cy.get('.listbox-option').first().should('have.class', 'current');
+    cy.get('.hsi-ui-textbox-container').focus();
+    cy.get('.hsi-ui-textbox').type('{enter}');
+    cy.get('.hsi-ui-listbox-option').eq(1).should('have.class', 'current');
+    cy.get('.hsi-ui-textbox').type('{upArrow}');
+    cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
+    cy.get('.hsi-ui-textbox').type('{upArrow}');
+    cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
     // focus remains on last option when down arrow is pressed
-    cy.get('.combobox-textbox').type('{esc}');
-    cy.get('.combobox-textbox').focus();
-    cy.get('.combobox-textbox').type(
+    cy.get('.hsi-ui-textbox').type('{esc}');
+    cy.get('.hsi-ui-textbox-container').focus();
+    cy.get('.hsi-ui-textbox').type(
       '{downArrow}{downArrow}{downArrow}{downArrow}'
     );
-    cy.get('.listbox-option').eq(4).should('have.class', 'current');
-    cy.get('.combobox-textbox').type('{downArrow}');
-    cy.get('.listbox-option').eq(4).should('have.class', 'current');
+    cy.get('.hsi-ui-listbox-option').eq(4).should('have.class', 'current');
+    cy.get('.hsi-ui-textbox').type('{downArrow}');
+    cy.get('.hsi-ui-listbox-option').eq(4).should('have.class', 'current');
   });
 });
 
@@ -159,36 +158,36 @@ describe('keyboard navigation with a multi select listbox', () => {
   it('correctly responds to keyboard navigation and selection', () => {
     // textbox receives focus on tab
     cy.realPress('Tab');
-    cy.get('.combobox-textbox').should('be.focused');
+    cy.get('.hsi-ui-textbox-container').should('be.focused');
     // opens the combobox on enter
-    cy.get('.combobox-textbox').type('{enter}');
-    cy.get('.combobox-listbox').should('be.visible');
+    cy.get('.hsi-ui-textbox').type('{enter}');
+    cy.get('.hsi-ui-listbox').should('be.visible');
     // apllies current class to first option on enter
-    cy.get('.listbox-option').first().should('have.class', 'current');
+    cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
     // closes the combobox with escape
-    cy.get('.combobox-textbox').type('{esc}');
-    cy.get('.combobox-listbox').should('not.be.visible');
+    cy.get('.hsi-ui-textbox').type('{esc}');
+    cy.get('.hsi-ui-listbox').should('not.be.visible');
     // applies current class to first option on down arrow
-    cy.get('.combobox-textbox').focus();
-    cy.get('.combobox-textbox').type('{downArrow}');
-    cy.get('.listbox-option').first().should('have.class', 'current');
+    cy.get('.hsi-ui-textbox-container').focus();
+    cy.get('.hsi-ui-textbox').type('{downArrow}');
+    cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
     // selects and unselects options using the keyboard and updates the value
-    cy.get('.combobox-textbox').type('{downarrow}{enter}');
-    cy.get('.combobox-textbox').type('{downarrow}{downarrow}{enter}');
+    cy.get('.hsi-ui-textbox').type('{downarrow}{enter}');
+    cy.get('.hsi-ui-textbox').type('{downarrow}{downarrow}{enter}');
     cy.get('.combobox-value').should('have.text', 'Bananas,Durians');
-    cy.get('.combobox-textbox').type('{enter}');
+    cy.get('.hsi-ui-textbox').type('{enter}');
     cy.get('.combobox-value').should('have.text', 'Bananas');
     // focus remains on first option when up arrow is presse
-    cy.get('.combobox-textbox').type('{upArrow}{upArrow}{upArrow}');
-    cy.get('.listbox-option').first().should('have.class', 'current');
-    cy.get('.combobox-textbox').type('{upArrow}');
-    cy.get('.listbox-option').first().should('have.class', 'current');
+    cy.get('.hsi-ui-textbox').type('{upArrow}{upArrow}{upArrow}');
+    cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
+    cy.get('.hsi-ui-textbox').type('{upArrow}');
+    cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
     // focus remains on last option when down arrow is pressed
-    cy.get('.combobox-textbox').type(
+    cy.get('.hsi-ui-textbox').type(
       '{enter}{downArrow}{downArrow}{downArrow}{downArrow}'
     );
-    cy.get('.listbox-option').eq(4).should('have.class', 'current');
-    cy.get('.combobox-textbox').type('{downArrow}');
-    cy.get('.listbox-option').eq(4).should('have.class', 'current');
+    cy.get('.hsi-ui-listbox-option').eq(4).should('have.class', 'current');
+    cy.get('.hsi-ui-textbox').type('{downArrow}');
+    cy.get('.hsi-ui-listbox-option').eq(4).should('have.class', 'current');
   });
 });

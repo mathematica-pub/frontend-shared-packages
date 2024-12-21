@@ -82,27 +82,27 @@ describe('Basic ngForm editable textbox features', () => {
     });
   });
   it('displays the placeholder text', () => {
-    cy.get('.combobox-textbox').should(
+    cy.get('.hsi-ui-textbox').should(
       'have.attr',
       'placeholder',
       'Select a fruit, A-E'
     );
   });
   it('displays the typed text in the textbox and correctly outputs typed text', () => {
-    cy.get('.combobox-textbox').type('bananas');
-    cy.get('.combobox-textbox').should('have.value', 'bananas');
+    cy.get('.hsi-ui-editable-textbox-input').type('bananas');
+    cy.get('.hsi-ui-editable-textbox-input').should('have.value', 'bananas');
     cy.get('.textbox-value').should('have.text', 'bananas');
   });
   it('displays the filtered options in the listbox', () => {
-    cy.get('.combobox-textbox').type('coco');
-    cy.get('.combobox-listbox')
-      .find('.listbox-option')
+    cy.get('.hsi-ui-editable-textbox-input').type('coco');
+    cy.get('.hsi-ui-listbox')
+      .find('.hsi-ui-listbox-option')
       .should('have.length', 1);
   });
   it('displays the filtered options in the listbox', () => {
-    cy.get('.combobox-textbox').type('a');
-    cy.get('.combobox-listbox')
-      .find('.listbox-option')
+    cy.get('.hsi-ui-editable-textbox-input').type('a');
+    cy.get('.hsi-ui-listbox')
+      .find('.hsi-ui-listbox-option')
       .should('have.length', 3); //Apples, Bananas, Durians
   });
 });
@@ -123,44 +123,47 @@ describe('Basic ngForm editable textbox features', () => {
       });
       it('selects the first item if textbox is clicked on and closed', () => {
         cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.combobox-listbox').should('be.visible');
+        cy.get('.hsi-ui-listbox').should('be.visible');
         cy.get('.outside-element').realClick();
         cy.get('.combobox-value').should('have.text', 'Apples');
-        cy.get('.combobox-listbox').should('not.be.visible');
+        cy.get('.hsi-ui-listbox').should('not.be.visible');
         // reopen listbox and make sure properties are correct
         cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.combobox-listbox').should('be.visible');
-        cy.get('.combobox-listbox')
-          .find('.listbox-option')
+        cy.get('.hsi-ui-listbox').should('be.visible');
+        cy.get('.hsi-ui-listbox')
+          .find('.hsi-ui-listbox-option')
           .should('have.length', 5);
-        cy.get('.combobox-listbox')
-          .find('.listbox-option')
+        cy.get('.hsi-ui-listbox')
+          .find('.hsi-ui-listbox-option')
           .first()
           .should('have.class', 'selected');
-        cy.get('.combobox-listbox')
-          .find('.listbox-option')
+        cy.get('.hsi-ui-listbox')
+          .find('.hsi-ui-listbox-option')
           .first()
           .should('have.class', 'current');
       });
       it('retains the user selection if the listbox is closed and then reopened', () => {
         cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.combobox-listbox').should('be.visible');
-        cy.get('.combobox-listbox').find('.listbox-option').eq(2).realClick();
+        cy.get('.hsi-ui-listbox').should('be.visible');
+        cy.get('.hsi-ui-listbox')
+          .find('.hsi-ui-listbox-option')
+          .eq(2)
+          .realClick();
         cy.get('.combobox-value').should('have.text', 'Coconuts');
         cy.get('.outside-element').realClick();
-        cy.get('.combobox-listbox').should('not.be.visible');
+        cy.get('.hsi-ui-listbox').should('not.be.visible');
         // reopen listbox and make sure properties are correct
         cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.combobox-listbox').should('be.visible');
-        cy.get('.combobox-listbox')
-          .find('.listbox-option')
+        cy.get('.hsi-ui-listbox').should('be.visible');
+        cy.get('.hsi-ui-listbox')
+          .find('.hsi-ui-listbox-option')
           .should('have.length', 5);
-        cy.get('.combobox-listbox')
-          .find('.listbox-option')
+        cy.get('.hsi-ui-listbox')
+          .find('.hsi-ui-listbox-option')
           .eq(2)
           .should('have.class', 'selected');
-        cy.get('.combobox-listbox')
-          .find('.listbox-option')
+        cy.get('.hsi-ui-listbox')
+          .find('.hsi-ui-listbox-option')
           .eq(2)
           .should('have.class', 'current');
       });
@@ -179,51 +182,54 @@ describe('Basic ngForm editable textbox features', () => {
       });
       it('does not make a selection if textbox is clicked on and closed', () => {
         cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.combobox-listbox').should('be.visible');
+        cy.get('.hsi-ui-listbox').should('be.visible');
         cy.get('.outside-element').realClick();
         cy.get('.combobox-value').should('have.text', '');
-        cy.get('.combobox-listbox').should('not.be.visible');
+        cy.get('.hsi-ui-listbox').should('not.be.visible');
       });
       it('filters the options and selects the first in the filtered list if text is entered in the textbox but no option is clicked', () => {
         cy.get('.fruits-dropdown').find('input').type('a');
-        cy.get('.combobox-listbox').should('be.visible');
+        cy.get('.hsi-ui-listbox').should('be.visible');
         cy.get('.outside-element').realClick();
         cy.get('.combobox-value').should('have.text', 'Apples');
-        cy.get('.combobox-listbox').should('not.be.visible');
+        cy.get('.hsi-ui-listbox').should('not.be.visible');
         // reopen listbox and make sure properties are correct
         cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.combobox-listbox').should('be.visible');
-        cy.get('.combobox-listbox')
-          .find('.listbox-option')
+        cy.get('.hsi-ui-listbox').should('be.visible');
+        cy.get('.hsi-ui-listbox')
+          .find('.hsi-ui-listbox-option')
           .should('have.length', 3);
-        cy.get('.combobox-listbox')
-          .find('.listbox-option')
+        cy.get('.hsi-ui-listbox')
+          .find('.hsi-ui-listbox-option')
           .first()
           .should('have.class', 'selected');
-        cy.get('.combobox-listbox')
-          .find('.listbox-option')
+        cy.get('.hsi-ui-listbox')
+          .find('.hsi-ui-listbox-option')
           .first()
           .should('have.class', 'current');
       });
       it('retains the user selection if the listbox is closed and then reopened', () => {
         cy.get('.fruits-dropdown').find('input').type('a');
-        cy.get('.combobox-listbox').should('be.visible');
-        cy.get('.combobox-listbox').find('.listbox-option').eq(2).realClick();
+        cy.get('.hsi-ui-listbox').should('be.visible');
+        cy.get('.hsi-ui-listbox')
+          .find('.hsi-ui-listbox-option')
+          .eq(2)
+          .realClick();
         cy.get('.combobox-value').should('have.text', 'Durians');
         cy.get('.outside-element').realClick();
-        cy.get('.combobox-listbox').should('not.be.visible');
+        cy.get('.hsi-ui-listbox').should('not.be.visible');
         // reopen listbox and make sure properties are correct
         cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.combobox-listbox').should('be.visible');
-        cy.get('.combobox-listbox')
-          .find('.listbox-option')
+        cy.get('.hsi-ui-listbox').should('be.visible');
+        cy.get('.hsi-ui-listbox')
+          .find('.hsi-ui-listbox-option')
           .should('have.length', 3);
-        cy.get('.combobox-listbox')
-          .find('.listbox-option')
+        cy.get('.hsi-ui-listbox')
+          .find('.hsi-ui-listbox-option')
           .eq(2)
           .should('have.class', 'selected');
-        cy.get('.combobox-listbox')
-          .find('.listbox-option')
+        cy.get('.hsi-ui-listbox')
+          .find('.hsi-ui-listbox-option')
           .eq(2)
           .should('have.class', 'current');
       });
@@ -242,10 +248,10 @@ describe('Basic ngForm editable textbox features', () => {
       });
       it('does not make any selections if the textbox is clicked and then there is a blur event / it is closed', () => {
         cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.combobox-listbox').should('be.visible');
+        cy.get('.hsi-ui-listbox').should('be.visible');
         cy.get('.outside-element').realClick();
         cy.get('.combobox-value').should('have.text', '');
-        cy.get('.combobox-listbox').should('not.be.visible');
+        cy.get('.hsi-ui-listbox').should('not.be.visible');
       });
     });
   });

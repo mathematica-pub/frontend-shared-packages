@@ -70,30 +70,36 @@ describe('ComboboxSelectAllMultiComponent', () => {
       });
     });
     it('correctly selects and deselects options when toggled', () => {
-      cy.get('.combobox-textbox').click();
+      cy.get('.hsi-ui-textbox').click();
       [1, 2, 3, 4, 5].forEach((i) => {
-        cy.get('.listbox-option').eq(i).should('not.have.class', 'selected');
+        cy.get('.hsi-ui-listbox-option')
+          .eq(i)
+          .should('not.have.class', 'selected');
       });
       // toggle on select all button, expect all options to be selected
-      cy.get('.listbox-option').eq(0).realClick();
+      cy.get('.hsi-ui-listbox-option').eq(0).realClick();
       [1, 2, 3, 4, 5].forEach((i) => {
-        cy.get('.listbox-option').eq(i).should('have.class', 'selected');
+        cy.get('.hsi-ui-listbox-option').eq(i).should('have.class', 'selected');
       });
       // toggle off select all button, expect all options to not be selected
-      cy.get('.listbox-option').eq(0).realClick();
+      cy.get('.hsi-ui-listbox-option').eq(0).realClick();
       [1, 2, 3, 4, 5].forEach((i) => {
-        cy.get('.listbox-option').eq(i).should('not.have.class', 'selected');
+        cy.get('.hsi-ui-listbox-option')
+          .eq(i)
+          .should('not.have.class', 'selected');
       });
     });
 
     it('reponds to user selection and deselection of other options', () => {
-      cy.get('.combobox-textbox').click();
+      cy.get('.hsi-ui-textbox').click();
       [1, 2, 3, 4, 5].forEach((i) => {
-        cy.get('.listbox-option').eq(i).realClick();
+        cy.get('.hsi-ui-listbox-option').eq(i).realClick();
       });
-      cy.get('.listbox-option').eq(0).should('have.class', 'selected');
-      cy.get('.listbox-option').eq(2).realClick();
-      cy.get('.listbox-option').eq(0).should('not.have.class', 'selected');
+      cy.get('.hsi-ui-listbox-option').eq(0).should('have.class', 'selected');
+      cy.get('.hsi-ui-listbox-option').eq(2).realClick();
+      cy.get('.hsi-ui-listbox-option')
+        .eq(0)
+        .should('not.have.class', 'selected');
     });
   });
 });
@@ -199,32 +205,32 @@ describe('ComboboxExternalSelectedTestComponent', () => {
   });
 
   it('the select all option should respond to the selected property of an option being changed from outside - deselection', () => {
-    cy.get('.combobox-textbox').click();
-    cy.get('.listbox-option').eq(0).realClick();
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').eq(0).realClick();
     cy.get('.deselect-option-button').eq(0).realClick();
-    cy.get('.listbox-option').eq(0).should('not.have.class', 'selected');
+    cy.get('.hsi-ui-listbox-option').eq(0).should('not.have.class', 'selected');
   });
 
   it('the select all option should respond to the selected property of an option being changed from outside - selection', () => {
-    cy.get('.combobox-textbox').click();
+    cy.get('.hsi-ui-textbox').click();
     [1, 2, 3, 4].forEach((i) => {
-      cy.get('.listbox-option').eq(i).realClick();
+      cy.get('.hsi-ui-listbox-option').eq(i).realClick();
     });
     cy.get('.select-option-button').eq(4).realClick();
-    cy.get('.listbox-option').eq(0).should('have.class', 'selected');
+    cy.get('.hsi-ui-listbox-option').eq(0).should('have.class', 'selected');
   });
 
   it('the combobox should not emit a new value when an option is selected from outside and should emit a new value on user selection', () => {
-    cy.get('.combobox-textbox').click();
+    cy.get('.hsi-ui-textbox').click();
     [1, 2, 3, 4].forEach((i) => {
-      cy.get('.listbox-option').eq(i).realClick();
+      cy.get('.hsi-ui-listbox-option').eq(i).realClick();
     });
     cy.get('.clear-value-button').realClick();
     cy.get('.emitted-combobox-value').should('have.text', '');
     cy.get('.select-option-button').eq(4).realClick();
     cy.get('.emitted-combobox-value').should('have.text', '');
-    cy.get('.combobox-textbox').click();
-    cy.get('.listbox-option').eq(3).realClick();
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').eq(3).realClick();
     cy.get('.emitted-combobox-value').should(
       'have.text',
       'Apples,Bananas,Durians,Elderberries'
@@ -234,15 +240,15 @@ describe('ComboboxExternalSelectedTestComponent', () => {
   // Cypress is not able to execute the click on the clear all button in any test that follows the one above
   // The test below is what we should use here, but even if I duplicate the test above in this block, it will pass in the first instance and fail in the second
   // it('the combobox should not emit a new value when an option is deselected from outside and should emit a new value on user selection', () => {
-  //   cy.get('.combobox-textbox').click();
-  //   cy.get('.listbox-option').eq(0).realClick();
+  //   cy.get('.hsi-ui-textbox').click();
+  //   cy.get('.hsi-ui-listbox-option').eq(0).realClick();
   //   cy.wait(500);
   //   cy.get('.clear-value-button').realClick();
   //   cy.get('.emitted-combobox-value').should('have.text', '');
   //   cy.get('.deselect-option-button').eq(0).realClick();
   //   cy.get('.emitted-combobox-value').should('have.text', '');
-  //   cy.get('.combobox-textbox').click();
-  //   cy.get('.listbox-option').eq(2).realClick();
+  //   cy.get('.hsi-ui-textbox').click();
+  //   cy.get('.hsi-ui-listbox-option').eq(2).realClick();
   //   cy.get('.emitted-combobox-value').should(
   //     'have.text',
   //     'Coconuts,Durians,Elderberries'
@@ -337,25 +343,25 @@ describe('ComboboxExternalDisableTestComponent', () => {
   });
 
   it('the select all option should not change with a change to the disabled property of options from the outside', () => {
-    cy.get('.combobox-textbox').click();
-    cy.get('.listbox-option').eq(0).realClick();
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').eq(0).realClick();
     cy.get('.emitted-combobox-value').should(
       'have.text',
       'Apples,Bananas,Coconuts,Durians,Elderberries'
     );
-    cy.get('.textbox-label').should(
+    cy.get('.hsi-ui-textbox-label').should(
       'have.text',
       'Apples, Bananas, Coconuts, Durians, Elderberries'
     );
     cy.get('.disable-apple-button').realClick();
-    cy.get('.listbox-option').eq(1).should('have.class', 'disabled');
-    cy.get('.listbox-option').eq(0).should('have.class', 'selected');
+    cy.get('.hsi-ui-listbox-option').eq(1).should('have.class', 'disabled');
+    cy.get('.hsi-ui-listbox-option').eq(0).should('have.class', 'selected');
 
-    cy.get('.listbox-option').eq(1).realClick();
-    cy.get('.listbox-option').eq(0).should('have.class', 'selected');
-    cy.get('.listbox-option').eq(1).should('have.class', 'selected');
-    cy.get('.listbox-option').eq(1).should('have.class', 'disabled');
-    cy.get('.textbox-label').should(
+    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-listbox-option').eq(0).should('have.class', 'selected');
+    cy.get('.hsi-ui-listbox-option').eq(1).should('have.class', 'selected');
+    cy.get('.hsi-ui-listbox-option').eq(1).should('have.class', 'disabled');
+    cy.get('.hsi-ui-textbox-label').should(
       'have.text',
       'Apples, Bananas, Coconuts, Durians, Elderberries'
     );
