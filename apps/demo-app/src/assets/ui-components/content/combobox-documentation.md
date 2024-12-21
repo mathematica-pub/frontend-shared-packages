@@ -28,11 +28,9 @@ We also have the following variants:
 
 - EditableTextboxComponent
 - NgFormEditableTextboxComponent
-- NgFormListboxSingleComponent
-- NgFormListboxMultiComponent
 
-Currently the combobox component has no native icons, such as a box icon that indicates open status,
-or checkboxes to use if the component is multi-select. Users can project their own icons in the
+The combobox component has no native icons, such as a box icon that indicates open status, or
+checkboxes to use if the component is multi-select. Users can project their own icons in the
 appropriate content projection slots.
 
 ## Combobox Component

@@ -13,6 +13,9 @@ import { ListboxOptionComponent } from '../listbox-option/listbox-option.compone
 @Component({
   selector: 'hsi-ui-listbox-group',
   template: `<ng-content></ng-content>`,
+  host: {
+    class: 'hsi-ui-listbox-group',
+  },
 })
 export class ListboxGroupComponent implements AfterContentInit {
   @ContentChild(ListboxLabelComponent)

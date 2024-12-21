@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
-import { ComboboxModule } from '../combobox.module';
+import { HsiUiComboboxModule } from '../combobox.module';
 import { ComboboxService } from '../combobox.service';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
@@ -55,7 +55,7 @@ describe('ComboboxMultiComponent', () => {
     beforeEach(() => {
       cy.mount(ComboboxSimpleMultiSelectTestComponent, {
         declarations: [ComboboxSimpleMultiSelectTestComponent],
-        imports: [ComboboxModule, MatIconModule],
+        imports: [HsiUiComboboxModule, MatIconModule],
       });
     });
     it('the current class is on the first selected option if there is one or on the 0th option when opened', () => {
@@ -201,7 +201,7 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxExternalLabelChangeTestComponent, {
       declarations: [ComboboxExternalLabelChangeTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
       providers: [ComboboxService],
     });
   });
@@ -309,7 +309,7 @@ describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxMultiSelectDisabledOptionsComponent, {
       declarations: [ComboboxMultiSelectDisabledOptionsComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('can select non-disabled options', () => {
@@ -383,7 +383,7 @@ describe('NgFormListboxMultiTestComponent', () => {
   beforeEach(() => {
     cy.mount(NgFormListboxMultiTestComponent, {
       declarations: [NgFormListboxMultiTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('can make more than one selection', () => {

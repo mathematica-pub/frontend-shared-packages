@@ -105,14 +105,6 @@ export class LibDocsComponent implements OnInit {
         }
       });
     }
-    // Documentation structure doc determines the order for the top level
-    if (level !== 0) {
-      itemsArray.sort((a, b) => {
-        if (!a.children && !!b.children) return 1;
-        if (!!a.children && !b.children) return -1;
-        return a.name.localeCompare(b.name);
-      });
-    }
 
     return itemsArray as HsiUiDirectoryItem[];
   }

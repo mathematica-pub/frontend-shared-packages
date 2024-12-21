@@ -14,7 +14,6 @@ export interface ListboxOptionPropertyChange {
   property: 'selected' | 'disabled';
   value: boolean;
   comboboxId: string;
-  optionId: number;
   optionValue: string | number | boolean;
 }
 
@@ -85,8 +84,7 @@ export class ListboxOptionComponent implements OnChanges {
       property,
       value: this[property],
       comboboxId: this.service.id,
-      optionId: this.id,
-      optionValue: this.value || this.label?.nativeElement?.innerText,
+      optionValue: this.valueToEmit,
     };
   }
 

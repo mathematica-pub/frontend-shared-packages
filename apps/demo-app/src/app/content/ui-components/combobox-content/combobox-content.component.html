@@ -1,137 +1,93 @@
 <app-content-container class="combobox-content-container">
   <ng-template let-section #customAngular>
     @switch (section.content) {
-      @case ('simple multi select') {
-        <app-single-panel-example-display
-          [height]="exampleHeight"
-          path="app/content/ui-components/combobox-content/multi-select/simple-multi-select-combobox-example"
-          class="example"
-          label="simple multi-select combobox"
-          [exampleTabCanScroll]="false"
-        >
-          <app-simple-multi-select-combobox-example></app-simple-multi-select-combobox-example>
-        </app-single-panel-example-display>
+      @case ('minimal implementation') {
+        <app-minimal-implementation-combobox
+          class="minimal-implementation-example"
+        ></app-minimal-implementation-combobox>
       }
-      @case ('display count multi select') {
-        <app-single-panel-example-display
-          [height]="exampleHeight"
-          path="app/content/ui-components/combobox-content/multi-select/display-count-multi-select-combobox-example"
-          class="example"
-          label="multi-select combobox that displays count"
-          [exampleTabCanScroll]="false"
-        >
-          <app-display-count-multi-select-combobox-example></app-display-count-multi-select-combobox-example>
-        </app-single-panel-example-display>
+      @case ('multi-select example') {
+        <p class="example-label">Multi-select combobox</p>
+        <app-minimal-implementation-combobox
+          [multiSelect]="true"
+          class="minimal-implementation-example"
+        ></app-minimal-implementation-combobox>
       }
-      @case ('disabled options multi select') {
-        <app-single-panel-example-display
-          [height]="exampleHeight"
-          path="app/content/ui-components/combobox-content/multi-select/disabled-selections-multi-combobox-example"
-          class="example"
-          label="multi-select combobox with disabled options"
-          [exampleTabCanScroll]="false"
+      @case ('select all example') {
+        <p class="example-label"
+          >Multi-select combobox with select all option</p
         >
-          <app-disabled-selections-multi-combobox-example></app-disabled-selections-multi-combobox-example>
-        </app-single-panel-example-display>
+        <app-minimal-implementation-combobox
+          [multiSelect]="true"
+          [selectAll]="true"
+          class="minimal-implementation-example"
+        ></app-minimal-implementation-combobox>
       }
-      @case ('ng form control multi select') {
-        <app-single-panel-example-display
-          [height]="exampleHeight"
-          path="app/content/ui-components/combobox-content/multi-select/ng-form-multi-select-combobox-example"
-          class="example"
-          label="multi-select combobox that uses FormControl"
-          [exampleTabCanScroll]="false"
-        >
-          <app-ng-form-multi-select-combobox-example></app-ng-form-multi-select-combobox-example>
-        </app-single-panel-example-display>
+      @case ('static label example') {
+        <p class="example-label">Combobox with static textbox label</p>
+        <app-minimal-implementation-combobox
+          [multiSelect]="true"
+          [dynamicLabel]="false"
+          class="minimal-implementation-example"
+        ></app-minimal-implementation-combobox>
       }
-      @case ('editable textbox multi select') {
-        <app-single-panel-example-display
-          [height]="exampleHeight"
-          path="app/content/ui-components/combobox-content/multi-select/editable-textbox-multi-select-combobox-example"
-          class="example"
-          label="editable textbox multi-select combobox"
-          [exampleTabCanScroll]="false"
+      @case ('count selected example') {
+        <p class="example-label"
+          >Combobox with a selected count textbox label</p
         >
-          <app-editable-textbox-multi-select-combobox-example></app-editable-textbox-multi-select-combobox-example>
-        </app-single-panel-example-display>
+        <app-minimal-implementation-combobox
+          [multiSelect]="true"
+          [countLabel]="{ singular: 'state', plural: 'states' }"
+          class="minimal-implementation-example"
+        ></app-minimal-implementation-combobox>
       }
-      @case ('grouped multi select') {
-        <app-single-panel-example-display
-          [height]="exampleHeight"
-          path="app/content/ui-components/combobox-content/multi-select/grouped-selections-multi-combobox-example"
-          class="example"
-          label="grouped multi select combobox example"
-          [exampleTabCanScroll]="false"
-        >
-          <app-grouped-selections-multi-combobox-example></app-grouped-selections-multi-combobox-example>
-        </app-single-panel-example-display>
+      @case ('custom label example') {
+        <p class="example-label">Combobox with a custom textbox label</p>
+        <app-minimal-implementation-combobox
+          [multiSelect]="true"
+          [customLabel]="customLabel"
+          class="minimal-implementation-example"
+        ></app-minimal-implementation-combobox>
       }
-      @case ('simple single select') {
-        <app-single-panel-example-display
-          [height]="exampleHeight"
-          path="app/content/ui-components/combobox-content/single-select/simple-single-select-combobox-example"
-          class="example"
-          label="simple single-select combobox"
-          [exampleTabCanScroll]="false"
+      @case ('listbox label example') {
+        <p class="example-label"
+          >Combobox that uses a listbox label as a textbox label</p
         >
-          <app-simple-single-select-combobox-example></app-simple-single-select-combobox-example>
-        </app-single-panel-example-display>
+        <app-minimal-implementation-combobox
+          [multiSelect]="true"
+          [listboxLabel]="true"
+          class="minimal-implementation-example"
+        ></app-minimal-implementation-combobox>
       }
-      @case ('static label single select') {
-        <app-single-panel-example-display
-          [height]="exampleHeight"
-          path="app/content/ui-components/combobox-content/single-select/static-label-single-select-combobox-example"
-          class="example"
-          label="single-select combobox with a static textbox label"
-          [exampleTabCanScroll]="false"
-        >
-          <app-static-label-single-select-combobox-example></app-static-label-single-select-combobox-example>
-        </app-single-panel-example-display>
+      @case ('grouped example') {
+        <p class="example-label">Combobox with grouped options</p>
+        <app-minimal-implementation-combobox
+          [multiSelect]="true"
+          [groups]="true"
+          class="minimal-implementation-example"
+        ></app-minimal-implementation-combobox>
       }
-      @case ('disabled options single select') {
-        <app-single-panel-example-display
-          [height]="exampleHeight"
-          path="app/content/ui-components/combobox-content/single-select/disabled-selections-single-combobox-example"
-          class="example"
-          label="single-select combobox with disabled options"
-          [exampleTabCanScroll]="false"
-        >
-          <app-disabled-selections-single-combobox-example></app-disabled-selections-single-combobox-example>
-        </app-single-panel-example-display>
+      @case ('filterable example') {
+        <p class="example-label">Combobox with filterable options</p>
+        <app-filterable-options-combobox
+          class="minimal-implementation-example"
+        ></app-filterable-options-combobox>
       }
-      @case ('ng form control single select') {
-        <app-single-panel-example-display
-          [height]="exampleHeight"
-          path="app/content/ui-components/combobox-content/single-select/ng-form-single-select-combobox-example"
-          class="example"
-          label="single-select combobox that uses FormControl"
-          [exampleTabCanScroll]="false"
+      @case ('external selection example') {
+        <p class="example-label"
+          >Combobox with selected and disabled properties</p
         >
-          <app-ng-form-single-select-combobox-example></app-ng-form-single-select-combobox-example>
-        </app-single-panel-example-display>
+        <app-external-selections-combobox
+          class="minimal-implementation-example"
+        ></app-external-selections-combobox>
       }
-      @case ('editable textbox single select') {
-        <app-single-panel-example-display
-          [height]="exampleHeight"
-          path="app/content/ui-components/combobox-content/single-select/editable-textbox-single-select-combobox-example"
-          class="example"
-          label="editable textbox single-select combobox"
-          [exampleTabCanScroll]="false"
-        >
-          <app-editable-textbox-single-select-combobox-example></app-editable-textbox-single-select-combobox-example>
-        </app-single-panel-example-display>
-      }
-      @case ('grouped single select') {
-        <app-single-panel-example-display
-          [height]="exampleHeight"
-          path="app/content/ui-components/combobox-content/single-select/grouped-selections-single-combobox-example"
-          class="example"
-          label="grouped single select combobox example"
-          [exampleTabCanScroll]="false"
-        >
-          <app-grouped-selections-single-combobox-example></app-grouped-selections-single-combobox-example>
-        </app-single-panel-example-display>
+      @case ('icons example') {
+        <p class="example-label">Combobox with checkbox icons</p>
+        <app-minimal-implementation-combobox
+          [multiSelect]="true"
+          [icons]="true"
+          class="minimal-implementation-example"
+        ></app-minimal-implementation-combobox>
       }
     }
   </ng-template>

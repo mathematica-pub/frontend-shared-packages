@@ -55,6 +55,7 @@ export type CountSelectedLabel = {
 @Component({
   selector: 'hsi-ui-listbox',
   templateUrl: './listbox.component.html',
+  styleUrls: ['./listbox.component.scss'],
   providers: [
     ListboxFilteringService,
     ListboxScrollService,
@@ -62,7 +63,7 @@ export type CountSelectedLabel = {
   ],
   // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
-    class: 'combobox-listbox-component',
+    class: 'hsi-ui-listbox',
   },
 })
 export class ListboxComponent
@@ -279,34 +280,28 @@ export class ListboxComponent
           const selectedOptions = this.getSelectedOptions(options);
           let label = '';
           const numSelected = selectedOptions?.length;
-          if (
-            this.service.useListboxLabelAsBoxPlaceholder &&
-            ((!numSelected &&
-              !this.service.countSelectedLabel &&
-              !this.service.customTextboxLabel) ||
-              (!numSelected && !touched))
-          ) {
-            label = this.label?.label?.nativeElement.innerText || '';
-          } else if (
-            this.service.customTextboxLabel &&
-            this.service.countSelectedLabel
-          ) {
-            label = this.service.customTextboxLabel(
-              selectedOptions,
-              this.service.countSelectedLabel
-            );
-          } else if (this.service.customTextboxLabel) {
-            label = this.service.customTextboxLabel(selectedOptions);
-          } else if (this.service.countSelectedLabel) {
-            if (numSelected === 1) {
-              label = `${numSelected} ${this.service.countSelectedLabel.singular} selected`;
+          if (touched || numSelected) {
+            if (
+              (this.service.useListboxLabelAsBoxPlaceholder &&
+                !numSelected &&
+                !this.service.countSelectedLabel &&
+                !this.service.customTextboxLabel) ||
+              (!numSelected && !touched)
+            ) {
+              label = this.label?.label?.nativeElement.innerText || '';
+            } else if (this.service.customTextboxLabel) {
+              label = this.service.customTextboxLabel(selectedOptions);
+            } else if (this.service.countSelectedLabel) {
+              if (numSelected === 1) {
+                label = `${numSelected} ${this.service.countSelectedLabel.singular} selected`;
+              } else {
+                label = `${numSelected} ${this.service.countSelectedLabel.plural} selected`;
+              }
             } else {
-              label = `${numSelected} ${this.service.countSelectedLabel.plural} selected`;
+              label = this.getBoxValuesLabel(selectedOptions);
             }
-          } else {
-            label = this.getBoxValuesLabel(selectedOptions);
+            this.service.updateBoxLabel(label);
           }
-          this.service.updateBoxLabel(label);
         });
     }
   }
@@ -317,7 +312,8 @@ export class ListboxComponent
       label = selectedOptions
         .reduce((acc, option) => {
           const value =
-            option.boxDisplayLabel ?? option.label?.nativeElement.innerText;
+            option.boxDisplayLabel ??
+            option.label?.nativeElement.innerText.trim();
           if (value) {
             acc.push(value);
           }
@@ -412,17 +408,6 @@ export class ListboxComponent
         .reduce((acc, curr) => acc + curr.options.toArray().length, 0) +
       optionIndex
     );
-  }
-
-  getGroupIndexFromOptionIndex(optionIndex: number): number {
-    for (const [index, group] of this.groups.toArray().entries()) {
-      optionIndex -= group.options.toArray().length;
-      if (optionIndex < 0) {
-        return index;
-      }
-    }
-    console.log('Error: could not find group index for option');
-    return -1;
   }
 
   getSelectedOptions(

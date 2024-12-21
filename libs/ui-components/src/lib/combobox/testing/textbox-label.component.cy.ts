@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject, startWith } from 'rxjs';
-import { ComboboxModule } from '../combobox.module';
+import { HsiUiComboboxModule } from '../combobox.module';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
@@ -47,7 +47,7 @@ describe('Textbox with a static label', () => {
   beforeEach(() => {
     cy.mount(ComboboxStaticLabelTestComponent, {
       declarations: [ComboboxStaticLabelTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('textbox label does not change with a selection', () => {
@@ -94,7 +94,7 @@ describe('Single-select combobox with a dynamic label', () => {
   beforeEach(() => {
     cy.mount(ComboboxDynamicLabelTestComponent, {
       declarations: [ComboboxDynamicLabelTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('textbox label shows the boxLabel before there is a selection, and the selected value afterwards', () => {
@@ -148,7 +148,7 @@ describe('Multi-select combobox with a dynamic label', () => {
   beforeEach(() => {
     cy.mount(ComboboxDynamicLabelMultiTestComponent, {
       declarations: [ComboboxDynamicLabelMultiTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('textbox label shows the boxLabel before there is a selection, and the selected value afterwards', () => {
@@ -206,7 +206,7 @@ describe('Multi-select combobox with a listboxLabel as placeholder', () => {
   beforeEach(() => {
     cy.mount(ComboboListboxPlaceholderMultiTestComponent, {
       declarations: [ComboboListboxPlaceholderMultiTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('textbox label shows the boxLabel before there is a selection, and the selected value afterwards', () => {
@@ -264,7 +264,7 @@ describe('Multi-select combobox with a boxLabel and listboxLabel as placeholder'
   beforeEach(() => {
     cy.mount(ComboboListboxPlaceholderWithBoxLabelMultiTestComponent, {
       declarations: [ComboboListboxPlaceholderWithBoxLabelMultiTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('textbox label shows the boxLabel before there is a selection, and the selected value afterwards', () => {
@@ -323,7 +323,7 @@ describe('Multi-select combobox with a count label and a listboxLabel as placeho
   beforeEach(() => {
     cy.mount(ComboboCountLabelMultiTestComponent, {
       declarations: [ComboboCountLabelMultiTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
@@ -410,7 +410,7 @@ describe('ComboboxGroupedMultiTestComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxGroupedMultiTestComponent, {
       declarations: [ComboboxGroupedMultiTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
 
@@ -481,7 +481,7 @@ describe('Multi-select combobox with a custom label and a listboxLabel as placeh
   beforeEach(() => {
     cy.mount(ComboboCustomLabelMultiTestComponent, {
       declarations: [ComboboCustomLabelMultiTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
@@ -546,7 +546,7 @@ describe('Multi-select combobox with a dynamic label and initial selections', ()
   beforeEach(() => {
     cy.mount(ComboboInitialSelectionsMultiTestComponent, {
       declarations: [ComboboInitialSelectionsMultiTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
@@ -601,7 +601,7 @@ describe('Multi-select combobox with a dynamic label and initial selections', ()
   beforeEach(() => {
     cy.mount(ComboboInitialSelectionsNgFormMultiTestComponent, {
       declarations: [ComboboInitialSelectionsNgFormMultiTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
@@ -656,7 +656,7 @@ describe('Multi-select combobox with a count label and initial selections', () =
   beforeEach(() => {
     cy.mount(ComboboInitialSelectionsCountMultiTestComponent, {
       declarations: [ComboboInitialSelectionsCountMultiTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {

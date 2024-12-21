@@ -39,4 +39,4 @@ import { TextboxComponent } from './textbox/textbox.component';
     SelectAllListboxOptionComponent,
   ],
 })
-export class ComboboxModule {}
+export class HsiUiComboboxModule {}

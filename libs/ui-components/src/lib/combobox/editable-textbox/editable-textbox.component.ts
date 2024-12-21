@@ -23,6 +23,9 @@ import { TextboxComponent } from '../textbox/textbox.component';
   selector: 'hsi-ui-editable-textbox',
   templateUrl: './editable-textbox.component.html',
   styleUrls: ['./editable-textbox.component.scss'],
+  host: {
+    class: 'hsi-ui-editable-textbox',
+  },
 })
 export class EditableTextboxComponent
   extends TextboxComponent

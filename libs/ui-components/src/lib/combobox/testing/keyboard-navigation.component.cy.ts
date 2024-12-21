@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
-import { ComboboxModule } from '../combobox.module';
+import { HsiUiComboboxModule } from '../combobox.module';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
 @Component({
@@ -42,7 +42,7 @@ describe('keyboard navigation with a generic listbox', () => {
   beforeEach(() => {
     cy.mount(ComboboxSingleKeyboardTestComponent, {
       declarations: [ComboboxSingleKeyboardTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
     cy.get('.combobox-textbox').trigger('focus');
   });
@@ -71,7 +71,7 @@ describe('keyboard navigation with a single select listbox', () => {
   beforeEach(() => {
     cy.mount(ComboboxSingleKeyboardTestComponent, {
       declarations: [ComboboxSingleKeyboardTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('correctly responds to keyboard navigation and selection', () => {
@@ -153,7 +153,7 @@ describe('keyboard navigation with a multi select listbox', () => {
   beforeEach(() => {
     cy.mount(ComboboxMultiKeyboardTestComponent, {
       declarations: [ComboboxMultiKeyboardTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('correctly responds to keyboard navigation and selection', () => {

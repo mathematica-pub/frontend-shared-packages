@@ -8,6 +8,9 @@ import { EditableTextboxComponent } from '../editable-textbox/editable-textbox.c
   selector: 'hsi-ui-ng-form-editable-textbox',
   templateUrl: './ng-form-editable-textbox.component.html',
   styleUrls: ['./ng-form-editable-textbox.component.scss'],
+  host: {
+    class: 'hsi-ui-ng-form-editable-textbox',
+  },
 })
 export class NgFormEditableTextboxComponent
   extends EditableTextboxComponent

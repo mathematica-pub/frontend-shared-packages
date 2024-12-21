@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
-import { ComboboxModule } from '../combobox.module';
+import { HsiUiComboboxModule } from '../combobox.module';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
 // SPECIFICATIONS
@@ -65,7 +65,7 @@ describe('ComboboxSelectAllMultiComponent', () => {
     beforeEach(() => {
       cy.mount(ComboboxSelectAllMultiSelectTestComponent, {
         declarations: [ComboboxSelectAllMultiSelectTestComponent],
-        imports: [ComboboxModule, MatIconModule],
+        imports: [HsiUiComboboxModule, MatIconModule],
         componentProperties: { dynamicLabel: true },
       });
     });
@@ -193,7 +193,7 @@ describe('ComboboxExternalSelectedTestComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxExternalSelectedTestComponent, {
       declarations: [ComboboxExternalSelectedTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
       componentProperties: { dynamicLabel: true },
     });
   });
@@ -331,7 +331,7 @@ describe('ComboboxExternalDisableTestComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxExternalDisableTestComponent, {
       declarations: [ComboboxExternalDisableTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
       componentProperties: { dynamicLabel: true },
     });
   });

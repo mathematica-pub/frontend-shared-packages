@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject, combineLatest, map, Observable, of } from 'rxjs';
-import { ComboboxModule } from '../combobox.module';
+import { HsiUiComboboxModule } from '../combobox.module';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
 @Component({
@@ -75,7 +75,7 @@ describe('Basic editable textbox features', () => {
   beforeEach(() => {
     cy.mount(EditableTextboxSingleSelectComponent, {
       declarations: [EditableTextboxSingleSelectComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
       componentProperties: {
         autoSelect: true,
         autoSelectTrigger: 'any',
@@ -114,7 +114,7 @@ describe('Basic editable textbox features', () => {
       beforeEach(() => {
         cy.mount(EditableTextboxSingleSelectComponent, {
           declarations: [EditableTextboxSingleSelectComponent],
-          imports: [ComboboxModule, MatIconModule],
+          imports: [HsiUiComboboxModule, MatIconModule],
           componentProperties: {
             autoSelect: true,
             autoSelectTrigger: 'any',
@@ -170,7 +170,7 @@ describe('Basic editable textbox features', () => {
       beforeEach(() => {
         cy.mount(EditableTextboxSingleSelectComponent, {
           declarations: [EditableTextboxSingleSelectComponent],
-          imports: [ComboboxModule, MatIconModule],
+          imports: [HsiUiComboboxModule, MatIconModule],
           componentProperties: {
             autoSelect: true,
             autoSelectTrigger: 'character',
@@ -233,7 +233,7 @@ describe('Basic editable textbox features', () => {
       beforeEach(() => {
         cy.mount(EditableTextboxSingleSelectComponent, {
           declarations: [EditableTextboxSingleSelectComponent],
-          imports: [ComboboxModule, MatIconModule],
+          imports: [HsiUiComboboxModule, MatIconModule],
           componentProperties: {
             autoSelect: false,
             autoSelectTrigger: 'any',

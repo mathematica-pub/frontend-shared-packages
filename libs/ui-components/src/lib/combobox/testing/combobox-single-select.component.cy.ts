@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
-import { ComboboxModule } from '../combobox.module';
+import { HsiUiComboboxModule } from '../combobox.module';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
 // Simple single select combobox that displays selected
@@ -46,7 +46,7 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxSingleTestComponent, {
       declarations: [ComboboxSingleTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   describe('click behavior after load', () => {
@@ -151,7 +151,7 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxSingleSelectDisabledOptionsComponent, {
       declarations: [ComboboxSingleSelectDisabledOptionsComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('can select non-disabled options', () => {
@@ -205,7 +205,7 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxSelectFromOutsideSingleTestComponent, {
       declarations: [ComboboxSelectFromOutsideSingleTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('should display the selected option in the textbox on load', () => {
@@ -287,7 +287,7 @@ describe('ComboboxGroupedSingleTestComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxGroupedSingleTestComponent, {
       declarations: [ComboboxGroupedSingleTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('can select values from different groups', () => {
@@ -347,7 +347,7 @@ describe('NgFormListboxSingleTestComponent', () => {
   beforeEach(() => {
     cy.mount(NgFormListboxSingleTestComponent, {
       declarations: [NgFormListboxSingleTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('can make one selection', () => {

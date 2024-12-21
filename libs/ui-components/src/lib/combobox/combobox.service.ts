@@ -1,5 +1,5 @@
 import { Platform } from '@angular/cdk/platform';
-import { ElementRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   Observable,
@@ -85,7 +85,6 @@ export class ComboboxService {
   scrollContainerId = `${this.id}-scroll-container`;
   comboboxLabelId = `${this.id}-label`;
   autoComplete: AutoComplete = AutoComplete.none;
-  comboboxElRef: ElementRef;
   countSelectedLabel?: CountSelectedLabel;
   customTextboxLabel?: (
     options: ListboxOptionComponent[],
@@ -139,10 +138,6 @@ export class ComboboxService {
     } else {
       this.activeDescendant$ = of(null);
     }
-  }
-
-  setComboboxElRef(comboboxElRef: ElementRef): void {
-    this.comboboxElRef = comboboxElRef;
   }
 
   setLabel(label: ComboboxLabelComponent): void {
