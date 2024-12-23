@@ -567,13 +567,34 @@ export class BarsComponent<
     barDatum: BarDatum<TOrdinalValue>
   ): BarsTooltipDatum<Datum, TOrdinalValue> {
     const datum = this.getUserDatumFromBarDatum(barDatum);
+    const ordinalValue = this.config.ordinal.formatFunction
+      ? ValueUtilities.customFormat(
+          datum,
+          this.config.quantitative.formatFunction
+        )
+      : this.config.ordinal.valueAccessor(datum);
+    const quantitativeValue = this.config.quantitative.formatFunction
+      ? ValueUtilities.customFormat(
+          datum,
+          this.config.quantitative.formatFunction
+        )
+      : ValueUtilities.d3Format(
+          this.config.quantitative.valueAccessor(datum),
+          this.config.quantitative.formatSpecifier
+        );
 
     const tooltipData: BarsTooltipDatum<Datum, TOrdinalValue> = {
       datum,
       color: this.getBarColor(barDatum),
       values: {
-        x: this.getXyDimensionValue(datum, 'x'),
-        y: this.getXyDimensionValue(datum, 'y'),
+        x:
+          this.config.dimensions.x === 'ordinal'
+            ? ordinalValue
+            : quantitativeValue,
+        y:
+          this.config.dimensions.y === 'ordinal'
+            ? ordinalValue
+            : quantitativeValue,
         category: this.config.color.valueAccessor(datum),
       },
     };
@@ -588,17 +609,5 @@ export class BarsComponent<
         this.config.quantitative.values[barDatum.index] ===
           this.config.quantitative.valueAccessor(d)
     );
-  }
-
-  private getXyDimensionValue(datum: Datum, dimension: 'x' | 'y'): string {
-    return this.config[dimension].formatFunction
-      ? ValueUtilities.customFormat(
-          datum,
-          this.config[dimension].formatFunction
-        )
-      : ValueUtilities.d3Format(
-          this.config[dimension].valueAccessor(datum),
-          this.config[dimension].formatSpecifier
-        );
   }
 }
