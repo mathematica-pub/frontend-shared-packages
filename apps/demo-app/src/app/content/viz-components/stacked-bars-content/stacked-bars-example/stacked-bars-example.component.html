@@ -8,8 +8,35 @@
       <svg:g vic-xy-background></svg:g>
       <svg:g vic-x-ordinal-axis [config]="vm.xAxisConfig"></svg:g>
       <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig"></svg:g>
-      <svg:g vic-primary-marks-stacked-bars [config]="vm.dataConfig"></svg:g>
+      <svg:g
+        vic-primary-marks-stacked-bars
+        [config]="vm.dataConfig"
+        [vicStackedBarsHoverMoveActions]="hoverAndMoveActions"
+        (vicStackedBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+      >
+        <vic-html-tooltip
+          [config]="tooltipConfig$ | async"
+          [template]="htmlTooltip"
+        ></vic-html-tooltip>
+      </svg:g>
     </ng-container>
   </vic-xy-chart>
 </div>
 <ng-template #loading>Loading...</ng-template>
+
+<ng-template #htmlTooltip>
+  <div
+    [style.--color]="(tooltipData$ | async).color"
+    class="stacked-bars-example-tooltip-container"
+  >
+    <p class="tooltip-label category">
+      {{ (tooltipData$ | async).values.x }}
+    </p>
+    <div class="values-container">
+      <p class="tooltip-label y">
+        <span class="value-label">Value</span>
+        {{ (tooltipData$ | async).values.y }}
+      </p>
+    </div>
+  </div>
+</ng-template>

@@ -1,9 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
+  BarsEventOutput,
   ElementSpacing,
+  HoverMoveAction,
+  HtmlTooltipConfig,
   StackedBarsConfig,
+  StackedBarsHoverMoveDirective,
+  StackedBarsHoverMoveEmitTooltipData,
   VicChartModule,
+  VicHtmlTooltipConfigBuilder,
+  VicHtmlTooltipModule,
   VicStackedBarsConfigBuilder,
   VicStackedBarsModule,
   VicXOrdinalAxisConfigBuilder,
@@ -17,7 +24,7 @@ import {
 } from '@hsi/viz-components';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
-import { Observable, filter, map } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 
 interface ViewModel {
   dataConfig: StackedBarsConfig<IndustryUnemploymentDatum, Date>;
@@ -36,6 +43,7 @@ interface ViewModel {
     VicXyBackgroundModule,
     VicYQuantitativeAxisModule,
     VicXOrdinalAxisModule,
+    VicHtmlTooltipModule,
   ],
   templateUrl: './stacked-bars-example.component.html',
   styleUrls: ['./stacked-bars-example.component.scss'],
@@ -44,6 +52,7 @@ interface ViewModel {
     VicStackedBarsConfigBuilder,
     VicXOrdinalAxisConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
+    VicHtmlTooltipConfigBuilder,
   ],
 })
 export class StackedBarsExampleComponent implements OnInit {
@@ -55,6 +64,18 @@ export class StackedBarsExampleComponent implements OnInit {
     left: 64,
   };
   folderName = 'stacked-bars-example';
+  hoverAndMoveActions: HoverMoveAction<
+    StackedBarsHoverMoveDirective<IndustryUnemploymentDatum, string>
+  >[] = [new StackedBarsHoverMoveEmitTooltipData()];
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
+  tooltipConfig$ = this.tooltipConfig.asObservable();
+  tooltipData: BehaviorSubject<
+    BarsEventOutput<IndustryUnemploymentDatum, string>
+  > = new BehaviorSubject<BarsEventOutput<IndustryUnemploymentDatum, string>>(
+    null
+  );
+  tooltipData$ = this.tooltipData.asObservable();
 
   constructor(
     private dataService: DataService,
@@ -63,7 +84,8 @@ export class StackedBarsExampleComponent implements OnInit {
       Date
     >,
     private xAxisOrdinal: VicXOrdinalAxisConfigBuilder<Date>,
-    private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>
+    private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
+    private tooltip: VicHtmlTooltipConfigBuilder
   ) {}
 
   ngOnInit(): void {
@@ -94,5 +116,33 @@ export class StackedBarsExampleComponent implements OnInit {
       xAxisConfig,
       yAxisConfig,
     };
+  }
+
+  updateTooltipForNewOutput(
+    data: BarsEventOutput<IndustryUnemploymentDatum, string>
+  ): void {
+    this.updateTooltipData(data);
+    this.updateTooltipConfig(data);
+  }
+
+  updateTooltipData(
+    data: BarsEventOutput<IndustryUnemploymentDatum, string>
+  ): void {
+    this.tooltipData.next(data);
+  }
+
+  updateTooltipConfig(
+    data: BarsEventOutput<IndustryUnemploymentDatum, string>
+  ): void {
+    const config = this.tooltip
+      .barsPosition(data?.origin, [
+        {
+          offsetX: data?.positionX,
+          offsetY: data?.positionY - 12,
+        },
+      ])
+      .show(!!data)
+      .getConfig();
+    this.tooltipConfig.next(config);
   }
 }

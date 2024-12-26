@@ -563,10 +563,7 @@ export class BarsComponent<
     this.barLabels.next(barLabels);
   }
 
-  getTooltipData(
-    barDatum: BarDatum<TOrdinalValue>
-  ): BarsTooltipDatum<Datum, TOrdinalValue> {
-    const datum = this.getUserDatumFromBarDatum(barDatum);
+  getTooltipData(datum: Datum): BarsTooltipDatum<Datum, TOrdinalValue> {
     const ordinalValue = this.config.ordinal.valueAccessor(datum);
     const quantitativeValue = this.config.quantitative.formatFunction
       ? ValueUtilities.customFormat(
@@ -577,10 +574,10 @@ export class BarsComponent<
           this.config.quantitative.valueAccessor(datum),
           this.config.quantitative.formatSpecifier
         );
-
+    const category = this.config.color.valueAccessor(datum);
     const tooltipData: BarsTooltipDatum<Datum, TOrdinalValue> = {
       datum,
-      color: this.getBarColor(barDatum),
+      color: this.scales.color(category),
       values: {
         x:
           this.config.dimensions.x === 'ordinal'
@@ -590,7 +587,7 @@ export class BarsComponent<
           this.config.dimensions.y === 'ordinal'
             ? ordinalValue
             : quantitativeValue,
-        category: this.config.color.valueAccessor(datum),
+        category,
       },
     };
     return tooltipData;

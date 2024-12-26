@@ -106,7 +106,8 @@ export class BarsClickDirective<
   }
 
   getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
-    const data = this.bars.getTooltipData(this.barDatum);
+    const userDatum = this.bars.getUserDatumFromBarDatum(this.barDatum);
+    const data = this.bars.getTooltipData(userDatum);
     const extras = {
       origin: this.origin,
       positionX: this.pointerX,
