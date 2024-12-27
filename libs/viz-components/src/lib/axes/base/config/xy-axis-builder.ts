@@ -6,8 +6,8 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
   protected _axis: 'x' | 'y';
   protected _dimension: 'ordinal' | 'quantitative';
   protected _removeDomainLine: boolean;
+  protected _removeTickLabels: boolean;
   protected _removeTickMarks: boolean;
-  protected _removeTicks: boolean;
   protected _tickFormat: string | ((value: TickValue) => string);
   protected _tickLabelFontSize: number;
   protected _tickSizeOuter: number;
@@ -36,6 +36,15 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
     this._removeDomainLine = value;
     return this;
   }
+
+  /**
+   * If true, all ticks (lines and tick values) will be removed.
+   */
+  removeTickLabels(value: boolean = true): this {
+    this._removeTickLabels = value;
+    return this;
+  }
+
   /**
    * If true, all ticks will be removed. Tick values will be retained.
    *
@@ -45,13 +54,7 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
     this._removeTickMarks = value;
     return this;
   }
-  /**
-   * If true, all ticks (lines and tick values) will be removed.
-   */
-  removeTicks(value: boolean = true): this {
-    this._removeTicks = value;
-    return this;
-  }
+
   /**
    * A string or function to use for formatting tick labels.
    *
@@ -83,7 +86,11 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
    *
    * If not provided, value will be set to 0.
    */
-  tickSizeOuter(value: number): this {
+  tickSizeOuter(value: number | null): this {
+    if (value === null) {
+      this._tickSizeOuter = undefined;
+      return this;
+    }
     this._tickSizeOuter = value;
     return this;
   }

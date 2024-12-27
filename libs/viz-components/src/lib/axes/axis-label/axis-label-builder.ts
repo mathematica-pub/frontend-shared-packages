@@ -15,6 +15,7 @@ export class AxisLabelBuilder {
   protected _position: 'start' | 'middle' | 'end';
   protected _text: string;
   protected textWrapBuilder: SvgTextWrapBuilder;
+  protected textWrapFunction: (wrap: SvgTextWrapBuilder) => void;
 
   constructor() {
     Object.assign(this, DEFAULT);
@@ -60,7 +61,7 @@ export class AxisLabelBuilder {
    *
    * If the axis is horizontal, the options are 'start' is left, 'middle' is center, and 'end' is right.
    *
-   * If the axis is vertical, the options are 'start' is bottom, 'middle' is center, and 'end' is top.
+   * If the axis is vertical, the options are 'start' is top, 'middle' is center, and 'end' is bottom.
    *
    * @default 'middle'
    */
@@ -96,6 +97,7 @@ export class AxisLabelBuilder {
    * @internal Not meant to be called by consumers of the library.
    */
   build(dimension: 'x' | 'y'): AxisLabel {
+    if (this.textWrapFunction) this.createTextWrapBuilder(dimension);
     return new AxisLabel({
       anchor: this.getAnchorForDimension(dimension),
       position: this._position,
@@ -103,6 +105,14 @@ export class AxisLabelBuilder {
       text: this._text,
       wrap: this.textWrapBuilder?.build(),
     });
+  }
+
+  private createTextWrapBuilder(dimension: 'x' | 'y'): void {
+    const isRotatedYLabel = dimension === 'y' && this._position === 'middle';
+    this.textWrapBuilder = new SvgTextWrapBuilder();
+    this.textWrapBuilder.maintainXPosition(isRotatedYLabel);
+    this.textWrapBuilder.maintainYPosition(isRotatedYLabel);
+    this.textWrapFunction(this.textWrapBuilder);
   }
 
   private getAnchorForDimension(
