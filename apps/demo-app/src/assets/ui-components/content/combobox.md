@@ -57,12 +57,12 @@ import { HsiUiComboboxModule } from '@hsi/ui-components';
 })
 export class MyComboboxComponent {
   options: string[] = [
-    'Maine',
-    'New Hampshire',
-    'Vermont',
-    'Massachusetts',
-    'Rhode Island',
     'Connecticut',
+    'Maine',
+    'Massachusetts',
+    'New Hampshire',
+    'Rhode Island',
+    'Vermont',
   ];
 
   onSelection(selected: string): void {
@@ -291,12 +291,12 @@ filterable example
 
 ```ts
 _options: string[] = [
-  'Maine',
-  'New Hampshire',
-  'Vermont',
-  'Massachusetts',
-  'Rhode Island',
   'Connecticut',
+  'Maine',
+  'Massachusetts',
+  'New Hampshire',
+  'Rhode Island',
+  'Vermont',
 ];
 options: BehaviorSubject<{ displayName: string; id: string }[]> =
   new BehaviorSubject(this._options);
