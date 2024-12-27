@@ -296,18 +296,6 @@ export class ListboxComponent
           this.service.updateBoxLabel(label);
         });
     }
-
-    this.allOptions$.subscribe((options) => {
-      console.log('options', options);
-    });
-
-    this.selectedOptionsToEmit$.subscribe((options) => {
-      console.log('selectedOptionsToEmit', options);
-    });
-
-    this.optionPropertyChanges$.subscribe((options) => {
-      console.log('optionPropertyChanges', options);
-    });
   }
 
   getBoxValuesLabel(selectedOptions: ListboxOptionComponent[]): string {
