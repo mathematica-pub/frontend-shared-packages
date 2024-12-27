@@ -1,7 +1,7 @@
 <hsi-ui-combobox>
   <hsi-ui-editable-textbox
     placeholder="Select a state"
-    (textboxValue)="onTyping($event)"
+    (valueChanges)="onTyping($event)"
   ></hsi-ui-editable-textbox>
   <hsi-ui-listbox>
     @for (option of options$ | async; track option.id) {
