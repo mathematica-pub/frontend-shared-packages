@@ -50,10 +50,10 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    * OPTIONAL. A config to set fill underneath lines.
    *
    */
-  areaFills(areaFills: null): this;
-  areaFills(areaFills: (areaFills: AreaFillsBuilder<Datum>) => void): this;
+  areaFills(areaFills?: null): this;
+  areaFills(areaFills?: (areaFills: AreaFillsBuilder<Datum>) => void): this;
   areaFills(
-    areaFills: ((areaFills: AreaFillsBuilder<Datum>) => void) | null
+    areaFills?: ((areaFills: AreaFillsBuilder<Datum>) => void) | null
   ): this {
     if (areaFills === null) {
       this.areaFillsBuilder = undefined;
