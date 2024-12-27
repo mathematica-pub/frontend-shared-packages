@@ -226,7 +226,7 @@ custom label example
 // an example custom label function
 customLabel(selectedOptions: ListboxOptionComponent[]): string {
     if (selectedOptions.length === 0) {
-      return '0 states selected';
+      return 'No states selected';
     }
     return `${selectedOptions.length} states selected (${selectedOptions.map((option) => option.valueToEmit).join(', ')})`;
 }
