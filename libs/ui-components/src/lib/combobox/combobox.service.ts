@@ -96,7 +96,6 @@ export class ComboboxService {
   nullActiveIdOnClose = false;
   scrollWhenOpened = false;
   shouldAutoSelectOnListboxClose = false;
-  useListboxLabelAsBoxPlaceholder = false;
   activeDescendant$: Observable<string>;
   private blurEvent: Subject<void> = new Subject();
   blurEvent$ = this.blurEvent.asObservable();

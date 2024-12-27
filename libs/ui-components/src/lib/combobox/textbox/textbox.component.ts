@@ -43,14 +43,6 @@ export class TextboxComponent implements OnInit, AfterViewInit {
    */
   @Input() dynamicLabel = true;
   @Input() findsOptionOnTyping = true;
-  /*
-   * Makes a provided listbox label the placeholder for the textbox when there are no selections and dynamicLabel is true.
-   *
-   * Will have no effect if dynamicLabel is false.
-   *
-   * @default false
-   */
-  @Input() useListboxLabelAsBoxLabel = false;
   @ViewChild('box') box: ElementRef<HTMLDivElement>;
   @ViewChild('boxIcon') boxIcon: ElementRef<HTMLDivElement>;
   openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' '];
@@ -65,8 +57,6 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     this.service.dynamicLabel = this.dynamicLabel;
     this.service.countSelectedLabel = this.showSelectedCount;
     this.service.customTextboxLabel = this.customLabel;
-    this.service.useListboxLabelAsBoxPlaceholder =
-      this.useListboxLabelAsBoxLabel;
   }
 
   ngAfterViewInit(): void {

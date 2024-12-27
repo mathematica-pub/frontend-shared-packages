@@ -21,7 +21,6 @@ export class MinimalImplementationComboboxComponent {
   @Input() dynamicLabel = true;
   @Input() countLabel: CountSelectedLabel;
   @Input() customLabel: (selectedOptions: ListboxOptionComponent[]) => string;
-  @Input() listboxLabel = false;
   @Input() groups = false;
   @Input() icons = false;
   options: { displayName: string; id: string }[] = [

@@ -281,15 +281,7 @@ export class ListboxComponent
           let label = '';
           const numSelected = selectedOptions?.length;
           if (touched || numSelected) {
-            if (
-              (this.service.useListboxLabelAsBoxPlaceholder &&
-                !numSelected &&
-                !this.service.countSelectedLabel &&
-                !this.service.customTextboxLabel) ||
-              (!numSelected && !touched)
-            ) {
-              label = this.label?.label?.nativeElement.innerText || '';
-            } else if (this.service.customTextboxLabel) {
+            if (this.service.customTextboxLabel) {
               label = this.service.customTextboxLabel(selectedOptions);
             } else if (this.service.countSelectedLabel) {
               if (numSelected === 1) {
@@ -300,10 +292,22 @@ export class ListboxComponent
             } else {
               label = this.getBoxValuesLabel(selectedOptions);
             }
-            this.service.updateBoxLabel(label);
           }
+          this.service.updateBoxLabel(label);
         });
     }
+
+    this.allOptions$.subscribe((options) => {
+      console.log('options', options);
+    });
+
+    this.selectedOptionsToEmit$.subscribe((options) => {
+      console.log('selectedOptionsToEmit', options);
+    });
+
+    this.optionPropertyChanges$.subscribe((options) => {
+      console.log('optionPropertyChanges', options);
+    });
   }
 
   getBoxValuesLabel(selectedOptions: ListboxOptionComponent[]): string {
@@ -322,6 +326,10 @@ export class ListboxComponent
         .join(', ');
     }
     return label;
+  }
+
+  getListboxLabelAsBoxPlaceholder(): string {
+    return this.label?.label?.nativeElement.innerText || '';
   }
 
   selectOptionFromIndex(

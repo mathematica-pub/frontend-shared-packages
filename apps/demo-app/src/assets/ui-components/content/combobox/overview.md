@@ -168,31 +168,6 @@ The textbox offers three additional label options, beyond the default dynamic la
 a label that displays the number of selected options, and completely customizabile label. The latter
 two of these will have no effect when `dynamicLabel` is set to `false`.
 
-#### Setting a default / placeholder label
-
-Users can provide a default or placeholder label by projecting an element with the `boxLabel`
-directive into the textbox. If `dynamicLabel` is `false`, this label will be displayed in the
-textbox until the combobox has been interacted with.
-
-Users may also use the value from an `hsi-ui-listbox-label` for this purpose, by setting
-`useListboxLabelAsBoxLabel` to `true` on the `hsi-ui-textbox`.
-
-```custom-angular
-listbox label example
-```
-
-```html
-<hsi-ui-textbox [useListboxLabelAsBoxLabel]="true">
-  <span class="material-symbols-outlined expand-more" boxIcon> expand_more </span>
-</hsi-ui-textbox>
-<hsi-ui-listbox>
-  <hsi-listbox-label>Select states</hsi-listbox-label>
-  @for (option of options; track option) {
-  <hsi-ui-listbox-option>{{ option }} </hsi-ui-listbox-option>
-  }
-</hsi-ui-listbox>
-```
-
 #### Displaying a static label
 
 If the `dynamicLabel` input property on the `hsi-ui-textbox` is set to `false`, the label with the
