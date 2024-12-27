@@ -1,7 +1,7 @@
 # Combobox
 
 HSI UI Components provides a set of Angular components that can be composed to create comboboxes
-with various functionalities.
+with various functionalities. These components can be imported via the `HsiUiComboboxModule`.
 
 The HSI UI Components combobox follows the
 [W3C Combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/). When the W3C patterns do
@@ -45,12 +45,12 @@ minimal implementation
 ```ts
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ComboboxModule } from '@hsi/ui-components';
+import { HsiUiComboboxModule } from '@hsi/ui-components';
 
 @Component({
   selector: 'app-my-combobox',
   standalone: true,
-  imports: [CommonModule, ComboboxModule],
+  imports: [CommonModule, HsiUiComboboxModule],
   templateUrl: './my-combobox.component.html',
   styleUrl: './my-combobox.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -265,8 +265,8 @@ grouped example
 
 ### Filtering Options
 
-To search or filter options, users can use either an `hsi-ui-editable-textbox` or an
-`hsi-ui-ng-form-editable-textbox` in place of the `hsi-ui-textbox`.
+To search or filter options, users can use an `hsi-ui-editable-textbox` in place of the
+`hsi-ui-textbox`.
 
 These textboxes will emit the value of the input field through the `valueChanges` event. Users can
 then filter the options in the listbox based on this value.
@@ -279,7 +279,7 @@ filterable example
 <hsi-ui-combobox>
   <hsi-ui-editable-textbox
     placeholder="Select a state"
-    (textboxValue)="onTyping($event)"
+    (valueChanges)="onTyping($event)"
   ></hsi-ui-editable-textbox>
   <hsi-ui-listbox>
     @for (option of options$ | async; track option) {
@@ -309,6 +309,22 @@ onTyping(value: string): void {
     )
   this.options.next(filteredOptions);
 }
+```
+
+#### Using an Editable Textbox with Angular Forms
+
+Users may also provide an Angular `FormControl` to the `hsi-ui-editable-textbox` to manage the value
+of the texbox `input`.
+
+If a form control is provided, the textbox will not emit values through the `valueChanges` event.
+Instead, users can subscribe to the form control's `valueChanges` observable to get the selected
+values.
+
+```html
+<hsi-ui-editable-textbox
+  placeholder="Select a state"
+  (formControl)="myFormControl"
+></hsi-ui-editable-textbox>
 ```
 
 ### Setting Listbox Option Properties Externally

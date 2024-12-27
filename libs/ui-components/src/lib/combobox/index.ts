@@ -7,6 +7,5 @@ export * from './listbox-group/listbox-group.component';
 export * from './listbox-label/listbox-label.component';
 export * from './listbox-option/listbox-option.component';
 export * from './listbox/listbox.component';
-export * from './ng-form-editable-textbox/ng-form-editable-textbox.component';
 export * from './select-all-listbox-option/select-all-listbox-option.component';
 export * from './textbox/textbox.component';
