@@ -24,9 +24,7 @@ ui-components:
   items:
     overview: overview.md
     table: table.md
-    combobox:
-      overview: combobox/overview.md
-      API: combobox/api.md
+    combobox: combobox.md
 
 viz-components:
   title: Viz Components

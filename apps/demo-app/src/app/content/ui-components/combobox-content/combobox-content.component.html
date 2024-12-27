@@ -71,6 +71,14 @@
           class="minimal-implementation-example"
         ></app-external-selections-combobox>
       }
+      @case ('combobox label example') {
+        <p class="example-label">Combobox with an external label</p>
+        <app-minimal-implementation-combobox
+          [multiSelect]="true"
+          [externalLabel]="true"
+          class="minimal-implementation-example"
+        ></app-minimal-implementation-combobox>
+      }
       @case ('icons example') {
         <p class="example-label">Combobox with checkbox icons</p>
         <app-minimal-implementation-combobox

@@ -1,4 +1,9 @@
 <hsi-ui-combobox>
+  @if (externalLabel) {
+    <hsi-ui-combobox-label
+      >Select New England states to view data</hsi-ui-combobox-label
+    >
+  }
   @if (countLabel) {
     <hsi-ui-textbox [showSelectedCount]="countLabel">
       <p boxLabel>Select states</p>

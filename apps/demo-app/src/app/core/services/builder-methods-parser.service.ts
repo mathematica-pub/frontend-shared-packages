@@ -91,7 +91,6 @@ export class BuilderMethodsParserService {
     parsedDescriptions: string[]
   ): AdkParsedContentSection<BuilderMethods<SafeHtml>> {
     // Split parsed descriptions
-    console.log('parsed descriptions', parsedDescriptions);
     const overviewLength = Array.isArray(section.content.overview)
       ? section.content.overview.length
       : 1;

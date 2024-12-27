@@ -16,13 +16,14 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MinimalImplementationComboboxComponent {
-  @Input() multiSelect = false;
-  @Input() selectAll = false;
-  @Input() dynamicLabel = true;
   @Input() countLabel: CountSelectedLabel;
   @Input() customLabel: (selectedOptions: ListboxOptionComponent[]) => string;
+  @Input() dynamicLabel = true;
+  @Input() externalLabel = false;
   @Input() groups = false;
   @Input() icons = false;
+  @Input() multiSelect = false;
+  @Input() selectAll = false;
   options: { displayName: string; id: string }[] = [
     { displayName: 'Maine', id: 'ME' },
     { displayName: 'New Hampshire', id: 'NH' },

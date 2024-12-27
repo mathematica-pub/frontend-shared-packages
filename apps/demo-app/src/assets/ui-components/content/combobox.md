@@ -364,6 +364,23 @@ external selection example
 </hsi-ui-combobox>
 ```
 
+### Providing an External Label for the Combobox
+
+Users may want to provide a label outside of the combobox component. This can be done by projecting
+text into the the `hsi-ui-combobox-label` component, which ensures that this label is correctly
+identified as the combobox's label by screen readers.
+
+```custom-angular
+combobox label example
+```
+
+```html
+<hsi-ui-combobox>
+  <hsi-ui-combobox-label>Select New England states to view data</hsi-ui-combobox-label>
+  // other combobox components
+</hsi-ui-combobox>
+```
+
 ### Styling
 
 The combobox comes with basic css styling. The majority of styling options are set with CSS
