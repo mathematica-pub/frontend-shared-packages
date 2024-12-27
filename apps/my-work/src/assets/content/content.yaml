@@ -1,7 +1,10 @@
 ---
 title: 'My Work'
 items:
-  my-work:
+  climate-project:
     - total-expenditures
+    - aci-county
+    - test
   examples:
     - energy-intensity
+    - test

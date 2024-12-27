@@ -14,11 +14,11 @@ import {
   VicOrdinalAxisConfig,
   VicQuantitativeAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXOrdinalAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
-  VicYOrdinalAxisModule,
   VicYQuantitativeAxisConfigBuilder,
+  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 import { TotalExpendituresDatum } from '../total-expenditures.component';
 
@@ -31,8 +31,8 @@ import { TotalExpendituresDatum } from '../total-expenditures.component';
     VicBarsModule,
     VicXyChartModule,
     VicXyBackgroundModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
+    VicXOrdinalAxisModule,
+    VicYQuantitativeAxisModule,
   ],
   providers: [
     VicBarsConfigBuilder,
@@ -81,9 +81,9 @@ export class TotalExpendituresBarComponent implements OnInit {
           .x((dimension) => dimension.valueAccessor((d) => d.type))
           .y((dimension) =>
             dimension
-              .valueAccessor((d) => d.extreme_weather_payments)
-              .formatSpecifier(',.0f')
-              .domainPaddingPixels(16)
+              .valueAccessor((d) => d.extreme_weather_payments / 1000000000)
+              .formatSpecifier(',.2f')
+              .domainPaddingPixels(40)
           )
       )
       .color((dimension) => dimension.range(['#2cafb0']))
@@ -96,25 +96,25 @@ export class TotalExpendituresBarComponent implements OnInit {
 
     // this.yAxisConfig = this.yOrdinalAxis.getConfig();
     this.xAxisConfig = this.xOrdinalAxis
-      .label((label) =>
-        label
-          .text('Year Label')
-          .position('middle')
-          .anchor('middle')
-          .offset({ x: 0, y: 5 })
-      )
+      // .label((label) =>
+      //   label
+      //     .text('Year Label')
+      //     .position('middle')
+      //     .anchor('middle')
+      //     .offset({ x: 0, y: 5 })
+      // )
       .getConfig();
     this.yAxisConfig = this.yQuantitativeAxis
-      .tickFormat(',.0f')
+      .tickFormat(',.1f')
       .label((label) =>
         label
-          .text('Millions of Dollars')
+          .text('Billions of USD')
           .position('start')
           .anchor('start')
           .offset({ x: 15, y: 15 })
       )
       .side('left')
-      .numTicks(20)
+      .numTicks(5)
       .getConfig();
 
     // .label((label) =>

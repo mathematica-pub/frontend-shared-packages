@@ -1,0 +1,14 @@
+<h4 class="title">ACI By County</h4>
+<div class="documentation-text">
+  <p class="text"
+    >Users could also provide chart code in this top level component.</p
+  >
+</div>
+<div *ngIf="allData$ | async as allData; else loading">
+  <app-export-content fileName="ACI-County">
+    <app-aci-county-map [data]="allData"></app-aci-county-map>
+  </app-export-content>
+</div>
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>

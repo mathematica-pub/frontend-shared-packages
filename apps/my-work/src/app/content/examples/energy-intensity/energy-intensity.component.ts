@@ -4,7 +4,6 @@ import { map, Observable } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
 import { ExportContentComponent } from '../../../platform/export-content/export-content.component';
 import { EnergyIntensityBarComponent } from './energy-intensity-bar/energy-intensity-bar.component';
-
 export interface EnergyIntensityDatum {
   name: string;
   category: string;
@@ -13,7 +12,6 @@ export interface EnergyIntensityDatum {
   date: Date;
   value: number | null;
 }
-
 @Component({
   selector: 'app-energy-intensity',
   standalone: true,

@@ -36,6 +36,7 @@ export class TotalExpendituresComponent implements OnInit {
   }
 
   createData(): void {
+    console.log('File Path: ', this.dataPath);
     const data$ = this.dataService.getDataFile(this.dataPath).pipe(
       map((data) => {
         const transformed: TotalExpendituresDatum[] = data.map((x) => {

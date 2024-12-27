@@ -4,8 +4,10 @@
     >Users could also provide chart code in this top level component.</p
   >
 </div>
-@if (barsData$ | async; as barData) {
-  <app-export-content fileName="Total_Weather_Expenditures_2023"
-    ><app-expend-bar [data]="barData"></app-expend-bar>
+<div *ngIf="barsData$ | async as barData; else loading">
+  <app-export-content fileName="ACI-County">
+    <app-expend-bar [data]="barData"></app-expend-bar>
   </app-export-content>
-}
+</div>
+
+<ng-template #loading> <p>Loading...</p> </ng-template>

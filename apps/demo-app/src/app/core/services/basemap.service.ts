@@ -12,6 +12,7 @@ export class BasemapService {
   map: UsMapTopology;
   us: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   states: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
+  counties: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   usOutlineConfig: GeographiesGeojsonPropertiesLayer<
     MapGeometryProperties,
     MultiPolygon | Polygon
@@ -28,6 +29,7 @@ export class BasemapService {
       this.map = map;
       this.setUsGeoJson();
       this.setStatesGeoJson();
+      this.setCountiesGeoJson();
     });
   }
 
@@ -42,6 +44,13 @@ export class BasemapService {
     this.states = topojson.feature(
       this.map,
       this.map.objects.states
+    ) as FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>; // topojson types make it not possible for this to be inferred
+  }
+
+  private setCountiesGeoJson(): void {
+    this.counties = topojson.feature(
+      this.map,
+      this.map.objects['counties']
     ) as FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>; // topojson types make it not possible for this to be inferred
   }
 }
