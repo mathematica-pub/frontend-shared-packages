@@ -51,7 +51,7 @@ export class EditableTextboxComponent
       this.autoSelect && this.autoSelectTrigger === 'any';
     this.service.nullActiveIdOnClose = true;
     if (this.formControl) {
-      this.setTextboxValueChangeHandling();
+      this.setValueChangeHandlingForFormControl();
     }
   }
 
@@ -77,7 +77,7 @@ export class EditableTextboxComponent
     }
   }
 
-  setTextboxValueChangeHandling(): void {
+  setValueChangeHandlingForFormControl(): void {
     this.formControl.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
