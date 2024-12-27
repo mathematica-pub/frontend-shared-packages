@@ -25,20 +25,20 @@ export class MinimalImplementationComboboxComponent {
   @Input() multiSelect = false;
   @Input() selectAll = false;
   options: { displayName: string; id: string }[] = [
-    { displayName: 'Maine', id: 'ME' },
-    { displayName: 'New Hampshire', id: 'NH' },
-    { displayName: 'Vermont', id: 'VT' },
-    { displayName: 'Massachusetts', id: 'MA' },
-    { displayName: 'Rhode Island', id: 'RI' },
     { displayName: 'Connecticut', id: 'CT' },
+    { displayName: 'Maine', id: 'ME' },
+    { displayName: 'Massachusetts', id: 'MA' },
+    { displayName: 'New Hampshire', id: 'NH' },
+    { displayName: 'Rhode Island', id: 'RI' },
+    { displayName: 'Vermont', id: 'VT' },
   ];
   midAtlanticOptions: { displayName: string; id: string }[] = [
-    { displayName: 'New York', id: 'NY' },
-    { displayName: 'New Jersey', id: 'NJ' },
-    { displayName: 'Pennsylvania', id: 'PA' },
     { displayName: 'Delaware', id: 'DE' },
-    { displayName: 'Maryland', id: 'MD' },
     { displayName: 'District of Columbia', id: 'DC' },
+    { displayName: 'Maryland', id: 'MD' },
+    { displayName: 'New Jersey', id: 'NJ' },
+    { displayName: 'New York', id: 'NY' },
+    { displayName: 'Pennsylvania', id: 'PA' },
   ];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

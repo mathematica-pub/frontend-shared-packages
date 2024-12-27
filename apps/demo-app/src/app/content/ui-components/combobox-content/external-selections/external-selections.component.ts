@@ -18,12 +18,12 @@ export class ExternalSelectionsComponent {
   selected: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
   selected$ = this.selected.asObservable();
   options: { displayName: string; id: string }[] = [
-    { displayName: 'Maine', id: 'ME' },
-    { displayName: 'New Hampshire', id: 'NH' },
-    { displayName: 'Vermont', id: 'VT' },
-    { displayName: 'Massachusetts', id: 'MA' },
-    { displayName: 'Rhode Island', id: 'RI' },
     { displayName: 'Connecticut', id: 'CT' },
+    { displayName: 'Maine', id: 'ME' },
+    { displayName: 'Massachusetts', id: 'MA' },
+    { displayName: 'New Hampshire', id: 'NH' },
+    { displayName: 'Rhode Island', id: 'RI' },
+    { displayName: 'Vermont', id: 'VT' },
   ];
 
   onSelection(selected: string[]): void {

@@ -13,12 +13,12 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class FilterableOptionsComboboxComponent {
   _options: { displayName: string; id: string }[] = [
-    { displayName: 'Maine', id: 'ME' },
-    { displayName: 'New Hampshire', id: 'NH' },
-    { displayName: 'Vermont', id: 'VT' },
-    { displayName: 'Massachusetts', id: 'MA' },
-    { displayName: 'Rhode Island', id: 'RI' },
     { displayName: 'Connecticut', id: 'CT' },
+    { displayName: 'Maine', id: 'ME' },
+    { displayName: 'Massachusetts', id: 'MA' },
+    { displayName: 'New Hampshire', id: 'NH' },
+    { displayName: 'Rhode Island', id: 'RI' },
+    { displayName: 'Vermont', id: 'VT' },
   ];
   options: BehaviorSubject<{ displayName: string; id: string }[]> =
     new BehaviorSubject(this._options);
