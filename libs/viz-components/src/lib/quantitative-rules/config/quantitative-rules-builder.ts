@@ -69,15 +69,16 @@ export class VicQuantitativeRulesConfigBuilder<
   /**
    * OPTIONAL. A config for the behavior of the rule labels.
    */
-  labels(labels?: null): this;
-  labels(labels?: (labels: RulesLabelsBuilder<Datum>) => void): this;
+  labels(): this;
+  labels(labels: null): this;
+  labels(labels: (labels: RulesLabelsBuilder<Datum>) => void): this;
   labels(labels?: ((labels: RulesLabelsBuilder<Datum>) => void) | null): this {
     if (labels === null) {
       this.labelsBuilder = undefined;
       return this;
     }
     this.labelsBuilder = new RulesLabelsBuilder();
-    labels(this.labelsBuilder);
+    labels?.(this.labelsBuilder);
     return this;
   }
 
