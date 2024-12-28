@@ -44,14 +44,14 @@ export class AxisLabelBuilder {
    */
   offset(offset: null): this;
   offset(offset: { x?: number; y?: number }): this;
-  offset(value: { x?: number; y?: number } | null): this {
-    if (value === null) {
+  offset(offset: { x?: number; y?: number } | null): this {
+    if (offset === null) {
       this._offset = DEFAULT._offset;
       return this;
     }
     this._offset = {
-      x: value.x || 0,
-      y: value.y || 0,
+      x: offset.x || 0,
+      y: offset.y || 0,
     };
     return this;
   }
