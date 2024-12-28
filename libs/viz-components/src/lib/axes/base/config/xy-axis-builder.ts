@@ -62,15 +62,15 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
    *
    * If the formatter does not include a decimal point, a warning will be logged in the console and internal tick validation will be disabled.
    */
-  tickFormat(value: null): this;
-  tickFormat(value: string): this;
-  tickFormat(value: (value: TickValue) => string): this;
-  tickFormat(value: string | ((value: TickValue) => string) | null): this {
-    if (value === null) {
+  tickFormat(format: null): this;
+  tickFormat(format: string): this;
+  tickFormat(format: (value: TickValue) => string): this;
+  tickFormat(format: string | ((value: TickValue) => string) | null): this {
+    if (format === null) {
       this._tickFormat = undefined;
       return this;
     }
-    this._tickFormat = value;
+    this._tickFormat = format;
     return this;
   }
   /**
