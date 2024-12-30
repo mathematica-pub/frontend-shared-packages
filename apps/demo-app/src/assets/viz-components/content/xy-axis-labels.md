@@ -2,7 +2,7 @@
 
 ## Overview
 
-User can user the `labels` method on one of the axis builders to add and configure labels for that
+User can use the `labels` method on one of the axis builders to add and configure labels for that
 axis.
 
 Axis labels are centered on their respective axes by default, with the y-axis label rotated 90

@@ -39,18 +39,14 @@ export class BuilderMethodsParserService {
   ): Observable<
     AdkParsedContentSection<BuilderMethod<SafeHtml> | BuilderMethods<SafeHtml>>
   > {
-    if (this.isBuilderMethodsSection(section)) {
-      return this.parseBuilderMethodsSection(section, options, markdownParser);
+    if (this.isMultipleMethods(section)) {
+      return this.parseMultiMethodsSection(section, options, markdownParser);
     } else {
-      return this.parseSingleBuilderMethodSection(
-        section,
-        options,
-        markdownParser
-      );
+      return this.parseSingleMethodSection(section, options, markdownParser);
     }
   }
 
-  private parseBuilderMethodsSection(
+  private parseMultiMethodsSection(
     section: AdkParsedContentSection<BuilderMethods<string>>,
     options: AdkMarkdownParsingOptions,
     markdownParser: (
@@ -58,131 +54,81 @@ export class BuilderMethodsParserService {
       options: AdkMarkdownParsingOptions
     ) => Observable<string>
   ): Observable<AdkParsedContentSection<BuilderMethods<SafeHtml>>> {
-    const descriptions = this.collectDescriptionsForParsing(section.content);
-
-    return this.parseMarkdownDescriptions(
-      descriptions,
+    const overview$ = this.parseStringOrArrayValue(
+      section.content.overview,
       options,
       markdownParser
-    ).pipe(
-      map((parsedDescriptions) =>
-        this.reconstructBuilderMethodsSection(section, parsedDescriptions)
-      )
-    );
-  }
-
-  private collectDescriptionsForParsing(
-    content: BuilderMethods<string>
-  ): string[] {
-    const overview = Array.isArray(content.overview)
-      ? content.overview
-      : [content.overview];
-    return [
-      ...overview,
-      ...content.methods.flatMap((method) => method.description),
-      ...content.methods.flatMap((method) =>
-        method.params.flatMap((param) => param.description)
-      ),
-    ];
-  }
-
-  private reconstructBuilderMethodsSection(
-    section: AdkParsedContentSection<BuilderMethods<string>>,
-    parsedDescriptions: string[]
-  ): AdkParsedContentSection<BuilderMethods<SafeHtml>> {
-    // Split parsed descriptions
-    const overviewLength = Array.isArray(section.content.overview)
-      ? section.content.overview.length
-      : 1;
-    const overviewHtmls = parsedDescriptions.slice(0, overviewLength);
-    const remainingDescriptions = parsedDescriptions.slice(overviewLength);
-
-    const methodDescriptionHtmls = remainingDescriptions.slice(
-      0,
-      section.content.methods.reduce(
-        (sum, method) => sum + method.description.length,
-        0
-      )
-    );
-    const paramDescriptionHtmls = remainingDescriptions.slice(
-      methodDescriptionHtmls.length
     );
 
-    // Reconstruct methods with sanitized descriptions
-    const parsedMethods = this.sanitizeMethodDescriptions(
-      section.content.methods,
-      methodDescriptionHtmls,
-      paramDescriptionHtmls
-    );
+    const methodDescriptions$ = section.content.methods.map((method) => {
+      const mainDescriptions$ = this.parseStringOrArrayValue(
+        method.description,
+        options,
+        markdownParser
+      );
 
-    // Sanitize overview descriptions
-    const sanitizedOverview = overviewHtmls.map((overview) =>
-      this.sanitizer.bypassSecurityTrustHtml(overview)
-    );
+      const paramDescriptions$ = method.params?.map((param) =>
+        this.parseStringOrArrayValue(param.description, options, markdownParser)
+      );
 
-    // Return parsed section
-    return {
-      ...section,
-      content: {
-        type: 'methods',
-        overview: sanitizedOverview,
-        methods: parsedMethods,
-      } as BuilderMethods<SafeHtml>,
-    };
-  }
-
-  private sanitizeMethodDescriptions(
-    methods: BuilderMethod<string>[],
-    methodDescriptionHtmls: string[],
-    paramDescriptionHtmls: string[]
-  ): BuilderMethod<SafeHtml>[] {
-    let methodDescriptionIndex = 0;
-    let paramDescriptionIndex = 0;
-
-    return methods.map((method) => {
-      const methodDescriptions = Array.isArray(method.description)
-        ? method.description.map((_, index) =>
-            this.sanitizer.bypassSecurityTrustHtml(
-              methodDescriptionHtmls[methodDescriptionIndex + index]
-            )
-          )
-        : [
-            this.sanitizer.bypassSecurityTrustHtml(
-              methodDescriptionHtmls[methodDescriptionIndex]
-            ),
-          ];
-      methodDescriptionIndex += method.description.length;
-
-      const parsedParams = method.params.map((param) => {
-        const paramDescriptions = Array.isArray(param.description)
-          ? param.description.map((_, index) =>
-              this.sanitizer.bypassSecurityTrustHtml(
-                paramDescriptionHtmls[paramDescriptionIndex + index]
+      return combineLatest([
+        mainDescriptions$,
+        ...(paramDescriptions$ || []),
+      ]).pipe(
+        map(([mainDescriptionHtmls, ...paramDescriptionHtmls]) => ({
+          ...method,
+          description: Array.isArray(mainDescriptionHtmls)
+            ? mainDescriptionHtmls.map((html) =>
+                this.sanitizer.bypassSecurityTrustHtml(html)
               )
-            )
-          : [
-              this.sanitizer.bypassSecurityTrustHtml(
-                paramDescriptionHtmls[paramDescriptionIndex]
-              ),
-            ];
-        paramDescriptionIndex += param.description.length;
-
-        return {
-          name: param.name,
-          type: param.type,
-          description: paramDescriptions,
-        };
-      });
-
-      return {
-        name: method.name,
-        description: methodDescriptions,
-        params: parsedParams,
-      } as BuilderMethod<SafeHtml>;
+            : [this.sanitizer.bypassSecurityTrustHtml(mainDescriptionHtmls)],
+          params: method.params.map((param, index) => {
+            const description = paramDescriptionHtmls[index];
+            return {
+              ...param,
+              description: Array.isArray(description)
+                ? description.map((html) =>
+                    this.sanitizer.bypassSecurityTrustHtml(html)
+                  )
+                : [this.sanitizer.bypassSecurityTrustHtml(description)],
+            };
+          }),
+        }))
+      );
     });
+
+    return combineLatest([overview$, ...methodDescriptions$]).pipe(
+      map(([overviewHtmls, ...parsedMethods]) => ({
+        ...section,
+        content: {
+          type: 'methods',
+          overview: Array.isArray(overviewHtmls)
+            ? overviewHtmls.map((html) =>
+                this.sanitizer.bypassSecurityTrustHtml(html)
+              )
+            : [this.sanitizer.bypassSecurityTrustHtml(overviewHtmls)],
+          methods: parsedMethods,
+        } as BuilderMethods<SafeHtml>,
+      }))
+    );
   }
 
-  private parseSingleBuilderMethodSection(
+  private parseStringOrArrayValue(
+    value: string | string[],
+    options: AdkMarkdownParsingOptions,
+    markdownParser: (
+      content: string,
+      options: AdkMarkdownParsingOptions
+    ) => Observable<string>
+  ): Observable<string> | Observable<string[]> {
+    return value && Array.isArray(value)
+      ? combineLatest(value.map((desc) => markdownParser(desc, options)))
+      : value && !Array.isArray(value)
+        ? markdownParser(value, options)
+        : of([]);
+  }
+
+  private parseSingleMethodSection(
     section: AdkParsedContentSection<BuilderMethod<string>>,
     options: AdkMarkdownParsingOptions,
     markdownParser: (
@@ -190,26 +136,14 @@ export class BuilderMethodsParserService {
       options: AdkMarkdownParsingOptions
     ) => Observable<string>
   ): Observable<AdkParsedContentSection<BuilderMethod<SafeHtml>>> {
-    const mainDescriptions$ =
-      section.content.description && Array.isArray(section.content.description)
-        ? combineLatest(
-            section.content.description.map((desc) =>
-              markdownParser(desc, options)
-            )
-          )
-        : section.content.description &&
-            !Array.isArray(section.content.description)
-          ? markdownParser(section.content.description, options)
-          : of([]);
+    const mainDescriptions$ = this.parseStringOrArrayValue(
+      section.content.description,
+      options,
+      markdownParser
+    );
 
     const paramDescriptions$ = section.content.params?.map((param) =>
-      param.description && Array.isArray(param.description)
-        ? combineLatest(
-            param.description.map((desc) => markdownParser(desc, options))
-          )
-        : param.description && !Array.isArray(param.description)
-          ? markdownParser(param.description, options)
-          : of([])
+      this.parseStringOrArrayValue(param.description, options, markdownParser)
     );
 
     return combineLatest([
@@ -255,7 +189,7 @@ export class BuilderMethodsParserService {
     );
   }
 
-  private isBuilderMethodsSection(
+  private isMultipleMethods(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     obj: any
   ): obj is AdkParsedContentSection<BuilderMethods> {
