@@ -32,9 +32,11 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option *ngFor="let option of options$ | async">{{
-          option.displayName
-        }}</hsi-ui-listbox-option>
+        @for (option of options$ | async; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
       </hsi-ui-listbox>
     </hsi-ui-combobox>
     <p class="textbox-value">{{ inputControl.value }}</p>

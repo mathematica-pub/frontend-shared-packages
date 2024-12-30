@@ -56,11 +56,11 @@ export const scss = `
 }
 
 .listbox-option.current:not(.selected) {
-  background: blanchedalmond;
+  background: yellow;
 }
 
 .listbox-option.selected {
-  background: blanchedalmond;
+  background: cyan;
 }
 
 .combobox-value {
