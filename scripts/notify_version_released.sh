@@ -3,6 +3,8 @@
 set -e
 set -x
 
+chmod +x ./scripts/get_slack_webhook_url.sh
+
 # Check if changed_pkgs is empty
 if [ -z "${changed_pkgs}" ]; then
     echo "No packages with version bumps."
