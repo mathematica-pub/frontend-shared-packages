@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -e
+set -x
+
+export SLACK_WEBHOOK_URL_VIC="${SLACK_WEBHOOK_URL_VIC}"
+export SLACK_WEBHOOK_URL_UIC="${SLACK_WEBHOOK_URL_UIC}"
+export SLACK_WEBHOOK_URL_ADK="${SLACK_WEBHOOK_URL_ADK}"
