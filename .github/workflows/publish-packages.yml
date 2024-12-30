@@ -4,6 +4,10 @@ on:
     branches:
       - '*'
 
+permissions:
+  contents: read
+  pull-requests: read
+
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
@@ -33,6 +37,10 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+
+      - name: Get Current Pull Request
+        uses: 8BitJonny/gh-get-current-pr@3.0.0
+        id: PR
 
       - name: Install dependencies
         run: npm ci
