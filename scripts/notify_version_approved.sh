@@ -5,6 +5,10 @@ set -x
 
 chmod +x ./scripts/get_slack_webhook_url.sh
 
+export SLACK_WEBHOOK_URL_VIC
+export SLACK_WEBHOOK_URL_UIC
+export SLACK_WEBHOOK_URL_ADK
+
 # Check if changed_pkgs is empty
 if [ -z "${changed_pkgs}" ]; then
     echo "No packages with version bumps."
