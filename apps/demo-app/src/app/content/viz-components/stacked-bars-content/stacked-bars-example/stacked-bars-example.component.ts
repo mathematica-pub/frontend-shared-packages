@@ -3,8 +3,11 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
   BarsEventOutput,
   ElementSpacing,
+  EventAction,
   HoverMoveAction,
   HtmlTooltipConfig,
+  StackedBarsClickDirective,
+  StackedBarsClickEmitTooltipDataPauseHoverMoveActions,
   StackedBarsConfig,
   StackedBarsHoverMoveDirective,
   StackedBarsHoverMoveEmitTooltipData,
@@ -24,7 +27,7 @@ import {
 } from '@hsi/viz-components';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
-import { BehaviorSubject, Observable, filter, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, filter, map } from 'rxjs';
 
 interface ViewModel {
   dataConfig: StackedBarsConfig<IndustryUnemploymentDatum, Date>;
@@ -67,6 +70,9 @@ export class StackedBarsExampleComponent implements OnInit {
   hoverAndMoveActions: HoverMoveAction<
     StackedBarsHoverMoveDirective<IndustryUnemploymentDatum, string>
   >[] = [new StackedBarsHoverMoveEmitTooltipData()];
+  clickActions: EventAction<
+    StackedBarsClickDirective<IndustryUnemploymentDatum, string>
+  >[] = [new StackedBarsClickEmitTooltipDataPauseHoverMoveActions()];
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
@@ -76,6 +82,8 @@ export class StackedBarsExampleComponent implements OnInit {
     null
   );
   tooltipData$ = this.tooltipData.asObservable();
+  removeTooltipEvent: Subject<void> = new Subject<void>();
+  removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
 
   constructor(
     private dataService: DataService,
@@ -119,10 +127,11 @@ export class StackedBarsExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: BarsEventOutput<IndustryUnemploymentDatum, string>
+    data: BarsEventOutput<IndustryUnemploymentDatum, string>,
+    tooltipEvent: 'hover' | 'click'
   ): void {
     this.updateTooltipData(data);
-    this.updateTooltipConfig(data);
+    this.updateTooltipConfig(tooltipEvent);
   }
 
   updateTooltipData(
@@ -131,9 +140,8 @@ export class StackedBarsExampleComponent implements OnInit {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(
-    data: BarsEventOutput<IndustryUnemploymentDatum, string>
-  ): void {
+  updateTooltipConfig(tooltipEvent): void {
+    const data = this.tooltipData.getValue();
     const config = this.tooltip
       .barsPosition(data?.origin, [
         {
@@ -141,8 +149,14 @@ export class StackedBarsExampleComponent implements OnInit {
           offsetY: data?.positionY - 12,
         },
       ])
+      .hasBackdrop(tooltipEvent === 'click')
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
+  }
+
+  onBackdropClick(): void {
+    this.removeTooltipEvent.next();
+    this.updateTooltipConfig('hover');
   }
 }

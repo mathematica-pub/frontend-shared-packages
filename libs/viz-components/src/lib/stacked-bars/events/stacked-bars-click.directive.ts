@@ -96,10 +96,6 @@ export class StackedBarsClickDirective<
     this.origin = event.target as SVGRectElement;
     this.stackedBarDatum = select(this.origin).datum() as StackDatum;
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
-    if (this.hoverDirective) {
-      this.pointerX = this.hoverDirective.positionX;
-      this.pointerY = this.hoverDirective.positionY;
-    }
     this.actions.forEach((action) => action.onStart(this));
   }
 
@@ -116,10 +112,12 @@ export class StackedBarsClickDirective<
       this.stackedBarDatum
     );
     const data = this.bars.getTooltipData(userDatum);
+    const rectX = parseFloat(this.origin.getAttribute('x') || '0');
+    const rectY = parseFloat(this.origin.getAttribute('y') || '0');
     const extras = {
       origin: this.origin,
-      positionX: this.pointerX,
-      positionY: this.pointerY,
+      positionX: this.pointerX - rectX,
+      positionY: this.pointerY - rectY,
     };
     return { ...data, ...extras };
   }

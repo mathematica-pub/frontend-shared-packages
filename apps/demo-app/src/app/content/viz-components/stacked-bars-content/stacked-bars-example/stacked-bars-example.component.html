@@ -12,11 +12,17 @@
         vic-primary-marks-stacked-bars
         [config]="vm.dataConfig"
         [vicStackedBarsHoverMoveActions]="hoverAndMoveActions"
-        (vicStackedBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+        [vicStackedBarsClickActions]="clickActions"
+        [vicStackedBarsClickRemoveEvent$]="removeTooltipEvent$"
+        (vicStackedBarsHoverMoveOutput)="
+          updateTooltipForNewOutput($event, 'hover')
+        "
+        (vicStackedBarsClickOutput)="updateTooltipForNewOutput($event, 'click')"
       >
         <vic-html-tooltip
           [config]="tooltipConfig$ | async"
           [template]="htmlTooltip"
+          (backdropClick)="onBackdropClick()"
         ></vic-html-tooltip>
       </svg:g>
     </ng-container>
