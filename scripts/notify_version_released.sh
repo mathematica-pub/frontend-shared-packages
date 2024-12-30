@@ -3,7 +3,16 @@
 set -e
 set -x
 
-for pkg in "${changed_pkgs[@]}"; do
+# Check if changed_pkgs is empty
+if [ -z "${changed_pkgs}" ]; then
+    echo "No packages with version bumps."
+    exit 0
+fi
+
+# Convert the space-separated string to an array
+IFS=' ' read -r -a changed_pkgs_array <<< "$changed_pkgs"
+
+for pkg in "${changed_pkgs_array[@]}"; do
     version=$(git tag --list "$pkg-*" | sort -V | tail -n 1 | sed "s/$pkg-//")
     echo "New version of $pkg: $version"
     SLACK_WEBHOOK_URL=$(./get_slack_webhook_url.sh $pkg)
