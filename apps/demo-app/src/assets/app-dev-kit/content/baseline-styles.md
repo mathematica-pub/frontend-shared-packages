@@ -5,7 +5,7 @@ intended to serve as a starting point for applications, providing a sensible set
 typography, color, and layout. They are designed to be easily overridden and customized to fit the
 needs of your application.
 
-## Consuming Baseline Styles in an application
+## Consuming Baseline Styles in an Application
 
 ### Modify angular.json
 
