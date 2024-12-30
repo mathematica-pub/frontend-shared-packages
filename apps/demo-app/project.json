@@ -112,7 +112,7 @@
         "stylePreprocessorOptions": {
           "includePaths": [
             "apps/demo-app/src/styles",
-            "libs/app-dev-kit/src/lib/styles"
+            "libs/app-dev-kit/src/lib/baseline-styles"
           ]
         },
         "scripts": []
