@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
   AdkAssetsService,
@@ -9,6 +9,7 @@ import {
   AdkShikiHighlighter,
   ShikiTheme,
 } from '@hsi/app-dev-kit';
+import { BasemapService } from './core/services/basemap.service';
 import { RouterStateService } from './core/services/router-state/router-state.service';
 import { SidebarComponent } from './platform/sidebar/sidebar.component';
 
@@ -25,11 +26,12 @@ import { SidebarComponent } from './platform/sidebar/sidebar.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'HSI Static Charts';
 
   constructor(
     public routerState: RouterStateService,
+    private basemap: BasemapService,
     private highlighting: AdkShikiHighlighter
   ) {}
 
@@ -39,5 +41,9 @@ export class AppComponent implements OnInit {
       ShikiTheme.CatppuccinLatte,
       ShikiTheme.GitHubLight,
     ]);
+  }
+
+  ngAfterViewInit(): void {
+    this.basemap.initMap();
   }
 }

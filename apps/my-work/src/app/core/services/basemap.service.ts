@@ -3,15 +3,21 @@ import { GeographiesGeojsonPropertiesLayer } from '@hsi/viz-components';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import * as topojson from 'topojson-client';
 import { DataResource } from '../resources/data.resource';
-import { MapGeometryProperties, UsMapTopology } from './basemap';
+import {
+  MapGeometryProperties,
+  UsCountyTopology,
+  UsMapTopology,
+} from './basemap';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BasemapService {
   map: UsMapTopology;
+  countyMap: UsCountyTopology;
   us: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   states: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
+  counties: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   usOutlineConfig: GeographiesGeojsonPropertiesLayer<
     MapGeometryProperties,
     MultiPolygon | Polygon
@@ -29,6 +35,11 @@ export class BasemapService {
       this.setUsGeoJson();
       this.setStatesGeoJson();
     });
+
+    this.data.getCounties().subscribe((countyMap) => {
+      this.countyMap = countyMap;
+      this.setCountiesGeoJson();
+    });
   }
 
   private setUsGeoJson(): void {
@@ -42,6 +53,13 @@ export class BasemapService {
     this.states = topojson.feature(
       this.map,
       this.map.objects.states
+    ) as FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>; // topojson types make it not possible for this to be inferred
+  }
+
+  private setCountiesGeoJson(): void {
+    this.counties = topojson.feature(
+      this.countyMap,
+      this.countyMap.objects.counties
     ) as FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>; // topojson types make it not possible for this to be inferred
   }
 }

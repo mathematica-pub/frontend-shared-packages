@@ -19,8 +19,8 @@ import {
   VicMapLegendModule,
 } from '@hsi/viz-components';
 import { colors } from 'apps/demo-app/src/app/core/constants/colors.constants';
-import { MapGeometryProperties } from 'apps/demo-app/src/app/core/services/basemap';
-import { BasemapService } from 'apps/demo-app/src/app/core/services/basemap.service';
+import { MapGeometryProperties } from 'apps/my-work/src/app/core/services/basemap';
+import { BasemapService } from 'apps/my-work/src/app/core/services/basemap.service';
 import { ACICountyDatum } from '../aci-county.component';
 
 @Component({
@@ -44,10 +44,11 @@ export class AciCountyMapComponent implements OnInit {
   primaryMarksConfig: GeographiesConfig<ACICountyDatum, MapGeometryProperties>;
   width = 700;
   height = 400;
+  patternName = 'dotPattern';
   margin: ElementSpacing = { top: 16, right: 40, bottom: 0, left: 40 };
   outlineColor = colors.base;
   featureIndexAccessor = (d: GeographiesFeature<MapGeometryProperties>) =>
-    d.properties.name;
+    d.id.toString();
 
   constructor(
     // private bars: VicBarsConfigBuilder<ACICountyDatum, string>,
@@ -62,28 +63,18 @@ export class AciCountyMapComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data);
-    this.basemap.initMap();
+    console.log(this.basemap.us);
     this.setProperties();
   }
 
-  logFeatureProperties(): void {
-    if (this.basemap.us && this.basemap.us.features.length > 0) {
-      console.log(
-        'Feature properties:',
-        this.basemap.us.features[0].properties
-      );
-    } else {
-      console.error('No features available to log properties.');
-    }
-  }
-
   setProperties(): void {
-    if (!this.basemap.us) {
-      console.error('Basemap US data is not initialized');
-      return;
-    }
+    // if (!this.basemap.us) {
+    //   console.error('Basemap US data is not initialized');
+    //   return;
+    // }
 
     this.primaryMarksConfig = this.setPrimaryMarksConfig(this.data);
+    console.log(this.primaryMarksConfig);
   }
 
   setPrimaryMarksConfig(
@@ -103,9 +94,10 @@ export class AciCountyMapComponent implements OnInit {
   getUsOutlineConfig(
     layer: GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties>
   ): GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
+    console.log(this.basemap.us);
     return layer
       .geographies(this.basemap.us.features)
-      .stroke((stroke) => stroke.color(this.outlineColor).width(1))
+      .stroke((stroke) => stroke.color(colors.base).width(1))
       .fillGeojsonProperties((dimension) =>
         dimension.valueAccessor((d) => d.properties.name).range(['none'])
       );
@@ -117,21 +109,23 @@ export class AciCountyMapComponent implements OnInit {
   ): GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
     const countiesInData = data.map((x) => x.countyFips);
     const features = this.basemap.counties.features.filter(
-      (x) => !countiesInData.includes(x.properties.id)
+      (x) => !countiesInData.includes(x.id.toString())
     );
+    // const valueAccessor = (d: GeographiesFeature<MapGeometryProperties>) =>
+    //   d.id;
     return layer
       .geographies(features)
       .fillGeojsonProperties((dimension) =>
-        dimension.range(['lightgray']).valueAccessor((d) => d.properties.id)
-      )
-      .labels((labels) =>
-        labels
-          .valueAccessor((d) => d.properties.id)
-          .display(() => true)
-          .color('magenta')
-          .fontWeight(700)
-      )
-      .enableEventActions(true);
+        dimension.range(['lightgray']).valueAccessor((d) => d.id.toString())
+      );
+    // .labels((labels) =>
+    //   labels
+    //     .valueAccessor((d) => d.id.toString())
+    //     .display(() => true)
+    //     .color('magenta')
+    //     .fontWeight(700)
+    // )
+    // .enableEventActions(true);
   }
 
   getDataLayer(
@@ -144,18 +138,36 @@ export class AciCountyMapComponent implements OnInit {
     ACICountyDatum,
     MapGeometryProperties
   > {
+    const countiesInData = data.map((x) => x.countyFips);
+    const counties = this.basemap.counties.features.filter((x) =>
+      countiesInData.includes(x.id.toString())
+    );
     return layer
       .data(data)
-      .geographies(this.basemap.counties.features)
+      .geographies(counties)
       .geographyIndexAccessor((d) => d.countyFips)
-      .noBins((dimension) =>
+      .equalValueRangesBins((dimension) =>
         dimension
           .valueAccessor((d) => d.ACIOverall)
           .formatSpecifier(',.2f')
-          .range(['#2cafb0'])
+          .numBins(6)
+          .range([colors.white, colors.highlight.default])
       )
       .labels((labels) => this.getLabels(labels));
   }
+  // return layer
+  //       .data(data)
+  //       .geographies(this.getDataGeographiesFeatures(data))
+  //       .geographyIndexAccessor((d) => d.state)
+  //       .equalValueRangesBins((dimension) =>
+  //         dimension
+  //           .valueAccessor((d) => d.income)
+  //           .formatSpecifier(`$${valueFormat.integer}`)
+  //           .numBins(6)
+  //           .range([colors.white, colors.highlight.default])
+  //       )
+  //       .customFills(customFills)
+  //       .labels((labels) => this.getLabels(labels));
 
   getLabels(
     labels: GeographiesLabelsBuilder<MapGeometryProperties>
@@ -163,7 +175,7 @@ export class AciCountyMapComponent implements OnInit {
     const darkColor = 'rgb(22,80,225)';
     const lightColor = '#FFFFFF';
     return labels
-      .valueAccessor((d) => d.properties.id)
+      .valueAccessor((d) => d.id.toString())
       .display(() => true)
       .position((d, path) => labels.positionAtCentroid(d, path))
       .color({

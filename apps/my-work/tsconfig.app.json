@@ -9,5 +9,9 @@
     }
   },
   "files": ["src/main.ts"],
-  "include": ["src/**/*.d.ts", "src/app/content/**/*.ts"]
+  "include": [
+    "src/**/*.d.ts",
+    "src/app/content/**/*.ts",
+    "src/app/core/**/*.ts"
+  ]
 }

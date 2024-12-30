@@ -153,6 +153,10 @@ export class GeographiesExampleComponent implements OnInit {
       map(([, data]) => this.getPrimaryMarksConfig(data)),
       shareReplay(1)
     );
+
+    this.primaryMarksConfig$.subscribe((value) => {
+      console.log(value);
+    });
   }
 
   getPrimaryMarksConfig(
