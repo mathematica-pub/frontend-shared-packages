@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { ComboboxModule } from '../combobox.module';
-import { SingleSelectListboxValue } from '../listbox/listbox.component';
 import { scss } from './combobox-testing.constants';
 
 @Component({
@@ -26,12 +25,13 @@ import { scss } from './combobox-testing.constants';
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option
-          *ngFor="let option of options"
-          [selected]="control.value === option.id"
-          [value]="option.id"
-          >{{ option.displayName }}</hsi-ui-listbox-option
-        >
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option
+            [selected]="control.value === option.id"
+            [value]="option.id"
+            >{{ option.displayName }}</hsi-ui-listbox-option
+          >
+        }
       </hsi-ui-ng-form-listbox-single>
     </hsi-ui-combobox>
   `,
@@ -46,9 +46,7 @@ class NgFormListboxSingleTestComponent {
     { displayName: 'Durians', id: 'duri' },
     { displayName: 'Elderberries', id: 'elde' },
   ];
-  control: FormControl<SingleSelectListboxValue<string>> = new FormControl(
-    null
-  );
+  control: FormControl<any> = new FormControl(null);
 }
 
 describe('NgFormListboxSingleTestComponent', () => {

@@ -7,10 +7,10 @@ const DEFAULT = {
   _width: 100,
 };
 export class SvgTextWrapBuilder {
-  _width: number;
-  _maintainXPosition: boolean;
-  _maintainYPosition: boolean;
-  _lineHeight: number;
+  protected _width: number;
+  protected _maintainXPosition: boolean;
+  protected _maintainYPosition: boolean;
+  protected _lineHeight: number;
 
   constructor() {
     Object.assign(this, DEFAULT);

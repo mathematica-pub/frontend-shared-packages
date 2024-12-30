@@ -1,6 +1,6 @@
 @use 'functions' as *;
 
-.multi-select-combobox-example.ng-form-example {
+.multi-select-combobox-example.grouped-example {
   .combobox-value {
     padding-bottom: grid(4);
   }
@@ -71,6 +71,10 @@
 
   .listbox-option.current:not(.selected) {
     background: #f2f2f2;
+  }
+
+  .group-label {
+    font-weight: bold;
   }
 
   .listbox-option .checkbox {

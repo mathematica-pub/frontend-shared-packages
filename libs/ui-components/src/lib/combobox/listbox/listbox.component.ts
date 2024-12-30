@@ -68,13 +68,14 @@ export class ListboxComponent
   @Input() isMultiSelect = false;
   @Input() labelIsBoxPlaceholder = false;
   @Input() findsOptionOnTyping = true;
+  // TODO: Consider moving this to textbox, feels weird to have it here from a UX perspective
   @Input() countSelectedOptionsLabel?: CountSelectedOptionsLabel;
   @Input() customTextboxLabel?: (
     options: ListboxOptionComponent[],
     countSelectedOptionsLabel?: CountSelectedOptionsLabel
   ) => string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  @Output() valueChanges = new EventEmitter<any[]>();
+  @Output() valueChanges = new EventEmitter<any | any[]>();
   @ViewChild('scrollContent') scrollContentRef: ElementRef;
   @ContentChild(ListboxLabelComponent, { descendants: false })
   label: ListboxLabelComponent;
@@ -89,6 +90,7 @@ export class ListboxComponent
   selectedOptions$ = this.selectedOptions.asObservable();
   optionPropertyChanges$: Observable<ListboxOptionPropertyChange>;
   groups$: Observable<ListboxGroupComponent[]>;
+  allOptions$: Observable<ListboxOptionComponent[]>;
   activeIndex: BehaviorSubject<number> = new BehaviorSubject(null);
   activeIndex$ = this.activeIndex.asObservable().pipe(distinctUntilChanged());
   visuallyFocused: boolean;
@@ -152,21 +154,24 @@ export class ListboxComponent
       delay(0)
     );
 
+    // will not track changes to properties, just if the list of options changes
     this.options$ = this.options.changes.pipe(
       startWith(''),
       map(() => this.options.toArray()),
       delay(0)
     );
 
-    const allOptions$ =
+    this.allOptions$ =
       this.groups.length > 0
         ? this.groups$.pipe(
             map((groups) => groups.flatMap((group) => group.options.toArray()))
           )
         : this.options$;
 
-    this.optionPropertyChanges$ = allOptions$.pipe(
-      switchMap((options) => merge(options.map((o) => o.changes$))),
+    this.optionPropertyChanges$ = this.allOptions$.pipe(
+      switchMap((options) =>
+        merge(options.map((o) => o.externalPropertyChanges$))
+      ),
       mergeAll(),
       shareReplay(1)
     );
@@ -184,6 +189,7 @@ export class ListboxComponent
             selections.push(value);
           }
           // Add any previous selections that the user may have made that may not be in options anymore due to filtering
+          // For example, the user selects MA, ME, MI, then applies a filter to see only New England states (MI is removed) -- then removes the filter -- this ensures that MI is still selected
           for (const value of this.service.selectedOptionValues) {
             if (!selections.includes(value)) {
               selections.push(value);
@@ -199,7 +205,8 @@ export class ListboxComponent
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   emitValue(selections: any[]): void {
-    this.valueChanges.emit(selections);
+    const value = this.isMultiSelect ? selections : selections[0];
+    this.valueChanges.emit(value);
   }
 
   setOnBlurEvent() {

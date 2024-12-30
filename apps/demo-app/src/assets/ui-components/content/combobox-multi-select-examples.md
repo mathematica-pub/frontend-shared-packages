@@ -29,3 +29,9 @@ This is a multi-select combobox with an editable textbox.
 ```custom-angular
 editable textbox multi select
 ```
+
+This is a multi-select combobox that uses grouping.
+
+```custom-angular
+grouped multi select
+```

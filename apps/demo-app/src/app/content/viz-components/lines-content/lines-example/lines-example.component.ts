@@ -80,8 +80,8 @@ export class LinesExampleComponent implements OnInit {
   @ViewChild('imageNode') imageNode: ElementRef<HTMLElement>;
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
-    top: 8,
-    right: 4,
+    top: 36,
+    right: 12,
     bottom: 36,
     left: 64,
   };
@@ -134,12 +134,30 @@ export class LinesExampleComponent implements OnInit {
   }
 
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
-    const xAxisConfig = this.xAxisQuantitative.tickFormat('%Y').getConfig();
-    const yAxisConfig = this.yAxisQuantitative.getConfig();
+    const xAxisConfig = this.xAxisQuantitative
+      .tickFormat('%Y')
+      .label((label) => label.position('middle').text('Year'))
+      .getConfig();
+    const yAxisConfig = this.yAxisQuantitative
+      .label((label) =>
+        label
+          .position('start')
+          .text('Percent Unemployment (US Bureau of Labor Statistics)')
+          .anchor('start')
+          .wrap((wrap) => wrap.width(110).maintainXPosition(true))
+          .offset({ x: 8, y: 12 })
+      )
+      .tickFormat('.0%')
+      .getConfig();
     const dataConfig = this.lines
       .data(data)
       .xDate((xDate) => xDate.valueAccessor((d) => d.date))
-      .y((y) => y.valueAccessor((d) => d.value).domainPaddingPixels(20))
+      .y((y) =>
+        y
+          .valueAccessor((d) => d.value / 100)
+          .domainPaddingPixels(20)
+          .formatSpecifier('.1%')
+      )
       .stroke((stroke) =>
         stroke.color((color) => color.valueAccessor((d) => d.division))
       )
