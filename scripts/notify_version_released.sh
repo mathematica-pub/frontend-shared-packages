@@ -3,7 +3,7 @@
 set -e
 set -x
 
-for pkg in "${$changed_pkgs[@]}"; do
+for pkg in "${changed_pkgs[@]}"; do
     version=$(git tag --list "$pkg-*" | sort -V | tail -n 1 | sed "s/$pkg-//")
     echo "New version of $pkg: $version"
     SLACK_WEBHOOK_URL=$(./get_slack_webhook_url.sh $pkg)
