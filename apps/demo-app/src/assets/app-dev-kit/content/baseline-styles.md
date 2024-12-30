@@ -118,7 +118,12 @@ The variables that `create-theme` creates when it is called are the following:
 --hsi-adk-font-line-height-5: 2;
 ```
 
-For example, to specify different fonts, you could do the following:
+#### Overriding theme variables
+
+You can override the theme variables by specifying new values for them anywhere in your
+application's stylesheets.
+
+For example, to specify different fonts for the entire application, you could do the following:
 
 ```scss
 @use '@hsi/app-dev-kit' as hsi-adk;
