@@ -7,10 +7,10 @@ export const APP_ROUTES: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'viz-components/content',
+    path: 'app-dev-kit/content',
     loadChildren: () =>
-      import('./content/routing/viz-components-routing.module').then(
-        (m) => m.VizComponentsRoutingModule
+      import('./content/routing/app-dev-kit-routing.module').then(
+        (m) => m.AppDevKitRoutingModule
       ),
   },
   {
@@ -18,6 +18,13 @@ export const APP_ROUTES: Routes = [
     loadChildren: () =>
       import('./content/routing/ui-components-routing.module').then(
         (m) => m.UiComponentsRoutingModule
+      ),
+  },
+  {
+    path: 'viz-components/content',
+    loadChildren: () =>
+      import('./content/routing/viz-components-routing.module').then(
+        (m) => m.VizComponentsRoutingModule
       ),
   },
   {

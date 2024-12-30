@@ -74,7 +74,7 @@ can be applied in you global stylesheet.
 ```scss
 @use '@hsi/app-dev-kit/lib/styles' as hsi-adk;
 
-@include hsi-adk.reset();
+@include hsi-adk.css-reset();
 ```
 
 This will set the base font on body to be `--hsi-adk-font-sans`, and the `color` to black. (If you
@@ -83,7 +83,7 @@ have provided your own font for `--hsi-adk-font-sans`, the reset will use that a
 You can change this by providing a font and color to the mixin, as shown below.
 
 ```scss
-@include hsi-adk.reset('Georgia', #111);
+@include hsi-adk.css-reset('Georgia', #111);
 ```
 
 ### Typography styles
