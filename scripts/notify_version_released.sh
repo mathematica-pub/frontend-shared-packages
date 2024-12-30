@@ -5,9 +5,8 @@ set -x
 
 chmod +x ./scripts/get_slack_webhook_url.sh
 
-export SLACK_WEBHOOK_URL_VIC
-export SLACK_WEBHOOK_URL_UIC
-export SLACK_WEBHOOK_URL_ADK
+# Source the environment variables
+source ./scripts/set_env_vars.sh
 
 # Check if changed_pkgs is empty
 if [ -z "${changed_pkgs}" ]; then
