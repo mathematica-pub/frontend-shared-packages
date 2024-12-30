@@ -1,14 +1,16 @@
-import { TickWrap } from '../../tick-wrap/tick-wrap-config';
+import { AxisLabel } from '../../axis-label/axis-label-config';
+import { TickWrap } from '../../tick-wrap/tick-wrap';
 import { XyAxisBaseOptions } from './xy-axis-options';
 
 export abstract class XyAxisConfig<TickValue>
   implements XyAxisBaseOptions<TickValue>
 {
   data: never;
+  label: AxisLabel;
   mixBlendMode: string;
   removeDomainLine: boolean;
+  removeTickLabels: boolean;
   removeTickMarks: boolean;
-  removeTicks: boolean;
   tickFormat: string | ((value: TickValue) => string);
   tickLabelFontSize: number;
   tickSizeOuter: number;

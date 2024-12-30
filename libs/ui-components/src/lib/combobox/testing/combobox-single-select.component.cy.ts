@@ -3,21 +3,23 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
+import { BehaviorSubject } from 'rxjs';
 import { ComboboxModule } from '../combobox.module';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
-// Simple single select combobox
+// Simple single select combobox that displays selected
 @Component({
   selector: 'hsi-ui-combobox-single-test',
   template: `
     <p class="outside-element"
       >Throwaway element to click on for outside combobox click</p
     >
+    <p class="combobox-value">{{ value$ | async }}</p>
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [displaySelected]="true">
+      <hsi-ui-textbox class="textbox" [displaySelected]="true">
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
@@ -29,12 +31,13 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option *ngFor="let option of options">{{
-          option.displayName
-        }}</hsi-ui-listbox-option>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
       </hsi-ui-listbox>
     </hsi-ui-combobox>
-    <p class="combobox-value">{{ value$ | async }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
@@ -59,10 +62,68 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.combobox-textbox').click();
       cy.get('.combobox-listbox').should('be.visible');
     });
+    it('accessibility: focus the textbox on tab', () => {
+      cy.realPress('Tab');
+      cy.get('.combobox-textbox').should('be.focused');
+    });
+    it('accessibility: opens the combobox on enter when focused', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.combobox-listbox').should('be.visible');
+    });
+    it('accessibility: closes combobox with escape key', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.combobox-listbox').should('be.visible');
+      cy.get('.combobox-textbox').type('{esc}');
+      cy.get('.combobox-listbox').should('not.be.visible');
+    });
+    it('accessibility: highlights the first option on enter', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+    });
+    it('accessibility: highlights the first option on down button', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{downArrow}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+    });
+    it('accessibility: selects an option using the keyboard and update the value', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+      cy.get('.combobox-textbox').type('{downarrow}{enter}');
+      cy.get('.combobox-value').should('have.text', 'Bananas');
+    });
+    it('accessibility: focus remains on first option when up arrow is pressed', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type('{enter}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+      cy.get('.combobox-textbox').type('{upArrow}');
+      cy.get('.listbox-option').first().should('have.class', 'current');
+    });
+    it('accessibility: focus remains on last option when down arrow is pressed', () => {
+      cy.get('.combobox-textbox').focus();
+      cy.get('.combobox-textbox').type(
+        '{enter}{downArrow}{downArrow}{downArrow}{downArrow}'
+      );
+      cy.get('.listbox-option').eq(4).should('have.class', 'current');
+      cy.get('.combobox-textbox').type('{downArrow}');
+      cy.get('.listbox-option').eq(4).should('have.class', 'current');
+    });
     it('should emit the correct value on option click', () => {
       cy.get('.combobox-textbox').click();
       cy.get('.listbox-option').first().realClick();
       cy.get('.combobox-value').should('have.text', 'Apples');
+    });
+    it('should display value on textbox', () => {
+      cy.get('.combobox-textbox').click();
+      cy.get('.listbox-option').first().realClick();
+      cy.get('.textbox').should('include.text', 'Apples');
+      cy.get('.combobox-textbox').click();
+      cy.get('.listbox-option').eq(1).realClick();
+      cy.get('.textbox').should('include.text', 'Bananas');
+      cy.get('.textbox').should('not.include.text', 'Apples');
     });
     it('listbox should close on option click', () => {
       cy.get('.combobox-textbox').click();
@@ -117,6 +178,56 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
   });
 });
 
+// Simple single select combobox that does not display selected
+@Component({
+  selector: 'hsi-ui-combobox-single-no-display-selected-test',
+  template: `
+    <p class="outside-element"
+      >Throwaway element to click on for outside combobox click</p
+    >
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Fruits</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox class="textbox">
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [labelIsBoxPlaceholder]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        <hsi-ui-listbox-label>
+          <span>Select a fruit</span>
+        </hsi-ui-listbox-label>
+        <hsi-ui-listbox-option *ngFor="let option of options">{{
+          option.displayName
+        }}</hsi-ui-listbox-option>
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+    <p class="combobox-value">{{ value$ | async }}</p>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboxSingleTestNoDisplaySelectedComponent extends ComboboxBaseTestComponent {}
+
+describe('ComboboxSingleTestNoDisplaySelectedComponent', () => {
+  beforeEach(() => {
+    cy.mount(ComboboxSingleTestNoDisplaySelectedComponent, {
+      declarations: [ComboboxSingleTestNoDisplaySelectedComponent],
+      imports: [ComboboxModule, MatIconModule],
+    });
+  });
+  it('does not display selected', () => {
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').first().realClick();
+    cy.get('.textbox').should('not.include.text', 'Apples');
+    cy.get('.combobox-value').should('have.text', 'Apples');
+  });
+});
+
 // Single select combobox with some disabled options
 @Component({
   selector: 'hsi-ui-combobox-single-disabled-options-test',
@@ -124,6 +235,7 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
     <p class="outside-element"
       >Throwaway element to click on for outside combobox click</p
     >
+    <p class="combobox-value">{{ value$ | async }}</p>
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-combobox-label>
         <span>Fruits</span>
@@ -140,14 +252,13 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option
-          *ngFor="let option of options"
-          [disabled]="option.displayName.length > 7"
-          >{{ option.displayName }}</hsi-ui-listbox-option
-        >
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option [disabled]="option.displayName.length > 7">{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
       </hsi-ui-listbox>
     </hsi-ui-combobox>
-    <p class="combobox-value">{{ value$ | async }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
@@ -180,6 +291,7 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
     <p class="outside-element"
       >Outside element to click on for outside combobox click</p
     >
+    <p class="combobox-value">{{ value$ | async }}</p>
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-combobox-label>
         <span>Fruits</span>
@@ -196,14 +308,14 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option
-          *ngFor="let option of options; let i = index"
-          [selected]="i === 2"
-          >{{ option.displayName }}</hsi-ui-listbox-option
-        >
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option
+            [selected]="option.displayName === 'Coconuts'"
+            >{{ option.displayName }}</hsi-ui-listbox-option
+          >
+        }
       </hsi-ui-listbox>
     </hsi-ui-combobox>
-    <p class="combobox-value">{{ value$ | async }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
@@ -225,5 +337,87 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
     cy.get('.combobox-textbox').click();
     cy.get('.listbox-option').first().realClick();
     cy.get('.combobox-value').should('have.text', 'Apples');
+  });
+});
+
+// Single select combobox with groups
+@Component({
+  selector: 'hsi-ui-combobox-grouped-single-test',
+  template: `
+    <hsi-ui-combobox class="pixar-movies-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Star Wars Movies Combobox</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox class="textbox" [displaySelected]="true">
+        <p boxLabel
+          >This combobox stores your favorite of the first 6 Star Wars
+          movies!</p
+        >
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox (valueChanges)="onSelection($event)">
+        <hsi-ui-listbox-group>
+          <hsi-ui-listbox-label>
+            <span class="group-label">Original Trilogy</span>
+          </hsi-ui-listbox-label>
+          <hsi-ui-listbox-option
+            *ngFor="let option of optionsGroup1"
+            [value]="option.id"
+            >{{ option.displayName }}</hsi-ui-listbox-option
+          >
+        </hsi-ui-listbox-group>
+        <hsi-ui-listbox-group>
+          <hsi-ui-listbox-label>
+            <span class="group-label">Prequel Trilogy</span>
+          </hsi-ui-listbox-label>
+          <hsi-ui-listbox-option
+            *ngFor="let option of optionsGroup2"
+            [value]="option.id"
+            >{{ option.displayName }}</hsi-ui-listbox-option
+          >
+        </hsi-ui-listbox-group>
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+    <p class="combobox-value">Selected id value: {{ selected$ | async }}</p>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboxGroupedSingleTestComponent {
+  optionsGroup1 = [
+    { displayName: 'A New Hope', id: 'newHope' },
+    { displayName: 'The Empire Strikes Back', id: 'empire' },
+    { displayName: 'Return of the Jedi', id: 'returnJedi' },
+  ];
+  optionsGroup2 = [
+    { displayName: 'The Phantom Menace', id: 'phantom' },
+    { displayName: 'Attack of the Clones', id: 'clones' },
+    { displayName: 'Revenge of the Sith', id: 'sith' },
+  ];
+  value = new BehaviorSubject<any>(null);
+  value$ = this.value.asObservable();
+
+  onSelection(selectedId: string): void {
+    this.value.next(selectedId);
+  }
+}
+
+describe('ComboboxGroupedSingleTestComponent', () => {
+  beforeEach(() => {
+    cy.mount(ComboboxGroupedSingleTestComponent, {
+      declarations: [ComboboxGroupedSingleTestComponent],
+      imports: [ComboboxModule, MatIconModule],
+    });
+  });
+  it('can select values from different groups', () => {
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').first().realClick();
+    cy.get('.textbox').should('include.text', 'A New Hope');
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').eq(4).realClick();
+    cy.get('.textbox').should('include.text', 'Attack of the Clones');
+    cy.get('.textbox').should('not.include.text', 'A New Hope');
   });
 });

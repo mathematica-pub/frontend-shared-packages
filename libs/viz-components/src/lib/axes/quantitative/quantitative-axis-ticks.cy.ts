@@ -29,7 +29,6 @@ const axisTickTextWaitTime = 1000;
         <svg:g
           vic-x-quantitative-axis
           [config]="xQuantitativeAxisConfig"
-          side="top"
         ></svg:g>
         <svg:g vic-primary-marks-bars [config]="barsConfig"></svg:g>
       </ng-container>
