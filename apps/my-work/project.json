@@ -24,7 +24,7 @@
         "stylePreprocessorOptions": {
           "includePaths": [
             "apps/my-work/src/styles",
-            "libs/app-dev-kit/src/lib/styles"
+            "libs/app-dev-kit/src/lib/bseline-styles"
           ]
         },
         "scripts": []
