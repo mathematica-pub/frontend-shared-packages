@@ -5,11 +5,11 @@ intended to serve as a starting point for applications, providing a sensible set
 typography, color, and layout. They are designed to be easily overridden and customized to fit the
 needs of your application.
 
-## Consuming Baseline Styles in your app
+## Consuming Baseline Styles in an application
 
-### Modify your angular.json
+### Modify angular.json
 
-Add the Baseline Styles to your angular.json's stylePreprocessorOptions.
+Add the Baseline Styles to the app's angular.json's stylePreprocessorOptions.
 
 ```json
 "stylePreprocessorOptions": {
@@ -19,10 +19,10 @@ Add the Baseline Styles to your angular.json's stylePreprocessorOptions.
 }
 ```
 
-### Import Baseline Styles in your stylesheets
+### Import Baseline Styles in .scss stylesheets
 
-To use any of the Baseline Styles features, you need to import the Baseline Styles in your `.scss`
-file(s). You can do so by using the following import statement:
+To use any of the Baseline Styles features, import the Baseline Styles into `.scss` file(s). You can
+do so by using the following `@use` rule`:
 
 ```scss
 @use '@hsi/app-dev-kit' as hsi-adk;
@@ -34,7 +34,7 @@ Note that you may namespace the import (here: `hsi-adk`) as you see fit.
 
 The Baseline Styles library provides the following features:
 
-### Theming variables
+### Creating a Theme
 
 Baseline Styles provides a set of colors and typography properties as CSS variables that can be
 added to your app. We recommend adding these in your global styles file, usually styles.scss. In
@@ -49,7 +49,7 @@ html {
 }
 ```
 
-This will create a number of CSS variables on the DOM element that you specify (here, `<html>`). If
+This will create a number of CSS variables on the DOM element that you specify (here: `<html>`). If
 you run your application, you can see the variables it creates in "Styles" panel in DevTools. You
 can reference these CSS variables in your application's stylesheets.
 
@@ -59,7 +59,8 @@ always create a theme in your application, and override the values of these vari
 
 #### Color palettes
 
-It provides two color palettes, `primary` and `muted-primary` that correspond to the
+The `create-theme` mixin provides two color palettes, `primary` and `muted-primary` that correspond
+to the
 [Material 3 specifications for color palettes](https://m3.material.io/styles/color/system/how-the-system-works),
 which uses values from 0 to 100, where the 0 value is always black and the 100 value is always
 white. The `primary` palette is intended as an accent color, while the `muted-primary` palette is
@@ -164,7 +165,7 @@ You can change this by providing a font and color to the mixin, as shown below.
 @include hsi-adk.css-reset('Georgia', #111);
 ```
 
-### Typography styles
+### Typography Styles
 
 Baseline Styles provides a set of Sass mixins that correspond to
 [Material 3 typography styles](https://m3.material.io/styles/typography/type-scale-tokens), with a
