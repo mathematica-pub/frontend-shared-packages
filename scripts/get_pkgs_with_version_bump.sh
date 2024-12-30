@@ -11,4 +11,9 @@ for pkg in "${pkgs[@]}"; do
         changed_pkgs+=("$pkg")
     fi
 done
-echo "changed_pkgs=${changed_pkgs[@]}" >> $GITHUB_ENV
+
+if [ ${#changed_pkgs[@]} -eq 0 ]; then
+    echo "changed_pkgs=[]" >> $GITHUB_ENV
+else
+    echo "changed_pkgs=${changed_pkgs[@]}" >> $GITHUB_ENV
+fi
