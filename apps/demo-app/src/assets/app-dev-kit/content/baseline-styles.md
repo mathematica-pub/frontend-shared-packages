@@ -213,3 +213,18 @@ The available mixins are the following, shown here in Noto Sans:
 <p class="label-2xs-caps">label-2xs-caps</p>
 <p class="label-2xs-caps-prominent">label-2xs-caps-prominent</p>
 </div>
+
+### Grid
+
+Baseline Styles provides a Sass `grid` function that can be used to generate spacing in 0.25rem
+increments.
+
+The `grid` function takes a single argument, which is the number of 0.25rem increments to generate.
+
+```scss
+@use '@hsi/app-dev-kit' as hsi-adk;
+
+.my-element {
+  margin: hsi-adk.grid(2);
+}
+```

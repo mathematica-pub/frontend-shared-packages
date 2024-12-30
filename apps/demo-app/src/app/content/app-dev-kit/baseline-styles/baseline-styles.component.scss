@@ -4,6 +4,7 @@
   .documentation-container .injected-html {
     .mixin-display {
       --hsi-adk-font-sans: 'Noto Sans';
+      padding-bottom: hsi-adk.grid(6);
 
       p {
         padding: 0;
