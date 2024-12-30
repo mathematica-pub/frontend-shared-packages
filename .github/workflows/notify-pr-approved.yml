@@ -9,6 +9,9 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
   AWS_DEFAULT_REGION: us-east-1
   AWS_DEFAULT_OUTPUT: json
+  SLACK_WEBHOOK_URL_VIC: ${{ secrets.SLACK_WEBHOOK_URL_VIC }}
+  SLACK_WEBHOOK_URL_UIC: ${{ secrets.SLACK_WEBHOOK_URL_UIC }}
+  SLACK_WEBHOOK_URL_ADK: ${{ secrets.SLACK_WEBHOOK_URL_ADK }}
 
 jobs:
   approved:
@@ -34,11 +37,13 @@ jobs:
         id: next_weekday
         run: bash scripts/get_next_weekday.sh
 
+      - name: Get packages with version bump
+        id: changed_pkgs
+        run: bash scripts/get_pkgs_with_version_bump.sh
+
       - name: Send Slack notification for newly approved package version
         env:
-          SLACK_WEBHOOK_URL_VIC: ${{ secrets.SLACK_WEBHOOK_URL_VIC }}
-          SLACK_WEBHOOK_URL_UIC: ${{ secrets.SLACK_WEBHOOK_URL_UIC }}
-          SLACK_WEBHOOK_URL_ADK: ${{ secrets.SLACK_WEBHOOK_URL_ADK }}
+          changed_pkgs: ${{ env.changed_pkgs }}
           next_weekday: ${{ env.next_weekday }}
           pr_title: ${{ github.event.pull_request.title }}
           pr_url: ${{ github.event.pull_request.html_url }}

@@ -3,6 +3,10 @@
 set -e
 set -x
 
-version=$(node -p "require('./libs/$pkg/package.json').version")
+for pkg in "${$changed_pkgs[@]}"; do
+    version=$(git tag --list "$pkg-*" | sort -V | tail -n 1 | sed "s/$pkg-//")
+    echo "New version of $pkg: $version"
+    SLACK_WEBHOOK_URL=$(./get_slack_webhook_url.sh $pkg)
+    curl -X POST -H "Content-type: application/json" --data "{\"text\": \"$pkg v$version (<$pr_url|$pr_title>) has been released.\"}" $SLACK_WEBHOOK_URL
+done
 
-curl -X POST -H "Content-type: application/json" --data "{\"text\": \"$pkg v$version (<$pr_url|$pr_title>) has been released.\"}" $SLACK_WEBHOOK_URL
