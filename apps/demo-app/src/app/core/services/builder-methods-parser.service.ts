@@ -176,19 +176,6 @@ export class BuilderMethodsParserService {
     );
   }
 
-  private parseMarkdownDescriptions(
-    descriptions: string[],
-    options: AdkMarkdownParsingOptions,
-    markdownParser: (
-      content: string,
-      options: AdkMarkdownParsingOptions
-    ) => Observable<string>
-  ): Observable<string[]> {
-    return combineLatest(
-      descriptions.map((description) => markdownParser(description, options))
-    );
-  }
-
   private isMultipleMethods(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     obj: any
