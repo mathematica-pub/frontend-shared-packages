@@ -2,7 +2,7 @@ name: Release packages
 on:
   push:
     branches:
-      - main
+      - '*'
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
@@ -49,11 +49,11 @@ jobs:
         id: changed_pkgs
         run: bash scripts/get_pkgs_with_version_bump.sh
 
-      - name: Update versions and release packages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          AWS_REGION: us-east-1
-        run: npx nx affected -t version --base=origin/main~1 --head=origin/main --parallel=false
+      # - name: Update versions and release packages
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     AWS_REGION: us-east-1
+      #   run: npx nx affected -t version --base=origin/main~1 --head=origin/main --parallel=false
 
       - name: Notify Success
         if: success()

@@ -1,8 +1,11 @@
 name: Notify open review
 
 on:
-  pull_request_review:
-    types: [submitted]
+  push:
+    branches:
+      - '*'
+  # pull_request_review:
+  #   types: [submitted]
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
@@ -15,7 +18,7 @@ env:
 
 jobs:
   approved:
-    if: github.event.review.state == 'APPROVED' && github.event.pull_request.base.ref == 'main'
+    # if: github.event.review.state == 'APPROVED' && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
 
     steps:
