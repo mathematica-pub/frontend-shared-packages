@@ -4,6 +4,7 @@ import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 export interface MapObjects extends Objects {
   country: GeometryCollection<MapGeometryProperties>;
   states: GeometryCollection<MapGeometryProperties>;
+  counties: GeometryCollection<MapGeometryProperties>;
 }
 
 export interface MapGeometryProperties extends GeoJsonProperties {
@@ -12,14 +13,3 @@ export interface MapGeometryProperties extends GeoJsonProperties {
 }
 
 export type UsMapTopology = Topology<MapObjects>;
-
-export interface CountyObjects extends Objects {
-  counties: GeometryCollection<CountyGeometryProperties>;
-}
-
-export interface CountyGeometryProperties extends GeoJsonProperties {
-  name: string;
-  id: string;
-}
-
-export type UsCountyTopology = Topology<CountyObjects>;

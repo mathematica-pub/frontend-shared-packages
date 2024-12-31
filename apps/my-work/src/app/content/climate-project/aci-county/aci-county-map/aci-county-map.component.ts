@@ -48,12 +48,9 @@ export class AciCountyMapComponent implements OnInit {
   margin: ElementSpacing = { top: 16, right: 40, bottom: 0, left: 40 };
   outlineColor = colors.base;
   featureIndexAccessor = (d: GeographiesFeature<MapGeometryProperties>) =>
-    d.id.toString();
+    d.id as string;
 
   constructor(
-    // private bars: VicBarsConfigBuilder<ACICountyDatum, string>,
-    // private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
-    // private xOrdinalAxis: VicXOrdinalAxisConfigBuilder<string>
     private basemap: BasemapService,
     private geographies: VicGeographiesConfigBuilder<
       ACICountyDatum,
@@ -62,19 +59,11 @@ export class AciCountyMapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
-    console.log(this.basemap.us);
     this.setProperties();
   }
 
   setProperties(): void {
-    // if (!this.basemap.us) {
-    //   console.error('Basemap US data is not initialized');
-    //   return;
-    // }
-
     this.primaryMarksConfig = this.setPrimaryMarksConfig(this.data);
-    console.log(this.primaryMarksConfig);
   }
 
   setPrimaryMarksConfig(
@@ -84,6 +73,7 @@ export class AciCountyMapComponent implements OnInit {
       .boundary(this.basemap.us)
       .featureIndexAccessor(this.featureIndexAccessor)
       .geojsonPropertiesLayer((layer) => this.getUsOutlineConfig(layer))
+      .geojsonPropertiesLayer((layer) => this.getStatesOutlineConfig(layer))
       .geojsonPropertiesLayer((layer) => this.getNoDataLayer(data, layer))
       .attributeDataLayer((layer) => this.getDataLayer(data, layer))
       .getConfig();
@@ -94,10 +84,20 @@ export class AciCountyMapComponent implements OnInit {
   getUsOutlineConfig(
     layer: GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties>
   ): GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
-    console.log(this.basemap.us);
     return layer
       .geographies(this.basemap.us.features)
       .stroke((stroke) => stroke.color(colors.base).width(1))
+      .fillGeojsonProperties((dimension) =>
+        dimension.valueAccessor((d) => d.properties.name).range(['none'])
+      );
+  }
+
+  getStatesOutlineConfig(
+    layer: GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties>
+  ): GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
+    return layer
+      .geographies(this.basemap.states.features)
+      .stroke((stroke) => stroke.color(colors.base).width(0.2))
       .fillGeojsonProperties((dimension) =>
         dimension.valueAccessor((d) => d.properties.name).range(['none'])
       );
@@ -116,15 +116,8 @@ export class AciCountyMapComponent implements OnInit {
     return layer
       .geographies(features)
       .fillGeojsonProperties((dimension) =>
-        dimension.range(['lightgray']).valueAccessor((d) => d.id.toString())
+        dimension.range(['lightgray']).valueAccessor((d) => d.id as string)
       );
-    // .labels((labels) =>
-    //   labels
-    //     .valueAccessor((d) => d.id.toString())
-    //     .display(() => true)
-    //     .color('magenta')
-    //     .fontWeight(700)
-    // )
     // .enableEventActions(true);
   }
 
@@ -140,7 +133,7 @@ export class AciCountyMapComponent implements OnInit {
   > {
     const countiesInData = data.map((x) => x.countyFips);
     const counties = this.basemap.counties.features.filter((x) =>
-      countiesInData.includes(x.id.toString())
+      countiesInData.includes(x.id as string)
     );
     return layer
       .data(data)
@@ -152,22 +145,8 @@ export class AciCountyMapComponent implements OnInit {
           .formatSpecifier(',.2f')
           .numBins(6)
           .range([colors.white, colors.highlight.default])
-      )
-      .labels((labels) => this.getLabels(labels));
+      );
   }
-  // return layer
-  //       .data(data)
-  //       .geographies(this.getDataGeographiesFeatures(data))
-  //       .geographyIndexAccessor((d) => d.state)
-  //       .equalValueRangesBins((dimension) =>
-  //         dimension
-  //           .valueAccessor((d) => d.income)
-  //           .formatSpecifier(`$${valueFormat.integer}`)
-  //           .numBins(6)
-  //           .range([colors.white, colors.highlight.default])
-  //       )
-  //       .customFills(customFills)
-  //       .labels((labels) => this.getLabels(labels));
 
   getLabels(
     labels: GeographiesLabelsBuilder<MapGeometryProperties>

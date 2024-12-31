@@ -175,6 +175,8 @@ export class GeographiesExampleComponent implements OnInit {
   getUsOutlineConfig(
     layer: GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties>
   ): GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
+    console.log('this is the layer', layer);
+    console.log('this is the basemap', this.basemap.us.features);
     return layer
       .geographies(this.basemap.us.features)
       .stroke((stroke) => stroke.color(colors.base).width(1))
@@ -193,6 +195,7 @@ export class GeographiesExampleComponent implements OnInit {
     );
     const valueAccessor = (d: GeographiesFeature<MapGeometryProperties>) =>
       d.properties.id;
+    console.log('no data layer', features);
     return layer
       .geographies(features)
       .fillGeojsonProperties((dimension) =>
@@ -228,6 +231,7 @@ export class GeographiesExampleComponent implements OnInit {
         shouldApply: (d) => !!d && d.population < 1000000,
       },
     ];
+    console.log('data layer data:', data);
     if (this.attributeDataBinType.value === BinStrategy.categorical) {
       return this.getCategoricalLayer(data, layer, customFills);
     } else if (this.attributeDataBinType.value === BinStrategy.customBreaks) {

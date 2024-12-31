@@ -51,10 +51,10 @@ export abstract class MapLegend<
 
   setQuantitativeValues(): void {
     let values = this.getValuesFromScale() as number[];
+    console.log(values);
     if (this.orientation === Orientation.vertical) {
       values = values.slice().reverse();
     }
-    this.setQuantitativeValueSpaces(values);
     this.values = values.map((d) =>
       ValueUtilities.d3Format(
         d,
@@ -62,6 +62,7 @@ export abstract class MapLegend<
           .formatSpecifier
       )
     );
+    this.setQuantitativeValueSpaces(this.values);
   }
 
   setCategoricalValues(): void {
@@ -81,12 +82,16 @@ export abstract class MapLegend<
   }
 
   setQuantitativeValueSpaces(values: number[]): void {
+    console.log(values);
     this.startValueSpace = values[0].toString().length * 4;
     this.endValueSpace = values[values.length - 1].toString().length * 4;
+    console.log('start value space', this.startValueSpace);
+    console.log('end value space', this.endValueSpace);
     this.largerValueSpace =
       this.startValueSpace > this.endValueSpace
         ? this.startValueSpace
         : this.endValueSpace;
+    console.log('larger value space', this.largerValueSpace);
     this.leftOffset = this.getLeftOffset(values);
   }
 

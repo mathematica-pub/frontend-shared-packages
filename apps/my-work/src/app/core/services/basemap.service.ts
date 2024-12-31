@@ -3,18 +3,13 @@ import { GeographiesGeojsonPropertiesLayer } from '@hsi/viz-components';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import * as topojson from 'topojson-client';
 import { DataResource } from '../resources/data.resource';
-import {
-  MapGeometryProperties,
-  UsCountyTopology,
-  UsMapTopology,
-} from './basemap';
+import { MapGeometryProperties, UsMapTopology } from './basemap';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BasemapService {
   map: UsMapTopology;
-  countyMap: UsCountyTopology;
   us: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   states: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   counties: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
@@ -32,13 +27,13 @@ export class BasemapService {
   setMapObjects(): void {
     this.data.getBasemap().subscribe((map) => {
       this.map = map;
+      console.log('topojson map', this.map);
       this.setUsGeoJson();
       this.setStatesGeoJson();
-    });
-
-    this.data.getCounties().subscribe((countyMap) => {
-      this.countyMap = countyMap;
       this.setCountiesGeoJson();
+      console.log('us', this.us);
+      console.log('states', this.states);
+      console.log('counties', this.counties);
     });
   }
 
@@ -46,7 +41,8 @@ export class BasemapService {
     this.us = topojson.feature(
       this.map,
       this.map.objects.country
-    ) as FeatureCollection<MultiPolygon, MapGeometryProperties>; // topojson types make it not possible for this to be inferred
+    ) as FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>; // topojson types make it not possible for this to be inferred
+    console.log('converted geojson us feature:', this.us);
   }
 
   private setStatesGeoJson(): void {
@@ -58,8 +54,8 @@ export class BasemapService {
 
   private setCountiesGeoJson(): void {
     this.counties = topojson.feature(
-      this.countyMap,
-      this.countyMap.objects.counties
+      this.map,
+      this.map.objects.counties
     ) as FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>; // topojson types make it not possible for this to be inferred
   }
 }
