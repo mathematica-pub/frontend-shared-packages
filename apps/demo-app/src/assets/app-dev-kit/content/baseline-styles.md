@@ -1,6 +1,6 @@
 # Baseline Styles
 
-This library exports a set of baseline styles intended to be use in applications. These styles are
+This library exports a set of baseline styles intended to be used in applications. These styles are
 intended to serve as a starting point for applications, providing a sensible set of defaults for
 typography, color, and layout. They are designed to be easily overridden and customized to fit the
 needs of your application.
