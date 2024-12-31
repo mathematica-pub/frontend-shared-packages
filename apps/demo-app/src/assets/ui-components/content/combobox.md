@@ -95,6 +95,9 @@ multi-select example
 If the combobox is multi-select, the `valueChanges` event will be an array of selected values. If
 single-select, it will be a single value.
 
+If the combobox is single-select, one a selection is made, the combobox must always have exactly one
+selection.
+
 #### Select all
 
 If the combobox is multi-select, users can include a "Select All" option by incorporating the
@@ -152,6 +155,17 @@ multi-select, the `formControl` should be of type `FormControl<any[]>`.
 
 ### Customizing the Textbox Label
 
+There are several different ways to customize the label that is displayed in the textbox portion of
+the combobox.
+
+By default, before the textbox has been interacted with, the textbox will display the label
+projected into the textbox that uses the `boxLabel` directive. After this first interaction, the
+textbox will take on one of the behaviors described below depending on how it is configured.
+
+One exception to this if any of the options are selected before the first interaction (via their
+`selected` input), the textbox will display either a count label or a custom label if one of those
+two options are configured.
+
 #### Displaying selected options
 
 By default, the textbox portion of the combobox will display the label(s) of the selected options in
@@ -163,10 +177,6 @@ uses the `boxLabel` directive.
 In order to use a different values in the textbox to represent the label -- for example, to use a
 two letter state abbrevation when the option displays the full state name -- a value for the textbox
 label can be provided via each `hsi-listbox-option`'s `boxDisplayLabel` input.
-
-The textbox offers three additional label options, beyond the default dynamic label: a static label,
-a label that displays the number of selected options, and completely customizabile label. The latter
-two of these will have no effect when `dynamicLabel` is set to `false`.
 
 #### Displaying a static label
 
@@ -186,11 +196,12 @@ static label example
 
 #### Displaying the number of selected options
 
-The textbox will display the number of selected options rather than the names of the selected
-options if the `showSelectedCount` input on the `hsi-ui-textbox` is defined. The value of this input
-should be of type `{singular: string, plural: string}`, where the strings are the singular and
-plural forms of the word that will be displayed in the textbox. If the textbox should read, "1 item
-selected" / "2 items selected", the input should be `{singular: 'item', plural: 'items'}`.
+After a first interaction, if the `showSelectedCount` input on the `hsi-ui-textbox` is defined and
+`dynamicLabel` is not `false`, the textbox will display the number of selected options rather than
+the names of the selected options. The value of this input should be of type
+`{singular: string, plural: string}`, where the strings are the singular and plural forms of the
+word that will be displayed in the textbox. If the textbox should read, "1 item selected" / "2 items
+selected", the input should be `{singular: 'item', plural: 'items'}`.
 
 ```custom-angular
 count selected example
@@ -205,11 +216,11 @@ count selected example
 
 #### Providing a custom label
 
-For a completely custom label, users can set the `customLabel` input to a function with the type
-signature
+For a completely custom label to appear after first interaction, users can set the `customLabel`
+input to a function with the type signature
 `(selectedOptions: ListboxOptionComponent[], showSelectedCount?: CountSelectedLabel) => string` that
-should return the string to be displayed in the textbox. The function will be called whenever the
-selected options change.
+should return the string to be displayed in the textbox, provided that the `dynamicLabel` property
+is not `false`. The function will be called whenever the selected options change.
 
 ```custom-angular
 custom label example
@@ -385,7 +396,8 @@ combobox label example
 
 The combobox comes with basic css styling. The majority of styling options are set with CSS
 variables that are injected at the root level of the application. If you are using `hsi-adk` color
-themes, the combobox will automatically inherit the colors from the theme.
+themes, the combobox will automatically inherit the colors from the theme and can be found in the
+Styles panel in DevTools.
 
 Users can provide new values for these variables to customize the appearance of the combobox.
 
