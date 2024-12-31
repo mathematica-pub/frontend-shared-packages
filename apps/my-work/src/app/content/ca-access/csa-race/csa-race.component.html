@@ -1,0 +1,49 @@
+<div class="title">CSA</div>
+<form [formGroup]="myForm">
+  <div class="selection">
+    <label for="delivSys">Delivery System</label>
+    <select id="delivSys" formControlName="delivSys">
+      <option *ngFor="let system of filters.delivSyss" [ngValue]="system.name">
+        {{ system.name }}
+      </option>
+    </select>
+  </div>
+  <div class="selection">
+    <label for="measureCode">Measure Code</label>
+    <select id="measureCode" formControlName="measureCode">
+      <option
+        *ngFor="let code of filters.measureCodes"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+  <div class="selection">
+    <label for="stratVal">Stratification</label>
+    <select id="stratVal" formControlName="stratVal">
+      <option
+        *ngFor="let strat of filters.stratVals"
+        [ngValue]="strat.name"
+        [disabled]="strat.disabled"
+      >
+        {{ strat.name }}
+      </option>
+    </select>
+  </div>
+</form>
+@if (filteredData$ | async; as data) {
+  <app-export-content
+    [fileName]="
+      'CSA ' +
+      myForm.value[filterTypes[0]] +
+      ' ' +
+      myForm.value[filterTypes[1]] +
+      ' ' +
+      myForm.value[filterTypes[2]]
+    "
+  >
+    <app-csa-race-dot-plot [data]="data"></app-csa-race-dot-plot>
+  </app-export-content>
+}

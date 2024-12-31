@@ -5,5 +5,6 @@ items:
     - energy-intensity
   ca-access:
     - csa
+    - csa-race
     - bda
     - ica

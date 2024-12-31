@@ -23,6 +23,7 @@ import {
 import { max, min } from 'd3';
 import { BdaStackedBarsComponent } from './bda/bda-dot-plot/bda-stacked-bars/bda-stacked-bars.component';
 import { CaDatum } from './ca-access-stacked-bars.component';
+import { CsaRaceStackedBarsComponent } from './csa-race/csa-race-dot-plot/csa-race-stacked-bars/csa-race-stacked-bars.component';
 import { CsaStackedBarsComponent } from './csa/csa-dot-plot/csa-stacked-bars/csa-stacked-bars.component';
 
 @Component({
@@ -37,6 +38,7 @@ import { CsaStackedBarsComponent } from './csa/csa-dot-plot/csa-stacked-bars/csa
     VicYOrdinalAxisModule,
     BdaStackedBarsComponent,
     CsaStackedBarsComponent,
+    CsaRaceStackedBarsComponent,
   ],
   providers: [
     VicBarsConfigBuilder,

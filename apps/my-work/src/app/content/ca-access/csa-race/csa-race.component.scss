@@ -1,0 +1,22 @@
+@import '../ca-access.scss';
+
+@mixin percentile {
+  fill: $lightblue;
+  stroke: #0b2949;
+}
+
+.vic-bars-g {
+  rect {
+    @include percentile;
+  }
+}
+
+.percentile {
+  rect {
+    @include percentile;
+  }
+
+  text {
+    alignment-baseline: middle;
+  }
+}
