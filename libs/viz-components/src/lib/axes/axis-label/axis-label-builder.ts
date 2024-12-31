@@ -28,7 +28,11 @@ export class AxisLabelBuilder {
    *
    * @default specific to the position
    */
-  anchor(value: 'start' | 'middle' | 'end'): this {
+  anchor(value: 'start' | 'middle' | 'end' | null): this {
+    if (value === null) {
+      this._anchor = undefined;
+      return this;
+    }
     this._anchor = value;
     return this;
   }
@@ -79,7 +83,7 @@ export class AxisLabelBuilder {
   }
 
   /**
-   * Specifies properties for wrapping the text of the label.
+   * OPTIONAL. Specifies properties for wrapping the text of the label.
    */
   wrap(wrap: null): this;
   wrap(wrap: (wrap: SvgTextWrapBuilder) => void): this;
@@ -96,7 +100,7 @@ export class AxisLabelBuilder {
   /**
    * @internal Not meant to be called by consumers of the library.
    */
-  build(dimension: 'x' | 'y'): AxisLabel {
+  _build(dimension: 'x' | 'y'): AxisLabel {
     if (this.textWrapFunction) this.createTextWrapBuilder(dimension);
     return new AxisLabel({
       anchor: this.getAnchorForDimension(dimension),
