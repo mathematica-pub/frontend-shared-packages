@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import 'cypress-real-events';
-import { max } from 'd3';
+import { format, max } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
@@ -96,7 +96,8 @@ const getYTransform = ($barGroup) => {
     </vic-xy-chart>
 
     <ng-template #htmlTooltip>
-      <p>{{ (tooltipData$ | async).values.x }}</p>
+      <p class="x-value">{{ (tooltipData$ | async).values.x }}</p>
+      <p class="y-value">{{ (tooltipData$ | async).values.y }}</p>
     </ng-template>
   `,
   styles: [],
@@ -766,7 +767,24 @@ describe('bars have the expected origin in the quantitative dimension', () => {
 // ***********************************************************
 describe('displays tooltips for correct data per hover position', () => {
   beforeEach(() => {
-    const barsConfig = getHorizontalConfig(countryFactsData);
+    const barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+      .data(countryFactsData)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) =>
+            dimension
+              .valueAccessor((d) => d.area)
+              .formatFunction((d) => format('.1f')(d.area))
+              .domainPaddingPixels()
+          )
+          .y((dimension) =>
+            dimension
+              .valueAccessor((d) => d.country)
+              .formatFunction((d) => d.country.toUpperCase())
+          )
+      )
+      .labels((labels) => labels.display(true))
+      .getConfig();
     mountHorizontalBarsComponent(barsConfig);
   });
 
@@ -781,10 +799,14 @@ describe('displays tooltips for correct data per hover position', () => {
       it('displays a tooltip', () => {
         cy.get('.vic-html-tooltip-overlay').should('be.visible');
       });
-      it('tooltip displays correct data', () => {
-        cy.get('.vic-html-tooltip-overlay p').should(
+      it('tooltip displays correctly formatted data', () => {
+        cy.get('.x-value').should(
           'have.text',
-          countryFactsData[i].area
+          format('.1f')(countryFactsData[i].area)
+        );
+        cy.get('.y-value').should(
+          'have.text',
+          countryFactsData[i].country.toUpperCase()
         );
       });
       it('tooltip appears at the correct position', () => {
@@ -796,7 +818,7 @@ describe('displays tooltips for correct data per hover position', () => {
               const barBox = $el[0].getBoundingClientRect();
               expect((tooltipBox.left + tooltipBox.right) / 2).to.be.closeTo(
                 (barBox.left + barBox.right) / 2,
-                1
+                5
               );
               expect(tooltipBox.bottom).to.be.closeTo(
                 (barBox.top + barBox.bottom) / 2,

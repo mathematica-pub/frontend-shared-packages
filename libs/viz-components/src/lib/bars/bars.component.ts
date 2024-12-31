@@ -567,7 +567,9 @@ export class BarsComponent<
     barDatum: BarDatum<TOrdinalValue>
   ): BarsTooltipDatum<Datum, TOrdinalValue> {
     const datum = this.getUserDatumFromBarDatum(barDatum);
-    const ordinalValue = this.config.ordinal.valueAccessor(datum);
+    const ordinalValue = this.config.ordinal.formatFunction
+      ? ValueUtilities.customFormat(datum, this.config.ordinal.formatFunction)
+      : this.config.ordinal.valueAccessor(datum);
     const quantitativeValue = this.config.quantitative.formatFunction
       ? ValueUtilities.customFormat(
           datum,
