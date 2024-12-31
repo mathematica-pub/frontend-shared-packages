@@ -69,6 +69,7 @@ export class ListboxOptionComponent implements OnChanges {
       this.externalPropertyChanges.next(this.getPropertyChange('disabled'));
     }
     if (
+      !this.disabled &&
       changes['selected'] &&
       !(changes['selected'].isFirstChange() && !this.selected)
     ) {

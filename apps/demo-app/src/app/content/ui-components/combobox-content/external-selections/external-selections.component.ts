@@ -32,6 +32,7 @@ export class ExternalSelectionsComponent {
 
   toggleSelected(option: { displayName: string; id: string }): void {
     const currentSelected = this.selected.value;
+    if (this.disabled.value.includes(option.id)) return;
     const index = currentSelected.indexOf(option.id);
     if (index === -1) {
       this.selected.next([...currentSelected, option.id]);

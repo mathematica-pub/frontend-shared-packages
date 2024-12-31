@@ -18,6 +18,16 @@
   }
 }
 
+.select-button.disabled {
+  cursor: not-allowed;
+  color: colors.$muted-primary-50;
+  border-color: colors.$muted-primary-80;
+
+  &:hover {
+    background-color: colors.$muted-primary-95;
+  }
+}
+
 .buttons {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));

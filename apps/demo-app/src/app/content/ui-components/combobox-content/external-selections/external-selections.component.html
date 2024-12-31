@@ -6,6 +6,7 @@
         <div
           role="button"
           class="select-button"
+          [class.disabled]="(disabled$ | async).includes(option.id)"
           (click)="toggleSelected(option)"
         >
           @if ((selected$ | async).includes(option.id)) {

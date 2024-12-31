@@ -272,6 +272,12 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
     <p class="outside-element"
       >Throwaway element to click on for outside combobox click</p
     >
+    <button (click)="selectCoconut()" class="select-coconut-button"
+      >Select coconut</button
+    >
+    <button (click)="deselectCoconut()" class="deselect-coconut-button"
+      >Deelect coconut</button
+    >
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-combobox-label>
         <span>Fruits</span>
@@ -300,7 +306,21 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
 })
-class ComboboxMultiSelectDisabledOptionsComponent extends ComboboxBaseTestComponent {}
+class ComboboxMultiSelectDisabledOptionsComponent extends ComboboxBaseTestComponent {
+  selected = new BehaviorSubject<string[]>([]);
+  selected$ = this.selected.asObservable();
+
+  selectCoconut() {
+    this.addToArray(2, 'selected');
+  }
+
+  addToArray(i: number, array: 'selected' | 'disabled'): void {
+    const curr = this[array].value;
+    if (!curr.includes(this.options[i].displayName)) {
+      this[array].next([...curr, this.options[i].displayName]);
+    }
+  }
+}
 
 describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
   beforeEach(() => {
@@ -315,11 +335,22 @@ describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
     cy.get('.hsi-ui-listbox-option').eq(1).realClick();
     cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
   });
-  it('cannot select disabled options', () => {
+  it('cannot select disabled options / disabled options have correct class', () => {
     cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').eq(2).should('have.class', 'disabled');
+    cy.get('.hsi-ui-listbox-option').eq(4).should('have.class', 'disabled');
     cy.get('.hsi-ui-listbox-option').eq(2).realClick();
     cy.get('.hsi-ui-listbox-option').eq(4).realClick();
+    cy.get('.hsi-ui-listbox-option').eq(2).should('not.have.class', 'selected');
+    cy.get('.hsi-ui-listbox-option').eq(4).should('not.have.class', 'selected');
     cy.get('.combobox-value').should('not.have.text', 'Coconuts,Elderberries');
+  });
+  it('cannot change selected property of disabled options from the outside', () => {
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').eq(2).should('have.class', 'disabled');
+    cy.get('.select-coconut-button').click();
+    cy.get('.hsi-ui-listbox-option').eq(2).should('not.have.class', 'selected');
+    cy.get('.combobox-value').should('not.have.text', 'Coconuts');
   });
 });
 
