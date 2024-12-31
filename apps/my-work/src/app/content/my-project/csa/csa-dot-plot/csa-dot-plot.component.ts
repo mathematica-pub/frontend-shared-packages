@@ -13,11 +13,11 @@ import {
 } from '@hsi/viz-components';
 import { min } from 'd3';
 import { CaAccessDotPlotComponent } from '../../ca-access-dot-plot.component';
-import { CsaDatum } from '../extended-csa.component';
-import { ExtendedCsaStackedBarsComponent } from './csa-stacked-bars/extended-csa-stacked-bars.component';
+import { CsaDatum } from '../csa.component';
+import { CsaStackedBarsComponent } from './csa-stacked-bars/csa-stacked-bars.component';
 
 @Component({
-  selector: 'app-extended-csa-dot-plot',
+  selector: 'app-csa-dot-plot',
   standalone: true,
   imports: [
     CommonModule,
@@ -26,7 +26,7 @@ import { ExtendedCsaStackedBarsComponent } from './csa-stacked-bars/extended-csa
     VicStackedBarsModule,
     VicXQuantitativeAxisModule,
     VicYOrdinalAxisModule,
-    ExtendedCsaStackedBarsComponent,
+    CsaStackedBarsComponent,
   ],
   providers: [
     VicBarsConfigBuilder,
@@ -34,10 +34,10 @@ import { ExtendedCsaStackedBarsComponent } from './csa-stacked-bars/extended-csa
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
   ],
-  templateUrl: './extended-csa-dot-plot.component.html',
+  templateUrl: './csa-dot-plot.component.html',
   styleUrl: './csa-dot-plot.component.scss',
 })
-export class ExtendedCsaDotPlotComponent extends CaAccessDotPlotComponent {
+export class CsaDotPlotComponent extends CaAccessDotPlotComponent {
   override getCurrentRollup(x: CsaDatum, plan: CsaDatum): boolean {
     return x.size === plan.size;
   }

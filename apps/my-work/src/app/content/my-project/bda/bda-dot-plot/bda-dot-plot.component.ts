@@ -12,11 +12,11 @@ import {
   VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 import { CaAccessDotPlotComponent } from '../../ca-access-dot-plot.component';
-import { BdaDatum } from '../extended-bda.component';
-import { ExtendedBdaStackedBarsComponent } from './bda-stacked-bars/extended-bda-stacked-bars.component';
+import { BdaDatum } from '../bda.component';
+import { BdaStackedBarsComponent } from './bda-stacked-bars/bda-stacked-bars.component';
 
 @Component({
-  selector: 'app-extended-bda-dot-plot',
+  selector: 'app-bda-dot-plot',
   standalone: true,
   imports: [
     CommonModule,
@@ -25,7 +25,7 @@ import { ExtendedBdaStackedBarsComponent } from './bda-stacked-bars/extended-bda
     VicStackedBarsModule,
     VicXQuantitativeAxisModule,
     VicYOrdinalAxisModule,
-    ExtendedBdaStackedBarsComponent,
+    BdaStackedBarsComponent,
   ],
   providers: [
     VicBarsConfigBuilder,
@@ -33,10 +33,10 @@ import { ExtendedBdaStackedBarsComponent } from './bda-stacked-bars/extended-bda
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
   ],
-  templateUrl: './extended-bda-dot-plot.component.html',
+  templateUrl: './bda-dot-plot.component.html',
   styleUrl: './bda-dot-plot.component.scss',
 })
-export class ExtendedBdaDotPlotComponent extends CaAccessDotPlotComponent {
+export class BdaDotPlotComponent extends CaAccessDotPlotComponent {
   override labelWidth = 140;
   override bandwidth = 26;
 

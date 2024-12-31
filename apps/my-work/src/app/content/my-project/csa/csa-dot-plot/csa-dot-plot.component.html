@@ -10,11 +10,7 @@
     <ng-container svg-elements>
       <svg:g vic-x-quantitative-axis [config]="xAxisConfig"></svg:g>
       <svg:g vic-y-ordinal-axis [config]="yAxisConfig"></svg:g>
-      <svg:g
-        app-extended-bda-stacked-bars
-        [config]="rollupDataConfig"
-        [labelWidth]="labelWidth"
-      ></svg:g>
+      <svg:g app-csa-stacked-bars [config]="rollupDataConfig"></svg:g>
     </ng-container>
   </vic-xy-chart>
 }

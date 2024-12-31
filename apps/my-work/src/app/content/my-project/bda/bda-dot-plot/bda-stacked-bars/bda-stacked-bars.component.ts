@@ -4,17 +4,17 @@ import { Component, OnInit } from '@angular/core';
 import { StackDatum } from '@hsi/viz-components';
 import { select, Selection } from 'd3';
 import { CaAccessStackedBarsComponent } from '../../../ca-access-stacked-bars.component';
-import { BdaDatum } from '../../extended-bda.component';
+import { BdaDatum } from '../../bda.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[app-extended-bda-stacked-bars]',
+  selector: '[app-bda-stacked-bars]',
   standalone: true,
-  templateUrl: './extended-bda-stacked-bars.component.html',
+  templateUrl: './bda-stacked-bars.component.html',
   styleUrl: './bda-stacked-bars.component.scss',
   imports: [CommonModule],
 })
-export class ExtendedBdaStackedBarsComponent
+export class BdaStackedBarsComponent
   extends CaAccessStackedBarsComponent
   implements OnInit
 {

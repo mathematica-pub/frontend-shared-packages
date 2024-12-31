@@ -21,8 +21,9 @@ import {
   VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 import { max, min } from 'd3';
+import { BdaStackedBarsComponent } from './bda/bda-dot-plot/bda-stacked-bars/bda-stacked-bars.component';
 import { CaDatum } from './ca-access-stacked-bars.component';
-import { ExtendedBdaStackedBarsComponent } from './extended-bda/bda-dot-plot/bda-stacked-bars/extended-bda-stacked-bars.component';
+import { CsaStackedBarsComponent } from './csa/csa-dot-plot/csa-stacked-bars/csa-stacked-bars.component';
 
 @Component({
   selector: 'app-ca-access-dot-plot',
@@ -34,7 +35,8 @@ import { ExtendedBdaStackedBarsComponent } from './extended-bda/bda-dot-plot/bda
     VicStackedBarsModule,
     VicXQuantitativeAxisModule,
     VicYOrdinalAxisModule,
-    ExtendedBdaStackedBarsComponent,
+    BdaStackedBarsComponent,
+    CsaStackedBarsComponent,
   ],
   providers: [
     VicBarsConfigBuilder,

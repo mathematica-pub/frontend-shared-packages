@@ -2,18 +2,18 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CaAccessStackedBarsComponent } from '../../../ca-access-stacked-bars.component';
-import { CsaDatum } from '../../extended-csa.component';
+import { CsaDatum } from '../../csa.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[app-extended-csa-stacked-bars]',
+  selector: '[app-csa-stacked-bars]',
   standalone: true,
-  templateUrl: './extended-csa-stacked-bars.component.html',
+  templateUrl: './csa-stacked-bars.component.html',
   styleUrl: './csa-stacked-bars.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
 })
-export class ExtendedCsaStackedBarsComponent extends CaAccessStackedBarsComponent {
+export class CsaStackedBarsComponent extends CaAccessStackedBarsComponent {
   override drawMarks(): void {
     super.drawMarks();
     this.updatePercentileGroup();
