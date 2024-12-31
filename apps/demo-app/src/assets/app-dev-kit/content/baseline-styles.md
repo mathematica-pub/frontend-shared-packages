@@ -5,7 +5,10 @@ intended to serve as a starting point for applications, providing a sensible set
 typography, color, and layout. They are designed to be easily overridden and customized to fit the
 needs of your application.
 
-## Consuming Baseline Styles in an Application
+## Quick Start Guide
+
+You will need to modify your application's `angular.json` file to include the Baseline Styles, and
+then call mixins in your stylesheet to apply the styles.
 
 ### Modify angular.json
 
@@ -22,7 +25,7 @@ Add the Baseline Styles to the app's angular.json's stylePreprocessorOptions.
 ### Import Baseline Styles in .scss stylesheets
 
 To use any of the Baseline Styles features, import the Baseline Styles into `.scss` file(s). You can
-do so by using the following `@use` rule`:
+do so by using the following `@use` rule`.
 
 ```scss
 @use '@hsi/app-dev-kit' as hsi-adk;
@@ -30,9 +33,40 @@ do so by using the following `@use` rule`:
 
 Note that you may namespace the import (here: `hsi-adk`) as you see fit.
 
+You will need to use this `@use` rule in any `.scss` file that you want to use any of the Baseline
+Styles features.
+
+### Add Recommended Mixins
+
+We recommend that you add the following mixins to your global stylesheet:
+
+```scss
+@use '@hsi/app-dev-kit' as hsi-adk;
+
+// Recommended: CSS Reset
+@include hsi-adk.css-reset();
+
+// Recommended: Create a theme
+html {
+  @include hsi-adk.create-theme();
+}
+```
+
 ## Features
 
 The Baseline Styles library provides the following features:
+
+**Mixins**
+
+- `create-theme`: Create a theme for your application
+- `css-reset`: Apply a minimal and sensible CSS reset to your application
+- various typography mixins (e.g. `label-large`, `headline-small`, etc.): Apply typography styles to
+  elements
+- `map-scss-vars-into-css-vars`: Convert a map of SCSS variables into CSS variables
+
+**Functions**
+
+- `grid`: Generate spacing in 0.25rem increments
 
 ### Creating a Theme
 
@@ -233,4 +267,37 @@ The `grid` function takes a single argument, which is the number of 0.25rem incr
 .my-element {
   margin: hsi-adk.grid(2);
 }
+```
+
+### Map SCSS Variables into CSS Variables
+
+Baseline Styles provides a mixin to convert a map of SCSS variables into CSS variables.
+
+The mixin takes two arguments: a map of SCSS variables and a prefix to apply to the CSS variables.
+
+```scss
+@use '@hsi/app-dev-kit' as hsi-adk;
+
+$my-map: (
+  my-color: (
+    primary: #000,
+    secondary: #fff,
+  )
+  my-background:
+  (
+    primary: #fff,
+    secondary: #000,
+  ),
+);
+
+@include hsi-adk.map-scss-vars-into-css-vars($my-map, 'my-prefix');
+```
+
+This will create the following CSS variables:
+
+```scss
+--my-prefix-my-color-primary: #000;
+--my-prefix-my-color-secondary: #fff;
+--my-prefix-my-background-primary: #fff;
+--my-prefix-my-background-secondary: #000;
 ```
