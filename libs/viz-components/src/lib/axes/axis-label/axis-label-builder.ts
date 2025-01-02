@@ -24,7 +24,7 @@ export class AxisLabelBuilder {
   /**
    * OPTIONAL. The [text-anchor](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-anchor) for the axis label.
    *
-   * If not provided, the anchor will be determined by the position.
+   * If not provided or if called with null, the anchor will be determined by the position.
    *
    * @default specific to the position
    */
@@ -38,11 +38,11 @@ export class AxisLabelBuilder {
   }
 
   /**
-   * The offset for the axis label from the position that would otherwise be created. Allows for fine-tuning the position of the label.
+   * OPTIONAL. The offset for the axis label from the position that would otherwise be created. Allows for fine-tuning the position of the label.
    *
    * Positive y values will move the label down, positive x values will move the label to the right.
    *
-   * If not provided, labels parallel to the axis will be placed at the far extent of the margin. Labels perpendicular to the axis will be placed at the axis line. The latter will likely need an offset.
+   * If not provided or if called with null, labels parallel to the axis will be placed at the far extent of the margin. Labels perpendicular to the axis will be placed at the axis line. The latter will likely need an offset.
    *
    * @default { x: 0, y: 0 }
    */
@@ -84,6 +84,8 @@ export class AxisLabelBuilder {
 
   /**
    * OPTIONAL. Specifies properties for wrapping the text of the label.
+   *
+   * To unset the wrap, call with null.
    */
   wrap(wrap: null): this;
   wrap(wrap: (wrap: SvgTextWrapBuilder) => void): this;

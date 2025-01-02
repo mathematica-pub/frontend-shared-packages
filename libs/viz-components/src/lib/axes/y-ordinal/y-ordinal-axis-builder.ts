@@ -35,7 +35,7 @@ export class VicYOrdinalAxisConfigBuilder<
       tickFormat: this._tickFormat,
       tickLabelFontSize: this._tickLabelFontSize,
       tickSizeOuter: this._tickSizeOuter,
-      wrap: this.tickWrapBuilder?.build(),
+      wrap: this.tickWrapBuilder?._build(),
     });
   }
 }

@@ -21,7 +21,7 @@ export class TickWrapBuilder {
   }
 
   /**
-   * Sets the width to wrap the text to. Can be a number, a function that takes the chart width and number of ticks, or 'bandwidth'.
+   * OPTIONAL. Sets the width to wrap the text to. Can be a number, a function that takes the chart width and number of ticks, or 'bandwidth'.
    *
    * If 'bandwidth', the width will be the bandwidth of the scale.
    *
@@ -43,7 +43,7 @@ export class TickWrapBuilder {
   }
 
   /**
-   * If true, the x position of the text will be maintained.
+   * OPTIONAL. If true, the x position of the text will be maintained.
    *
    * This is useful, for example, for centering bar labels on a vertical bar chart.
    *
@@ -55,7 +55,7 @@ export class TickWrapBuilder {
   }
 
   /**
-   * If true, the y position of the text will be maintained.
+   * OPTIONAL. If true, the y position of the text will be maintained.
    *
    * This is useful, for example, for centering bar labels on a horizontal bar chart.
    *
@@ -67,7 +67,7 @@ export class TickWrapBuilder {
   }
 
   /**
-   * Sets the line height of the text.
+   * OPTIONAL. Sets the line height of the text.
    *
    * @default 1.1
    */
@@ -79,7 +79,7 @@ export class TickWrapBuilder {
   /**
    * @internal Not meant to be called by consumers of the library.
    */
-  build(): TickWrap {
+  _build(): TickWrap {
     return new TickWrap({
       wrapWidth: this._wrapWidth,
       maintainXPosition: this._maintainXPosition,
