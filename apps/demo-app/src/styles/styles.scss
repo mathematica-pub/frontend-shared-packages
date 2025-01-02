@@ -4,7 +4,7 @@
 @use 'colors';
 @use 'index' as hsi-adk;
 
-@include hsi-adk.reset(#{$font-sans}, #{colors.$text});
+@include hsi-adk.css-reset(#{$font-sans}, #{colors.$text});
 
 html {
   @include hsi-adk.create-theme();
