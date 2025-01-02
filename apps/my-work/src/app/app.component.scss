@@ -1,6 +1,6 @@
 @use 'vars' as *;
-@use 'functions' as *;
 @use 'colors';
+@use 'index' as hsi-adk;
 
 :host {
   display: flex;
@@ -30,5 +30,5 @@
 .main-content {
   flex-grow: 1;
   flex-shrink: 1;
-  padding: grid(8);
+  padding: hsi-adk.grid(8);
 }

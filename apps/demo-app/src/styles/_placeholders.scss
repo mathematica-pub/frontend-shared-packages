@@ -33,10 +33,10 @@
   font-weight: 500;
   padding-left: grid(1);
   padding-right: grid(1);
-  background: colors.$muted-primary-98;
+  background: colors.$muted-primary-95;
   border-radius: grid(1);
   color: colors.$primary-40;
-  padding: grid(1);
+  padding: grid(0.5) grid(1);
 }
 
 %markdown-styles {

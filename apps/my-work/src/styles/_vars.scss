@@ -1,6 +1,6 @@
+@use 'index' as hsi-adk;
 @use 'sass:map';
 @use 'colors';
-@use 'functions' as *;
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
 
@@ -21,9 +21,9 @@ $line-height-3: var(--hsi-adk-line-height-3);
 $line-height-4: var(--hsi-adk-line-height-4);
 $line-height-5: var(--hsi-adk-line-height-5);
 
-$vertical-scrollbar-thickness-thin: grid(2);
-$vertical-scrollbar-thickness-thick: grid(3);
-$horizontal-scrollbar-thickness: grid(2);
+$vertical-scrollbar-thickness-thin: hsi-adk.grid(2);
+$vertical-scrollbar-thickness-thick: hsi-adk.grid(3);
+$horizontal-scrollbar-thickness: hsi-adk.grid(2);
 
 $highlight: (
   'dark': #0c369e,

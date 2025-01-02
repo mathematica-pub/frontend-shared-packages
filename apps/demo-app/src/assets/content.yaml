@@ -19,6 +19,7 @@ app-dev-kit:
   title: App Dev Kit
   items:
     overview: overview.md
+    baseline-styles: baseline-styles.md
 ui-components:
   title: UI Components
   items:

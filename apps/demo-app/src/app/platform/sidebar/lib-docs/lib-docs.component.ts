@@ -39,7 +39,11 @@ type ContentDocs = {
   encapsulation: ViewEncapsulation.None,
 })
 export class LibDocsComponent implements OnInit {
-  @Input() lib: { displayName: string; id: Library };
+  @Input() lib: {
+    displayName: string;
+    id: Library;
+    hasAutomatedDocs: boolean;
+  };
   @Input() expanded = true;
   automatedDocsItems$: Observable<HsiUiDirectoryItem[]>;
   customDocs$: Observable<ContentDocs>;
@@ -55,7 +59,9 @@ export class LibDocsComponent implements OnInit {
 
   ngOnInit(): void {
     this.initCustomDocumentation();
-    this.initAutomatedDocumentation();
+    if (this.lib.hasAutomatedDocs) {
+      this.initAutomatedDocumentation();
+    }
   }
 
   initCustomDocumentation(): void {

@@ -222,11 +222,11 @@
 
 @mixin label-2xs-caps {
   @include label-2xs;
-  letter-spacing: 1pt;
+  letter-spacing: 0.8pt;
   text-transform: uppercase;
 }
 
 @mixin label-2xs-caps-prominent {
-  @include label-2xs-small-caps;
+  @include label-2xs-caps;
   font-weight: var(--hsi-adk-font-weight-bold);
 }
