@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { CurveFactory, curveLinear } from 'd3';
 import { DateChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position-builder';
 import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder';
-import { OrdinalVisualValueDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { PointMarkersBuilder } from '../../point-markers/point-markers-builder';
 import { LinesStrokeBuilder } from '../config/stroke/lines-stroke-builder';
@@ -28,11 +27,6 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private _labelLines: boolean;
   private _lineLabelsFormat: (d: string) => string;
   private _pointerDetectionRadius: number;
-  private colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<
-    Datum,
-    string,
-    string
-  >;
   private pointMarkersBuilder: PointMarkersBuilder<Datum>;
   private strokeBuilder: LinesStrokeBuilder<Datum>;
   private xDimensionBuilder:
@@ -49,6 +43,9 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * OPTIONAL. A config to set fill underneath lines.
    *
+   * If no argument is provided, the default area fills will be created.
+   *
+   * To unset the area fills, call with `null`.
    */
   areaFills(): this;
   areaFills(areaFills: null): this;
