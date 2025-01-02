@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, ViewEncapsulation } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
-import { ComboboxModule } from '../combobox.module';
+import { HsiUiComboboxModule } from '../combobox.module';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
 // Simple single select combobox that displays selected
@@ -17,17 +18,14 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
     <p class="combobox-value">{{ value$ | async }}</p>
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-combobox-label>
-        <span>Fruits</span>
+        <span>Select a fruit, A-E</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox class="textbox" [displaySelected]="true">
+      <hsi-ui-textbox class="textbox" [useListboxLabelAsBoxPlaceholder]="true">
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
       </hsi-ui-textbox>
-      <hsi-ui-listbox
-        [labelIsBoxPlaceholder]="true"
-        (valueChanges)="onSelection($event)"
-      >
+      <hsi-ui-listbox (valueChanges)="onSelection($event)">
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
@@ -48,7 +46,7 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxSingleTestComponent, {
       declarations: [ComboboxSingleTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   describe('click behavior after load', () => {
@@ -56,175 +54,62 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.combobox-value').should('have.text', '');
     });
     it('listbox should not be visible on load', () => {
-      cy.get('.combobox-listbox').should('not.be.visible');
+      cy.get('.hsi-ui-listbox').should('not.be.visible');
     });
     it('should open the combobox on click', () => {
-      cy.get('.combobox-textbox').click();
-      cy.get('.combobox-listbox').should('be.visible');
-    });
-    it('accessibility: focus the textbox on tab', () => {
-      cy.realPress('Tab');
-      cy.get('.combobox-textbox').should('be.focused');
-    });
-    it('accessibility: opens the combobox on enter when focused', () => {
-      cy.get('.combobox-textbox').focus();
-      cy.get('.combobox-textbox').type('{enter}');
-      cy.get('.combobox-listbox').should('be.visible');
-    });
-    it('accessibility: closes combobox with escape key', () => {
-      cy.get('.combobox-textbox').focus();
-      cy.get('.combobox-textbox').type('{enter}');
-      cy.get('.combobox-listbox').should('be.visible');
-      cy.get('.combobox-textbox').type('{esc}');
-      cy.get('.combobox-listbox').should('not.be.visible');
-    });
-    it('accessibility: highlights the first option on enter', () => {
-      cy.get('.combobox-textbox').focus();
-      cy.get('.combobox-textbox').type('{enter}');
-      cy.get('.listbox-option').first().should('have.class', 'current');
-    });
-    it('accessibility: highlights the first option on down button', () => {
-      cy.get('.combobox-textbox').focus();
-      cy.get('.combobox-textbox').type('{downArrow}');
-      cy.get('.listbox-option').first().should('have.class', 'current');
-    });
-    it('accessibility: selects an option using the keyboard and update the value', () => {
-      cy.get('.combobox-textbox').focus();
-      cy.get('.combobox-textbox').type('{enter}');
-      cy.get('.listbox-option').first().should('have.class', 'current');
-      cy.get('.combobox-textbox').type('{downarrow}{enter}');
-      cy.get('.combobox-value').should('have.text', 'Bananas');
-    });
-    it('accessibility: focus remains on first option when up arrow is pressed', () => {
-      cy.get('.combobox-textbox').focus();
-      cy.get('.combobox-textbox').type('{enter}');
-      cy.get('.listbox-option').first().should('have.class', 'current');
-      cy.get('.combobox-textbox').type('{upArrow}');
-      cy.get('.listbox-option').first().should('have.class', 'current');
-    });
-    it('accessibility: focus remains on last option when down arrow is pressed', () => {
-      cy.get('.combobox-textbox').focus();
-      cy.get('.combobox-textbox').type(
-        '{enter}{downArrow}{downArrow}{downArrow}{downArrow}'
-      );
-      cy.get('.listbox-option').eq(4).should('have.class', 'current');
-      cy.get('.combobox-textbox').type('{downArrow}');
-      cy.get('.listbox-option').eq(4).should('have.class', 'current');
+      cy.get('.hsi-ui-textbox').click();
+      cy.get('.hsi-ui-listbox').should('be.visible');
     });
     it('should emit the correct value on option click', () => {
-      cy.get('.combobox-textbox').click();
-      cy.get('.listbox-option').first().realClick();
+      cy.get('.hsi-ui-textbox').click();
+      cy.get('.hsi-ui-listbox-option').first().realClick();
       cy.get('.combobox-value').should('have.text', 'Apples');
     });
     it('should display value on textbox', () => {
-      cy.get('.combobox-textbox').click();
-      cy.get('.listbox-option').first().realClick();
-      cy.get('.textbox').should('include.text', 'Apples');
-      cy.get('.combobox-textbox').click();
-      cy.get('.listbox-option').eq(1).realClick();
-      cy.get('.textbox').should('include.text', 'Bananas');
-      cy.get('.textbox').should('not.include.text', 'Apples');
+      cy.get('.hsi-ui-textbox').click();
+      cy.get('.hsi-ui-listbox-option').first().realClick();
+      cy.get('.hsi-ui-textbox-label').should('include.text', 'Apples');
+      cy.get('.hsi-ui-textbox').click();
+      cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+      cy.get('.hsi-ui-textbox-label').should('include.text', 'Bananas');
+      cy.get('.hsi-ui-textbox-label').should('not.include.text', 'Apples');
     });
     it('listbox should close on option click', () => {
-      cy.get('.combobox-textbox').click();
-      cy.get('.listbox-option').first().click();
-      cy.get('.combobox-listbox').should('not.be.visible');
+      cy.get('.hsi-ui-textbox').click();
+      cy.get('.hsi-ui-listbox-option').first().click();
+      cy.get('.hsi-ui-listbox').should('not.be.visible');
     });
     it('selected option should be highlighted on listbox reopen', () => {
-      cy.get('.combobox-textbox').realClick();
-      cy.get('.listbox-option').first().realClick();
-      cy.get('.combobox-textbox').realClick();
-      cy.get('.listbox-option').first().should('have.class', 'current');
+      cy.get('.hsi-ui-textbox').realClick();
+      cy.get('.hsi-ui-listbox-option').first().realClick();
+      cy.get('.hsi-ui-textbox').realClick();
+      cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
     });
     it('clicking outside the combobox should close the listbox', () => {
-      cy.get('.combobox-textbox').click();
-      cy.get('.combobox-listbox').should('be.visible');
+      cy.get('.hsi-ui-textbox').click();
+      cy.get('.hsi-ui-listbox').should('be.visible');
       cy.get('.outside-element').realClick();
-      cy.get('.combobox-listbox').should('not.be.visible');
+      cy.get('.hsi-ui-listbox').should('not.be.visible');
     });
   });
-  describe('label options', () => {
-    it('should display the listbox label in the textbox on load', () => {
-      cy.get('.textbox-label').should('have.text', 'Select a fruit');
-    });
-    it('should display the selected option in the textbox after selection', () => {
-      cy.get('.combobox-textbox').click();
-      cy.get('.listbox-option').first().realClick();
-      cy.get('.textbox-label').should('have.text', 'Apples');
-    });
-  });
-  describe('keyboard behavior', () => {
-    beforeEach(() => {
-      cy.get('.combobox-textbox').trigger('focus');
-    });
-    it('opens the listbox on enter and first option is current, then arrows through', () => {
-      cy.get('.combobox-textbox').trigger('keydown', { key: 'Enter' });
-      cy.get('.combobox-listbox').should('be.visible');
-      cy.get('.listbox-option').first().should('have.class', 'current');
-    });
-    it('opens the listbox on space', () => {
-      cy.get('.combobox-textbox').trigger('keydown', { key: ' ' });
-      cy.get('.combobox-listbox').should('be.visible');
-    });
-    it('opens the listbox on down arrow', () => {
-      cy.get('.combobox-textbox').trigger('keydown', { key: 'ArrowDown' });
-      cy.get('.combobox-listbox').should('be.visible');
-    });
-    it('opens the listbox on up arrow', () => {
-      cy.get('.combobox-textbox').trigger('keydown', { key: 'ArrowUp' });
-      cy.get('.combobox-listbox').should('be.visible');
-    });
-    // TODO: get typing chars to work
-  });
-});
 
-// Simple single select combobox that does not display selected
-@Component({
-  selector: 'hsi-ui-combobox-single-no-display-selected-test',
-  template: `
-    <p class="outside-element"
-      >Throwaway element to click on for outside combobox click</p
-    >
-    <hsi-ui-combobox class="fruits-dropdown">
-      <hsi-ui-combobox-label>
-        <span>Fruits</span>
-      </hsi-ui-combobox-label>
-      <hsi-ui-textbox class="textbox">
-        <span class="material-symbols-outlined expand-more" boxIcon>
-          expand_more
-        </span>
-      </hsi-ui-textbox>
-      <hsi-ui-listbox
-        [labelIsBoxPlaceholder]="true"
-        (valueChanges)="onSelection($event)"
-      >
-        <hsi-ui-listbox-label>
-          <span>Select a fruit</span>
-        </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option *ngFor="let option of options">{{
-          option.displayName
-        }}</hsi-ui-listbox-option>
-      </hsi-ui-listbox>
-    </hsi-ui-combobox>
-    <p class="combobox-value">{{ value$ | async }}</p>
-  `,
-  encapsulation: ViewEncapsulation.None,
-  styles: [scss],
-})
-class ComboboxSingleTestNoDisplaySelectedComponent extends ComboboxBaseTestComponent {}
-
-describe('ComboboxSingleTestNoDisplaySelectedComponent', () => {
-  beforeEach(() => {
-    cy.mount(ComboboxSingleTestNoDisplaySelectedComponent, {
-      declarations: [ComboboxSingleTestNoDisplaySelectedComponent],
-      imports: [ComboboxModule, MatIconModule],
-    });
-  });
-  it('does not display selected', () => {
-    cy.get('.combobox-textbox').click();
-    cy.get('.listbox-option').first().realClick();
-    cy.get('.textbox').should('not.include.text', 'Apples');
-    cy.get('.combobox-value').should('have.text', 'Apples');
+  it('the current class is on the first selected option if there is one or on the 0th option when opened', () => {
+    cy.get('.hsi-ui-textbox').realClick();
+    cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
+    cy.get('.hsi-ui-textbox').type('{esc}');
+    cy.get('.hsi-ui-listbox').should('not.be.visible');
+    cy.get('.hsi-ui-textbox').realClick();
+    cy.get('.hsi-ui-listbox-option').eq(2).realClick();
+    cy.get('.hsi-ui-textbox').realClick();
+    cy.get('.hsi-ui-listbox-option').eq(2).should('have.class', 'selected');
+    cy.get('.hsi-ui-listbox-option').eq(2).should('have.class', 'current');
+    cy.get('.hsi-ui-textbox').type('{esc}');
+    cy.get('.hsi-ui-textbox').realClick();
+    cy.get('.hsi-ui-listbox-option').eq(2).should('have.class', 'current');
+    cy.get('.hsi-ui-listbox-option').eq(3).realClick();
+    cy.get('.hsi-ui-textbox').realClick();
+    cy.get('.hsi-ui-listbox-option').eq(3).should('have.class', 'selected');
+    cy.get('.hsi-ui-listbox-option').eq(3).should('have.class', 'current');
   });
 });
 
@@ -240,15 +125,12 @@ describe('ComboboxSingleTestNoDisplaySelectedComponent', () => {
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [displaySelected]="true">
+      <hsi-ui-textbox [useListboxLabelAsBoxPlaceholder]="true">
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
       </hsi-ui-textbox>
-      <hsi-ui-listbox
-        [labelIsBoxPlaceholder]="true"
-        (valueChanges)="onSelection($event)"
-      >
+      <hsi-ui-listbox (valueChanges)="onSelection($event)">
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
@@ -269,17 +151,17 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxSingleSelectDisabledOptionsComponent, {
       declarations: [ComboboxSingleSelectDisabledOptionsComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('can select non-disabled options', () => {
-    cy.get('.combobox-textbox').click();
-    cy.get('.listbox-option').first().realClick();
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClick();
     cy.get('.combobox-value').should('have.text', 'Apples');
   });
   it('cannot select disabled options', () => {
-    cy.get('.combobox-textbox').click();
-    cy.get('.listbox-option').eq(4).realClick();
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').eq(4).realClick();
     cy.get('.combobox-value').should('not.have.text', 'Elderberries');
   });
 });
@@ -296,15 +178,12 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [displaySelected]="true">
+      <hsi-ui-textbox [useListboxLabelAsBoxPlaceholder]="true">
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
       </hsi-ui-textbox>
-      <hsi-ui-listbox
-        [labelIsBoxPlaceholder]="true"
-        (valueChanges)="onSelection($event)"
-      >
+      <hsi-ui-listbox (valueChanges)="onSelection($event)">
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
@@ -326,16 +205,16 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxSelectFromOutsideSingleTestComponent, {
       declarations: [ComboboxSelectFromOutsideSingleTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('should display the selected option in the textbox on load', () => {
     cy.wait(1000);
-    cy.get('.textbox-label').should('have.text', 'Coconuts');
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Coconuts');
   });
   it('can switch the selected option on click', () => {
-    cy.get('.combobox-textbox').click();
-    cy.get('.listbox-option').first().realClick();
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClick();
     cy.get('.combobox-value').should('have.text', 'Apples');
   });
 });
@@ -348,7 +227,7 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
       <hsi-ui-combobox-label>
         <span>Star Wars Movies Combobox</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox class="textbox" [displaySelected]="true">
+      <hsi-ui-textbox class="textbox">
         <p boxLabel
           >This combobox stores your favorite of the first 6 Star Wars
           movies!</p
@@ -408,16 +287,97 @@ describe('ComboboxGroupedSingleTestComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxGroupedSingleTestComponent, {
       declarations: [ComboboxGroupedSingleTestComponent],
-      imports: [ComboboxModule, MatIconModule],
+      imports: [HsiUiComboboxModule, MatIconModule],
     });
   });
   it('can select values from different groups', () => {
-    cy.get('.combobox-textbox').click();
-    cy.get('.listbox-option').first().realClick();
-    cy.get('.textbox').should('include.text', 'A New Hope');
-    cy.get('.combobox-textbox').click();
-    cy.get('.listbox-option').eq(4).realClick();
-    cy.get('.textbox').should('include.text', 'Attack of the Clones');
-    cy.get('.textbox').should('not.include.text', 'A New Hope');
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClick();
+    cy.get('.hsi-ui-textbox-label').should('include.text', 'A New Hope');
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').eq(4).realClick();
+    cy.get('.hsi-ui-textbox-label').should(
+      'include.text',
+      'Attack of the Clones'
+    );
+    cy.get('.hsi-ui-textbox-label').should('not.include.text', 'A New Hope');
+  });
+});
+
+@Component({
+  selector: 'hsi-ui-ng-form-listbox-single-test',
+  template: `
+    <p class="display-control-value">{{ control.value }}</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Select a fruit</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox>
+        <p boxLabel>Select a fruit, A-E</p>
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox [formControl]="control">
+        <hsi-ui-listbox-label>
+          <span>Select a fruit</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option
+            [selected]="control.value === option.id"
+            [value]="option.id"
+            >{{ option.displayName }}</hsi-ui-listbox-option
+          >
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class NgFormListboxSingleTestComponent {
+  options = [
+    { displayName: 'Apples', id: 'appl' },
+    { displayName: 'Bananas', id: 'bana' },
+    { displayName: 'Coconuts', id: 'coco' },
+    { displayName: 'Durians', id: 'duri' },
+    { displayName: 'Elderberries', id: 'elde' },
+  ];
+  control: FormControl<any> = new FormControl(null);
+}
+
+describe('NgFormListboxSingleTestComponent', () => {
+  beforeEach(() => {
+    cy.mount(NgFormListboxSingleTestComponent, {
+      declarations: [NgFormListboxSingleTestComponent],
+      imports: [HsiUiComboboxModule, MatIconModule],
+    });
+  });
+  it('can make one selection', () => {
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Bananas');
+    cy.get('.hsi-ui-listbox-option').eq(1).should('have.class', 'selected');
+  });
+  it('can change selection', () => {
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Bananas');
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
+    cy.get('.hsi-ui-listbox-option').first().should('have.class', 'selected');
+    cy.get('.hsi-ui-listbox-option').eq(1).should('not.have.class', 'selected');
+  });
+  it('selecting option should close the listbox', () => {
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClick();
+    cy.get('.hsi-ui-listbox').should('not.be.visible');
+  });
+  it('control value should match selected combobox value', () => {
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.display-control-value').realClick();
+    cy.get('.display-control-value').should('have.text', 'bana');
   });
 });

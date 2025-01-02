@@ -1,5 +1,11 @@
-.option-container {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+.hsi-ui-listbox-option-container {
+  display: var(--hsi-ui-listbox-option-container-display);
+  flex-direction: var(--hsi-ui-listbox-option-container-flex-direction);
+  align-items: var(--hsi-ui-listbox-option-container-align-items);
+  cursor: var(--hsi-ui-listbox-option-cursor);
+  padding: var(--hsi-ui-listbox-option-container-padding);
+  gap: var(--hsi-ui-listbox-option-container-gap);
+}
+
+.hsi-ui-listbox-option-label {
 }
