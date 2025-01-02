@@ -1,5 +1,5 @@
 import { Platform } from '@angular/cdk/platform';
-import { ElementRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   Observable,
@@ -8,6 +8,8 @@ import {
   of,
 } from 'rxjs';
 import { ComboboxLabelComponent } from './combobox-label/combobox-label.component';
+import { ListboxOptionComponent } from './listbox-option/listbox-option.component';
+import { CountSelectedLabel } from './listbox/listbox.component';
 
 let nextUniqueId = 0;
 
@@ -75,46 +77,45 @@ export enum AutoComplete {
   inline = 'inline',
 }
 
-// export type AutoCompleteType = keyof typeof AutoComplete;
-
-// export type OptionActionType = keyof typeof OptionAction | string;
-// export type ListboxActionType = keyof typeof ListboxAction;
-// export type TextboxActionType = keyof typeof TextboxAction;
-
 export type ComboboxAction = OptionAction | ListboxAction | TextboxAction;
 
 @Injectable()
 export class ComboboxService {
   id = `combobox-${nextUniqueId++}`;
-  comboboxLabelId = `${this.id}-label`;
   scrollContainerId = `${this.id}-scroll-container`;
+  comboboxLabelId = `${this.id}-label`;
+  autoComplete: AutoComplete = AutoComplete.none;
+  countSelectedLabel?: CountSelectedLabel;
+  customTextboxLabel?: (
+    options: ListboxOptionComponent[],
+    countSelectedLabel?: CountSelectedLabel
+  ) => string;
+  dynamicLabel = false;
+  ignoreBlur = false;
+  isMultiSelect = false;
+  nullActiveIdOnClose = false;
+  scrollWhenOpened = false;
+  shouldAutoSelectOnListboxClose = false;
+  activeDescendant$: Observable<string>;
+  private blurEvent: Subject<void> = new Subject();
+  blurEvent$ = this.blurEvent.asObservable();
+  private boxLabel: BehaviorSubject<string> = new BehaviorSubject(null);
+  boxLabel$ = this.boxLabel.asObservable();
+  private _isOpen: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  isOpen$ = this._isOpen.asObservable().pipe(distinctUntilChanged());
   private label: BehaviorSubject<ComboboxLabelComponent> = new BehaviorSubject(
     null
   );
   label$ = this.label.asObservable();
-  scrollWhenOpened = false;
-  comboboxElRef: ElementRef;
-  private _visualFocus: BehaviorSubject<VisualFocus> =
-    new BehaviorSubject<VisualFocus>(VisualFocus.textbox);
-  visualFocus$ = this._visualFocus.asObservable();
   private optionAction: Subject<OptionAction | string> = new Subject();
   optionAction$ = this.optionAction.asObservable();
-  private blurEvent: Subject<void> = new Subject();
-  blurEvent$ = this.blurEvent.asObservable();
-  private _isOpen: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  isOpen$ = this._isOpen.asObservable().pipe(distinctUntilChanged());
-  private boxLabel: BehaviorSubject<string> = new BehaviorSubject(null);
-  boxLabel$ = this.boxLabel.asObservable();
-  private optionChanges: Subject<void> = new Subject();
-  optionChanges$ = this.optionChanges.asObservable();
+  private _visualFocus: BehaviorSubject<VisualFocus> =
+    new BehaviorSubject<VisualFocus>(VisualFocus.textbox);
+  private touched: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  touched$ = this.touched.asObservable();
+  visualFocus$ = this._visualFocus.asObservable();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private _selectedOptionValues: any[] = [];
-  activeDescendant$: Observable<string>;
-  ignoreBlur = false;
-  displayValue = true;
-  isMultiSelect = false;
-  autoComplete: AutoComplete = AutoComplete.none;
-  shouldAutoSelectOnListboxClose = false;
 
   constructor(private platform: Platform) {}
 
@@ -136,10 +137,6 @@ export class ComboboxService {
     } else {
       this.activeDescendant$ = of(null);
     }
-  }
-
-  setComboboxElRef(comboboxElRef: ElementRef): void {
-    this.comboboxElRef = comboboxElRef;
   }
 
   setLabel(label: ComboboxLabelComponent): void {
@@ -166,8 +163,8 @@ export class ComboboxService {
     this.blurEvent.next();
   }
 
-  emitOptionChanges(): void {
-    this.optionChanges.next();
+  setTouched(): void {
+    this.touched.next(true);
   }
 
   setVisualFocus(focus: VisualFocus): void {

@@ -1,7 +1,6 @@
 import { Platform } from '@angular/cdk/platform';
 import { DOCUMENT } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
   ContentChild,
   DestroyRef,
@@ -9,7 +8,6 @@ import {
   Inject,
   NgZone,
   OnInit,
-  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -20,12 +18,14 @@ import { ComboboxService } from './combobox.service';
 @Component({
   selector: 'hsi-ui-combobox',
   templateUrl: './combobox.component.html',
-  styleUrls: ['./combobox.component.scss'],
+  styleUrls: ['./styles/styles.scss'],
   providers: [ComboboxService],
   encapsulation: ViewEncapsulation.None,
+  host: {
+    class: 'hsi-ui-combobox',
+  },
 })
-export class ComboboxComponent implements OnInit, AfterViewInit {
-  @ViewChild('comboboxComponent') comboboxElRef: ElementRef;
+export class ComboboxComponent implements OnInit {
   @ContentChild(ComboboxLabelComponent) labelComponent: ComboboxLabelComponent;
 
   constructor(
@@ -39,10 +39,6 @@ export class ComboboxComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.handleOutsideClick();
-  }
-
-  ngAfterViewInit(): void {
-    this.service.setComboboxElRef(this.comboboxElRef);
   }
 
   handleOutsideClick(): void {
