@@ -73,6 +73,7 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
     this._tickFormat = format;
     return this;
   }
+
   /**
    * A font size to apply to the tick labels, in px. If not specified, D3's default font size will be used.
    */

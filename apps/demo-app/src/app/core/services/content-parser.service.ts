@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   AdkMarkdownParsingOptions,
   AdkParsedContentSection,
@@ -18,6 +18,11 @@ import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { forkJoin, from, map, mergeMap, Observable, of, switchMap } from 'rxjs';
 import { unified } from 'unified';
+import {
+  BuilderMethod,
+  BuilderMethods,
+  BuilderMethodsParserService,
+} from './builder-methods-parser.service';
 
 const DEFAULT_HIGHLIGHTER_OPTIONS: AdkShikiHighlighterOptions = {
   highlighter: undefined,
@@ -39,24 +44,14 @@ export enum ContentSection {
   BuilderMethod = 'builder-method',
 }
 
-export interface BuilderMethod {
-  name: string;
-  description: string;
-  params: { name: string; type: string; description: string }[];
-}
-
-export interface BuilderMethods {
-  overview: string;
-  methods: BuilderMethod[];
-}
-
 @Injectable()
 export class ContentParser {
   parser: typeof unified;
 
   constructor(
     private sanitizer: DomSanitizer,
-    private shikiHighlighter: AdkShikiHighlighter
+    private shikiHighlighter: AdkShikiHighlighter,
+    private builderMethods: BuilderMethodsParserService
   ) {
     this.parser = unified;
   }
@@ -64,7 +59,14 @@ export class ContentParser {
   parse(
     markdown: string,
     options?: AdkMarkdownParsingOptions
-  ): Observable<AdkParsedContentSection<string | Record<string, unknown>>[]> {
+  ): Observable<
+    AdkParsedContentSection<
+      | string
+      | Record<string, unknown>
+      | BuilderMethod<SafeHtml>
+      | BuilderMethods<SafeHtml>
+    >[]
+  > {
     const mergedOptions = deepMerge(DEFAULT_PARSING_OPTIONS, options || {});
 
     return of(mergedOptions).pipe(
@@ -86,7 +88,19 @@ export class ContentParser {
       switchMap((_options) => {
         const sections = this.getSections(markdown);
         const parsedSections$ = sections.map((section) => {
-          return this.parseSection(section, _options);
+          if (section.type === ContentSection.Markdown) {
+            return this.parseMarkdownSection(section, _options);
+          } else if (section.type === ContentSection.BuilderMethod) {
+            return this.builderMethods.parseSection(
+              section as unknown as AdkParsedContentSection<
+                BuilderMethod<string>
+              >,
+              _options,
+              this.getParsedMarkdown.bind(this)
+            );
+          } else {
+            return from(Promise.resolve(section));
+          }
         });
         return forkJoin(parsedSections$);
       })
@@ -150,6 +164,7 @@ export class ContentParser {
         } else if (currentSection.length > 1) {
           try {
             const content = yaml.load(currentSection.join('\n'));
+            content['type'] = content['overview'] ? 'methods' : 'method';
             sections.push({
               type: ContentSection.BuilderMethod,
               content,
@@ -229,47 +244,54 @@ export class ContentParser {
     return line.startsWith('```');
   }
 
-  private parseSection(
+  private parseMarkdownSection(
     section: AdkParsedContentSection<string | Record<string, unknown>>,
     options: AdkMarkdownParsingOptions
   ): Observable<AdkParsedContentSection<string | Record<string, unknown>>> {
-    if (section.type === ContentSection.Markdown) {
-      const parsedContent$ = from(
-        unified()
-          .use(remarkParse)
-          .use(options.gfm ? remarkGfm : undefined)
-          .use(
-            options.highlighter &&
-              options.highlighter.type === ContentSection.Markdown
-              ? this.shikiHighlighter.remarkHighlight
-              : undefined,
-            options.highlighter
-          )
-          .use(remarkRehype, { allowDangerousHtml: true })
-          .use(rehypeRaw)
-          .use(options.headingIds ? rehypeSlug : undefined)
-          .use(
-            options.headingFragmentLinks ? rehypeAutolinkHeadings : undefined,
-            { behavior: options.headingFragmentLinks?.behavior }
-          )
-          .use(rehypeStringify)
-          .process(section.content)
-          .then((file) => String(file))
-      );
+    const parsedContent$ = this.getParsedMarkdown(
+      section.content as string,
+      options
+    );
 
-      return parsedContent$.pipe(
-        map((parsedContent) => {
-          const toReturn: AdkParsedContentSection<
-            string | Record<string, unknown>
-          > = {
-            ...section,
-            html: this.sanitizer.bypassSecurityTrustHtml(parsedContent),
-          };
-          return toReturn;
-        })
-      );
-    }
-    return from(Promise.resolve(section));
+    return parsedContent$.pipe(
+      map((parsedContent) => {
+        const toReturn: AdkParsedContentSection<
+          string | Record<string, unknown>
+        > = {
+          ...section,
+          html: this.sanitizer.bypassSecurityTrustHtml(parsedContent),
+        };
+        return toReturn;
+      })
+    );
+  }
+
+  private getParsedMarkdown(
+    content: string,
+    options: AdkMarkdownParsingOptions
+  ): Observable<string> {
+    return from(
+      unified()
+        .use(remarkParse)
+        .use(options.gfm ? remarkGfm : undefined)
+        .use(
+          options.highlighter &&
+            options.highlighter.type === ContentSection.Markdown
+            ? this.shikiHighlighter.remarkHighlight
+            : undefined,
+          options.highlighter
+        )
+        .use(remarkRehype, { allowDangerousHtml: true })
+        .use(rehypeRaw)
+        .use(options.headingIds ? rehypeSlug : undefined)
+        .use(
+          options.headingFragmentLinks ? rehypeAutolinkHeadings : undefined,
+          { behavior: options.headingFragmentLinks?.behavior }
+        )
+        .use(rehypeStringify)
+        .process(content)
+        .then((file) => String(file))
+    );
   }
 
   getHeaders(markdown: string): { id: string; text: string; level: number }[] {
