@@ -181,7 +181,6 @@ describe('It creates axis labels that are correctly positioned when positions ar
   it('should have visible x and y axis labels that are at the trailing edge of axes', () => {
     cy.get<SVGGElement>('.vic-xy-background').then((chartBackground) => {
       const chartRect = chartBackground[0].getBoundingClientRect();
-      console.log(chartRect);
       cy.get<SVGTextElement>('.vic-x-axis-label').then((xAxisLabel) => {
         const textRect = xAxisLabel[0].getBoundingClientRect();
         expect(textRect.right).to.be.closeTo(chartRect.right, 4);

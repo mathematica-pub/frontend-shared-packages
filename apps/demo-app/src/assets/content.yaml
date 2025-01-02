@@ -19,6 +19,7 @@ app-dev-kit:
   title: App Dev Kit
   items:
     overview: overview.md
+    baseline-styles: baseline-styles.md
 ui-components:
   title: UI Components
   items:
@@ -28,12 +29,11 @@ ui-components:
       documentation: combobox-documentation.md
       multi-select-examples: combobox-multi-select-examples.md
       single-select-examples: combobox-single-select-examples.md
-
 viz-components:
   title: Viz Components
   items:
     overview: overview.md
-    primary-marks-examples:
+    primary-marks:
       bars: bars.md
       dots: dots.md
       geographies: geographies.md
@@ -41,3 +41,7 @@ viz-components:
       lines: lines.md
       stacked-area: stacked-area.md
       stacked-bars: stacked-bars.md
+    aux-marks:
+      xy-axes:
+        axes: xy-axes.md
+        labels: xy-axis-labels.md

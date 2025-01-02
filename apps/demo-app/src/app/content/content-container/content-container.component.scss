@@ -51,4 +51,17 @@
   .overview {
     padding-bottom: grid(6);
   }
+
+  .builder-method {
+    .description.injected-html code,
+    .param-description.injected-html code {
+      @extend %inline-code;
+    }
+
+    .param-description.injected-html {
+      p {
+        padding-bottom: grid(3);
+      }
+    }
+  }
 }

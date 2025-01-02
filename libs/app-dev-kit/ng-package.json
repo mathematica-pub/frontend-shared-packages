@@ -6,9 +6,9 @@
   },
   "assets": [
     {
-      "input": "src/lib/styles/",
+      "input": "src/lib/baseline-styles/",
       "glob": "**/*.scss",
-      "output": "styles"
+      "output": "baseline-styles"
     }
   ]
 }

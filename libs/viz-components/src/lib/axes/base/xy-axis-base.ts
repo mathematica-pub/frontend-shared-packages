@@ -113,6 +113,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
         g.select('.domain').remove()
       );
     }
+
     if (this.config.removeTickLabels) {
       select(this.axisRef.nativeElement).call((g) =>
         g.selectAll('.tick text').remove()
