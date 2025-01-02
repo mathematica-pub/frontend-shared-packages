@@ -18,6 +18,11 @@ export class VicYOrdinalAxisConfigBuilder<
     Object.assign(this, DEFAULT);
   }
 
+  /**
+   * OPTIONAL. The side of the chart where the axis will be placed.
+   *
+   * @default 'left'
+   */
   side(side: 'left' | 'right'): this {
     this._side = side;
     return this;

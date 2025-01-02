@@ -50,6 +50,8 @@ export class VicBarsConfigBuilder<
    * OPTIONAL. Creates a dimension that will control the color of the bars.
    *
    * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
+   *
+   * To unset the color dimension, call with null.
    */
   color(color: null): this;
   color(
@@ -81,14 +83,22 @@ export class VicBarsConfigBuilder<
    * OPTIONAL. Sets custom fills for the bars. Intended to be users with a user-provided fill in <defs> that can be referenced here.
    *
    * Will override any fill color set by the color dimension.
+   *
+   * To unset the custom fills, call with null.
    */
-  customFills(customFills: FillDefinition<Datum>[]): this {
+  customFills(customFills: FillDefinition<Datum>[] | null): this {
+    if (customFills === null) {
+      this._customFills = undefined;
+      return this;
+    }
     this._customFills = customFills;
     return this;
   }
 
   /**
    * REQUIRED FOR HORIZONTAL BAR CHART.
+   *
+   * If called with null, the horizontal orientation will not be set.
    */
   horizontal(bars: null): this;
   horizontal(
@@ -115,6 +125,8 @@ export class VicBarsConfigBuilder<
 
   /**
    * REQUIRED FOR VERTICAL BAR CHART.
+   *
+   * If called with null, the vertical orientation will not be set.
    */
   vertical(bars: null): this;
   vertical(
@@ -137,6 +149,8 @@ export class VicBarsConfigBuilder<
 
   /**
    * OPTIONAL. Creates labels for the bars. If not called, no labels will be created.
+   *
+   * To unset the labels, call with null.
    */
   labels(labels: null): this;
   labels(labels: (labels: BarsLabelsBuilder<Datum>) => void): this;
