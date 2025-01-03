@@ -1,0 +1,55 @@
+.hsi-ui-listbox-container {
+  z-index: var(--hsi-ui-listbox-z-index);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  padding: var(--hsi-ui-listbox-padding)
+    var(--hsi-ui-listbox-padding-horizontal);
+  background: var(--hsi-ui-listbox-background);
+  border-left: var(--hsi-ui-combobox-border-width) solid
+    var(--hsi-ui-combobox-border-color);
+  border-right: var(--hsi-ui-combobox-border-width) solid
+    var(--hsi-ui-combobox-border-color);
+  border-bottom: var(--hsi-ui-combobox-border-width) solid
+    var(--hsi-ui-combobox-border-color);
+  border-bottom-left-radius: var(--hsi-ui-combobox-border-radius);
+  border-bottom-right-radius: var(--hsi-ui-combobox-border-radius);
+}
+
+.hsi-ui-listbox-container:not(.open) {
+  display: none;
+}
+
+.hsi-ui-listbox-scroll-container {
+  display: block;
+  max-height: var(--hsi-ui-listbox-max-height);
+  overflow-y: auto;
+}
+
+.hsi-ui-listbox-option {
+  display: block;
+  cursor: pointer;
+  padding: var(--hsi-ui-listbox-option-padding);
+}
+
+.hsi-ui-listbox-option:hover {
+  background: var(--hsi-ui-listbox-option-hover-background);
+}
+
+.hsi-ui-listbox-option.selected {
+  background: var(--hsi-ui-listbox-option-selected-background);
+}
+
+.hsi-ui-listbox-option.disabled {
+  color: var(--hsi-ui-listbox-option-disabled-color);
+}
+
+.hsi-ui-listbox-option.current:not(.selected) {
+  background: var(--hsi-ui-listbox-option-current-background);
+}
+
+.hsi-ui-listbox-option:last-child {
+  border-bottom-left-radius: var(--hsi-ui-combobox-border-radius);
+  border-bottom-right-radius: var(--hsi-ui-combobox-border-radius);
+}

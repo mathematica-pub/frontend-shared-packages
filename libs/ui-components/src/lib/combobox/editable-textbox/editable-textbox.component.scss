@@ -1,0 +1,33 @@
+.hsi-ui-editable-textbox-container {
+  display: var(--hsi-ui-textbox-display);
+  justify-content: var(--hsi-ui-textbox-justify-content);
+  align-items: var(--hsi-ui-textbox-align-items);
+  background: var(--hsi-ui-textbox-background);
+  border: var(--hsi-ui-combobox-border-width) solid
+    var(--hsi-ui-combobox-border-color);
+  padding: var(--hsi-ui-editable-textbox-padding);
+  border-radius: var(--hsi-ui-combobox-border-radius);
+  transition: border var(--hsi-ui-textbox-transition-duration) ease-in-out;
+}
+
+.hsi-ui-editable-textbox-container.open {
+  border-bottom: var(--hsi-ui-textbox-border-bottom-open);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.hsi-ui-editable-textbox-input {
+  border: var(--hsi-ui-editable-textbox-input-border);
+  border-bottom: var(--hsi-ui-editable-textbox-input-border-bottom);
+  width: var(--hsi-ui-editable-textbox-input-width);
+  padding: var(--hsi-ui-editable-textbox-input-padding);
+  border-radius: var(--hsi-ui-editable-textbox-input-border-radius);
+}
+
+.hsi-ui-editable-textbox-input:hover,
+.hsi-ui-editable-textbox-input:focus {
+  border: var(--hsi-ui-editable-textbox-input-hover-border);
+  border-bottom: var(--hsi-ui-editable-textbox-input-hover-border-bottom);
+  background: var(--hsi-ui-editable-textbox-input-hover-background);
+  outline: var(--hsi-ui-editable-textbox-input-hover-outline);
+}
