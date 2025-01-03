@@ -34,9 +34,10 @@ export class CsaStackedBarsComponent extends CaAccessStackedBarsComponent {
     } else if (this.compPosition > 0.1 && this.compPosition < 0.66) {
       x = this.chart.width * 0.4;
     }
+    const percentile = this.config.data.some((d) => d.percentile25 !== null);
     const group = this.headerGroup
       .selectAll('.percentile')
-      .data([this.config.data[0].csa_25].filter((d) => d !== null))
+      .data([percentile].filter((d) => d === true))
       .join('g')
       .attr('class', 'percentile')
       .attr(

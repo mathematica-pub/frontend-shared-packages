@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CaAccessStackedBarsComponent } from '../../../ca-access-stacked-bars.component';
-import { CsaDatum } from '../../csa-race.component';
+import { CsaRaceDatum } from '../../csa-race.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -19,12 +19,18 @@ export class CsaRaceStackedBarsComponent extends CaAccessStackedBarsComponent {
     this.updatePercentileGroup();
   }
 
-  override getCategory(category: CsaDatum): string {
+  override getCategory(category: CsaRaceDatum): string {
     return category.size;
   }
 
+  override setCompValues(): void {
+    this.compVal = this.config.data[0].goal;
+    this.compIsBig = this.scales.x(this.compVal) > this.chart.width / 2;
+    this.compPosition = this.compVal / this.scales.x.domain()[1];
+  }
+
   override getComparisonDescription(): string {
-    return this.config.data[0].compValDesc;
+    return 'goal';
   }
 
   updatePercentileGroup(): void {
@@ -34,9 +40,10 @@ export class CsaRaceStackedBarsComponent extends CaAccessStackedBarsComponent {
     } else if (this.compPosition > 0.1 && this.compPosition < 0.66) {
       x = this.chart.width * 0.4;
     }
+    const percentile = this.config.data.some((d) => d.percentile25 !== null);
     const group = this.headerGroup
       .selectAll('.percentile')
-      .data([this.config.data[0].csa_25].filter((d) => d !== null))
+      .data([percentile].filter((d) => d === true))
       .join('g')
       .attr('class', 'percentile')
       .attr(

@@ -90,6 +90,11 @@ export class CaAccessDotPlotComponent implements OnChanges {
   }
 
   // eslint-disable-next-line
+  getGoalValue(plan: CaDatum): number {
+    return undefined;
+  }
+
+  // eslint-disable-next-line
   getSortOrder(a: CaDatum, b: CaDatum): number {
     console.error('override getSortOrder');
     return 0;
@@ -127,7 +132,8 @@ export class CaAccessDotPlotComponent implements OnChanges {
 
       const dotMax = max(this.rollupData.map((d) => max(d.plans)));
       const barMax = max(this.rollupData, (d) => this.getBarValue(d));
-      this.trueMax = max([dotMax, barMax]) * 1.1;
+      const goalMax = max(this.rollupData, (d) => this.getGoalValue(d));
+      this.trueMax = max([dotMax, barMax, goalMax]) * 1.1;
       if (this.rollupData[0].units === 'Percentage') {
         this.trueMax = min([this.trueMax, 1]);
       }

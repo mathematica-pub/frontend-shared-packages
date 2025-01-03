@@ -1,4 +1,4 @@
-<div class="title">CSA</div>
+<div class="title">CSA-Race</div>
 <form [formGroup]="myForm">
   <div class="selection">
     <label for="delivSys">Delivery System</label>
@@ -20,28 +20,14 @@
       </option>
     </select>
   </div>
-  <div class="selection">
-    <label for="stratVal">Stratification</label>
-    <select id="stratVal" formControlName="stratVal">
-      <option
-        *ngFor="let strat of filters.stratVals"
-        [ngValue]="strat.name"
-        [disabled]="strat.disabled"
-      >
-        {{ strat.name }}
-      </option>
-    </select>
-  </div>
 </form>
 @if (filteredData$ | async; as data) {
   <app-export-content
     [fileName]="
-      'CSA ' +
+      'CSA-Race ' +
       myForm.value[filterTypes[0]] +
       ' ' +
-      myForm.value[filterTypes[1]] +
-      ' ' +
-      myForm.value[filterTypes[2]]
+      myForm.value[filterTypes[1]]
     "
   >
     <app-csa-race-dot-plot [data]="data"></app-csa-race-dot-plot>

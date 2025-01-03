@@ -13,7 +13,7 @@ import {
 } from '@hsi/viz-components';
 import { min } from 'd3';
 import { CaAccessDotPlotComponent } from '../../ca-access-dot-plot.component';
-import { CsaDatum } from '../csa-race.component';
+import { CsaRaceDatum } from '../csa-race.component';
 import { CsaRaceStackedBarsComponent } from './csa-race-stacked-bars/csa-race-stacked-bars.component';
 
 @Component({
@@ -38,24 +38,28 @@ import { CsaRaceStackedBarsComponent } from './csa-race-stacked-bars/csa-race-st
   styleUrl: './csa-race-dot-plot.component.scss',
 })
 export class CsaRaceDotPlotComponent extends CaAccessDotPlotComponent {
-  override getCurrentRollup(x: CsaDatum, plan: CsaDatum): boolean {
+  override getCurrentRollup(x: CsaRaceDatum, plan: CsaRaceDatum): boolean {
     return x.size === plan.size;
   }
 
-  override getInvisibleStackValue(plan: CsaDatum): number {
+  override getInvisibleStackValue(plan: CsaRaceDatum): number {
     return min([plan.percentile25, plan.percentile75]) ?? null;
   }
 
-  override getBarValue(plan: CsaDatum): number {
+  override getBarValue(plan: CsaRaceDatum): number {
     return plan.percentile75;
   }
 
-  override getSortOrder(a: CsaDatum, b: CsaDatum): number {
+  override getGoalValue(): number {
+    return (this.data[0] as CsaRaceDatum).goal;
+  }
+
+  override getSortOrder(a: CsaRaceDatum, b: CsaRaceDatum): number {
     const order = ['Rural', 'Small', 'Medium', 'Large', 'Other'];
     return order.indexOf(a.size) - order.indexOf(b.size);
   }
 
-  override getYDimension(plan: CsaDatum): string {
+  override getYDimension(plan: CsaRaceDatum): string {
     return plan.size;
   }
 }
