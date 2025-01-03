@@ -15,9 +15,9 @@ A combobox is minimally composed of the following components:
 
 - `hsi-ui-combobox` &mdash; A component that is an outer wrapper for other components in the
   combobox.
-- `hsi-ui-textbox` **or** `hsi-ui-editable-textbox` **or** `hsi-ui-ng-form-editable-textbox` &mdash;
-  A component that is always visible, and can be used to open and close the listbox. Contains a
-  label, or, if editable, an input into which the user can type.
+- `hsi-ui-textbox` **or** `hsi-ui-editable-textbox` &mdash; A component that is always visible, and
+  can be used to open and close the listbox. Contains a label, or, if editable, an input into which
+  the user can type.
 - `hsi-ui-listbox` &mdash; A component that is hidden until the user interacts with the textbox.
   Contains the options that the user can select.
 - `hsi-ui-listbox-option` &mdash; A component that creates an option in the listbox.
@@ -71,9 +71,18 @@ export class MyComboboxComponent {
 }
 ```
 
+In addition to the aforementioned components, the combobox can be composed of the following optional
+components, whose use is described in the sections below:
+
+- `ComboboxLabelComponent`
+- `ListboxGroupComponent`
+- `ListboxLabelComponent`
+- `SelectAllListboxOptionComponent`
+
 ## Features
 
-Users can configure comboboxes with a number of features to suit their specific needs.
+Users can configure comboboxes with a number of features to suit their specific needs. These
+features are described below.
 
 ### Single / Multi Select
 
