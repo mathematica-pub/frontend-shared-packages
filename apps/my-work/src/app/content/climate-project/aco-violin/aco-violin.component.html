@@ -1,0 +1,14 @@
+<h4 class="title">ACO Data</h4>
+<div class="documentation-text">
+  <p class="text"
+    >Users could also provide chart code in this top level component.</p
+  >
+</div>
+<div *ngIf="allData$ | async as allData; else loading">
+  <app-export-content fileName="ACO-Bar">
+    <app-aco-bar [data]="allData"></app-aco-bar>
+  </app-export-content>
+</div>
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>

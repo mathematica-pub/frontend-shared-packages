@@ -1,0 +1,33 @@
+<div class="aci-county-bar-container">
+  <div class="chart-container">
+    <div class="chart-title">
+      <vic-xy-chart
+        class="sorted-chart"
+        [margin]="{ top: 30, right: 0, bottom: 36, left: 80 }"
+        [height]="chartHeight"
+        [width]="400"
+        [scaleChartWithContainerWidth]="{ width: false, height: false }"
+      >
+        <ng-container svg-elements>
+          <svg:g vic-xy-background></svg:g>
+          <svg:g vic-x-ordinal-axis [config]="xAxisConfig"></svg:g>
+          <svg:g vic-y-quantitative-axis [config]="yAxisConfig"></svg:g>
+          <svg:g vic-primary-marks-bars [config]="sortedDataConfig"></svg:g>
+          <!-- text that says "County" -->
+          <svg:text
+            x="240"
+            y="-20"
+            font-size="12"
+            font-weight="bold"
+            fill="black"
+            text-anchor="middle"
+          >
+            <tspan x="240" dy="1.2em">Savings or Losses from</tspan>
+            <tspan x="240" dy="1.2em">incorporating climate change</tspan>
+            <tspan x="240" dy="1.2em">in ACO benchmark</tspan>
+          </svg:text>
+        </ng-container>
+      </vic-xy-chart>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,7 @@ items:
     - total-expenditures
     - aci-county
     - test
+    - aco-violin
   examples:
     - energy-intensity
     - test
