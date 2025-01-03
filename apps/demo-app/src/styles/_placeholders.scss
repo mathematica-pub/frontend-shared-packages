@@ -28,6 +28,17 @@
   }
 }
 
+%inline-code {
+  font-family: $font-mono;
+  font-weight: 500;
+  padding-left: grid(1);
+  padding-right: grid(1);
+  background: colors.$muted-primary-95;
+  border-radius: grid(1);
+  color: colors.$primary-40;
+  padding: grid(0.5) grid(1);
+}
+
 %markdown-styles {
   h1 {
     @include hsi-adk.headline-medium;
@@ -126,14 +137,7 @@
   li > em > code,
   p > code,
   p > em > code {
-    font-family: $font-mono;
-    font-weight: 500;
-    padding-left: grid(1);
-    padding-right: grid(1);
-    background: colors.$muted-primary-98;
-    border-radius: grid(1);
-    color: colors.$primary-40;
-    padding: grid(1);
+    @extend %inline-code;
   }
 
   p > code,

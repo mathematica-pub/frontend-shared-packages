@@ -1,16 +1,16 @@
+@use 'index' as hsi-adk;
 @use 'vars' as *;
-@use 'functions' as *;
 @use 'colors';
 
 :host {
   display: flex;
   flex-direction: column;
-  padding-top: grid(4);
+  padding-top: hsi-adk.grid(4);
 }
 
 .header {
   display: flex;
-  gap: grid(4);
+  gap: hsi-adk.grid(4);
   align-items: center;
   justify-content: flex-end;
 }
@@ -21,7 +21,7 @@
 }
 
 .label {
-  padding-right: grid(3);
+  padding-right: hsi-adk.grid(3);
 }
 
 .file-name {
@@ -33,11 +33,11 @@
   border: 1px solid colors.$muted-primary-90;
   background-color: colors.$muted-primary-95;
   display: flex;
-  gap: grid(1);
+  gap: hsi-adk.grid(1);
   align-items: center;
   justify-content: center;
-  padding: grid(1) grid(2);
-  border-radius: grid(2);
+  padding: hsi-adk.grid(1) hsi-adk.grid(2);
+  border-radius: hsi-adk.grid(2);
 }
 
 .download-button:hover {
@@ -47,10 +47,10 @@
 }
 
 .image-container {
-  margin: grid(2) 0;
+  margin: hsi-adk.grid(2) 0;
   border: 1px dashed colors.$muted-primary-50;
-  padding: grid(2);
-  border-radius: grid(2);
+  padding: hsi-adk.grid(2);
+  border-radius: hsi-adk.grid(2);
 }
 
 .image {

@@ -15,7 +15,7 @@ dimension for one or both of the axes to create other types of charts that also 
 small examples
 ```
 
-## Config Builder
+## Configuration
 
 The `VicDotsConfigBuilder` allows you to create a configuration object for the `DotsComponent`.
 

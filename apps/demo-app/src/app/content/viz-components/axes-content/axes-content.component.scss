@@ -1,0 +1,64 @@
+@use 'functions' as *;
+@use 'index' as hsi-adk;
+
+.axes-content-container {
+  .main-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .small-examples-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: grid(10);
+    align-items: flex-end;
+    align-self: center;
+    padding-bottom: grid(4);
+  }
+
+  .two-quant {
+    transform: translateX(24px);
+  }
+
+  .one-ord-one-quant {
+    transform: translateX(80px);
+  }
+
+  .example-title {
+    font-size: 13px;
+    padding-bottom: grid(1);
+  }
+
+  .example.quant-quant {
+    position: relative;
+    top: 8px;
+  }
+
+  .dots-example .vic-chart-svg > g:nth-child(2),
+  .dots-example .vic-chart-svg > g:nth-child(5) {
+    display: none;
+  }
+
+  .bars-simple-states-example .vic-chart-svg > g:nth-child(2),
+  .bars-simple-states-example .vic-chart-svg > g:nth-child(5) {
+    display: none;
+  }
+
+  .small-examples-container.labels {
+    justify-content: space-evenly;
+    width: 100%;
+    padding: grid(6) 0 grid(10) 0;
+
+    .vic-x.vic-axis-g .tick,
+    .vic-y.vic-axis-g .tick,
+    .vic-x.vic-axis-g .domain,
+    .vic-y.vic-axis-g .domain {
+      opacity: 0.3;
+    }
+  }
+
+  .chart-title {
+    @include hsi-adk.label-xs;
+    padding-bottom: grid(4);
+  }
+}

@@ -33,12 +33,12 @@
         >
       </div>
     </div>
-    <ng-container
-      *ngIf="(tooltipEvent$ | async) === 'hover'; else clickTooltipChart"
-    >
-      <vic-xy-chart [margin]="margin" #tooltipOrigin>
-        <ng-container svg-elements>
-          <svg:g vic-xy-background></svg:g>
+    <vic-xy-chart [margin]="margin" #tooltipOrigin>
+      <ng-container svg-elements>
+        <svg:g vic-xy-background></svg:g>
+        <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
+        <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig"></svg:g>
+        @if ((tooltipEvent$ | async) === 'hover') {
           <svg:g
             vic-primary-marks-lines
             [config]="vm.dataConfig"
@@ -54,26 +54,7 @@
               [template]="htmlTooltip"
             ></vic-html-tooltip>
           </svg:g>
-          <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
-          <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig"></svg:g>
-        </ng-container>
-      </vic-xy-chart>
-    </ng-container>
-
-    <ng-template #clickTooltipChart>
-      <vic-xy-chart [margin]="margin" #tooltipOrigin>
-        <ng-container svg-elements>
-          <svg:g vic-xy-background></svg:g>
-          <svg:g
-            vic-x-quantitative-axis
-            [config]="vm.xAxisConfig"
-            side="bottom"
-          ></svg:g>
-          <svg:g
-            vic-y-quantitative-axis
-            [config]="vm.yAxisConfig"
-            side="left"
-          ></svg:g>
+        } @else {
           <svg:g
             vic-primary-marks-lines
             [config]="vm.dataConfig"
@@ -95,9 +76,9 @@
               (backdropClick)="onBackdropClick()"
             ></vic-html-tooltip>
           </svg:g>
-        </ng-container>
-      </vic-xy-chart>
-    </ng-template>
+        }
+      </ng-container>
+    </vic-xy-chart>
   </div>
 </div>
 <ng-template #loading>Loading...</ng-template>

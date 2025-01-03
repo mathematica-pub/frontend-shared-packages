@@ -15,35 +15,16 @@ import {
   VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
-
-interface Datum {
-  value: number;
-  location: string;
-  category: string;
-}
+import {
+  LocationCategoryDatum,
+  statesElectionData,
+} from '../../data/location-category-data';
 
 interface ViewModel {
-  dataConfig: DotsConfig<Datum>;
+  dataConfig: DotsConfig<LocationCategoryDatum>;
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<number>;
 }
-
-const data: Datum[] = [
-  { location: 'Nevada', category: 'D', value: 0.49 },
-  { location: 'Nevada', category: 'R', value: 0.46 },
-  { location: 'North Carolina', category: 'D', value: 0.48 },
-  { location: 'North Carolina', category: 'R', value: 0.46 },
-  { location: 'Wisconsin', category: 'D', value: 0.49 },
-  { location: 'Wisconsin', category: 'R', value: 0.47 },
-  { location: 'Georgia', category: 'D', value: 0.48 },
-  { location: 'Georgia', category: 'R', value: 0.47 },
-  { location: 'Pennsylvania', category: 'D', value: 0.48 },
-  { location: 'Pennsylvania', category: 'R', value: 0.48 },
-  { location: 'Michigan', category: 'D', value: 0.47 },
-  { location: 'Michigan', category: 'R', value: 0.47 },
-  { location: 'Arizona', category: 'D', value: 0.45 },
-  { location: 'Arizona', category: 'R', value: 0.49 },
-];
 
 @Component({
   selector: 'app-dots-ordinal-quant-example',
@@ -71,12 +52,12 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
   margin: ElementSpacing = {
     top: 0,
     right: 0,
-    bottom: 24,
+    bottom: 40,
     left: 80,
   };
 
   constructor(
-    private dots: VicDotsConfigBuilder<Datum>,
+    private dots: VicDotsConfigBuilder<LocationCategoryDatum>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<number>
   ) {}
@@ -98,7 +79,7 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
       .getConfig();
 
     const dataConfig = this.dots
-      .data(data)
+      .data(statesElectionData)
       .opacity(0.8)
       .xNumeric((x) =>
         x

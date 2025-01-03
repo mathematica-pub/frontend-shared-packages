@@ -68,13 +68,8 @@ const barsChartWidth = 600;
         <svg:g
           vic-x-quantitative-axis
           [config]="xQuantitativeAxisConfig"
-          side="top"
         ></svg:g>
-        <svg:g
-          vic-y-ordinal-axis
-          [config]="yOrdinalAxisConfig"
-          side="left"
-        ></svg:g>
+        <svg:g vic-y-ordinal-axis [config]="yOrdinalAxisConfig"></svg:g>
         <svg:g
           vic-primary-marks-bars
           [config]="barsConfig"
@@ -151,15 +146,10 @@ const mountHorizontalBarsComponent = (
       [scaleChartWithContainerWidth]="{ width: true, height: false }"
     >
       <ng-container svg-elements>
-        <svg:g
-          vic-x-ordinal-axis
-          [config]="xOrdinalAxisConfig"
-          side="bottom"
-        ></svg:g>
+        <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
         <svg:g
           vic-y-quantitative-axis
           [config]="yQuantitativeAxisConfig"
-          side="left"
         ></svg:g>
         <svg:g
           vic-primary-marks-bars
@@ -248,12 +238,10 @@ const linesNumericData = ContinentPopulationNumYearData;
         <svg:g
           vic-x-quantitative-axis
           [config]="xQuantitativeAxisConfig"
-          side="bottom"
         ></svg:g>
         <svg:g
           vic-y-quantitative-axis
           [config]="yQuantitativeAxisConfig"
-          side="left"
         ></svg:g>
         <svg:g
           vic-primary-marks-lines
