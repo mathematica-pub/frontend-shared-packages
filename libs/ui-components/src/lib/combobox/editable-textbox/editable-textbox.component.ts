@@ -37,7 +37,7 @@ export class EditableTextboxComponent
   @Input() autoComplete: AutoComplete = AutoComplete.list;
   @Input() autoSelect = false;
   @Input() autoSelectTrigger: 'any' | 'character' = 'character';
-  @Input() formControl: FormControl<string>;
+  @Input() ngFormControl: FormControl<string>;
   @Input() inputType: 'text' | 'search' = 'text';
   @Input() placeholder = '';
   @Output() valueChanges = new EventEmitter<string>();
@@ -50,14 +50,14 @@ export class EditableTextboxComponent
     this.service.shouldAutoSelectOnListboxClose =
       this.autoSelect && this.autoSelectTrigger === 'any';
     this.service.nullActiveIdOnClose = true;
-    if (this.formControl) {
+    if (this.ngFormControl) {
       this.setValueChangeHandlingForFormControl();
     }
   }
 
   setInputValue(value: string): void {
-    if (this.formControl) {
-      this.formControl.setValue(value);
+    if (this.ngFormControl) {
+      this.ngFormControl.setValue(value);
     } else {
       this.inputElRef.nativeElement.value = value;
     }
@@ -67,7 +67,7 @@ export class EditableTextboxComponent
   }
 
   onInputChange(value: string): void {
-    if (!this.formControl) {
+    if (!this.ngFormControl) {
       if (value === '') {
         this.setAutoSelectWhenInputIsEmpty();
       } else {
@@ -78,7 +78,7 @@ export class EditableTextboxComponent
   }
 
   setValueChangeHandlingForFormControl(): void {
-    this.formControl.valueChanges
+    this.ngFormControl.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
         if (this.autoSelect) {

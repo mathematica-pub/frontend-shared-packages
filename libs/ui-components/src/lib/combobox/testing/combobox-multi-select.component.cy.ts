@@ -368,7 +368,7 @@ describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
           expand_more
         </span>
       </hsi-ui-textbox>
-      <hsi-ui-listbox [formControl]="control" [isMultiSelect]="true">
+      <hsi-ui-listbox [ngFormControl]="control" [isMultiSelect]="true">
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
