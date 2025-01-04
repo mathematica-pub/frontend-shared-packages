@@ -70,7 +70,7 @@ export class ListboxComponent
   implements OnInit, AfterContentInit, AfterViewInit
 {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  @Input() formControl: FormControl<any | any[]>;
+  @Input() ngFormControl: FormControl<any | any[]>;
   @Input() findsOptionOnTyping = true;
   @Input() isMultiSelect = false;
   @Input() maxHeight = 300;
@@ -178,8 +178,8 @@ export class ListboxComponent
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   emitValue(selections: any[]): void {
     const value = this.isMultiSelect ? selections : selections[0];
-    if (this.formControl) {
-      this.formControl.setValue(value);
+    if (this.ngFormControl) {
+      this.ngFormControl.setValue(value);
     } else {
       this.valueChanges.emit(value);
     }
