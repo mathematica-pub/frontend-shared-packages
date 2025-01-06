@@ -20,7 +20,7 @@ import {
   VisualFocus,
 } from '../combobox.service';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
-import { CountSelectedLabel } from '../listbox/listbox.component';
+import { SelectedCountLabel } from '../listbox/listbox.component';
 
 @Component({
   selector: 'hsi-ui-textbox',
@@ -32,7 +32,7 @@ import { CountSelectedLabel } from '../listbox/listbox.component';
 })
 export class TextboxComponent implements OnInit, AfterViewInit {
   @Input() ariaLabel?: string;
-  @Input() showSelectedCount?: CountSelectedLabel;
+  @Input() selectedCountLabel?: SelectedCountLabel;
   @Input() customLabel: (selectedOptions: ListboxOptionComponent[]) => string;
   /*
    * Whether the textbox label responds to selections in any way.
@@ -55,7 +55,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.service.dynamicLabel = this.dynamicLabel;
-    this.service.countSelectedLabel = this.showSelectedCount;
+    this.service.countSelectedLabel = this.selectedCountLabel;
     this.service.customTextboxLabel = this.customLabel;
   }
 

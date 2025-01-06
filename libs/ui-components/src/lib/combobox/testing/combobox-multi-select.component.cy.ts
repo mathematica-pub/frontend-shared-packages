@@ -110,7 +110,7 @@ describe('Default multi-select combobox', () => {
         <span>Fruits</span>
       </hsi-ui-combobox-label>
       <hsi-ui-textbox
-        [showSelectedCount]="{ singular: 'fruit', plural: 'fruits' }"
+        [selectedCountLabel]="{ singular: 'fruit', plural: 'fruits' }"
       >
         <p boxLabel>Select a fruit, A-E</p>
         <span class="material-symbols-outlined expand-more" boxIcon>

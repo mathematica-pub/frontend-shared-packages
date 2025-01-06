@@ -205,7 +205,7 @@ static label example
 
 #### Displaying the number of selected options
 
-After a first interaction, if the `showSelectedCount` input on the `hsi-ui-textbox` is defined and
+After a first interaction, if the `sselectedCountLabel` input on the `hsi-ui-textbox` is defined and
 `dynamicLabel` is not `false`, the textbox will display the number of selected options rather than
 the names of the selected options. The value of this input should be of type
 `{singular: string, plural: string}`, where the strings are the singular and plural forms of the
@@ -217,7 +217,7 @@ count selected example
 ```
 
 ```html
-<hsi-ui-textbox [showSelectedCount]="{singular: 'state', plural: 'states'}">
+<hsi-ui-textbox [selectedCountLabel]="{singular: 'state', plural: 'states'}">
   <p boxLabel>Select states</p>
   <span class="material-symbols-outlined expand-more" boxIcon> expand_more </span>
 </hsi-ui-textbox>
@@ -227,9 +227,9 @@ count selected example
 
 For a completely custom label to appear after first interaction, users can set the `customLabel`
 input to a function with the type signature
-`(selectedOptions: ListboxOptionComponent[], showSelectedCount?: CountSelectedLabel) => string` that
-should return the string to be displayed in the textbox, provided that the `dynamicLabel` property
-is not `false`. The function will be called whenever the selected options change.
+`(selectedOptions: ListboxOptionComponent[], selectedCountLabel?: CountSelectedLabel) => string`
+that should return the string to be displayed in the textbox, provided that the `dynamicLabel`
+property is not `false`. The function will be called whenever the selected options change.
 
 ```custom-angular
 custom label example
@@ -285,11 +285,16 @@ grouped example
 
 ### Filtering Options
 
-To search or filter options, users can use an `hsi-ui-editable-textbox` in place of the
-`hsi-ui-textbox`.
+To search or filter options based on characters typed into the textbox, users can use an
+`hsi-ui-editable-textbox` in place of the `hsi-ui-textbox`.
 
-These textboxes will emit the value of the input field through the `valueChanges` event. Users can
-then filter the options in the listbox based on this value.
+This textbox will emit the value of the input field through the `valueChanges` event. Users can then
+filter the options in the listbox based on this value.
+
+The `hsi-ui-editable-textbox` will not recognize a provided `boxLabel`. If a label is desired in the
+textbox before user text is provided, this label should be passed to the `placeholder` property.
+
+**Note:**
 
 ```custom-angular
 filterable example
@@ -303,7 +308,9 @@ filterable example
   ></hsi-ui-editable-textbox>
   <hsi-ui-listbox>
     @for (option of options$ | async; track option) {
-    <hsi-ui-listbox-option>{{ option }}</hsi-ui-listbox-option>
+    <hsi-ui-listbox-option [selected]="option.displayName === listboxValue"
+      >{{ option }}</hsi-ui-listbox-option
+    >
     }
   </hsi-ui-listbox>
 </hsi-ui-combobox>

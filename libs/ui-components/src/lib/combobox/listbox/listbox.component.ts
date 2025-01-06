@@ -8,9 +8,10 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnInit,
+  OnChanges,
   Output,
   QueryList,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -25,10 +26,10 @@ import {
   mergeAll,
   Observable,
   pairwise,
-  shareReplay,
   skip,
   startWith,
   switchMap,
+  take,
   withLatestFrom,
 } from 'rxjs';
 import {
@@ -47,7 +48,7 @@ import { ListboxScrollService } from '../listbox-scroll/listbox-scroll.service';
 import { SelectAllListboxOptionComponent } from '../select-all-listbox-option/select-all-listbox-option.component';
 import { ActiveIndexService } from './active-index.service';
 
-export type CountSelectedLabel = {
+export type SelectedCountLabel = {
   singular: string;
   plural: string;
 };
@@ -67,7 +68,7 @@ export type CountSelectedLabel = {
   },
 })
 export class ListboxComponent
-  implements OnInit, AfterContentInit, AfterViewInit
+  implements OnChanges, AfterContentInit, AfterViewInit
 {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() ngFormControl: FormControl<any | any[]>;
@@ -89,6 +90,7 @@ export class ListboxComponent
   selectedOptionsToEmit: BehaviorSubject<ListboxOptionComponent[]> =
     new BehaviorSubject([]);
   selectedOptionsToEmit$ = this.selectedOptionsToEmit.asObservable();
+  allOptions: ListboxOptionComponent[];
 
   constructor(
     public service: ComboboxService,
@@ -98,18 +100,20 @@ export class ListboxComponent
     protected destroyRef: DestroyRef
   ) {}
 
-  ngOnInit(): void {
-    this.service.isMultiSelect = this.isMultiSelect;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['isMultiSelect']) {
+      this.service.isMultiSelect = this.isMultiSelect;
+    }
   }
 
   ngAfterContentInit(): void {
     this.setProjectedContent();
+    this.setAfterOptionsAreInTemplateActions();
     this.activeIndex.init(this.allOptions$, this.destroyRef);
     this.setSelectedEmitting();
     this.setOnBlurEvent();
     this.setOptionAction();
     setTimeout(() => {
-      this.setBoxLabel();
       this.updateActiveIndexOnExternalChanges();
     }, 0);
   }
@@ -120,33 +124,56 @@ export class ListboxComponent
   }
 
   setProjectedContent(): void {
-    this.groups$ = this.groups.changes.pipe(
-      startWith(''),
-      map(() => this.groups.toArray()),
-      delay(0)
-    );
-
-    // will not track changes to properties, just if the list of options changes
-    const options$ = this.options.changes.pipe(
-      startWith(''),
-      map(() => this.options.toArray()),
-      delay(0)
-    );
-
-    this.allOptions$ =
-      this.groups.length > 0
-        ? this.groups$.pipe(
-            map((groups) => groups.flatMap((group) => group.options.toArray()))
-          )
-        : options$;
+    this.setGroups();
+    this.setAllOptions();
 
     this.optionPropertyChanges$ = this.allOptions$.pipe(
       switchMap((options) =>
         merge(options.map((o) => o.externalPropertyChanges$))
       ),
-      mergeAll(),
-      shareReplay(1)
+      mergeAll()
     );
+  }
+
+  setGroups(): void {
+    this.groups$ = this.groups.changes.pipe(
+      startWith(''),
+      map(() => this.groups.toArray()),
+      delay(0)
+    );
+  }
+
+  setAllOptions(): void {
+    // will not track changes to properties, just if the list of options changes
+    if (this.groups.length > 0) {
+      this.allOptions$ = this.groups$.pipe(
+        switchMap((groups) =>
+          combineLatest(groups.map((group) => group.options$))
+        ),
+        map((optionArrays) => optionArrays.flat())
+      );
+    } else {
+      this.allOptions$ = this.options.changes.pipe(
+        startWith(''),
+        map(() => this.options.toArray()),
+        delay(0)
+      );
+    }
+  }
+
+  setAfterOptionsAreInTemplateActions(): void {
+    // delay(0) is necessary to ensure that the options are in the template before setting the box label
+    // if the options are not in template, the ng-template for each option will not be rendered and option.label will be undefined
+    this.allOptions$.pipe(take(1), delay(0)).subscribe(() => {
+      this.setBoxLabel();
+    });
+
+    // cannot pass allOptions$ to handleOptionClick through template because @if (allOptions | async; as allOptions) will delay rendering of option.template and option.label will not be defined when setBoxLabel is called. Thus subscribe and set allOptions in here.
+    this.allOptions$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((options) => {
+        this.allOptions = options;
+      });
   }
 
   setSelectedEmitting(): void {
@@ -159,13 +186,6 @@ export class ListboxComponent
           for (const option of options) {
             const value = option.valueToEmit;
             selections.push(value);
-          }
-          // Add any previous selections that the user may have made that may not be in options anymore due to filtering
-          // For example, the user selects MA, ME, MI, then applies a filter to see only New England states (MI is removed) -- then removes the filter -- this ensures that MI is still selected
-          for (const value of this.service.selectedOptionValues) {
-            if (!selections.includes(value)) {
-              selections.push(value);
-            }
           }
           return selections;
         })
@@ -329,12 +349,12 @@ export class ListboxComponent
 
   handleOptionClick(
     event: MouseEvent,
-    options: ListboxOptionComponent[],
+    // options: ListboxOptionComponent[],
     optionIndex: number,
     groupIndex?: number
   ): void {
     event.stopPropagation();
-    this.handleOptionSelect(optionIndex, options, groupIndex);
+    this.handleOptionSelect(optionIndex, this.allOptions, groupIndex);
     if (!this.isMultiSelect) {
       this.service.closeListbox();
     }

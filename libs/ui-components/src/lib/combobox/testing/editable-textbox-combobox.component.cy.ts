@@ -272,13 +272,15 @@ describe('Basic editable textbox features', () => {
     <p class="outside-element"
       >Outside element to click on for outside combobox click</p
     >
+    <p class="textbox-value">{{ inputControl.valueChanges | async }}</p>
+    <p class="combobox-value">{{ value$ | async }}</p>
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
       <hsi-ui-editable-textbox
         placeholder="Select a fruit, A-E"
-        [formControl]="inputControl"
+        [ngFormControl]="inputControl"
         [autoSelectTrigger]="autoSelectTrigger"
         [autoSelect]="autoSelect"
       >
@@ -297,8 +299,6 @@ describe('Basic editable textbox features', () => {
         }
       </hsi-ui-listbox>
     </hsi-ui-combobox>
-    <p class="textbox-value">{{ inputControl.value }}</p>
-    <p class="combobox-value">{{ value$ | async }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
@@ -315,14 +315,13 @@ class FormControlEditableTextboxTestComponent
   inputControl = new FormControl('');
 
   ngOnInit(): void {
-    this.options$ = combineLatest([
-      of(this.options),
-      this.inputControl.valueChanges.pipe(startWith('')),
-    ]).pipe(
-      map(([options, text]) => {
-        return options.filter((option) =>
-          option.displayName.toLowerCase().includes(text.toLowerCase())
-        );
+    this.options$ = this.inputControl.valueChanges.pipe(startWith('')).pipe(
+      map(([text]) => {
+        return !text
+          ? this.options
+          : this.options.filter((option) =>
+              option.displayName.toLowerCase().includes(text.toLowerCase())
+            );
       })
     );
   }
@@ -351,16 +350,31 @@ describe('Basic ngForm editable textbox features', () => {
     cy.get('.hsi-ui-editable-textbox-input').should('have.value', 'bananas');
     cy.get('.textbox-value').should('have.text', 'bananas');
   });
-  it('displays the filtered options in the listbox', () => {
+  it('displays the filtered options in the listbox - test case coco', () => {
     cy.get('.hsi-ui-editable-textbox-input').type('coco');
     cy.get('.hsi-ui-listbox')
       .find('.hsi-ui-listbox-option')
       .should('have.length', 1);
   });
-  it('displays the filtered options in the listbox', () => {
+  it('displays the filtered options in the listbox - test case a', () => {
     cy.get('.hsi-ui-editable-textbox-input').type('a');
     cy.get('.hsi-ui-listbox')
       .find('.hsi-ui-listbox-option')
       .should('have.length', 3); //Apples, Bananas, Durians
+  });
+  it.only('retains user selections if the listbox options are filtered and then unfiltered', () => {
+    cy.get('.hsi-ui-editable-textbox-input').click();
+    cy.get('.hsi-ui-listbox-option').eq(3).realClick();
+    cy.get('.combobox-value').should('have.text', 'Durians');
+    cy.get('.hsi-ui-editable-textbox-input').type('e');
+    cy.get('.hsi-ui-listbox')
+      .find('.hsi-ui-listbox-option')
+      .should('have.length', 2);
+    cy.get('.combobox-value').should('have.text', 'Durians');
+    cy.get('.hsi-ui-editable-textbox-input').type('{backspace}');
+    cy.get('.hsi-ui-listbox')
+      .find('.hsi-ui-listbox-option')
+      .should('have.length', 5);
+    cy.get('.hsi-ui-listbox-option').eq(3).should('have.class', 'selected');
   });
 });

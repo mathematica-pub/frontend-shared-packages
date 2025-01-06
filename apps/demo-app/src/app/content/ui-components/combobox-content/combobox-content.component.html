@@ -1,6 +1,11 @@
 <app-content-container class="combobox-content-container">
   <ng-template let-section #customAngular>
     @switch (section.content) {
+      @case ('stephanie should just work on libs') {
+        <app-stephanie-special
+          class="stephanie-special-example"
+        ></app-stephanie-special>
+      }
       @case ('minimal implementation') {
         <app-minimal-implementation-combobox
           class="minimal-implementation-example"

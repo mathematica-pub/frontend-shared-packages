@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { HsiUiComboboxModule } from '@hsi/ui-components';
 import { BehaviorSubject } from 'rxjs';
 
@@ -20,15 +20,27 @@ export class FilterableOptionsComboboxComponent {
     { displayName: 'Rhode Island', id: 'RI' },
     { displayName: 'Vermont', id: 'VT' },
   ];
-  options: BehaviorSubject<{ displayName: string; id: string }[]> =
-    new BehaviorSubject(this._options);
+  options = new BehaviorSubject<{ displayName: string; id: string }[]>(
+    this._options
+  );
   options$ = this.options.asObservable();
+  value = signal('');
 
   onTyping(value: string): void {
-    this.options.next(
-      this._options.filter((option) =>
-        option.displayName.toLowerCase().includes(value.toLowerCase())
-      )
+    console.log(value);
+    const filteredOptions = this._options.filter((option) =>
+      option.displayName.toLowerCase().includes(value.toLowerCase())
     );
+    console.log(filteredOptions);
+    setTimeout(() => {
+      this.options.next(
+        filteredOptions.length ? filteredOptions : this._options
+      );
+    }, 0);
+  }
+
+  listboxValueChanges(value: string): void {
+    console.log('value', value);
+    this.value.set(value);
   }
 }

@@ -37,9 +37,10 @@ export class EditableTextboxComponent
   @Input() autoComplete: AutoComplete = AutoComplete.list;
   @Input() autoSelect = false;
   @Input() autoSelectTrigger: 'any' | 'character' = 'character';
-  @Input() ngFormControl: FormControl<string>;
   @Input() inputType: 'text' | 'search' = 'text';
+  @Input() ngFormControl: FormControl<string>;
   @Input() placeholder = '';
+  @Input() retainSelectionsOnOptionFiltering = true;
   @Output() valueChanges = new EventEmitter<string>();
   moveFocusToTextboxKeys = ['RightArrow', 'LeftArrow', 'Home', 'End'];
   value = '';
@@ -47,6 +48,8 @@ export class EditableTextboxComponent
 
   override ngOnInit(): void {
     super.ngOnInit();
+    this.service.retainSelectionsOnOptionFiltering =
+      this.retainSelectionsOnOptionFiltering;
     this.service.shouldAutoSelectOnListboxClose =
       this.autoSelect && this.autoSelectTrigger === 'any';
     this.service.nullActiveIdOnClose = true;
@@ -168,7 +171,7 @@ export class EditableTextboxComponent
       return TextboxAction.cursorFirst;
     } else if (key === Key.End) {
       return TextboxAction.cursorLast;
-    } else if (this.isPrintableCharacter(key)) {
+    } else if (this.isPrintableCharacter(key) || key === 'Backspace') {
       return TextboxAction.addChar;
     } else if (key === Key.Tab) {
       return ListboxAction.closeSelect;

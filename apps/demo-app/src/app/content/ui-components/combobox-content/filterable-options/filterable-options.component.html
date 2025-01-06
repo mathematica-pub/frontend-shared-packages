@@ -3,9 +3,11 @@
     placeholder="Select a state"
     (valueChanges)="onTyping($event)"
   ></hsi-ui-editable-textbox>
-  <hsi-ui-listbox>
+  <hsi-ui-listbox (valueChanges)="listboxValueChanges($event)">
     @for (option of options$ | async; track option.id) {
-      <hsi-ui-listbox-option>{{ option.displayName }}</hsi-ui-listbox-option>
+      <hsi-ui-listbox-option [selected]="value() === option.displayName">{{
+        option.displayName
+      }}</hsi-ui-listbox-option>
     }
   </hsi-ui-listbox>
 </hsi-ui-combobox>

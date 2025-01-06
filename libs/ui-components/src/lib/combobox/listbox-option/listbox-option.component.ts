@@ -26,7 +26,7 @@ let nextUniqueId = 0;
 })
 export class ListboxOptionComponent implements OnChanges {
   @ViewChild('label') label: ElementRef<HTMLDivElement>;
-  @ViewChild('option') optionContent: TemplateRef<unknown>;
+  @ViewChild('option') template: TemplateRef<unknown>;
   @Input() boxDisplayLabel: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() value: any;
@@ -61,21 +61,32 @@ export class ListboxOptionComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes['disabled'] &&
-      !(changes['disabled'].isFirstChange() && !this.disabled)
-    ) {
+    if (changes['disabled']) {
       this.updateDisabled(this.disabled);
-      this.externalPropertyChanges.next(this.getPropertyChange('disabled'));
+
+      if (!this.isFirstChangeAndValueIsFalse(changes, 'disabled')) {
+        this.externalPropertyChanges.next(this.getPropertyChange('disabled'));
+      }
     }
-    if (
-      !this.disabled &&
-      changes['selected'] &&
-      !(changes['selected'].isFirstChange() && !this.selected)
-    ) {
-      this.updateSelected(this.selected);
-      this.externalPropertyChanges.next(this.getPropertyChange('selected'));
+
+    if (changes['selected']) {
+      if (changes['selected'].isFirstChange()) {
+        this.updateSelected(this.selected);
+        if (this.selected) {
+          this.externalPropertyChanges.next(this.getPropertyChange('selected'));
+        }
+      } else if (!this.disabled) {
+        this.updateSelected(this.selected);
+        this.externalPropertyChanges.next(this.getPropertyChange('selected'));
+      }
     }
+  }
+
+  isFirstChangeAndValueIsFalse(
+    change: SimpleChanges,
+    property: 'selected' | 'disabled'
+  ): boolean {
+    return change[property].isFirstChange() && !this[property];
   }
 
   getPropertyChange(
@@ -91,11 +102,6 @@ export class ListboxOptionComponent implements OnChanges {
 
   protected updateSelected(selected: boolean): void {
     this._selected.next(selected);
-    if (selected) {
-      this.service.addSelection(this.valueToEmit);
-    } else {
-      this.service.removeSelection(this.valueToEmit);
-    }
   }
 
   private updateDisabled(disabled: boolean): void {

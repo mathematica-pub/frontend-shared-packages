@@ -9,7 +9,7 @@ import {
 } from 'rxjs';
 import { ComboboxLabelComponent } from './combobox-label/combobox-label.component';
 import { ListboxOptionComponent } from './listbox-option/listbox-option.component';
-import { CountSelectedLabel } from './listbox/listbox.component';
+import { SelectedCountLabel } from './listbox/listbox.component';
 
 let nextUniqueId = 0;
 
@@ -85,15 +85,16 @@ export class ComboboxService {
   scrollContainerId = `${this.id}-scroll-container`;
   comboboxLabelId = `${this.id}-label`;
   autoComplete: AutoComplete = AutoComplete.none;
-  countSelectedLabel?: CountSelectedLabel;
+  countSelectedLabel?: SelectedCountLabel;
   customTextboxLabel?: (
     options: ListboxOptionComponent[],
-    countSelectedLabel?: CountSelectedLabel
+    countSelectedLabel?: SelectedCountLabel
   ) => string;
   dynamicLabel = false;
   ignoreBlur = false;
   isMultiSelect = false;
   nullActiveIdOnClose = false;
+  retainSelectionsOnOptionFiltering = false;
   scrollWhenOpened = false;
   shouldAutoSelectOnListboxClose = false;
   activeDescendant$: Observable<string>;
@@ -114,8 +115,6 @@ export class ComboboxService {
   private touched: BehaviorSubject<boolean> = new BehaviorSubject(false);
   touched$ = this.touched.asObservable();
   visualFocus$ = this._visualFocus.asObservable();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private _selectedOptionValues: any[] = [];
 
   constructor(private platform: Platform) {}
 
@@ -125,10 +124,6 @@ export class ComboboxService {
 
   get visualFocus(): VisualFocus {
     return this._visualFocus.value;
-  }
-
-  get selectedOptionValues(): (string | number | boolean)[] {
-    return this._selectedOptionValues;
   }
 
   initActiveDescendant(source$?: Observable<string>): void {
@@ -177,20 +172,5 @@ export class ComboboxService {
 
   isMobile(): boolean {
     return this.platform.ANDROID || this.platform.IOS;
-  }
-
-  // selectedOptionValues are used to retain selection state regardless of options/option filtering
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  addSelection(value: any): void {
-    if (!this._selectedOptionValues.includes(value)) {
-      this._selectedOptionValues = [...this._selectedOptionValues, value];
-    }
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  removeSelection(value: any): void {
-    this._selectedOptionValues = this._selectedOptionValues.filter(
-      (v) => v !== value
-    );
   }
 }
