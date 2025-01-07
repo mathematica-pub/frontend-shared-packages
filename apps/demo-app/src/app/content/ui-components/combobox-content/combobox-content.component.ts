@@ -5,7 +5,6 @@ import { ContentContainerComponent } from '../../content-container/content-conta
 import { ExternalSelectionsComponent } from './external-selections/external-selections.component';
 import { FilterableOptionsComboboxComponent } from './filterable-options/filterable-options.component';
 import { MinimalImplementationComboboxComponent } from './minimal-implementation/minimal-implementation.component';
-import { StephanieSpecialComponent } from './stephanie-special/stephanie-special.component';
 
 @Component({
   selector: 'app-combobox-content',
@@ -16,7 +15,6 @@ import { StephanieSpecialComponent } from './stephanie-special/stephanie-special
     ExternalSelectionsComponent,
     FilterableOptionsComboboxComponent,
     MinimalImplementationComboboxComponent,
-    StephanieSpecialComponent,
   ],
   templateUrl: './combobox-content.component.html',
   styleUrls: ['../../examples.scss', './combobox-content.component.scss'],
