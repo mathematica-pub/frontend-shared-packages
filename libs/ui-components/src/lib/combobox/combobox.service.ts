@@ -94,7 +94,6 @@ export class ComboboxService {
   ignoreBlur = false;
   isMultiSelect = false;
   nullActiveIdOnClose = false;
-  retainSelectionsOnOptionFiltering = false;
   scrollWhenOpened = false;
   shouldAutoSelectOnListboxClose = false;
   activeDescendant$: Observable<string>;

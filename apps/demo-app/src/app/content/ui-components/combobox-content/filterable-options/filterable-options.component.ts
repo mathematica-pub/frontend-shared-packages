@@ -24,14 +24,13 @@ export class FilterableOptionsComboboxComponent {
     this._options
   );
   options$ = this.options.asObservable();
-  value = signal('');
+  value = signal<string[]>(['']);
 
   onTyping(value: string): void {
-    console.log(value);
+    console.log('onTyping', value);
     const filteredOptions = this._options.filter((option) =>
-      option.displayName.toLowerCase().includes(value.toLowerCase())
+      option.displayName.toLowerCase().includes(value?.toLowerCase())
     );
-    console.log(filteredOptions);
     setTimeout(() => {
       this.options.next(
         filteredOptions.length ? filteredOptions : this._options
@@ -39,8 +38,7 @@ export class FilterableOptionsComboboxComponent {
     }, 0);
   }
 
-  listboxValueChanges(value: string): void {
-    console.log('value', value);
+  listboxValueChanges(value: string[]): void {
     this.value.set(value);
   }
 }

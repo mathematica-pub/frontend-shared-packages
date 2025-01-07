@@ -21,7 +21,7 @@
       "
       [attr.aria-activedescendant]="service.activeDescendant$ | async"
       [attr.aria-expanded]="service.isOpen$ | async"
-      [attr.aria-autocomplete]="autoComplete"
+      [attr.aria-autocomplete]="service.autoComplete"
       [attr.aria-controls]="service.id + '-listbox'"
       aria-haspopup="listbox"
       data-cy="editable-textbox-input"
@@ -46,12 +46,12 @@
       "
       [attr.aria-activedescendant]="service.activeDescendant$ | async"
       [attr.aria-expanded]="service.isOpen$ | async"
-      [attr.aria-autocomplete]="autoComplete"
+      [attr.aria-autocomplete]="service.autoComplete"
       [attr.aria-controls]="service.id + '-listbox'"
       aria-haspopup="listbox"
       data-cy="editable-textbox-input"
       [placeholder]="placeholder"
-      [ngModel]="value"
+      [ngModel]="value$ | async"
       (ngModelChange)="onInputChange($event)"
     />
   }

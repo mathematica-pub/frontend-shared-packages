@@ -24,6 +24,10 @@ A combobox is minimally composed of the following components:
 
 The following is a minimal implementation:
 
+<!-- ```custom-angular
+stephanie should just work on libs
+``` -->
+
 ```custom-angular
 minimal implementation
 ```
@@ -285,18 +289,11 @@ grouped example
 
 ### Filtering Options
 
-To search or filter options based on characters typed into the textbox, users can use an
-`hsi-ui-editable-textbox` in place of the `hsi-ui-textbox`.
+To search or filter options, users can use an `hsi-ui-editable-textbox` in place of the
+`hsi-ui-textbox`.
 
-This textbox will emit the value of the input field through the `valueChanges` event. Users can then
-filter the options in the listbox based on this value.
-
-The `hsi-ui-editable-textbox` will not recognize a provided `boxLabel`. If a label is desired in the
-textbox before user text is provided, this label should be passed to the `placeholder` property.
-
-**Note:** When filtering options via text from the textbox, you must provide an expression for the
-`selected` input property on each `hsi-ui-listbox-option` to retain selections as the options are
-filtered.
+These textboxes will emit the value of the input field through the `valueChanges` event. Users can
+then filter the options in the listbox based on this value.
 
 ```custom-angular
 filterable example
@@ -308,11 +305,9 @@ filterable example
     placeholder="Select a state"
     (valueChanges)="onTyping($event)"
   ></hsi-ui-editable-textbox>
-  <hsi-ui-listbox (valueChanges)="onSelection($event)">
+  <hsi-ui-listbox>
     @for (option of options$ | async; track option) {
-    <hsi-ui-listbox-option [selected]="option.displayName === (comboboxValue$ | async)" // example implementation
-      >{{ option }}</hsi-ui-listbox-option
-    >
+    <hsi-ui-listbox-option>{{ option }}</hsi-ui-listbox-option>
     }
   </hsi-ui-listbox>
 </hsi-ui-combobox>
@@ -330,9 +325,6 @@ _options: string[] = [
 options: BehaviorSubject<{ displayName: string; id: string }[]> =
   new BehaviorSubject(this._options);
 options$ = this.options.asObservable();
-// example of storing value locally in the component; value may also be stored in higher level state
-comboboxValue: BehaviorSubject<string> = new BehaviorSubject('');
-comboboxValue$ = this.comboboxValue.asObservable();
 
 onTyping(value: string): void {
   const filteredOptions = this._options.filter((option) =>
@@ -340,10 +332,6 @@ onTyping(value: string): void {
       option.toLowerCase().includes(value.toLowerCase())
     )
   this.options.next(filteredOptions);
-}
-
-onSelection(selected: string): void {
-  this.comboboxValue.next(selected);
 }
 ```
 

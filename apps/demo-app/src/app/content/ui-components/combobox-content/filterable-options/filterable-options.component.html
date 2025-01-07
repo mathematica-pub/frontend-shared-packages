@@ -1,13 +1,19 @@
 <hsi-ui-combobox>
   <hsi-ui-editable-textbox
     placeholder="Select a state"
+    [autoSelect]="true"
+    [autoSelectTrigger]="'character'"
     (valueChanges)="onTyping($event)"
   ></hsi-ui-editable-textbox>
-  <hsi-ui-listbox (valueChanges)="listboxValueChanges($event)">
+  <hsi-ui-listbox
+    (valueChanges)="listboxValueChanges($event)"
+    [isMultiSelect]="false"
+  >
     @for (option of options$ | async; track option.id) {
-      <hsi-ui-listbox-option [selected]="value() === option.displayName">{{
-        option.displayName
-      }}</hsi-ui-listbox-option>
+      <hsi-ui-listbox-option
+        [selected]="value().includes(option.displayName)"
+        >{{ option.displayName }}</hsi-ui-listbox-option
+      >
     }
   </hsi-ui-listbox>
 </hsi-ui-combobox>

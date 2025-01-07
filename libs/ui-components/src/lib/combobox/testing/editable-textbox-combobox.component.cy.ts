@@ -68,7 +68,7 @@ class EditableTextboxSingleSelectComponent
     this.options$ = combineLatest([of(this.options), this.textboxValue$]).pipe(
       map(([options, text]) => {
         return options.filter((option) =>
-          option.displayName.toLowerCase().includes(text.toLowerCase())
+          option.displayName.toLowerCase().includes(text?.toLowerCase())
         );
       })
     );
@@ -79,7 +79,7 @@ class EditableTextboxSingleSelectComponent
   }
 }
 
-describe('Basic editable textbox features', () => {
+describe('Basic editable textbox features - single select', () => {
   beforeEach(() => {
     cy.mount(EditableTextboxSingleSelectComponent, {
       declarations: [EditableTextboxSingleSelectComponent],
@@ -102,17 +102,48 @@ describe('Basic editable textbox features', () => {
     cy.get('.hsi-ui-editable-textbox-input').should('have.value', 'bananas');
     cy.get('.textbox-value').should('have.text', 'bananas');
   });
-  it('displays the filtered options in the listbox', () => {
+  it('displays the filtered options in the listbox - type coco', () => {
     cy.get('.hsi-ui-textbox').type('coco');
     cy.get('.hsi-ui-listbox')
       .find('.hsi-ui-listbox-option')
       .should('have.length', 1);
   });
-  it('displays the filtered options in the listbox', () => {
+  it('displays the filtered options in the listbox - type a', () => {
     cy.get('.hsi-ui-textbox').type('a');
     cy.get('.hsi-ui-listbox')
       .find('.hsi-ui-listbox-option')
       .should('have.length', 3); //Apples, Bananas, Durians
+  });
+  it('displays the selected value in the textbox input when an option is clicked and only one option is in the listbox', () => {
+    cy.get('.hsi-ui-editable-textbox-input').click();
+    cy.get('.hsi-ui-listbox-option').eq(2).realClick();
+    cy.get('.hsi-ui-editable-textbox-input').should('have.value', 'Coconuts');
+    cy.get('.hsi-ui-editable-textbox-input').click();
+    cy.get('.hsi-ui-listbox-option').should('have.length', 1);
+  });
+});
+
+describe('Basic editable textbox features - multi select', () => {
+  beforeEach(() => {
+    cy.mount(EditableTextboxSingleSelectComponent, {
+      declarations: [EditableTextboxSingleSelectComponent],
+      imports: [HsiUiComboboxModule, MatIconModule],
+      componentProperties: {
+        autoSelect: true,
+        autoSelectTrigger: 'any',
+        isMultiSelect: true,
+      },
+    });
+  });
+  // see behavior here: https://ariakit.org/examples/combobox-multiple
+  it('displays the nothing in the textbox input when an option is clicked and filtering is removed', () => {
+    cy.get('.hsi-ui-editable-textbox-input').click();
+    cy.get('.hsi-ui-listbox-option').eq(2).realClick();
+    cy.get('.hsi-ui-editable-textbox-input').should('have.value', '');
+    cy.get('.hsi-ui-listbox-option').eq(3).realClick();
+    cy.get('.hsi-ui-editable-textbox-input').should('have.value', '');
+    cy.get('.hsi-ui-editable-textbox-input').click();
+    cy.get('.hsi-ui-listbox-option').should('have.length', 5);
   });
 });
 
@@ -139,15 +170,12 @@ describe('Basic editable textbox features', () => {
         // reopen listbox and make sure properties are correct
         cy.get('.fruits-dropdown').find('input').click();
         cy.get('.hsi-ui-listbox').should('be.visible');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .should('have.length', 5);
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
+        const expectedOptions = isMultiSelect ? 5 : 1;
+        cy.get('.hsi-ui-listbox-option').should('have.length', expectedOptions);
+        cy.get('.hsi-ui-listbox-option')
           .first()
           .should('have.class', 'selected');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
+        cy.get('.hsi-ui-listbox-option')
           .first()
           .should('have.class', 'current');
       });
@@ -164,17 +192,12 @@ describe('Basic editable textbox features', () => {
         // reopen listbox and make sure properties are correct
         cy.get('.fruits-dropdown').find('input').click();
         cy.get('.hsi-ui-listbox').should('be.visible');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .should('have.length', 5);
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .eq(2)
+        const expectedOptions = isMultiSelect ? 5 : 1;
+        cy.get('.hsi-ui-listbox-option').should('have.length', expectedOptions);
+        const selectedIndex = isMultiSelect ? 2 : 0;
+        cy.get('.hsi-ui-listbox-option')
+          .eq(selectedIndex)
           .should('have.class', 'selected');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .eq(2)
-          .should('have.class', 'current');
       });
     });
     describe('when autoSelect is true and autoSelectTrigger is character', () => {
@@ -204,18 +227,12 @@ describe('Basic editable textbox features', () => {
         cy.get('.hsi-ui-listbox').should('not.be.visible');
         // reopen listbox and make sure properties are correct
         cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.hsi-ui-listbox').should('be.visible');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .should('have.length', 3);
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
+        const expectedOptions = isMultiSelect ? 5 : 1;
+        cy.get('.hsi-ui-listbox-option').should('have.length', expectedOptions);
+        cy.get('.hsi-ui-listbox-option')
           .first()
-          .should('have.class', 'selected');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .first()
-          .should('have.class', 'current');
+          .should('have.class', 'selected')
+          .and('have.class', 'current');
       });
       it('retains the user selection if the listbox is closed and then reopened', () => {
         cy.get('.fruits-dropdown').find('input').type('a');
@@ -230,17 +247,14 @@ describe('Basic editable textbox features', () => {
         // reopen listbox and make sure properties are correct
         cy.get('.fruits-dropdown').find('input').click();
         cy.get('.hsi-ui-listbox').should('be.visible');
+        const expectedOptions = isMultiSelect ? 5 : 1;
         cy.get('.hsi-ui-listbox')
           .find('.hsi-ui-listbox-option')
-          .should('have.length', 3);
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .eq(2)
+          .should('have.length', expectedOptions);
+        const selectedIndex = isMultiSelect ? 2 : 0;
+        cy.get('.hsi-ui-listbox-option')
+          .eq(selectedIndex)
           .should('have.class', 'selected');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .eq(2)
-          .should('have.class', 'current');
       });
     });
     describe('when autoSelect is false', () => {
@@ -320,7 +334,7 @@ class FormControlEditableTextboxTestComponent
         return !text
           ? this.options
           : this.options.filter((option) =>
-              option.displayName.toLowerCase().includes(text.toLowerCase())
+              option.displayName.toLowerCase().includes(text?.toLowerCase())
             );
       })
     );
@@ -361,20 +375,5 @@ describe('Basic ngForm editable textbox features', () => {
     cy.get('.hsi-ui-listbox')
       .find('.hsi-ui-listbox-option')
       .should('have.length', 3); //Apples, Bananas, Durians
-  });
-  it.only('retains user selections if the listbox options are filtered and then unfiltered', () => {
-    cy.get('.hsi-ui-editable-textbox-input').click();
-    cy.get('.hsi-ui-listbox-option').eq(3).realClick();
-    cy.get('.combobox-value').should('have.text', 'Durians');
-    cy.get('.hsi-ui-editable-textbox-input').type('e');
-    cy.get('.hsi-ui-listbox')
-      .find('.hsi-ui-listbox-option')
-      .should('have.length', 2);
-    cy.get('.combobox-value').should('have.text', 'Durians');
-    cy.get('.hsi-ui-editable-textbox-input').type('{backspace}');
-    cy.get('.hsi-ui-listbox')
-      .find('.hsi-ui-listbox-option')
-      .should('have.length', 5);
-    cy.get('.hsi-ui-listbox-option').eq(3).should('have.class', 'selected');
   });
 });

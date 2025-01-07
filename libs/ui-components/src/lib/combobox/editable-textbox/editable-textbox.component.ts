@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
+import { BehaviorSubject, distinctUntilChanged, filter } from 'rxjs';
 import {
   AutoComplete,
   ComboboxAction,
@@ -34,27 +35,54 @@ export class EditableTextboxComponent
   implements OnInit, AfterViewInit
 {
   @ViewChild('box') inputElRef: ElementRef<HTMLInputElement>;
-  @Input() autoComplete: AutoComplete = AutoComplete.list;
+  @Input() displaySelected = true;
   @Input() autoSelect = false;
   @Input() autoSelectTrigger: 'any' | 'character' = 'character';
   @Input() inputType: 'text' | 'search' = 'text';
   @Input() ngFormControl: FormControl<string>;
   @Input() placeholder = '';
-  @Input() retainSelectionsOnOptionFiltering = true;
   @Output() valueChanges = new EventEmitter<string>();
   moveFocusToTextboxKeys = ['RightArrow', 'LeftArrow', 'Home', 'End'];
-  value = '';
+  value = new BehaviorSubject<string>('');
+  value$ = this.value.asObservable();
   override openKeys = ['ArrowDown', 'ArrowUp'];
 
   override ngOnInit(): void {
     super.ngOnInit();
-    this.service.retainSelectionsOnOptionFiltering =
-      this.retainSelectionsOnOptionFiltering;
+    this.service.autoComplete = this.displaySelected
+      ? AutoComplete.list
+      : AutoComplete.none;
     this.service.shouldAutoSelectOnListboxClose =
       this.autoSelect && this.autoSelectTrigger === 'any';
     this.service.nullActiveIdOnClose = true;
     if (this.ngFormControl) {
       this.setValueChangeHandlingForFormControl();
+    }
+    this.setUpdateInputValueOnOptionSelect();
+  }
+
+  setUpdateInputValueOnOptionSelect(): void {
+    this.service.boxLabel$
+      .pipe(
+        filter((label) => label !== null),
+        takeUntilDestroyed(this.destroyRef),
+        distinctUntilChanged()
+      )
+      .subscribe((label) => {
+        if (this.service.isMultiSelect) {
+          this.updateInputValue('');
+        } else if (this.displaySelected) {
+          this.updateInputValue(label);
+        }
+      });
+  }
+
+  updateInputValue(value: string): void {
+    if (this.ngFormControl) {
+      this.ngFormControl.setValue(value);
+    } else {
+      this.value.next(value);
+      this.valueChanges.emit(value);
     }
   }
 

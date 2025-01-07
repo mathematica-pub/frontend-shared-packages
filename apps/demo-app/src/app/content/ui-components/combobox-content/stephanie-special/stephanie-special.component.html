@@ -1,0 +1,32 @@
+<hsi-ui-combobox>
+  <hsi-ui-textbox>
+    <span class="material-symbols-outlined expand-more" boxIcon>
+      expand_more
+    </span>
+  </hsi-ui-textbox>
+  <hsi-ui-listbox [isMultiSelect]="true" [ngFormControl]="control">
+    <hsi-ui-listbox-group>
+      <hsi-ui-listbox-label>New England states</hsi-ui-listbox-label>
+      <hsi-ui-select-all-listbox-option
+        >Select all</hsi-ui-select-all-listbox-option
+      >
+      @for (option of options; track option.id) {
+        <hsi-ui-listbox-option [selected]="option.id === 'VT'"
+          >{{ option.displayName }}
+        </hsi-ui-listbox-option>
+      }
+    </hsi-ui-listbox-group>
+    <hsi-ui-listbox-group>
+      <hsi-ui-listbox-label>Mid-Atlantic states</hsi-ui-listbox-label>
+      <hsi-ui-select-all-listbox-option
+        >Select all</hsi-ui-select-all-listbox-option
+      >
+      @for (option of midAtlanticOptions; track option.id) {
+        <hsi-ui-listbox-option [selected]="option.id === 'MD'"
+          >{{ option.displayName }}
+        </hsi-ui-listbox-option>
+      }
+    </hsi-ui-listbox-group>
+  </hsi-ui-listbox>
+</hsi-ui-combobox>
+<div>{{ control.valueChanges | async }}</div>

@@ -307,7 +307,7 @@ describe('ComboboxGroupedSingleTestComponent', () => {
 @Component({
   selector: 'hsi-ui-ng-form-listbox-single-test',
   template: `
-    <p class="display-control-value">{{ control.value }}</p>
+    <p class="display-control-value">{{ control.valueChanges | async }}</p>
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-combobox-label>
         <span>Select a fruit</span>
@@ -318,7 +318,7 @@ describe('ComboboxGroupedSingleTestComponent', () => {
           expand_more
         </span>
       </hsi-ui-textbox>
-      <hsi-ui-listbox [formControl]="control">
+      <hsi-ui-listbox [ngFormControl]="control">
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
@@ -377,7 +377,6 @@ describe('NgFormListboxSingleTestComponent', () => {
   it('control value should match selected combobox value', () => {
     cy.get('.hsi-ui-textbox').click();
     cy.get('.hsi-ui-listbox-option').eq(1).realClick();
-    cy.get('.display-control-value').realClick();
     cy.get('.display-control-value').should('have.text', 'bana');
   });
 });
