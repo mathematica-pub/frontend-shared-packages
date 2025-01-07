@@ -82,8 +82,8 @@ export class EditableTextboxComponent
       this.ngFormControl.setValue(value);
     } else {
       this.value.next(value);
-      this.valueChanges.emit(value);
     }
+    this.valueChanges.emit(value);
   }
 
   setInputValue(value: string): void {
