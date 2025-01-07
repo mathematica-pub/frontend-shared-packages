@@ -205,7 +205,7 @@ static label example
 
 #### Displaying the number of selected options
 
-After a first interaction, if the `sselectedCountLabel` input on the `hsi-ui-textbox` is defined and
+After a first interaction, if the `selectedCountLabel` input on the `hsi-ui-textbox` is defined and
 `dynamicLabel` is not `false`, the textbox will display the number of selected options rather than
 the names of the selected options. The value of this input should be of type
 `{singular: string, plural: string}`, where the strings are the singular and plural forms of the

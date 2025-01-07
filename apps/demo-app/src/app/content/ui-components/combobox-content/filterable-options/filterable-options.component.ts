@@ -27,7 +27,6 @@ export class FilterableOptionsComboboxComponent {
   value = signal<string[]>(['']);
 
   onTyping(value: string): void {
-    console.log('onTyping', value);
     const filteredOptions = this._options.filter((option) =>
       option.displayName.toLowerCase().includes(value?.toLowerCase())
     );
