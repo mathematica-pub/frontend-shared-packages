@@ -337,9 +337,9 @@ comboboxValue$ = this.comboboxValue.asObservable();
 onTyping(value: string): void {
   const filteredOptions = this._options.filter((option) =>
       //user-supplied filtering logic
-      option.toLowerCase().includes(value.toLowerCase())
+      option.toLowerCase().includes(value?.toLowerCase())
     )
-  this.options.next(filteredOptions);
+  this.options.next(filteredOptions.length ? filteredOptions : this._options);
 }
 
 onSelection(selected: string): void {
