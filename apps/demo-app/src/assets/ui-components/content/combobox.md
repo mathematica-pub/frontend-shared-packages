@@ -227,7 +227,7 @@ count selected example
 
 For a completely custom label to appear after first interaction, users can set the `customLabel`
 input to a function with the type signature
-`(selectedOptions: ListboxOptionComponent[], selectedCountLabel?: CountSelectedLabel) => string`
+`(selectedOptions: ListboxOptionComponent[], selectedCountLabel?: SelectedCountLabel) => string`
 that should return the string to be displayed in the textbox, provided that the `dynamicLabel`
 property is not `false`. The function will be called whenever the selected options change.
 
