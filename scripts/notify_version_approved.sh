@@ -5,7 +5,8 @@ set -x
 
 # Check if changed_pkgs is empty
 if [ -z "${changed_pkgs}" ]; then
-    echo "No packages with version bumps."
+    echo "No packages with version bumps. Notifying maintainers Slack channel."
+    curl -X POST -H "Content-type: application/json" --data "{\"text\": \"PR (<$pr_url|$pr_title>) was approved and does not include any packages with a version bump.\"}" $SLACK_WEBHOOK_URL_MAINTAINERS
     exit 0
 fi
 
