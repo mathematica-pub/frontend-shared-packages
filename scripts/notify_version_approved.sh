@@ -3,11 +3,6 @@
 set -e
 set -x
 
-# chmod +x ./scripts/get_slack_webhook_url.sh
-
-# Source the environment variables
-# source ./scripts/set_env_vars.sh
-
 # Check if changed_pkgs is empty
 if [ -z "${changed_pkgs}" ]; then
     echo "No packages with version bumps."
