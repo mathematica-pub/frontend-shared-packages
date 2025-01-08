@@ -15,7 +15,7 @@ env:
   SLACK_WEBHOOK_URL_MAINTAINERS: ${{ secrets.SLACK_WEBHOOK_URL_MAINTAINERS }}
 
 jobs:
-  approved:
+  notify-approved:
     if: github.event.review.state == 'APPROVED' && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
 
