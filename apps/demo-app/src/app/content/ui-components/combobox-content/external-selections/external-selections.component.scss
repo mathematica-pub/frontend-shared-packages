@@ -1,0 +1,43 @@
+@use 'vars' as *;
+@use 'functions' as *;
+@use 'colors';
+
+.select-button,
+.disable-button {
+  border: 1px solid colors.$primary-80;
+  display: flex;
+  justify-content: center;
+  padding: grid(1);
+  border-radius: grid(1);
+  color: colors.$primary-35;
+  cursor: pointer;
+
+  &:hover {
+    border-color: colors.$primary-70;
+    background-color: colors.$primary-95;
+  }
+}
+
+.select-button.disabled {
+  cursor: not-allowed;
+  color: colors.$muted-primary-50;
+  border-color: colors.$muted-primary-80;
+
+  &:hover {
+    background-color: colors.$muted-primary-95;
+  }
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: grid(2);
+}
+
+.control-panel {
+  padding-bottom: grid(2);
+}
+
+.controls {
+  padding-bottom: grid(2);
+}

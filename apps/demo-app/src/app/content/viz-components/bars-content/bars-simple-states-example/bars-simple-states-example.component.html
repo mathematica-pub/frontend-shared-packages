@@ -1,0 +1,16 @@
+<div class="bars-simple-states-example" *ngIf="vm">
+  <vic-xy-chart
+    class="xy-chart"
+    [margin]="margin"
+    [height]="160"
+    [width]="400"
+    [scaleChartWithContainerWidth]="{ width: true, height: false }"
+  >
+    <ng-container svg-elements>
+      <svg:g vic-xy-background></svg:g>
+      <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig" />
+      <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" />
+      <svg:g vic-primary-marks-bars [config]="vm.dataConfig"></svg:g>
+    </ng-container>
+  </vic-xy-chart>
+</div>

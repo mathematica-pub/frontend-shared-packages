@@ -1,31 +1,64 @@
 <div
-  class="textbox-container"
+  class="hsi-ui-editable-textbox-container"
   [class.open]="service.isOpen$ | async"
   #textInputTemplate
 >
-  <input
-    #box
-    class="combobox-textbox"
-    [attr.type]="inputType"
-    role="combobox"
-    tabindex="0"
-    [id]="service.id + '-textbox'"
-    (click)="handleClick()"
-    (blur)="handleBlur($event)"
-    (keydown)="handleKeydown($event)"
-    autocomplete="off"
-    [attr.aria-labelledby]="service.comboboxLabelId"
-    [attr.aria-activedescendant]="service.activeDescendant$ | async"
-    [attr.aria-expanded]="service.isOpen$ | async"
-    [attr.aria-autocomplete]="autoComplete"
-    [attr.aria-controls]="service.id + '-listbox'"
-    aria-haspopup="listbox"
-    data-cy="editable-textbox-input"
-    [placeholder]="placeholder"
-    [ngModel]="value"
-    (ngModelChange)="onInputChange($event)"
-  />
-  <div class="textbox-icon" [class.open]="service.isOpen$ | async">
+  @if (formControl) {
+    <input
+      #box
+      class="hsi-ui-editable-textbox-input"
+      [attr.type]="inputType"
+      role="combobox"
+      tabindex="0"
+      [id]="service.id + '-textbox'"
+      (click)="handleClick()"
+      (blur)="handleBlur($event)"
+      (keydown)="handleKeydown($event)"
+      autocomplete="off"
+      [attr.aria-label]="(service.label$ | async) === null ? ariaLabel : null"
+      [attr.aria-labelledby]="
+        (service.label$ | async) !== null ? service.comboboxLabelId : null
+      "
+      [attr.aria-activedescendant]="service.activeDescendant$ | async"
+      [attr.aria-expanded]="service.isOpen$ | async"
+      [attr.aria-autocomplete]="autoComplete"
+      [attr.aria-controls]="service.id + '-listbox'"
+      aria-haspopup="listbox"
+      data-cy="editable-textbox-input"
+      [placeholder]="placeholder"
+      [formControl]="formControl"
+    />
+  } @else {
+    <input
+      #box
+      class="hsi-ui-editable-textbox-input"
+      [attr.type]="inputType"
+      role="combobox"
+      tabindex="0"
+      [id]="service.id + '-textbox'"
+      (click)="handleClick()"
+      (blur)="handleBlur($event)"
+      (keydown)="handleKeydown($event)"
+      autocomplete="off"
+      [attr.aria-label]="(service.label$ | async) === null ? ariaLabel : null"
+      [attr.aria-labelledby]="
+        (service.label$ | async) !== null ? service.comboboxLabelId : null
+      "
+      [attr.aria-activedescendant]="service.activeDescendant$ | async"
+      [attr.aria-expanded]="service.isOpen$ | async"
+      [attr.aria-autocomplete]="autoComplete"
+      [attr.aria-controls]="service.id + '-listbox'"
+      aria-haspopup="listbox"
+      data-cy="editable-textbox-input"
+      [placeholder]="placeholder"
+      [ngModel]="value"
+      (ngModelChange)="onInputChange($event)"
+    />
+  }
+  <div
+    class="hsi-ui-textbox-icon hsi-ui-editable-textbox-icon"
+    [class.open]="service.isOpen$ | async"
+  >
     <ng-content select="[boxIcon]"></ng-content
   ></div>
 </div>

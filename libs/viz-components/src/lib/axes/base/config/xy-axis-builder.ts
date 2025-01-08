@@ -1,4 +1,5 @@
 import { VicAuxMarksBuilder } from '../../../marks';
+import { AxisLabelBuilder } from '../../axis-label/axis-label-builder';
 import { GridLinesBuilder } from '../../grid-lines/grid-lines-builder';
 import { TickWrapBuilder } from '../../tick-wrap/tick-wrap-builder';
 
@@ -6,13 +7,23 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
   protected _axis: 'x' | 'y';
   protected _dimension: 'ordinal' | 'quantitative';
   protected _removeDomainLine: boolean;
+  protected _removeTickLabels: boolean;
   protected _removeTickMarks: boolean;
-  protected _removeTicks: boolean;
   protected _tickFormat: string | ((value: TickValue) => string);
   protected _tickLabelFontSize: number;
   protected _tickSizeOuter: number;
   protected tickWrapBuilder: TickWrapBuilder;
   protected gridLinesBuilder: GridLinesBuilder;
+  protected labelBuilder: AxisLabelBuilder;
+
+  /**
+   * Specifies properties for an axis label.
+   */
+  label(setProperties: (label: AxisLabelBuilder) => void): this {
+    this.labelBuilder = new AxisLabelBuilder();
+    setProperties(this.labelBuilder);
+    return this;
+  }
 
   /**
    * If true, the default line that D3 creates for the axis will be removed.
@@ -21,6 +32,15 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
     this._removeDomainLine = value;
     return this;
   }
+
+  /**
+   * If true, all ticks (lines and tick values) will be removed.
+   */
+  removeTickLabels(value: boolean = true): this {
+    this._removeTickLabels = value;
+    return this;
+  }
+
   /**
    * If true, all ticks will be removed. Tick values will be retained.
    *
@@ -30,13 +50,7 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
     this._removeTickMarks = value;
     return this;
   }
-  /**
-   * If true, all ticks (lines and tick values) will be removed.
-   */
-  removeTicks(value: boolean = true): this {
-    this._removeTicks = value;
-    return this;
-  }
+
   /**
    * A string or function to use for formatting tick labels.
    *
@@ -48,6 +62,7 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
     this._tickFormat = value;
     return this;
   }
+
   /**
    * A font size to apply to the tick labels, in px. If not specified, D3's default font size will be used.
    */
@@ -61,7 +76,11 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
    *
    * If not provided, value will be set to 0.
    */
-  tickSizeOuter(value: number): this {
+  tickSizeOuter(value: number | null): this {
+    if (value === null) {
+      this._tickSizeOuter = undefined;
+      return this;
+    }
     this._tickSizeOuter = value;
     return this;
   }
@@ -70,9 +89,9 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
    *
    * Note: In `Bars`, bar labels are tick labels.
    */
-  wrapTickText(setProperties: (wrap: TickWrapBuilder) => void): this {
+  wrapTickText(wrap: (wrap: TickWrapBuilder) => void): this {
     this.tickWrapBuilder = new TickWrapBuilder();
-    setProperties(this.tickWrapBuilder);
+    wrap(this.tickWrapBuilder);
     return this;
   }
 

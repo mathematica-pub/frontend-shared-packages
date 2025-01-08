@@ -5,6 +5,7 @@ import { XOrdinalAxisConfig } from './x-ordinal-axis-config';
 
 const DEFAULT = {
   _side: 'bottom',
+  _tickSizeOuter: 0,
 };
 
 @Injectable()
@@ -26,10 +27,11 @@ export class VicXOrdinalAxisConfigBuilder<
   getConfig(): XOrdinalAxisConfig<TickValue> {
     return new XOrdinalAxisConfig<TickValue>({
       data: undefined,
+      label: this.labelBuilder?.build('x'),
       mixBlendMode: this._mixBlendMode,
       removeDomainLine: this._removeDomainLine,
+      removeTickLabels: this._removeTickLabels,
       removeTickMarks: this._removeTickMarks,
-      removeTicks: this._removeTicks,
       side: this._side,
       tickFormat: this._tickFormat,
       tickLabelFontSize: this._tickLabelFontSize,

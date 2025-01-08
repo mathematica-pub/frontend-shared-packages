@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import {
   DotsConfig,
   ElementSpacing,
@@ -59,12 +64,14 @@ const data: Datum[] = [
   ],
 })
 export class DotsScatterplotExampleComponent implements OnInit {
+  @Input() xAxisConfig: VicQuantitativeAxisConfig<number>;
+  @Input() yAxisConfig: VicQuantitativeAxisConfig<number>;
   vm: ViewModel;
   margin: ElementSpacing = {
     top: 0,
     right: 0,
-    bottom: 24,
-    left: 24,
+    bottom: 32,
+    left: 30,
   };
 
   constructor(
@@ -78,8 +85,18 @@ export class DotsScatterplotExampleComponent implements OnInit {
   }
 
   getViewModel(): void {
-    const xAxisConfig = this.xQuantitativeAxis.tickFormat('.0f').getConfig();
-    const yAxisConfig = this.yQuantitativeAxis.tickFormat('.0f').getConfig();
+    let xAxisConfig: VicQuantitativeAxisConfig<number>;
+    let yAxisConfig: VicQuantitativeAxisConfig<number>;
+    if (this.xAxisConfig) {
+      xAxisConfig = this.xAxisConfig;
+    } else {
+      xAxisConfig = this.xQuantitativeAxis.tickFormat('.0f').getConfig();
+    }
+    if (this.yAxisConfig) {
+      yAxisConfig = this.yAxisConfig;
+    } else {
+      yAxisConfig = this.yQuantitativeAxis.tickFormat('.0f').getConfig();
+    }
 
     const dataConfig = this.dots
       .data(data)

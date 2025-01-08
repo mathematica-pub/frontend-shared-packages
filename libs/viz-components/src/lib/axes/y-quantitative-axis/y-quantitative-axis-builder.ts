@@ -39,11 +39,12 @@ export class VicYQuantitativeAxisConfigBuilder<
   getConfig(): YQuantitativeAxisConfig<TickValue> {
     return new YQuantitativeAxisConfig<TickValue>({
       data: undefined,
+      label: this.labelBuilder?.build('y'),
       mixBlendMode: this._mixBlendMode,
       numTicks: this._numTicks,
       removeDomainLine: this._removeDomainLine,
+      removeTickLabels: this._removeTickLabels,
       removeTickMarks: this._removeTickMarks,
-      removeTicks: this._removeTicks,
       side: this._side,
       tickFormat: this._tickFormat,
       tickLabelFontSize: this._tickLabelFontSize,

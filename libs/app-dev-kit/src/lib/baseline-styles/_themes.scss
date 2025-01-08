@@ -1,0 +1,19 @@
+@use './sass-utils';
+@use './theming';
+
+/**
+* Create CSS color and typography variables for theming.
+*
+* Intended to be used globally (at html-level) in a consuming application, which will allow for easy overriding at a lower level.
+*/
+@mixin create-theme() {
+  @include sass-utils.map-scss-vars-into-css-vars(
+    theming.$colors,
+    'hsi-adk-color'
+  );
+
+  @include sass-utils.map-scss-vars-into-css-vars(
+    theming.$font,
+    'hsi-adk-font'
+  );
+}

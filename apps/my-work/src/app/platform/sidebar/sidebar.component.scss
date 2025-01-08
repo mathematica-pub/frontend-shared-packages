@@ -1,12 +1,11 @@
 @use 'vars' as *;
-@use 'functions' as *;
 @use 'colors';
 @use 'index' as hsi-adk;
 
 .sidebar-container {
   display: flex;
   flex-direction: column;
-  padding: grid(3) grid(2) grid(2) grid(4);
+  padding: hsi-adk.grid(3) hsi-adk.grid(2) hsi-adk.grid(2) hsi-adk.grid(4);
   height: 100%;
   max-height: 100vh;
   position: sticky;
@@ -14,20 +13,20 @@
 
   .application-title {
     @include hsi-adk.title-small;
-    padding-bottom: grid(2);
+    padding-bottom: hsi-adk.grid(2);
     border-bottom: 1px solid colors.$muted-primary-80;
     white-space: nowrap;
   }
 
   .top-border {
     border-top: 1px solid colors.$muted-primary-90;
-    margin-top: grid(4);
-    padding-top: grid(3);
+    margin-top: hsi-adk.grid(4);
+    padding-top: hsi-adk.grid(3);
   }
 
   .title.content {
     @include hsi-adk.title-medium;
-    padding: grid(1) 0;
+    padding: hsi-adk.grid(1) 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,7 +34,7 @@
 
   .title.docs {
     @include hsi-adk.label-2xs-caps;
-    padding: grid(4) 0 grid(1) 0;
+    padding: hsi-adk.grid(4) 0 hsi-adk.grid(1) 0;
     display: flex;
     justify-content: space-between;
     align-items: center;

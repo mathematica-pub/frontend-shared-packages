@@ -1,0 +1,39 @@
+<app-content-container class="axes-content-container">
+  <ng-template let-section #customAngular>
+    @switch (section.content) {
+      @case ('small axis examples') {
+        <div class="small-examples-container axes">
+          <div class="example quant-quant">
+            <app-dots-scatterplot-example
+              [xAxisConfig]="defaultAxes.x"
+              [yAxisConfig]="defaultAxes.y"
+            ></app-dots-scatterplot-example>
+          </div>
+          <div class="example ord-quant">
+            <app-bars-simple-states-example></app-bars-simple-states-example>
+          </div>
+        </div>
+      }
+      @case ('small axis labels examples') {
+        <div class="small-examples-container labels">
+          <div class="example">
+            <p class="chart-title default">With default label positions</p>
+            <app-dots-scatterplot-example
+              [xAxisConfig]="defaultAxes.x"
+              [yAxisConfig]="defaultAxes.y"
+            ></app-dots-scatterplot-example>
+          </div>
+          <div class="example">
+            <p class="chart-title default"
+              >With a custom positioned and wrapped labels</p
+            >
+            <app-dots-scatterplot-example
+              [xAxisConfig]="customAxes.x"
+              [yAxisConfig]="customAxes.y"
+            ></app-dots-scatterplot-example>
+          </div>
+        </div>
+      }
+    }
+  </ng-template>
+</app-content-container>

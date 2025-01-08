@@ -39,7 +39,11 @@ type ContentDocs = {
   encapsulation: ViewEncapsulation.None,
 })
 export class LibDocsComponent implements OnInit {
-  @Input() lib: { displayName: string; id: Library };
+  @Input() lib: {
+    displayName: string;
+    id: Library;
+    hasAutomatedDocs: boolean;
+  };
   @Input() expanded = true;
   automatedDocsItems$: Observable<HsiUiDirectoryItem[]>;
   customDocs$: Observable<ContentDocs>;
@@ -55,7 +59,9 @@ export class LibDocsComponent implements OnInit {
 
   ngOnInit(): void {
     this.initCustomDocumentation();
-    this.initAutomatedDocumentation();
+    if (this.lib.hasAutomatedDocs) {
+      this.initAutomatedDocumentation();
+    }
   }
 
   initCustomDocumentation(): void {
@@ -103,14 +109,6 @@ export class LibDocsComponent implements OnInit {
             children: this.getDocsDirectoryTree(value, valuePrefix, level + 1),
           };
         }
-      });
-    }
-    // Documentation structure doc determines the order for the top level
-    if (level !== 0) {
-      itemsArray.sort((a, b) => {
-        if (!a.children && !!b.children) return 1;
-        if (!!a.children && !b.children) return -1;
-        return a.name.localeCompare(b.name);
       });
     }
 

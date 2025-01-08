@@ -56,7 +56,7 @@ and listbox options.
 
 Inputs:
 
-- `displaySelected: boolean`: Determines whether the selection value of the listbox is displayed as
+- `dynamicLabel: boolean`: Determines whether the selection value of the listbox is displayed as
   the Combobox box label. Will override user-specified label if true. Default value is `false`;
 
 Outputs: none
@@ -89,10 +89,10 @@ Inputs:
   is 300.
 - `isMultiSelect: boolean`: Determines whether the listbox can make one or more than one selection.
   Default is false, which creates a single-select listbox.
-- `labelIsBoxPlaceholder: boolean`: If true, any label projected into the `listboxLabel` slot will
-  also be used as a displayed label in the box component when no selections are made. This will
-  override any static label a user has projected as a `boxLabel` in the box component. Default to
-  false.
+- `useListboxLabelAsBoxPlaceholder: boolean`: If true, any label projected into the `listboxLabel`
+  slot will also be used as a displayed label in the box component when no selections are made. This
+  will override any static label a user has projected as a `boxLabel` in the box component. Default
+  to false.
 - `findsOptionOnTyping: boolean`: Moves simulated focus to option that matches string that a user
   types. If listbox is closed, opens box and moves simulated focus. Replicates native `<select>`
   functionality. Default is true.
@@ -121,10 +121,10 @@ Inputs:
 
 - `maxHeight: number`: Controls the max-height property of the listbox panel, in px. Default value
   is 300.
-- `labelIsBoxPlaceholder: boolean`: If true, any label projected into the `listboxLabel` slot will
-  also be used as a displayed label in the box component when no selections are made. This will
-  override any static label a user has projected as a `boxLabel` in the box component. Default to
-  false.
+- `useListboxLabelAsBoxPlaceholder: boolean`: If true, any label projected into the `listboxLabel`
+  slot will also be used as a displayed label in the box component when no selections are made. This
+  will override any static label a user has projected as a `boxLabel` in the box component. Default
+  to false.
 - `findsOptionOnTyping: boolean`: Moves simulated focus to option that matches string that a user
   types. If listbox is closed, opens box and moves simulated focus. Replicates native `<select>`
   functionality. Default is true.
@@ -143,10 +143,10 @@ Inputs:
 
 - `maxHeight: number`: Controls the max-height property of the listbox panel, in px. Default value
   is 300.
-- `labelIsBoxPlaceholder: boolean`: If true, any label projected into the `listboxLabel` slot will
-  also be used as a displayed label in the box component when no selections are made. This will
-  override any static label a user has projected as a `boxLabel` in the box component. Default to
-  false.
+- `useListboxLabelAsBoxPlaceholder: boolean`: If true, any label projected into the `listboxLabel`
+  slot will also be used as a displayed label in the box component when no selections are made. This
+  will override any static label a user has projected as a `boxLabel` in the box component. Default
+  to false.
 - `findsOptionOnTyping: boolean`: Moves simulated focus to option that matches string that a user
   types. If listbox is closed, opens box and moves simulated focus. Replicates native `<select>`
   functionality. Default is true.
@@ -164,7 +164,7 @@ A component that creates a label/visual representation for an option in the list
 Inputs:
 
 - `boxDisplayLabel: string`: Optional. A separate label to display as a selection in the box, when
-  `ComboboxBoxComponent.displaySelected` is true. Use case: Option labels is the full name of a
+  `ComboboxBoxComponent.dynamicLabel` is true. Use case: Option labels is the full name of a
   state, `boxDisplayLabel` is a state abbreviation. May be used on one or all options. If not
   present, the `innerText` of the projected content will be used. Updating this property dynamically
   will not trigger template updates.
@@ -204,7 +204,7 @@ selectable or focusable.
 
 In an ungrouped context, this label could be useful for reminding users what they are selecting,
 particularly if the box displays the selected value(s). It can also be used as a placeholder label
-in the box if `Listbox.labelIsBoxPlaceholder` is set to `true`.
+in the box if `Listbox.useListboxLabelAsBoxPlaceholder` is set to `true`.
 
 Inside a `ListboxGroup`. the label will serve as a header for the group's options. In this use, it
 cannot serve as placeholder text for the box.

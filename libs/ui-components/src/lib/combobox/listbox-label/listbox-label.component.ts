@@ -5,12 +5,11 @@ let nextUniqueId = 0;
 
 @Component({
   selector: 'hsi-ui-listbox-label',
-  template: `<ng-template #label>
-    <p class="listbox-label" [id]="id" role="presentation" #text
-      ><ng-content></ng-content
-    ></p>
-  </ng-template>`,
-  styles: [],
+  templateUrl: './listbox-label.component.html',
+  styleUrls: ['./listbox-label.component.scss'],
+  host: {
+    class: 'hsi-ui-listbox-label',
+  },
 })
 export class ListboxLabelComponent {
   @ViewChild('label') labelContent: TemplateRef<unknown>;
