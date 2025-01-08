@@ -3,27 +3,14 @@ import { GridLines } from './grid-lines-config';
 
 const DEFAULT = {
   _filter: () => true,
-  _color: () => '#cccccc',
 };
 
 export class GridLinesBuilder {
-  private _color: (i: number) => string;
   private _filter: (i: number) => boolean;
   private strokeBuilder: StrokeBuilder;
 
   constructor() {
     Object.assign(this, DEFAULT);
-  }
-
-  /**
-   * OPTIONAL. Sets the color of the grid line. Can specify a string constant or a function
-   *  that takes the index of the grid line and returns a color.
-   *
-   * @default #cccccc.
-   */
-  color(color: string | ((i: number) => string)) {
-    this._color = typeof color === 'string' ? () => color : color;
-    return this;
   }
 
   /**
@@ -37,6 +24,9 @@ export class GridLinesBuilder {
 
   /**
    * OPTIONAL. A config for the behavior of the grid line stroke.
+   *
+   * Default color: '#cccccc'
+   * Default width: 1px
    */
   stroke(setProperties?: (stroke: StrokeBuilder) => void): this {
     this.initStrokeBuilder();
@@ -45,7 +35,7 @@ export class GridLinesBuilder {
   }
 
   private initStrokeBuilder(): void {
-    this.strokeBuilder = new StrokeBuilder().width(1);
+    this.strokeBuilder = new StrokeBuilder().width(1).color('#cccccc');
   }
 
   /**
@@ -55,7 +45,6 @@ export class GridLinesBuilder {
   _build(axis: 'x' | 'y'): GridLines {
     this.validateBuilder();
     return new GridLines({
-      color: this._color,
       filter: this._filter,
       stroke: this.strokeBuilder._build(),
       axis: axis,

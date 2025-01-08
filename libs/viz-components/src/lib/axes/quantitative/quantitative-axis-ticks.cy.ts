@@ -738,7 +738,7 @@ describe('grid lines', () => {
     cy.wait(axisTickTextWaitTime);
     cy.get('.vic-grid-line').should('have.length', 4);
   });
-  it('lines visible for every other tick given a filter', () => {
+  it('lines are visible for every other tick given a filter', () => {
     axisConfig = new VicXQuantitativeAxisConfigBuilder()
       .numTicks(4)
       .gridLines((gridLines) => gridLines.filter((i) => i % 2 === 0))
@@ -758,30 +758,6 @@ describe('grid lines', () => {
       } else {
         cy.wrap($line).should('have.css', 'display', 'none');
       }
-    });
-  });
-  it('line colors alternate given a color function', () => {
-    axisConfig = new VicXQuantitativeAxisConfigBuilder()
-      .numTicks(4)
-      .gridLines((gridLines) =>
-        gridLines.color((i) => (i % 2 === 0 ? 'red' : 'blue'))
-      )
-      .getConfig();
-    cy.mount(TestXQuantitativeAxisComponent, {
-      declarations,
-      imports,
-      componentProperties: {
-        barsConfig: barsConfig,
-        xQuantitativeAxisConfig: axisConfig,
-      },
-    });
-    cy.wait(axisTickTextWaitTime);
-    cy.get('.vic-grid-line line').each(($line, i) => {
-      cy.wrap($line).should(
-        'have.css',
-        'stroke',
-        i % 2 === 0 ? 'rgb(255, 0, 0)' : 'rgb(0, 0, 255)'
-      );
     });
   });
 });

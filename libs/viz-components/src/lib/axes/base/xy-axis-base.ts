@@ -98,7 +98,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
         this.config.gridLines.filter(i) ? null : 'none'
       )
       .select('line')
-      .attr('stroke', (_, i) => this.config.gridLines.color(i))
+      .attr('stroke', this.config.gridLines.stroke.color)
       .attr('stroke-dasharray', this.config.gridLines.stroke.dasharray)
       .attr('stroke-width', this.config.gridLines.stroke.width)
       .attr('opacity', this.config.gridLines.stroke.opacity)
