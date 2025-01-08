@@ -1,4 +1,15 @@
 ---
+combobox:
+  combobox: 'components/ComboboxComponent.html'
+  combobox-label: 'components/ComboboxLabelComponent.html'
+  textbox: 'components/TextboxComponent.html'
+  editable-textbox: 'components/EditableTextboxComponent.html'
+  ng-form-editable-textbox: 'components/NgFormEditableTextboxComponent.html'
+  listbox: 'components/ListboxComponent.html'
+  listbox-group: 'components/ListboxGroupComponent.html'
+  listbox-label: 'components/ListboxLabelComponent.html'
+  listbox-option: 'components/ListboxOptionComponent.html'
+  select-all-listbox-option: 'components/SelectAllListboxOptionComponent.html'
 directory:
   directory: 'components/HsiUiDirectoryComponent.html'
   directory-item: 'interfaces/HsiUiDirectoryItem.html'

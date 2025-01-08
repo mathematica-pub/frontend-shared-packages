@@ -1,0 +1,31 @@
+.hsi-ui-textbox-container {
+  display: var(--hsi-ui-textbox-display);
+  justify-content: var(--hsi-ui-textbox-justify-content);
+  align-items: var(--hsi-ui-textbox-align-items);
+  background: var(--hsi-ui-textbox-background);
+  border: var(--hsi-ui-combobox-border-width) solid
+    var(--hsi-ui-combobox-border-color);
+  padding: var(--hsi-ui-textbox-padding);
+  border-radius: var(--hsi-ui-combobox-border-radius);
+  transition: border var(--hsi-ui-textbox-transition-duration) ease-in-out;
+}
+
+.hsi-ui-textbox-container.open {
+  border-bottom: var(--hsi-ui-textbox-border-bottom-open);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.hsi-ui-textbox-label {
+  text-overflow: var(--hsi-ui-textbox-label-text-overflow);
+  white-space: var(--hsi-ui-textbox-label-white-space);
+  overflow: var(--hsi-ui-textbox-label-overflow);
+  // required for ellipsis to work
+  max-width: var(--hsi-ui-textbox-label-max-width);
+}
+
+.hsi-ui-textbox-icon {
+  display: var(--hsi-ui-textbox-icon-display);
+  flex-direction: var(--hsi-ui-textbox-icon-flex-direction);
+  justify-content: var(--hsi-ui-textbox-icon-justify-content);
+}

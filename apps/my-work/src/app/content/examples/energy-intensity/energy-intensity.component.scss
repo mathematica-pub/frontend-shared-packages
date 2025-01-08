@@ -1,4 +1,3 @@
-@use 'functions' as *;
 @use 'index' as hsi-adk;
 
 .title {
@@ -7,9 +6,9 @@
 
 .documentation-text {
   max-width: 900px;
-  padding-top: grid(4);
+  padding-top: hsi-adk.grid(4);
 }
 
 .text {
-  padding-bottom: grid(4);
+  padding-bottom: hsi-adk.grid(4);
 }
