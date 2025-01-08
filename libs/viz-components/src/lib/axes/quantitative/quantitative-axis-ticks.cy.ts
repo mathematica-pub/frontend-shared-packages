@@ -697,9 +697,7 @@ describe('grid lines', () => {
       .getConfig();
   });
   it('height matches chart area', () => {
-    axisConfig = new VicXQuantitativeAxisConfigBuilder()
-      .gridLines()
-      .getConfig();
+    axisConfig = new VicXQuantitativeAxisConfigBuilder().grid().getConfig();
     cy.mount(TestXQuantitativeAxisComponent, {
       declarations,
       imports,
@@ -725,7 +723,7 @@ describe('grid lines', () => {
   it('number of lines matches number of ticks if no filter is specified', () => {
     axisConfig = new VicXQuantitativeAxisConfigBuilder()
       .numTicks(4)
-      .gridLines()
+      .grid()
       .getConfig();
     cy.mount(TestXQuantitativeAxisComponent, {
       declarations,
@@ -741,7 +739,7 @@ describe('grid lines', () => {
   it('lines are visible for every other tick given a filter', () => {
     axisConfig = new VicXQuantitativeAxisConfigBuilder()
       .numTicks(4)
-      .gridLines((gridLines) => gridLines.filter((i) => i % 2 === 0))
+      .grid((grid) => grid.filter((i) => i % 2 === 0))
       .getConfig();
     cy.mount(TestXQuantitativeAxisComponent, {
       declarations,

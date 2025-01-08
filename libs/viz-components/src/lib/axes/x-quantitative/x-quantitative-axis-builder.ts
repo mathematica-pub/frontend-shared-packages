@@ -50,7 +50,7 @@ export class VicXQuantitativeAxisConfigBuilder<
       tickLabelFontSize: this._tickLabelFontSize,
       tickSizeOuter: this._tickSizeOuter,
       tickValues: this._tickValues,
-      gridLines: this.gridLinesBuilder?._build('x'),
+      grid: this.gridBuilder?._build('x'),
       wrap: this.tickWrapBuilder?._build(),
     });
   }

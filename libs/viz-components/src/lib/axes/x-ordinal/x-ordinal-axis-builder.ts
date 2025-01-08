@@ -37,7 +37,7 @@ export class VicXOrdinalAxisConfigBuilder<
       tickLabelFontSize: this._tickLabelFontSize,
       tickSizeOuter: this._tickSizeOuter,
       wrap: this.tickWrapBuilder?._build(),
-      gridLines: this.gridLinesBuilder?._build('x'),
+      grid: this.gridBuilder?._build('x'),
     });
   }
 }

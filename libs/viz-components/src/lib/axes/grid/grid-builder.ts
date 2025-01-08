@@ -1,11 +1,11 @@
 import { StrokeBuilder } from '../../stroke/stroke-builder';
-import { GridLines } from './grid-lines-config';
+import { Grid } from './grid-config';
 
 const DEFAULT = {
   _filter: () => true,
 };
 
-export class GridLinesBuilder {
+export class GridBuilder {
   private _filter: (i: number) => boolean;
   private strokeBuilder: StrokeBuilder;
 
@@ -42,9 +42,9 @@ export class GridLinesBuilder {
    * @internal
    * This function is for internal use only and should never be called by the user.
    */
-  _build(axis: 'x' | 'y'): GridLines {
+  _build(axis: 'x' | 'y'): Grid {
     this.validateBuilder();
-    return new GridLines({
+    return new Grid({
       filter: this._filter,
       stroke: this.strokeBuilder._build(),
       axis: axis,

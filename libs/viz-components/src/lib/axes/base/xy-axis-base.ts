@@ -71,41 +71,39 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
         this.styleTicks();
       });
 
-    select(this.axisRef.nativeElement).select('.vic-grid-lines').remove();
+    select(this.axisRef.nativeElement).select('.vic-grid').remove();
 
-    if (this.config.gridLines) {
-      this.drawGridLines();
+    if (this.config.grid) {
+      this.drawGrid();
     }
   }
 
   getGridLineLength(): number {
     const gridLineScale =
-      this.config.gridLines.axis === 'x' ? this.scales.y : this.scales.x;
+      this.config.grid.axis === 'x' ? this.scales.y : this.scales.x;
     return -1 * Math.abs(gridLineScale.range()[1] - gridLineScale.range()[0]);
   }
 
-  drawGridLines(): void {
-    const gridLinesGroup = select(this.axisRef.nativeElement)
+  drawGrid(): void {
+    const gridGroup = select(this.axisRef.nativeElement)
       .append('g')
-      .attr('class', 'vic-grid-lines');
+      .attr('class', 'vic-grid');
 
-    gridLinesGroup
-      .transition(this.getTransition(gridLinesGroup))
+    gridGroup
+      .transition(this.getTransition(gridGroup))
       .call(this.axis.tickSizeInner(this.getGridLineLength()))
       .selectAll('.tick')
       .attr('class', 'vic-grid-line')
-      .style('display', (_, i) =>
-        this.config.gridLines.filter(i) ? null : 'none'
-      )
+      .style('display', (_, i) => (this.config.grid.filter(i) ? null : 'none'))
       .select('line')
-      .attr('stroke', this.config.gridLines.stroke.color)
-      .attr('stroke-dasharray', this.config.gridLines.stroke.dasharray)
-      .attr('stroke-width', this.config.gridLines.stroke.width)
-      .attr('opacity', this.config.gridLines.stroke.opacity)
-      .attr('stroke-linecap', this.config.gridLines.stroke.linecap)
-      .attr('stroke-linejoin', this.config.gridLines.stroke.linejoin);
+      .attr('stroke', this.config.grid.stroke.color)
+      .attr('stroke-dasharray', this.config.grid.stroke.dasharray)
+      .attr('stroke-width', this.config.grid.stroke.width)
+      .attr('opacity', this.config.grid.stroke.opacity)
+      .attr('stroke-linecap', this.config.grid.stroke.linecap)
+      .attr('stroke-linejoin', this.config.grid.stroke.linejoin);
 
-    gridLinesGroup.call((g) => {
+    gridGroup.call((g) => {
       g.selectAll('text').remove();
       g.selectAll('.domain').remove();
     });

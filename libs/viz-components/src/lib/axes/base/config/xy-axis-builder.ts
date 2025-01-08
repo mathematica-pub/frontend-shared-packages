@@ -1,6 +1,6 @@
 import { VicAuxMarksBuilder } from '../../../marks';
 import { AxisLabelBuilder } from '../../axis-label/axis-label-builder';
-import { GridLinesBuilder } from '../../grid-lines/grid-lines-builder';
+import { GridBuilder } from '../../grid/grid-builder';
 import { TickWrapBuilder } from '../../tick-wrap/tick-wrap-builder';
 
 export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
@@ -13,7 +13,7 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
   protected _tickLabelFontSize: number;
   protected _tickSizeOuter: number;
   protected tickWrapBuilder: TickWrapBuilder;
-  protected gridLinesBuilder: GridLinesBuilder;
+  protected gridBuilder: GridBuilder;
   protected labelBuilder: AxisLabelBuilder;
 
   /**
@@ -98,9 +98,9 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
   /**
    * An object to configure grid lines.
    */
-  gridLines(setProperties?: (gridLines: GridLinesBuilder) => void): this {
-    this.gridLinesBuilder = new GridLinesBuilder();
-    setProperties?.(this.gridLinesBuilder);
+  grid(setProperties?: (grid: GridBuilder) => void): this {
+    this.gridBuilder = new GridBuilder();
+    setProperties?.(this.gridBuilder);
     return this;
   }
 }
