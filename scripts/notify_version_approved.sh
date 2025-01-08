@@ -10,7 +10,8 @@ source ./scripts/set_env_vars.sh
 
 # Check if changed_pkgs is empty
 if [ -z "${changed_pkgs}" ]; then
-    curl -X POST -H "Content-type: application/json" --data "{\"text\": \"PR (<$pr_url|$pr_title>) was approved without any version bumps.\"}" $SLACK_WEBHOOK_URL_MAINTAINERS
+    SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL_MAINTAINERS
+    curl -X POST -H "Content-type: application/json" --data "{\"text\": \"PR (<$pr_url|$pr_title>) was approved without any version bumps.\"}" $SLACK_WEBHOOK_URL
     echo "No packages with version bumps."
     exit 0
 fi
