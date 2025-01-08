@@ -5,14 +5,14 @@
   "configurations": [
     {
       "name": "serve demo app",
-      "type": "pwa-chrome",
+      "type": "chrome",
       "request": "launch",
       "preLaunchTask": "npm: start:demo-app",
       "url": "http://localhost:4200/"
     },
     {
       "name": "serve mywork app",
-      "type": "pwa-chrome",
+      "type": "chrome",
       "request": "launch",
       "preLaunchTask": "npm: start:my-work",
       "url": "http://localhost:4200/"
@@ -26,7 +26,7 @@
     },
     {
       "name": "Python: Current File",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "program": "${file}",
       "console": "integratedTerminal",
