@@ -1,0 +1,12 @@
+@use 'functions' as *;
+@use 'index' as hsi-adk;
+
+.minimal-implementation-example {
+  display: block;
+  padding-bottom: grid(4);
+}
+
+.example-label {
+  @include hsi-adk.label-2xs;
+  padding-bottom: grid(2);
+}

@@ -1,0 +1,510 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Component, ViewEncapsulation } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import 'cypress-real-events';
+import { beforeEach, cy, describe, it } from 'local-cypress';
+import { BehaviorSubject } from 'rxjs';
+import { HsiUiComboboxModule } from '../combobox.module';
+import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
+import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
+
+@Component({
+  selector: 'hsi-ui-combobox-static-label-test',
+  template: `
+    <p class="outside-element"
+      >Throwaway element to click on for outside combobox click</p
+    >
+    <p class="combobox-value">{{ value$ | async }}</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Fruits</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox [dynamicLabel]="false">
+        <p boxLabel>Select a fruit, A-E</p>
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox (valueChanges)="onSelection($event)">
+        <hsi-ui-listbox-label>
+          <span>Select a fruit</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboxStaticLabelTestComponent extends ComboboxBaseTestComponent {}
+
+describe('Textbox with a static label', () => {
+  beforeEach(() => {
+    cy.mount(ComboboxStaticLabelTestComponent, {
+      declarations: [ComboboxStaticLabelTestComponent],
+      imports: [HsiUiComboboxModule, MatIconModule],
+    });
+  });
+  it('textbox label does not change with a selection', () => {
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit, A-E');
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit, A-E');
+    cy.get('.combobox-value').should('have.text', 'Apples');
+  });
+});
+
+@Component({
+  selector: 'hsi-ui-combobox-dynamic-label-single-test',
+  template: `
+    <p class="outside-element"
+      >Throwaway element to click on for outside combobox click</p
+    >
+    <p class="combobox-value">{{ value$ | async }}</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Select a fruit, A-E</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox>
+        <p boxLabel>Select a fruit</p>
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox (valueChanges)="onSelection($event)">
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboxDynamicLabelTestComponent extends ComboboxBaseTestComponent {}
+
+describe('Single-select combobox with a dynamic label', () => {
+  beforeEach(() => {
+    cy.mount(ComboboxDynamicLabelTestComponent, {
+      declarations: [ComboboxDynamicLabelTestComponent],
+      imports: [HsiUiComboboxModule, MatIconModule],
+    });
+  });
+  it('textbox label shows the boxLabel before there is a selection, and the selected value afterwards', () => {
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
+    cy.get('.combobox-value').should('have.text', 'Apples');
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Bananas');
+    cy.get('.combobox-value').should('have.text', 'Bananas');
+  });
+});
+
+@Component({
+  selector: 'hsi-ui-combobox-dynamic-label-multi-test',
+  template: `
+    <p class="outside-element"
+      >Throwaway element to click on for outside combobox click</p
+    >
+    <p class="combobox-value">{{ value$ | async }}</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Select a fruit, A-E</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox>
+        <p boxLabel>Select a fruit</p>
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [isMultiSelect]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboxDynamicLabelMultiTestComponent extends ComboboxBaseTestComponent {}
+
+describe('Multi-select combobox with a dynamic label', () => {
+  beforeEach(() => {
+    cy.mount(ComboboxDynamicLabelMultiTestComponent, {
+      declarations: [ComboboxDynamicLabelMultiTestComponent],
+      imports: [HsiUiComboboxModule, MatIconModule],
+    });
+  });
+  it('textbox label shows the boxLabel before there is a selection, and the selected values afterwards', () => {
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
+    cy.get('.combobox-value').should('have.text', 'Apples');
+    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples, Bananas');
+    cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
+    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
+    cy.get('.combobox-value').should('have.text', 'Apples');
+  });
+});
+
+@Component({
+  selector: 'hsi-ui-combobox-count-label-test',
+  template: `
+    <p class="outside-element"
+      >Throwaway element to click on for outside combobox click</p
+    >
+    <p class="combobox-value">{{ value$ | async }}</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Select a fruit, A-E</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox
+        [showSelectedCount]="{ plural: 'fruits', singular: 'fruit' }"
+      >
+        <p boxLabel>Select fruits</p>
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [isMultiSelect]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        <hsi-ui-listbox-label>
+          <span>Select fruits</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboCountLabelMultiTestComponent extends ComboboxBaseTestComponent {}
+
+describe('Multi-select combobox with a show selected count label', () => {
+  beforeEach(() => {
+    cy.mount(ComboboCountLabelMultiTestComponent, {
+      declarations: [ComboboCountLabelMultiTestComponent],
+      imports: [HsiUiComboboxModule, MatIconModule],
+    });
+  });
+  it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Select fruits');
+    cy.get('.hsi-ui-textbox').realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', '0 fruits selected');
+    cy.get('.hsi-ui-listbox-option').eq(0).realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', '1 fruit selected');
+    cy.get('.combobox-value').should('have.text', 'Apples');
+    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', '2 fruits selected');
+    cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
+    cy.get('.hsi-ui-listbox-option').eq(0).realClick();
+    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', '0 fruits selected');
+  });
+});
+
+// Multi select combobox with dynamic label that uses groups
+@Component({
+  selector: 'hsi-ui-combobox-grouped-multi-test',
+  template: `
+    <p class="outside-element"
+      >Outside element to click on for outside combobox click</p
+    >
+    <p class="combobox-value">{{ value$ | async }}</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Select a fruit, A-E</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox
+        [showSelectedCount]="{ singular: 'fruit', plural: 'fruits' }"
+      >
+        <p boxLabel>Select fruits</p>
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [isMultiSelect]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        <hsi-ui-listbox-group>
+          <hsi-ui-listbox-label>
+            <span>Group 1</span>
+          </hsi-ui-listbox-label>
+          <hsi-ui-listbox-option *ngFor="let option of options1">{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        </hsi-ui-listbox-group>
+        <hsi-ui-listbox-group>
+          <hsi-ui-listbox-label>
+            <span>Group 2</span>
+          </hsi-ui-listbox-label>
+          <hsi-ui-listbox-option *ngFor="let option of options2">{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        </hsi-ui-listbox-group>
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboxGroupedMultiTestComponent {
+  options1 = [
+    { displayName: 'Apples', id: 'appl' },
+    { displayName: 'Bananas', id: 'bana' },
+    { displayName: 'Coconuts', id: 'coco' },
+  ];
+  options2 = [
+    { displayName: 'Durians', id: 'duri' },
+    { displayName: 'Elderberries', id: 'elde' },
+  ];
+  value = new BehaviorSubject<any>(null);
+  value$ = this.value.asObservable();
+
+  onSelection(event: any): void {
+    this.value.next(event);
+  }
+}
+
+describe('Grouped multi-select combobox with a show selected count label', () => {
+  beforeEach(() => {
+    cy.mount(ComboboxGroupedMultiTestComponent, {
+      declarations: [ComboboxGroupedMultiTestComponent],
+      imports: [HsiUiComboboxModule, MatIconModule],
+    });
+  });
+
+  it('can select from multiple groups', () => {
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Select fruits');
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-textbox-label').should('have.text', '0 fruits selected');
+    cy.get('.hsi-ui-listbox-option').eq(0).realClick();
+    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', '2 fruits selected');
+    cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
+    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', '1 fruit selected');
+    cy.get('.combobox-value').should('have.text', 'Apples');
+  });
+});
+
+@Component({
+  selector: 'hsi-ui-combobox-single-test',
+  template: `
+    <p class="outside-element"
+      >Throwaway element to click on for outside combobox click</p
+    >
+    <p class="combobox-value">{{ value$ | async }}</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Select a fruit, A-E</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox [customLabel]="customLabel">
+        <p boxLabel>Select fruits</p>
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [isMultiSelect]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        <hsi-ui-listbox-label>
+          <span>Select fruits</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboCustomLabelMultiTestComponent extends ComboboxBaseTestComponent {
+  customLabel = (options: ListboxOptionComponent[]) => {
+    if (options.length === 0) {
+      return 'You need to select something';
+    } else if (options.length === 1) {
+      return `Only 1 fruit selected`;
+    } else {
+      return `Yay ${options.length} fruits selected`;
+    }
+  };
+}
+
+describe('Multi-select combobox with a custom label', () => {
+  beforeEach(() => {
+    cy.mount(ComboboCustomLabelMultiTestComponent, {
+      declarations: [ComboboCustomLabelMultiTestComponent],
+      imports: [HsiUiComboboxModule, MatIconModule],
+    });
+  });
+  it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Select fruits');
+    cy.get('.hsi-ui-textbox').realClick();
+    cy.get('.hsi-ui-textbox-label').should(
+      'have.text',
+      'You need to select something'
+    );
+    cy.get('.hsi-ui-listbox-option').first().realClick();
+    cy.get('.hsi-ui-textbox-label').should(
+      'have.text',
+      'Only 1 fruit selected'
+    );
+    cy.get('.combobox-value').should('have.text', 'Apples');
+    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-textbox-label').should(
+      'have.text',
+      'Yay 2 fruits selected'
+    );
+    cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
+    cy.get('.hsi-ui-listbox-option').eq(0).realClick();
+    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-textbox-label').should(
+      'have.text',
+      'You need to select something'
+    );
+  });
+});
+
+@Component({
+  selector: 'hsi-ui-combobox-initial-selections-multi-test',
+  template: `
+    <p class="outside-element"
+      >Throwaway element to click on for outside combobox click</p
+    >
+    <p class="combobox-value">{{ value$ | async }}</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Select a fruit, A-E</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox>
+        <p boxLabel>Select fruits</p>
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [isMultiSelect]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        <hsi-ui-listbox-label>
+          <span>Select fruits</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id; let i = $index) {
+          <hsi-ui-listbox-option [selected]="i === 2 || i === 4">{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboInitialSelectionsMultiTestComponent extends ComboboxBaseTestComponent {}
+
+describe('Multi-select combobox with a dynamic label and initial selections', () => {
+  beforeEach(() => {
+    cy.mount(ComboboInitialSelectionsMultiTestComponent, {
+      declarations: [ComboboInitialSelectionsMultiTestComponent],
+      imports: [HsiUiComboboxModule, MatIconModule],
+    });
+  });
+  it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
+    cy.get('.hsi-ui-textbox-label').should(
+      'have.text',
+      'Coconuts, Elderberries'
+    );
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-textbox-label').should(
+      'have.text',
+      'Coconuts, Elderberries'
+    );
+    cy.get('.hsi-ui-listbox-option').eq(2).realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Elderberries');
+  });
+});
+
+@Component({
+  selector: 'hsi-ui-combobox-initial-selections-multi-count-test',
+  template: `
+    <p class="outside-element"
+      >Throwaway element to click on for outside combobox click</p
+    >
+    <p class="combobox-value">{{ value$ | async }}</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Select a fruit, A-E</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox
+        [showSelectedCount]="{ plural: 'fruits', singular: 'fruit' }"
+      >
+        <p boxLabel>Select fruits</p>
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [isMultiSelect]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        <hsi-ui-listbox-label>
+          <span>Select fruits</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id; let i = $index) {
+          <hsi-ui-listbox-option [selected]="i === 2 || i === 4">{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboInitialSelectionsCountMultiTestComponent extends ComboboxBaseTestComponent {}
+
+describe('Multi-select combobox with a count label and initial selections', () => {
+  beforeEach(() => {
+    cy.mount(ComboboInitialSelectionsCountMultiTestComponent, {
+      declarations: [ComboboInitialSelectionsCountMultiTestComponent],
+      imports: [HsiUiComboboxModule, MatIconModule],
+    });
+  });
+  it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
+    cy.get('.hsi-ui-textbox-label').should('have.text', '2 fruits selected');
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-textbox-label').should('have.text', '2 fruits selected');
+    cy.get('.hsi-ui-listbox-option').eq(2).realClick();
+    cy.get('.hsi-ui-textbox-label').should('have.text', '1 fruit selected');
+  });
+});

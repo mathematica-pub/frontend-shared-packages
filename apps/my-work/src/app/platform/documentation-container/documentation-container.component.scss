@@ -1,4 +1,3 @@
-@use 'functions' as *;
 @use 'colors';
 @use 'vars' as *;
 @use 'index' as hsi-adk;
@@ -9,12 +8,12 @@
 
   .documentation-content {
     display: flex;
-    gap: grid(30);
-    margin-top: grid(6);
+    gap: hsi-adk.grid(30);
+    margin-top: hsi-adk.grid(6);
   }
 
   .document-index {
-    $top: grid(36);
+    $top: hsi-adk.grid(36);
     display: block;
     position: sticky;
     top: $top;
@@ -26,14 +25,14 @@
   }
 
   .nav-siblings {
-    padding-top: grid(10);
-    padding-bottom: grid(20);
+    padding-top: hsi-adk.grid(10);
+    padding-bottom: hsi-adk.grid(20);
   }
 
   .injected-html {
     h1 {
       @include hsi-adk.headline-medium;
-      margin: 0 0 grid(7) 0;
+      margin: 0 0 hsi-adk.grid(7) 0;
       width: 100%;
     }
 
@@ -49,27 +48,27 @@
     h3,
     h4 {
       margin: 0;
-      padding-top: grid(4);
-      padding-bottom: grid(6);
+      padding-top: hsi-adk.grid(4);
+      padding-bottom: hsi-adk.grid(6);
     }
 
     p {
-      padding-bottom: grid(6);
+      padding-bottom: hsi-adk.grid(6);
       line-height: 1.8;
     }
 
     ol {
       margin: 0;
-      padding-bottom: grid(6);
+      padding-bottom: hsi-adk.grid(6);
     }
 
     li > p:not(.code-caption) {
-      padding-bottom: grid(4);
+      padding-bottom: hsi-adk.grid(4);
     }
 
     pre {
       margin: 0;
-      padding-bottom: grid(6);
+      padding-bottom: hsi-adk.grid(6);
     }
 
     a {
@@ -83,10 +82,10 @@
 
     .shiki {
       margin: 0;
-      padding: grid(4);
+      padding: hsi-adk.grid(4);
       border: 1px solid colors.$muted-primary-90;
-      border-radius: grid(2);
-      margin-bottom: grid(8);
+      border-radius: hsi-adk.grid(2);
+      margin-bottom: hsi-adk.grid(8);
     }
 
     p.code-caption {
@@ -107,11 +106,11 @@
     p:has(> code) + hr {
       margin: 0;
       border-top: 1px solid colors.$muted-primary-80;
-      margin-bottom: grid(6);
+      margin-bottom: hsi-adk.grid(6);
     }
 
     P:has(> code):has(+ hr) {
-      padding-bottom: grid(2);
+      padding-bottom: hsi-adk.grid(2);
     }
 
     h1 > code,
@@ -124,12 +123,12 @@
     p > code {
       font-family: $font-mono;
       font-weight: 500;
-      padding-left: grid(1);
-      padding-right: grid(1);
-      background: colors.$muted-primary-98;
-      border-radius: grid(1);
+      padding-left: hsi-adk.grid(1);
+      padding-right: hsi-adk.grid(1);
+      background: colors.$muted-primary-95;
+      border-radius: hsi-adk.grid(1);
       color: colors.$primary-40;
-      padding: grid(1);
+      padding: hsi-adk.grid(0.5) hsi-adk.grid(1);
     }
 
     p > code {

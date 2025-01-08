@@ -2,13 +2,22 @@ import {
   AfterViewInit,
   Component,
   DestroyRef,
+  forwardRef,
   Input,
   OnChanges,
-  forwardRef,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, map, merge, mergeAll, switchMap } from 'rxjs';
+import {
+  debounceTime,
+  map,
+  merge,
+  mergeAll,
+  Observable,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs';
 import { ComboboxService } from '../combobox.service';
+import { ListboxGroupComponent } from '../listbox-group/listbox-group.component';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 import { ListboxComponent } from '../listbox/listbox.component';
 
@@ -28,7 +37,8 @@ export class SelectAllListboxOptionComponent
   implements OnChanges, AfterViewInit
 {
   @Input() override boxDisplayLabel = 'Select all';
-  currentControlledOptions: ListboxOptionComponent[] = [];
+  controlledOptions$: Observable<ListboxOptionComponent[]>;
+  controlledOptions: ListboxOptionComponent[];
 
   constructor(
     service: ComboboxService,
@@ -46,64 +56,75 @@ export class SelectAllListboxOptionComponent
   }
 
   ngAfterViewInit(): void {
+    this.setControlledOptions();
     this.listenForOptionSelections();
-    this.updateSelectAllSelected();
   }
 
   protected override updateSelected(selected: boolean): void {
     this._selected.next(selected);
   }
 
-  // automatically updates "selected" based on controlled options
+  setControlledOptions(): void {
+    this.controlledOptions$ = this.listboxComponent.groups$.pipe(
+      map((groups) => this.getControlledOptionsFromGroups(groups))
+    );
+
+    this.controlledOptions$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((controlledOptions) => {
+        this.controlledOptions = controlledOptions;
+      });
+  }
+
+  getControlledOptionsFromGroups(
+    groups: ListboxGroupComponent[]
+  ): ListboxOptionComponent[] {
+    let controlledOptions: ListboxOptionComponent[] = [];
+    if (groups.length > 0) {
+      const groupId = groups.findIndex((group) => {
+        return group.options.some((option) => option.id === this.id);
+      });
+      if (groupId > -1) {
+        controlledOptions = groups[groupId].options.filter((o) => o !== this);
+      }
+    } else {
+      controlledOptions = this.listboxComponent.options.filter(
+        (option) => option !== this
+      );
+    }
+    return controlledOptions;
+  }
+
   listenForOptionSelections(): void {
-    const optionSelectionChanges$ = this.listboxComponent.allOptions$.pipe(
-      map((options) => options.filter((o) => o !== this)),
+    const optionSelectionChanges$ = this.controlledOptions$.pipe(
       switchMap((options) => merge(options.map((o) => o.selected$))),
       mergeAll()
     );
 
     optionSelectionChanges$
-      .pipe(takeUntilDestroyed(this.destroyRef), debounceTime(0))
-      .subscribe(() => {
-        this.updateSelectAllSelected();
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        debounceTime(0),
+        withLatestFrom(this.controlledOptions$)
+      )
+      .subscribe(([, controlledOptions]) => {
+        this.updateSelectAllSelected(controlledOptions);
       });
   }
 
-  updateSelectAllSelected(): void {
-    const controlledOptions = this.getControlledOptions();
+  updateSelectAllSelected(controlledOptions: ListboxOptionComponent[]): void {
     const allControlledOptionsSelected = controlledOptions.every((option) =>
       option.isSelected()
     );
     this.updateSelected(allControlledOptionsSelected);
   }
 
-  getControlledOptions(): ListboxOptionComponent[] {
-    // Currently if there are groups, select all can only work for its own group
-    if (this.listboxComponent.groups.toArray().length > 0) {
-      const groupId = this.listboxComponent.getGroupIndexFromOptionIndex(
-        this.id
-      );
-      if (groupId > -1) {
-        return this.listboxComponent.groups
-          .toArray()
-          [groupId].options.toArray();
-      } else {
-        return [];
-      }
-    } else {
-      return this.listboxComponent.options
-        .toArray()
-        .filter((option) => option.boxDisplayLabel !== this.boxDisplayLabel);
-    }
-  }
-
   override toggleSelected(): void {
     this.updateSelected(!this._selected.value);
-    const controlledOptions = this.getControlledOptions();
     if (this._selected.value) {
-      controlledOptions.forEach((option) => option.select());
+      this.controlledOptions.forEach((option) => option.select());
     } else {
-      controlledOptions.forEach((option) => option.deselect());
+      this.controlledOptions.forEach((option) => option.deselect());
     }
   }
 }

@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -7,6 +8,8 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl } from '@angular/forms';
 import {
   AutoComplete,
   ComboboxAction,
@@ -22,18 +25,22 @@ import { TextboxComponent } from '../textbox/textbox.component';
   selector: 'hsi-ui-editable-textbox',
   templateUrl: './editable-textbox.component.html',
   styleUrls: ['./editable-textbox.component.scss'],
+  host: {
+    class: 'hsi-ui-editable-textbox',
+  },
 })
 export class EditableTextboxComponent
   extends TextboxComponent
-  implements OnInit
+  implements OnInit, AfterViewInit
 {
   @ViewChild('box') inputElRef: ElementRef<HTMLInputElement>;
   @Input() autoComplete: AutoComplete = AutoComplete.list;
   @Input() autoSelect = false;
   @Input() autoSelectTrigger: 'any' | 'character' = 'character';
+  @Input() formControl: FormControl<string>;
   @Input() inputType: 'text' | 'search' = 'text';
   @Input() placeholder = '';
-  @Output() textboxValue = new EventEmitter<string>();
+  @Output() valueChanges = new EventEmitter<string>();
   moveFocusToTextboxKeys = ['RightArrow', 'LeftArrow', 'Home', 'End'];
   value = '';
   override openKeys = ['ArrowDown', 'ArrowUp'];
@@ -42,22 +49,46 @@ export class EditableTextboxComponent
     super.ngOnInit();
     this.service.shouldAutoSelectOnListboxClose =
       this.autoSelect && this.autoSelectTrigger === 'any';
+    this.service.nullActiveIdOnClose = true;
+    if (this.formControl) {
+      this.setValueChangeHandlingForFormControl();
+    }
   }
 
   setInputValue(value: string): void {
-    this.inputElRef.nativeElement.value = value;
+    if (this.formControl) {
+      this.formControl.setValue(value);
+    } else {
+      this.inputElRef.nativeElement.value = value;
+    }
     if (value === '') {
       this.service.emitOptionAction(OptionAction.nullActiveIndex);
     }
   }
 
   onInputChange(value: string): void {
-    if (value === '') {
-      this.setAutoSelectWhenInputIsEmpty();
-    } else {
-      this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
+    if (!this.formControl) {
+      if (value === '') {
+        this.setAutoSelectWhenInputIsEmpty();
+      } else {
+        this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
+      }
+      this.valueChanges.emit(value);
     }
-    this.textboxValue.emit(value);
+  }
+
+  setValueChangeHandlingForFormControl(): void {
+    this.formControl.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        if (this.autoSelect) {
+          if (value === '') {
+            this.setAutoSelectWhenInputIsEmpty();
+          } else {
+            this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
+          }
+        }
+      });
   }
 
   override handleClick(): void {
