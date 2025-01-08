@@ -1,25 +1,22 @@
 name: Notify open review
 
 on:
-  push:
-    branches:
-      - '*'
-  # pull_request_review:
-  #   types: [submitted]
+  pull_request_review:
+    types: [submitted]
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
   AWS_DEFAULT_REGION: us-east-1
   AWS_DEFAULT_OUTPUT: json
-  SLACK_WEBHOOK_URL_VIC: ${{ secrets.SLACK_WEBHOOK_URL_TESTING }}
-  SLACK_WEBHOOK_URL_UIC: ${{ secrets.SLACK_WEBHOOK_URL_TESTING }}
-  SLACK_WEBHOOK_URL_ADK: ${{ secrets.SLACK_WEBHOOK_URL_TESTING }}
-  SLACK_WEBHOOK_URL_MAINTAINERS: ${{ secrets.SLACK_WEBHOOK_URL_TESTING }}
+  SLACK_WEBHOOK_URL_VIC: ${{ secrets.SLACK_WEBHOOK_URL_VIC }}
+  SLACK_WEBHOOK_URL_UIC: ${{ secrets.SLACK_WEBHOOK_URL_UIC }}
+  SLACK_WEBHOOK_URL_ADK: ${{ secrets.SLACK_WEBHOOK_URL_ADK }}
+  SLACK_WEBHOOK_URL_MAINTAINERS: ${{ secrets.SLACK_WEBHOOK_URL_MAINTAINERS }}
 
 jobs:
   approved:
-    # if: github.event.review.state == 'APPROVED' && github.event.pull_request.base.ref == 'main'
+    if: github.event.review.state == 'APPROVED' && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
 
     steps:
