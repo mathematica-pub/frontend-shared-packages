@@ -40,6 +40,7 @@ export class CaAccessStackedBarsComponent
   circleGroup: Selection<SVGGElement, unknown, null, undefined>;
   comparisonGroup: Selection<SVGGElement, unknown, null, undefined>;
   directionLabel: Selection<SVGTextElement, unknown, null, undefined>;
+  xLabel: Selection<SVGTextElement, unknown, null, undefined>;
   headerGroup: Selection<SVGGElement, unknown, null, undefined>;
   compVal: number;
   compIsBig: boolean;
@@ -53,6 +54,7 @@ export class CaAccessStackedBarsComponent
   override ngOnInit(): void {
     this.createCircleGroup();
     this.createDirectionLabel();
+    this.createXLabel();
     this.createHeaderGroup();
     this.createSizeHeaderGroup();
     this.createPlanHeaderGroup();
@@ -72,6 +74,7 @@ export class CaAccessStackedBarsComponent
     this.updateComparison();
     this.updatePercentLabels();
     this.updateDirectionLabel();
+    this.updateXLabel();
     this.updatePlanHeader();
     this.updateYLabels();
   }
@@ -85,8 +88,14 @@ export class CaAccessStackedBarsComponent
   createDirectionLabel(): void {
     this.directionLabel = select(this.chart.svgRef.nativeElement)
       .append('text')
-      .attr('class', 'direction-label')
-      .attr('y', '-1em');
+      .attr('class', 'direction-label');
+  }
+
+  createXLabel(): void {
+    this.xLabel = select(this.chart.svgRef.nativeElement)
+      .append('text')
+      .attr('class', 'x-label')
+      .attr('x', this.chart.width);
   }
 
   createHeaderGroup(): void {
@@ -263,17 +272,17 @@ export class CaAccessStackedBarsComponent
   updateDirectionLabel(): void {
     this.directionLabel
       .text(this.config.data[0].directionality)
-      .attr('y', this.chart.height + 40)
-      .attr(
-        'x',
-        this.config.data[0].directionality.includes('Higher')
-          ? this.chart.width
-          : 0
+      .attr('y', this.chart.height + 40);
+  }
+
+  updateXLabel(): void {
+    this.xLabel
+      .text(
+        this.config.data[0].units === 'Percentage'
+          ? null
+          : this.config.data[0].units
       )
-      .attr(
-        'text-anchor',
-        this.config.data[0].directionality.includes('Higher') ? 'end' : 'start'
-      );
+      .attr('y', this.chart.height + 40);
   }
 
   updatePlanHeader(): void {

@@ -107,8 +107,13 @@ $axisFontSize: 16px;
 .vic-axis-g,
 .size-headers,
 .comparison-label,
-.direction-label {
+.direction-label,
+.x-label {
   font-size: $axisFontSize;
+}
+
+.x-label {
+  text-anchor: end;
 }
 
 .comparison-label {
