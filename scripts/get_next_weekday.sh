@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+set -x
 
 get_next_weekday() {
     date=$(date +%m/%d/%Y)
