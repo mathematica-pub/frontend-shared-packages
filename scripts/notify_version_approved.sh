@@ -6,7 +6,7 @@ set -x
 # Check if changed_pkgs is empty
 if [ -z "${changed_pkgs}" ]; then
     SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL_MAINTAINERS
-    curl -X POST -H "Content-type: application/json" --data "{\"text\": \"PR (<$pr_url|$pr_title>) was approved without any version bumps.\"}" $SLACK_WEBHOOK_URL
+    curl -X POST -H "Content-type: application/json" --data "{\"text\": \"PR (<$pr_url|$pr_title>) was approved and will be merged on $next_weekday. It is not expected to bump any package versions.\"}" $SLACK_WEBHOOK_URL
     echo "No packages with version bumps."
     exit 0
 fi
