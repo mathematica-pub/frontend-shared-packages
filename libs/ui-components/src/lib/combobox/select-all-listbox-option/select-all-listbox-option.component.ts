@@ -108,7 +108,6 @@ export class SelectAllListboxOptionComponent
         withLatestFrom(this.controlledOptions$)
       )
       .subscribe(([, controlledOptions]) => {
-        console.log('select all option selection change');
         this.updateSelectAllSelected(controlledOptions);
       });
   }
