@@ -108,7 +108,7 @@ export class ListboxComponent
 
   ngAfterContentInit(): void {
     this.setProjectedContent();
-    this.setAfterOptionsAreInTemplateActions();
+    this.setOnOptionChanges();
     this.activeIndex.init(this.allOptions$, this.destroyRef);
     this.setSelectedEmitting();
     this.setOnBlurEvent();
@@ -161,10 +161,8 @@ export class ListboxComponent
     }
   }
 
-  setAfterOptionsAreInTemplateActions(): void {
-    // delay(0) is necessary to ensure that the options are in the template before setting the box label
-    // if the options are not in template, the ng-template for each option will not be rendered and option.label will be undefined
-    this.allOptions$.pipe(take(1), delay(0)).subscribe(() => {
+  setOnOptionChanges(): void {
+    this.allOptions$.pipe(take(1)).subscribe(() => {
       this.setBoxLabel();
     });
 
@@ -293,7 +291,10 @@ export class ListboxComponent
         this.service.touched$,
         this.allOptions$, // when options (not properties) change
         this.selectedOptionsToEmit$, // when a user clicks
-        this.optionPropertyChanges$.pipe(startWith(null)), // on an outside change,
+        this.optionPropertyChanges$.pipe(
+          filter((x) => !!x),
+          startWith(null)
+        ), // on an outside change,
       ])
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(([touched, options]) => {

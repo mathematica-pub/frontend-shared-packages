@@ -7,7 +7,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { ComboboxService } from '../combobox.service';
 
 export interface ListboxOptionPropertyChange {
@@ -49,8 +49,8 @@ export class ListboxOptionComponent implements OnChanges {
   selected$ = this._selected.asObservable();
   private _disabled: BehaviorSubject<boolean> = new BehaviorSubject(false);
   disabled$ = this._disabled.asObservable();
-  private externalPropertyChanges: Subject<ListboxOptionPropertyChange> =
-    new Subject();
+  private externalPropertyChanges: BehaviorSubject<ListboxOptionPropertyChange> =
+    new BehaviorSubject(null);
   externalPropertyChanges$ = this.externalPropertyChanges.asObservable();
 
   constructor(protected service: ComboboxService) {}
