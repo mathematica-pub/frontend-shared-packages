@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, distinctUntilChanged, filter } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, startWith, take } from 'rxjs';
 import {
   AutoComplete,
   ComboboxAction,
@@ -55,71 +55,152 @@ export class EditableTextboxComponent
     this.service.shouldAutoSelectOnListboxClose =
       this.autoSelect && this.autoSelectTrigger === 'any';
     this.service.nullActiveIdOnClose = true;
+    this.service.hasEditableTextbox = true;
     if (this.ngFormControl) {
       this.setValueChangeHandlingForFormControl();
     }
-    this.setUpdateInputValueOnOptionSelect();
-  }
 
-  setUpdateInputValueOnOptionSelect(): void {
-    this.service.boxLabel$
+    this.service.initBoxLabel$
       .pipe(
-        filter((label) => label !== null),
         takeUntilDestroyed(this.destroyRef),
-        distinctUntilChanged()
+        filter((x) => !!x)
       )
-      .subscribe((label) => {
-        if (this.service.isMultiSelect) {
-          this.updateInputValue('');
-        } else if (this.displaySelected) {
-          this.updateInputValue(label);
-        }
+      .subscribe(() => {
+        console.log(
+          'setUpdateInputValueOnOptionSelect',
+          this.service.allOptions
+        );
+        this.setUpdateInputValueOnOptionSelect();
       });
   }
 
-  updateInputValue(value: string): void {
-    if (this.ngFormControl) {
-      this.ngFormControl.setValue(value);
-    } else {
-      this.value.next(value);
-      this.valueChanges.emit(value);
-    }
+  override ngAfterViewInit(): void {
+    super.ngAfterViewInit();
   }
 
-  setInputValue(value: string): void {
-    if (this.ngFormControl) {
-      this.ngFormControl.setValue(value);
-    } else {
-      this.inputElRef.nativeElement.value = value;
-    }
-    if (value === '') {
-      this.service.emitOptionAction(OptionAction.nullActiveIndex);
-    }
+  setUpdateInputValueOnOptionSelect(): void {
+    combineLatest([
+      this.service.allOptions$.pipe(take(1)), // when options (not properties) change
+      this.service.selectedOptionsToEmit$, // when a user clicks
+      this.service.optionPropertyChanges$.pipe(
+        filter((x) => !!x),
+        startWith(null),
+        take(1)
+      ), // on an outside change,
+    ])
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(([selectedOptions, changes]) => {
+        console.log('changes', changes, this.service.allOptions);
+        if (this.service.isMultiSelect) {
+          this.updateInputValueFromBoxLabel('');
+        } else {
+          const label = this.service.allOptions
+            ? this.service.allOptions
+                .find((x) => x.selected)
+                ?.label?.nativeElement.innerText.trim()
+            : '';
+          console.log(
+            'label',
+            label,
+            this.service.allOptions?.find((x) => x.selected)
+          );
+          this.updateInputValueFromBoxLabel(label);
+        }
+      });
+    // this.service.boxLabel$
+    //   .pipe(
+    //     filter((label) => label !== null),
+    //     takeUntilDestroyed(this.destroyRef),
+    //     distinctUntilChanged()
+    //   )
+    //   .subscribe((label) => {
+    //     console.log(
+    //       'setUpdateInputValueOnOptionSelect with',
+    //       label,
+    //       this.service.allOptions
+    //     );
+    //     if (this.service.isMultiSelect) {
+    //       this.updateInputValueFromBoxLabel('');
+    //     } else if (this.displaySelected) {
+    //       const selected = this.service.allOptions.find(
+    //         (option) => option.selected
+    //       );
+    //       console.log(
+    //         selected,
+    //         selected?.label?.nativeElement.innerText.trim()
+    //       );
+    //       if (selected) {
+    //         this.updateInputValueFromBoxLabel(label);
+    //       }
+    //     }
+    //   });
+    // this.service.optionPropertyChanges$
+    //   .pipe(
+    //     takeUntilDestroyed(this.destroyRef),
+    //     filter((x) => !!x),
+    //     startWith(null),
+    //     distinctUntilChanged(),
+    //     withLatestFrom(this.service.allOptions$),
+    //     debounceTime(0)
+    //   )
+    //   .subscribe(([optionPropertyChange, options]) => {
+    //     console.log('optionPropertyChange', optionPropertyChange, options);
+    //     if (this.service.isMultiSelect) {
+    //       this.updateInputValueFromBoxLabel('');
+    //     } else if (this.displaySelected) {
+    //       const selected = options.find((option) => option.selected);
+    //       this.updateInputValueFromBoxLabel(selected?.boxDisplayLabel || '');
+    //     }
+    //   });
+  }
+
+  updateInputValueFromBoxLabel(value: string): void {
+    // if (this.ngFormControl) {
+    //   console.log('set editable textbox form control value 1', value);
+    //   this.ngFormControl.setValue(value, {
+    //     emitEvent: false,
+    //     emitModelToViewChange: true,
+    //   });
+    // } else {
+    console.log('updateInputValueFromBoxLabel with', value);
+    this.value.next(value);
+    // this.valueChanges.emit(value);
+    // }
   }
 
   onInputChange(value: string): void {
-    if (!this.ngFormControl) {
-      if (value === '') {
-        this.setAutoSelectWhenInputIsEmpty();
-      } else {
-        this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
-      }
+    console.log('onInputChange', value);
+    if (value === '') {
+      this.setAutoSelectWhenInputIsEmpty();
+    } else {
+      this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
+    }
+    this.value.next(value);
+    if (this.ngFormControl) {
+      this.ngFormControl.setValue(value);
+    } else {
       this.valueChanges.emit(value);
     }
   }
 
   setValueChangeHandlingForFormControl(): void {
-    this.ngFormControl.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        if (this.autoSelect) {
-          if (value === '') {
-            this.setAutoSelectWhenInputIsEmpty();
-          } else {
-            this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
-          }
-        }
-      });
+    // this.value$
+    //   .pipe(takeUntilDestroyed(this.destroyRef), skip(1))
+    //   .subscribe((value) => {
+    //     this.ngFormControl.setValue(value);
+    //   });
+    // this.ngFormControl.valueChanges
+    //   .pipe(takeUntilDestroyed(this.destroyRef))
+    //   .subscribe((value) => {
+    //     console.log('form control value change', value);
+    //     if (this.autoSelect) {
+    //       if (value === '') {
+    //         this.setAutoSelectWhenInputIsEmpty();
+    //       } else {
+    //         this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
+    //       }
+    //     }
+    //   });
   }
 
   override handleClick(): void {
@@ -147,7 +228,13 @@ export class EditableTextboxComponent
 
   override onEscape(): void {
     if (!this.service.isOpen) {
-      this.setInputValue('');
+      this.value.next('');
+      if (this.ngFormControl) {
+        this.ngFormControl.setValue('');
+      } else {
+        this.valueChanges.emit('');
+      }
+      this.service.emitOptionAction(OptionAction.nullActiveIndex);
     } else {
       this.service.closeListbox();
       this.service.setVisualFocus(VisualFocus.textbox);

@@ -5,11 +5,19 @@ import {
   DestroyRef,
   ElementRef,
   Input,
+  NgZone,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter, skip } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  filter,
+  skip,
+  startWith,
+  switchMap,
+} from 'rxjs';
 import {
   ComboboxAction,
   ComboboxService,
@@ -46,17 +54,41 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   @ViewChild('box') box: ElementRef<HTMLDivElement>;
   @ViewChild('boxIcon') boxIcon: ElementRef<HTMLDivElement>;
   openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' '];
+  label: BehaviorSubject<string> = new BehaviorSubject('');
+  label$ = this.label.asObservable();
 
   constructor(
+    private zone: NgZone,
     public service: ComboboxService,
     private platform: Platform,
     protected destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
-    this.service.dynamicLabel = this.dynamicLabel;
-    this.service.countSelectedLabel = this.selectedCountLabel;
-    this.service.customTextboxLabel = this.customLabel;
+    this.service.initBoxLabel$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((x) => !!x),
+        switchMap(
+          (newValue) =>
+            new Promise<void>((resolve) => {
+              // First, update the value
+              // this.value = newValue;
+
+              // Then run change detection and wait for it
+              this.zone.run(() => {
+                // Use Promise.resolve() to wait for the next microtask
+                Promise.resolve().then(() => {
+                  resolve();
+                });
+              });
+            })
+        )
+      )
+      .subscribe(() => {
+        console.log('initBoxLabel');
+        this.setLabel();
+      });
   }
 
   ngAfterViewInit(): void {
@@ -223,5 +255,60 @@ export class TextboxComponent implements OnInit, AfterViewInit {
         this.service.openListbox();
         this.focusBox();
     }
+  }
+
+  setLabel(): void {
+    if (this.dynamicLabel) {
+      combineLatest([
+        this.service.touched$,
+        this.service.allOptions$, // when options (not properties) change
+        this.service.selectedOptionsToEmit$, // when a user clicks
+        this.service.optionPropertyChanges$.pipe(
+          filter((x) => !!x),
+          startWith(null)
+        ), // on an outside change,
+      ])
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(([touched, options]) => {
+          const selectedOptions = this.service.getSelectedOptions(options);
+          let label = '';
+          const numSelected = selectedOptions?.length;
+          if (touched || numSelected) {
+            if (this.customLabel && !this.service.hasEditableTextbox) {
+              label = this.customLabel(selectedOptions);
+            } else if (
+              this.selectedCountLabel &&
+              !this.service.hasEditableTextbox
+            ) {
+              if (numSelected === 1) {
+                label = `${numSelected} ${this.selectedCountLabel.singular} selected`;
+              } else {
+                label = `${numSelected} ${this.selectedCountLabel.plural} selected`;
+              }
+            } else {
+              label = this.getBoxValuesLabel(selectedOptions);
+            }
+          }
+          this.label.next(label);
+        });
+    }
+  }
+
+  getBoxValuesLabel(selectedOptions: ListboxOptionComponent[]): string {
+    let label = '';
+    if (selectedOptions) {
+      label = selectedOptions
+        .reduce((acc, option) => {
+          const value =
+            option.boxDisplayLabel ??
+            option.label?.nativeElement.innerText.trim();
+          if (value) {
+            acc.push(value);
+          }
+          return acc;
+        }, [])
+        .join(', ');
+    }
+    return label;
   }
 }

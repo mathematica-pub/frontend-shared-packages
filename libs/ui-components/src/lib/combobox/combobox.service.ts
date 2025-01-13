@@ -1,15 +1,27 @@
 import { Platform } from '@angular/cdk/platform';
-import { Injectable } from '@angular/core';
+import { Injectable, QueryList } from '@angular/core';
 import {
   BehaviorSubject,
   Observable,
   Subject,
+  combineLatest,
+  delay,
   distinctUntilChanged,
+  map,
+  merge,
+  mergeAll,
   of,
+  shareReplay,
+  startWith,
+  switchMap,
 } from 'rxjs';
 import { ComboboxLabelComponent } from './combobox-label/combobox-label.component';
-import { ListboxOptionComponent } from './listbox-option/listbox-option.component';
-import { SelectedCountLabel } from './listbox/listbox.component';
+import { ListboxGroupComponent } from './listbox-group/listbox-group.component';
+import {
+  ListboxOptionComponent,
+  ListboxOptionPropertyChange,
+} from './listbox-option/listbox-option.component';
+import { SelectAllListboxOptionComponent } from './select-all-listbox-option/select-all-listbox-option.component';
 
 let nextUniqueId = 0;
 
@@ -85,12 +97,13 @@ export class ComboboxService {
   scrollContainerId = `${this.id}-scroll-container`;
   comboboxLabelId = `${this.id}-label`;
   autoComplete: AutoComplete = AutoComplete.none;
-  countSelectedLabel?: SelectedCountLabel;
-  customTextboxLabel?: (
-    options: ListboxOptionComponent[],
-    countSelectedLabel?: SelectedCountLabel
-  ) => string;
-  dynamicLabel = false;
+  // countSelectedLabel?: SelectedCountLabel;
+  // customTextboxLabel?: (
+  //   options: ListboxOptionComponent[],
+  //   countSelectedLabel?: SelectedCountLabel
+  // ) => string;
+  // dynamicLabel = false;
+  hasEditableTextbox = false;
   ignoreBlur = false;
   isMultiSelect = false;
   nullActiveIdOnClose = false;
@@ -99,8 +112,10 @@ export class ComboboxService {
   activeDescendant$: Observable<string>;
   private blurEvent: Subject<void> = new Subject();
   blurEvent$ = this.blurEvent.asObservable();
-  private boxLabel: BehaviorSubject<string> = new BehaviorSubject(null);
-  boxLabel$ = this.boxLabel.asObservable();
+  // private boxLabel: BehaviorSubject<string> = new BehaviorSubject(null);
+  // boxLabel$ = this.boxLabel.asObservable();
+  private initBoxLabel: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  initBoxLabel$ = this.initBoxLabel.asObservable();
   private _isOpen: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isOpen$ = this._isOpen.asObservable().pipe(distinctUntilChanged());
   private label: BehaviorSubject<ComboboxLabelComponent> = new BehaviorSubject(
@@ -114,6 +129,13 @@ export class ComboboxService {
   private touched: BehaviorSubject<boolean> = new BehaviorSubject(false);
   touched$ = this.touched.asObservable();
   visualFocus$ = this._visualFocus.asObservable();
+  allOptions$: Observable<ListboxOptionComponent[]>;
+  groups$: Observable<ListboxGroupComponent[]>;
+  optionPropertyChanges$: Observable<ListboxOptionPropertyChange>;
+  private selectedOptionsToEmit: BehaviorSubject<ListboxOptionComponent[]> =
+    new BehaviorSubject([]);
+  selectedOptionsToEmit$ = this.selectedOptionsToEmit.asObservable();
+  allOptions: ListboxOptionComponent[];
 
   constructor(private platform: Platform) {}
 
@@ -149,8 +171,8 @@ export class ComboboxService {
     this._isOpen.next(!this._isOpen.value);
   }
 
-  updateBoxLabel(label: string): void {
-    this.boxLabel.next(label);
+  setTextboxLabel(): void {
+    this.initBoxLabel.next(true);
   }
 
   emitBlurEvent(): void {
@@ -171,5 +193,70 @@ export class ComboboxService {
 
   isMobile(): boolean {
     return this.platform.ANDROID || this.platform.IOS;
+  }
+
+  setProjectedContent(
+    groups: QueryList<ListboxGroupComponent>,
+    options: QueryList<ListboxOptionComponent>
+  ): void {
+    this.setGroups(groups);
+    this.setAllOptions(groups, options);
+
+    this.optionPropertyChanges$ = this.allOptions$.pipe(
+      switchMap((options) =>
+        merge(options.map((o) => o.externalPropertyChanges$))
+      ),
+      mergeAll()
+    );
+  }
+
+  setGroups(groups: QueryList<ListboxGroupComponent>): void {
+    this.groups$ = groups.changes.pipe(
+      startWith(''),
+      map(() => groups.toArray()),
+      delay(0)
+    );
+  }
+
+  setAllOptions(
+    groups: QueryList<ListboxGroupComponent>,
+    options: QueryList<ListboxOptionComponent>
+  ): void {
+    // will not track changes to properties, just if the list of options changes
+    if (groups.length > 0) {
+      this.allOptions$ = this.groups$.pipe(
+        switchMap((groups) =>
+          combineLatest(groups.map((group) => group.options$))
+        ),
+        map((optionArrays) => optionArrays.flat()),
+        delay(200),
+        shareReplay(1)
+      );
+    } else {
+      this.allOptions$ = options.changes.pipe(
+        startWith(''),
+        map(() => options.toArray()),
+        delay(200),
+        shareReplay(1)
+      );
+    }
+  }
+
+  setSelectedOptionsToEmit(selected: ListboxOptionComponent[]): void {
+    this.selectedOptionsToEmit.next(selected);
+  }
+
+  getSelectedOptions(
+    options: ListboxOptionComponent[]
+  ): ListboxOptionComponent[] {
+    return options?.filter(
+      (option) => !this.isSelectAllListboxOption(option) && option.isSelected()
+    );
+  }
+
+  isSelectAllListboxOption(
+    option: ListboxOptionComponent
+  ): option is SelectAllListboxOptionComponent {
+    return option instanceof SelectAllListboxOptionComponent;
   }
 }

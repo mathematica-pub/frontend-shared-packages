@@ -14,6 +14,7 @@ export interface ListboxOptionPropertyChange {
   property: 'selected' | 'disabled';
   value: boolean;
   comboboxId: string;
+  id: number;
   optionValue: string | number | boolean;
 }
 
@@ -26,6 +27,7 @@ let nextUniqueId = 0;
 })
 export class ListboxOptionComponent implements OnChanges {
   @ViewChild('label') label: ElementRef<HTMLDivElement>;
+  @ViewChild('optionContainer') optionContainer: ElementRef<HTMLDivElement>;
   @ViewChild('option') template: TemplateRef<unknown>;
   @Input() boxDisplayLabel: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -96,6 +98,7 @@ export class ListboxOptionComponent implements OnChanges {
       property,
       value: this[property],
       comboboxId: this.service.id,
+      id: this.id,
       optionValue: this.valueToEmit,
     };
   }

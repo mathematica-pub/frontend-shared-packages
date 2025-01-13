@@ -8,6 +8,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  NgZone,
   OnChanges,
   Output,
   QueryList,
@@ -17,18 +18,11 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
 import {
-  BehaviorSubject,
   combineLatest,
-  delay,
   filter,
   map,
-  merge,
-  mergeAll,
-  Observable,
   pairwise,
   skip,
-  startWith,
-  switchMap,
   take,
   withLatestFrom,
 } from 'rxjs';
@@ -40,10 +34,7 @@ import {
 import { ListboxFilteringService } from '../listbox-filtering/listbox-filtering.service';
 import { ListboxGroupComponent } from '../listbox-group/listbox-group.component';
 import { ListboxLabelComponent } from '../listbox-label/listbox-label.component';
-import {
-  ListboxOptionComponent,
-  ListboxOptionPropertyChange,
-} from '../listbox-option/listbox-option.component';
+import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 import { ListboxScrollService } from '../listbox-scroll/listbox-scroll.service';
 import { SelectAllListboxOptionComponent } from '../select-all-listbox-option/select-all-listbox-option.component';
 import { ActiveIndexService } from './active-index.service';
@@ -84,15 +75,16 @@ export class ListboxComponent
   options: QueryList<ListboxOptionComponent>;
   @ContentChildren(ListboxGroupComponent)
   groups: QueryList<ListboxGroupComponent>;
-  allOptions$: Observable<ListboxOptionComponent[]>;
-  groups$: Observable<ListboxGroupComponent[]>;
-  optionPropertyChanges$: Observable<ListboxOptionPropertyChange>;
-  selectedOptionsToEmit: BehaviorSubject<ListboxOptionComponent[]> =
-    new BehaviorSubject([]);
-  selectedOptionsToEmit$ = this.selectedOptionsToEmit.asObservable();
+  // allOptions$: Observable<ListboxOptionComponent[]>;
+  // groups$: Observable<ListboxGroupComponent[]>;
+  // optionPropertyChanges$: Observable<ListboxOptionPropertyChange>;
+  // selectedOptionsToEmit: BehaviorSubject<ListboxOptionComponent[]> =
+  //   new BehaviorSubject([]);
+  // selectedOptionsToEmit$ = this.selectedOptionsToEmit.asObservable();
   allOptions: ListboxOptionComponent[];
 
   constructor(
+    private zone: NgZone,
     public service: ComboboxService,
     public activeIndex: ActiveIndexService,
     protected filtering: ListboxFilteringService,
@@ -107,9 +99,8 @@ export class ListboxComponent
   }
 
   ngAfterContentInit(): void {
-    this.setProjectedContent();
-    this.setOnOptionChanges();
-    this.activeIndex.init(this.allOptions$, this.destroyRef);
+    this.service.setProjectedContent(this.groups, this.options);
+    this.activeIndex.init(this.service.allOptions$, this.destroyRef);
     this.setSelectedEmitting();
     this.setOnBlurEvent();
     this.setOptionAction();
@@ -119,63 +110,42 @@ export class ListboxComponent
   }
 
   ngAfterViewInit(): void {
+    this.setOnOptionChanges();
     this.activeIndex.setScrollContentRef(this.scrollContentRef);
     this.setResetOnClose();
   }
 
-  setProjectedContent(): void {
-    this.setGroups();
-    this.setAllOptions();
-
-    this.optionPropertyChanges$ = this.allOptions$.pipe(
-      switchMap((options) =>
-        merge(options.map((o) => o.externalPropertyChanges$))
-      ),
-      mergeAll()
-    );
-  }
-
-  setGroups(): void {
-    this.groups$ = this.groups.changes.pipe(
-      startWith(''),
-      map(() => this.groups.toArray()),
-      delay(0)
-    );
-  }
-
-  setAllOptions(): void {
-    // will not track changes to properties, just if the list of options changes
-    if (this.groups.length > 0) {
-      this.allOptions$ = this.groups$.pipe(
-        switchMap((groups) =>
-          combineLatest(groups.map((group) => group.options$))
-        ),
-        map((optionArrays) => optionArrays.flat())
-      );
-    } else {
-      this.allOptions$ = this.options.changes.pipe(
-        startWith(''),
-        map(() => this.options.toArray()),
-        delay(0)
-      );
-    }
-  }
-
   setOnOptionChanges(): void {
-    this.allOptions$.pipe(take(1)).subscribe(() => {
-      this.setBoxLabel();
+    this.service.allOptions$.pipe(take(1)).subscribe((options) => {
+      options.forEach((option) => {
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.type === 'childList') {
+              console.log('Content DOM changed', mutations);
+            }
+          });
+        });
+
+        observer.observe(option.optionContainer.nativeElement, {
+          childList: true,
+          subtree: true,
+        });
+      });
+      this.service.setTextboxLabel();
     });
 
     // cannot pass allOptions$ to handleOptionClick through template because @if (allOptions | async; as allOptions) will delay rendering of option.template and option.label will not be defined when setBoxLabel is called. Thus subscribe and set allOptions in here.
-    this.allOptions$
+    this.service.allOptions$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((options) => {
+        console.log('allOptions', options);
         this.allOptions = options;
+        this.service.allOptions = options;
       });
   }
 
   setSelectedEmitting(): void {
-    this.selectedOptionsToEmit$
+    this.service.selectedOptionsToEmit$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         skip(1),
@@ -209,7 +179,7 @@ export class ListboxComponent
         takeUntilDestroyed(this.destroyRef),
         withLatestFrom(
           combineLatest([this.service.isOpen$, this.activeIndex.activeIndex$]),
-          this.allOptions$
+          this.service.allOptions$
         ),
         filter(([, [isOpen]]) => isOpen)
       )
@@ -239,7 +209,7 @@ export class ListboxComponent
     this.service.optionAction$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        withLatestFrom(this.activeIndex.activeIndex$, this.allOptions$)
+        withLatestFrom(this.activeIndex.activeIndex$, this.service.allOptions$)
       )
       .subscribe(([action, activeIndex, options]) => {
         if (options.length === 0) {
@@ -269,7 +239,7 @@ export class ListboxComponent
         takeUntilDestroyed(this.destroyRef),
         skip(1),
         filter((isOpen) => !isOpen),
-        withLatestFrom(this.allOptions$)
+        withLatestFrom(this.service.allOptions$)
       )
       .subscribe(([, options]) => {
         this.activeIndex.setActiveIndexToFirstSelectedOrDefault(options);
@@ -285,58 +255,6 @@ export class ListboxComponent
     }
   }
 
-  setBoxLabel(): void {
-    if (this.service.dynamicLabel) {
-      combineLatest([
-        this.service.touched$,
-        this.allOptions$, // when options (not properties) change
-        this.selectedOptionsToEmit$, // when a user clicks
-        this.optionPropertyChanges$.pipe(
-          filter((x) => !!x),
-          startWith(null)
-        ), // on an outside change,
-      ])
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(([touched, options]) => {
-          const selectedOptions = this.getSelectedOptions(options);
-          let label = '';
-          const numSelected = selectedOptions?.length;
-          if (touched || numSelected) {
-            if (this.service.customTextboxLabel) {
-              label = this.service.customTextboxLabel(selectedOptions);
-            } else if (this.service.countSelectedLabel) {
-              if (numSelected === 1) {
-                label = `${numSelected} ${this.service.countSelectedLabel.singular} selected`;
-              } else {
-                label = `${numSelected} ${this.service.countSelectedLabel.plural} selected`;
-              }
-            } else {
-              label = this.getBoxValuesLabel(selectedOptions);
-            }
-          }
-          this.service.updateBoxLabel(label);
-        });
-    }
-  }
-
-  getBoxValuesLabel(selectedOptions: ListboxOptionComponent[]): string {
-    let label = '';
-    if (selectedOptions) {
-      label = selectedOptions
-        .reduce((acc, option) => {
-          const value =
-            option.boxDisplayLabel ??
-            option.label?.nativeElement.innerText.trim();
-          if (value) {
-            acc.push(value);
-          }
-          return acc;
-        }, [])
-        .join(', ');
-    }
-    return label;
-  }
-
   getListboxLabelAsBoxPlaceholder(): string {
     return this.label?.label?.nativeElement.innerText || '';
   }
@@ -350,7 +268,6 @@ export class ListboxComponent
 
   handleOptionClick(
     event: MouseEvent,
-    // options: ListboxOptionComponent[],
     optionIndex: number,
     groupIndex?: number
   ): void {
@@ -394,7 +311,7 @@ export class ListboxComponent
 
   updateSelectedOptionsToEmit(options: ListboxOptionComponent[]): void {
     const selected = this.getSelectedOptions(options);
-    this.selectedOptionsToEmit.next(selected);
+    this.service.setSelectedOptionsToEmit(selected);
   }
 
   selectSingleSelectOption(
@@ -436,14 +353,14 @@ export class ListboxComponent
   }
 
   updateActiveIndexOnExternalChanges(): void {
-    this.optionPropertyChanges$
+    this.service.optionPropertyChanges$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         pairwise(),
         filter(([prev, curr]) => {
           return !!prev && !!curr && prev.optionValue !== curr.optionValue;
         }),
-        withLatestFrom(this.allOptions$, this.activeIndex.activeIndex$)
+        withLatestFrom(this.service.allOptions$, this.activeIndex.activeIndex$)
       )
       .subscribe(([, options]) => {
         this.activeIndex.setActiveIndexToFirstSelectedOrDefault(options);

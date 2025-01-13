@@ -65,7 +65,7 @@ export class SelectAllListboxOptionComponent
   }
 
   setControlledOptions(): void {
-    this.controlledOptions$ = this.listboxComponent.groups$.pipe(
+    this.controlledOptions$ = this.service.groups$.pipe(
       map((groups) => this.getControlledOptionsFromGroups(groups))
     );
 

@@ -1,5 +1,5 @@
 <ng-template #option>
-  <div class="hsi-ui-listbox-option-container">
+  <div class="hsi-ui-listbox-option-container" #optionContainer>
     <ng-container *ngIf="isSelected()">
       <ng-container *ngTemplateOutlet="selectedIcon"></ng-container>
     </ng-container>
