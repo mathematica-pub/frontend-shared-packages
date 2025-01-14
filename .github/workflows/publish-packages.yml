@@ -4,11 +4,19 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  pull-requests: read
+
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
   AWS_DEFAULT_REGION: us-east-1
   AWS_DEFAULT_OUTPUT: json
+  SLACK_WEBHOOK_URL_VIC: ${{ secrets.SLACK_WEBHOOK_URL_VIC }}
+  SLACK_WEBHOOK_URL_UIC: ${{ secrets.SLACK_WEBHOOK_URL_UIC }}
+  SLACK_WEBHOOK_URL_ADK: ${{ secrets.SLACK_WEBHOOK_URL_ADK }}
+  SLACK_WEBHOOK_URL_MAINTAINERS: ${{ secrets.SLACK_WEBHOOK_URL_MAINTAINERS }}
 
 jobs:
   release-affected-packages:
@@ -31,6 +39,10 @@ jobs:
           node-version: 20
           cache: 'npm'
 
+      - name: Get Current Pull Request
+        uses: 8BitJonny/gh-get-current-pr@3.0.0
+        id: PR
+
       - name: Install dependencies
         run: npm ci
 
@@ -42,8 +54,20 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Get packages with version bump
+        id: changed_pkgs
+        run: bash scripts/get_pkgs_with_version_bump.sh
+
       - name: Update versions and release packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_REGION: us-east-1
         run: npx nx affected -t version --base=origin/main~1 --head=origin/main --parallel=false
+
+      - name: Notify Success
+        if: success()
+        env:
+          changed_pkgs: ${{ env.changed_pkgs }}
+          pr_title: ${{ steps.PR.outputs.pr_title }}
+          pr_url: ${{ steps.PR.outputs.pr_url }}
+        run: bash scripts/notify_version_released.sh
