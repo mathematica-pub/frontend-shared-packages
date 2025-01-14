@@ -1,0 +1,154 @@
+@use 'index' as hsi-adk;
+
+.baseline-styles-content-container {
+  .documentation-container .injected-html {
+    .mixin-display {
+      --hsi-adk-font-sans: 'Noto Sans';
+      padding-bottom: hsi-adk.grid(6);
+
+      p {
+        padding: 0;
+      }
+
+      .display-large {
+        @include hsi-adk.display-large;
+      }
+
+      .display-medium {
+        @include hsi-adk.display-medium;
+      }
+
+      .display-small {
+        @include hsi-adk.display-small;
+      }
+
+      .headline-large {
+        @include hsi-adk.headline-large;
+      }
+
+      .headline-medium {
+        @include hsi-adk.headline-medium;
+      }
+
+      .headline-small {
+        @include hsi-adk.headline-small;
+      }
+
+      .title-large {
+        @include hsi-adk.title-large;
+      }
+
+      .title-medium {
+        @include hsi-adk.title-medium;
+      }
+
+      .title-small {
+        @include hsi-adk.title-small;
+      }
+
+      .title-small {
+        @include hsi-adk.title-small;
+      }
+
+      .body-large {
+        @include hsi-adk.body-large;
+      }
+
+      .body-medium {
+        @include hsi-adk.body-medium;
+      }
+
+      .body-small {
+        @include hsi-adk.body-small;
+      }
+
+      .body-xs {
+        @include hsi-adk.body-xs;
+      }
+
+      .body-2xs {
+        @include hsi-adk.body-2xs;
+      }
+
+      .label-large {
+        @include hsi-adk.label-large;
+      }
+
+      .label-large-prominent {
+        @include hsi-adk.label-large-prominent;
+      }
+
+      .label-large-caps {
+        @include hsi-adk.label-large-caps;
+      }
+
+      .label-large-caps-prominent {
+        @include hsi-adk.label-large-caps-prominent;
+      }
+
+      .label-medium {
+        @include hsi-adk.label-medium;
+      }
+
+      .label-medium-prominent {
+        @include hsi-adk.label-medium-prominent;
+      }
+
+      .label-medium-caps {
+        @include hsi-adk.label-medium-caps;
+      }
+
+      .label-medium-caps-prominent {
+        @include hsi-adk.label-medium-caps-prominent;
+      }
+
+      .label-small {
+        @include hsi-adk.label-small;
+      }
+
+      .label-small-prominent {
+        @include hsi-adk.label-small-prominent;
+      }
+
+      .label-small-caps {
+        @include hsi-adk.label-small-caps;
+      }
+
+      .label-small-caps-prominent {
+        @include hsi-adk.label-small-caps-prominent;
+      }
+
+      .label-xs {
+        @include hsi-adk.label-xs;
+      }
+
+      .label-xs-prominent {
+        @include hsi-adk.label-xs-prominent;
+      }
+
+      .label-xs-caps {
+        @include hsi-adk.label-xs-caps;
+      }
+
+      .label-xs-caps-prominent {
+        @include hsi-adk.label-xs-caps-prominent;
+      }
+
+      .label-2xs {
+        @include hsi-adk.label-2xs;
+      }
+
+      .label-2xs-prominent {
+        @include hsi-adk.label-2xs-prominent;
+      }
+
+      .label-2xs-caps {
+        @include hsi-adk.label-2xs-caps;
+      }
+
+      .label-2xs-caps-prominent {
+        @include hsi-adk.label-2xs-caps-prominent;
+      }
+    }
+  }
+}

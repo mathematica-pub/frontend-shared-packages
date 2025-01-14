@@ -19,15 +19,30 @@ import {
   TextboxAction,
   VisualFocus,
 } from '../combobox.service';
+import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
+import { CountSelectedLabel } from '../listbox/listbox.component';
 
 @Component({
   selector: 'hsi-ui-textbox',
+  styleUrls: ['./textbox.component.scss'],
   templateUrl: './textbox.component.html',
+  host: {
+    class: 'hsi-ui-textbox',
+  },
 })
 export class TextboxComponent implements OnInit, AfterViewInit {
-  @Input() displaySelected = false;
-  @Input() findsOptionOnTyping = true;
   @Input() ariaLabel?: string;
+  @Input() showSelectedCount?: CountSelectedLabel;
+  @Input() customLabel: (selectedOptions: ListboxOptionComponent[]) => string;
+  /*
+   * Whether the textbox label responds to selections in any way.
+   *
+   * If true, the textbox label will display the selected option(s) if no other label properties are provided.
+   *
+   * @default true
+   */
+  @Input() dynamicLabel = true;
+  @Input() findsOptionOnTyping = true;
   @ViewChild('box') box: ElementRef<HTMLDivElement>;
   @ViewChild('boxIcon') boxIcon: ElementRef<HTMLDivElement>;
   openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' '];
@@ -39,7 +54,9 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.service.displayValue = this.displaySelected;
+    this.service.dynamicLabel = this.dynamicLabel;
+    this.service.countSelectedLabel = this.showSelectedCount;
+    this.service.customTextboxLabel = this.customLabel;
   }
 
   ngAfterViewInit(): void {
@@ -92,6 +109,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     if (this.service.isOpen) {
       this.service.closeListbox();
     } else {
+      this.service.setTouched();
       this.service.openListbox();
     }
     this.focusBox();
@@ -101,6 +119,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     if (event.key === 'Escape') {
       this.onEscape();
     } else {
+      this.service.setTouched();
       const action = this.getActionFromKeydownEvent(event);
       this.handleKeyboardAction(action, event);
     }
@@ -168,7 +187,8 @@ export class TextboxComponent implements OnInit, AfterViewInit {
         this.service.openListbox();
         this.focusBox();
         event.preventDefault();
-        return this.service.emitOptionAction(action);
+        this.service.emitOptionAction(action);
+        break;
 
       case OptionAction.next:
       case OptionAction.pageDown:
@@ -176,31 +196,32 @@ export class TextboxComponent implements OnInit, AfterViewInit {
       case OptionAction.pageUp:
       case OptionAction.select:
         event.preventDefault();
-        return this.service.emitOptionAction(action);
+        this.service.emitOptionAction(action);
+        break;
 
       case ListboxAction.closeSelect:
         event.preventDefault();
         this.service.emitOptionAction(OptionAction.select);
         this.service.closeListbox();
         this.focusBox();
-        return this.service.emitOptionAction(OptionAction.nullActiveIndex);
+        break;
 
       case ListboxAction.close:
         event.preventDefault();
         this.service.closeListbox();
         this.focusBox();
-        return this.service.emitOptionAction(OptionAction.nullActiveIndex);
+        break;
 
       case TextboxAction.type:
         this.service.openListbox();
         this.focusBox();
-        return this.service.emitOptionAction(event.key);
+        this.service.emitOptionAction(event.key);
+        break;
 
       case ListboxAction.open:
         event.preventDefault();
-        this.service.emitOptionAction(OptionAction.zeroActiveIndex);
         this.service.openListbox();
-        return this.focusBox();
+        this.focusBox();
     }
   }
 }

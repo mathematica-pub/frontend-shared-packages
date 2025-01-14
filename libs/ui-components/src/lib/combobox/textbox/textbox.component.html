@@ -1,6 +1,6 @@
 <div
   #box
-  class="combobox-textbox"
+  class="hsi-ui-textbox-container"
   role="combobox"
   tabindex="0"
   [id]="service.id + '-textbox'"
@@ -18,14 +18,17 @@
   aria-haspopup="listbox"
   [class.open]="service.isOpen$ | async"
   ><div
-    *ngIf="displaySelected && service.boxLabel$ | async; else staticLabel"
-    class="textbox-label"
+    *ngIf="dynamicLabel && !!(service.boxLabel$ | async); else staticLabel"
+    class="hsi-ui-textbox-label"
     data-cy="textbox-label"
     >{{ service.boxLabel$ | async }}</div
-  ><div #boxIcon class="textbox-icon" [class.open]="service.isOpen$ | async"
+  ><div
+    #boxIcon
+    class="hsi-ui-textbox-icon"
+    [class.open]="service.isOpen$ | async"
     ><ng-content select="[boxIcon]"></ng-content></div
 ></div>
 <ng-template #staticLabel
-  ><div class="textbox-label" data-cy="textbox-label"
+  ><div class="hsi-ui-textbox-label" data-cy="textbox-label"
     ><ng-content select="[boxLabel]"></ng-content></div
 ></ng-template>

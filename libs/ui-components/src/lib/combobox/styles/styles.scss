@@ -1,0 +1,112 @@
+@use '../../core/styles/sass-utils' as sass-utils;
+@use '../../core/styles/functions' as *;
+
+$combobox: (
+  'background': var(--hsi-adk-color-primary-100, white),
+  'border-width': 1px,
+  'border-color': var(--hsi-adk-color-muted-primary-40, gray),
+  'max-width': none,
+  'border-radius': grid(2),
+);
+
+$textbox: (
+  'display': flex,
+  'justify-content': space-between,
+  'align-items': center,
+  'background': var(--hsi-adk-color-primary-100, white),
+  'border-bottom-open': 1px solid var(--hsi-adk-color-muted-primary-80, gray),
+  'padding': grid(3),
+  'label': (
+    'text-overflow': ellipsis,
+    'white-space': nowrap,
+    'overflow': hidden,
+    'max-width': calc(var(--hsi-ui-combobox-max-width) - grid(4)),
+  ),
+  'icon': (
+    'display': flex,
+    'flex-direction': column,
+    'justify-content': center,
+  ),
+  'transition-duration': 150ms,
+);
+
+$editable-textbox: (
+  'padding': grid(2),
+  'input': (
+    'border': none,
+    'border-bottom': 1px solid transparent,
+    'border-radius': 0,
+    'width': 100%,
+    'padding': grid(1) grid(2),
+    'hover': (
+      'border': 0,
+      'border-bottom': 1px solid var(--hsi-adk-color-muted-primary-70, gray),
+      'background': var(--hsi-adk-color-muted-primary-98, #f2f2f2),
+      'outline': none,
+    ),
+  ),
+);
+
+$listbox: (
+  'z-index': 100,
+  'padding': grid(2) 0,
+  'max-height': 300px,
+  'background': var(--hsi-adk-color-primary-100, white),
+);
+
+$listbox-option: (
+  'hover': (
+    'background': var(--hsi-adk-color-muted-primary-95, #f2f2f2),
+  ),
+  'selected': (
+    'background': var(--hsi-adk-color-muted-primary-90, lightgray),
+  ),
+  'disabled': (
+    'color': var(--hsi-adk-color-muted-primary-80, lightgray),
+  ),
+  'current': (
+    'background': var(--hsi-adk-color-muted-primary-95, #f2f2f2),
+  ),
+  'label': (
+    'padding': grid(3),
+  ),
+  'cursor': pointer,
+  'container': (
+    'display': flex,
+    'flex-direction': row,
+    'align-items': center,
+    'padding': grid(2) var(--hsi-ui-textbox-padding),
+    'gap': grid(2),
+  ),
+);
+
+$listbox-label: (
+  'font-size': 0.9em,
+  'font-weight': var(--hsi-adk-font-weight-semibold, 600),
+  'text-transform': uppercase,
+  'padding': grid(1) var(--hsi-ui-textbox-padding),
+);
+
+html {
+  @include sass-utils.map-scss-vars-into-css-vars($combobox, 'hsi-ui-combobox');
+  @include sass-utils.map-scss-vars-into-css-vars($textbox, 'hsi-ui-textbox');
+  @include sass-utils.map-scss-vars-into-css-vars(
+    $editable-textbox,
+    'hsi-ui-editable-textbox'
+  );
+  @include sass-utils.map-scss-vars-into-css-vars($listbox, 'hsi-ui-listbox');
+  @include sass-utils.map-scss-vars-into-css-vars(
+    $listbox-label,
+    'hsi-ui-listbox-label'
+  );
+  @include sass-utils.map-scss-vars-into-css-vars(
+    $listbox-option,
+    'hsi-ui-listbox-option'
+  );
+}
+
+.hsi-ui-combobox {
+  display: block;
+  position: relative;
+  max-width: var(--hsi-ui-combobox-max-width);
+}

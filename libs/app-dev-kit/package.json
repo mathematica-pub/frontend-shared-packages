@@ -28,7 +28,7 @@
   },
   "exports": {
     ".": {
-      "sass": "./styles/_index.scss"
+      "sass": "./baseline-styles/_index.scss"
     }
   },
   "sideEffects": false
