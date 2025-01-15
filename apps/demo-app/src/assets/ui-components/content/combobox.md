@@ -145,7 +145,7 @@ Values are emitted only when the user selects or deselects an option.
 #### Using an Angular Form Control with the Combobox
 
 Users may also provide an Angular `FormControl` to the listbox to manage the selected values, via
-the `formControl` input on the `hsi-ui-listbox`.
+the `ngFormControl` input on the `hsi-ui-listbox`.
 
 If a form control is provided, the combobox will not emit values through the `valueChanges` event.
 Instead, users can subscribe to the form control's `valueChanges` observable to get the selected
@@ -159,8 +159,8 @@ values.
 </hsi-ui-listbox>
 ```
 
-If the combobox is single-select, the `formControl` should be of type `FormControl<any>`. If it is
-multi-select, the `formControl` should be of type `FormControl<any[]>`.
+If the combobox is single-select, the `ngFormControl` should be of type `FormControl<any>`. If it is
+multi-select, the `ngFormControl` should be of type `FormControl<any[]>`.
 
 **Note:** Providing an inital value to the `formControl` will not set or change the value of the
 selections in the combobox. See the section on setting listbox option properties externally for more
@@ -482,8 +482,8 @@ onSelection(selected: string): void {
 
 #### Using an Angular Form Control with an Editable Textbox
 
-Users may also provide an Angular `FormControl` to the `hsi-ui-editable-textbox` to manage the value
-of the texbox `input`.
+Users may also provide an Angular `FormControl` to the `hsi-ui-editable-textbox` `ngFormControl`
+input property to manage the value of the texbox `input`.
 
 If a form control is provided, the textbox will not emit values through the `valueChanges` event.
 Instead, users can subscribe to the form control's `valueChanges` observable to get the selected
@@ -513,7 +513,7 @@ this.vm$ = combineLatest([
 
 If you want to provide an initial value to the textbox, you can do so by providing a value to the
 `initialValue` property if you are using the `valueChanges` event emitter or by providing a value to
-the `formControl` if you are using a form control.
+the `ngFormControl` if you are using a form control.
 
 It is suggested to provide an initial value to the editable textbox if your listbox is single select
 and if one of your options will be selected on initialization.
