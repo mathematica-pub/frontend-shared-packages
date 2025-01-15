@@ -75,7 +75,6 @@ export class ListboxComponent
   options: QueryList<ListboxOptionComponent>;
   @ContentChildren(ListboxGroupComponent)
   groups: QueryList<ListboxGroupComponent>;
-  allOptions: ListboxOptionComponent[];
 
   constructor(
     public service: ComboboxService,
@@ -117,7 +116,6 @@ export class ListboxComponent
     this.service.allOptions$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((options) => {
-        this.allOptions = options;
         this.service.allOptions = options;
       });
   }
