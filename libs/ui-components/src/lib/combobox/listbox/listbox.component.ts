@@ -8,7 +8,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgZone,
   OnChanges,
   Output,
   QueryList,
@@ -19,6 +18,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
 import {
   combineLatest,
+  delay,
   filter,
   map,
   pairwise,
@@ -75,16 +75,9 @@ export class ListboxComponent
   options: QueryList<ListboxOptionComponent>;
   @ContentChildren(ListboxGroupComponent)
   groups: QueryList<ListboxGroupComponent>;
-  // allOptions$: Observable<ListboxOptionComponent[]>;
-  // groups$: Observable<ListboxGroupComponent[]>;
-  // optionPropertyChanges$: Observable<ListboxOptionPropertyChange>;
-  // selectedOptionsToEmit: BehaviorSubject<ListboxOptionComponent[]> =
-  //   new BehaviorSubject([]);
-  // selectedOptionsToEmit$ = this.selectedOptionsToEmit.asObservable();
   allOptions: ListboxOptionComponent[];
 
   constructor(
-    private zone: NgZone,
     public service: ComboboxService,
     public activeIndex: ActiveIndexService,
     protected filtering: ListboxFilteringService,
@@ -110,27 +103,13 @@ export class ListboxComponent
   }
 
   ngAfterViewInit(): void {
-    this.setOnOptionChanges();
     this.activeIndex.setScrollContentRef(this.scrollContentRef);
     this.setResetOnClose();
+    this.setOnOptionChanges();
   }
 
   setOnOptionChanges(): void {
-    this.service.allOptions$.pipe(take(1)).subscribe((options) => {
-      options.forEach((option) => {
-        const observer = new MutationObserver((mutations) => {
-          mutations.forEach((mutation) => {
-            if (mutation.type === 'childList') {
-              console.log('Content DOM changed', mutations);
-            }
-          });
-        });
-
-        observer.observe(option.optionContainer.nativeElement, {
-          childList: true,
-          subtree: true,
-        });
-      });
+    this.service.allOptions$.pipe(take(1), delay(0)).subscribe(() => {
       this.service.setTextboxLabel();
     });
 
@@ -138,7 +117,6 @@ export class ListboxComponent
     this.service.allOptions$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((options) => {
-        console.log('allOptions', options);
         this.allOptions = options;
         this.service.allOptions = options;
       });
@@ -272,7 +250,7 @@ export class ListboxComponent
     groupIndex?: number
   ): void {
     event.stopPropagation();
-    this.handleOptionSelect(optionIndex, this.allOptions, groupIndex);
+    this.handleOptionSelect(optionIndex, this.service.allOptions, groupIndex);
     if (!this.isMultiSelect) {
       this.service.closeListbox();
     }

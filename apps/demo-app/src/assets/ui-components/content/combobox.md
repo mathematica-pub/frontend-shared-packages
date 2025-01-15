@@ -142,7 +142,7 @@ as its value.
 By default, the comboxbox emits its value through the `valueChanges` event on the `hsi-ui-listbox`.
 Values are emitted only when the user selects or deselects an option.
 
-#### Using the combobox with Angular Forms
+#### Using an Angular Form Control with the Combobox
 
 Users may also provide an Angular `FormControl` to the listbox to manage the selected values, via
 the `formControl` input on the `hsi-ui-listbox`.
@@ -161,6 +161,10 @@ values.
 
 If the combobox is single-select, the `formControl` should be of type `FormControl<any>`. If it is
 multi-select, the `formControl` should be of type `FormControl<any[]>`.
+
+**Note:** Providing an inital value to the `formControl` will not set or change the value of the
+selections in the combobox. See the section on setting listbox option properties externally for more
+information.
 
 ### Customizing the Textbox Label
 
@@ -294,32 +298,56 @@ filter the options in the listbox based on this value.
 The `hsi-ui-editable-textbox` will not recognize a provided `boxLabel`. If a label is desired in the
 textbox before user text is provided, this label should be passed to the `placeholder` property.
 
-**Note:** When filtering options via text from the textbox, you must provide an expression for the
-`selected` input property on each `hsi-ui-listbox-option` to retain selections as the options are
-filtered.
+**Important:** When filtering options via text from the textbox, you must provide an expression for
+the `selected` input property on each `hsi-ui-listbox-option` if you wish to retain selections as
+the options are filtered.
+
+To achieve this, it is recommended that you create a single view model observable that contains both
+options and the selected value of the combobox so that the options and the `selected` property on
+each `hsi-ui-listbox-option` update at the same time. (See examples below.)
+
+#### Single / Multi Select with an Editable Textbox
+
+The single- and multi-select versions of the filterable combobox have slightly different behaviors
+and will require you to filter options in different ways in the consuming component.
+
+**Single Select**
+
+A single-select listbox with an editable textbox will set the display label of the selected option
+as the value of the textbox when a selection is made. As a result, when a new selection is made in
+the listbox, the options should be filtered to just the selected option. Once the textbox value is
+changed, the options should be filtered based on the textbox value. (See `getViewModel` method in
+the example below.)
 
 ```custom-angular
-filterable example
+single select filterable example
 ```
 
 ```html
+@if (vm$ | async; as vm) {
 <hsi-ui-combobox>
   <hsi-ui-editable-textbox
     placeholder="Select a state"
-    (valueChanges)="onTyping($event)"
+    (valueChanges)="onTextboxChange($event)"
   ></hsi-ui-editable-textbox>
   <hsi-ui-listbox (valueChanges)="onSelection($event)">
-    @for (option of options$ | async; track option) {
-    <hsi-ui-listbox-option [selected]="option.displayName === (comboboxValue$ | async)" // example implementation
+    @for (option of vm.options; track option) {
+    <hsi-ui-listbox-option [selected]="option.displayName === vm.selected"
       >{{ option }}</hsi-ui-listbox-option
     >
     }
   </hsi-ui-listbox>
 </hsi-ui-combobox>
+}
 ```
 
 ```ts
-_options: string[] = [
+interface ViewModel {
+  options: string[];
+  selected: string;
+}
+
+options: string[] = [
   'Connecticut',
   'Maine',
   'Massachusetts',
@@ -327,27 +355,132 @@ _options: string[] = [
   'Rhode Island',
   'Vermont',
 ];
-options: BehaviorSubject<{ displayName: string; id: string }[]> =
-  new BehaviorSubject(this._options);
-options$ = this.options.asObservable();
 // example of storing value locally in the component; value may also be stored in higher level state
-comboboxValue: BehaviorSubject<string> = new BehaviorSubject('');
-comboboxValue$ = this.comboboxValue.asObservable();
+listboxValue = new BehaviorSubject<string>(null);
+listboxValue$ = this.listboxValue.asObservable();
+textboxValue: BehaviorSubject<string> = new BehaviorSubject('');
+textboxValue$ = this.comboboxValue.asObservable();
+vm$: Observable<ViewModel>;
 
-onTyping(value: string): void {
-  const filteredOptions = this._options.filter((option) =>
-      //user-supplied filtering logic
-      option.toLowerCase().includes(value?.toLowerCase())
-    )
-  this.options.next(filteredOptions.length ? filteredOptions : this._options);
+ngOnInit(): void {
+  this.vm$ = combineLatest([this.listboxValue$, this.textboxValue$]).pipe(
+    map(([listboxValue, textboxValue]) => this.getViewModel(listboxValue, textboxValue))
+  );
+}
+
+getViewModel(listboxValue: string, textboxValue: string): ViewModel {
+  const selected = this._options.find((x) => x === listboxValue);
+  const filteredOptions = this._options.filter((option) => {
+    if (selected && textboxValue === selected) {
+      return option === listboxValue;
+    } else {
+      return this.optionIncludesSearchText(option, textboxValue);
+    }
+  });
+  return { options: filteredOptions, selected: listboxValue };
+}
+
+optionIncludesSearchText(
+  option: string,
+  value: string
+): boolean {
+  return option.toLowerCase().includes(value?.toLowerCase());
+}
+
+onTextboxChange(value: string): void {
+  this.textboxValue.next(value);
 }
 
 onSelection(selected: string): void {
-  this.comboboxValue.next(selected);
+  this.listboxValue.next(selected);
 }
 ```
 
-#### Using an Editable Textbox with Angular Forms
+**Multi Select**
+
+A multi-select listbox with an editable textbox will clear the value of the textbox input when a
+selection is made. As a result, when a new selection is made in the listbox, all options should be
+displayed. Once the textbox value is changed, the options should be filtered based on the textbox
+value. (See `getViewModel` method in the example below.)
+
+```custom-angular
+multi select filterable example
+```
+
+```html
+@if (vm$ | async; as vm) {
+<hsi-ui-combobox>
+  <hsi-ui-editable-textbox
+    placeholder="Select states"
+    (valueChanges)="onTextboxChange($event)"
+  ></hsi-ui-editable-textbox>
+  <hsi-ui-listbox (valueChanges)="onSelection($event)" [isMultiSelect]="true">
+    @for (option of vm.options; track option) {
+    <hsi-ui-listbox-option [selected]="vm.selected.includes(option.id)"
+      >{{ option }}</hsi-ui-listbox-option
+    >
+    }
+  </hsi-ui-listbox>
+</hsi-ui-combobox>
+}
+```
+
+```ts
+interface ViewModel {
+  options: { displayName: string; id: string }[];
+  selected: string[];
+}
+
+options: string[] = [
+  'Connecticut',
+  'Maine',
+  'Massachusetts',
+  'New Hampshire',
+  'Rhode Island',
+  'Vermont',
+];
+// example of storing value locally in the component; value may also be stored in higher level state
+listboxValue = new BehaviorSubject<string[]>(null);
+listboxValue$ = this.listboxValue.asObservable();
+textboxValue: BehaviorSubject<string> = new BehaviorSubject('');
+textboxValue$ = this.comboboxValue.asObservable();
+vm$: Observable<ViewModel>;
+
+ngOnInit(): void {
+  this.vm$ = combineLatest([this.listboxValue$, this.textboxValue$]).pipe(
+    map(([listboxValue, textboxValue]) => this.getViewModel(listboxValue, textboxValue))
+  );
+}
+
+getViewModel(listboxValue: string[], textboxValue: string): ViewModel {
+  const filteredOptions = this._options.filter((option) => {
+      if (textboxValue === '') {
+        return true;
+      } else {
+        return this.optionIncludesSearchText(option, textboxValue);
+      }
+    });
+    return { options: filteredOptions, selected: listboxValue };
+}
+
+optionIncludesSearchText(
+  option: string,
+  value: string
+): boolean {
+  return option.toLowerCase().includes(value?.toLowerCase());
+}
+
+
+onTextboxChange(value: string[]): void {
+  this.textboxValue.next(value);
+}
+
+onSelection(selected: string): void {
+  this.listboxValue.next(selected);
+}
+```
+
+#### Using an Angular Form Control with an Editable Textbox
 
 Users may also provide an Angular `FormControl` to the `hsi-ui-editable-textbox` to manage the value
 of the texbox `input`.
@@ -360,6 +493,36 @@ values.
 <hsi-ui-editable-textbox
   placeholder="Select a state"
   (formControl)="myFormControl"
+></hsi-ui-editable-textbox>
+```
+
+When setting an options Observable or a view model Observable in your consuming component, you
+should use use the `startWith` operator to ensure that the options are displayed when the component
+is first rendered.
+
+```ts
+this.vm$ = combineLatest([
+  this.listboxFormControl.valueChanges.pipe(startWith('')),
+  this.textboxFormControl.valueChanges.pipe(startWith('')),
+]).pipe((
+  map(([listboxValue, textboxValue]) => this.getViewModel(listboxValue, textboxValue))
+);
+```
+
+#### Providing an Initial Value to the Editable Textbox
+
+If you want to provide an initial value to the textbox, you can do so by providing a value to the
+`initialValue` property if you are using the `valueChanges` event emitter or by providing a value to
+the `formControl` if you are using a form control.
+
+It is suggested to provide an initial value to the editable textbox if your listbox is single select
+and if one of your options will be selected on initialization.
+
+```html
+<hsi-ui-editable-textbox
+  placeholder="Select a state"
+  [initialValue]="Massachusetts"
+  (valueChanges)="onTextboxChange($event)"
 ></hsi-ui-editable-textbox>
 ```
 

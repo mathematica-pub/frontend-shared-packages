@@ -57,9 +57,21 @@
           class="minimal-implementation-example"
         ></app-minimal-implementation-combobox>
       }
-      @case ('filterable example') {
-        <p class="example-label">Combobox with filterable options</p>
+      @case ('single select filterable example') {
+        <p class="example-label"
+          >Single-select combobox with filterable options (editable-textbox)</p
+        >
         <app-filterable-options-combobox
+          [isMulti]="false"
+          class="minimal-implementation-example"
+        ></app-filterable-options-combobox>
+      }
+      @case ('multi select filterable example') {
+        <p class="example-label"
+          >Multi-select combobox with filterable options (editable-textbox)</p
+        >
+        <app-filterable-options-combobox
+          [isMulti]="true"
           class="minimal-implementation-example"
         ></app-filterable-options-combobox>
       }

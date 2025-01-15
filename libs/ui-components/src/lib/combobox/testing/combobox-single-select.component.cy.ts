@@ -20,7 +20,8 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
       <hsi-ui-combobox-label>
         <span>Select a fruit, A-E</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox class="textbox" [useListboxLabelAsBoxPlaceholder]="true">
+      <hsi-ui-textbox class="textbox">
+        <span boxLabel>Select a fruit</span>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
@@ -86,7 +87,7 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
     });
     it('clicking outside the combobox should close the listbox', () => {
-      cy.get('.hsi-ui-textbox').click();
+      cy.get('.hsi-ui-textbox').realClick();
       cy.get('.hsi-ui-listbox').should('be.visible');
       cy.get('.outside-element').realClick();
       cy.get('.hsi-ui-listbox').should('not.be.visible');
@@ -125,7 +126,8 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [useListboxLabelAsBoxPlaceholder]="true">
+      <hsi-ui-textbox>
+        <span boxLabel>Select a fruit</span>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
@@ -178,7 +180,8 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [useListboxLabelAsBoxPlaceholder]="true">
+      <hsi-ui-textbox>
+        <span boxLabel>Select a fruit</span>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
@@ -291,7 +294,7 @@ describe('ComboboxGroupedSingleTestComponent', () => {
     });
   });
   it('can select values from different groups', () => {
-    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-textbox').realClick();
     cy.get('.hsi-ui-listbox-option').first().realClick();
     cy.get('.hsi-ui-textbox-label').should('include.text', 'A New Hope');
     cy.get('.hsi-ui-textbox').click();

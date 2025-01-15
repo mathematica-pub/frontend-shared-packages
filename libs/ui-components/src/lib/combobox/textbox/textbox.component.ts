@@ -4,6 +4,7 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  inject,
   Input,
   NgZone,
   OnInit,
@@ -56,13 +57,10 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' '];
   label: BehaviorSubject<string> = new BehaviorSubject('');
   label$ = this.label.asObservable();
-
-  constructor(
-    private zone: NgZone,
-    public service: ComboboxService,
-    private platform: Platform,
-    protected destroyRef: DestroyRef
-  ) {}
+  protected destroyRef = inject(DestroyRef);
+  public service = inject(ComboboxService);
+  private platform = inject(Platform);
+  protected zone = inject(NgZone);
 
   ngOnInit(): void {
     this.service.initBoxLabel$
@@ -70,14 +68,9 @@ export class TextboxComponent implements OnInit, AfterViewInit {
         takeUntilDestroyed(this.destroyRef),
         filter((x) => !!x),
         switchMap(
-          (newValue) =>
+          () =>
             new Promise<void>((resolve) => {
-              // First, update the value
-              // this.value = newValue;
-
-              // Then run change detection and wait for it
               this.zone.run(() => {
-                // Use Promise.resolve() to wait for the next microtask
                 Promise.resolve().then(() => {
                   resolve();
                 });
@@ -86,7 +79,6 @@ export class TextboxComponent implements OnInit, AfterViewInit {
         )
       )
       .subscribe(() => {
-        console.log('initBoxLabel');
         this.setLabel();
       });
   }

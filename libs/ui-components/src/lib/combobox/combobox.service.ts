@@ -5,7 +5,6 @@ import {
   Observable,
   Subject,
   combineLatest,
-  delay,
   distinctUntilChanged,
   map,
   merge,
@@ -97,12 +96,6 @@ export class ComboboxService {
   scrollContainerId = `${this.id}-scroll-container`;
   comboboxLabelId = `${this.id}-label`;
   autoComplete: AutoComplete = AutoComplete.none;
-  // countSelectedLabel?: SelectedCountLabel;
-  // customTextboxLabel?: (
-  //   options: ListboxOptionComponent[],
-  //   countSelectedLabel?: SelectedCountLabel
-  // ) => string;
-  // dynamicLabel = false;
   hasEditableTextbox = false;
   ignoreBlur = false;
   isMultiSelect = false;
@@ -112,8 +105,6 @@ export class ComboboxService {
   activeDescendant$: Observable<string>;
   private blurEvent: Subject<void> = new Subject();
   blurEvent$ = this.blurEvent.asObservable();
-  // private boxLabel: BehaviorSubject<string> = new BehaviorSubject(null);
-  // boxLabel$ = this.boxLabel.asObservable();
   private initBoxLabel: BehaviorSubject<boolean> = new BehaviorSubject(false);
   initBoxLabel$ = this.initBoxLabel.asObservable();
   private _isOpen: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -213,8 +204,7 @@ export class ComboboxService {
   setGroups(groups: QueryList<ListboxGroupComponent>): void {
     this.groups$ = groups.changes.pipe(
       startWith(''),
-      map(() => groups.toArray()),
-      delay(0)
+      map(() => groups.toArray())
     );
   }
 
@@ -229,14 +219,12 @@ export class ComboboxService {
           combineLatest(groups.map((group) => group.options$))
         ),
         map((optionArrays) => optionArrays.flat()),
-        delay(200),
         shareReplay(1)
       );
     } else {
       this.allOptions$ = options.changes.pipe(
         startWith(''),
         map(() => options.toArray()),
-        delay(200),
         shareReplay(1)
       );
     }
