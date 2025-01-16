@@ -26,6 +26,7 @@ export class VicYOrdinalAxisConfigBuilder<
   getConfig(): YOrdinalAxisConfig<TickValue> {
     return new YOrdinalAxisConfig<TickValue>({
       data: undefined,
+      grid: this.gridBuilder?._build('y'),
       label: this.labelBuilder?.build('y'),
       mixBlendMode: this._mixBlendMode,
       removeDomainLine: this._removeDomainLine,
@@ -36,7 +37,6 @@ export class VicYOrdinalAxisConfigBuilder<
       tickLabelFontSize: this._tickLabelFontSize,
       tickSizeOuter: this._tickSizeOuter,
       wrap: this.tickWrapBuilder?._build(),
-      grid: this.gridBuilder?._build('y'),
     });
   }
 }

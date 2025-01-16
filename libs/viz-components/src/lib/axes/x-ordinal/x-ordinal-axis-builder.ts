@@ -27,6 +27,7 @@ export class VicXOrdinalAxisConfigBuilder<
   getConfig(): XOrdinalAxisConfig<TickValue> {
     return new XOrdinalAxisConfig<TickValue>({
       data: undefined,
+      grid: this.gridBuilder?._build('x'),
       label: this.labelBuilder?.build('x'),
       mixBlendMode: this._mixBlendMode,
       removeDomainLine: this._removeDomainLine,
@@ -37,7 +38,6 @@ export class VicXOrdinalAxisConfigBuilder<
       tickLabelFontSize: this._tickLabelFontSize,
       tickSizeOuter: this._tickSizeOuter,
       wrap: this.tickWrapBuilder?._build(),
-      grid: this.gridBuilder?._build('x'),
     });
   }
 }

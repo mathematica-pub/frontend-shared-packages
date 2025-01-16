@@ -45,9 +45,9 @@ export class GridBuilder {
   _build(axis: 'x' | 'y'): Grid {
     this.validateBuilder();
     return new Grid({
+      axis: axis,
       filter: this._filter,
       stroke: this.strokeBuilder._build(),
-      axis: axis,
     });
   }
 

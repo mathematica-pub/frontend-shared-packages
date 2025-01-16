@@ -7,6 +7,7 @@ export abstract class XyAxisConfig<TickValue>
   implements XyAxisBaseOptions<TickValue>
 {
   data: never;
+  grid: Grid;
   label: AxisLabel;
   mixBlendMode: string;
   removeDomainLine: boolean;
@@ -16,7 +17,6 @@ export abstract class XyAxisConfig<TickValue>
   tickLabelFontSize: number;
   tickSizeOuter: number;
   wrap: TickWrap;
-  grid: Grid;
 
   abstract getSuggestedNumTicksFromChartDimension(dimensions: {
     height: number;

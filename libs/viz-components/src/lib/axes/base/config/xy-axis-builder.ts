@@ -17,6 +17,15 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
   protected labelBuilder: AxisLabelBuilder;
 
   /**
+   * An object to configure grid lines.
+   */
+  grid(setProperties?: (grid: GridBuilder) => void): this {
+    this.gridBuilder = new GridBuilder();
+    setProperties?.(this.gridBuilder);
+    return this;
+  }
+
+  /**
    * Specifies properties for an axis label.
    */
   label(setProperties: (label: AxisLabelBuilder) => void): this {
@@ -92,15 +101,6 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
   wrapTickText(wrap: (wrap: TickWrapBuilder) => void): this {
     this.tickWrapBuilder = new TickWrapBuilder();
     wrap(this.tickWrapBuilder);
-    return this;
-  }
-
-  /**
-   * An object to configure grid lines.
-   */
-  grid(setProperties?: (grid: GridBuilder) => void): this {
-    this.gridBuilder = new GridBuilder();
-    setProperties?.(this.gridBuilder);
     return this;
   }
 }

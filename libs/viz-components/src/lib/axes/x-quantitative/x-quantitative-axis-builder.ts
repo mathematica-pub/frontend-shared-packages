@@ -39,6 +39,7 @@ export class VicXQuantitativeAxisConfigBuilder<
   getConfig(): XQuantitativeAxisConfig<TickValue> {
     return new XQuantitativeAxisConfig<TickValue>({
       data: undefined,
+      grid: this.gridBuilder?._build('x'),
       label: this.labelBuilder?.build('x'),
       mixBlendMode: this._mixBlendMode,
       numTicks: this._numTicks,
@@ -50,7 +51,6 @@ export class VicXQuantitativeAxisConfigBuilder<
       tickLabelFontSize: this._tickLabelFontSize,
       tickSizeOuter: this._tickSizeOuter,
       tickValues: this._tickValues,
-      grid: this.gridBuilder?._build('x'),
       wrap: this.tickWrapBuilder?._build(),
     });
   }

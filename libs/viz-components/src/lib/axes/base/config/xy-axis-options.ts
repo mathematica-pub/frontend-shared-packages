@@ -4,6 +4,8 @@ import { Grid } from '../../grid/grid-config';
 import { TickWrap } from '../../tick-wrap/tick-wrap';
 
 export interface XyAxisBaseOptions<TickValue> extends MarksOptions<never> {
+  grid: Grid;
+  label: AxisLabelOptions;
   removeDomainLine: boolean;
   removeTickLabels: boolean;
   removeTickMarks: boolean;
@@ -11,6 +13,4 @@ export interface XyAxisBaseOptions<TickValue> extends MarksOptions<never> {
   tickLabelFontSize: number;
   tickSizeOuter: number;
   wrap: TickWrap;
-  grid: Grid;
-  label: AxisLabelOptions;
 }
