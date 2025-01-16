@@ -1,11 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  InjectionToken,
   Input,
   ViewEncapsulation,
 } from '@angular/core';
 import { SeriesPoint, Transition, select } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
+import { ChartComponent, XyChartComponent } from '../charts';
 import { DataValue } from '../core/types/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { StackedBarsConfig } from './config/stacked-bars-config';
@@ -13,6 +15,12 @@ import { StackedBarsConfig } from './config/stacked-bars-config';
 export type StackDatum = SeriesPoint<{ [key: string]: number }> & {
   i: number;
 };
+
+// Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use "unknown"
+// https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
+export const STACKED_BARS = new InjectionToken<
+  StackedBarsComponent<unknown, DataValue>
+>('StackedBarsComponent');
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -23,6 +31,8 @@ export type StackDatum = SeriesPoint<{ [key: string]: number }> & {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: VIC_PRIMARY_MARKS, useExisting: StackedBarsComponent },
+    { provide: STACKED_BARS, useExisting: StackedBarsComponent },
+    { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
 export class StackedBarsComponent<
@@ -51,6 +61,7 @@ export class StackedBarsComponent<
         (enter) =>
           enter
             .append('rect')
+            .attr('class', 'vic-bar')
             .attr('x', (d) => this.getStackElementX(d))
             .attr('y', (d) => this.getStackElementY(d))
             .attr('width', (d) => this.getStackElementWidth(d))
@@ -113,5 +124,9 @@ export class StackedBarsComponent<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (this.scales.y as any).bandwidth();
     }
+  }
+
+  getSourceDatumFromStackedBarDatum(datum: StackDatum): Datum {
+    return this.config.data[datum.i];
   }
 }

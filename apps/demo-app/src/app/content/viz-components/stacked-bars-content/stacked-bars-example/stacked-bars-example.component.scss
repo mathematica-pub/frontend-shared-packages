@@ -1,0 +1,4 @@
+@use '../../styles/placeholders.scss' as *;
+.stacked-bars-example-tooltip-container {
+  @extend %vic-examples-tooltip-container-styles;
+}
