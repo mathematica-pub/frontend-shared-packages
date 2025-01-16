@@ -1,5 +1,5 @@
 name: Documentation
-description: Suggest an improvement to our documentation at material.angular.io
+description: Suggest an improvement to our documentation at https://frontend.shared-packages.mathematica-dev.net/overview/shared-packages
 title: 'docs-bug([LIB]-[ITEM]): TITLE'
 labels: ['issue type: documentation request', 'triage']
 body:
