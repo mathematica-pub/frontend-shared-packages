@@ -56,18 +56,6 @@ export class VicQuantitativeRulesConfigBuilder<
   }
 
   /**
-   * REQUIRED. Sets the orientation of the rule.
-   */
-  orientation(orientation: 'horizontal' | 'vertical'): this {
-    this._orientation = orientation;
-    this.dimensions =
-      orientation === 'horizontal'
-        ? HORIZONTAL_RULE_DIMENSIONS
-        : VERTICAL_RULE_DIMENSIONS;
-    return this;
-  }
-
-  /**
    * OPTIONAL. A config for the behavior of the rule labels.
    */
   labels(): this;
@@ -80,6 +68,18 @@ export class VicQuantitativeRulesConfigBuilder<
     }
     this.labelsBuilder = new RulesLabelsBuilder();
     labels?.(this.labelsBuilder);
+    return this;
+  }
+
+  /**
+   * REQUIRED. Sets the orientation of the rule.
+   */
+  orientation(orientation: 'horizontal' | 'vertical'): this {
+    this._orientation = orientation;
+    this.dimensions =
+      orientation === 'horizontal'
+        ? HORIZONTAL_RULE_DIMENSIONS
+        : VERTICAL_RULE_DIMENSIONS;
     return this;
   }
 

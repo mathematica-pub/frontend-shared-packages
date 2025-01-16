@@ -91,6 +91,10 @@ export class VicStackedAreaConfigBuilder<
    * If not provided, the order will be determined by d3.
    */
   categoricalOrder(value: CategoricalDomain[]): this {
+    if (value === null) {
+      this._categoricalOrder = undefined;
+      return this;
+    }
     this._categoricalOrder = value;
     return this;
   }
