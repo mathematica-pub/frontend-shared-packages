@@ -55,6 +55,15 @@ There are no required methods for any of the axis builders.
 #### Common (all axis builders)
 
 ```builder-method
+name: grid
+description: Sets the grid for the axis.
+params:
+  - name: grid
+    type: '(grid: GridBuilder) => void)'
+    description: A callback that allows for the specification of an axis grid.
+```
+
+```builder-method
 name: label
 description: Sets the label for the axis.
 params:
