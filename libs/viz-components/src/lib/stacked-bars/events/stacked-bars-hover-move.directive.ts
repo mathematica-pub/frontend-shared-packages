@@ -87,12 +87,12 @@ export class StackedBarsHoverMoveDirective<
   }
 
   getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
-    const userDatum = this.bars.getUserDatumFromStackedBarDatum(
+    const datum = this.bars.getSourceDatumFromStackedBarDatum(
       this.stackedBarDatum
     );
     const rectX = parseFloat(this.origin.getAttribute('x') || '0');
     const rectY = parseFloat(this.origin.getAttribute('y') || '0');
-    const tooltipData = this.bars.getTooltipData(userDatum);
+    const tooltipData = this.bars.getTooltipData(datum);
     const extras = {
       origin: this.origin,
       positionX: this.pointerX - rectX,

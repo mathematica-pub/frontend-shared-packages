@@ -108,10 +108,10 @@ export class StackedBarsClickDirective<
   }
 
   getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
-    const userDatum = this.bars.getUserDatumFromStackedBarDatum(
+    const datum = this.bars.getSourceDatumFromStackedBarDatum(
       this.stackedBarDatum
     );
-    const data = this.bars.getTooltipData(userDatum);
+    const data = this.bars.getTooltipData(datum);
     const rectX = parseFloat(this.origin.getAttribute('x') || '0');
     const rectY = parseFloat(this.origin.getAttribute('y') || '0');
     const extras = {

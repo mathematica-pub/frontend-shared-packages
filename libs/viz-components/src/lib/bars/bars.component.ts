@@ -595,7 +595,7 @@ export class BarsComponent<
     return tooltipData;
   }
 
-  getUserDatumFromBarDatum(barDatum: BarDatum<TOrdinalValue>): Datum {
+  getSourceDatumFromBarDatum(barDatum: BarDatum<TOrdinalValue>): Datum {
     return this.config.data.find(
       (d) =>
         this.config.ordinal.values[barDatum.index] ===

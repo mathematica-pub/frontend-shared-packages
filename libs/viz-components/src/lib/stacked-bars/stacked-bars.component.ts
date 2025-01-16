@@ -126,7 +126,7 @@ export class StackedBarsComponent<
     }
   }
 
-  getUserDatumFromStackedBarDatum(datum: StackDatum): Datum {
+  getSourceDatumFromStackedBarDatum(datum: StackDatum): Datum {
     return this.config.data[datum.i];
   }
 }
