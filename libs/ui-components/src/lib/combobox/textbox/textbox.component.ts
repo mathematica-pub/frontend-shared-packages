@@ -250,31 +250,36 @@ export class TextboxComponent implements OnInit, AfterViewInit {
       ])
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(([touched, options]) => {
-          const selectedOptions = this.service.getSelectedOptions(options);
-          let label = '';
-          const numSelected = selectedOptions?.length;
-          if (touched || numSelected) {
-            if (this.customLabel && !this.service.hasEditableTextbox) {
-              label = this.customLabel(selectedOptions);
-            } else if (
-              this.selectedCountLabel &&
-              !this.service.hasEditableTextbox
-            ) {
-              if (numSelected === 1) {
-                label = `${numSelected} ${this.selectedCountLabel.singular} selected`;
-              } else {
-                label = `${numSelected} ${this.selectedCountLabel.plural} selected`;
-              }
-            } else {
-              label = this.getBoxValuesLabel(selectedOptions);
-            }
-          }
+          const label = this.getComputedLabel(touched, options);
           this.label.next(label);
         });
     }
   }
 
-  getBoxValuesLabel(selectedOptions: ListboxOptionComponent[]): string {
+  getComputedLabel(
+    touched: boolean,
+    options: ListboxOptionComponent[]
+  ): string {
+    const selectedOptions = this.service.getSelectedOptions(options);
+    let label = '';
+    const numSelected = selectedOptions?.length;
+    if (touched || numSelected) {
+      if (this.customLabel && !this.service.hasEditableTextbox) {
+        label = this.customLabel(selectedOptions);
+      } else if (this.selectedCountLabel && !this.service.hasEditableTextbox) {
+        if (numSelected === 1) {
+          label = `${numSelected} ${this.selectedCountLabel.singular} selected`;
+        } else {
+          label = `${numSelected} ${this.selectedCountLabel.plural} selected`;
+        }
+      } else {
+        label = this.getDefaultLabel(selectedOptions);
+      }
+    }
+    return label;
+  }
+
+  getDefaultLabel(selectedOptions: ListboxOptionComponent[]): string {
     let label = '';
     if (selectedOptions) {
       label = selectedOptions
