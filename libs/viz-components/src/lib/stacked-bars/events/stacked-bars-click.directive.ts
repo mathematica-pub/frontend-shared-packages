@@ -11,64 +11,70 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
-import { Observable, filter } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { DataValue } from '../../core/types/values';
 import { EventAction } from '../../events/action';
 import { ClickDirective } from '../../events/click.directive';
-import { BARS, BarDatum, BarsComponent } from '../bars.component';
-import { BarsEventDirective } from './bars-event-directive';
-import { BarsEventOutput } from './bars-event-output';
-import { BarsHoverMoveDirective } from './bars-hover-move.directive';
-import { BarsHoverDirective } from './bars-hover.directive';
-import { BarsInputEventDirective } from './bars-input-event.directive';
+
+import {
+  StackDatum,
+  STACKED_BARS,
+  StackedBarsComponent,
+} from '../stacked-bars.component';
+
+import { BarsEventOutput } from '../../bars';
+import { StackedBarsEventDirective } from './stacked-bars-event-directive';
+import { StackedBarsHoverMoveDirective } from './stacked-bars-hover-move.directive';
+import { StackedBarsHoverDirective } from './stacked-bars-hover.directive';
+import { StackedBarsInputEventDirective } from './stacked-bars-input-event.directive';
 
 @Directive({
-  selector: '[vicBarsClickActions]',
+  selector: '[vicStackedBarsClickActions]',
 })
-export class BarsClickDirective<
+export class StackedBarsClickDirective<
   Datum,
   TOrdinalValue extends DataValue,
-  TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
+  TStackedBarsComponent extends StackedBarsComponent<
     Datum,
     TOrdinalValue
-  >,
+  > = StackedBarsComponent<Datum, TOrdinalValue>,
 > extends ClickDirective {
-  @Input('vicBarsClickActions')
+  @Input('vicStackedBarsClickActions')
   actions: EventAction<
-    BarsClickDirective<Datum, TOrdinalValue, TBarsComponent>
+    StackedBarsClickDirective<Datum, TOrdinalValue, TStackedBarsComponent>
   >[];
-  @Input('vicBarsClickRemoveEvent$')
+  @Input('vicStackedBarsClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
-  @Output('vicBarsClickOutput') eventOutput = new EventEmitter<
+  @Output('vicStackedBarsClickOutput') eventOutput = new EventEmitter<
     BarsEventOutput<Datum, TOrdinalValue>
   >();
-  barDatum: BarDatum<TOrdinalValue>;
+  stackedBarDatum: StackDatum;
   origin: SVGRectElement;
   pointerX: number;
   pointerY: number;
 
   constructor(
-    @Inject(BARS) public bars: TBarsComponent,
+    @Inject(STACKED_BARS) public bars: TStackedBarsComponent,
     @Self()
     @Optional()
-    public hoverDirective?: BarsHoverDirective<
+    public hoverDirective?: StackedBarsHoverDirective<
       Datum,
       TOrdinalValue,
-      TBarsComponent
+      TStackedBarsComponent
     >,
     @Self()
     @Optional()
-    public hoverAndMoveDirective?: BarsHoverMoveDirective<
+    public hoverAndMoveDirective?: StackedBarsHoverMoveDirective<
       Datum,
       TOrdinalValue,
-      TBarsComponent
+      TStackedBarsComponent
     >,
     @Self()
     @Optional()
-    public inputEventDirective?: BarsInputEventDirective<
+    public inputEventDirective?: StackedBarsInputEventDirective<
       Datum,
       TOrdinalValue,
-      TBarsComponent
+      TStackedBarsComponent
     >
   ) {
     super();
@@ -88,30 +94,30 @@ export class BarsClickDirective<
 
   onElementClick(event: PointerEvent): void {
     this.origin = event.target as SVGRectElement;
-    this.barDatum = select(this.origin).datum() as BarDatum<TOrdinalValue>;
+    this.stackedBarDatum = select(this.origin).datum() as StackDatum;
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
-    if (this.hoverDirective) {
-      this.pointerX = this.hoverDirective.positionX;
-      this.pointerY = this.hoverDirective.positionY;
-    }
     this.actions.forEach((action) => action.onStart(this));
   }
 
   onClickRemove(): void {
     this.actions.forEach((action) => action.onEnd(this));
-    this.barDatum = undefined;
+    this.stackedBarDatum = undefined;
     this.origin = undefined;
     this.pointerX = undefined;
     this.pointerY = undefined;
   }
 
   getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
-    const datum = this.bars.getSourceDatumFromBarDatum(this.barDatum);
+    const datum = this.bars.getSourceDatumFromStackedBarDatum(
+      this.stackedBarDatum
+    );
     const data = this.bars.getTooltipData(datum);
+    const rectX = parseFloat(this.origin.getAttribute('x') || '0');
+    const rectY = parseFloat(this.origin.getAttribute('y') || '0');
     const extras = {
       origin: this.origin,
-      positionX: this.pointerX,
-      positionY: this.pointerY,
+      positionX: this.pointerX - rectX,
+      positionY: this.pointerY - rectY,
     };
     return { ...data, ...extras };
   }
@@ -143,7 +149,11 @@ export class BarsClickDirective<
   }
 
   disableAction(
-    directive: BarsEventDirective<Datum, TOrdinalValue, TBarsComponent>
+    directive: StackedBarsEventDirective<
+      Datum,
+      TOrdinalValue,
+      TStackedBarsComponent
+    >
   ): void {
     if (directive) {
       directive.preventAction = true;
@@ -151,7 +161,11 @@ export class BarsClickDirective<
   }
 
   enableAction(
-    directive: BarsEventDirective<Datum, TOrdinalValue, TBarsComponent>,
+    directive: StackedBarsEventDirective<
+      Datum,
+      TOrdinalValue,
+      TStackedBarsComponent
+    >,
     cancelCurrentActions: boolean
   ): void {
     if (directive) {
