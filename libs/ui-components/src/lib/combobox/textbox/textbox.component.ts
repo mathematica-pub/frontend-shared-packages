@@ -11,14 +11,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  BehaviorSubject,
-  combineLatest,
-  filter,
-  skip,
-  startWith,
-  switchMap,
-} from 'rxjs';
+import { runNgChangeDetectionThen } from '@hsi/app-dev-kit';
+import { BehaviorSubject, combineLatest, filter, skip, startWith } from 'rxjs';
 import {
   ComboboxAction,
   ComboboxService,
@@ -67,16 +61,10 @@ export class TextboxComponent implements OnInit, AfterViewInit {
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         filter((x) => !!x),
-        switchMap(
-          () =>
-            new Promise<void>((resolve) => {
-              this.zone.run(() => {
-                Promise.resolve().then(() => {
-                  resolve();
-                });
-              });
-            })
-        )
+        // Required because the label is projected into the ListboxOption via <ng-content>, and the
+        // listbox options are <ng-template>s that are projected into the listbox via ngTemplateOutlet.
+        // We need this to ensure that the option labels are in the DOM to read from before we set the box label.
+        runNgChangeDetectionThen(this.zone)
       )
       .subscribe(() => {
         this.setLabel();
