@@ -61,19 +61,41 @@
         <p class="example-label"
           >Single-select combobox with filterable options (editable-textbox)</p
         >
-        <app-filterable-options-combobox
-          [isMulti]="false"
+        <app-filterable-options-single-select-combobox
           class="minimal-implementation-example"
-        ></app-filterable-options-combobox>
+        ></app-filterable-options-single-select-combobox>
       }
       @case ('multi select filterable example') {
         <p class="example-label"
           >Multi-select combobox with filterable options (editable-textbox)</p
         >
-        <app-filterable-options-combobox
-          [isMulti]="true"
+        <app-filterable-options-multi-select-combobox
           class="minimal-implementation-example"
-        ></app-filterable-options-combobox>
+        ></app-filterable-options-multi-select-combobox>
+      }
+      @case ('single select value changes filtered options initial value') {
+        <app-filterable-options-single-select-combobox
+          class="minimal-implementation-example"
+          [hasInitialValue]="true"
+        ></app-filterable-options-single-select-combobox>
+      }
+      @case ('single select form control filtered options initial value') {
+        <app-filterable-options-single-select-form-control-combobox
+          class="minimal-implementation-example"
+          [hasInitialValue]="true"
+        ></app-filterable-options-single-select-form-control-combobox>
+      }
+      @case ('multi select value changes filtered options initial value') {
+        <app-filterable-options-multi-select-combobox
+          class="minimal-implementation-example"
+          [hasInitialValue]="true"
+        ></app-filterable-options-multi-select-combobox>
+      }
+      @case ('multi select form control filtered options initial value') {
+        <app-filterable-options-multi-select-form-control-combobox
+          class="minimal-implementation-example"
+          [hasInitialValue]="true"
+        ></app-filterable-options-multi-select-form-control-combobox>
       }
       @case ('external selection example') {
         <p class="example-label"

@@ -93,7 +93,15 @@ export class EditableTextboxComponent
   }
 
   setAndEmitValue(value: string): void {
+    this.setValue(value);
+    this.emitValue(value);
+  }
+
+  setValue(value: string): void {
     this.value.next(value);
+  }
+
+  emitValue(value: string): void {
     if (this.ngFormControl) {
       this.ngFormControl.setValue(value);
     } else {
