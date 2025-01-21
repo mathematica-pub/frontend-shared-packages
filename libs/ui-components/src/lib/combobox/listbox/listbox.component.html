@@ -43,6 +43,11 @@
         (activeIndex.activeIndex$ | async) === i &&
         (option.disabled$ | async) !== true
       "
+      [class.keyboard-current]="
+        (service.isKeyboardEvent$ | async) &&
+        (activeIndex.activeIndex$ | async) === i &&
+        (option.disabled$ | async) !== true
+      "
       (click)="handleOptionClick($event, i)"
       (mousedown)="handleOptionMousedown()"
     >
@@ -93,6 +98,11 @@
             [class.current]="
               (activeIndex.activeIndex$ | async) ===
               getOptionIndexFromGroups(i, j)
+            "
+            [class.keyboard-current]="
+              (service.isKeyboardEvent$ | async) &&
+              (activeIndex.activeIndex$ | async) ===
+                getOptionIndexFromGroups(i, j)
             "
             (click)="handleOptionClick($event, j, i)"
             (mousedown)="handleOptionMousedown()"

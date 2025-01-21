@@ -110,6 +110,7 @@ export class EditableTextboxComponent
   }
 
   override handleClick(): void {
+    this.service.setIsKeyboardEvent(false);
     if (this.service.isOpen) {
       this.service.closeListbox();
     } else {

@@ -1,4 +1,4 @@
-# Filtering Combobox Options with an Editable Textbox
+# Filtering Combobox Options
 
 Using the `hsi-ui-editable-textbox` component in lieu of the `hsi-ui-editable-textbox` in a combobox
 allows users to filter combobox options by typing in a text input.

@@ -248,6 +248,7 @@ export class ListboxComponent
     groupIndex?: number
   ): void {
     event.stopPropagation();
+    this.service.setIsKeyboardEvent(false);
     this.handleOptionSelect(optionIndex, this.service.allOptions, groupIndex);
     if (!this.isMultiSelect) {
       this.service.closeListbox();
@@ -266,7 +267,17 @@ export class ListboxComponent
     const option = options[index];
     if (!option || option.isDisabled()) return;
     this.toggleOptionSelected(option, options);
-    this.activeIndex.setActiveIndex(index, null, options);
+    if (options[optionIndex].isSelected()) {
+      this.activeIndex.setActiveIndex(index, null, options);
+    } else {
+      let nextSelectedIndex = options.findIndex(
+        (o, i) => i > optionIndex && o.isSelected()
+      );
+      if (nextSelectedIndex === -1) {
+        nextSelectedIndex = options.findIndex((o) => o.isSelected());
+      }
+      this.activeIndex.setActiveIndex(nextSelectedIndex, null, options);
+    }
   }
 
   toggleOptionSelected(

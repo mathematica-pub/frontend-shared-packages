@@ -77,7 +77,7 @@ export class ListboxOptionComponent implements OnChanges {
         if (this.selected) {
           this.externalPropertyChanges.next(this.getPropertyChange('selected'));
         }
-      } else if (!this.disabled) {
+      } else if (!this.disabled && this.selected !== this._selected.value) {
         this.updateSelected(this.selected);
         this.externalPropertyChanges.next(this.getPropertyChange('selected'));
       }

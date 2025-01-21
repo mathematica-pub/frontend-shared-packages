@@ -127,6 +127,8 @@ export class ComboboxService {
     new BehaviorSubject([]);
   selectedOptionsToEmit$ = this.selectedOptionsToEmit.asObservable();
   allOptions: ListboxOptionComponent[];
+  private isKeyboardEvent = new BehaviorSubject(false);
+  isKeyboardEvent$ = this.isKeyboardEvent.asObservable();
 
   constructor(private platform: Platform) {}
 
@@ -246,5 +248,9 @@ export class ComboboxService {
     option: ListboxOptionComponent
   ): option is SelectAllListboxOptionComponent {
     return option instanceof SelectAllListboxOptionComponent;
+  }
+
+  setIsKeyboardEvent(isKeyboardEvent: boolean): void {
+    this.isKeyboardEvent.next(isKeyboardEvent);
   }
 }

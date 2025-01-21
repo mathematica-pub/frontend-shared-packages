@@ -118,6 +118,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   }
 
   handleClick(): void {
+    this.service.setIsKeyboardEvent(false);
     if (this.service.isOpen) {
       this.service.closeListbox();
     } else {
@@ -132,6 +133,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
       this.onEscape();
     } else {
       this.service.setTouched();
+      this.service.setIsKeyboardEvent(true);
       const action = this.getActionFromKeydownEvent(event);
       this.handleKeyboardAction(action, event);
     }
