@@ -17,7 +17,6 @@ export abstract class GeographiesLayerBuilder<
   protected _geographies: Array<GeographiesFeature<TProperties, TGeometry>>;
   protected labelsBuilder: GeographiesLabelsBuilder<TProperties, TGeometry>;
   protected strokeBuilder: StrokeBuilder;
-  protected _strokeWidth: string;
 
   constructor() {
     Object.assign(this, DEFAULT);
