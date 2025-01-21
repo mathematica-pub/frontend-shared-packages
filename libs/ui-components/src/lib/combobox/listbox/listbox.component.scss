@@ -31,7 +31,6 @@
   display: block;
   cursor: pointer;
   padding: var(--hsi-ui-listbox-option-padding);
-  border-left: var(--hsi-ui-listbox-option-default-border-left);
 }
 
 .hsi-ui-listbox-option:hover {
@@ -47,7 +46,8 @@
 }
 
 .hsi-ui-listbox-option.current.keyboard-current {
-  border-left: var(--hsi-ui-listbox-option-current-border-left);
+  background: var(--hsi-ui-listbox-option-current-background);
+  color: var(--hsi-ui-listbox-option-current-color);
 }
 
 .hsi-ui-listbox-option:last-child {

@@ -65,11 +65,8 @@ $listbox-option: (
     'color': var(--hsi-adk-color-muted-primary-80, lightgray),
   ),
   'current': (
-    'background': var(--hsi-adk-color-muted-primary-95, #f2f2f2),
-    'border-left': grid(1) solid var(--hsi-adk-color-primary-50, grey),
-  ),
-  'default': (
-    'border-left': grid(1) solid transparent,
+    'background': var(--hsi-adk-color-muted-primary-40, darkgray),
+    'color': var(--hsi-adk-color-primary-100, white),
   ),
   'label': (
     'padding': grid(3),
@@ -79,8 +76,7 @@ $listbox-option: (
     'display': flex,
     'flex-direction': row,
     'align-items': center,
-    // account for option border left padding and match textbox padding
-    'padding': grid(2),
+    'padding': grid(2) var(--hsi-ui-textbox-padding),
     'gap': grid(2),
   ),
 );
