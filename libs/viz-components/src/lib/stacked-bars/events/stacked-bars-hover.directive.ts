@@ -4,36 +4,40 @@ import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { filter } from 'rxjs';
+import { BarsEventOutput } from '../../bars';
 import { DataValue } from '../../core/types/values';
 import { EventAction } from '../../events/action';
 import { HoverDirective } from '../../events/hover.directive';
-import { BarDatum, BARS, BarsComponent } from '../bars.component';
-import { BarsEventOutput } from './bars-event-output';
+import {
+  StackDatum,
+  STACKED_BARS,
+  StackedBarsComponent,
+} from '../stacked-bars.component';
 
 @Directive({
-  selector: '[vicBarsHoverActions]',
+  selector: '[vicStackedBarsHoverActions]',
 })
-export class BarsHoverDirective<
+export class StackedBarsHoverDirective<
   Datum,
   TOrdinalValue extends DataValue,
-  TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
+  TStackedBarsComponent extends StackedBarsComponent<
     Datum,
     TOrdinalValue
-  >,
+  > = StackedBarsComponent<Datum, TOrdinalValue>,
 > extends HoverDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('vicBarsHoverActions') actions: EventAction<
-    BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>
+  @Input('vicStackedBarsHoverActions') actions: EventAction<
+    StackedBarsHoverDirective<Datum, TOrdinalValue, TStackedBarsComponent>
   >[];
-  @Output('vicBarsHoverOutput') eventOutput = new EventEmitter<
+  @Output('vicStackedBarsHoverOutput') eventOutput = new EventEmitter<
     BarsEventOutput<Datum, TOrdinalValue>
   >();
-  barDatum: BarDatum<TOrdinalValue>;
+  stackedBarDatum: StackDatum;
   origin: SVGRectElement;
   positionX: number;
   positionY: number;
 
-  constructor(@Inject(BARS) public bars: TBarsComponent) {
+  constructor(@Inject(STACKED_BARS) public bars: TStackedBarsComponent) {
     super();
   }
 
@@ -50,9 +54,9 @@ export class BarsHoverDirective<
   }
 
   onElementPointerEnter(event: PointerEvent): void {
-    this.barDatum = select(
+    this.stackedBarDatum = select(
       event.target as SVGRectElement
-    ).datum() as BarDatum<TOrdinalValue>;
+    ).datum() as StackDatum;
     this.origin = event.target as SVGRectElement;
     const barRect = this.origin.getBoundingClientRect();
     this.positionX = barRect.width / 2;
@@ -69,7 +73,9 @@ export class BarsHoverDirective<
   }
 
   getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
-    const datum = this.bars.getSourceDatumFromBarDatum(this.barDatum);
+    const datum = this.bars.getSourceDatumFromStackedBarDatum(
+      this.stackedBarDatum
+    );
     const tooltipData = this.bars.getTooltipData(datum);
 
     return {
