@@ -12,7 +12,6 @@ import { GeographiesFeature } from '../geographies-feature';
 import { GeographiesConfig } from './geographies-config';
 import { GeographiesAttributeDataLayerBuilder } from './layers/attribute-data-layer/attribute-data-layer-builder';
 import { GeographiesGeojsonPropertiesLayerBuilder } from './layers/geojson-properties-layer/geojson-properties-layer-builder';
-import _ = require('cypress/types/lodash');
 
 const DEFAULT = {
   _projection: geoAlbersUsa(),

@@ -129,13 +129,9 @@ export class VicDotsConfigBuilder<
       this.fillBuilderCategorical = undefined;
       return this;
     }
-    this.initFillBuilderCategorical();
+    this.fillBuilderCategorical = new OrdinalVisualValueDimensionBuilder();
     fill(this.fillBuilderCategorical);
     return this;
-  }
-
-  private initFillBuilderCategorical(): void {
-    this.fillBuilderCategorical = new OrdinalVisualValueDimensionBuilder();
   }
 
   fillNumeric(fill: null): this;
@@ -167,7 +163,13 @@ export class VicDotsConfigBuilder<
    *
    * No key wil be set if this method is not called.
    */
+  key(key: null): this;
+  key(key: (datum: Datum) => string): this;
   key(key: (datum: Datum) => string): this {
+    if (key === null) {
+      this._key = undefined;
+      return this;
+    }
     this._key = key;
     return this;
   }
