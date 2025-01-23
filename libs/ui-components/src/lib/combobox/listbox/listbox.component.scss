@@ -15,16 +15,13 @@
     var(--hsi-ui-combobox-border-color);
   border-bottom-left-radius: var(--hsi-ui-combobox-border-radius);
   border-bottom-right-radius: var(--hsi-ui-combobox-border-radius);
+  display: block;
+  max-height: var(--hsi-ui-listbox-max-height);
+  overflow-y: auto;
 }
 
 .hsi-ui-listbox-container:not(.open) {
   display: none;
-}
-
-.hsi-ui-listbox-scroll-container {
-  display: block;
-  max-height: var(--hsi-ui-listbox-max-height);
-  overflow-y: auto;
 }
 
 .hsi-ui-listbox-option {

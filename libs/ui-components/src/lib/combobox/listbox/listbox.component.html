@@ -1,25 +1,25 @@
-<div></div>
 <div
   class="hsi-ui-listbox-container"
-  [id]="service.id + '-listbox'"
-  role="listbox"
-  tabindex="-1"
   [class.open]="service.isOpen$ | async"
   [style.--max-reveal-height.px]="maxHeight"
-  [attr.aria-labelledby]="
-    (service.label$ | async) ? service.comboboxLabelId : label?.id
-  "
-  [attr.aria-multiselectable]="isMultiSelect"
 >
-  <div class="hsi-ui-listbox-scroll-container" [id]="service.scrollContainerId">
-    <div class="hsi-ui-listbox-scrollable-content" #scrollContent>
-      <ng-container
-        *ngTemplateOutlet="label?.labelContent || nullContent"
-      ></ng-container>
-      <ng-container *ngIf="(service.groups$ | async)?.length > 0; else listbox">
-        <ng-container *ngTemplateOutlet="listboxGroups"></ng-container>
-      </ng-container>
-    </div>
+  <div
+    #scrollableContent
+    class="hsi-ui-listbox"
+    [id]="service.id + '-listbox'"
+    role="listbox"
+    tabindex="-1"
+    [attr.aria-labelledby]="
+      (service.label$ | async) ? service.comboboxLabelId : label?.id
+    "
+    [attr.aria-multiselectable]="isMultiSelect"
+  >
+    <ng-container
+      *ngTemplateOutlet="label?.labelContent || nullContent"
+    ></ng-container>
+    <ng-container *ngIf="(service.groups$ | async)?.length > 0; else listbox">
+      <ng-container *ngTemplateOutlet="listboxGroups"></ng-container>
+    </ng-container>
   </div>
 </div>
 
@@ -35,7 +35,8 @@
       [ngClass]="'listbox-option-' + i"
       data-cy="listbox-option"
       [id]="service.id + '-listbox-option-' + i"
-      [attr.aria-selected]="(option.selected$ | async) || false"
+      [attr.aria-selected]="option.selected$ | async"
+      [attr.aria-disabled]="option.disabled$ | async"
       [class.selected]="option.selected$ | async"
       [class.disabled]="option.disabled$ | async"
       [class.multi]="isMultiSelect"

@@ -31,13 +31,13 @@ import {
   OptionAction,
   VisualFocus,
 } from '../combobox.service';
-import { ListboxFilteringService } from '../listbox-filtering/listbox-filtering.service';
 import { ListboxGroupComponent } from '../listbox-group/listbox-group.component';
 import { ListboxLabelComponent } from '../listbox-label/listbox-label.component';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
-import { ListboxScrollService } from '../listbox-scroll/listbox-scroll.service';
 import { SelectAllListboxOptionComponent } from '../select-all-listbox-option/select-all-listbox-option.component';
 import { ActiveIndexService } from './active-index.service';
+import { ListboxFilteringService } from './listbox-filtering.service';
+import { ListboxScrollService } from './listbox-scroll.service';
 
 export type SelectedCountLabel = {
   singular: string;
@@ -55,7 +55,7 @@ export type SelectedCountLabel = {
   ],
   // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
-    class: 'hsi-ui-listbox',
+    class: 'hsi-ui-listbox-component',
   },
 })
 export class ListboxComponent
@@ -68,7 +68,8 @@ export class ListboxComponent
   @Input() maxHeight = 300;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Output() valueChanges = new EventEmitter<any | any[]>();
-  @ViewChild('scrollContent') scrollContentRef: ElementRef<HTMLDivElement>;
+  @ViewChild('scrollableContent')
+  scrollableContentRef: ElementRef<HTMLDivElement>;
   @ContentChild(ListboxLabelComponent, { descendants: false })
   label: ListboxLabelComponent;
   @ContentChildren(ListboxOptionComponent, { descendants: false })
@@ -102,7 +103,7 @@ export class ListboxComponent
   }
 
   ngAfterViewInit(): void {
-    this.activeIndex.setScrollContentRef(this.scrollContentRef);
+    this.activeIndex.setScrollContentRef(this.scrollableContentRef);
     this.setResetOnClose();
     this.setOnOptionChanges();
   }
@@ -224,9 +225,9 @@ export class ListboxComponent
   }
 
   resetScroll(): void {
-    if (this.scrolling.isScrollable(this.scrollContentRef.nativeElement)) {
+    if (this.scrolling.isScrollable(this.scrollableContentRef.nativeElement)) {
       this.scrolling.scrollToTop(
-        this.scrollContentRef.nativeElement.parentElement
+        this.scrollableContentRef.nativeElement.parentElement
       );
     }
   }
