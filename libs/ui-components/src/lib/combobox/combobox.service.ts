@@ -105,8 +105,9 @@ export class ComboboxService {
   activeDescendant$: Observable<string>;
   private blurEvent: Subject<void> = new Subject();
   blurEvent$ = this.blurEvent.asObservable();
-  private initBoxLabel: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  initBoxLabel$ = this.initBoxLabel.asObservable();
+  private projectedContentIsInDOM: BehaviorSubject<boolean> =
+    new BehaviorSubject(false);
+  projectedContentIsInDOM$ = this.projectedContentIsInDOM.asObservable();
   private _isOpen: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isOpen$ = this._isOpen.asObservable().pipe(distinctUntilChanged());
   private label: BehaviorSubject<ComboboxLabelComponent> = new BehaviorSubject(
@@ -164,8 +165,8 @@ export class ComboboxService {
     this._isOpen.next(!this._isOpen.value);
   }
 
-  setTextboxLabel(): void {
-    this.initBoxLabel.next(true);
+  setProjectedContentIsInDOM(): void {
+    this.projectedContentIsInDOM.next(true);
   }
 
   emitBlurEvent(): void {

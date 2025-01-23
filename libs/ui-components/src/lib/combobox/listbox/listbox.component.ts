@@ -110,7 +110,7 @@ export class ListboxComponent
 
   setOnOptionChanges(): void {
     this.service.allOptions$.pipe(take(1), delay(0)).subscribe(() => {
-      this.service.setTextboxLabel();
+      this.service.setProjectedContentIsInDOM();
     });
 
     // cannot pass allOptions$ to handleOptionClick through template because @if (allOptions | async; as allOptions) will delay rendering of option.template and option.label will not be defined when setBoxLabel is called. Thus subscribe and set allOptions in here.

@@ -57,7 +57,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   protected zone = inject(NgZone);
 
   ngOnInit(): void {
-    this.service.initBoxLabel$
+    this.service.projectedContentIsInDOM$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         filter((x) => !!x),
