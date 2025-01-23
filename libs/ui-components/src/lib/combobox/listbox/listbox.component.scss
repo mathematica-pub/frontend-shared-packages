@@ -15,19 +15,22 @@
     var(--hsi-ui-combobox-border-color);
   border-bottom-left-radius: var(--hsi-ui-combobox-border-radius);
   border-bottom-right-radius: var(--hsi-ui-combobox-border-radius);
-  display: block;
-  max-height: var(--hsi-ui-listbox-max-height);
-  overflow-y: auto;
 }
 
 .hsi-ui-listbox-container:not(.open) {
   display: none;
 }
 
+.hsi-ui-listbox-scrollable-container {
+  display: block;
+  max-height: var(--hsi-ui-listbox-max-height);
+  overflow-y: auto;
+  margin: var(--hsi-ui-listbox-scrollable-container-margin);
+}
+
 .hsi-ui-listbox-option {
   display: block;
   cursor: pointer;
-  padding: var(--hsi-ui-listbox-option-padding);
 }
 
 .hsi-ui-listbox-option:hover {
@@ -47,7 +50,8 @@
   color: var(--hsi-ui-listbox-option-current-color);
 }
 
-.hsi-ui-listbox-option:last-child {
+.hsi-ui-listbox-option:not(.grouped-option):last-child,
+.hsi-ui-listbox-group-container:last-child .hsi-ui-listbox-option:last-child {
   border-bottom-left-radius: var(--hsi-ui-combobox-border-radius);
   border-bottom-right-radius: var(--hsi-ui-combobox-border-radius);
 }

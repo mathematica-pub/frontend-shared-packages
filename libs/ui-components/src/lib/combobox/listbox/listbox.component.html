@@ -3,23 +3,25 @@
   [class.open]="service.isOpen$ | async"
   [style.--max-reveal-height.px]="maxHeight"
 >
-  <div
-    #scrollableContent
-    class="hsi-ui-listbox"
-    [id]="service.id + '-listbox'"
-    role="listbox"
-    tabindex="-1"
-    [attr.aria-labelledby]="
-      (service.label$ | async) ? service.comboboxLabelId : label?.id
-    "
-    [attr.aria-multiselectable]="isMultiSelect"
-  >
-    <ng-container
-      *ngTemplateOutlet="label?.labelContent || nullContent"
-    ></ng-container>
-    <ng-container *ngIf="(service.groups$ | async)?.length > 0; else listbox">
-      <ng-container *ngTemplateOutlet="listboxGroups"></ng-container>
-    </ng-container>
+  <div class="hsi-ui-listbox-scrollable-container">
+    <div
+      #scrollableContent
+      class="hsi-ui-listbox"
+      [id]="service.id + '-listbox'"
+      role="listbox"
+      tabindex="-1"
+      [attr.aria-labelledby]="
+        (service.label$ | async) ? service.comboboxLabelId : label?.id
+      "
+      [attr.aria-multiselectable]="isMultiSelect"
+    >
+      <ng-container
+        *ngTemplateOutlet="label?.labelContent || nullContent"
+      ></ng-container>
+      <ng-container *ngIf="(service.groups$ | async)?.length > 0; else listbox">
+        <ng-container *ngTemplateOutlet="listboxGroups"></ng-container>
+      </ng-container>
+    </div>
   </div>
 </div>
 
@@ -85,7 +87,7 @@
         ) {
           <div
             role="option"
-            class="hsi-ui-listbox-option"
+            class="hsi-ui-listbox-option grouped-option"
             [ngClass]="
               'hsi-ui-listbox-option-' + getOptionIndexFromGroups(i, j)
             "

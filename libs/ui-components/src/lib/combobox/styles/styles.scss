@@ -52,6 +52,7 @@ $listbox: (
   'padding': grid(2) 0,
   'max-height': 300px,
   'background': var(--hsi-adk-color-primary-100, white),
+  'scrollable-container-margin': grid(1),
 );
 
 $listbox-option: (
@@ -72,11 +73,12 @@ $listbox-option: (
     'padding': grid(3),
   ),
   'cursor': pointer,
+  'margin-right': grid(1),
   'container': (
     'display': flex,
     'flex-direction': row,
     'align-items': center,
-    'padding': grid(2) var(--hsi-ui-textbox-padding),
+    'padding': grid(2),
     'gap': grid(2),
   ),
 );
@@ -85,7 +87,8 @@ $listbox-label: (
   'font-size': 0.9em,
   'font-weight': var(--hsi-adk-font-weight-semibold, 600),
   'text-transform': uppercase,
-  'padding': grid(1) var(--hsi-ui-textbox-padding),
+  'padding': grid(1) var(--hsi-ui-listbox-option-container-padding),
+  'margin-right': var(--hsi-ui-listbox-option-margin-right),
 );
 
 html {
