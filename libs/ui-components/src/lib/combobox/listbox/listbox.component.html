@@ -18,14 +18,16 @@
       <ng-container
         *ngTemplateOutlet="label?.labelContent || nullContent"
       ></ng-container>
-      <ng-container *ngIf="(service.groups$ | async)?.length > 0; else listbox">
-        <ng-container *ngTemplateOutlet="listboxGroups"></ng-container>
-      </ng-container>
+      @if ((service.groups$ | async)?.length > 0) {
+        <ng-container *ngTemplateOutlet="groupedOptions"></ng-container>
+      } @else {
+        <ng-container *ngTemplateOutlet="options"></ng-container>
+      }
     </div>
   </div>
 </div>
 
-<ng-template #listbox>
+<ng-template #options>
   @for (
     option of service.allOptions$ | async;
     track option.id;
@@ -59,7 +61,7 @@
   }
 </ng-template>
 
-<ng-template #listboxGroups>
+<ng-template #groupedOptions>
   @for (group of service.groups$ | async; track $index; let i = $index) {
     <div class="hsi-ui-listbox-group-container">
       <div

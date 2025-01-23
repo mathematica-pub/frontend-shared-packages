@@ -27,7 +27,6 @@ let nextUniqueId = 0;
 })
 export class ListboxOptionComponent implements OnChanges {
   @ViewChild('label') label: ElementRef<HTMLDivElement>;
-  @ViewChild('optionContainer') optionContainer: ElementRef<HTMLDivElement>;
   @ViewChild('option') template: TemplateRef<unknown>;
   @Input() boxDisplayLabel: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
