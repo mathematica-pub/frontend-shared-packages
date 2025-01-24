@@ -33,31 +33,60 @@
     track option.id;
     let i = $index
   ) {
-    <div
-      role="option"
-      class="hsi-ui-listbox-option"
-      [ngClass]="'listbox-option-' + i"
-      data-cy="listbox-option"
-      [id]="service.id + '-listbox-option-' + i"
-      [attr.aria-selected]="option.selected$ | async"
-      [attr.aria-disabled]="option.disabled$ | async"
-      [class.selected]="option.selected$ | async"
-      [class.disabled]="option.disabled$ | async"
-      [class.multi]="isMultiSelect"
-      [class.current]="
-        (activeIndex.activeIndex$ | async) === i &&
-        (option.disabled$ | async) !== true
-      "
-      [class.keyboard-current]="
-        (service.isKeyboardEvent$ | async) &&
-        (activeIndex.activeIndex$ | async) === i &&
-        (option.disabled$ | async) !== true
-      "
-      (click)="handleOptionClick($event, i)"
-      (mousedown)="handleOptionMousedown()"
-    >
-      <ng-container *ngTemplateOutlet="option.template"></ng-container>
-    </div>
+    <!-- use aria-checked for multi-select, aria-selected for single select -->
+    @if (service.isMultiSelect) {
+      <div
+        role="option"
+        class="hsi-ui-listbox-option"
+        [ngClass]="'listbox-option-' + i"
+        data-cy="listbox-option"
+        [id]="service.id + '-listbox-option-' + i"
+        [attr.aria-checked]="option.selected$ | async"
+        [attr.aria-disabled]="option.disabled$ | async"
+        [class.selected]="option.selected$ | async"
+        [class.disabled]="option.disabled$ | async"
+        [class.multi]="isMultiSelect"
+        [class.current]="
+          (activeIndex.activeIndex$ | async) === i &&
+          (option.disabled$ | async) !== true
+        "
+        [class.keyboard-current]="
+          (service.isKeyboardEvent$ | async) &&
+          (activeIndex.activeIndex$ | async) === i &&
+          (option.disabled$ | async) !== true
+        "
+        (click)="handleOptionClick($event, i)"
+        (mousedown)="handleOptionMousedown()"
+      >
+        <ng-container *ngTemplateOutlet="option.template"></ng-container>
+      </div>
+    } @else {
+      <div
+        role="option"
+        class="hsi-ui-listbox-option"
+        [ngClass]="'listbox-option-' + i"
+        data-cy="listbox-option"
+        [id]="service.id + '-listbox-option-' + i"
+        [attr.aria-selected]="option.selected$ | async"
+        [attr.aria-disabled]="option.disabled$ | async"
+        [class.selected]="option.selected$ | async"
+        [class.disabled]="option.disabled$ | async"
+        [class.multi]="isMultiSelect"
+        [class.current]="
+          (activeIndex.activeIndex$ | async) === i &&
+          (option.disabled$ | async) !== true
+        "
+        [class.keyboard-current]="
+          (service.isKeyboardEvent$ | async) &&
+          (activeIndex.activeIndex$ | async) === i &&
+          (option.disabled$ | async) !== true
+        "
+        (click)="handleOptionClick($event, i)"
+        (mousedown)="handleOptionMousedown()"
+      >
+        <ng-container *ngTemplateOutlet="option.template"></ng-container>
+      </div>
+    }
   }
 </ng-template>
 
@@ -87,33 +116,64 @@
           track option.id;
           let j = $index
         ) {
-          <div
-            role="option"
-            class="hsi-ui-listbox-option grouped-option"
-            [ngClass]="
-              'hsi-ui-listbox-option-' + getOptionIndexFromGroups(i, j)
-            "
-            [id]="
-              service.id + '-listbox-option-' + getOptionIndexFromGroups(i, j)
-            "
-            [attr.aria-selected]="(option.selected$ | async) || false"
-            [class.selected]="option.selected$ | async"
-            [class.multi]="isMultiSelect"
-            [class.disabled]="option.disabled$ | async"
-            [class.current]="
-              (activeIndex.activeIndex$ | async) ===
-              getOptionIndexFromGroups(i, j)
-            "
-            [class.keyboard-current]="
-              (service.isKeyboardEvent$ | async) &&
-              (activeIndex.activeIndex$ | async) ===
+          <!-- use aria-checked for multi-select, aria-selected for single select -->
+          @if (service.isMultiSelect) {
+            <div
+              role="option"
+              class="hsi-ui-listbox-option grouped-option"
+              [ngClass]="
+                'hsi-ui-listbox-option-' + getOptionIndexFromGroups(i, j)
+              "
+              [id]="
+                service.id + '-listbox-option-' + getOptionIndexFromGroups(i, j)
+              "
+              [attr.aria-checked]="(option.selected$ | async) || false"
+              [class.selected]="option.selected$ | async"
+              [class.multi]="isMultiSelect"
+              [class.disabled]="option.disabled$ | async"
+              [class.current]="
+                (activeIndex.activeIndex$ | async) ===
                 getOptionIndexFromGroups(i, j)
-            "
-            (click)="handleOptionClick($event, j, i)"
-            (mousedown)="handleOptionMousedown()"
-          >
-            <ng-container *ngTemplateOutlet="option.template"></ng-container>
-          </div>
+              "
+              [class.keyboard-current]="
+                (service.isKeyboardEvent$ | async) &&
+                (activeIndex.activeIndex$ | async) ===
+                  getOptionIndexFromGroups(i, j)
+              "
+              (click)="handleOptionClick($event, j, i)"
+              (mousedown)="handleOptionMousedown()"
+            >
+              <ng-container *ngTemplateOutlet="option.template"></ng-container>
+            </div>
+          } @else {
+            <div
+              role="option"
+              class="hsi-ui-listbox-option grouped-option"
+              [ngClass]="
+                'hsi-ui-listbox-option-' + getOptionIndexFromGroups(i, j)
+              "
+              [id]="
+                service.id + '-listbox-option-' + getOptionIndexFromGroups(i, j)
+              "
+              [attr.aria-selected]="(option.selected$ | async) || false"
+              [class.selected]="option.selected$ | async"
+              [class.multi]="isMultiSelect"
+              [class.disabled]="option.disabled$ | async"
+              [class.current]="
+                (activeIndex.activeIndex$ | async) ===
+                getOptionIndexFromGroups(i, j)
+              "
+              [class.keyboard-current]="
+                (service.isKeyboardEvent$ | async) &&
+                (activeIndex.activeIndex$ | async) ===
+                  getOptionIndexFromGroups(i, j)
+              "
+              (click)="handleOptionClick($event, j, i)"
+              (mousedown)="handleOptionMousedown()"
+            >
+              <ng-container *ngTemplateOutlet="option.template"></ng-container>
+            </div>
+          }
         }
       </div>
     </div>
