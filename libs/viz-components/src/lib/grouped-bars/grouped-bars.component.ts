@@ -13,13 +13,17 @@ import { GroupedBarsConfig } from './config/grouped-bars-config';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-grouped-bars]',
-  templateUrl: '../bars/bars.component.html',
+  template: '',
   styleUrls: ['./grouped-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: VIC_PRIMARY_MARKS, useExisting: GroupedBarsComponent },
   ],
+  host: {
+    class: 'config.class',
+    '[style.mixBlendMode]': 'config.mixBlendMode',
+  },
 })
 export class GroupedBarsComponent<
   Datum,

@@ -44,6 +44,7 @@ export class VicGroupedBarsConfigBuilder<
   override getConfig(): GroupedBarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Grouped Bars');
     return new GroupedBarsConfig(this.dimensions, {
+      class: 'vic-grouped-bars',
       color: this.colorDimensionBuilder._build('Color'),
       customFills: this._customFills,
       data: this._data,

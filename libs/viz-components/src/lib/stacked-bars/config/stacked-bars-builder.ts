@@ -60,6 +60,7 @@ export class VicStackedBarsConfigBuilder<
   override getConfig(): StackedBarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Stacked Bars');
     return new StackedBarsConfig(this.dimensions, {
+      class: 'vic-stacked-bars',
       color: this.colorDimensionBuilder._build('Color'),
       customFills: this._customFills,
       data: this._data,

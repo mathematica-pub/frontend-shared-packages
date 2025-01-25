@@ -5,6 +5,7 @@ import { XyAxisBaseOptions } from './xy-axis-options';
 export abstract class XyAxisConfig<TickValue>
   implements XyAxisBaseOptions<TickValue>
 {
+  class: string;
   data: never;
   label: AxisLabel;
   mixBlendMode: string;

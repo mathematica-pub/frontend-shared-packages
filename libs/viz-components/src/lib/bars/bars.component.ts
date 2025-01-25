@@ -5,7 +5,6 @@ import {
   inject,
   InjectionToken,
   NgZone,
-  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { select, selectAll, Transition } from 'd3';
@@ -71,7 +70,7 @@ export interface BarsTooltipDatum<Datum, TOrdinalValue extends DataValue> {
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-bars]',
-  templateUrl: './bars.component.html',
+  template: '',
   styleUrls: ['./bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,18 +79,20 @@ export interface BarsTooltipDatum<Datum, TOrdinalValue extends DataValue> {
     { provide: BARS, useExisting: BarsComponent },
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
+  host: {
+    '[class]': 'config.class',
+    '[style.mixBlendMode]': 'config.mixBlendMode',
+  },
 })
 export class BarsComponent<
   Datum,
   TOrdinalValue extends DataValue,
 > extends VicXyPrimaryMarks<Datum, BarsConfig<Datum, TOrdinalValue>> {
-  @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
   barGroups: BarGroupSelection;
   bars: BehaviorSubject<BarSelection> = new BehaviorSubject(null);
   bars$ = this.bars.asObservable();
   barLabels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
   barLabels$ = this.bars.asObservable();
-  protected zone = inject(NgZone);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override scales: { color: GenericScale<any, any> } & XyChartScales = {
     x: undefined,
@@ -99,6 +100,8 @@ export class BarsComponent<
     color: undefined,
     useTransition: undefined,
   };
+  protected zone = inject(NgZone);
+  public svgGRef = inject(ElementRef<SVGGElement>);
 
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config[this.config.dimensions.x].getScaleFromRange(
@@ -132,7 +135,7 @@ export class BarsComponent<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.barGroups = select(this.barsRef.nativeElement)
+    this.barGroups = select(this.svgGRef.nativeElement)
       .selectAll<SVGGElement, number>('.vic-bar-group')
       .data<number>(this.config.valueIndices, this.config.barsKeyFunction)
       .join(
@@ -551,11 +554,11 @@ export class BarsComponent<
   }
 
   updateBarElements(): void {
-    const bars = select(this.barsRef.nativeElement).selectAll<
+    const bars = select(this.svgGRef.nativeElement).selectAll<
       SVGRectElement,
       number
     >('.vic-bar');
-    const barLabels = select(this.barsRef.nativeElement).selectAll<
+    const barLabels = select(this.svgGRef.nativeElement).selectAll<
       SVGTextElement,
       number
     >('.vic-bar-label');

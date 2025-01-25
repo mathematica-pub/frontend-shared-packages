@@ -25,7 +25,7 @@ export const STACKED_BARS = new InjectionToken<
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-stacked-bars]',
-  templateUrl: '../bars/bars.component.html',
+  template: '',
   styleUrls: ['./stacked-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,6 +34,10 @@ export const STACKED_BARS = new InjectionToken<
     { provide: STACKED_BARS, useExisting: StackedBarsComponent },
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
+  host: {
+    class: 'config.class',
+    '[style.mixBlendMode]': 'config.mixBlendMode',
+  },
 })
 export class StackedBarsComponent<
   Datum,
@@ -47,7 +51,7 @@ export class StackedBarsComponent<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.barGroups = select(this.barsRef.nativeElement)
+    this.barGroups = select(this.svgGRef.nativeElement)
       .selectAll('g')
       .data(this.config.stackedData)
       .join('g')

@@ -280,6 +280,7 @@ export class VicDotsConfigBuilder<
     const xName = 'Dots X';
     const yName = 'Dots Y';
     return new DotsConfig<Datum, XOrdinalDomain, YOrdinalDomain>({
+      class: 'vic-dots',
       data: this._data,
       fill: this.fillBuilderCategorical
         ? this.fillBuilderCategorical._build(fillName)

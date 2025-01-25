@@ -183,6 +183,7 @@ export class VicStackedAreaConfigBuilder<
   getConfig(): StackedAreaConfig<Datum, CategoricalDomain> {
     this.validateBuilder();
     return new StackedAreaConfig({
+      class: 'vic-stacked-area',
       color: this.colorDimensionBuilder._build('Color'),
       categoricalOrder: this._categoricalOrder,
       curve: this._curve,

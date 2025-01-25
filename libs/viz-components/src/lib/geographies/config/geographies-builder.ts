@@ -161,6 +161,7 @@ export class VicGeographiesConfigBuilder<
   getConfig(): GeographiesConfig<Datum, TProperties, TGeometry> {
     this.validateBuilder();
     return new GeographiesConfig<Datum, TProperties, TGeometry>({
+      class: 'vic-geographies',
       attributeDataLayer: this.attributeDataBuilder?._build(),
       boundary: this._boundary,
       data: null,
