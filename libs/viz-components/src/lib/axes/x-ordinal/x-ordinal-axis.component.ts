@@ -9,7 +9,7 @@ const XOrdinalAxis = xAxisMixin(ordinalAxisMixin(XyAxis));
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-x-ordinal-axis]',
-  templateUrl: '../x/x-axis.html',
+  template: '',
   styles: [
     `
       .vic-axis-g .vic-x-axis-label {
@@ -18,8 +18,12 @@ const XOrdinalAxis = xAxisMixin(ordinalAxisMixin(XyAxis));
     `,
   ],
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['side', 'config'],
+  inputs: ['config'],
   encapsulation: ViewEncapsulation.None,
+  host: {
+    '[class]': 'config.class',
+    '[attr.transform]': 'translate',
+  },
 })
 export class XOrdinalAxisComponent<
   TickValue extends DataValue,

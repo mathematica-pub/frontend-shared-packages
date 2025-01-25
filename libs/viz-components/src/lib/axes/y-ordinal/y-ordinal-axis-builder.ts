@@ -25,7 +25,7 @@ export class VicYOrdinalAxisConfigBuilder<
 
   getConfig(): YOrdinalAxisConfig<TickValue> {
     return new YOrdinalAxisConfig<TickValue>({
-      class: 'vic-y-ordinal-axis',
+      class: 'vic-y-ordinal-axis vic-y-axis vic-ordinal-axis',
       data: undefined,
       label: this.labelBuilder?.build('y'),
       mixBlendMode: this._mixBlendMode,

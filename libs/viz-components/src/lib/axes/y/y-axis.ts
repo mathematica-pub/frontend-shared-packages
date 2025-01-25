@@ -88,11 +88,9 @@ export function yAxisMixin<
         anchor = config.anchor || 'end';
       }
 
-      select(this.axisRef.nativeElement)
-        .selectAll('.vic-y-axis-label')
-        .remove();
+      select(this.elRef.nativeElement).selectAll('.vic-y-axis-label').remove();
 
-      select(this.axisRef.nativeElement).call((g) =>
+      select(this.elRef.nativeElement).call((g) =>
         g
           .append('text')
           .attr('class', 'vic-axis-label vic-y-axis-label')
@@ -106,7 +104,7 @@ export function yAxisMixin<
 
       if (config.wrap) {
         this.config.label.wrap.wrap(
-          select(this.axisRef.nativeElement).select('.vic-y-axis-label')
+          select(this.elRef.nativeElement).select('.vic-y-axis-label')
         );
       }
     }

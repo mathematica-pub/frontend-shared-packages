@@ -21,7 +21,7 @@ import { GroupedBarsConfig } from './config/grouped-bars-config';
     { provide: VIC_PRIMARY_MARKS, useExisting: GroupedBarsComponent },
   ],
   host: {
-    class: 'config.class',
+    '[class]': 'config.class',
     '[style.mixBlendMode]': 'config.mixBlendMode',
   },
 })

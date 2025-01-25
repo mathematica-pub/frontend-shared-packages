@@ -35,7 +35,7 @@ export const STACKED_BARS = new InjectionToken<
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
   host: {
-    class: 'config.class',
+    '[class]': 'config.class',
     '[style.mixBlendMode]': 'config.mixBlendMode',
   },
 })
@@ -51,7 +51,7 @@ export class StackedBarsComponent<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.barGroups = select(this.svgGRef.nativeElement)
+    this.barGroups = select(this.elRef.nativeElement)
       .selectAll('g')
       .data(this.config.stackedData)
       .join('g')

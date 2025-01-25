@@ -101,7 +101,7 @@ export class BarsComponent<
     useTransition: undefined,
   };
   protected zone = inject(NgZone);
-  public svgGRef = inject(ElementRef<SVGGElement>);
+  public elRef = inject(ElementRef<SVGGElement>);
 
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config[this.config.dimensions.x].getScaleFromRange(
@@ -135,7 +135,7 @@ export class BarsComponent<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.barGroups = select(this.svgGRef.nativeElement)
+    this.barGroups = select(this.elRef.nativeElement)
       .selectAll<SVGGElement, number>('.vic-bar-group')
       .data<number>(this.config.valueIndices, this.config.barsKeyFunction)
       .join(
@@ -554,11 +554,11 @@ export class BarsComponent<
   }
 
   updateBarElements(): void {
-    const bars = select(this.svgGRef.nativeElement).selectAll<
+    const bars = select(this.elRef.nativeElement).selectAll<
       SVGRectElement,
       number
     >('.vic-bar');
-    const barLabels = select(this.svgGRef.nativeElement).selectAll<
+    const barLabels = select(this.elRef.nativeElement).selectAll<
       SVGTextElement,
       number
     >('.vic-bar-label');
