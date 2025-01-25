@@ -27,7 +27,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   axis: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
-  elRef = inject(ElementRef<SVGGElement>);
+  elRef = inject<ElementRef<SVGGElement>>(ElementRef);
 
   abstract getScale(): Observable<XyAxisScale>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
