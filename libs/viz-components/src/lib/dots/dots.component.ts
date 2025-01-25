@@ -65,7 +65,7 @@ export interface DotsTooltipDatum<Datum> {
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-dots]',
-  templateUrl: './dots.component.html',
+  template: '',
   styleUrl: './dots.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -73,6 +73,10 @@ export interface DotsTooltipDatum<Datum> {
     { provide: DOTS, useExisting: DotsComponent },
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
+  host: {
+    '[class]': 'config.class',
+    '[style.mixed-blend-mode]': 'config.blendMode',
+  },
 })
 export class DotsComponent<Datum> extends VicXyPrimaryMarks<
   Datum,
