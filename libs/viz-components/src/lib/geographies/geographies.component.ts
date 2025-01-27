@@ -2,10 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   InjectionToken,
   ViewEncapsulation,
 } from '@angular/core';
-import { GeoPath, GeoProjection, geoPath, select } from 'd3';
+import { GeoPath, geoPath, GeoProjection, select } from 'd3';
 import { Selection } from 'd3-selection';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -43,6 +44,10 @@ export const GEOGRAPHIES = new InjectionToken<
       useExisting: MapChartComponent,
     },
   ],
+  host: {
+    '[class]': 'config.class',
+    '[style.mixed-blend-mode]': 'config.blendMode',
+  },
 })
 export class GeographiesComponent<
   Datum,
@@ -70,11 +75,7 @@ export class GeographiesComponent<
       GeographiesFeature<TProperties, TGeometry>
     >[]
   > = this.pathsByLayer.asObservable();
-  formatForClassName = (s: string): string => s.replace(/\s/g, '-');
-
-  constructor(public elRef: ElementRef) {
-    super();
-  }
+  public elRef = inject<ElementRef<SVGGElement>>(ElementRef);
 
   override initFromConfig(): void {
     this.setChartScalesFromRanges();
@@ -146,7 +147,8 @@ export class GeographiesComponent<
             .append('g')
             .attr(
               'class',
-              (d) => `vic-geographies-layer layer-${d.id} ${d.class ?? ''}`
+              (d) =>
+                `vic-geographies-layer vic-geographies-layer-${d.id} ${d.class ?? ''}`
             ),
         (update) => update,
         (exit) => exit.remove()
@@ -166,7 +168,7 @@ export class GeographiesComponent<
         .attr(
           'class',
           (d) =>
-            `vic-geography-g ${this.formatForClassName(
+            `vic-geography-g ${this.getFormattedClassName(
               this.config.featureIndexAccessor(d)
             )}`
         );
@@ -184,8 +186,10 @@ export class GeographiesComponent<
             enter
               .append('path')
               .attr('d', (feature) => this.path(feature))
-              .attr('class', (feature) =>
-                this.formatForClassName(layer.featureIndexAccessor(feature))
+              .attr(
+                'class',
+                (feature) =>
+                  `vic-geography-path ${this.getFormattedClassName(layer.featureIndexAccessor(feature))}`
               )
               // layer-index is used on event directives
               .attr('data-layer-index', layer.id)
@@ -200,8 +204,10 @@ export class GeographiesComponent<
             update.call((update) =>
               update
                 .attr('d', (feature) => this.path(feature))
-                .attr('class', (feature) =>
-                  this.formatForClassName(layer.featureIndexAccessor(feature))
+                .attr(
+                  'class',
+                  (feature) =>
+                    `vic-geography-path ${this.getFormattedClassName(layer.featureIndexAccessor(feature))}`
                 )
                 .attr('data-layer-index', layer.id)
                 .transition(t)
@@ -281,6 +287,10 @@ export class GeographiesComponent<
     });
   }
 
+  getFormattedClassName(s: string): string {
+    return s.replace(/\s/g, '-');
+  }
+
   getLabelPosition(
     d: GeographiesFeature<TProperties, TGeometry>,
     labels: GeographiesLabels<TProperties, TGeometry>
@@ -294,7 +304,9 @@ export class GeographiesComponent<
       (paths, layer, i) => {
         if (layer.enableEventActions) {
           paths.push(
-            select(this.elRef.nativeElement).selectAll(`.layer-${i} path`)
+            select(this.elRef.nativeElement).selectAll(
+              `.vic-geographies-layer-${i} path`
+            )
           );
         }
         return paths;

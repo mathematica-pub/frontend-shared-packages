@@ -142,7 +142,7 @@ export class BarsComponent<
         (enter) =>
           enter
             .append('g')
-            .attr('class', 'vic-bar-group')
+            .attr('class', (i) => this.getBarGroupClass(i))
             .attr('transform', (i) =>
               this.getBarGroupTransform(this.getBarDatumFromIndex(i))
             ),
@@ -177,6 +177,11 @@ export class BarsComponent<
             .attr('fill', (d) => this.getBarFill(d)),
         (exit) => exit.remove()
       );
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getBarGroupClass(i: number): string {
+    return 'vic-bar-group';
   }
 
   getBarDatumFromIndex(i: number): BarDatum<TOrdinalValue> {

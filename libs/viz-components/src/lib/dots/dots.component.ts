@@ -87,8 +87,6 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
   dots$ = this.dots.asObservable();
   dotLabels: BehaviorSubject<DotLabelSelection> = new BehaviorSubject(null);
   dotLabels$ = this.dotLabels.asObservable();
-  private zone = inject(NgZone);
-  private elRef = inject<ElementRef<SVGGElement>>(ElementRef);
   override scales: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fill: GenericScale<any, any>;
@@ -101,6 +99,8 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
     y: undefined,
     useTransition: undefined,
   };
+  private elRef = inject<ElementRef<SVGGElement>>(ElementRef);
+  private zone = inject(NgZone);
 
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
