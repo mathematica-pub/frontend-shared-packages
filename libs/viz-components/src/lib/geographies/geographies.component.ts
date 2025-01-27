@@ -12,6 +12,7 @@ import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
 import { MapChartComponent } from '../charts/map-chart/map-chart.component';
+import { ValueUtilities } from '../core/utilities/values';
 import { VicMapPrimaryMarks } from '../marks/map-marks/map-primary-marks/map-primary-marks';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { GeographiesConfig } from './config/geographies-config';
@@ -179,7 +180,7 @@ export class GeographiesComponent<
         .attr(
           'class',
           (d) =>
-            `${this.class.g} ${this.getFormattedClassName(
+            `${this.class.g} ${ValueUtilities.formatForHtmlAttribute(
               this.config.featureIndexAccessor(d)
             )}`
         );
@@ -288,10 +289,6 @@ export class GeographiesComponent<
           );
       }
     });
-  }
-
-  getFormattedClassName(s: string): string {
-    return s.replace(/\s/g, '-');
   }
 
   getLabelPosition(

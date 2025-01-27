@@ -24,9 +24,9 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   XyAxisConfig<TickValue>
 > {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  axisFunction: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axis: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  axisFunction: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
   elRef = inject<ElementRef<SVGGElement>>(ElementRef);

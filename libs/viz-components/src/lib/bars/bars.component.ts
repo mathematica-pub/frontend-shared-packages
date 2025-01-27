@@ -200,7 +200,7 @@ export class BarsComponent<
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getBarGroupColorClass(i: number): string {
     return this.config.color.calculatedDomain.length > 1
-      ? this.config.color.values[i]
+      ? ValueUtilities.formatForHtmlAttribute(this.config.color.values[i])
       : '';
   }
 
