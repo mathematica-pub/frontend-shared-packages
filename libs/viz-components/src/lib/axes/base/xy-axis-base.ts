@@ -13,6 +13,8 @@ export type XyAxisScale = {
   scale: GenericScale<any, any>;
 };
 
+type AxisSvgElements = 'label';
+
 /**
  * A base directive for all axes.
  */
@@ -36,6 +38,12 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   abstract setTicks(tickFormat: string | ((value: TickValue) => string)): void;
   abstract setScale(): void;
   abstract createLabel(): void;
+
+  get class(): Record<AxisSvgElements, string> {
+    return {
+      label: this.class + '-label',
+    };
+  }
 
   override initFromConfig(): void {
     this.drawMarks();

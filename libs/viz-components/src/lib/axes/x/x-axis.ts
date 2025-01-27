@@ -67,12 +67,14 @@ export function xAxisMixin<
         anchor = config.anchor || 'end';
       }
 
-      select(this.elRef.nativeElement).selectAll('.vic-x-axis-label').remove();
+      select(this.elRef.nativeElement)
+        .selectAll(`.${this.class.label}`)
+        .remove();
 
       select(this.elRef.nativeElement).call((g) =>
         g
           .append('text')
-          .attr('class', 'vic-axis-label vic-x-axis-label')
+          .attr('class', this.class.label)
           .attr('x', x)
           .attr('y', y)
           .attr('text-anchor', anchor)
@@ -81,11 +83,11 @@ export function xAxisMixin<
 
       if (config.wrap) {
         this.config.label.wrap.wrap(
-          select(this.elRef.nativeElement).select('.vic-x-axis-label')
+          select(this.elRef.nativeElement).select(`.${this.class.label}`)
         );
 
         select(this.elRef.nativeElement)
-          .selectAll('.vic-x-axis-label tspan')
+          .selectAll(`.${this.class.label} tspan`)
           .attr('x', x);
       }
     }

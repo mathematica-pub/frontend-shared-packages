@@ -72,10 +72,6 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   Datum,
   LinesConfig<Datum>
 > {
-  // @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;
-  // @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;
-  // @ViewChild('markers', { static: true }) markersRef: ElementRef<SVGSVGElement>;
-  // @ViewChild('lineLabels', { static: true })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   line: (x: any[]) => any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

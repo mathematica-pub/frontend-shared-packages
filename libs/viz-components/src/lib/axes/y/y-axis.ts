@@ -88,12 +88,14 @@ export function yAxisMixin<
         anchor = config.anchor || 'end';
       }
 
-      select(this.elRef.nativeElement).selectAll('.vic-y-axis-label').remove();
+      select(this.elRef.nativeElement)
+        .selectAll(`.${this.class.label}`)
+        .remove();
 
       select(this.elRef.nativeElement).call((g) =>
         g
           .append('text')
-          .attr('class', 'vic-axis-label vic-y-axis-label')
+          .attr('class', this.class.label)
           .attr('transform', rotate)
           .attr('x', config.position === 'middle' ? y * -1 : x)
           .attr('y', config.position === 'middle' ? x * -1 : y)
@@ -104,7 +106,7 @@ export function yAxisMixin<
 
       if (config.wrap) {
         this.config.label.wrap.wrap(
-          select(this.elRef.nativeElement).select('.vic-y-axis-label')
+          select(this.elRef.nativeElement).select(`.${this.class.label}`)
         );
       }
     }
