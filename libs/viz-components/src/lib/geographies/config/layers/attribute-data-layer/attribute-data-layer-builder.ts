@@ -123,7 +123,6 @@ export class GeographiesAttributeDataLayerBuilder<
     this.validateBuilder();
     return new GeographiesAttributeDataLayer({
       attributeDimension: this.binsBuilder._build(),
-      class: this._class,
       customFills: this._customFills,
       data: this._data,
       enableEventActions: this._enableEventActions,

@@ -69,7 +69,6 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
   _build(): GeographiesGeojsonPropertiesLayer<TProperties, TGeometry> {
     this.validateBuilder();
     return new GeographiesGeojsonPropertiesLayer({
-      class: this._class,
       customFills: this._customFills,
       enableEventActions: this._enableEventActions,
       fill: this.fillBuilder._build('Fill'),

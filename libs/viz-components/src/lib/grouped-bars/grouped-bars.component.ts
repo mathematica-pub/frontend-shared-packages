@@ -55,11 +55,6 @@ export class GroupedBarsComponent<
     }
   }
 
-  override getBarGroupClass(i: number): string {
-    const d = this.config.color.values[i];
-    return `vic-bar-group ${d}`;
-  }
-
   override getBarColor(d: BarDatum<TOrdinalValue>): string {
     return this.scales.color(d.color);
   }

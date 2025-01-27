@@ -12,7 +12,6 @@ export interface GeographiesLayerOptions<
   TProperties,
   TGeometry extends Geometry,
 > {
-  class: string;
   enableEventActions: boolean;
   labels: GeographiesLabels<TProperties, TGeometry>;
   geographies: Array<GeographiesFeature<TProperties, TGeometry>>;

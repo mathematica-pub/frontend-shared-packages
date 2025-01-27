@@ -5,7 +5,6 @@ import {
   inject,
   InjectionToken,
   NgZone,
-  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { area, line, map, select, Transition } from 'd3';
@@ -25,7 +24,7 @@ import { LinesEventOutput } from './events/lines-event-output';
 export type LinesGroupSelection = Selection<
   SVGGElement,
   LinesGroupSelectionDatum,
-  SVGSVGElement,
+  SVGGElement,
   unknown
 >;
 
@@ -45,10 +44,12 @@ export interface LinesTooltipDatum<Datum> {
   };
 }
 
+type LinesSvgElements = 'g' | 'line' | 'area' | 'marker' | 'label';
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-lines]',
-  templateUrl: './lines.component.html',
+  template: '',
   styleUrls: ['./lines.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,24 +58,31 @@ export interface LinesTooltipDatum<Datum> {
     { provide: LINES, useExisting: LinesComponent },
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
+  host: {
+    '[class]': 'config.class',
+    '[attr.stroke-linecap]': 'config.stroke.linecap',
+    '[attr.stroke-linejoin]': 'config.stroke.linejoin',
+    '[attr.stroke-width]': 'config.stroke.width',
+    '[attr.stroke-opacity]': 'config.stroke.opacity',
+    '[style.mix-blend-mode]': 'config.mixBlendMode',
+    fill: 'none',
+  },
 })
 export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   Datum,
   LinesConfig<Datum>
 > {
-  @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;
-  @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;
-  @ViewChild('markers', { static: true }) markersRef: ElementRef<SVGSVGElement>;
-  @ViewChild('lineLabels', { static: true })
+  // @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;
+  // @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;
+  // @ViewChild('markers', { static: true }) markersRef: ElementRef<SVGSVGElement>;
+  // @ViewChild('lineLabels', { static: true })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   line: (x: any[]) => any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   lineArea: (x: any[]) => any;
   lineGroups: LinesGroupSelection;
   lineLabelsRef: ElementRef<SVGSVGElement>;
-  markerClass = 'vic-lines-datum-marker';
   markerIndexAttr = 'index';
-  private zone = inject(NgZone);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override scales: { color: GenericScale<any, any> } & XyChartScales = {
     x: undefined,
@@ -82,6 +90,18 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     color: undefined,
     useTransition: undefined,
   };
+  private zone = inject(NgZone);
+  private elRef = inject<ElementRef<SVGGElement>>(ElementRef);
+
+  get class(): Record<LinesSvgElements, string> {
+    return {
+      g: this.config.class + '-group',
+      line: this.config.class + '-line',
+      area: this.config.class + '-area',
+      marker: this.config.class + '-marker',
+      label: this.config.class + '-label',
+    };
+  }
 
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
@@ -153,28 +173,30 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.lineGroups = select(this.linesRef.nativeElement)
-      .selectAll<SVGGElement, LinesGroupSelectionDatum>('.vic-line-group')
+    this.lineGroups = select(this.elRef.nativeElement)
+      .selectAll<SVGGElement, LinesGroupSelectionDatum>(`.${this.class.g}`)
       .data<LinesGroupSelectionDatum>(
         this.config.linesD3Data,
         this.config.linesKeyFunction
       )
       .join(
-        (enter) => enter.append('g').attr('class', 'vic-line-group'),
+        (enter) => enter.append('g').attr('class', this.class.g),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (update) => update.transition(t as any),
         (exit) => exit.remove()
       );
 
     this.lineGroups
-      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('.vic-line')
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>(
+        `.${this.class.line}`
+      )
       .data<LinesGroupSelectionDatum>((d) => [d])
       .join(
         (enter) =>
           enter
             .append('path')
             .attr('category', ([category]) => category)
-            .attr('class', 'vic-line')
+            .attr('class', this.class.line)
             .attr('stroke', ([category]) => this.scales.color(category))
             .attr('d', ([, lineData]) => this.line(lineData)),
         (update) =>
@@ -198,7 +220,9 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.lineGroups
-      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('.vic-line-area')
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>(
+        `.${this.class.area}`
+      )
       .data<LinesGroupSelectionDatum>((d) => [d])
       .join(
         (enter) =>
@@ -208,7 +232,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .attr('fill', ([category, indices]) =>
               this.getAreaFill(category, indices)
             )
-            .attr('class', 'vic-line-area')
+            .attr('class', this.class.area)
             .attr('opacity', this.config.areaFills.opacity)
             .attr('d', ([, lineData]) => this.lineArea(lineData))
             .attr('display', this.config.areaFills.display ? null : 'none'),
@@ -255,7 +279,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.lineGroups
-      .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
+      .selectAll<SVGCircleElement, LinesMarkerDatum>(`.${this.class.marker}`)
       .data<LinesMarkerDatum>(([, indices]) =>
         this.config.getPointMarkersData(indices)
       )
@@ -263,10 +287,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
         (enter) =>
           enter
             .append('circle')
-            .attr(
-              'class',
-              `${this.config.pointMarkers.class} ${this.markerClass}`
-            )
+            .attr('class', this.class.marker)
             .attr('key', (d) => d.key)
             .attr('category', (d) => d.category)
             .attr(this.markerIndexAttr, (d) => d.index)
@@ -296,7 +317,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   drawLineLabels(): void {
     // TODO: make more flexible (or its own element? currently this only puts labels on the right side of the chart
     this.lineGroups
-      .selectAll('text')
+      .selectAll(`.${this.class.label}`)
       .data(([category, indices]) => {
         return [
           {
@@ -309,7 +330,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
         (enter) =>
           enter
             .append('text')
-            .attr('class', 'vic-line-label')
+            .attr('class', this.class.label)
             .attr('text-anchor', 'end')
             .attr('fill', (d) =>
               this.scales.color(this.config.stroke.color.values[d.index])

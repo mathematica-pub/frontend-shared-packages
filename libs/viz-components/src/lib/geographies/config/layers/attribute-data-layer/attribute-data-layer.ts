@@ -57,7 +57,6 @@ export class GeographiesAttributeDataLayer<
     if (this.geographyIndexAccessor === undefined) {
       console.error('Geography index accessor is required for data layers');
     }
-    this.class = `vic-geographies-data-layer ${this.class ?? ''}`;
     this.initPropertiesFromData();
   }
 

@@ -67,6 +67,8 @@ export interface BarsTooltipDatum<Datum, TOrdinalValue extends DataValue> {
   };
 }
 
+type BarsSvgElement = 'g' | 'bar' | 'label';
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-bars]',
@@ -93,6 +95,11 @@ export class BarsComponent<
   bars$ = this.bars.asObservable();
   barLabels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
   barLabels$ = this.bars.asObservable();
+  classSuffixes = {
+    g: 'group',
+    rect: 'bar',
+    text: 'label',
+  };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override scales: { color: GenericScale<any, any> } & XyChartScales = {
     x: undefined,
@@ -102,6 +109,14 @@ export class BarsComponent<
   };
   protected zone = inject(NgZone);
   public elRef = inject(ElementRef<SVGGElement>);
+
+  get class(): Record<BarsSvgElement, string> {
+    return {
+      g: this.config.class + '-group',
+      bar: this.config.class + '-bar',
+      label: this.config.class + '-label',
+    };
+  }
 
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config[this.config.dimensions.x].getScaleFromRange(
@@ -136,13 +151,16 @@ export class BarsComponent<
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups = select(this.elRef.nativeElement)
-      .selectAll<SVGGElement, number>('.vic-bar-group')
+      .selectAll<SVGGElement, number>(`.${this.class.g}`)
       .data<number>(this.config.valueIndices, this.config.barsKeyFunction)
       .join(
         (enter) =>
           enter
             .append('g')
-            .attr('class', (i) => this.getBarGroupClass(i))
+            .attr(
+              'class',
+              (i) => `${this.class.g} ${this.getBarGroupColorClass(i)}`
+            )
             .attr('transform', (i) =>
               this.getBarGroupTransform(this.getBarDatumFromIndex(i))
             ),
@@ -157,13 +175,13 @@ export class BarsComponent<
       );
 
     this.barGroups
-      .selectAll<SVGRectElement, BarDatum<TOrdinalValue>>('.vic-bar')
+      .selectAll<SVGRectElement, BarDatum<TOrdinalValue>>(`.${this.class.bar}`)
       .data<BarDatum<TOrdinalValue>>((i) => [this.getBarDatumFromIndex(i)])
       .join(
         (enter) =>
           enter
             .append('rect')
-            .attr('class', 'vic-bar')
+            .attr('class', this.class.bar)
             .property('key', (d) => d.ordinal)
             .attr('width', (d) => this.getBarWidth(d))
             .attr('height', (d) => this.getBarHeight(d))
@@ -180,8 +198,10 @@ export class BarsComponent<
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getBarGroupClass(i: number): string {
-    return 'vic-bar-group';
+  getBarGroupColorClass(i: number): string {
+    return this.config.color.calculatedDomain.length > 1
+      ? this.config.color.values[i]
+      : '';
   }
 
   getBarDatumFromIndex(i: number): BarDatum<TOrdinalValue> {
@@ -212,7 +232,9 @@ export class BarsComponent<
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups
-      .selectAll<SVGTextElement, BarDatum<TOrdinalValue>>('text')
+      .selectAll<SVGTextElement, BarDatum<TOrdinalValue>>(
+        `.${this.class.label}`
+      )
       .data<BarDatum<TOrdinalValue>>((i: number) => [
         {
           index: i,
@@ -225,7 +247,7 @@ export class BarsComponent<
         (enter) =>
           enter
             .append<SVGTextElement>('text')
-            .attr('class', 'vic-bar-label')
+            .attr('class', this.class.label)
             .style('display', this.config.labels.display ? null : 'none')
             .text((d) => this.getBarLabelText(d))
             .style('fill', (d) => this.getBarLabelColor(d))
@@ -471,7 +493,7 @@ export class BarsComponent<
 
   getLabelDomRect(d: BarDatum<TOrdinalValue>): DOMRect {
     const selection = selectAll<SVGTextElement, BarDatum<TOrdinalValue>>(
-      '.vic-bar-label'
+      `.${this.class.label}`
     ).filter((datum) => datum.index === d.index);
     return selection.node().getBoundingClientRect();
   }
@@ -562,11 +584,11 @@ export class BarsComponent<
     const bars = select(this.elRef.nativeElement).selectAll<
       SVGRectElement,
       number
-    >('.vic-bar');
+    >(`.${this.class.bar}`);
     const barLabels = select(this.elRef.nativeElement).selectAll<
       SVGTextElement,
       number
-    >('.vic-bar-label');
+    >(`.${this.class.label}`);
     this.bars.next(bars);
     this.barLabels.next(barLabels);
   }

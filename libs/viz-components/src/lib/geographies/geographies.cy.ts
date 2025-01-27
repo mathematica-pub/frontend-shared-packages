@@ -323,14 +323,16 @@ describe('drawing the geography paths for various layers', () => {
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
-        cy.get('.vic-geographies-data-layer path').then((paths) => {
-          expect(paths).to.have.length(states.features.length);
-          cy.wrap(paths).each((path) => {
-            expect(path.attr('stroke')).to.eq('black');
-            expect(path.attr('stroke-width')).to.eq('1');
-            expect(path.attr('fill')).to.not.eq('none');
-          });
-        });
+        cy.get('.vic-geographies-layer.attribute-data-layer path').then(
+          (paths) => {
+            expect(paths).to.have.length(states.features.length);
+            cy.wrap(paths).each((path) => {
+              expect(path.attr('stroke')).to.eq('black');
+              expect(path.attr('stroke-width')).to.eq('1');
+              expect(path.attr('fill')).to.not.eq('none');
+            });
+          }
+        );
         cy.get('.layer-1 path').then((paths) => {
           expect(paths).to.have.length(usBoundary.features.length);
           cy.wrap(paths).each((path) => {

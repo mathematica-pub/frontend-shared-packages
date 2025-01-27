@@ -52,20 +52,20 @@ export class StackedBarsComponent<
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups = select(this.elRef.nativeElement)
-      .selectAll('.vic-stacked-bar-group')
+      .selectAll(`.${this.class.g}`)
       .data(this.config.stackedData)
       .join('g')
-      .attr('class', 'vic-stacked-bar-group')
+      .attr('class', this.class.g)
       .attr('fill', ([{ i }]: StackDatum[]) =>
         this.scales.color(this.config.color.values[i])
       )
-      .selectAll('.vic-stacked-bar-rect')
+      .selectAll(`.${this.class.bar}`)
       .data((d) => d)
       .join(
         (enter) =>
           enter
             .append('rect')
-            .attr('class', 'vic-stacked-bar-rect')
+            .attr('class', this.class.bar)
             .attr('x', (d) => this.getStackElementX(d))
             .attr('y', (d) => this.getStackElementY(d))
             .attr('width', (d) => this.getStackElementWidth(d))

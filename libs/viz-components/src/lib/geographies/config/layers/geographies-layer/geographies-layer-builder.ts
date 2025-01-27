@@ -12,7 +12,6 @@ export abstract class GeographiesLayerBuilder<
   TProperties,
   TGeometry extends Geometry,
 > {
-  protected _class: string;
   protected _enableEventActions: boolean;
   protected _geographies: Array<GeographiesFeature<TProperties, TGeometry>>;
   protected labelsBuilder: GeographiesLabelsBuilder<TProperties, TGeometry>;
@@ -21,14 +20,6 @@ export abstract class GeographiesLayerBuilder<
 
   constructor() {
     Object.assign(this, DEFAULT);
-  }
-
-  /**
-   * OPTIONAL. The class to be applied to an SVGGElement that holds all geographies and labels for the layer.
-   */
-  class(value: string): this {
-    this._class = value;
-    return this;
   }
 
   /**

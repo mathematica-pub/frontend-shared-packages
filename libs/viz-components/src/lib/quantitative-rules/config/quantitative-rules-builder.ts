@@ -94,6 +94,7 @@ export class VicQuantitativeRulesConfigBuilder<
   getConfig(): QuantitativeRulesConfig<Datum> {
     this.validateBuilder();
     return new QuantitativeRulesConfig({
+      class: 'vic-quantitative-rules',
       color: this._color,
       data: this._data,
       dimensions: this.dimensions,
