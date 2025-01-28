@@ -265,14 +265,14 @@ describe('drawing the geography paths for various layers', () => {
           'have.length',
           states.features.length + usBoundary.features.length
         );
-        cy.get('.layer-0 path').then((paths) => {
+        cy.get('.vic-geographies-layer-0 path').then((paths) => {
           expect(paths).to.have.length(states.features.length);
           cy.wrap(paths).each((path) => {
             expect(path.attr('stroke')).to.eq('black');
             expect(path.attr('stroke-width')).to.eq('1');
           });
         });
-        cy.get('.layer-1 path').then((paths) => {
+        cy.get('.vic-geographies-layer-1 path').then((paths) => {
           expect(paths).to.have.length(usBoundary.features.length);
           cy.wrap(paths).each((path) => {
             expect(path.attr('stroke')).to.eq('red');
@@ -333,7 +333,7 @@ describe('drawing the geography paths for various layers', () => {
             });
           }
         );
-        cy.get('.layer-1 path').then((paths) => {
+        cy.get('.vic-geographies-layer-1 path').then((paths) => {
           expect(paths).to.have.length(usBoundary.features.length);
           cy.wrap(paths).each((path) => {
             expect(path.attr('stroke')).to.eq('red');
@@ -420,14 +420,14 @@ describe('drawing the geography paths for various layers', () => {
           'have.length',
           states.features.length + usBoundary.features.length
         );
-        cy.get('.layer-0 path').then((paths) => {
+        cy.get('.vic-geographies-layer-0 path').then((paths) => {
           expect(paths).to.have.length(states.features.length);
           cy.wrap(paths).each((path) => {
             expect(path.attr('stroke')).to.eq('black');
             expect(path.attr('stroke-width')).to.eq('1');
           });
         });
-        cy.get('.layer-1 path').then((paths) => {
+        cy.get('vic-geographies-layer-1 path').then((paths) => {
           expect(paths).to.have.length(usBoundary.features.length);
           cy.wrap(paths).each((path) => {
             expect(path.attr('stroke')).to.eq('blue');
