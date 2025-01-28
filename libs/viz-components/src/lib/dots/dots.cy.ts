@@ -48,6 +48,8 @@ const chartHeight = 400;
 const chartWidth = 600;
 const data = countryFactsData;
 
+const dotSelector = '.vic-dots-dot';
+
 // ***********************************************************
 // Dots Component with Continuous Quantitative X and Y Axes
 // ***********************************************************
@@ -334,7 +336,7 @@ describe('it creates one dot for each valid value in the data with the expected 
   });
   it('should draw one dot for each valid value in the data', () => {
     const dotKeys = [];
-    cy.get('.vic-dot')
+    cy.get(dotSelector)
       .each(($dots) => {
         dotKeys.push($dots.attr('key'));
       })
@@ -346,7 +348,7 @@ describe('it creates one dot for each valid value in the data with the expected 
   });
   it('should draw dots with the expected color', () => {
     const continents = [...new Set(data.map((d) => d.continent))];
-    cy.get('.vic-dot').each((dots) => {
+    cy.get(dotSelector).each((dots) => {
       const key = dots.attr('key');
       const continent = data.find((d) => d.country === key).continent;
       const expectedFill = colors[continents.indexOf(continent)];
@@ -355,7 +357,7 @@ describe('it creates one dot for each valid value in the data with the expected 
   });
   it('should draw dots with the expected radius', () => {
     const dotRadii = [];
-    cy.get('.vic-dot')
+    cy.get(dotSelector)
       .each((dots) => {
         dotRadii.push({ country: dots.attr('key'), r: dots.attr('r') });
       })
@@ -397,7 +399,7 @@ describe('it handles negative y-dimension values', () => {
   });
   it('should draw one dot for each valid value in the data', () => {
     const dotKeys = [];
-    cy.get('.vic-dot')
+    cy.get(dotSelector)
       .each(($dots) => {
         dotKeys.push($dots.attr('key'));
       })
@@ -430,7 +432,7 @@ describe('it handles negative x-dimension values', () => {
   });
   it('should draw one dot for each valid value in the data', () => {
     const dotKeys = [];
-    cy.get('.vic-dot')
+    cy.get(dotSelector)
       .each(($dots) => {
         dotKeys.push($dots.attr('key'));
       })
@@ -465,7 +467,7 @@ describe('displays a tooltips with correct data on each dot', () => {
   data.forEach((datum) => {
     describe(`when hovering over the dot for ${datum.country}`, () => {
       beforeEach(() => {
-        cy.get(`.vic-dot[key="${datum.country}"]`).realHover();
+        cy.get(`.vic-dots-dot[key="${datum.country}"]`).realHover();
       });
       it('should display a tooltip with the correct data', () => {
         cy.get('.vic-html-tooltip-overlay').should('exist');
@@ -502,7 +504,7 @@ describe('it creates one dot for each valid value in the data with the expected 
   });
   it('should draw one dot for each valid value in the data', () => {
     const dotKeys = [];
-    cy.get('.vic-dot')
+    cy.get(dotSelector)
       .each(($dots) => {
         dotKeys.push($dots.attr('key'));
       })
@@ -513,10 +515,10 @@ describe('it creates one dot for each valid value in the data with the expected 
       });
   });
   it('should draw dots with the expected cy value based on y value', () => {
-    cy.get('.vic-dot-group').each((dotGroup) => {
+    cy.get('.vic-dots-group').each((dotGroup) => {
       const key = dotGroup.attr('key');
       const continent = data.find((d) => d.country === key).continent;
-      cy.get('.vic-y.vic-axis-g .tick').each((tick) => {
+      cy.get('.vic-axis-y-ordinal .tick').each((tick) => {
         cy.wrap(tick)
           .find('text')
           .then((text) => {
@@ -557,7 +559,7 @@ describe('it creates one dot for each valid value in the data with the expected 
   });
   it('should draw one dot for each valid value in the data', () => {
     const dotKeys = [];
-    cy.get('.vic-dot')
+    cy.get(dotSelector)
       .each(($dots) => {
         dotKeys.push($dots.attr('key'));
       })
@@ -568,10 +570,10 @@ describe('it creates one dot for each valid value in the data with the expected 
       });
   });
   it('should draw dots with the expected cx value based on x value', () => {
-    cy.get('.vic-dot-group').each((dotGroup) => {
+    cy.get('.vic-dots-group').each((dotGroup) => {
       const key = dotGroup.attr('key');
       const continent = data.find((d) => d.country === key).continent;
-      cy.get('.vic-x.vic-axis-g .tick').each((tick) => {
+      cy.get('.vic-axis-x-ordinal .tick').each((tick) => {
         cy.wrap(tick)
           .find('text')
           .then((text) => {

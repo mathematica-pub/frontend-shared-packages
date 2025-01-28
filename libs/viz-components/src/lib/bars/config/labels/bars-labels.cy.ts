@@ -61,15 +61,18 @@ const elementPositionDelta = 0.5;
 const defaultTextColorRgb = 'rgb(0, 0, 0)';
 const alternativeTextColorRgb = 'rgb(255, 255, 255)';
 
+const barSelector = '.vic-bars-bar';
+const labelSelector = '.vic-bars-label';
+
 const assertPositionOfBarAndDataLabel = (
   index: number,
   assertions: (barPosition: DOMRect, labelPosition: DOMRect) => void
 ): void => {
   const assertionFn = () => {
-    cy.get('.vic-bar')
+    cy.get(barSelector)
       .eq(index)
       .then(($bar) => {
-        cy.get('.vic-bar-label')
+        cy.get(labelSelector)
           .eq(index)
           .then(($label) => {
             const barPosition = $bar[0].getBoundingClientRect();
@@ -87,11 +90,11 @@ const assertPositionOfTickForZeroAndDataLabel = (
   indices?: number[]
 ): void => {
   const assertionFn = () => {
-    cy.get(`.vic-${axis}.vic-axis-g .tick text`)
+    cy.get(`.vic-axis-${axis}-quantitative .tick text`)
       .contains(/^0$/)
       .siblings()
       .then(($tick) => {
-        cy.get('.vic-bar-label').each(($label, i) => {
+        cy.get(labelSelector).each(($label, i) => {
           if (indices === undefined || indices.includes(i)) {
             const tickPosition = $tick[0].getBoundingClientRect();
             const labelPosition = $label[0].getBoundingClientRect();
@@ -120,7 +123,7 @@ const barLabelColorMatchesExpectedRgb = (
   rgb: string,
   indices?: number[]
 ): void => {
-  cy.get('.vic-bar-label').each(($label, i) => {
+  cy.get(labelSelector).each(($label, i) => {
     if (indices === undefined || indices.includes(i)) {
       cy.wrap($label)
         .should('have.attr', 'style')
@@ -210,9 +213,9 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     });
     it('centers all data labels with respect to their x-axis tick', () => {
       checkPositionBeforeAndAfterWindowResize(() =>
-        cy.get('.vic-x.vic-axis-g .tick line').then((ticks) => {
+        cy.get('.vic-axis-x-ordinal .tick line').then((ticks) => {
           ticks.each((i, $tick) => {
-            cy.get('.vic-bar-label')
+            cy.get(labelSelector)
               .eq(i)
               .then(($label) => {
                 const labelPosition = $label[0].getBoundingClientRect();
@@ -264,7 +267,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           1,
           (barPosition: DOMRect, labelPosition: DOMRect) => {
             expect(labelPosition.top).to.be.greaterThan(barPosition.bottom);
-            cy.get('.vic-y.vic-axis-g').then(($axis) => {
+            cy.get('.vic-axis-y-quantitative').then(($axis) => {
               const axisPosition = $axis[0].getBoundingClientRect();
               expect(labelPosition.bottom).to.be.lessThan(axisPosition.bottom);
             });
@@ -279,7 +282,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           3,
           (barPosition: DOMRect, labelPosition: DOMRect) => {
             expect(labelPosition.bottom).to.be.lessThan(barPosition.top);
-            cy.get('.vic-y.vic-axis-g').then(($axis) => {
+            cy.get('.vic-axis-y-quantitative').then(($axis) => {
               const axisPosition = $axis[0].getBoundingClientRect();
               expect(labelPosition.top).to.be.greaterThan(axisPosition.top);
             });
@@ -542,10 +545,10 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
     });
     it('centers all data labels with respect to their y-axis tick', () => {
       checkPositionBeforeAndAfterWindowResize(() =>
-        cy.get('.vic-y.vic-axis-g .tick line').then((ticks) => {
+        cy.get('.vic-axis-y-ordinal .tick line').then((ticks) => {
           const reversedTicks = Array.from(ticks).reverse();
           reversedTicks.forEach((tick, i) => {
-            cy.get('.vic-bar-label')
+            cy.get(labelSelector)
               .eq(i)
               .then(($label) => {
                 const labelPosition = $label[0].getBoundingClientRect();
@@ -597,7 +600,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           1,
           (barPosition: DOMRect, labelPosition: DOMRect) => {
             expect(labelPosition.right).to.be.lessThan(barPosition.left);
-            cy.get('.vic-x.vic-axis-g').then(($axis) => {
+            cy.get('.vic-axis-x-quantitative').then(($axis) => {
               const axisPosition = $axis[0].getBoundingClientRect();
               expect(labelPosition.left).to.be.greaterThan(axisPosition.left);
             });
@@ -612,7 +615,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           3,
           (barPosition: DOMRect, labelPosition: DOMRect) => {
             expect(labelPosition.left).to.be.greaterThan(barPosition.right);
-            cy.get('.vic-x.vic-axis-g').then(($axis) => {
+            cy.get('.vic-axis-x-quantitative').then(($axis) => {
               const axisPosition = $axis[0].getBoundingClientRect();
               expect(labelPosition.right).to.be.lessThan(axisPosition.right);
             });

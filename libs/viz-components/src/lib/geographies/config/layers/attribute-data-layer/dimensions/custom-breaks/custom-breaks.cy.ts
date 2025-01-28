@@ -141,7 +141,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
           )
           .map((d) => d.state.replace(/\s/g, '-'));
         statesInAttributeData.forEach((state) => {
-          cy.get(`.vic-geography-g path.${state}`).then((path) => {
+          cy.get(`.vic-geographies-group.${state} path`).then((path) => {
             expect(path.attr('fill')).to.eq(color);
           });
         });
@@ -193,7 +193,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         { data: aboveValues, color: rangeValues[rangeValues.length - 1] },
       ].forEach((group) => {
         group.data.forEach((state) => {
-          cy.get(`.vic-geography-g path.${state}`).then((path) => {
+          cy.get(`.vic-geographies-group.${state} path`).then((path) => {
             expect(path.attr('fill')).to.eq(group.color);
           });
         });
@@ -247,7 +247,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
           )
           .map((d) => d.state.replace(/\s/g, '-'));
         statesInAttributeData.forEach((state) => {
-          cy.get(`.vic-geography-g path.${state}`).then((path) => {
+          cy.get(`.vic-geographies-group.${state} path`).then((path) => {
             expect(path.attr('fill')).to.eq(color);
           });
         });
@@ -301,13 +301,13 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         )
         .getConfig();
       mountGeographiesComponent(geographiesConfig);
-      cy.get(`.vic-geography-g path.Florida`).then((path) => {
+      cy.get(`.vic-geographies-group.Florida path`).then((path) => {
         expect(path.attr('fill')).to.eq(rangeValues[0]);
       });
-      cy.get(`.vic-geography-g path.Texas`).then((path) => {
+      cy.get(`.vic-geographies-group.Texas path`).then((path) => {
         expect(path.attr('fill')).to.eq(nullColor);
       });
-      cy.get(`.vic-geography-g path.California`).then((path) => {
+      cy.get(`.vic-geographies-group.California path`).then((path) => {
         expect(path.attr('fill')).to.eq(nullColor);
       });
     });
@@ -358,7 +358,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         )
         .map((x) => x.properties.name.replace(/\s/g, '-'));
       geographiesNotInAttributeData.forEach((state) => {
-        cy.get(`.vic-geography-g path.${state}`).then((path) => {
+        cy.get(`.vic-geographies-group.${state} path`).then((path) => {
           expect(path.attr('fill')).to.eq(nullColor);
         });
       });

@@ -31,9 +31,9 @@ export class QuantitativeRulesComponent<
 
   get class(): Record<RulesSvgElements, string> {
     return {
-      g: this.class + '-group',
-      rule: this.class + '-rule',
-      label: this.class + '-label',
+      g: this.config.class + '-group',
+      rule: this.config.class + '-rule',
+      label: this.config.class + '-label',
     };
   }
 

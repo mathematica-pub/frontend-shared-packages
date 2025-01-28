@@ -33,14 +33,6 @@ export class PointMarkersBuilder<Datum> {
   }
 
   /**
-   * OPTIONAL. A string to be added as a class to the point markers.
-   */
-  class(className: string): this {
-    this._class = className;
-    return this;
-  }
-
-  /**
    * OPTIONAL. A value by which the point marker will expand on hover, in px.
    *
    * @default 2
@@ -66,7 +58,6 @@ export class PointMarkersBuilder<Datum> {
   _build(): PointMarkers<Datum> {
     return new PointMarkers({
       display: this._display,
-      class: this._class,
       growByOnHover: this._growByOnHover,
       radius: this._radius,
     });

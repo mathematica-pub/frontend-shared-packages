@@ -140,7 +140,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
       const redRange = ranges.red[1] - ranges.red[0];
       expect(whiteRange).to.be.closeTo(pinkRange, 1);
       expect(pinkRange).to.be.closeTo(redRange, 1);
-      cy.get('.vic-geography-g path').then((states) => {
+      cy.get('.vic-geographies-group path').then((states) => {
         states.each((_, state) => {
           const fill = state.getAttribute('fill');
           const datum = attributeData.find(
@@ -188,7 +188,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
         )
         .getConfig();
       mountGeographiesComponent(geographiesConfig);
-      cy.get('.vic-geography-g path').then((states) => {
+      cy.get('.vic-geographies-group path').then((states) => {
         states.each((_, state) => {
           const fill = state.getAttribute('fill');
           const datum = attributeData.find(
@@ -241,7 +241,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
         .getConfig();
       mountGeographiesComponent(geographiesConfig);
       const colors = [];
-      cy.get('.vic-geography-g path').then((states) => {
+      cy.get('.vic-geographies-group path').then((states) => {
         states.each((_, state) => {
           const fill = state.getAttribute('fill');
           if (!colors.includes(fill)) {
@@ -288,7 +288,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
         .getConfig();
       mountGeographiesComponent(geographiesConfig);
       const colors = [];
-      cy.get('.vic-geography-g path').then((states) => {
+      cy.get('.vic-geographies-group path').then((states) => {
         states.each((_, state) => {
           const fill = state.getAttribute('fill');
           if (!colors.includes(fill)) {

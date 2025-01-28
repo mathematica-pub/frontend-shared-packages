@@ -140,16 +140,16 @@ describe('the No Bins Attribute Data dimension', () => {
         /\s/g,
         '-'
       );
-      cy.get(`.vic-geography-g path.${lowest}`).then((path) => {
+      cy.get(`.vic-geographies-group.${lowest} path`).then((path) => {
         expect(path.attr('fill')).to.eq('rgb(255, 255, 255)');
       });
-      cy.get(`.vic-geography-g path.${highest}`).then((path) => {
+      cy.get(`.vic-geographies-group.${highest} path`).then((path) => {
         expect(path.attr('fill')).to.eq('rgb(255, 0, 255)');
       });
       const colors = [255];
       sortedData.forEach((d, i) => {
         const state = d.state.replace(/\s/g, '-');
-        cy.get(`.vic-geography-g path.${state}`).then((path) => {
+        cy.get(`.vic-geographies-group.${state} path`).then((path) => {
           const color = parseInt(path.attr('fill').split('(')[1].split(',')[1]);
           expect(color).to.be.lte(colors[i]);
           colors.push(color);
@@ -201,13 +201,13 @@ describe('the No Bins Attribute Data dimension', () => {
         )
         .getConfig();
       mountGeographiesComponent(geographiesConfig);
-      cy.get(`.vic-geography-g path.Florida`).then((path) => {
+      cy.get(`.vic-geographies-group.Florida path`).then((path) => {
         expect(path.attr('fill')).to.eq(nullColor);
       });
-      cy.get(`.vic-geography-g path.Texas`).then((path) => {
+      cy.get(`.vic-geographies-group.Texas path`).then((path) => {
         expect(path.attr('fill')).to.eq(nullColor);
       });
-      cy.get(`.vic-geography-g path.California`).then((path) => {
+      cy.get(`.vic-geographies-group.California path`).then((path) => {
         expect(path.attr('fill')).to.eq(nullColor);
       });
     });
@@ -255,7 +255,7 @@ describe('the No Bins Attribute Data dimension', () => {
         )
         .map((x) => x.properties.name.replace(/\s/g, '-'));
       geographiesNotInAttributeData.forEach((state) => {
-        cy.get(`.vic-geography-g path.${state}`).then((path) => {
+        cy.get(`.vic-geographies-group.${state} path`).then((path) => {
           expect(path.attr('fill')).to.eq(nullColor);
         });
       });

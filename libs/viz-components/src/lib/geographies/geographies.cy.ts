@@ -496,7 +496,6 @@ describe('drawing the geography labels various layers', () => {
                   .valueAccessor((d) => d.income)
                   .range(['white', 'orangered'])
               )
-              .class('test-data-layer')
               .stroke((stroke) => stroke.color('black').width(1))
               .labels((labels) =>
                 labels.valueAccessor((d) => d.properties.id).color('black')
@@ -512,7 +511,6 @@ describe('drawing the geography labels various layers', () => {
               .fillGeojsonProperties((dimension) =>
                 dimension.range(['darkblue'])
               )
-              .class('test-no-data-layer')
               .stroke((stroke) => stroke.width(1))
               .labels((labels) =>
                 labels
@@ -522,7 +520,7 @@ describe('drawing the geography labels various layers', () => {
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
-        cy.get('.vic-geography-g').then((groups) => {
+        cy.get('.vic-geographies-group').then((groups) => {
           expect(groups).to.have.length(states.features.length);
           cy.wrap(groups)
             .find('text')
@@ -530,21 +528,25 @@ describe('drawing the geography labels various layers', () => {
               expect(labels).to.have.length(states.features.length);
             });
         });
-        cy.get('.test-data-layer .vic-geography-g').then((groups) => {
-          cy.wrap(groups).each((group) => {
-            const label = group.find('text');
-            expect(label.text().length).to.equal(2);
-            expect(label.attr('fill')).to.eq('black');
-          });
-        });
-        cy.get('.test-no-data-layer .vic-geography-g').then((groups) => {
-          cy.wrap(groups).each((group) => {
-            const label = group.find('text');
-            expect(label.text().length).to.equal(3);
-            expect(label.text()[2]).to.equal('*');
-            expect(label.attr('fill')).to.eq('chartreuse');
-          });
-        });
+        cy.get('.attribute-data-layer .vic-geographies-group').then(
+          (groups) => {
+            cy.wrap(groups).each((group) => {
+              const label = group.find('text');
+              expect(label.text().length).to.equal(2);
+              expect(label.attr('fill')).to.eq('black');
+            });
+          }
+        );
+        cy.get('.geojson-properties-layer .vic-geographies-group').then(
+          (groups) => {
+            cy.wrap(groups).each((group) => {
+              const label = group.find('text');
+              expect(label.text().length).to.equal(3);
+              expect(label.text()[2]).to.equal('*');
+              expect(label.attr('fill')).to.eq('chartreuse');
+            });
+          }
+        );
       });
     });
   });
