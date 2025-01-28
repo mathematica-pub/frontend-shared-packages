@@ -216,7 +216,7 @@ describe('drawing the geography paths for various layers', () => {
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
-        cy.get('.vic-geography-g path').then((paths) => {
+        cy.get('.vic-geographies-group path').then((paths) => {
           expect(paths).to.have.length(states.features.length);
           cy.wrap(paths).each((path) => {
             expect(path.attr('stroke')).to.eq('black');
@@ -261,7 +261,7 @@ describe('drawing the geography paths for various layers', () => {
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
-        cy.get('.vic-geography-g path').should(
+        cy.get('.vic-geographies-group path').should(
           'have.length',
           states.features.length + usBoundary.features.length
         );
@@ -416,7 +416,7 @@ describe('drawing the geography paths for various layers', () => {
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
-        cy.get('.vic-geography-g path').should(
+        cy.get('.vic-geographies-group path').should(
           'have.length',
           states.features.length + usBoundary.features.length
         );
@@ -437,7 +437,7 @@ describe('drawing the geography paths for various layers', () => {
         const colors = [255];
         stateNames.forEach((d, i) => {
           const state = d.replace(/\s/g, '-');
-          cy.get(`.vic-geography-g path.${state}`).then((path) => {
+          cy.get(`.vic-geographies-group path.${state}`).then((path) => {
             const color = parseInt(
               path.attr('fill').split('(')[1].split(',')[1]
             );
@@ -602,7 +602,7 @@ describe('displays tooltips for correct data per hover position', () => {
         cy.fixture('usMap.json').then((response) => {
           mountGeographiesForTooltipTests(response);
           cy.get(
-            `.vic-geography-g.${stateDatum.state.split(' ').join('-')}`
+            `.vic-geographies-group.${stateDatum.state.split(' ').join('-')}`
           ).realHover();
           cy.get('.vic-html-tooltip-overlay').should('be.visible');
           cy.get('.vic-html-tooltip-overlay p')
@@ -614,7 +614,7 @@ describe('displays tooltips for correct data per hover position', () => {
           cy.get('.vic-html-tooltip-overlay').then(($el) => {
             const tooltipBox = $el[0].getBoundingClientRect();
             cy.get(
-              `.vic-geography-g.${stateDatum.state.split(' ').join('-')}`
+              `.vic-geographies-group.${stateDatum.state.split(' ').join('-')}`
             ).then(($stateEl) => {
               const stateBox = $stateEl[0].getBoundingClientRect();
               expect(mean([tooltipBox.left, tooltipBox.right])).to.be.closeTo(
