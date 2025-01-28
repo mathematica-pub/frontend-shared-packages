@@ -12,7 +12,7 @@ const YOrdinalAxis = yAxisMixin(ordinalAxisMixin(XyAxis));
   template: '',
   styles: [
     `
-      .vic-axis-g .vic-y-axis-label {
+      .vic-axis-y-ordinal .vic-axis-label {
         fill: currentColor;
       }
     `,
@@ -22,6 +22,7 @@ const YOrdinalAxis = yAxisMixin(ordinalAxisMixin(XyAxis));
   encapsulation: ViewEncapsulation.None,
   host: {
     '[class]': 'config.class',
+    class: 'vic-axis',
     '[attr.transform]': 'translate',
   },
 })

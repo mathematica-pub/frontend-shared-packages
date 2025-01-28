@@ -41,7 +41,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
 
   get class(): Record<AxisSvgElements, string> {
     return {
-      label: this.config.class + '-label',
+      label: 'vic-axis-label',
     };
   }
 

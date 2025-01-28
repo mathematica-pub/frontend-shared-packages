@@ -71,8 +71,6 @@ export function xAxisMixin<
         .selectAll(`.${this.class.label}`)
         .remove();
 
-      console.log(this.class.label);
-
       select(this.elRef.nativeElement).call((g) =>
         g
           .append('text')

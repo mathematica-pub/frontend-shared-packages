@@ -11,7 +11,7 @@ const XQuantitativeAxis = xAxisMixin(quantitativeAxisMixin(XyAxis));
   template: '',
   styles: [
     `
-      .vic-axis-g .vic-x-axis-label {
+      .vic-axis-x-quantitative .vic-axis-label {
         fill: currentColor;
       }
     `,
@@ -21,6 +21,7 @@ const XQuantitativeAxis = xAxisMixin(quantitativeAxisMixin(XyAxis));
   encapsulation: ViewEncapsulation.None,
   host: {
     '[class]': 'config.class',
+    class: 'vic-axis',
     '[attr.transform]': 'translate',
   },
 })
