@@ -12,23 +12,28 @@ import { BehaviorSubject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableExampleComponent {
-  config$ = new BehaviorSubject({
+  data$ = new BehaviorSubject({
     data: [
       { fruit: 'apple', color: 'red' },
       { fruit: 'orange', color: 'orange' },
       { fruit: 'banana', color: 'yellow' },
     ],
-    columns: [
-      new TableColumn<{ fruit: string; color: string }>({
-        label: 'Fruit',
-        getFormattedValue: (x) => x.fruit,
-        sortable: true,
-      }),
-      new TableColumn<{ fruit: string; color: string }>({
-        label: 'Color',
-        getFormattedValue: (x) => x.color,
-        sortable: true,
-      }),
-    ],
   });
+
+  sortColumnConfig = [
+    new TableColumn<{ fruit: string; color: string }>({
+      cdkColumnDef: 'fruit',
+      ascendingSortFunction: (a, b) => a.fruit.localeCompare(b.fruit),
+      sortOrder: 1,
+      sortDirection: 'asc', // initial sort direction
+    }),
+    new TableColumn<{ fruit: string; color: string }>({
+      cdkColumnDef: 'color',
+      sortable: true,
+      ascendingSortFunction: (a, b) => a.color.localeCompare(b.color),
+    }),
+  ];
+  dataSource = new HsiUiTableDataSource(data$, sortColumnConfig);
+
+  // handleSort()
 }

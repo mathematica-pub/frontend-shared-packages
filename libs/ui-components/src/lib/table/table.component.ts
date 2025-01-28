@@ -181,3 +181,23 @@ export class TableComponent<Datum> implements OnInit {
     return column.label;
   }
 }
+
+
+hsiUiTableHeader
+class HsiUiTableDataSource extends DataSource<Datum> {
+
+  // user inputs the full data 
+  // user inputs some column sorting configuration 
+  constructor(private inputData$: Observable<Datum[]>, private sortConfig: TableColumn<Datum>[]) {
+    super();
+    this.transformedData$ = combineLatest([sortConfig$, this.inputData$]).pipe(return subsetData)
+  }
+
+  handleSort(column: whateverDataTypeThisIs) {
+    this.sortConfig[column] -- what is the sort function? use some smart default if not provided 
+    handle tiebreaks using this.sortConfig[column].sortOrder (will need other columns' sort functions & orders)
+  }
+  override connect(): Observable<readonly Datum[]> {
+      return this.transformedData$;
+  }
+}

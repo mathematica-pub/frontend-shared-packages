@@ -21,7 +21,7 @@
         [ngClass]="[column.getAlignment(element), 'sorted-header']"
         [column]="column"
         [sortIcon]="sortIcon"
-        (click)="sortTableByColumn(column)"
+        (click)="handleSort(column)"
       ></th>
       <td
         cdk-cell
