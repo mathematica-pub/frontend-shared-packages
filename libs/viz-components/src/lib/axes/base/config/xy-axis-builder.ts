@@ -19,9 +19,16 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
   /**
    * An object to configure grid lines.
    */
-  grid(setProperties?: (grid: GridBuilder) => void): this {
+  grid(): this;
+  grid(grid: null): this;
+  grid(grid: (grid: GridBuilder) => void): this;
+  grid(grid?: ((grid: GridBuilder) => void) | null): this {
+    if (grid === null) {
+      this.gridBuilder = undefined;
+      return this;
+    }
     this.gridBuilder = new GridBuilder();
-    setProperties?.(this.gridBuilder);
+    grid?.(this.gridBuilder);
     return this;
   }
 

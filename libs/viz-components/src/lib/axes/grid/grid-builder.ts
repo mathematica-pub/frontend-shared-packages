@@ -17,7 +17,11 @@ export class GridBuilder {
    * OPTIONAL. Determines whether or not to display grid lines. Must specify a function
    *  that takes the index of the grid line and returns a boolean.
    */
-  filter(filter: (i: number) => boolean) {
+  filter(filter: ((i: number) => boolean) | null) {
+    if (filter === null) {
+      this._filter = DEFAULT._filter;
+      return this;
+    }
     this._filter = filter;
     return this;
   }
@@ -28,9 +32,15 @@ export class GridBuilder {
    * Default color: '#cccccc'
    * Default width: 1px
    */
-  stroke(setProperties?: (stroke: StrokeBuilder) => void): this {
+  stroke(stroke: null): this;
+  stroke(stroke: (stroke: StrokeBuilder) => void): this;
+  stroke(stroke: ((stroke: StrokeBuilder) => void) | null): this {
+    if (stroke === null) {
+      this.strokeBuilder = undefined;
+      return this;
+    }
     this.initStrokeBuilder();
-    setProperties?.(this.strokeBuilder);
+    stroke(this.strokeBuilder);
     return this;
   }
 
