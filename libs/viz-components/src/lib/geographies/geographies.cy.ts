@@ -427,7 +427,7 @@ describe('drawing the geography paths for various layers', () => {
             expect(path.attr('stroke-width')).to.eq('1');
           });
         });
-        cy.get('vic-geographies-layer-1 path').then((paths) => {
+        cy.get('.vic-geographies-layer-1 path').then((paths) => {
           expect(paths).to.have.length(usBoundary.features.length);
           cy.wrap(paths).each((path) => {
             expect(path.attr('stroke')).to.eq('blue');
@@ -437,7 +437,7 @@ describe('drawing the geography paths for various layers', () => {
         const colors = [255];
         stateNames.forEach((d, i) => {
           const state = d.replace(/\s/g, '-');
-          cy.get(`.vic-geographies-group path.${state}`).then((path) => {
+          cy.get(`.vic-geographies-group.${state} path`).then((path) => {
             const color = parseInt(
               path.attr('fill').split('(')[1].split(',')[1]
             );
