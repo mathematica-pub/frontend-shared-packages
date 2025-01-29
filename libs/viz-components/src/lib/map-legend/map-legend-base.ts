@@ -54,7 +54,6 @@ export abstract class MapLegend<
     if (this.orientation === Orientation.vertical) {
       values = values.slice().reverse();
     }
-    this.setQuantitativeValueSpaces(values);
     this.values = values.map((d) =>
       ValueUtilities.d3Format(
         d,
@@ -62,6 +61,7 @@ export abstract class MapLegend<
           .formatSpecifier
       )
     );
+    this.setQuantitativeValueSpaces(this.values);
   }
 
   setCategoricalValues(): void {
