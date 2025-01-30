@@ -68,8 +68,8 @@ export class VicStackedAreaConfigBuilder<
    * REQUIRED. Sets the categorical dimension for the stacked area chart.
    */
   color(
-    setProperties: (
-      dimension: OrdinalVisualValueDimensionBuilder<
+    color: (
+      color: OrdinalVisualValueDimensionBuilder<
         Datum,
         CategoricalDomain,
         string
@@ -81,7 +81,7 @@ export class VicStackedAreaConfigBuilder<
       CategoricalDomain,
       string
     >();
-    setProperties(this.colorDimensionBuilder);
+    color(this.colorDimensionBuilder);
     return this;
   }
 
@@ -91,6 +91,10 @@ export class VicStackedAreaConfigBuilder<
    * If not provided, the order will be determined by d3.
    */
   categoricalOrder(value: CategoricalDomain[]): this {
+    if (value === null) {
+      this._categoricalOrder = undefined;
+      return this;
+    }
     this._categoricalOrder = value;
     return this;
   }
@@ -100,7 +104,13 @@ export class VicStackedAreaConfigBuilder<
    *
    * @default curveLinear
    */
-  curve(value: CurveFactory): this {
+  curve(value: null): this;
+  curve(value: CurveFactory): this;
+  curve(value: CurveFactory | null): this {
+    if (value === null) {
+      this._curve = DEFAULT._curve;
+      return this;
+    }
     this._curve = value;
     return this;
   }
@@ -110,15 +120,30 @@ export class VicStackedAreaConfigBuilder<
    *
    * @default stackOrderNone
    */
+  stackOrder(stackOrder: null): this;
   stackOrder(
-    value: (
+    stackOrder: (
       series: Series<
         [ContinuousValue, InternMap<CategoricalDomain, number>],
         CategoricalDomain
       >
     ) => Iterable<number>
+  ): this;
+  stackOrder(
+    stackOrder:
+      | ((
+          series: Series<
+            [ContinuousValue, InternMap<CategoricalDomain, number>],
+            CategoricalDomain
+          >
+        ) => Iterable<number>)
+      | null
   ): this {
-    this._stackOrder = value;
+    if (stackOrder === null) {
+      this._stackOrder = DEFAULT._stackOrder;
+      return this;
+    }
+    this._stackOrder = stackOrder;
     return this;
   }
 
@@ -127,53 +152,73 @@ export class VicStackedAreaConfigBuilder<
    *
    * @default stackOffsetNone
    */
+  stackOffset(stackOffset: null): this;
   stackOffset(
-    value: (
+    stackOffset: (
       series: Series<
         [ContinuousValue, InternMap<CategoricalDomain, number>],
         CategoricalDomain
       >,
       order: number[]
     ) => void
+  ): this;
+  stackOffset(
+    stackOffset:
+      | ((
+          series: Series<
+            [ContinuousValue, InternMap<CategoricalDomain, number>],
+            CategoricalDomain
+          >,
+          order: number[]
+        ) => void)
+      | null
   ): this {
-    this._stackOffset = value;
-    return this;
-  }
-
-  /**
-   * REQUIRED. Sets the x dimension for the stacked area chart when using numeric data.
-   */
-  xNumeric(
-    setProperties: (
-      dimension: NumberChartPositionDimensionBuilder<Datum>
-    ) => void
-  ): this {
-    this.xDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
-    setProperties(this.xDimensionBuilder);
+    if (stackOffset === null) {
+      this._stackOffset = DEFAULT._stackOffset;
+      return this;
+    }
+    this._stackOffset = stackOffset;
     return this;
   }
 
   /**
    * REQUIRED. Sets the x dimension for the stacked area chart when using Date data.
    */
+  xDate(x: null): this;
+  xDate(x: (x: DateChartPositionDimensionBuilder<Datum>) => void): this;
   xDate(
-    setProperties: (dimension: DateChartPositionDimensionBuilder<Datum>) => void
+    x: ((x: DateChartPositionDimensionBuilder<Datum>) => void) | null
   ): this {
+    if (x === null) return this;
     this.xDimensionBuilder = new DateChartPositionDimensionBuilder<Datum>();
-    setProperties(this.xDimensionBuilder);
+    x(this.xDimensionBuilder);
+    return this;
+  }
+
+  /**
+   * REQUIRED. Sets the x dimension for the stacked area chart when using numeric data.
+   */
+  xNumeric(x: null): this;
+  xNumeric(x: (x: NumberChartPositionDimensionBuilder<Datum>) => void): this;
+  xNumeric(
+    x: ((x: NumberChartPositionDimensionBuilder<Datum>) => void) | null
+  ): this {
+    // do not reset the xDimensionBuilder if null is passed. if xNumeric is not called, then xDate will be called
+    // allow for
+    // .xNumber((x) => condition ? x.stuff() : null)
+    // .xDate((x) => !condition ? x.stuff() : null)
+    if (x === null) return this;
+    this.xDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
+    x(this.xDimensionBuilder);
     return this;
   }
 
   /**
    * REQUIRED. Sets the y dimension for the stacked area chart.
    */
-  y(
-    setProperties: (
-      dimension: NumberChartPositionDimensionBuilder<Datum>
-    ) => void
-  ): this {
+  y(y: (y: NumberChartPositionDimensionBuilder<Datum>) => void): this {
     this.yDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
-    setProperties(this.yDimensionBuilder);
+    y(this.yDimensionBuilder);
     return this;
   }
 
@@ -200,17 +245,17 @@ export class VicStackedAreaConfigBuilder<
     super.validateBuilder('Stacked Area');
     if (!this.colorDimensionBuilder) {
       throw new Error(
-        'Stacked Area Builder: Categorical dimension must be created. Please use method `createCategoricalDimension` to set the categorical dimension.'
+        'Stacked Area Builder: Color dimension must be created. Please use method `color` to set the categorical dimension.'
       );
     }
     if (!this.xDimensionBuilder) {
       throw new Error(
-        'Stacked Area Builder: X dimension must be created. Please use method `createXNumericDimension` or `createXDateDimension` to set the x dimension.'
+        'Stacked Area Builder: X dimension must be created. Please use method `xNumeric` or `xDate` to set the x dimension.'
       );
     }
     if (!this.yDimensionBuilder) {
       throw new Error(
-        'Stacked Area Builder: Y dimension must be created. Please use method `createYNumericDimension` to set the y dimension.'
+        'Stacked Area Builder: Y dimension must be created. Please use method `y` to set the y dimension.'
       );
     }
   }

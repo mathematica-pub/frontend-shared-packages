@@ -25,9 +25,17 @@ export class AreaFillsBuilder<Datum> {
    * This string is directly passed to `fill` under the hood.
    *
    * If not set, the color of the line will be used.
+   *
+   * To unset the color, call with `null`.
    */
-
-  color(color: string | ((d: Datum) => string)): this {
+  color(color: null): this;
+  color(color: string): this;
+  color(color: (d: Datum) => string): this;
+  color(color: string | ((d: Datum) => string) | null): this {
+    if (color === null) {
+      this._color = undefined;
+      return this;
+    }
     this._color = typeof color === 'string' ? () => color : color;
     return this;
   }

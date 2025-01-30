@@ -50,14 +50,28 @@ export class VicBarsConfigBuilder<
    * OPTIONAL. Creates a dimension that will control the color of the bars.
    *
    * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
+   *
+   * To unset the color dimension, call with null.
    */
+  color(color: null): this;
   color(
-    setProperties: (
-      dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
+    color: (
+      color: OrdinalVisualValueDimensionBuilder<Datum, string, string>
     ) => void
+  ): this;
+  color(
+    color:
+      | ((
+          color: OrdinalVisualValueDimensionBuilder<Datum, string, string>
+        ) => void)
+      | null
   ): this {
+    if (color === null) {
+      this.colorDimensionBuilder = undefined;
+      return this;
+    }
     this.initColorDimensionBuilder();
-    setProperties?.(this.colorDimensionBuilder);
+    color(this.colorDimensionBuilder);
     return this;
   }
 
@@ -69,24 +83,41 @@ export class VicBarsConfigBuilder<
    * OPTIONAL. Sets custom fills for the bars. Intended to be users with a user-provided fill in <defs> that can be referenced here.
    *
    * Will override any fill color set by the color dimension.
+   *
+   * To unset the custom fills, call with null.
    */
-  customFills(customFills: FillDefinition<Datum>[]): this {
+  customFills(customFills: FillDefinition<Datum>[] | null): this {
+    if (customFills === null) {
+      this._customFills = undefined;
+      return this;
+    }
     this._customFills = customFills;
     return this;
   }
 
   /**
    * REQUIRED FOR HORIZONTAL BAR CHART.
+   *
+   * If called with null, the horizontal orientation will not be set.
    */
+  horizontal(bars: null): this;
   horizontal(
-    setProperties: (
-      dimension: HorizontalBarsDimensionsBuilder<Datum, OrdinalDomain>
-    ) => void
+    bars: (bars: HorizontalBarsDimensionsBuilder<Datum, OrdinalDomain>) => void
+  ): this;
+  horizontal(
+    bars:
+      | ((bars: HorizontalBarsDimensionsBuilder<Datum, OrdinalDomain>) => void)
+      | null
   ): this {
+    // Do not reset anything if null is passed, as vertical will set properties if no horizontal is provided.
+    // allow for
+    // .horizontal(bars => condition ? bars.stuff() : null)
+    // .vertical(bars => !condition ? bars.stuff() : null)
+    if (bars === null) return this;
     this._orientation = 'horizontal';
     this.dimensions = HORIZONTAL_BARS_DIMENSIONS;
     const builder = new HorizontalBarsDimensionsBuilder<Datum, OrdinalDomain>();
-    setProperties(builder);
+    bars(builder);
     this.ordinalDimensionBuilder = builder.ordinalDimensionBuilder;
     this.quantitativeDimensionBuilder = builder.quantitativeDimensionBuilder;
     return this;
@@ -94,16 +125,23 @@ export class VicBarsConfigBuilder<
 
   /**
    * REQUIRED FOR VERTICAL BAR CHART.
+   *
+   * If called with null, the vertical orientation will not be set.
    */
+  vertical(bars: null): this;
   vertical(
-    setProperties: (
-      dimension: VerticalBarsDimensionsBuilder<Datum, OrdinalDomain>
-    ) => void
+    bars: (bars: VerticalBarsDimensionsBuilder<Datum, OrdinalDomain>) => void
+  ): this;
+  vertical(
+    bars:
+      | ((bars: VerticalBarsDimensionsBuilder<Datum, OrdinalDomain>) => void)
+      | null
   ): this {
+    if (bars === null) return this;
     this._orientation = 'vertical';
     this.dimensions = VERTICAL_BARS_DIMENSIONS;
     const builder = new VerticalBarsDimensionsBuilder<Datum, OrdinalDomain>();
-    setProperties(builder);
+    bars(builder);
     this.ordinalDimensionBuilder = builder.ordinalDimensionBuilder;
     this.quantitativeDimensionBuilder = builder.quantitativeDimensionBuilder;
     return this;
@@ -111,10 +149,18 @@ export class VicBarsConfigBuilder<
 
   /**
    * OPTIONAL. Creates labels for the bars. If not called, no labels will be created.
+   *
+   * To unset the labels, call with null.
    */
-  labels(setProperties?: (dimension: BarsLabelsBuilder<Datum>) => void): this {
+  labels(labels: null): this;
+  labels(labels: (labels: BarsLabelsBuilder<Datum>) => void): this;
+  labels(labels: ((labels: BarsLabelsBuilder<Datum>) => void) | null): this {
+    if (labels === null) {
+      this.labelsBuilder = undefined;
+      return this;
+    }
     this.labelsBuilder = new BarsLabelsBuilder<Datum>();
-    setProperties?.(this.labelsBuilder);
+    labels(this.labelsBuilder);
     return this;
   }
 

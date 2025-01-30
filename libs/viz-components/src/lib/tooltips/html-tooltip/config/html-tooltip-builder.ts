@@ -34,9 +34,15 @@ export class VicHtmlTooltipConfigBuilder {
     this._applyEventsDisabledClass = false;
   }
 
-  size(setProperties: (size: HtmlTooltipSizeBuilder) => void): this {
+  size(size: null): this;
+  size(size: (size: HtmlTooltipSizeBuilder) => void): this;
+  size(size: ((size: HtmlTooltipSizeBuilder) => void) | null): this {
+    if (size === null) {
+      this.sizeBuilder = undefined;
+      return this;
+    }
     this.initSizeBuilder();
-    setProperties?.(this.sizeBuilder);
+    size(this.sizeBuilder);
     return this;
   }
 
@@ -131,13 +137,20 @@ export class VicHtmlTooltipConfigBuilder {
     return this;
   }
 
+  offsetFromOriginPosition(): this;
+  offsetFromOriginPosition(offset: null): this;
   offsetFromOriginPosition(
-    setProperties?: (
-      position: HtmlTooltipOffsetFromOriginPositionBuilder
-    ) => void
+    offset: (offset: HtmlTooltipOffsetFromOriginPositionBuilder) => void
+  ): this;
+  offsetFromOriginPosition(
+    offset?: (offset: HtmlTooltipOffsetFromOriginPositionBuilder) => void | null
   ): this {
+    if (offset === null) {
+      this._position = undefined;
+      return this;
+    }
     const builder = new HtmlTooltipOffsetFromOriginPositionBuilder();
-    setProperties?.(builder);
+    offset?.(builder);
     this._position = builder._build();
     return this;
   }

@@ -18,6 +18,11 @@ export class VicYOrdinalAxisConfigBuilder<
     Object.assign(this, DEFAULT);
   }
 
+  /**
+   * OPTIONAL. The side of the chart where the axis will be placed.
+   *
+   * @default 'left'
+   */
   side(side: 'left' | 'right'): this {
     this._side = side;
     return this;
@@ -27,7 +32,7 @@ export class VicYOrdinalAxisConfigBuilder<
     return new YOrdinalAxisConfig<TickValue>({
       class: 'vic-axis-y-ordinal',
       data: undefined,
-      label: this.labelBuilder?.build('y'),
+      label: this.labelBuilder?._build('y'),
       mixBlendMode: this._mixBlendMode,
       removeDomainLine: this._removeDomainLine,
       removeTickLabels: this._removeTickLabels,
@@ -36,7 +41,7 @@ export class VicYOrdinalAxisConfigBuilder<
       tickFormat: this._tickFormat,
       tickLabelFontSize: this._tickLabelFontSize,
       tickSizeOuter: this._tickSizeOuter,
-      wrap: this.tickWrapBuilder?.build(),
+      wrap: this.tickWrapBuilder?._build(),
     });
   }
 }

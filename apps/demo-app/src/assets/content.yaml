@@ -25,7 +25,9 @@ ui-components:
   items:
     overview: overview.md
     table: table.md
-    combobox: combobox.md
+    combobox:
+      overview: combobox.md
+      filtering-options: filtering-options.md
 
 viz-components:
   title: Viz Components

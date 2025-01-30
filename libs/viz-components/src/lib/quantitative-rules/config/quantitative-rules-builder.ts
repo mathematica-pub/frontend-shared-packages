@@ -45,12 +45,29 @@ export class VicQuantitativeRulesConfigBuilder<
 
   /**
    * REQUIRED. Sets the data that will be used to render the quantitative rules.
+   *
    * This component is not a Primary Marks component, so this data will not affect chart-level scales.
    *
    * @param data The data to be used to render the quantitative rules. Should be an array of numbers or dates.
    */
   data(data: Datum[]): this {
     this._data = data;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. A config for the behavior of the rule labels.
+   */
+  labels(): this;
+  labels(labels: null): this;
+  labels(labels: (labels: RulesLabelsBuilder<Datum>) => void): this;
+  labels(labels?: ((labels: RulesLabelsBuilder<Datum>) => void) | null): this {
+    if (labels === null) {
+      this.labelsBuilder = undefined;
+      return this;
+    }
+    this.labelsBuilder = new RulesLabelsBuilder();
+    labels?.(this.labelsBuilder);
     return this;
   }
 
@@ -67,20 +84,17 @@ export class VicQuantitativeRulesConfigBuilder<
   }
 
   /**
-   * OPTIONAL. A config for the behavior of the rule labels.
-   */
-  labels(setProperties?: (labels: RulesLabelsBuilder<Datum>) => void): this {
-    this.labelsBuilder = new RulesLabelsBuilder();
-    setProperties?.(this.labelsBuilder);
-    return this;
-  }
-
-  /**
    * OPTIONAL. A config for the behavior of the rule stroke.
    */
-  stroke(setProperties?: (stroke: StrokeBuilder) => void): this {
+  stroke(stroke: null): this;
+  stroke(stroke: (stroke: StrokeBuilder) => void): this;
+  stroke(stroke: ((stroke: StrokeBuilder) => void) | null): this {
+    if (stroke === null) {
+      this.strokeBuilder = undefined;
+      return this;
+    }
     this.initStrokeBuilder();
-    setProperties?.(this.strokeBuilder);
+    stroke(this.strokeBuilder);
     return this;
   }
 

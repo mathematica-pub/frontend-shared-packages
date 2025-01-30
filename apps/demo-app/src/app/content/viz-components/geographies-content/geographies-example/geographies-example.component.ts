@@ -9,7 +9,6 @@ import {
   BinStrategy,
   ElementSpacing,
   EventAction,
-  FillDefinition,
   GeographiesAttributeDataLayerBuilder,
   GeographiesClickDirective,
   GeographiesClickEmitTooltipDataPauseHoverMoveActions,
@@ -174,7 +173,7 @@ export class GeographiesExampleComponent implements OnInit {
     return layer
       .geographies(this.basemap.us.features)
       .stroke((stroke) => stroke.color(colors.base).width(1))
-      .fillGeojsonProperties((dimension) =>
+      .fill((dimension) =>
         dimension.valueAccessor((d) => d.properties.name).range(['none'])
       );
   }
@@ -191,7 +190,7 @@ export class GeographiesExampleComponent implements OnInit {
       d.properties.id;
     return layer
       .geographies(features)
-      .fillGeojsonProperties((dimension) =>
+      .fill((dimension) =>
         dimension.range(['lightgray']).valueAccessor(this.featureIndexAccessor)
       )
       .labels((labels) =>
@@ -224,21 +223,69 @@ export class GeographiesExampleComponent implements OnInit {
         shouldApply: (d) => !!d && d.population < 1000000,
       },
     ];
-    if (this.attributeDataBinType.value === BinStrategy.categorical) {
-      return this.getCategoricalLayer(data, layer, customFills);
-    } else if (this.attributeDataBinType.value === BinStrategy.customBreaks) {
-      return this.getCustomBreaksLayer(data, layer, customFills);
-    } else if (
-      this.attributeDataBinType.value === BinStrategy.equalFrequencies
-    ) {
-      return this.getEqualFrequenciesLayer(data, layer, customFills);
-    } else if (
-      this.attributeDataBinType.value === BinStrategy.equalValueRanges
-    ) {
-      return this.getEqualValueRangesLayer(data, layer, customFills);
-    } else {
-      return this.getNoBinsLayer(data, layer, customFills);
-    }
+    return layer
+      .data(data)
+      .geographies(this.getDataGeographiesFeatures(data))
+      .geographyIndexAccessor((d) => d.state)
+      .categoricalBins(
+        this.attributeDataBinType.value === BinStrategy.categorical
+          ? (dimension) =>
+              dimension
+                .valueAccessor((d) =>
+                  d.income > 75000
+                    ? 'high'
+                    : d.income > 60000
+                      ? 'middle'
+                      : 'low'
+                )
+                .range([
+                  'sandybrown',
+                  'mediumseagreen',
+                  colors.highlight.default,
+                ])
+          : null
+      )
+      .customBreaksBins(
+        this.attributeDataBinType.value === BinStrategy.customBreaks
+          ? (dimension) =>
+              dimension
+                .valueAccessor((d) => d.income)
+                .formatSpecifier(`$${valueFormat.integer}`)
+                .breakValues([45000, 55000, 65000, 75000, 100000])
+                .range([colors.white, colors.highlight.default])
+          : null
+      )
+      .equalValueRangesBins(
+        this.attributeDataBinType.value === BinStrategy.equalFrequencies
+          ? (dimension) =>
+              dimension
+                .valueAccessor((d) => d.income)
+                .formatSpecifier(`$${valueFormat.integer}`)
+                .numBins(6)
+                .range([colors.white, colors.highlight.default])
+          : null
+      )
+      .equalFrequenciesBins(
+        this.attributeDataBinType.value === BinStrategy.equalValueRanges
+          ? (dimension) =>
+              dimension
+                .valueAccessor((d) => d.income)
+                .formatSpecifier(`$${valueFormat.integer}`)
+                .numBins(6)
+                .range([colors.white, colors.highlight.default])
+          : null
+      )
+      .noBins(
+        this.attributeDataBinType.value === BinStrategy.none
+          ? (dimension) =>
+              dimension
+                .valueAccessor((d) => d.income)
+                .formatSpecifier(`$${valueFormat.integer}`)
+                .range([colors.white, colors.highlight.default])
+          : null
+      )
+      .customFills(customFills)
+      .labels((labels) => this.getLabels(labels));
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -247,132 +294,6 @@ export class GeographiesExampleComponent implements OnInit {
     return this.basemap.states.features.filter((x) =>
       statesInData.includes(x.properties.name)
     );
-  }
-
-  getCategoricalLayer(
-    data: StateIncomeDatum[],
-    layer: GeographiesAttributeDataLayerBuilder<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >,
-    customFills: FillDefinition<StateIncomeDatum>[]
-  ): GeographiesAttributeDataLayerBuilder<
-    StateIncomeDatum,
-    MapGeometryProperties
-  > {
-    return layer
-      .data(data)
-      .geographies(this.getDataGeographiesFeatures(data))
-      .geographyIndexAccessor((d) => d.state)
-      .categoricalBins((dimension) =>
-        dimension
-          .valueAccessor((d) =>
-            d.income > 75000 ? 'high' : d.income > 60000 ? 'middle' : 'low'
-          )
-          .range(['sandybrown', 'mediumseagreen', colors.highlight.default])
-      )
-      .customFills(customFills)
-      .labels((labels) => this.getLabels(labels));
-  }
-
-  getCustomBreaksLayer(
-    data: StateIncomeDatum[],
-    layer: GeographiesAttributeDataLayerBuilder<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >,
-    customFills: FillDefinition<StateIncomeDatum>[]
-  ): GeographiesAttributeDataLayerBuilder<
-    StateIncomeDatum,
-    MapGeometryProperties
-  > {
-    return layer
-      .data(data)
-      .geographies(this.getDataGeographiesFeatures(data))
-      .geographyIndexAccessor((d) => d.state)
-      .customBreaksBins((dimension) =>
-        dimension
-          .valueAccessor((d) => d.income)
-          .formatSpecifier(`$${valueFormat.integer}`)
-          .breakValues([45000, 55000, 65000, 75000, 100000])
-          .range([colors.white, colors.highlight.default])
-      )
-      .customFills(customFills)
-      .labels((labels) => this.getLabels(labels));
-  }
-
-  getEqualValueRangesLayer(
-    data: StateIncomeDatum[],
-    layer: GeographiesAttributeDataLayerBuilder<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >,
-    customFills: FillDefinition<StateIncomeDatum>[]
-  ): GeographiesAttributeDataLayerBuilder<
-    StateIncomeDatum,
-    MapGeometryProperties
-  > {
-    return layer
-      .data(data)
-      .geographies(this.getDataGeographiesFeatures(data))
-      .geographyIndexAccessor((d) => d.state)
-      .equalValueRangesBins((dimension) =>
-        dimension
-          .valueAccessor((d) => d.income)
-          .formatSpecifier(`$${valueFormat.integer}`)
-          .numBins(6)
-          .range([colors.white, colors.highlight.default])
-      )
-      .customFills(customFills)
-      .labels((labels) => this.getLabels(labels));
-  }
-
-  getEqualFrequenciesLayer(
-    data: StateIncomeDatum[],
-    layer: GeographiesAttributeDataLayerBuilder<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >,
-    customFills: FillDefinition<StateIncomeDatum>[]
-  ) {
-    return layer
-      .data(data)
-      .geographies(this.getDataGeographiesFeatures(data))
-      .geographyIndexAccessor((d) => d.state)
-      .equalFrequenciesBins((dimension) =>
-        dimension
-          .valueAccessor((d) => d.income)
-          .formatSpecifier(`$${valueFormat.integer}`)
-          .numBins(6)
-          .range([colors.white, colors.highlight.default])
-      )
-      .customFills(customFills)
-      .labels((labels) => this.getLabels(labels));
-  }
-
-  getNoBinsLayer(
-    data: StateIncomeDatum[],
-    layer: GeographiesAttributeDataLayerBuilder<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >,
-    customFills: FillDefinition<StateIncomeDatum>[]
-  ): GeographiesAttributeDataLayerBuilder<
-    StateIncomeDatum,
-    MapGeometryProperties
-  > {
-    return layer
-      .data(data)
-      .geographies(this.getDataGeographiesFeatures(data))
-      .geographyIndexAccessor((d) => d.state)
-      .noBins((dimension) =>
-        dimension
-          .valueAccessor((d) => d.income)
-          .formatSpecifier(`$${valueFormat.integer}`)
-          .range([colors.white, colors.highlight.default])
-      )
-      .customFills(customFills)
-      .labels((labels) => this.getLabels(labels));
   }
 
   getLabels(

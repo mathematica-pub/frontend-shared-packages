@@ -16,7 +16,6 @@ export abstract class GeographiesLayerBuilder<
   protected _geographies: Array<GeographiesFeature<TProperties, TGeometry>>;
   protected labelsBuilder: GeographiesLabelsBuilder<TProperties, TGeometry>;
   protected strokeBuilder: StrokeBuilder;
-  protected _strokeWidth: string;
 
   constructor() {
     Object.assign(this, DEFAULT);
@@ -46,13 +45,21 @@ export abstract class GeographiesLayerBuilder<
   /**
    * OPTIONAL. Creates a configuration object for labels that will be drawn on the geographies.
    */
+  labels(labels: null): this;
   labels(
-    setProperties: (
-      builder: GeographiesLabelsBuilder<TProperties, TGeometry>
-    ) => void
+    labels: (labels: GeographiesLabelsBuilder<TProperties, TGeometry>) => void
+  ): this;
+  labels(
+    labels:
+      | ((labels: GeographiesLabelsBuilder<TProperties, TGeometry>) => void)
+      | null
   ): this {
+    if (labels === null) {
+      this.labelsBuilder = undefined;
+      return this;
+    }
     this.labelsBuilder = new GeographiesLabelsBuilder();
-    setProperties(this.labelsBuilder);
+    labels(this.labelsBuilder);
     return this;
   }
 
