@@ -15,9 +15,9 @@ A combobox is minimally composed of the following components:
 
 - `hsi-ui-combobox` &mdash; A component that is an outer wrapper for other components in the
   combobox.
-- `hsi-ui-textbox` **or** `hsi-ui-editable-textbox` **or** `hsi-ui-ng-form-editable-textbox` &mdash;
-  A component that is always visible, and can be used to open and close the listbox. Contains a
-  label, or, if editable, an input into which the user can type.
+- `hsi-ui-textbox` **or** `hsi-ui-editable-textbox` &mdash; A component that is always visible, and
+  can be used to open and close the listbox. Contains a label, or, if editable, an input into which
+  the user can type.
 - `hsi-ui-listbox` &mdash; A component that is hidden until the user interacts with the textbox.
   Contains the options that the user can select.
 - `hsi-ui-listbox-option` &mdash; A component that creates an option in the listbox.
@@ -71,9 +71,21 @@ export class MyComboboxComponent {
 }
 ```
 
+In addition to the aforementioned components, the combobox can be composed of the following optional
+components, whose use is described in the sections below:
+
+- `hsi-ui-combobox-label`
+- `hsi-ui-listbox-group`
+- `hsi-ui-listbox-label`
+- `hsi-ui-select-all-listbox-option`
+
+For informaion on using an `hsi-ui-editable-textbox` in a combobox, see the Filtering Combobox
+Options documentation.
+
 ## Features
 
-Users can configure comboboxes with a number of features to suit their specific needs.
+Users can configure comboboxes with a number of features to suit their specific needs. These
+features are described below.
 
 ### Single / Multi Select
 
@@ -123,35 +135,55 @@ It is not possible to set `selected` and `disabled` inputs of the "Select All" o
 
 ### Emitting Selected Values
 
-The value of the combobox will be the `value` of the selected `hsi-ui-listbox-option`. If the
-combobox is multi-select, the value will be an array of the `value`s of each selected option.
+The combobox emits the selected value(s) through the `valueChanges` event on the `hsi-ui-listbox`,
+or, if an `ngFormControl` input is provided, though the FormControl.
 
-A user can set the `value` of a `hsi-ui-listbox-option` to any value they choose through that
-component's `value` input. If no value is provided, the `hsi-ui-listbox-option` will use its label
-as its value.
+The emitted value of the combobox is dervived from the `hsi-ui-listbox-option` components. If an
+option has a `value` input property set, the value of the combobox will be the `value` of the
+selected `hsi-ui-listbox-option`. If no value is provided, the combobox will use the label of the
+selected `hsi-ui-listbox-option` as its value.
 
-By default, the comboxbox emits its value through the `valueChanges` event on the `hsi-ui-listbox`.
-Values are emitted only when the user selects or deselects an option.
+```html
+<hsi-ui-listbox (valueChanges)="onSelection($event)">
+  @for (option of options; track option.id) {
+  <hsi-ui-listbox-option [value]="option.id">{{ option.displayName }} </hsi-ui-listbox-option>
+  }</hsi-ui-listbox
+>
+```
 
-#### Using the combobox with Angular Forms
+The `value` input property of the `hsi-ui-listbox-option` can be of any type, and whatever type is
+provided will be emitted. If no value is provided, the valueChanges event will emit a `string` or
+`string[]`.
+
+If the combobox is single-select, the `valueChanges` event will emit a single value. If the combobox
+is multi-select, the `valueChanges` event will emit an array of selected values.
+
+Values are emitted only when the user selects or deselects an option, and will not be emitted if the
+`selected` input on an `hsi-ui-listbox-option` is changed externally.
+
+#### Using an Angular Form Control with the Combobox
 
 Users may also provide an Angular `FormControl` to the listbox to manage the selected values, via
-the `formControl` input on the `hsi-ui-listbox`.
+the `ngFormControl` input on the `hsi-ui-listbox`.
 
 If a form control is provided, the combobox will not emit values through the `valueChanges` event.
 Instead, users can subscribe to the form control's `valueChanges` observable to get the selected
 values.
 
 ```html
-<hsi-ui-listbox [isMultiSelect]="true" [formControl]="myFormControl">
+<hsi-ui-listbox [ngFormControl]="myFormControl">
   @for (option of options; track option.id) {
-  <hsi-ui-listbox-option>{{ option.displayName }}</hsi-ui-listbox-option>
+  <hsi-ui-listbox-option [value]="option.id">{{ option.displayName }}</hsi-ui-listbox-option>
   }
 </hsi-ui-listbox>
 ```
 
-If the combobox is single-select, the `formControl` should be of type `FormControl<any>`. If it is
-multi-select, the `formControl` should be of type `FormControl<any[]>`.
+The information in the section above that describes how values to be emitted are determined from
+`hsi-ui-listbox-options`s still applies when a form control is used to emit values.
+
+**Note:** Providing an inital value to the `formControl` will not set or change the value of the
+selections in the combobox. See the section on setting listbox option properties externally for more
+information.
 
 ### Customizing the Textbox Label
 
@@ -196,7 +228,7 @@ static label example
 
 #### Displaying the number of selected options
 
-After a first interaction, if the `showSelectedCount` input on the `hsi-ui-textbox` is defined and
+After a first interaction, if the `selectedCountLabel` input on the `hsi-ui-textbox` is defined and
 `dynamicLabel` is not `false`, the textbox will display the number of selected options rather than
 the names of the selected options. The value of this input should be of type
 `{singular: string, plural: string}`, where the strings are the singular and plural forms of the
@@ -208,7 +240,7 @@ count selected example
 ```
 
 ```html
-<hsi-ui-textbox [showSelectedCount]="{singular: 'state', plural: 'states'}">
+<hsi-ui-textbox [selectedCountLabel]="{singular: 'state', plural: 'states'}">
   <p boxLabel>Select states</p>
   <span class="material-symbols-outlined expand-more" boxIcon> expand_more </span>
 </hsi-ui-textbox>
@@ -218,9 +250,9 @@ count selected example
 
 For a completely custom label to appear after first interaction, users can set the `customLabel`
 input to a function with the type signature
-`(selectedOptions: ListboxOptionComponent[], showSelectedCount?: CountSelectedLabel) => string` that
-should return the string to be displayed in the textbox, provided that the `dynamicLabel` property
-is not `false`. The function will be called whenever the selected options change.
+`(selectedOptions: ListboxOptionComponent[], selectedCountLabel?: SelectedCountLabel) => string`
+that should return the string to be displayed in the textbox, provided that the `dynamicLabel`
+property is not `false`. The function will be called whenever the selected options change.
 
 ```custom-angular
 custom label example
@@ -272,70 +304,6 @@ grouped example
     }
   </hsi-ui-listbox-group>
 </hsi-ui-listbox>
-```
-
-### Filtering Options
-
-To search or filter options, users can use an `hsi-ui-editable-textbox` in place of the
-`hsi-ui-textbox`.
-
-These textboxes will emit the value of the input field through the `valueChanges` event. Users can
-then filter the options in the listbox based on this value.
-
-```custom-angular
-filterable example
-```
-
-```html
-<hsi-ui-combobox>
-  <hsi-ui-editable-textbox
-    placeholder="Select a state"
-    (valueChanges)="onTyping($event)"
-  ></hsi-ui-editable-textbox>
-  <hsi-ui-listbox>
-    @for (option of options$ | async; track option) {
-    <hsi-ui-listbox-option>{{ option }}</hsi-ui-listbox-option>
-    }
-  </hsi-ui-listbox>
-</hsi-ui-combobox>
-```
-
-```ts
-_options: string[] = [
-  'Connecticut',
-  'Maine',
-  'Massachusetts',
-  'New Hampshire',
-  'Rhode Island',
-  'Vermont',
-];
-options: BehaviorSubject<{ displayName: string; id: string }[]> =
-  new BehaviorSubject(this._options);
-options$ = this.options.asObservable();
-
-onTyping(value: string): void {
-  const filteredOptions = this._options.filter((option) =>
-      //user-supplied filtering logic
-      option.toLowerCase().includes(value.toLowerCase())
-    )
-  this.options.next(filteredOptions);
-}
-```
-
-#### Using an Editable Textbox with Angular Forms
-
-Users may also provide an Angular `FormControl` to the `hsi-ui-editable-textbox` to manage the value
-of the texbox `input`.
-
-If a form control is provided, the textbox will not emit values through the `valueChanges` event.
-Instead, users can subscribe to the form control's `valueChanges` observable to get the selected
-values.
-
-```html
-<hsi-ui-editable-textbox
-  placeholder="Select a state"
-  (formControl)="myFormControl"
-></hsi-ui-editable-textbox>
 ```
 
 ### Setting Listbox Option Properties Externally

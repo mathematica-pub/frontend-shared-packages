@@ -34,7 +34,13 @@ export class NumberVisualValueDimensionBuilder<
    *
    * If not provided, the domain will be determined by the data.
    */
+  domain(domain: null): this;
+  domain(domain: [number, number]): this;
   domain(domain: [number, number]): this {
+    if (domain === null) {
+      this._domain = undefined;
+      return this;
+    }
     this._domain = domain;
     return this;
   }
@@ -42,7 +48,13 @@ export class NumberVisualValueDimensionBuilder<
   /**
    * OPTIONAL. Sets a format specifier that will be applied to the value of this dimension for display purposes.
    */
+  formatSpecifier(formatSpecifier: null): this;
+  formatSpecifier(formatSpecifier: string): this;
   formatSpecifier(formatSpecifier: string): this {
+    if (formatSpecifier === null) {
+      this._formatSpecifier = undefined;
+      return this;
+    }
     this._formatSpecifier = formatSpecifier;
     return this;
   }
@@ -66,7 +78,13 @@ export class NumberVisualValueDimensionBuilder<
    *
    * To have all marks use the same visual value, use an array with a single element.
    */
+  range(range: null): this;
+  range(range: [Range, Range]): this;
   range(range: [Range, Range]): this {
+    if (range === null) {
+      this._range = undefined;
+      return this;
+    }
     this._range = range;
     return this;
   }
@@ -78,12 +96,23 @@ export class NumberVisualValueDimensionBuilder<
    *
    * @default d3.scaleLinear
    */
+  scaleFn(scaleFn: null): this;
+  scaleFn(
+    scaleFn: (
+      domain?: Iterable<number>,
+      range?: Iterable<Range>
+    ) => ScaleContinuousNumeric<Range, Range>
+  ): this;
   scaleFn(
     scaleFn: (
       domain?: Iterable<number>,
       range?: Iterable<Range>
     ) => ScaleContinuousNumeric<Range, Range>
   ): this {
+    if (scaleFn === null) {
+      this._scaleFn = undefined;
+      return this;
+    }
     this._scaleFn = scaleFn;
     return this;
   }
@@ -95,7 +124,13 @@ export class NumberVisualValueDimensionBuilder<
    *
    * If provided, this will override any values provided to domain, range, and scaleFn.
    */
+  scale(scale: null): this;
+  scale(scale: (value: number) => Range): this;
   scale(scale: (value: number) => Range): this {
+    if (scale === null) {
+      this._scale = undefined;
+      return this;
+    }
     this._scale = scale;
     return this;
   }

@@ -21,17 +21,42 @@ export class VicXQuantitativeAxisConfigBuilder<
     Object.assign(this, DEFAULT);
   }
 
-  numTicks(numTicks: number): this {
+  /**
+   * OPTIONAL. The number of ticks to pass to D3's axis.ticks().
+   *
+   * If not provided, D3 will determine the number of ticks.
+   *
+   * To unset the number of ticks, call with null.
+   */
+  numTicks(numTicks: number | null): this {
+    if (numTicks === null) {
+      this._numTicks = undefined;
+      return this;
+    }
     this._numTicks = numTicks;
     return this;
   }
 
+  /**
+   * OPTIONAL. The side of the chart where the axis will be placed.
+   *
+   * @default 'bottom'
+   */
   side(side: 'top' | 'bottom'): this {
     this._side = side;
     return this;
   }
 
-  tickValues(tickValues: TickValue[]): this {
+  /**
+   * OPTIONAL. The tick values to pass to D3's axis.tickValues().
+   *
+   * To unset the tick values, call with null.
+   */
+  tickValues(tickValues: TickValue[] | null): this {
+    if (tickValues === null) {
+      this._tickValues = undefined;
+      return this;
+    }
     this._tickValues = tickValues;
     return this;
   }
@@ -39,7 +64,7 @@ export class VicXQuantitativeAxisConfigBuilder<
   getConfig(): XQuantitativeAxisConfig<TickValue> {
     return new XQuantitativeAxisConfig<TickValue>({
       data: undefined,
-      label: this.labelBuilder?.build('x'),
+      label: this.labelBuilder?._build('x'),
       mixBlendMode: this._mixBlendMode,
       numTicks: this._numTicks,
       removeDomainLine: this._removeDomainLine,
@@ -50,7 +75,7 @@ export class VicXQuantitativeAxisConfigBuilder<
       tickLabelFontSize: this._tickLabelFontSize,
       tickSizeOuter: this._tickSizeOuter,
       tickValues: this._tickValues,
-      wrap: this.tickWrapBuilder?.build(),
+      wrap: this.tickWrapBuilder?._build(),
     });
   }
 }

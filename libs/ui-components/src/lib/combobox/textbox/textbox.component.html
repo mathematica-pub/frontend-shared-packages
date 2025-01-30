@@ -18,10 +18,10 @@
   aria-haspopup="listbox"
   [class.open]="service.isOpen$ | async"
   ><div
-    *ngIf="dynamicLabel && !!(service.boxLabel$ | async); else staticLabel"
+    *ngIf="dynamicLabel && !!(label$ | async); else staticLabel"
     class="hsi-ui-textbox-label"
     data-cy="textbox-label"
-    >{{ service.boxLabel$ | async }}</div
+    >{{ label$ | async }}</div
   ><div
     #boxIcon
     class="hsi-ui-textbox-icon"

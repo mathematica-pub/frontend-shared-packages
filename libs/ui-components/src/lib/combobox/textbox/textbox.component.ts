@@ -4,12 +4,15 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  inject,
   Input,
+  NgZone,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter, skip } from 'rxjs';
+import { runNgChangeDetectionThen } from '@hsi/app-dev-kit';
+import { BehaviorSubject, combineLatest, filter, skip, startWith } from 'rxjs';
 import {
   ComboboxAction,
   ComboboxService,
@@ -20,7 +23,7 @@ import {
   VisualFocus,
 } from '../combobox.service';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
-import { CountSelectedLabel } from '../listbox/listbox.component';
+import { SelectedCountLabel } from '../listbox/listbox.component';
 
 @Component({
   selector: 'hsi-ui-textbox',
@@ -32,7 +35,7 @@ import { CountSelectedLabel } from '../listbox/listbox.component';
 })
 export class TextboxComponent implements OnInit, AfterViewInit {
   @Input() ariaLabel?: string;
-  @Input() showSelectedCount?: CountSelectedLabel;
+  @Input() selectedCountLabel?: SelectedCountLabel;
   @Input() customLabel: (selectedOptions: ListboxOptionComponent[]) => string;
   /*
    * Whether the textbox label responds to selections in any way.
@@ -46,17 +49,26 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   @ViewChild('box') box: ElementRef<HTMLDivElement>;
   @ViewChild('boxIcon') boxIcon: ElementRef<HTMLDivElement>;
   openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' '];
-
-  constructor(
-    public service: ComboboxService,
-    private platform: Platform,
-    protected destroyRef: DestroyRef
-  ) {}
+  label: BehaviorSubject<string> = new BehaviorSubject('');
+  label$ = this.label.asObservable();
+  protected destroyRef = inject(DestroyRef);
+  public service = inject(ComboboxService);
+  private platform = inject(Platform);
+  protected zone = inject(NgZone);
 
   ngOnInit(): void {
-    this.service.dynamicLabel = this.dynamicLabel;
-    this.service.countSelectedLabel = this.showSelectedCount;
-    this.service.customTextboxLabel = this.customLabel;
+    this.service.projectedContentIsInDOM$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((x) => !!x),
+        // Required because the label is projected into the ListboxOption via <ng-content>, and the
+        // listbox options are <ng-template>s that are projected into the listbox via ngTemplateOutlet.
+        // We need this to ensure that the option labels are in the DOM to read from before we set the box label.
+        runNgChangeDetectionThen(this.zone)
+      )
+      .subscribe(() => {
+        this.setLabel();
+      });
   }
 
   ngAfterViewInit(): void {
@@ -81,10 +93,6 @@ export class TextboxComponent implements OnInit, AfterViewInit {
 
   handleBlur(event: FocusEvent): void {
     if (event.relatedTarget && this.isHtmlElement(event.relatedTarget)) {
-      // handles new Chrome behavior from focusable scroll containers https://issues.chromium.org/issues/359904703
-      if (event.relatedTarget.id === this.service.scrollContainerId) {
-        return;
-      }
       if (event.relatedTarget.id.includes('listbox')) {
         this.service.setVisualFocus(VisualFocus.textbox);
         return;
@@ -106,6 +114,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   }
 
   handleClick(): void {
+    this.service.setIsKeyboardEvent(false);
     if (this.service.isOpen) {
       this.service.closeListbox();
     } else {
@@ -120,6 +129,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
       this.onEscape();
     } else {
       this.service.setTouched();
+      this.service.setIsKeyboardEvent(true);
       const action = this.getActionFromKeydownEvent(event);
       this.handleKeyboardAction(action, event);
     }
@@ -223,5 +233,65 @@ export class TextboxComponent implements OnInit, AfterViewInit {
         this.service.openListbox();
         this.focusBox();
     }
+  }
+
+  setLabel(): void {
+    if (this.dynamicLabel) {
+      combineLatest([
+        this.service.touched$,
+        this.service.allOptions$, // when options (not properties) change
+        this.service.selectedOptionsToEmit$, // when a user clicks
+        this.service.optionPropertyChanges$.pipe(
+          filter((x) => !!x),
+          startWith(null)
+        ), // on an outside change,
+      ])
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(([touched, options]) => {
+          const label = this.getComputedLabel(touched, options);
+          this.label.next(label);
+        });
+    }
+  }
+
+  getComputedLabel(
+    touched: boolean,
+    options: ListboxOptionComponent[]
+  ): string {
+    const selectedOptions = this.service.getSelectedOptions(options);
+    let label = '';
+    const numSelected = selectedOptions?.length;
+    if (touched || numSelected) {
+      if (this.customLabel && !this.service.hasEditableTextbox) {
+        label = this.customLabel(selectedOptions);
+      } else if (this.selectedCountLabel && !this.service.hasEditableTextbox) {
+        if (numSelected === 1) {
+          label = `${numSelected} ${this.selectedCountLabel.singular} selected`;
+        } else {
+          label = `${numSelected} ${this.selectedCountLabel.plural} selected`;
+        }
+      } else {
+        label = this.getDefaultLabel(selectedOptions);
+      }
+    }
+    return label;
+  }
+
+  getDefaultLabel(selectedOptions: ListboxOptionComponent[]): string {
+    let label = '';
+    if (selectedOptions) {
+      label = selectedOptions
+        .reduce((acc, option) => {
+          const value =
+            option.boxDisplayLabel ??
+            option.label?.nativeElement.innerText.trim();
+          if (value) {
+            acc.push(value);
+          }
+          return acc;
+        }, [])
+        .join(', ');
+    }
+    return label;
   }
 }
