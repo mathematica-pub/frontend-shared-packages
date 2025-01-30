@@ -11,10 +11,15 @@ const routes = [
   },
   {
     path: 'combobox',
-    loadComponent: () =>
-      import(
-        '../ui-components/combobox-content/combobox-content.component'
-      ).then((m) => m.ComboboxContentComponent),
+    children: [
+      {
+        path: '**',
+        loadComponent: () =>
+          import(
+            '../ui-components/combobox-content/combobox-content.component'
+          ).then((m) => m.ComboboxContentComponent),
+      },
+    ],
   },
   {
     path: '**',

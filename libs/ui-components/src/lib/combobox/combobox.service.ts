@@ -1,15 +1,26 @@
 import { Platform } from '@angular/cdk/platform';
-import { Injectable } from '@angular/core';
+import { Injectable, QueryList } from '@angular/core';
 import {
   BehaviorSubject,
   Observable,
   Subject,
+  combineLatest,
   distinctUntilChanged,
+  map,
+  merge,
+  mergeAll,
   of,
+  shareReplay,
+  startWith,
+  switchMap,
 } from 'rxjs';
 import { ComboboxLabelComponent } from './combobox-label/combobox-label.component';
-import { ListboxOptionComponent } from './listbox-option/listbox-option.component';
-import { CountSelectedLabel } from './listbox/listbox.component';
+import { ListboxGroupComponent } from './listbox-group/listbox-group.component';
+import {
+  ListboxOptionComponent,
+  ListboxOptionPropertyChange,
+} from './listbox-option/listbox-option.component';
+import { SelectAllListboxOptionComponent } from './select-all-listbox-option/select-all-listbox-option.component';
 
 let nextUniqueId = 0;
 
@@ -85,12 +96,7 @@ export class ComboboxService {
   scrollContainerId = `${this.id}-scroll-container`;
   comboboxLabelId = `${this.id}-label`;
   autoComplete: AutoComplete = AutoComplete.none;
-  countSelectedLabel?: CountSelectedLabel;
-  customTextboxLabel?: (
-    options: ListboxOptionComponent[],
-    countSelectedLabel?: CountSelectedLabel
-  ) => string;
-  dynamicLabel = false;
+  hasEditableTextbox = false;
   ignoreBlur = false;
   isMultiSelect = false;
   nullActiveIdOnClose = false;
@@ -99,8 +105,9 @@ export class ComboboxService {
   activeDescendant$: Observable<string>;
   private blurEvent: Subject<void> = new Subject();
   blurEvent$ = this.blurEvent.asObservable();
-  private boxLabel: BehaviorSubject<string> = new BehaviorSubject(null);
-  boxLabel$ = this.boxLabel.asObservable();
+  private projectedContentIsInDOM: BehaviorSubject<boolean> =
+    new BehaviorSubject(false);
+  projectedContentIsInDOM$ = this.projectedContentIsInDOM.asObservable();
   private _isOpen: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isOpen$ = this._isOpen.asObservable().pipe(distinctUntilChanged());
   private label: BehaviorSubject<ComboboxLabelComponent> = new BehaviorSubject(
@@ -114,8 +121,15 @@ export class ComboboxService {
   private touched: BehaviorSubject<boolean> = new BehaviorSubject(false);
   touched$ = this.touched.asObservable();
   visualFocus$ = this._visualFocus.asObservable();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private _selectedOptionValues: any[] = [];
+  allOptions$: Observable<ListboxOptionComponent[]>;
+  groups$: Observable<ListboxGroupComponent[]>;
+  optionPropertyChanges$: Observable<ListboxOptionPropertyChange>;
+  private selectedOptionsToEmit: BehaviorSubject<ListboxOptionComponent[]> =
+    new BehaviorSubject([]);
+  selectedOptionsToEmit$ = this.selectedOptionsToEmit.asObservable();
+  allOptions: ListboxOptionComponent[];
+  private isKeyboardEvent = new BehaviorSubject(false);
+  isKeyboardEvent$ = this.isKeyboardEvent.asObservable();
 
   constructor(private platform: Platform) {}
 
@@ -125,10 +139,6 @@ export class ComboboxService {
 
   get visualFocus(): VisualFocus {
     return this._visualFocus.value;
-  }
-
-  get selectedOptionValues(): (string | number | boolean)[] {
-    return this._selectedOptionValues;
   }
 
   initActiveDescendant(source$?: Observable<string>): void {
@@ -155,8 +165,8 @@ export class ComboboxService {
     this._isOpen.next(!this._isOpen.value);
   }
 
-  updateBoxLabel(label: string): void {
-    this.boxLabel.next(label);
+  setProjectedContentIsInDOM(): void {
+    this.projectedContentIsInDOM.next(true);
   }
 
   emitBlurEvent(): void {
@@ -179,18 +189,69 @@ export class ComboboxService {
     return this.platform.ANDROID || this.platform.IOS;
   }
 
-  // selectedOptionValues are used to retain selection state regardless of options/option filtering
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  addSelection(value: any): void {
-    if (!this._selectedOptionValues.includes(value)) {
-      this._selectedOptionValues = [...this._selectedOptionValues, value];
+  setProjectedContent(
+    groups: QueryList<ListboxGroupComponent>,
+    options: QueryList<ListboxOptionComponent>
+  ): void {
+    this.setGroups(groups);
+    this.setAllOptions(groups, options);
+
+    this.optionPropertyChanges$ = this.allOptions$.pipe(
+      switchMap((options) =>
+        merge(options.map((o) => o.externalPropertyChanges$))
+      ),
+      mergeAll()
+    );
+  }
+
+  setGroups(groups: QueryList<ListboxGroupComponent>): void {
+    this.groups$ = groups.changes.pipe(
+      startWith(''),
+      map(() => groups.toArray())
+    );
+  }
+
+  setAllOptions(
+    groups: QueryList<ListboxGroupComponent>,
+    options: QueryList<ListboxOptionComponent>
+  ): void {
+    // will not track changes to properties, just if the list of options changes
+    if (groups.length > 0) {
+      this.allOptions$ = this.groups$.pipe(
+        switchMap((groups) =>
+          combineLatest(groups.map((group) => group.options$))
+        ),
+        map((optionArrays) => optionArrays.flat()),
+        shareReplay(1)
+      );
+    } else {
+      this.allOptions$ = options.changes.pipe(
+        startWith(''),
+        map(() => options.toArray()),
+        shareReplay(1)
+      );
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  removeSelection(value: any): void {
-    this._selectedOptionValues = this._selectedOptionValues.filter(
-      (v) => v !== value
+  setSelectedOptionsToEmit(selected: ListboxOptionComponent[]): void {
+    this.selectedOptionsToEmit.next(selected);
+  }
+
+  getSelectedOptions(
+    options: ListboxOptionComponent[]
+  ): ListboxOptionComponent[] {
+    return options?.filter(
+      (option) => !this.isSelectAllListboxOption(option) && option.isSelected()
     );
+  }
+
+  isSelectAllListboxOption(
+    option: ListboxOptionComponent
+  ): option is SelectAllListboxOptionComponent {
+    return option instanceof SelectAllListboxOptionComponent;
+  }
+
+  setIsKeyboardEvent(isKeyboardEvent: boolean): void {
+    this.isKeyboardEvent.next(isKeyboardEvent);
   }
 }
