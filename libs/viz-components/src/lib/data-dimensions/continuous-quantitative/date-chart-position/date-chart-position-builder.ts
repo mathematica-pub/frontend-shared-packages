@@ -27,7 +27,13 @@ export class DateChartPositionDimensionBuilder<
    *
    * If not provided, the domain will be determined by the data.
    */
+  domain(domain: null): this;
+  domain(domain: [Date, Date]): this;
   domain(domain: [Date, Date]): this {
+    if (domain === null) {
+      this._domain = undefined;
+      return this;
+    }
     this._domain = domain;
     return this;
   }
@@ -39,7 +45,13 @@ export class DateChartPositionDimensionBuilder<
    *
    * @default '%Y %m'
    */
+  formatSpecifier(formatSpecifier: null): this;
+  formatSpecifier(formatSpecifier: string): this;
   formatSpecifier(formatSpecifier: string): this {
+    if (formatSpecifier === null) {
+      this._formatSpecifier = undefined;
+      return this;
+    }
     this._formatSpecifier = formatSpecifier;
     return this;
   }
@@ -49,12 +61,23 @@ export class DateChartPositionDimensionBuilder<
    *
    * @default d3.scaleUtc
    */
+  scaleFn(scaleFn: null): this;
+  scaleFn(
+    scaleFn: (
+      domain?: Iterable<Date>,
+      range?: Iterable<number>
+    ) => ScaleTime<number, number>
+  ): this;
   scaleFn(
     scaleFn: (
       domain?: Iterable<Date>,
       range?: Iterable<number>
     ) => ScaleTime<number, number>
   ): this {
+    if (scaleFn === null) {
+      this._scaleFn = undefined;
+      return this;
+    }
     this._scaleFn = scaleFn;
     return this;
   }

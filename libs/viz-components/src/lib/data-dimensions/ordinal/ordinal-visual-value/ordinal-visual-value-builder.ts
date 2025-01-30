@@ -27,7 +27,13 @@ export class OrdinalVisualValueDimensionBuilder<
    *
    * If not provided, the domain will be determined by the data.
    */
+  domain(domain: null): this;
+  domain(domain: Domain[]): this;
   domain(domain: Domain[]): this {
+    if (domain === null) {
+      this._domain = undefined;
+      return this;
+    }
     this._domain = domain;
     return this;
   }
@@ -43,7 +49,13 @@ export class OrdinalVisualValueDimensionBuilder<
    *
    * @default d3.schemeTableau10
    */
+  range(range: null): this;
+  range(range: Range[]): this;
   range(range: Range[]): this {
+    if (range === null) {
+      this._range = DEFAULT._range as Range[];
+      return this;
+    }
     this._range = range;
     return this;
   }
@@ -55,7 +67,13 @@ export class OrdinalVisualValueDimensionBuilder<
    *
    * If a custom valueAccessor function is not provided, this function will not be used even if provided (due to default value of `valueAccessor`).
    */
+  scale(scale: null): this;
+  scale(scale: (category: Domain) => Range): this;
   scale(scale: (category: Domain) => Range): this {
+    if (scale === null) {
+      this._scale = undefined;
+      return this;
+    }
     this._scale = scale;
     return this;
   }

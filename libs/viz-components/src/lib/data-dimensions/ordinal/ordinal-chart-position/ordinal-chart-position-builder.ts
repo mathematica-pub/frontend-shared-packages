@@ -30,7 +30,13 @@ export class OrdinalChartPositionDimensionBuilder<
    *
    * @default 0.5.
    */
+  align(align: null): this;
+  align(align: number): this;
   align(align: number): this {
+    if (align === null) {
+      this._align = DEFAULT._align;
+      return this;
+    }
     this._align = align;
     return this;
   }
@@ -40,7 +46,13 @@ export class OrdinalChartPositionDimensionBuilder<
    *
    * If not provided, the domain will be determined by the data.
    */
+  domain(domain: null): this;
+  domain(domain: Domain[]): this;
   domain(domain: Domain[]): this {
+    if (domain === null) {
+      this._domain = undefined;
+      return this;
+    }
     this._domain = domain;
     return this;
   }
@@ -54,7 +66,13 @@ export class OrdinalChartPositionDimensionBuilder<
    *
    * @default 0.1.
    */
+  paddingInner(paddingInner: null): this;
+  paddingInner(paddingInner: number): this;
   paddingInner(paddingInner: number): this {
+    if (paddingInner === null) {
+      this._paddingInner = DEFAULT._paddingInner;
+      return this;
+    }
     this._paddingInner = paddingInner;
     return this;
   }
@@ -66,7 +84,13 @@ export class OrdinalChartPositionDimensionBuilder<
    *
    * @default 0.1.
    */
+  paddingOuter(paddingOuter: null): this;
+  paddingOuter(paddingOuter: number): this;
   paddingOuter(paddingOuter: number): this {
+    if (paddingOuter === null) {
+      this._paddingOuter = DEFAULT._paddingOuter;
+      return this;
+    }
     this._paddingOuter = paddingOuter;
     return this;
   }

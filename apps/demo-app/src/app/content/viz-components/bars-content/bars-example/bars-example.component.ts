@@ -134,38 +134,37 @@ export class BarsExampleComponent implements OnInit {
         ? this.yOrdinalAxis.getConfig()
         : this.yQuantitativeAxis.tickFormat('.0f').getConfig();
 
-    let dataConfig;
-    const partialBuilder = this.bars
+    const dataConfig = this.bars
       .data(filteredData)
+      .horizontal(
+        orientation === Orientation.horizontal
+          ? (bars) =>
+              bars
+                .x((dimension) =>
+                  dimension
+                    .valueAccessor((d) => d.value)
+                    .formatFunction((d) => this.getQuantitativeValueFormat(d))
+                    .domainPaddingPixels()
+                )
+                .y((dimension) => dimension.valueAccessor((d) => d.division))
+          : null
+      )
+      .vertical(
+        orientation === Orientation.vertical
+          ? (bars) =>
+              bars
+                .x((dimension) => dimension.valueAccessor((d) => d.division))
+                .y((dimension) =>
+                  dimension
+                    .valueAccessor((d) => d.value)
+                    .formatFunction((d) => this.getQuantitativeValueFormat(d))
+                    .domainPaddingPixels()
+                )
+          : null
+      )
       .color((dimension) => dimension.range(['slategray']))
-      .labels((labels) => labels.display(true));
-    if (orientation === Orientation.horizontal) {
-      dataConfig = partialBuilder
-        .horizontal((bars) =>
-          bars
-            .x((dimension) =>
-              dimension
-                .valueAccessor((d) => d.value)
-                .formatFunction((d) => this.getQuantitativeValueFormat(d))
-                .domainPaddingPixels()
-            )
-            .y((dimension) => dimension.valueAccessor((d) => d.division))
-        )
-        .getConfig();
-    } else {
-      dataConfig = partialBuilder
-        .vertical((bars) =>
-          bars
-            .x((dimension) => dimension.valueAccessor((d) => d.division))
-            .y((dimension) =>
-              dimension
-                .valueAccessor((d) => d.value)
-                .formatFunction((d) => this.getQuantitativeValueFormat(d))
-                .domainPaddingPixels()
-            )
-        )
-        .getConfig();
-    }
+      .labels((labels) => labels.display(true))
+      .getConfig();
 
     return {
       dataConfig,

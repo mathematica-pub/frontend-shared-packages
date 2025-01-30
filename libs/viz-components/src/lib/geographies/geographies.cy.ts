@@ -399,7 +399,7 @@ describe('drawing the geography paths for various layers', () => {
             layer
               .geographies(states.features)
               .stroke((stroke) => stroke.color('black').width(1))
-              .fillGeojsonProperties((dimension) =>
+              .fill((dimension) =>
                 dimension
                   .scale((stateNameLength) =>
                     stateNamesScale(+stateNameLength.length)
@@ -507,9 +507,7 @@ describe('drawing the geography labels various layers', () => {
                   (x) => x.properties.name[x.properties.name.length - 1] === 'a'
                 )
               )
-              .fillGeojsonProperties((dimension) =>
-                dimension.range(['darkblue'])
-              )
+              .fill((dimension) => dimension.range(['darkblue']))
               .class('test-no-data-layer')
               .stroke((stroke) => stroke.width(1))
               .labels((labels) =>
