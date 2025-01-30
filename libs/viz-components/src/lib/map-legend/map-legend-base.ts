@@ -30,7 +30,7 @@ export abstract class MapLegend<
   VicValuesBin: typeof BinStrategy;
 
   abstract getValuesFromScale(): string[] | number[];
-  abstract getLeftOffset(values?: number[]): number;
+  abstract getLeftOffset(values?: string[]): number;
 
   ngOnChanges(): void {
     this.setValues();
@@ -80,9 +80,9 @@ export abstract class MapLegend<
     }
   }
 
-  setQuantitativeValueSpaces(values: number[]): void {
-    this.startValueSpace = values[0].toString().length * 4;
-    this.endValueSpace = values[values.length - 1].toString().length * 4;
+  setQuantitativeValueSpaces(values: string[]): void {
+    this.startValueSpace = values[0].length * 4;
+    this.endValueSpace = values[values.length - 1].length * 4;
     this.largerValueSpace =
       this.startValueSpace > this.endValueSpace
         ? this.startValueSpace
