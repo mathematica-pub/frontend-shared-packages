@@ -4,6 +4,7 @@ const DEFAULT = {
 
 export abstract class VicAuxMarksBuilder {
   protected _mixBlendMode: string;
+  protected _class: (d: unknown) => string;
 
   constructor() {
     Object.assign(this, DEFAULT);

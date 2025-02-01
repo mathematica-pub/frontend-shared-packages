@@ -73,7 +73,7 @@ export class StackedAreaComponent<
 
   get class(): Record<StackedAreaSvgElements, string> {
     return {
-      area: this.config.class + '-area',
+      area: this.config.marksClass + '-area',
     };
   }
 
@@ -120,8 +120,12 @@ export class StackedAreaComponent<
         (enter) =>
           enter
             .append('path')
-            .attr('class', this.class.area)
-            .property('key', ([{ i }]) => this.config.color.values[i])
+            .attr(
+              'class',
+              ([{ i }]) =>
+                `${this.class.area} ${this.config.datumClass(this.config.data[i], i)}`
+            )
+            // .property('key', ([{ i }]) => this.config.color.values[i])
             .attr('fill', ([{ i }]) =>
               this.scales.color(this.config.color.values[i])
             )

@@ -91,11 +91,11 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
 
   get class(): Record<LinesSvgElements, string> {
     return {
-      g: this.config.class + '-group',
-      line: this.config.class + '-line',
-      area: this.config.class + '-area',
-      marker: this.config.class + '-marker',
-      label: this.config.class + '-label',
+      g: this.config.marksClass + '-group',
+      line: this.config.marksClass + '-line',
+      area: this.config.marksClass + '-area',
+      marker: this.config.marksClass + '-marker',
+      label: this.config.marksClass + '-label',
     };
   }
 
@@ -191,13 +191,13 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
         (enter) =>
           enter
             .append('path')
-            .attr('category', ([category]) => category)
-            .attr('class', this.class.line)
+            .attr('class', ([category], i) =>
+              `${this.class.line} ${this.config.datumClass(this.config.getDataFromCategory(category)[0], i)}`.trim()
+            )
             .attr('stroke', ([category]) => this.scales.color(category))
             .attr('d', ([, lineData]) => this.line(lineData)),
         (update) =>
           update
-            .attr('category', ([category]) => category)
             .attr('stroke', ([category]) => this.scales.color(category))
             .call((update) =>
               update
@@ -283,7 +283,9 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
         (enter) =>
           enter
             .append('circle')
-            .attr('class', this.class.marker)
+            .attr('class', (d) =>
+              `${this.class.marker} ${this.config.pointMarkers.datumClass(this.config.data[d.index], d.index)}`.trim()
+            )
             .attr('key', (d) => d.key)
             .attr('category', (d) => d.category)
             .attr(this.markerIndexAttr, (d) => d.index)

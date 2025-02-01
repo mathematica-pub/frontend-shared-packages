@@ -206,9 +206,10 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   getConfig(): LinesConfig<Datum> {
     this.validateBuilder();
     return new LinesConfig({
-      class: 'vic-lines',
+      marksClass: 'vic-lines',
       curve: this._curve,
       data: this._data,
+      datumClass: this._class,
       labelLines: this._labelLines,
       lineLabelsFormat: this._lineLabelsFormat,
       mixBlendMode: this._mixBlendMode,

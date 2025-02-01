@@ -108,9 +108,10 @@ export class VicQuantitativeRulesConfigBuilder<
   getConfig(): QuantitativeRulesConfig<Datum> {
     this.validateBuilder();
     return new QuantitativeRulesConfig({
-      class: 'vic-quantitative-rules',
+      marksClass: 'vic-quantitative-rules',
       color: this._color,
       data: this._data,
+      datumClass: this._class,
       dimensions: this.dimensions,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,

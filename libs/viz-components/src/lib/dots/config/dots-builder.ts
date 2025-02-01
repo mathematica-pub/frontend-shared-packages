@@ -390,8 +390,9 @@ export class VicDotsConfigBuilder<
       ? this.radiusBuilderCategorical
       : this.radiusBuilderNumber || this.radiusBuilderConst;
     return new DotsConfig<Datum, XOrdinalDomain, YOrdinalDomain>({
-      class: 'vic-dots',
+      marksClass: 'vic-dots',
       data: this._data,
+      datumClass: this._class,
       fill: fillBuilder._build(fillName),
       key: this._key,
       mixBlendMode: this._mixBlendMode,

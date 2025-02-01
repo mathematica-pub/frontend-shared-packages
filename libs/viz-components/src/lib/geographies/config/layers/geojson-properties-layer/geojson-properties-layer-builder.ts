@@ -6,6 +6,7 @@ import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-
 import { GeographiesGeojsonPropertiesLayer } from './geojson-properties-layer';
 
 const DEFAULT = {
+  _class: () => '',
   _enableEventActions: false,
 };
 
@@ -86,11 +87,14 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
   _build(): GeographiesGeojsonPropertiesLayer<TProperties, TGeometry> {
     this.validateBuilder();
     return new GeographiesGeojsonPropertiesLayer({
+      marksClass: 'vic-geographies-geojson-properties-layer',
       customFills: this._customFills,
+      featureClass: this._class,
       enableEventActions: this._enableEventActions,
       fill: this.fillBuilder._build('Fill'),
       geographies: this._geographies,
       labels: this.labelsBuilder?._build(),
+      mixBlendMode: this._mixBlendMode,
       stroke: this.strokeBuilder?._build(),
     });
   }

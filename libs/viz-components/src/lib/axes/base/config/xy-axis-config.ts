@@ -1,14 +1,13 @@
+import { MarksConfig } from '../../../marks/config/marks-config';
 import { AxisLabel } from '../../axis-label/axis-label-config';
 import { TickWrap } from '../../tick-wrap/tick-wrap';
 import { XyAxisBaseOptions } from './xy-axis-options';
 
 export abstract class XyAxisConfig<TickValue>
+  extends MarksConfig
   implements XyAxisBaseOptions<TickValue>
 {
-  class: string;
-  data: never;
   label: AxisLabel;
-  mixBlendMode: string;
   removeDomainLine: boolean;
   removeTickLabels: boolean;
   removeTickMarks: boolean;

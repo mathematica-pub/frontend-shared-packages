@@ -13,6 +13,7 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
   protected _tickSizeOuter: number;
   protected tickWrapBuilder: TickWrapBuilder;
   protected labelBuilder: AxisLabelBuilder;
+  protected marksClass: string;
 
   /**
    * OPTIONAL. Specifies properties for an axis label.

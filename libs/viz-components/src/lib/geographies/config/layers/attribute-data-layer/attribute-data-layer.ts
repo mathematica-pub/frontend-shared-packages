@@ -45,6 +45,8 @@ export class GeographiesAttributeDataLayer<
   readonly data: Datum[];
   datumsByGeographyIndex: InternMap<string, Datum>;
   geographyIndexAccessor: (d: Datum) => string;
+  readonly marksClass: string;
+  readonly mixBlendMode: string;
 
   constructor(
     options: GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>

@@ -25,6 +25,8 @@ export class GeographiesGeojsonPropertiesLayer<
     string,
     string
   >;
+  readonly marksClass: string;
+  readonly mixBlendMode: string;
 
   constructor(
     options: GeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>

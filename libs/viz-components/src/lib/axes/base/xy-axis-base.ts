@@ -20,7 +20,7 @@ type AxisSvgElements = 'label';
  */
 @Directive()
 export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
-  never,
+  unknown,
   XyAxisConfig<TickValue>
 > {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

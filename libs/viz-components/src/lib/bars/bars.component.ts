@@ -112,9 +112,9 @@ export class BarsComponent<
 
   get class(): Record<BarsSvgElement, string> {
     return {
-      g: this.config.class + '-group',
-      bar: this.config.class + '-bar',
-      label: this.config.class + '-label',
+      g: this.config.marksClass + '-group',
+      bar: this.config.marksClass + '-bar',
+      label: this.config.marksClass + '-label',
     };
   }
 
@@ -157,9 +157,8 @@ export class BarsComponent<
         (enter) =>
           enter
             .append('g')
-            .attr(
-              'class',
-              (i) => `${this.class.g} ${this.getBarGroupColorClass(i)}`
+            .attr('class', (i) =>
+              `${this.class.g} ${this.config.datumClass(this.config.data[i], i)}`.trim()
             )
             .attr('transform', (i) =>
               this.getBarGroupTransform(this.getBarDatumFromIndex(i))

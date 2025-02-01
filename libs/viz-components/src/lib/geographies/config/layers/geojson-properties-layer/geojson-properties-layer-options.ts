@@ -14,4 +14,6 @@ export interface GeographiesGeojsonPropertiesLayerOptions<
     string,
     string
   >;
+  marksClass: string;
+  mixBlendMode: string;
 }

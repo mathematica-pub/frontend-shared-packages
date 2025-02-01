@@ -7,7 +7,7 @@ import {
 import { select, Selection, Transition } from 'd3';
 import { ChartComponent } from '../charts/chart/chart.component';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
-import { XyAuxMarks } from '../marks/xy-marks/xy-aux-marks/xy-aux-marks';
+import { XyAuxMarks } from '../marks';
 import { QuantitativeRulesConfig } from './config/quantitative-rules-config';
 
 type RulesSvgElements = 'g' | 'rule' | 'label';
@@ -31,9 +31,9 @@ export class QuantitativeRulesComponent<
 
   get class(): Record<RulesSvgElements, string> {
     return {
-      g: this.config.class + '-group',
-      rule: this.config.class + '-rule',
-      label: this.config.class + '-label',
+      g: this.config.marksClass + '-group',
+      rule: this.config.marksClass + '-rule',
+      label: this.config.marksClass + '-label',
     };
   }
 
@@ -60,7 +60,9 @@ export class QuantitativeRulesComponent<
         (enter) =>
           enter
             .append('g')
-            .attr('class', this.class.g)
+            .attr('class', (d, i) =>
+              `${this.class.g} ${this.config.datumClass(d, i)}`.trim()
+            )
             .attr('transform', (d) => this.getRuleTransform(d)),
         (update) =>
           update
@@ -77,7 +79,7 @@ export class QuantitativeRulesComponent<
         (enter) =>
           enter
             .append('line')
-            .attr('class', (d) => `${this.class.rule} ${d}`)
+            .attr('class', this.class.rule)
             .attr('stroke', (d) => this.config.color(d))
             .attr('stroke-width', this.config.stroke.width)
             .attr('opacity', this.config.stroke.opacity)

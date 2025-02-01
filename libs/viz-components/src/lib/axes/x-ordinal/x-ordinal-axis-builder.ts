@@ -31,10 +31,8 @@ export class VicXOrdinalAxisConfigBuilder<
 
   getConfig(): XOrdinalAxisConfig<TickValue> {
     return new XOrdinalAxisConfig<TickValue>({
-      class: 'vic-axis-x-ordinal',
-      data: undefined,
+      marksClass: 'vic-axis-x-ordinal',
       label: this.labelBuilder?._build('x'),
-      mixBlendMode: this._mixBlendMode,
       removeDomainLine: this._removeDomainLine,
       removeTickLabels: this._removeTickLabels,
       removeTickMarks: this._removeTickMarks,

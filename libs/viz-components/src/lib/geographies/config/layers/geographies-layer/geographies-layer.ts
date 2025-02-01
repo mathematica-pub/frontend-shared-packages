@@ -24,6 +24,7 @@ export abstract class GeographiesLayer<
 > implements GeographiesLayerOptions<TProperties, TGeometry>
 {
   enableEventActions: boolean;
+  featureClass: (d: TProperties) => string;
   featureIndexAccessor: (
     d: GeographiesFeature<TProperties, TGeometry>
   ) => string;

@@ -228,11 +228,12 @@ export class VicStackedAreaConfigBuilder<
   getConfig(): StackedAreaConfig<Datum, CategoricalDomain> {
     this.validateBuilder();
     return new StackedAreaConfig({
-      class: 'vic-stacked-area',
+      marksClass: 'vic-stacked-area',
       color: this.colorDimensionBuilder._build('Color'),
       categoricalOrder: this._categoricalOrder,
       curve: this._curve,
       data: this._data,
+      datumClass: this._class,
       mixBlendMode: this._mixBlendMode,
       stackOrder: this._stackOrder,
       stackOffset: this._stackOffset,

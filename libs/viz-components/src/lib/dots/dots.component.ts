@@ -104,8 +104,8 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
 
   get class(): Record<DotsSvgElement, string> {
     return {
-      g: this.config.class + '-group',
-      dot: this.config.class + '-dot',
+      g: this.config.marksClass + '-group',
+      dot: this.config.marksClass + '-dot',
     };
   }
 
@@ -145,11 +145,8 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
         (enter) =>
           enter
             .append('g')
-            .attr('class', this.class.g)
-            .attr('key', (d) =>
-              this.config.key
-                ? this.config.key(this.config.data[d.index])
-                : null
+            .attr('class', (d) =>
+              `${this.class.g} ${this.config.datumClass(this.config.data[d.index], d.index)}`.trim()
             )
             .attr(
               'transform',

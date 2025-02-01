@@ -15,7 +15,7 @@ export interface GeographiesOptions<
   Datum,
   TProperties extends GeoJsonProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
-> extends MarksOptions<Datum> {
+> extends MarksOptions {
   boundary:
     | ExtendedFeature
     | ExtendedFeatureCollection

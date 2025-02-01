@@ -12,8 +12,7 @@ import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
 import { MapChartComponent } from '../charts/map-chart/map-chart.component';
-import { ValueUtilities } from '../core/utilities/values';
-import { VicMapPrimaryMarks } from '../marks/map-marks/map-primary-marks/map-primary-marks';
+import { MapPrimaryMarks } from '../marks/map-marks/map-primary-marks/map-primary-marks';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { GeographiesConfig } from './config/geographies-config';
 import { GeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
@@ -56,7 +55,7 @@ export class GeographiesComponent<
   Datum,
   TProperties extends GeoJsonProperties = GeoJsonProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
-> extends VicMapPrimaryMarks<
+> extends MapPrimaryMarks<
   Datum,
   GeographiesConfig<Datum, TProperties, TGeometry>
 > {
@@ -82,10 +81,10 @@ export class GeographiesComponent<
 
   get class(): Record<GeographiesSvgElement, string> {
     return {
-      layer: this.config.class + '-layer',
-      g: this.config.class + '-group',
-      feature: this.config.class + '-feature',
-      label: this.config.class + '-label',
+      layer: this.config.marksClass + '-layer',
+      g: this.config.marksClass + '-group',
+      feature: this.config.marksClass + '-feature',
+      label: this.config.marksClass + '-label',
     };
   }
 
@@ -160,7 +159,7 @@ export class GeographiesComponent<
             .attr(
               'class',
               (layer) =>
-                `${this.class.layer} ${this.class.layer}-${layer.id} ${'attributeDimension' in layer ? 'attribute-data-layer' : 'geojson-properties-layer'}`
+                `${this.class.layer} ${this.class.layer}-${layer.id} ${layer.marksClass}`
             ),
         (update) => update,
         (exit) => exit.remove()
@@ -177,12 +176,8 @@ export class GeographiesComponent<
           (d) => this.config.featureIndexAccessor(d)
         )
         .join('g')
-        .attr(
-          'class',
-          (d) =>
-            `${this.class.g} ${ValueUtilities.formatForHtmlAttribute(
-              this.config.featureIndexAccessor(d)
-            )}`
+        .attr('class', (d) =>
+          `${this.class.g} ${layer.featureClass(d.properties)}`.trim()
         );
 
       geographyGroup
