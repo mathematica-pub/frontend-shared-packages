@@ -1,7 +1,8 @@
+import { MarksOptions } from 'libs/viz-components/src/public-api';
 import { AxisLabelOptions } from '../../axis-label/axis-label-options';
 import { TickWrap } from '../../tick-wrap/tick-wrap';
 
-export interface XyAxisBaseOptions<TickValue> {
+export interface XyAxisBaseOptions<TickValue> extends MarksOptions {
   label: AxisLabelOptions;
   marksClass: string;
   removeDomainLine: boolean;

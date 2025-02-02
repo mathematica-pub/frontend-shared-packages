@@ -23,6 +23,7 @@ const XOrdinalAxis = xAxisMixin(ordinalAxisMixin(XyAxis));
   host: {
     '[class]': 'config.marksClass',
     class: 'vic-axis',
+    '[attr.mix-blend-mode]': 'config.mixBlendMode',
     '[attr.transform]': 'translate',
   },
 })

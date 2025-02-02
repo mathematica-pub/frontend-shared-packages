@@ -32,6 +32,7 @@ export class VicYOrdinalAxisConfigBuilder<
     return new YOrdinalAxisConfig<TickValue>({
       marksClass: 'vic-axis-y-ordinal',
       label: this.labelBuilder?._build('y'),
+      mixBlendMode: this._mixBlendMode,
       removeDomainLine: this._removeDomainLine,
       removeTickLabels: this._removeTickLabels,
       removeTickMarks: this._removeTickMarks,

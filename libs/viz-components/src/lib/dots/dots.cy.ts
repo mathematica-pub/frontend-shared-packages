@@ -48,7 +48,6 @@ const chartHeight = 400;
 const chartWidth = 600;
 const data = countryFactsData;
 
-const dotSelector = '.vic-dots-dot';
 const dotGSelector = '.vic-dots-group';
 
 // ***********************************************************

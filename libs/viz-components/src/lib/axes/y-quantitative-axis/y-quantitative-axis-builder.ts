@@ -65,6 +65,7 @@ export class VicYQuantitativeAxisConfigBuilder<
     return new YQuantitativeAxisConfig<TickValue>({
       marksClass: 'vic-axis-y-quantitative',
       label: this.labelBuilder?._build('y'),
+      mixBlendMode: this._mixBlendMode,
       numTicks: this._numTicks,
       removeDomainLine: this._removeDomainLine,
       removeTickLabels: this._removeTickLabels,
