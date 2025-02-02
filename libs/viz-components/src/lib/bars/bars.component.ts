@@ -95,11 +95,6 @@ export class BarsComponent<
   bars$ = this.bars.asObservable();
   barLabels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
   barLabels$ = this.bars.asObservable();
-  classSuffixes = {
-    g: 'group',
-    rect: 'bar',
-    text: 'label',
-  };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override scales: { color: GenericScale<any, any> } & XyChartScales = {
     x: undefined,
