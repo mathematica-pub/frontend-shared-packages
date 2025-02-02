@@ -1,8 +1,8 @@
 import { select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { FillDefinition } from 'libs/viz-components/src/public-api';
 import { FillUtilities } from '../../../../core/utilities/fill-utilities';
 import { OrdinalVisualValueDimension } from '../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
+import { FillDefinition } from '../../../../fill-definitions/fill-definitions';
 import { GeographiesFeature } from '../../../geographies-feature';
 import {
   GeographiesLayer,
