@@ -59,7 +59,7 @@ type LinesSvgElements = 'g' | 'line' | 'area' | 'marker' | 'label';
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
   host: {
-    '[class]': 'config.class',
+    '[class]': 'config.marksClass',
     '[attr.stroke-linecap]': 'config.stroke.linecap',
     '[attr.stroke-linejoin]': 'config.stroke.linejoin',
     '[attr.stroke-width]': 'config.stroke.width',
@@ -119,8 +119,8 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     const transitionDuration = this.getTransitionDuration();
     this.drawLines(transitionDuration);
     if (this.config.areaFills) {
-      this.setBelowLineFills();
-      this.drawBelowLineFills(transitionDuration);
+      this.setAreaFunction();
+      this.drawAreaFills(transitionDuration);
     }
     if (this.config.pointMarkers) {
       this.drawPointMarkers(transitionDuration);
@@ -143,7 +143,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
       .y((i: any) => this.scales.y(this.config.y.values[i]));
   }
 
-  setBelowLineFills(): void {
+  setAreaFunction(): void {
     const isValid = map(this.config.data, this.isValidValue.bind(this));
 
     this.lineArea = area()
@@ -209,7 +209,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
       );
   }
 
-  drawBelowLineFills(transitionDuration: number): void {
+  drawAreaFills(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -224,17 +224,15 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
         (enter) =>
           enter
             .append('path')
-            .attr('category', ([category]) => category)
+            .attr('class', this.class.area)
             .attr('fill', ([category, indices]) =>
               this.getAreaFill(category, indices)
             )
-            .attr('class', this.class.area)
             .attr('opacity', this.config.areaFills.opacity)
             .attr('d', ([, lineData]) => this.lineArea(lineData))
             .attr('display', this.config.areaFills.display ? null : 'none'),
         (update) =>
           update
-            .attr('category', ([category]) => category)
             .attr('fill', ([category, indices]) =>
               this.getAreaFill(category, indices)
             )
@@ -286,8 +284,6 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .attr('class', (d) =>
               `${this.class.marker} ${this.config.pointMarkers.datumClass(this.config.data[d.index], d.index)}`.trim()
             )
-            .attr('key', (d) => d.key)
-            .attr('category', (d) => d.category)
             .attr(this.markerIndexAttr, (d) => d.index)
             .attr('cx', (d) => this.scales.x(this.config.x.values[d.index]))
             .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))

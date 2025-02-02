@@ -16,7 +16,7 @@ const DEFAULT = {
 @Injectable()
 export class VicQuantitativeRulesConfigBuilder<
   Datum extends number | Date,
-> extends VicAuxMarksBuilder {
+> extends VicAuxMarksBuilder<Datum> {
   protected _color: (d: Datum) => string;
   protected _data: Datum[];
   protected dimensions: QuantitativeRulesDimensions;

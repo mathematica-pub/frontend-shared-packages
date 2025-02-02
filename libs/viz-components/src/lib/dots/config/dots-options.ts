@@ -15,7 +15,6 @@ export interface DotsOptions<
   fill:
     | OrdinalVisualValueDimension<Datum, string, string>
     | NumberVisualValueDimension<Datum, string>;
-  key: (datum: Datum) => string;
   opacity: number;
   pointerDetectionRadius: number;
   radius:

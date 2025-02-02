@@ -76,8 +76,8 @@ type DotsSvgElement = 'g' | 'dot';
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
   host: {
-    '[class]': 'config.class',
-    '[style.mixed-blend-mode]': 'config.blendMode',
+    '[class]': 'config.marksClass',
+    '[style.mixed-blend-mode]': 'config.mixBlendMode',
   },
 })
 export class DotsComponent<Datum> extends VicXyPrimaryMarks<
@@ -171,11 +171,6 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
           enter
             .append('circle')
             .attr('class', this.class.dot)
-            .attr('key', (d) =>
-              this.config.key
-                ? this.config.key(this.config.data[d.index])
-                : null
-            )
             .attr('r', (d) => this.scales.radius(d.radius))
             .attr('fill', (d) => this.scales.fill(d.fill))
             .attr(

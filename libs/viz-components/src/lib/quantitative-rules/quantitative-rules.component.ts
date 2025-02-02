@@ -20,7 +20,7 @@ type RulesSvgElements = 'g' | 'rule' | 'label';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: ChartComponent, useExisting: XyChartComponent }],
   host: {
-    '[class]': 'config.class',
+    '[class]': 'config.marksClass',
   },
 })
 export class QuantitativeRulesComponent<

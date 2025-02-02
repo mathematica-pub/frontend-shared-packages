@@ -49,7 +49,7 @@ type StackedAreaSvgElements = 'area';
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
   host: {
-    '[class]': 'config.class',
+    '[class]': 'config.marksClass',
   },
 })
 export class StackedAreaComponent<

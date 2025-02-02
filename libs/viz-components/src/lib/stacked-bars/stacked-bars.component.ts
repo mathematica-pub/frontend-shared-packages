@@ -43,7 +43,7 @@ export const STACKED_BARS = new InjectionToken<
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
   host: {
-    '[class]': 'config.class',
+    '[class]': 'config.marksClass',
     '[style.mixBlendMode]': 'config.mixBlendMode',
   },
 })

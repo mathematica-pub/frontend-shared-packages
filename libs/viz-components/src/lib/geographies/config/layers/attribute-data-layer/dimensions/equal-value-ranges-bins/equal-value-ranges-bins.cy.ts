@@ -122,6 +122,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .equalValueRangesBins((bins) => bins.valueAccessor((d) => d.income))
@@ -180,6 +181,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .equalValueRangesBins((bins) =>
@@ -229,6 +231,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .equalValueRangesBins((bins) =>
@@ -276,6 +279,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .equalValueRangesBins((bins) =>

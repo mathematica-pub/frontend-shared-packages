@@ -122,6 +122,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .equalFrequenciesBins((bins) => bins.valueAccessor((d) => d.income))
@@ -212,6 +213,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .equalFrequenciesBins((bins) =>
@@ -289,6 +291,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .equalFrequenciesBins((bins) =>

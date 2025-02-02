@@ -21,7 +21,7 @@ const XOrdinalAxis = xAxisMixin(ordinalAxisMixin(XyAxis));
   inputs: ['config'],
   encapsulation: ViewEncapsulation.None,
   host: {
-    '[class]': 'config.class',
+    '[class]': 'config.marksClass',
     class: 'vic-axis',
     '[attr.transform]': 'translate',
   },

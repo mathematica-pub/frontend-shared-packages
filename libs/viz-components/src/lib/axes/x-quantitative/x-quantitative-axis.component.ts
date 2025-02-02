@@ -20,7 +20,7 @@ const XQuantitativeAxis = xAxisMixin(quantitativeAxisMixin(XyAxis));
   inputs: ['config'],
   encapsulation: ViewEncapsulation.None,
   host: {
-    '[class]': 'config.class',
+    '[class]': 'config.marksClass',
     class: 'vic-axis',
     '[attr.transform]': 'translate',
   },

@@ -122,6 +122,7 @@ describe('the No Bins Attribute Data dimension', () => {
         .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .noBins((dimension) =>
@@ -190,6 +191,7 @@ describe('the No Bins Attribute Data dimension', () => {
         .attributeDataLayer((layer) =>
           layer
             .data(dataWithFalsyValues)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .noBins((dimension) =>
@@ -237,6 +239,7 @@ describe('the No Bins Attribute Data dimension', () => {
         .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .noBins((dimension) =>

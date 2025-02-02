@@ -2,7 +2,9 @@ import { VicAuxMarksBuilder } from '../../../marks';
 import { AxisLabelBuilder } from '../../axis-label/axis-label-builder';
 import { TickWrapBuilder } from '../../tick-wrap/tick-wrap-builder';
 
-export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
+export abstract class XyAxisBaseBuilder<
+  TickValue,
+> extends VicAuxMarksBuilder<void> {
   protected _axis: 'x' | 'y';
   protected _dimension: 'ordinal' | 'quantitative';
   protected _removeDomainLine: boolean;

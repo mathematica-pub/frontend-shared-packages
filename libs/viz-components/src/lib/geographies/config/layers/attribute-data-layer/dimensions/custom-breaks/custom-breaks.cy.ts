@@ -123,6 +123,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .customBreaksBins((bins) =>
@@ -139,9 +140,11 @@ describe('the Custom Breaks Attribute Data dimension', () => {
           .filter(
             (d) => d.income < breakValues[i + 1] && d.income >= breakValues[i]
           )
-          .map((d) => d.state.replace(/\s/g, '-'));
+          .map((d) => d.state);
         statesInAttributeData.forEach((state) => {
-          cy.get(`.vic-geographies-group.${state} path`).then((path) => {
+          cy.get(
+            `.vic-geographies-group.${state.split(' ').join('-')} path`
+          ).then((path) => {
             expect(path.attr('fill')).to.eq(color);
           });
         });
@@ -171,6 +174,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .customBreaksBins((bins) =>
@@ -193,7 +197,9 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         { data: aboveValues, color: rangeValues[rangeValues.length - 1] },
       ].forEach((group) => {
         group.data.forEach((state) => {
-          cy.get(`.vic-geographies-group.${state} path`).then((path) => {
+          cy.get(
+            `.vic-geographies-group.${state.split(' ').join('-')} path`
+          ).then((path) => {
             expect(path.attr('fill')).to.eq(group.color);
           });
         });
@@ -223,6 +229,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .customBreaksBins((bins) =>
@@ -245,9 +252,11 @@ describe('the Custom Breaks Attribute Data dimension', () => {
           .filter(
             (d) => d.income < breakValues[i + 1] && d.income >= breakValues[i]
           )
-          .map((d) => d.state.replace(/\s/g, '-'));
+          .map((d) => d.state);
         statesInAttributeData.forEach((state) => {
-          cy.get(`.vic-geographies-group.${state} path`).then((path) => {
+          cy.get(
+            `.vic-geographies-group.${state.split(' ').join('-')} path`
+          ).then((path) => {
             expect(path.attr('fill')).to.eq(color);
           });
         });
@@ -289,6 +298,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(dataWithFalsyValues)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .customBreaksBins((bins) =>
@@ -339,6 +349,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .customBreaksBins((bins) =>
@@ -356,9 +367,11 @@ describe('the Custom Breaks Attribute Data dimension', () => {
           (x) =>
             attributeData.findIndex((d) => d.state === x.properties.name) === -1
         )
-        .map((x) => x.properties.name.replace(/\s/g, '-'));
+        .map((x) => x.properties.name);
       geographiesNotInAttributeData.forEach((state) => {
-        cy.get(`.vic-geographies-group.${state} path`).then((path) => {
+        cy.get(
+          `.vic-geographies-group.${state.split(' ').join('-')} path`
+        ).then((path) => {
           expect(path.attr('fill')).to.eq(nullColor);
         });
       });

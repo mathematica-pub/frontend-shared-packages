@@ -82,7 +82,7 @@ type BarsSvgElement = 'g' | 'bar' | 'label';
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
   host: {
-    '[class]': 'config.class',
+    '[class]': 'config.marksClass',
     '[style.mixBlendMode]': 'config.mixBlendMode',
   },
 })
