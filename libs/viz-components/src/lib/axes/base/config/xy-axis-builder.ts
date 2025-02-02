@@ -113,8 +113,6 @@ export abstract class XyAxisBaseBuilder<
 
   /**
    * A config object to specify how tick labels should wrap.
-   *
-   * Note: In `Bars`, bar labels are tick labels.
    */
   wrapTickText(wrap: null): this;
   wrapTickText(wrap: (wrap: TickWrapBuilder) => void): this;
