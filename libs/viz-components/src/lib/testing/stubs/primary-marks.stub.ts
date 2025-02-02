@@ -1,9 +1,9 @@
-import { MarksOptions } from '../../marks/config/marks-options';
+import { DataMarksOptions } from '../../marks/config/marks-options';
 import { PrimaryMarks } from '../../marks/primary-marks/primary-marks';
 
 export class PrimaryMarksStub<Datum> extends PrimaryMarks<
   Datum,
-  MarksOptions<Datum>
+  DataMarksOptions<Datum>
 > {
   override drawMarks(): void {
     return;
