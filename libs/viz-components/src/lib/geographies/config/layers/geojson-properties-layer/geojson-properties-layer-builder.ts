@@ -1,6 +1,6 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { FillDefinition } from 'libs/viz-components/src/public-api';
 import { OrdinalVisualValueDimensionBuilder } from '../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
+import { FillDefinition } from '../../../../fill-definitions/fill-definitions';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
 import { GeographiesGeojsonPropertiesLayer } from './geojson-properties-layer';

@@ -1,5 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { FillDefinition } from 'libs/viz-components/src/public-api';
+import { FillDefinition } from '../../../../fill-definitions/fill-definitions';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
 import { GeographiesAttributeDataLayer } from './attribute-data-layer';
 import { CategoricalBinsBuilder } from './dimensions/categorical-bins/categorical-bins-builder';

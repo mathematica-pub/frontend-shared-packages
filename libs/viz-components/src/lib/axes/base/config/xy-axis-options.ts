@@ -1,4 +1,4 @@
-import { MarksOptions } from 'libs/viz-components/src/public-api';
+import { MarksOptions } from '../../../marks';
 import { AxisLabelOptions } from '../../axis-label/axis-label-options';
 import { TickWrap } from '../../tick-wrap/tick-wrap';
 
