@@ -52,7 +52,13 @@ export abstract class PrimaryMarksBuilder<Datum> {
    *
    * @default 'normal'
    */
-  mixBlendMode(mixBlendMode: string): this {
+  mixBlendMode(mixBlendMode: null): this;
+  mixBlendMode(mixBlendMode: string): this;
+  mixBlendMode(mixBlendMode: string | null): this {
+    if (mixBlendMode === null) {
+      this._mixBlendMode = DEFAULT._mixBlendMode;
+      return this;
+    }
     this._mixBlendMode = mixBlendMode;
     return this;
   }

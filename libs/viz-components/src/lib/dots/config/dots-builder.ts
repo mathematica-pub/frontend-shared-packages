@@ -12,7 +12,7 @@ import { DotsConfig } from './dots-config';
 
 const DEFAULT = {
   _pointerDetectionRadius: 12,
-  _fill: 'none',
+  _fill: 'lightgray',
   _opacity: 1,
   _radius: 2,
 };
@@ -64,28 +64,6 @@ export class VicDotsConfigBuilder<
   constructor() {
     super();
     Object.assign(this, DEFAULT);
-  }
-
-  /**
-   * OPTIONAL. The distance from a line in which a hover event will trigger a tooltip, in px.
-   *
-   * This is used to ensure that a tooltip is triggered only when a user's pointer is close to lines.
-   *
-   * @default 12
-   */
-  pointerDetectionRadius(pointerDetectionRadius: number): this {
-    this._pointerDetectionRadius = pointerDetectionRadius;
-    return this;
-  }
-
-  /**
-   * OPTIONAL. Sets the opacity of the dots.
-   *
-   * @default 1
-   */
-  opacity(opacity: number): this {
-    this._opacity = opacity;
-    return this;
   }
 
   /**
@@ -153,6 +131,16 @@ export class VicDotsConfigBuilder<
 
   private initFillBuilderNumber(): void {
     this.fillBuilderNumber = new NumberVisualValueDimensionBuilder();
+  }
+
+  /**
+   * OPTIONAL. Sets the opacity of the dots.
+   *
+   * @default 1
+   */
+  opacity(opacity: number): this {
+    this._opacity = opacity;
+    return this;
   }
 
   /**
