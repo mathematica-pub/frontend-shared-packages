@@ -43,7 +43,7 @@ name: filter
 description: Determines whether or not to display grid lines. Must specify a function that takes the index of the grid line and returns a boolean.
 params:
   - name: filter
-    type: '(i: number) => boolean'
+    type: '((i: number) => boolean) | null'
     description: A predicate that determines for which indices grid lines should be displayed.
 ```
 
@@ -52,6 +52,6 @@ name: stroke
 description: Sets the stroke attributes for each grid line.
 params:
   - name: stroke
-    type: '(stroke: StrokeBuilder) => void'
+    type: '((stroke: StrokeBuilder) => void) | null'
     description: A callback that allows for the specification of the attributes for the stroke of the dots.
 ```
