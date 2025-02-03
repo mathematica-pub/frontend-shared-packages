@@ -51,8 +51,8 @@ export class BarsConfig<Datum, OrdinalDomain extends DataValue>
         return false;
       } else {
         const ordinalValue = this.ordinal.values[i];
-        const firstIndex = this.ordinal.values.indexOf(ordinalValue);
-        return i === firstIndex;
+        const firstInd = this.ordinal.values.indexOf(ordinalValue);
+        return i === firstInd;
       }
     });
   }
