@@ -18,6 +18,11 @@ export class VicYOrdinalAxisConfigBuilder<
     Object.assign(this, DEFAULT);
   }
 
+  /**
+   * OPTIONAL. The side of the chart where the axis will be placed.
+   *
+   * @default 'left'
+   */
   side(side: 'left' | 'right'): this {
     this._side = side;
     return this;
@@ -27,7 +32,7 @@ export class VicYOrdinalAxisConfigBuilder<
     return new YOrdinalAxisConfig<TickValue>({
       data: undefined,
       grid: this.gridBuilder?._build('y'),
-      label: this.labelBuilder?.build('y'),
+      label: this.labelBuilder?._build('y'),
       mixBlendMode: this._mixBlendMode,
       removeDomainLine: this._removeDomainLine,
       removeTickLabels: this._removeTickLabels,

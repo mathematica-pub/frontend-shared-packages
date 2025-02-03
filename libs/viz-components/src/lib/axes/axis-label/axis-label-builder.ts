@@ -24,28 +24,38 @@ export class AxisLabelBuilder {
   /**
    * OPTIONAL. The [text-anchor](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-anchor) for the axis label.
    *
-   * If not provided, the anchor will be determined by the position.
+   * If not provided or if called with null, the anchor will be determined by the position.
    *
    * @default specific to the position
    */
-  anchor(value: 'start' | 'middle' | 'end'): this {
+  anchor(value: 'start' | 'middle' | 'end' | null): this {
+    if (value === null) {
+      this._anchor = undefined;
+      return this;
+    }
     this._anchor = value;
     return this;
   }
 
   /**
-   * The offset for the axis label from the position that would otherwise be created. Allows for fine-tuning the position of the label.
+   * OPTIONAL. The offset for the axis label from the position that would otherwise be created. Allows for fine-tuning the position of the label.
    *
    * Positive y values will move the label down, positive x values will move the label to the right.
    *
-   * If not provided, labels parallel to the axis will be placed at the far extent of the margin. Labels perpendicular to the axis will be placed at the axis line. The latter will likely need an offset.
+   * If not provided or if called with null, labels parallel to the axis will be placed at the far extent of the margin. Labels perpendicular to the axis will be placed at the axis line. The latter will likely need an offset.
    *
    * @default { x: 0, y: 0 }
    */
-  offset(value: { x?: number; y?: number }): this {
+  offset(offset: null): this;
+  offset(offset: { x?: number; y?: number }): this;
+  offset(offset: { x?: number; y?: number } | null): this {
+    if (offset === null) {
+      this._offset = DEFAULT._offset;
+      return this;
+    }
     this._offset = {
-      x: value.x || 0,
-      y: value.y || 0,
+      x: offset.x || 0,
+      y: offset.y || 0,
     };
     return this;
   }
@@ -73,17 +83,26 @@ export class AxisLabelBuilder {
   }
 
   /**
-   * Specifies properties for wrapping the text of the label.
+   * OPTIONAL. Specifies properties for wrapping the text of the label.
+   *
+   * To unset the wrap, call with null.
    */
-  wrap(setProperties: (wrap: SvgTextWrapBuilder) => void): this {
-    this.textWrapFunction = setProperties;
+  wrap(wrap: null): this;
+  wrap(wrap: (wrap: SvgTextWrapBuilder) => void): this;
+  wrap(wrap: ((wrap: SvgTextWrapBuilder) => void) | null): this {
+    if (wrap === null) {
+      this.textWrapBuilder = undefined;
+      return this;
+    }
+    this.textWrapBuilder = new SvgTextWrapBuilder();
+    wrap(this.textWrapBuilder);
     return this;
   }
 
   /**
    * @internal Not meant to be called by consumers of the library.
    */
-  build(dimension: 'x' | 'y'): AxisLabel {
+  _build(dimension: 'x' | 'y'): AxisLabel {
     if (this.textWrapFunction) this.createTextWrapBuilder(dimension);
     return new AxisLabel({
       anchor: this.getAnchorForDimension(dimension),

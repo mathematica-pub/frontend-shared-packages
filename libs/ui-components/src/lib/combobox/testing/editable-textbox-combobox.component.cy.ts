@@ -9,50 +9,64 @@ import {
   combineLatest,
   map,
   Observable,
-  of,
   startWith,
 } from 'rxjs';
 import { HsiUiComboboxModule } from '../combobox.module';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
+interface ViewModel<ListboxSelection> {
+  options: { displayName: string; id: string }[];
+  selected: ListboxSelection;
+}
+
 @Component({
-  selector: 'hsi-ui-editable-textbox-single-select',
+  selector: 'hsi-ui-editable-textbox-combobox',
   template: `
     <p class="outside-element"
       >Outside element to click on for outside combobox click</p
     >
     <p class="textbox-value">{{ textboxValue$ | async }}</p>
     <p class="combobox-value">{{ value$ | async }}</p>
-    <hsi-ui-combobox class="fruits-dropdown">
-      <hsi-ui-combobox-label>
-        <span>Fruits</span>
-      </hsi-ui-combobox-label>
-      <hsi-ui-editable-textbox
-        placeholder="Select a fruit, A-E"
-        [autoSelectTrigger]="autoSelectTrigger"
-        [autoSelect]="autoSelect"
-        (valueChanges)="onTyping($event)"
-      >
-      </hsi-ui-editable-textbox>
-      <hsi-ui-listbox
-        (valueChanges)="onSelection($event)"
-        [isMultiSelect]="isMultiSelect"
-      >
-        <hsi-ui-listbox-label>
-          <span>Select a fruit</span>
-        </hsi-ui-listbox-label>
-        @for (option of options$ | async; track option.id) {
-          <hsi-ui-listbox-option>{{
-            option.displayName
-          }}</hsi-ui-listbox-option>
-        }
-      </hsi-ui-listbox>
-    </hsi-ui-combobox>
+    @if (vm$ | async; as vm) {
+      <hsi-ui-combobox class="fruits-dropdown">
+        <hsi-ui-combobox-label>
+          <span>Fruits</span>
+        </hsi-ui-combobox-label>
+        <hsi-ui-editable-textbox
+          placeholder="Select a fruit, A-E"
+          [autoSelectTrigger]="autoSelectTrigger"
+          [autoSelect]="autoSelect"
+          (valueChanges)="onTyping($event)"
+        >
+        </hsi-ui-editable-textbox>
+        <hsi-ui-listbox
+          (valueChanges)="onSelection($event)"
+          [isMultiSelect]="isMultiSelect"
+        >
+          <hsi-ui-listbox-label>
+            <span>Select a fruit</span>
+          </hsi-ui-listbox-label>
+          @for (option of vm.options; track option.id) {
+            @if (isMultiSelect) {
+              <hsi-ui-listbox-option
+                [selected]="vm.selected.includes(option.displayName)"
+                >{{ option.displayName }}</hsi-ui-listbox-option
+              >
+            } @else {
+              <hsi-ui-listbox-option
+                [selected]="vm.selected === option.displayName"
+                >{{ option.displayName }}</hsi-ui-listbox-option
+              >
+            }
+          }
+        </hsi-ui-listbox>
+      </hsi-ui-combobox>
+    }
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
 })
-class EditableTextboxSingleSelectComponent
+class EditableTextboxTestComponent
   extends ComboboxBaseTestComponent
   implements OnInit
 {
@@ -60,18 +74,63 @@ class EditableTextboxSingleSelectComponent
   @Input() autoSelectTrigger: 'any' | 'character';
   @Input() dynamicLabel = false;
   @Input() isMultiSelect = false;
-  options$: Observable<{ displayName: string; id: string }[]>;
+  vm$: Observable<ViewModel<string[]> | ViewModel<string>>;
   textboxValue = new BehaviorSubject<string>('');
   textboxValue$ = this.textboxValue.asObservable();
 
   ngOnInit(): void {
-    this.options$ = combineLatest([of(this.options), this.textboxValue$]).pipe(
-      map(([options, text]) => {
-        return options.filter((option) =>
-          option.displayName.toLowerCase().includes(text.toLowerCase())
-        );
+    this.value.next(this.isMultiSelect ? [] : '');
+    this.vm$ = combineLatest([this.textboxValue$, this.value$]).pipe(
+      map(([inputValue, listboxValue]) => {
+        if (this.isMultiSelect) {
+          return {
+            options: this.getMultiSelectOptions(inputValue),
+            selected: listboxValue as string[],
+          };
+        } else {
+          return {
+            options: this.getSingleSelectOptions(
+              inputValue,
+              listboxValue as string
+            ),
+            selected: listboxValue as string,
+          };
+        }
       })
     );
+  }
+
+  getSingleSelectOptions(
+    inputValue: string,
+    listboxValue: string
+  ): { displayName: string; id: string }[] {
+    const selected = this.options.filter((x) => listboxValue.includes(x.id));
+    return this.options.filter((option) => {
+      if (selected.length && inputValue === selected[0].displayName) {
+        return listboxValue.includes(option.displayName);
+      } else {
+        return this.optionIncludesSearchText(option, inputValue);
+      }
+    });
+  }
+
+  getMultiSelectOptions(
+    inputValue: string
+  ): { displayName: string; id: string }[] {
+    return this.options.filter((option) => {
+      if (inputValue === '') {
+        return true;
+      } else {
+        return this.optionIncludesSearchText(option, inputValue);
+      }
+    });
+  }
+
+  optionIncludesSearchText(
+    option: { displayName: string; id: string },
+    value: string
+  ): boolean {
+    return option.displayName.toLowerCase().includes(value?.toLowerCase());
   }
 
   onTyping(value: any): void {
@@ -79,231 +138,54 @@ class EditableTextboxSingleSelectComponent
   }
 }
 
-describe('Basic editable textbox features', () => {
-  beforeEach(() => {
-    cy.mount(EditableTextboxSingleSelectComponent, {
-      declarations: [EditableTextboxSingleSelectComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-      componentProperties: {
-        autoSelect: true,
-        autoSelectTrigger: 'any',
-      },
-    });
-  });
-  it('displays the placeholder text', () => {
-    cy.get('.hsi-ui-textbox').should(
-      'have.attr',
-      'placeholder',
-      'Select a fruit, A-E'
-    );
-  });
-  it('displays the typed text in the textbox and correctly outputs typed text', () => {
-    cy.get('.hsi-ui-editable-textbox-input').type('bananas');
-    cy.get('.hsi-ui-editable-textbox-input').should('have.value', 'bananas');
-    cy.get('.textbox-value').should('have.text', 'bananas');
-  });
-  it('displays the filtered options in the listbox', () => {
-    cy.get('.hsi-ui-textbox').type('coco');
-    cy.get('.hsi-ui-listbox')
-      .find('.hsi-ui-listbox-option')
-      .should('have.length', 1);
-  });
-  it('displays the filtered options in the listbox', () => {
-    cy.get('.hsi-ui-textbox').type('a');
-    cy.get('.hsi-ui-listbox')
-      .find('.hsi-ui-listbox-option')
-      .should('have.length', 3); //Apples, Bananas, Durians
-  });
-});
-
-[true, false].forEach((isMultiSelect) => {
-  describe(`${isMultiSelect ? 'Multi' : 'Single'}-select combobox features - autoSelect of option`, () => {
-    describe('when autoSelect is true and autoSelectTrigger is any', () => {
-      beforeEach(() => {
-        cy.mount(EditableTextboxSingleSelectComponent, {
-          declarations: [EditableTextboxSingleSelectComponent],
-          imports: [HsiUiComboboxModule, MatIconModule],
-          componentProperties: {
-            autoSelect: true,
-            autoSelectTrigger: 'any',
-            isMultiSelect: isMultiSelect,
-          },
-        });
-      });
-      it('selects the first item if textbox is clicked on and closed', () => {
-        cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.hsi-ui-listbox').should('be.visible');
-        cy.get('.outside-element').realClick();
-        cy.get('.combobox-value').should('have.text', 'Apples');
-        cy.get('.hsi-ui-listbox').should('not.be.visible');
-        // reopen listbox and make sure properties are correct
-        cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.hsi-ui-listbox').should('be.visible');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .should('have.length', 5);
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .first()
-          .should('have.class', 'selected');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .first()
-          .should('have.class', 'current');
-      });
-      it('retains the user selection if the listbox is closed and then reopened', () => {
-        cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.hsi-ui-listbox').should('be.visible');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .eq(2)
-          .realClick();
-        cy.get('.combobox-value').should('have.text', 'Coconuts');
-        cy.get('.outside-element').realClick();
-        cy.get('.hsi-ui-listbox').should('not.be.visible');
-        // reopen listbox and make sure properties are correct
-        cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.hsi-ui-listbox').should('be.visible');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .should('have.length', 5);
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .eq(2)
-          .should('have.class', 'selected');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .eq(2)
-          .should('have.class', 'current');
-      });
-    });
-    describe('when autoSelect is true and autoSelectTrigger is character', () => {
-      beforeEach(() => {
-        cy.mount(EditableTextboxSingleSelectComponent, {
-          declarations: [EditableTextboxSingleSelectComponent],
-          imports: [HsiUiComboboxModule, MatIconModule],
-          componentProperties: {
-            autoSelect: true,
-            autoSelectTrigger: 'character',
-            isMultiSelect: isMultiSelect,
-          },
-        });
-      });
-      it('does not make a selection if textbox is clicked on and closed', () => {
-        cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.hsi-ui-listbox').should('be.visible');
-        cy.get('.outside-element').realClick();
-        cy.get('.combobox-value').should('have.text', '');
-        cy.get('.hsi-ui-listbox').should('not.be.visible');
-      });
-      it('filters the options and selects the first in the filtered list if text is entered in the textbox but no option is clicked', () => {
-        cy.get('.fruits-dropdown').find('input').type('a');
-        cy.get('.hsi-ui-listbox').should('be.visible');
-        cy.get('.outside-element').realClick();
-        cy.get('.combobox-value').should('have.text', 'Apples');
-        cy.get('.hsi-ui-listbox').should('not.be.visible');
-        // reopen listbox and make sure properties are correct
-        cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.hsi-ui-listbox').should('be.visible');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .should('have.length', 3);
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .first()
-          .should('have.class', 'selected');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .first()
-          .should('have.class', 'current');
-      });
-      it('retains the user selection if the listbox is closed and then reopened', () => {
-        cy.get('.fruits-dropdown').find('input').type('a');
-        cy.get('.hsi-ui-listbox').should('be.visible');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .eq(2)
-          .realClick();
-        cy.get('.combobox-value').should('have.text', 'Durians');
-        cy.get('.outside-element').realClick();
-        cy.get('.hsi-ui-listbox').should('not.be.visible');
-        // reopen listbox and make sure properties are correct
-        cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.hsi-ui-listbox').should('be.visible');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .should('have.length', 3);
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .eq(2)
-          .should('have.class', 'selected');
-        cy.get('.hsi-ui-listbox')
-          .find('.hsi-ui-listbox-option')
-          .eq(2)
-          .should('have.class', 'current');
-      });
-    });
-    describe('when autoSelect is false', () => {
-      beforeEach(() => {
-        cy.mount(EditableTextboxSingleSelectComponent, {
-          declarations: [EditableTextboxSingleSelectComponent],
-          imports: [HsiUiComboboxModule, MatIconModule],
-          componentProperties: {
-            autoSelect: false,
-            autoSelectTrigger: 'any',
-            isMultiSelect: isMultiSelect,
-          },
-        });
-      });
-      it('does not make any selections if the textbox is clicked and then there is a blur event / it is closed', () => {
-        cy.get('.fruits-dropdown').find('input').click();
-        cy.get('.hsi-ui-listbox').should('be.visible');
-        cy.get('.outside-element').realClick();
-        cy.get('.combobox-value').should('have.text', '');
-        cy.get('.hsi-ui-listbox').should('not.be.visible');
-      });
-    });
-  });
-});
-
 @Component({
-  selector: 'hsi-ui-ng-form-editable-textbox-test',
+  selector: 'hsi-ui-editable-textbox-form-control-combobox',
   template: `
     <p class="outside-element"
       >Outside element to click on for outside combobox click</p
     >
-    <hsi-ui-combobox class="fruits-dropdown">
-      <hsi-ui-combobox-label>
-        <span>Fruits</span>
-      </hsi-ui-combobox-label>
-      <hsi-ui-editable-textbox
-        placeholder="Select a fruit, A-E"
-        [formControl]="inputControl"
-        [autoSelectTrigger]="autoSelectTrigger"
-        [autoSelect]="autoSelect"
-      >
-      </hsi-ui-editable-textbox>
-      <hsi-ui-listbox
-        (valueChanges)="onSelection($event)"
-        [isMultiSelect]="isMultiSelect"
-      >
-        <hsi-ui-listbox-label>
-          <span>Select a fruit</span>
-        </hsi-ui-listbox-label>
-        @for (option of options$ | async; track option.id) {
-          <hsi-ui-listbox-option>{{
-            option.displayName
-          }}</hsi-ui-listbox-option>
-        }
-      </hsi-ui-listbox>
-    </hsi-ui-combobox>
-    <p class="textbox-value">{{ inputControl.value }}</p>
-    <p class="combobox-value">{{ value$ | async }}</p>
+    <p class="textbox-value">{{ searchFormControl.valueChanges | async }}</p>
+    <p class="combobox-value">{{ comboboxValue$ | async }}</p>
+    @if (vm$ | async; as vm) {
+      <hsi-ui-combobox class="fruits-dropdown">
+        <hsi-ui-combobox-label>
+          <span>Fruits</span>
+        </hsi-ui-combobox-label>
+        <hsi-ui-editable-textbox
+          placeholder="Select a fruit, A-E"
+          [autoSelectTrigger]="autoSelectTrigger"
+          [autoSelect]="autoSelect"
+          [ngFormControl]="searchFormControl"
+        >
+        </hsi-ui-editable-textbox>
+        <hsi-ui-listbox
+          [ngFormControl]="listboxFormControl"
+          [isMultiSelect]="isMultiSelect"
+        >
+          <hsi-ui-listbox-label>
+            <span>Select a fruit</span>
+          </hsi-ui-listbox-label>
+          @for (option of vm.options; track option.id) {
+            @if (isMultiSelect) {
+              <hsi-ui-listbox-option
+                [selected]="vm.selected.includes(option.displayName)"
+                >{{ option.displayName }}</hsi-ui-listbox-option
+              >
+            } @else {
+              <hsi-ui-listbox-option
+                [selected]="vm.selected === option.displayName"
+                >{{ option.displayName }}</hsi-ui-listbox-option
+              >
+            }
+          }
+        </hsi-ui-listbox>
+      </hsi-ui-combobox>
+    }
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
 })
-class FormControlEditableTextboxTestComponent
+class EditableTextboxFormControlTestComponent
   extends ComboboxBaseTestComponent
   implements OnInit
 {
@@ -311,56 +193,360 @@ class FormControlEditableTextboxTestComponent
   @Input() autoSelectTrigger: 'any' | 'character';
   @Input() dynamicLabel = false;
   @Input() isMultiSelect = false;
-  options$: Observable<{ displayName: string; id: string }[]>;
-  inputControl = new FormControl('');
+  vm$: Observable<ViewModel<string[]> | ViewModel<string>>;
+  listboxFormControl: FormControl<string | string[]>;
+  searchFormControl = new FormControl<string>('');
+  comboboxValue$: Observable<string | string[]>;
 
   ngOnInit(): void {
-    this.options$ = combineLatest([
-      of(this.options),
-      this.inputControl.valueChanges.pipe(startWith('')),
+    if (this.isMultiSelect) {
+      this.listboxFormControl = new FormControl<string[]>([]);
+    } else {
+      this.listboxFormControl = new FormControl<string>('');
+    }
+
+    this.comboboxValue$ = this.listboxFormControl.valueChanges;
+
+    const listboxValues$ = this.isMultiSelect
+      ? this.listboxFormControl.valueChanges.pipe(startWith([] as string[]))
+      : this.listboxFormControl.valueChanges.pipe(startWith(''));
+
+    this.vm$ = combineLatest([
+      this.searchFormControl.valueChanges.pipe(startWith('')),
+      listboxValues$,
     ]).pipe(
-      map(([options, text]) => {
-        return options.filter((option) =>
-          option.displayName.toLowerCase().includes(text.toLowerCase())
-        );
+      map(([inputValue, listboxValue]) => {
+        if (this.isMultiSelect) {
+          return {
+            options: this.getMultiSelectOptions(inputValue),
+            selected: listboxValue as string[],
+          };
+        } else {
+          return {
+            options: this.getSingleSelectOptions(
+              inputValue,
+              listboxValue as string
+            ),
+            selected: listboxValue as string,
+          };
+        }
       })
     );
   }
+
+  getSingleSelectOptions(
+    inputValue: string,
+    listboxValue: string
+  ): { displayName: string; id: string }[] {
+    const selected = this.options.filter((x) => listboxValue.includes(x.id));
+    return this.options.filter((option) => {
+      if (selected.length && inputValue === selected[0].displayName) {
+        return listboxValue.includes(option.displayName);
+      } else {
+        return this.optionIncludesSearchText(option, inputValue);
+      }
+    });
+  }
+
+  getMultiSelectOptions(
+    inputValue: string
+  ): { displayName: string; id: string }[] {
+    return this.options.filter((option) => {
+      if (inputValue === '') {
+        return true;
+      } else {
+        return this.optionIncludesSearchText(option, inputValue);
+      }
+    });
+  }
+
+  optionIncludesSearchText(
+    option: { displayName: string; id: string },
+    value: string
+  ): boolean {
+    return option.displayName.toLowerCase().includes(value?.toLowerCase());
+  }
 }
 
-describe('Basic ngForm editable textbox features', () => {
-  beforeEach(() => {
-    cy.mount(FormControlEditableTextboxTestComponent, {
-      declarations: [FormControlEditableTextboxTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-      componentProperties: {
-        autoSelect: true,
-        autoSelectTrigger: 'any',
-      },
+[true, false].forEach((useFormControls) => {
+  describe(`Basic editable textbox features - single select with ${useFormControls ? 'form controls' : 'valueChanges'}`, () => {
+    beforeEach(() => {
+      if (useFormControls) {
+        cy.mount(EditableTextboxFormControlTestComponent, {
+          declarations: [EditableTextboxFormControlTestComponent],
+          imports: [HsiUiComboboxModule, MatIconModule],
+          componentProperties: {
+            autoSelect: true,
+            autoSelectTrigger: 'any',
+          },
+        });
+      } else {
+        cy.mount(EditableTextboxTestComponent, {
+          declarations: [EditableTextboxTestComponent],
+          imports: [HsiUiComboboxModule, MatIconModule],
+          componentProperties: {
+            autoSelect: true,
+            autoSelectTrigger: 'any',
+          },
+        });
+      }
+    });
+    it('displays the placeholder text', () => {
+      cy.get('.hsi-ui-textbox').should(
+        'have.attr',
+        'placeholder',
+        'Select a fruit, A-E'
+      );
+    });
+    it('displays the typed text in the textbox and correctly outputs typed text', () => {
+      cy.get('.hsi-ui-editable-textbox-input').type('bananas');
+      cy.get('.hsi-ui-editable-textbox-input').should('have.value', 'bananas');
+      cy.get('.textbox-value').should('have.text', 'bananas');
+    });
+    it('displays the filtered options in the listbox - type coco', () => {
+      cy.get('.hsi-ui-textbox').type('coco');
+      cy.get('.hsi-ui-listbox')
+        .find('.hsi-ui-listbox-option')
+        .should('have.length', 1);
+    });
+    it('displays the filtered options in the listbox - type a', () => {
+      cy.get('.hsi-ui-textbox').type('a');
+      cy.get('.hsi-ui-listbox')
+        .find('.hsi-ui-listbox-option')
+        .should('have.length', 3); //Apples, Bananas, Durians
+    });
+    it('displays the selected value in the textbox input when an option is clicked and only one option is in the listbox', () => {
+      cy.get('.hsi-ui-editable-textbox-input').click();
+      cy.get('.hsi-ui-listbox')
+        .find('.hsi-ui-listbox-option')
+        .eq(2)
+        .realClick();
+      cy.get('.hsi-ui-editable-textbox-input').should('have.value', 'Coconuts');
+      cy.get('.hsi-ui-editable-textbox-input').realClick();
+      cy.get('.hsi-ui-listbox-option').should('have.length', 1);
     });
   });
-  it('displays the placeholder text', () => {
-    cy.get('.hsi-ui-textbox').should(
-      'have.attr',
-      'placeholder',
-      'Select a fruit, A-E'
-    );
+});
+
+[true, false].forEach((useFormControls) => {
+  describe(`Basic editable textbox features - multi select with ${useFormControls ? 'form controls' : 'valueChanges'}`, () => {
+    beforeEach(() => {
+      if (useFormControls) {
+        cy.mount(EditableTextboxFormControlTestComponent, {
+          declarations: [EditableTextboxFormControlTestComponent],
+          imports: [HsiUiComboboxModule, MatIconModule],
+          componentProperties: {
+            autoSelect: true,
+            autoSelectTrigger: 'any',
+            isMultiSelect: true,
+          },
+        });
+      } else {
+        cy.mount(EditableTextboxTestComponent, {
+          declarations: [EditableTextboxTestComponent],
+          imports: [HsiUiComboboxModule, MatIconModule],
+          componentProperties: {
+            autoSelect: true,
+            autoSelectTrigger: 'any',
+            isMultiSelect: true,
+          },
+        });
+      }
+    });
+    // see behavior here: https://ariakit.org/examples/combobox-multiple
+    it('displays the nothing in the textbox input when an option is clicked and filtering is removed', () => {
+      cy.get('.hsi-ui-editable-textbox-input').click();
+      cy.get('.hsi-ui-listbox-option').eq(2).realClick();
+      cy.get('.hsi-ui-editable-textbox-input').should('have.value', '');
+      cy.get('.hsi-ui-listbox-option').eq(3).realClick();
+      cy.get('.hsi-ui-editable-textbox-input').should('have.value', '');
+      cy.get('.hsi-ui-editable-textbox-input').click();
+      cy.get('.hsi-ui-listbox-option').should('have.length', 5);
+    });
   });
-  it('displays the typed text in the textbox and correctly outputs typed text', () => {
-    cy.get('.hsi-ui-editable-textbox-input').type('bananas');
-    cy.get('.hsi-ui-editable-textbox-input').should('have.value', 'bananas');
-    cy.get('.textbox-value').should('have.text', 'bananas');
-  });
-  it('displays the filtered options in the listbox', () => {
-    cy.get('.hsi-ui-editable-textbox-input').type('coco');
-    cy.get('.hsi-ui-listbox')
-      .find('.hsi-ui-listbox-option')
-      .should('have.length', 1);
-  });
-  it('displays the filtered options in the listbox', () => {
-    cy.get('.hsi-ui-editable-textbox-input').type('a');
-    cy.get('.hsi-ui-listbox')
-      .find('.hsi-ui-listbox-option')
-      .should('have.length', 3); //Apples, Bananas, Durians
+});
+
+[true, false].forEach((isMultiSelect) => {
+  describe(`${isMultiSelect ? 'Multi' : 'Single'}-select combobox features - autoSelect of option`, () => {
+    [true, false].forEach((useFormControls) => {
+      describe(`when autoSelect is true and autoSelectTrigger is any - with ${useFormControls ? 'form controls' : 'valueChanges'}`, () => {
+        beforeEach(() => {
+          if (useFormControls) {
+            cy.mount(EditableTextboxFormControlTestComponent, {
+              declarations: [EditableTextboxFormControlTestComponent],
+              imports: [HsiUiComboboxModule, MatIconModule],
+              componentProperties: {
+                autoSelect: true,
+                autoSelectTrigger: 'any',
+                isMultiSelect: isMultiSelect,
+              },
+            });
+          } else {
+            cy.mount(EditableTextboxTestComponent, {
+              declarations: [EditableTextboxTestComponent],
+              imports: [HsiUiComboboxModule, MatIconModule],
+              componentProperties: {
+                autoSelect: true,
+                autoSelectTrigger: 'any',
+                isMultiSelect: isMultiSelect,
+              },
+            });
+          }
+        });
+        it('selects the first item if textbox is clicked on and closed', () => {
+          cy.get('.fruits-dropdown').find('input').click();
+          cy.get('.hsi-ui-listbox').should('be.visible');
+          cy.get('.outside-element').realClick();
+          cy.get('.combobox-value').should('have.text', 'Apples');
+          cy.get('.hsi-ui-listbox').should('not.be.visible');
+          // reopen listbox and make sure properties are correct
+          cy.get('.fruits-dropdown').find('input').click();
+          cy.get('.hsi-ui-listbox').should('be.visible');
+          const expectedOptions = isMultiSelect ? 5 : 1;
+          cy.get('.hsi-ui-listbox-option').should(
+            'have.length',
+            expectedOptions
+          );
+          cy.get('.hsi-ui-listbox-option')
+            .first()
+            .should('have.class', 'selected');
+          cy.get('.hsi-ui-listbox-option')
+            .first()
+            .should('have.class', 'current');
+        });
+        it('retains the user selection if the listbox is closed and then reopened', () => {
+          cy.get('.fruits-dropdown').find('input').click();
+          cy.get('.hsi-ui-listbox').should('be.visible');
+          cy.get('.hsi-ui-listbox')
+            .find('.hsi-ui-listbox-option')
+            .eq(2)
+            .realClick();
+          cy.get('.combobox-value').should('have.text', 'Coconuts');
+          cy.get('.outside-element').realClick();
+          cy.get('.hsi-ui-listbox').should('not.be.visible');
+          // reopen listbox and make sure properties are correct
+          cy.get('.fruits-dropdown').find('input').click();
+          cy.get('.hsi-ui-listbox').should('be.visible');
+          const expectedOptions = isMultiSelect ? 5 : 1;
+          cy.get('.hsi-ui-listbox-option').should(
+            'have.length',
+            expectedOptions
+          );
+          const selectedIndex = isMultiSelect ? 2 : 0;
+          cy.get('.hsi-ui-listbox-option')
+            .eq(selectedIndex)
+            .should('have.class', 'selected');
+        });
+      });
+      [true, false].forEach((useFormControls) => {
+        describe(`when autoSelect is true and autoSelectTrigger is character - with ${useFormControls ? 'form controls' : 'valueChanges'}`, () => {
+          beforeEach(() => {
+            if (useFormControls) {
+              cy.mount(EditableTextboxFormControlTestComponent, {
+                declarations: [EditableTextboxFormControlTestComponent],
+                imports: [HsiUiComboboxModule, MatIconModule],
+                componentProperties: {
+                  autoSelect: true,
+                  autoSelectTrigger: 'character',
+                  isMultiSelect: isMultiSelect,
+                },
+              });
+            } else {
+              cy.mount(EditableTextboxTestComponent, {
+                declarations: [EditableTextboxTestComponent],
+                imports: [HsiUiComboboxModule, MatIconModule],
+                componentProperties: {
+                  autoSelect: true,
+                  autoSelectTrigger: 'character',
+                  isMultiSelect: isMultiSelect,
+                },
+              });
+            }
+          });
+          it('does not make a selection if textbox is clicked on and closed', () => {
+            cy.get('.fruits-dropdown').find('input').click();
+            cy.get('.hsi-ui-listbox').should('be.visible');
+            cy.get('.outside-element').realClick();
+            cy.get('.combobox-value').should('have.text', '');
+            cy.get('.hsi-ui-listbox').should('not.be.visible');
+          });
+          it('filters the options and selects the first in the filtered list if text is entered in the textbox but no option is clicked', () => {
+            cy.get('.fruits-dropdown').find('input').type('a');
+            cy.get('.hsi-ui-listbox').should('be.visible');
+            cy.get('.outside-element').realClick();
+            cy.get('.combobox-value').should('have.text', 'Apples');
+            cy.get('.hsi-ui-listbox').should('not.be.visible');
+            // reopen listbox and make sure properties are correct
+            cy.get('.fruits-dropdown').find('input').click();
+            const expectedOptions = isMultiSelect ? 5 : 1;
+            cy.get('.hsi-ui-listbox-option').should(
+              'have.length',
+              expectedOptions
+            );
+            cy.get('.hsi-ui-listbox-option')
+              .first()
+              .should('have.class', 'selected')
+              .and('have.class', 'current');
+          });
+          it('retains the user selection if the listbox is closed and then reopened', () => {
+            cy.get('.fruits-dropdown').find('input').type('a');
+            cy.get('.hsi-ui-listbox').should('be.visible');
+            cy.get('.hsi-ui-listbox')
+              .find('.hsi-ui-listbox-option')
+              .eq(2)
+              .realClick();
+            cy.get('.combobox-value').should('have.text', 'Durians');
+            cy.get('.outside-element').realClick();
+            cy.get('.hsi-ui-listbox').should('not.be.visible');
+            // reopen listbox and make sure properties are correct
+            cy.get('.fruits-dropdown').find('input').click();
+            cy.get('.hsi-ui-listbox').should('be.visible');
+            const expectedOptions = isMultiSelect ? 5 : 1;
+            cy.get('.hsi-ui-listbox')
+              .find('.hsi-ui-listbox-option')
+              .should('have.length', expectedOptions);
+            const selectedIndex = isMultiSelect ? 2 : 0;
+            cy.get('.hsi-ui-listbox-option')
+              .eq(selectedIndex)
+              .should('have.class', 'selected');
+          });
+        });
+      });
+
+      [true, false].forEach((useFormControls) => {
+        describe(`when autoSelect is false - with ${useFormControls ? 'form controls' : 'valueChanges'}`, () => {
+          beforeEach(() => {
+            if (useFormControls) {
+              cy.mount(EditableTextboxFormControlTestComponent, {
+                declarations: [EditableTextboxFormControlTestComponent],
+                imports: [HsiUiComboboxModule, MatIconModule],
+                componentProperties: {
+                  autoSelect: false,
+                  autoSelectTrigger: 'any',
+                  isMultiSelect: isMultiSelect,
+                },
+              });
+            } else {
+              cy.mount(EditableTextboxTestComponent, {
+                declarations: [EditableTextboxTestComponent],
+                imports: [HsiUiComboboxModule, MatIconModule],
+                componentProperties: {
+                  autoSelect: false,
+                  autoSelectTrigger: 'any',
+                  isMultiSelect: isMultiSelect,
+                },
+              });
+            }
+          });
+          it('does not make any selections if the textbox is clicked and then there is a blur event / it is closed', () => {
+            cy.get('.fruits-dropdown').find('input').click();
+            cy.get('.hsi-ui-listbox').should('be.visible');
+            cy.get('.outside-element').realClick();
+            cy.get('.combobox-value').should('have.text', '');
+            cy.get('.hsi-ui-listbox').should('not.be.visible');
+          });
+        });
+      });
+    });
   });
 });

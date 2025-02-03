@@ -43,7 +43,7 @@ export class DiscontinuousLegendComponent<Datum> extends MapLegend<
     return values;
   }
 
-  getLeftOffset(values: number[]): number {
+  getLeftOffset(values: string[]): number {
     if (this.orientation === Orientation.horizontal) {
       const colorHalfWidth = this.width / (values.length * 2);
       if (colorHalfWidth > this.largerValueSpace) {
