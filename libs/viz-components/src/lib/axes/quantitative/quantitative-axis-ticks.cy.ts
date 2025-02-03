@@ -736,7 +736,7 @@ describe('grid lines', () => {
     cy.wait(axisTickTextWaitTime);
     cy.get('.vic-grid-line').should('have.length', 4);
   });
-  it('lines are visible for every other tick given a filter', () => {
+  it('lines are visible for every other tick given a filter (excluding line overlapping axis)', () => {
     axisConfig = new VicXQuantitativeAxisConfigBuilder()
       .numTicks(4)
       .grid((grid) => grid.filter((i) => i % 2 === 0))
@@ -751,7 +751,7 @@ describe('grid lines', () => {
     });
     cy.wait(axisTickTextWaitTime);
     cy.get('.vic-grid-line').each(($line, i) => {
-      if (i % 2 === 0) {
+      if (i % 2 === 0 && i > 0) {
         cy.wrap($line).should('not.have.css', 'display', 'none');
       } else {
         cy.wrap($line).should('have.css', 'display', 'none');
