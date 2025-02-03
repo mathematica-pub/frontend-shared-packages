@@ -68,7 +68,8 @@ describe('the MapLegendContent abstract class', () => {
     it('calls setQuantitativeValueSpaces once with the correct values if orientation is horizontal', () => {
       directive.setQuantitativeValues();
       expect(directive.setQuantitativeValueSpaces).toHaveBeenCalledWith([
-        0.01, 0.02,
+        '1%',
+        '2%',
       ]);
     });
     it('calls d3Format once with the correct values if orientation is horizontal', () => {
@@ -146,7 +147,7 @@ describe('the MapLegendContent abstract class', () => {
   describe('setQuantitativeValueSpaces', () => {
     beforeEach(() => {
       spyOn(directive, 'getLeftOffset').and.returnValue(10);
-      directive.setQuantitativeValueSpaces([101, 2002]);
+      directive.setQuantitativeValueSpaces(['101', '2002']);
     });
     it('sets startValueSpace to the correct value', () => {
       expect(directive.startValueSpace).toEqual(12);
@@ -161,7 +162,7 @@ describe('the MapLegendContent abstract class', () => {
     });
 
     it('calls leftOffset with the correct value', () => {
-      expect(directive.getLeftOffset).toHaveBeenCalledOnceWith([101, 2002]);
+      expect(directive.getLeftOffset).toHaveBeenCalledOnceWith(['101', '2002']);
     });
 
     it('sets leftOffset to the correct value', () => {
