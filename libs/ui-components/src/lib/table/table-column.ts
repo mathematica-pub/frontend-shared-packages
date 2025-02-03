@@ -12,6 +12,7 @@ export type TableCellAlignment = 'left' | 'center' | 'right';
 export class TableColumn<Datum> {
   /**
    * The label of the column. Used in the table header.
+   *
    * */
   label: string;
   /**
