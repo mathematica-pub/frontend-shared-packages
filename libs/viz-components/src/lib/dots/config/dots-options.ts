@@ -4,18 +4,17 @@ import { NumberChartPositionDimension } from '../../data-dimensions/continuous-q
 import { NumberVisualValueDimension } from '../../data-dimensions/continuous-quantitative/number-visual-value/number-visual-value';
 import { OrdinalChartPositionDimension } from '../../data-dimensions/ordinal/ordinal-chart-position/ordinal-chart-position';
 import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
-import { MarksOptions } from '../../marks/config/marks-options';
+import { DataMarksOptions } from '../../marks/config/marks-options';
 import { Stroke } from '../../stroke/stroke';
 
 export interface DotsOptions<
   Datum,
   XOrdinalDomain extends DataValue = string,
   YOrdinalDomain extends DataValue = string,
-> extends MarksOptions<Datum> {
+> extends DataMarksOptions<Datum> {
   fill:
     | OrdinalVisualValueDimension<Datum, string, string>
     | NumberVisualValueDimension<Datum, string>;
-  key: (datum: Datum) => string;
   opacity: number;
   pointerDetectionRadius: number;
   radius:

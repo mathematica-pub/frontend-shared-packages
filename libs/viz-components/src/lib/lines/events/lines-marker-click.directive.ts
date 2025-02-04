@@ -86,7 +86,7 @@ export class LinesMarkerClickDirective<
   setListenedElements(): void {
     this.elements = Array.from(
       this.lines.chart.svgRef.nativeElement.querySelectorAll(
-        `.${this.lines.markerClass}`
+        `.${this.lines.class.marker}`
       )
     );
     this.setListeners();

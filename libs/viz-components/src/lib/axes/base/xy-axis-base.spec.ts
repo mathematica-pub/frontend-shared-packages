@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { XyChartComponent } from '@hsi/viz-components';
 import { XyAxisStub } from '../../testing/stubs/xy-axis.stub';
@@ -7,10 +8,20 @@ import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitat
 
 describe('the XyAxis abstract class', () => {
   let abstractClass: XyAxisStub<number>;
+  const mockElementRef = {
+    nativeElement: {
+      querySelector: jasmine.createSpy('querySelector'),
+      style: {},
+    },
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [XyAxisStub, XyChartComponent],
+      providers: [
+        XyAxisStub,
+        XyChartComponent,
+        { provide: ElementRef, useValue: mockElementRef },
+      ],
     });
     abstractClass = TestBed.inject(XyAxisStub);
   });

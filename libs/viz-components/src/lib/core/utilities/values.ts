@@ -182,4 +182,8 @@ export class ValueUtilities {
   ): string {
     return formatter ? formatter(value) : value.toString();
   }
+
+  static formatForHtmlAttribute(value: string): string {
+    return value.replace(/\s/g, '-');
+  }
 }
