@@ -1,11 +1,11 @@
 import { Directive, Input, OnChanges } from '@angular/core';
-import { MarksOptions } from '../config/marks-options';
+import { DataMarksConfig, MarksConfig } from '../config/marks-config';
 import { Marks } from '../marks';
 
 @Directive()
-export abstract class VicAuxMarks<
+export abstract class AuxMarks<
     Datum,
-    TMarksConfig extends MarksOptions<Datum>,
+    TMarksConfig extends MarksConfig | DataMarksConfig<Datum>,
   >
   extends Marks
   implements Marks, OnChanges

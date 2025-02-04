@@ -62,10 +62,12 @@ export interface DotsTooltipDatum<Datum> {
   color: string;
 }
 
+type DotsSvgElement = 'g' | 'dot';
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-dots]',
-  templateUrl: './dots.component.html',
+  template: '',
   styleUrl: './dots.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -73,6 +75,10 @@ export interface DotsTooltipDatum<Datum> {
     { provide: DOTS, useExisting: DotsComponent },
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
+  host: {
+    '[class]': 'config.marksClass',
+    '[style.mixed-blend-mode]': 'config.mixBlendMode',
+  },
 })
 export class DotsComponent<Datum> extends VicXyPrimaryMarks<
   Datum,
@@ -81,10 +87,6 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
   dotGroups: DotGroupSelection;
   dots: BehaviorSubject<DotSelection> = new BehaviorSubject(null);
   dots$ = this.dots.asObservable();
-  dotLabels: BehaviorSubject<DotLabelSelection> = new BehaviorSubject(null);
-  dotLabels$ = this.dotLabels.asObservable();
-  private zone = inject(NgZone);
-  private elRef = inject<ElementRef<SVGGElement>>(ElementRef);
   override scales: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fill: GenericScale<any, any>;
@@ -97,6 +99,15 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
     y: undefined,
     useTransition: undefined,
   };
+  private elRef = inject<ElementRef<SVGGElement>>(ElementRef);
+  private zone = inject(NgZone);
+
+  get class(): Record<DotsSvgElement, string> {
+    return {
+      g: this.config.marksClass + '-group',
+      dot: this.config.marksClass + '-dot',
+    };
+  }
 
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
@@ -126,7 +137,7 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
       .duration(transitionDuration);
 
     this.dotGroups = select(this.elRef.nativeElement)
-      .selectAll<SVGGElement, DotDatum>('.vic-dot-group')
+      .selectAll<SVGGElement, DotDatum>(`.${this.class.g}`)
       .data<DotDatum>(
         this.config.valueIndices.map((i) => this.getDotDatumFromIndex(i))
       )
@@ -134,11 +145,8 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
         (enter) =>
           enter
             .append('g')
-            .attr('class', 'vic-dot-group')
-            .attr('key', (d) =>
-              this.config.key
-                ? this.config.key(this.config.data[d.index])
-                : null
+            .attr('class', (d) =>
+              `${this.class.g} ${this.config.datumClass(this.config.data[d.index], d.index)}`.trim()
             )
             .attr(
               'transform',
@@ -156,20 +164,16 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
       );
 
     this.dotGroups
-      .selectAll<SVGCircleElement, DotDatum>('.vic-dot')
+      .selectAll<SVGCircleElement, DotDatum>(`.${this.class.dot}`)
       .data<DotDatum>((d) => [d])
       .join(
         (enter) =>
           enter
             .append('circle')
-            .attr('class', 'vic-dot')
-            .attr('key', (d) =>
-              this.config.key
-                ? this.config.key(this.config.data[d.index])
-                : null
-            )
+            .attr('class', this.class.dot)
             .attr('r', (d) => this.scales.radius(d.radius))
             .attr('fill', (d) => this.scales.fill(d.fill))
+            .attr('fill-opacity', this.config.opacity)
             .attr(
               'stroke',
               this.config.stroke ? this.config.stroke.color : 'none'
@@ -242,13 +246,8 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
     const dots = select(this.elRef.nativeElement).selectAll<
       SVGCircleElement,
       DotDatum
-    >('.vic-dot');
-    const dotLabels = select(this.elRef.nativeElement).selectAll<
-      SVGTextElement,
-      DotDatum
-    >('.vic-dot-label');
+    >(`.${this.class.dot}`);
     this.dots.next(dots);
-    this.dotLabels.next(dotLabels);
   }
 
   getTooltipData(dotDatum: DotDatum): DotsTooltipDatum<Datum> {

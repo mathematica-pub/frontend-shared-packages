@@ -68,8 +68,17 @@ name: label
 description: Sets the label for the axis.
 params:
   - name: label
-    type: '(label: AxisLabelBuilder) => void)'
+    type: '((label: AxisLabelBuilder) => void) | null'
     description: A callback that allows for the specification of an axis label.
+```
+
+```builder-method
+name: mixBlendMode
+description: Sets the mix-blend-mode for the svg. If not called, the default mix-blend-mode is 'normal'.
+params:
+  - name: mixBlendMode
+    type: string | null
+    description: A string value for the `mix-blend-mode` attribute of the `SVGElement`.
 ```
 
 ```builder-method
@@ -101,10 +110,10 @@ params:
 
 ```builder-method
 name: tickFormat
-description: Used to format the tick labels. If not provided on quantitative axes, ticks will be formatter with ',.1f'.
+description: Used to format the tick labels. If not provided on quantitative axes, ticks will be formatted with ',.1f'.
 params:
   - name: tickFormat
-    type: 'value: string | ((value: TickValue) => string)'
+    type: 'value: string | ((value: TickValue) => string) | null'
     description: A D3 format specifier, such as '.2f' or '.0%', or a function that takes a tick value and returns a string.
 ```
 
@@ -113,7 +122,7 @@ name: tickLabelFontSize
 description: Sets the font size for the tick labels. If not specified, D3's default font size will be used.
 params:
   - name: fontSize
-    type: number
+    type: number | null
     description: The font size for the tick labels, in px.
 ```
 
@@ -128,10 +137,10 @@ params:
 
 ```builder-method
 name: wrapTickText
-description: Wraps the tick text to a specified width.
+description: Configures tick wrapping.
 params:
   - name: wrap
-    type: '(wrap: TickWrapBuilder) => void)'
+    type: '((wrap: TickWrapBuilder) => void) | null'
     description: A function that specifies properties for wrapping the tick text.
 ```
 

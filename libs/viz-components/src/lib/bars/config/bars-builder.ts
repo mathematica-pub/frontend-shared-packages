@@ -172,9 +172,11 @@ export class VicBarsConfigBuilder<
   getConfig(): BarsConfig<Datum, OrdinalDomain> {
     this.validateBuilder('Bars');
     return new BarsConfig(this.dimensions, {
+      marksClass: 'vic-bars',
       color: this.colorDimensionBuilder._build('Color'),
       customFills: this._customFills,
       data: this._data,
+      datumClass: this._class,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
       ordinal: this.ordinalDimensionBuilder._build(

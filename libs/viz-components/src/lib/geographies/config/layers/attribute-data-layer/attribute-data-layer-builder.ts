@@ -1,5 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { FillDefinition } from 'libs/viz-components/src/public-api';
+import { FillDefinition } from '../../../../fill-definitions/fill-definitions';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
 import { GeographiesAttributeDataLayer } from './attribute-data-layer';
 import { CategoricalBinsBuilder } from './dimensions/categorical-bins/categorical-bins-builder';
@@ -9,6 +9,7 @@ import { EqualValueRangesBinsBuilder } from './dimensions/equal-value-ranges-bin
 import { NoBinsAttributeDataDimensionBuilder } from './dimensions/no-bins/no-bins-builder';
 
 const DEFAULT = {
+  _class: () => '',
   _enableEventActions: true,
 };
 
@@ -77,6 +78,14 @@ export class GeographiesAttributeDataLayerBuilder<
     this.customBreaksBinsBuilder =
       new CustomBreaksBinsAttributeDataDimensionBuilder();
     bins(this.customBreaksBinsBuilder);
+    return this;
+  }
+
+  /**
+   * REQUIRED. The data that will be used to color the geographies.
+   */
+  data(data: Datum[]): this {
+    this._data = data;
     return this;
   }
 
@@ -150,14 +159,6 @@ export class GeographiesAttributeDataLayerBuilder<
   }
 
   /**
-   * REQUIRED. The data that will be used to color the geographies.
-   */
-  data(data: Datum[]): this {
-    this._data = data;
-    return this;
-  }
-
-  /**
    * REQUIRED. The accessor function that returns a value from a Datum that must match the value returned by featureIndexAccessor.
    */
   geographyIndexAccessor(accessor: (d: Datum) => string): this {
@@ -168,14 +169,16 @@ export class GeographiesAttributeDataLayerBuilder<
   _build(): GeographiesAttributeDataLayer<Datum, TProperties, TGeometry> {
     this.validateBuilder();
     return new GeographiesAttributeDataLayer({
+      marksClass: 'vic-geographies-attribute-data-layer',
       attributeDimension: this.binsBuilder._build(),
-      class: this._class,
       customFills: this._customFills,
       data: this._data,
+      featureClass: this._class,
       enableEventActions: this._enableEventActions,
       geographies: this._geographies,
       geographyIndexAccessor: this._geographyIndexAccessor,
       labels: this.labelsBuilder?._build(),
+      mixBlendMode: this._mixBlendMode,
       stroke: this.strokeBuilder?._build(),
     });
   }

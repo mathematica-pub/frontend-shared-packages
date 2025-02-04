@@ -14,6 +14,7 @@ import { GeographiesAttributeDataLayerBuilder } from './layers/attribute-data-la
 import { GeographiesGeojsonPropertiesLayerBuilder } from './layers/geojson-properties-layer/geojson-properties-layer-builder';
 
 const DEFAULT = {
+  _class: () => '',
   _projection: geoAlbersUsa(),
   _mixBlendMode: 'normal',
 };
@@ -39,6 +40,7 @@ export class VicGeographiesConfigBuilder<
     | ExtendedFeatureCollection
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
+  protected _class: (d: Datum) => string;
   private _featureIndexAccessor: (
     d: GeographiesFeature<TProperties, TGeometry>
   ) => string;
@@ -193,9 +195,9 @@ export class VicGeographiesConfigBuilder<
   getConfig(): GeographiesConfig<Datum, TProperties, TGeometry> {
     this.validateBuilder();
     const config = new GeographiesConfig<Datum, TProperties, TGeometry>({
+      marksClass: 'vic-geographies',
       attributeDataLayer: this.attributeDataBuilder?._build(),
       boundary: this._boundary,
-      data: null,
       mixBlendMode: this._mixBlendMode,
       featureIndexAccessor: this._featureIndexAccessor,
       geojsonPropertiesLayers: this.geojsonBuilders.length

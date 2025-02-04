@@ -50,14 +50,25 @@
     top: 8px;
   }
 
-  .dots-example .vic-chart-svg > g:nth-child(2),
-  .dots-example .vic-chart-svg > g:nth-child(5) {
+  .dots-example .vic-chart-svg > .vic-xy-background,
+  .dots-example .vic-chart-svg > .vic-dots {
     display: none;
   }
 
-  .bars-simple-states-example .vic-chart-svg > g:nth-child(2),
-  .bars-simple-states-example .vic-chart-svg > g:nth-child(5) {
+  .bars-simple-states-example .vic-chart-svg > .vic-xy-background,
+  .bars-simple-states-example .vic-chart-svg > .vic-bars {
     display: none;
+  }
+
+  .small-examples-container.labels {
+    justify-content: space-evenly;
+    width: 100%;
+    padding: grid(6) 0 grid(10) 0;
+
+    .vic-axis .tick,
+    .vic-axis .domain {
+      opacity: 0.3;
+    }
   }
 
   .chart-title {

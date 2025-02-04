@@ -1,25 +1,40 @@
-import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+} from '@angular/core';
 import { select, Selection, Transition } from 'd3';
 import { ChartComponent } from '../charts/chart/chart.component';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
-import { XyAuxMarks } from '../marks/xy-marks/xy-aux-marks/xy-aux-marks';
+import { XyAuxMarks } from '../marks';
 import { QuantitativeRulesConfig } from './config/quantitative-rules-config';
+
+type RulesSvgElements = 'g' | 'rule' | 'label';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-quantitative-rules]',
-  templateUrl: './quantitative-rules.component.html',
+  template: '',
   styleUrl: './quantitative-rules.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: ChartComponent, useExisting: XyChartComponent }],
+  host: {
+    '[class]': 'config.marksClass',
+  },
 })
 export class QuantitativeRulesComponent<
   Datum extends number | Date,
 > extends XyAuxMarks<Datum, QuantitativeRulesConfig<Datum>> {
   rulesGroups: Selection<SVGGElement, Datum, SVGGElement, unknown>;
+  protected elRef = inject<ElementRef<SVGGElement>>(ElementRef);
 
-  constructor(private elRef: ElementRef<SVGGElement>) {
-    super();
+  get class(): Record<RulesSvgElements, string> {
+    return {
+      g: this.config.marksClass + '-group',
+      rule: this.config.marksClass + '-rule',
+      label: this.config.marksClass + '-label',
+    };
   }
 
   drawMarks(): void {
@@ -39,13 +54,15 @@ export class QuantitativeRulesComponent<
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.rulesGroups = select(this.elRef.nativeElement)
-      .selectAll<SVGGElement, Datum>('.vic-quantitative-rule-group')
+      .selectAll<SVGGElement, Datum>(`.${this.class.g}`)
       .data<Datum>(this.config.data, (d) => d.toString())
       .join(
         (enter) =>
           enter
             .append('g')
-            .attr('class', 'vic-quantitative-rule-group')
+            .attr('class', (d, i) =>
+              `${this.class.g} ${this.config.datumClass(d, i)}`.trim()
+            )
             .attr('transform', (d) => this.getRuleTransform(d)),
         (update) =>
           update
@@ -56,13 +73,13 @@ export class QuantitativeRulesComponent<
       );
 
     this.rulesGroups
-      .selectAll<SVGLineElement, Datum>('.vic-quantitative-rule')
+      .selectAll<SVGLineElement, Datum>(`.${this.class.rule}`)
       .data<Datum>((d) => [d])
       .join(
         (enter) =>
           enter
             .append('line')
-            .attr('class', (d) => `vic-quantitative-rule ${d}`)
+            .attr('class', this.class.rule)
             .attr('stroke', (d) => this.config.color(d))
             .attr('stroke-width', this.config.stroke.width)
             .attr('opacity', this.config.stroke.opacity)
@@ -92,13 +109,13 @@ export class QuantitativeRulesComponent<
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.rulesGroups
-      .selectAll<SVGTextElement, Datum>('.vic-quantitative-rule-label')
+      .selectAll<SVGTextElement, Datum>(`.${this.class.label}`)
       .data<Datum>((d) => [d])
       .join(
         (enter) =>
           enter
             .append('text')
-            .attr('class', (d) => `vic-quantitative-rule-label ${d}`)
+            .attr('class', this.class.label)
             .style('display', (d) =>
               this.config.labels.display(d) ? null : 'none'
             )
@@ -112,7 +129,6 @@ export class QuantitativeRulesComponent<
           update
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
-            .attr('class', (d) => `vic-quantitative-rule-label ${d}`)
             .style('display', (d) =>
               this.config.labels.display(d) ? null : 'none'
             )

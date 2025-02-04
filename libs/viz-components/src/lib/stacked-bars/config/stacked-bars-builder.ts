@@ -86,9 +86,11 @@ export class VicStackedBarsConfigBuilder<
   override getConfig(): StackedBarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Stacked Bars');
     return new StackedBarsConfig(this.dimensions, {
+      marksClass: 'vic-stacked-bars',
       color: this.colorDimensionBuilder._build('Color'),
       customFills: this._customFills,
       data: this._data,
+      datumClass: this._class,
       mixBlendMode: this._mixBlendMode,
       ordinal: this.ordinalDimensionBuilder._build(
         'band',
