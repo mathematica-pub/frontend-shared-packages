@@ -5,17 +5,11 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
 import {
-  BarsHoverDirective,
-  BarsHoverEmitTooltipData,
-  BarsHoverMoveDirective,
-  BarsHoverMoveEmitTooltipData,
-  VicBarsConfigBuilder,
-  VicHtmlTooltipConfigBuilder,
   VicXOrdinalAxisConfigBuilder,
   VicXQuantitativeAxisConfigBuilder,
   VicYOrdinalAxisConfigBuilder,
   VicYQuantitativeAxisConfigBuilder,
-} from '../../public-api';
+} from '../axes';
 import { VicOrdinalAxisConfig } from '../axes/ordinal/ordinal-axis-config';
 import { VicQuantitativeAxisConfig } from '../axes/quantitative/quantitative-axis-config';
 import { VicXOrdinalAxisModule } from '../axes/x-ordinal/x-ordinal-axis.module';
@@ -29,11 +23,17 @@ import {
   countryFactsData,
   CountryFactsDatum,
 } from '../testing/data/country-area-continent';
+import { VicHtmlTooltipConfigBuilder } from '../tooltips/html-tooltip/config/html-tooltip-builder';
 import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
 import { VicHtmlTooltipModule } from '../tooltips/html-tooltip/html-tooltip.module';
 import { VicBarsModule } from './bars.module';
+import { VicBarsConfigBuilder } from './config/bars-builder';
 import { BarsConfig } from './config/bars-config';
+import { BarsHoverEmitTooltipData } from './events/actions/bars-hover-actions';
+import { BarsHoverMoveEmitTooltipData } from './events/actions/bars-hover-move-actions';
 import { BarsEventOutput } from './events/bars-event-output';
+import { BarsHoverMoveDirective } from './events/bars-hover-move.directive';
+import { BarsHoverDirective } from './events/bars-hover.directive';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).
@@ -61,6 +61,10 @@ const getYTransform = ($barGroup) => {
     .split(',');
   return parseFloat(y);
 };
+
+const groupSelector = '.vic-bars-group';
+const barSelector = '.vic-bars-bar';
+const labelSelector = '.vic-bars-label';
 
 // ***********************************************************
 // Horizontal bar chart component set up
@@ -327,14 +331,14 @@ describe('it creates the correct bars in the correct order for the data', () => 
       barsConfig = getHorizontalConfig(countryFactsData);
       mountHorizontalBarsComponent(barsConfig);
       cy.wait(axisTickTextWaitTime);
-      cy.get('.vic-bar-group').should('have.length', countryFactsData.length);
-      cy.get('.vic-bar').should('have.length', countryFactsData.length);
+      cy.get(groupSelector).should('have.length', countryFactsData.length);
+      cy.get(barSelector).should('have.length', countryFactsData.length);
       // D3 draws the top axis tick first, so we need to reverse the data to match the order of the axis ticks
       const reversedData = countryFactsData.slice().reverse();
-      cy.get('.vic-y.vic-axis-g .tick text').each(($tick, index) => {
+      cy.get('.vic-axis-y-ordinal .tick text').each(($tick, index) => {
         expect($tick.text()).to.equal(reversedData[index].country);
       });
-      cy.get('.vic-bar-label').each(($label, index) => {
+      cy.get('.vic-bars-label').each(($label, index) => {
         expect($label.text()).to.equal(countryFactsData[index].area.toString());
       });
     });
@@ -346,15 +350,15 @@ describe('it creates the correct bars in the correct order for the data', () => 
       ]);
       mountHorizontalBarsComponent(barsConfig);
       cy.wait(axisTickTextWaitTime);
-      cy.get('.vic-bar-group').should('have.length', countryFactsData.length);
-      cy.get('.vic-bar').should('have.length', countryFactsData.length);
+      cy.get(groupSelector).should('have.length', countryFactsData.length);
+      cy.get(barSelector).should('have.length', countryFactsData.length);
       // D3 draws the top axis tick first, so we need to reverse the data to match the order of the axis ticks
       const reversedData = countryFactsData.slice().reverse();
-      cy.get('.vic-y.vic-axis-g .tick text').each(($tick, index) => {
+      cy.get('.vic-axis-y-ordinal .tick text').each(($tick, index) => {
         expect($tick.text()).to.equal(reversedData[index].country);
       });
       // Below tests that it did not use the second Afghanistan value
-      cy.get('.vic-bar-label').each(($label, index) => {
+      cy.get(labelSelector).each(($label, index) => {
         expect($label.text()).to.equal(countryFactsData[index].area.toString());
       });
     });
@@ -379,17 +383,17 @@ describe('it creates the correct bars in the correct order for the data', () => 
     it('creates one bar and one ordinal axis tick per value in the provided domain and does not create bars for data not in domain', () => {
       mountVerticalBarsComponent(barsConfig);
       cy.wait(axisTickTextWaitTime);
-      cy.get('.vic-bar-group').should('have.length', ordinalDomain.length);
-      cy.get('.vic-bar').should('have.length', ordinalDomain.length);
+      cy.get(groupSelector).should('have.length', ordinalDomain.length);
+      cy.get(barSelector).should('have.length', ordinalDomain.length);
       // D3 draws the top axis tick first, so we need to reverse the domain to match the order of the axis ticks
-      cy.get('.vic-x.vic-axis-g .tick text').each(($tick, index) => {
+      cy.get('.vic-axis-x-ordinal .tick text').each(($tick, index) => {
         expect($tick.text()).to.equal(ordinalDomain[index]);
       });
     });
     it('sets the quantitative domain according to all quantitative values in all of the data including those datums which are not drawn in the chart because of restricted domain', () => {
       mountVerticalBarsComponent(barsConfig);
       cy.wait(axisTickTextWaitTime);
-      cy.get('.vic-y.vic-axis-g .tick text').then((ticks) => {
+      cy.get('.vic-axis-y-quantitative .tick text').then((ticks) => {
         const lastTickValue = ticks[ticks.length - 1].innerHTML;
         // expect "above" because we are adding 20 px of padding to the domain
         expect(parseFloat(lastTickValue)).to.be.above(
@@ -416,13 +420,13 @@ describe('it creates the correct bars in the correct order for the data', () => 
         .getConfig();
       mountVerticalBarsComponent(barsConfig);
       cy.wait(axisTickTextWaitTime);
-      cy.get('.vic-bar-group').should('have.length', ordinalDomain.length);
-      cy.get('.vic-bar').should('have.length', ordinalDomain.length);
+      cy.get(groupSelector).should('have.length', ordinalDomain.length);
+      cy.get(barSelector).should('have.length', ordinalDomain.length);
       // D3 draws the top axis tick first, so we need to reverse the data to match the order of the axis ticks
-      cy.get('.vic-x.vic-axis-g .tick text').each(($tick, index) => {
+      cy.get('.vic-axis-x-ordinal .tick text').each(($tick, index) => {
         expect($tick.text()).to.equal(ordinalDomain[index]);
       });
-      cy.get('.vic-bar-label').first().should('have.text', '252072');
+      cy.get(labelSelector).first().should('have.text', '252072');
     });
   });
 });
@@ -462,7 +466,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           barsConfig = getVerticalConfig(testData);
         }
         mountFunction(barsConfig);
-        cy.get('.vic-bar').each(($bar, i) => {
+        cy.get(barSelector).each(($bar, i) => {
           const size = parseFloat($bar.attr(barAttr));
           if (i === zeroIndex) {
             expect(size).to.equal(0);
@@ -480,7 +484,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           barsConfig = getVerticalConfig(testData);
         }
         mountFunction(barsConfig);
-        cy.get('.vic-bar').each(($bar, i) => {
+        cy.get(barSelector).each(($bar, i) => {
           const size = parseFloat($bar.attr(barAttr));
           if (i === nonNumericIndex) {
             expect(size).to.equal(0);
@@ -498,7 +502,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           barsConfig = getVerticalConfig(testData);
         }
         mountFunction(barsConfig);
-        cy.get('.vic-bar').then(($bars) => {
+        cy.get(barSelector).then(($bars) => {
           const sizes = [];
           cy.wrap($bars).each(($bar) => {
             const size = parseFloat($bar.attr(barAttr));
@@ -542,18 +546,18 @@ describe('it creates the correct bars in the correct order for the data', () => 
             .getConfig();
         }
         mountFunction(barsConfig);
-        cy.get('.vic-bar')
+        cy.get(barSelector)
           .eq(2)
           .then(($bar) => {
             const size = parseFloat($bar.attr(barAttr));
             const axisSelector =
-              orientation === 'horizontal' ? '.vic-y' : '.vic-x';
-            cy.get<SVGPathElement>(`${axisSelector}.vic-axis-g .domain`).then(
-              (domain) => {
-                const domainRect = domain[0].getBBox();
-                expect(size).to.be.above(domainRect[barAttr]);
-              }
-            );
+              orientation === 'horizontal'
+                ? '.vic-axis-y-ordinal'
+                : '.vic-axis-x-ordinal';
+            cy.get<SVGPathElement>(`${axisSelector} .domain`).then((domain) => {
+              const domainRect = domain[0].getBBox();
+              expect(size).to.be.above(domainRect[barAttr]);
+            });
           });
       });
       it(`has bars with the correct ${barAttr} when values are negative and the smallest values is less than the domain min - CORRECT BEHAVIOR CAUSES VISUAL ERROR`, () => {
@@ -593,7 +597,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
             .getConfig();
         }
         mountFunction(barsConfig);
-        cy.get('.vic-bar').then(($bars) => {
+        cy.get(barSelector).then(($bars) => {
           const sizes = [];
           cy.wrap($bars).each(($bar) => {
             const size = parseFloat($bar.attr(barAttr));
@@ -616,7 +620,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
         barsConfig = getVerticalConfig(countryFactsData);
       }
       mountFunction(barsConfig);
-      cy.get('.vic-bar').then(($bars) => {
+      cy.get(barSelector).then(($bars) => {
         const sizes = [];
         cy.wrap($bars).each(($bar) => {
           const size = parseFloat($bar.attr(barAttr));
@@ -643,7 +647,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
     it('has bars that start at the left chart margin if bars are horizontal', () => {
       barsConfig = getHorizontalConfig(testData);
       mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar-group').then(($barGroups) => {
+      cy.get(groupSelector).then(($barGroups) => {
         cy.wrap($barGroups).each(($barGroup) => {
           const origin = getXTransform($barGroup);
           const margin = horizontalMargin.left;
@@ -654,11 +658,11 @@ describe('bars have the expected origin in the quantitative dimension', () => {
     it('has bars that start at the bottom chart margin if bars are vertical', () => {
       barsConfig = getVerticalConfig(testData);
       mountVerticalBarsComponent(barsConfig);
-      cy.get('.vic-bar-group').then(($barGroups) => {
+      cy.get(groupSelector).then(($barGroups) => {
         cy.wrap($barGroups).each(($barGroup) => {
           const origin = getYTransform($barGroup);
           cy.wrap($barGroup)
-            .find('.vic-bar')
+            .find(barSelector)
             .then(($bar) => {
               const barHeight = parseFloat($bar.attr('height'));
               expect(barHeight + origin).to.equal(
@@ -676,7 +680,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
       testData[negativeBarIndex].area = -testData[negativeBarIndex].area;
       barsConfig = getHorizontalConfig(testData);
       mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar-group').then(($barGroups) => {
+      cy.get(groupSelector).then(($barGroups) => {
         cy.wrap($barGroups)
           .first()
           .then(($firstBarGroup) => {
@@ -686,7 +690,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
               .then(($negativeBarGroup) => {
                 const negativeOrigin = getXTransform($negativeBarGroup);
                 cy.wrap($negativeBarGroup)
-                  .find('.vic-bar')
+                  .find(barSelector)
                   .then(($negativeBar) => {
                     const width = parseFloat($negativeBar.attr('width'));
                     expect(negativeOrigin + width).to.equal(positiveOrigin);
@@ -700,13 +704,13 @@ describe('bars have the expected origin in the quantitative dimension', () => {
       testData[negativeBarIndex].area = -testData[negativeBarIndex].area;
       barsConfig = getVerticalConfig(testData);
       mountVerticalBarsComponent(barsConfig);
-      cy.get('.vic-bar-group').then(($barGroups) => {
+      cy.get(groupSelector).then(($barGroups) => {
         cy.wrap($barGroups)
           .first()
           .then(($firstBarGroup) => {
             const positiveYTransform = getYTransform($firstBarGroup);
             cy.wrap($firstBarGroup)
-              .find('.vic-bar')
+              .find(barSelector)
               .then(($positiveBar) => {
                 const barHeight = parseFloat($positiveBar.attr('height'));
                 const positiveOrigin = positiveYTransform + barHeight;
@@ -732,11 +736,11 @@ describe('bars have the expected origin in the quantitative dimension', () => {
       });
       barsConfig = getHorizontalConfig(testData);
       mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar-group').then(($barGroups) => {
+      cy.get(groupSelector).then(($barGroups) => {
         cy.wrap($barGroups).each(($barGroup) => {
           const origin = getXTransform($barGroup);
           cy.wrap($barGroup)
-            .find('.vic-bar')
+            .find(barSelector)
             .then(($bar) => {
               const width = parseFloat($bar.attr('width'));
               expect(origin + width + horizontalMargin.right).to.equal(
@@ -752,7 +756,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
       });
       barsConfig = getVerticalConfig(testData);
       mountVerticalBarsComponent(barsConfig);
-      cy.get('.vic-bar-group').then(($barGroups) => {
+      cy.get(groupSelector).then(($barGroups) => {
         cy.wrap($barGroups).each(($barGroup) => {
           const origin = getYTransform($barGroup);
           expect(origin).to.equal(verticalMargin.top);
@@ -791,7 +795,7 @@ describe('displays tooltips for correct data per hover position', () => {
   countryFactsData.forEach((_, i) => {
     describe(`Data point at index ${i}`, () => {
       beforeEach(() => {
-        cy.get('.vic-bar').eq(i).realHover();
+        cy.get(barSelector).eq(i).realHover();
       });
       it('is okay', () => {
         cy.get('svg').should('exist');
@@ -812,7 +816,7 @@ describe('displays tooltips for correct data per hover position', () => {
       it('tooltip appears at the correct position', () => {
         cy.get('.vic-html-tooltip-overlay').then(($el) => {
           const tooltipBox = $el[0].getBoundingClientRect();
-          cy.get('.vic-bar')
+          cy.get(barSelector)
             .eq(i)
             .then(($el) => {
               const barBox = $el[0].getBoundingClientRect();

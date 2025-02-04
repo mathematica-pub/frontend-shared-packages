@@ -48,6 +48,8 @@ const chartHeight = 400;
 const chartWidth = 600;
 const data = countryFactsData;
 
+const dotGSelector = '.vic-dots-group';
+
 // ***********************************************************
 // Dots Component with Continuous Quantitative X and Y Axes
 // ***********************************************************
@@ -320,6 +322,7 @@ describe('it creates one dot for each valid value in the data with the expected 
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
+      .class((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.population))
       .yNumeric((y) => y.valueAccessor((d) => d.gdpPerCapita))
       .fillCategorical((fill) =>
@@ -328,15 +331,16 @@ describe('it creates one dot for each valid value in the data with the expected 
       .radiusNumeric((radius) =>
         radius.valueAccessor((d) => d.popGrowth).range([2, 10])
       )
-      .key((d) => d.country)
       .getConfig();
     mountDotsXQuantYQuantComponent(dotsConfig);
   });
   it('should draw one dot for each valid value in the data', () => {
     const dotKeys = [];
-    cy.get('.vic-dot')
-      .each(($dots) => {
-        dotKeys.push($dots.attr('key'));
+    cy.get(dotGSelector)
+      .each((dotG) => {
+        const country = dotG.attr('class').split(' ');
+        country.shift();
+        dotKeys.push(country.join(' ').trim());
       })
       .then(() => {
         expect(dotKeys).to.have.members([
@@ -346,18 +350,23 @@ describe('it creates one dot for each valid value in the data with the expected 
   });
   it('should draw dots with the expected color', () => {
     const continents = [...new Set(data.map((d) => d.continent))];
-    cy.get('.vic-dot').each((dots) => {
-      const key = dots.attr('key');
-      const continent = data.find((d) => d.country === key).continent;
+    cy.get(dotGSelector).each((dotG) => {
+      const classes = dotG.attr('class').split(' ');
+      classes.shift();
+      const country = classes.join(' ').trim();
+      const continent = data.find((d) => d.country === country).continent;
       const expectedFill = colors[continents.indexOf(continent)];
-      expect(dots.attr('fill')).to.equal(expectedFill);
+      expect(dotG.children().first().attr('fill')).to.equal(expectedFill);
     });
   });
   it('should draw dots with the expected radius', () => {
     const dotRadii = [];
-    cy.get('.vic-dot')
-      .each((dots) => {
-        dotRadii.push({ country: dots.attr('key'), r: dots.attr('r') });
+    cy.get(dotGSelector)
+      .each((dotG) => {
+        const classes = dotG.attr('class').split(' ');
+        classes.shift();
+        const country = classes.join(' ');
+        dotRadii.push({ country, r: dotG.children().first().attr('r') });
       })
       .then(() => {
         const countriesByRadius = dotRadii
@@ -383,6 +392,7 @@ describe('it handles negative y-dimension values', () => {
     dataWithNegatives[0].gdpPerCapita = -10000;
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(dataWithNegatives)
+      .class((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.population))
       .yNumeric((y) => y.valueAccessor((d) => d.gdpPerCapita))
       .fillCategorical((fill) =>
@@ -391,15 +401,16 @@ describe('it handles negative y-dimension values', () => {
       .radiusNumeric((radius) =>
         radius.valueAccessor((d) => d.popGrowth).range([2, 10])
       )
-      .key((d) => d.country)
       .getConfig();
     mountDotsXQuantYQuantComponent(dotsConfig);
   });
   it('should draw one dot for each valid value in the data', () => {
     const dotKeys = [];
-    cy.get('.vic-dot')
-      .each(($dots) => {
-        dotKeys.push($dots.attr('key'));
+    cy.get(dotGSelector)
+      .each((dotG) => {
+        const country = dotG.attr('class').split(' ');
+        country.shift();
+        dotKeys.push(country.join(' ').trim());
       })
       .then(() => {
         expect(dotKeys).to.have.members([
@@ -416,6 +427,7 @@ describe('it handles negative x-dimension values', () => {
     dataWithNegatives[0].gdpPerCapita = -10000;
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(dataWithNegatives)
+      .class((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.gdpPerCapita))
       .yNumeric((y) => y.valueAccessor((d) => d.population))
       .fillCategorical((fill) =>
@@ -424,15 +436,16 @@ describe('it handles negative x-dimension values', () => {
       .radiusNumeric((radius) =>
         radius.valueAccessor((d) => d.popGrowth).range([2, 10])
       )
-      .key((d) => d.country)
       .getConfig();
     mountDotsXQuantYQuantComponent(dotsConfig);
   });
   it('should draw one dot for each valid value in the data', () => {
     const dotKeys = [];
-    cy.get('.vic-dot')
-      .each(($dots) => {
-        dotKeys.push($dots.attr('key'));
+    cy.get(dotGSelector)
+      .each((dotG) => {
+        const country = dotG.attr('class').split(' ');
+        country.shift();
+        dotKeys.push(country.join(' ').trim());
       })
       .then(() => {
         expect(dotKeys).to.have.members([
@@ -450,6 +463,7 @@ describe('displays a tooltips with correct data on each dot', () => {
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
+      .class((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.population))
       .yNumeric((y) => y.valueAccessor((d) => d.gdpPerCapita))
       .fillCategorical((fill) =>
@@ -458,14 +472,13 @@ describe('displays a tooltips with correct data on each dot', () => {
       .radiusNumeric((radius) =>
         radius.valueAccessor((d) => d.popGrowth).range([2, 10])
       )
-      .key((d) => d.country)
       .getConfig();
     mountDotsXQuantYQuantComponent(dotsConfig);
   });
   data.forEach((datum) => {
     describe(`when hovering over the dot for ${datum.country}`, () => {
       beforeEach(() => {
-        cy.get(`.vic-dot[key="${datum.country}"]`).realHover();
+        cy.get(`${dotGSelector}.${datum.country.split(' ')[0]}`).realHover();
       });
       it('should display a tooltip with the correct data', () => {
         cy.get('.vic-html-tooltip-overlay').should('exist');
@@ -486,6 +499,7 @@ describe('it creates one dot for each valid value in the data with the expected 
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
+      .class((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.population))
       .yOrdinal((y) => y.valueAccessor((d) => d.continent))
       .fillNumeric((fill) =>
@@ -495,16 +509,18 @@ describe('it creates one dot for each valid value in the data with the expected 
         radius.valueAccessor((d) => d.popGrowth).range([2, 10])
       )
       .stroke((stroke) => stroke.color('black').width(1))
-      .key((d) => d.country)
+      .class((d) => d.country)
       .getConfig();
     mountDotsXQuantYOrdinalComponent(dotsConfig);
     cy.wait(axisTickTextWaitTime);
   });
   it('should draw one dot for each valid value in the data', () => {
     const dotKeys = [];
-    cy.get('.vic-dot')
-      .each(($dots) => {
-        dotKeys.push($dots.attr('key'));
+    cy.get(dotGSelector)
+      .each((dotG) => {
+        const country = dotG.attr('class').split(' ');
+        country.shift();
+        dotKeys.push(country.join(' ').trim());
       })
       .then(() => {
         expect(dotKeys).to.have.members([
@@ -513,16 +529,19 @@ describe('it creates one dot for each valid value in the data with the expected 
       });
   });
   it('should draw dots with the expected cy value based on y value', () => {
-    cy.get('.vic-dot-group').each((dotGroup) => {
-      const key = dotGroup.attr('key');
-      const continent = data.find((d) => d.country === key).continent;
-      cy.get('.vic-y.vic-axis-g .tick').each((tick) => {
+    cy.get('.vic-dots-group').each((dotG) => {
+      const country = dotG.attr('class').split(' ');
+      country.shift();
+      const continent = data.find(
+        (d) => d.country === country.join(' ')
+      ).continent;
+      cy.get('.vic-axis-y-ordinal .tick').each((tick) => {
         cy.wrap(tick)
           .find('text')
           .then((text) => {
             if (text.text() === continent) {
               const y = +tick.attr('transform').split(',')[1].split(')')[0];
-              const expectedCy = +dotGroup
+              const expectedCy = +dotG
                 .attr('transform')
                 .split(',')[1]
                 .split(')')[0];
@@ -541,6 +560,7 @@ describe('it creates one dot for each valid value in the data with the expected 
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
+      .class((d) => d.country)
       .yNumeric((x) => x.valueAccessor((d) => d.population))
       .xOrdinal((y) => y.valueAccessor((d) => d.continent))
       .fillNumeric((fill) =>
@@ -550,16 +570,18 @@ describe('it creates one dot for each valid value in the data with the expected 
         radius.valueAccessor((d) => d.popGrowth).range([2, 10])
       )
       .stroke((stroke) => stroke.color('black').width(1))
-      .key((d) => d.country)
+      .class((d) => d.country)
       .getConfig();
     mountDotsXOrdinalYQuantComponent(dotsConfig);
     cy.wait(axisTickTextWaitTime);
   });
   it('should draw one dot for each valid value in the data', () => {
     const dotKeys = [];
-    cy.get('.vic-dot')
-      .each(($dots) => {
-        dotKeys.push($dots.attr('key'));
+    cy.get(dotGSelector)
+      .each((dotG) => {
+        const country = dotG.attr('class').split(' ');
+        country.shift();
+        dotKeys.push(country.join(' ').trim());
       })
       .then(() => {
         expect(dotKeys).to.have.members([
@@ -568,16 +590,19 @@ describe('it creates one dot for each valid value in the data with the expected 
       });
   });
   it('should draw dots with the expected cx value based on x value', () => {
-    cy.get('.vic-dot-group').each((dotGroup) => {
-      const key = dotGroup.attr('key');
-      const continent = data.find((d) => d.country === key).continent;
-      cy.get('.vic-x.vic-axis-g .tick').each((tick) => {
+    cy.get('.vic-dots-group').each((dotG) => {
+      const country = dotG.attr('class').split(' ');
+      country.shift();
+      const continent = data.find(
+        (d) => d.country === country.join(' ')
+      ).continent;
+      cy.get('.vic-axis-x-ordinal .tick').each((tick) => {
         cy.wrap(tick)
           .find('text')
           .then((text) => {
             if (text.text() === continent) {
               const x = +tick.attr('transform').split(',')[0].split('(')[1];
-              const expectedCx = +dotGroup
+              const expectedCx = +dotG
                 .attr('transform')
                 .split(',')[0]
                 .split('(')[1];

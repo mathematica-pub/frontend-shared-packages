@@ -3,15 +3,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { MapChartComponent } from '../../../charts';
 import { VicAttributeDataDimensionConfig } from '../../../geographies';
-import { VicAuxMarks } from '../../aux-marks/aux-marks';
-import { MarksOptions } from '../../config/marks-options';
+import { AuxMarks } from '../../aux-marks/aux-marks';
+import { MarksConfig } from '../../config/marks-config';
 
 @Directive()
-export abstract class VicMapAuxMarks<
-    Datum,
-    TMarksConfig extends MarksOptions<Datum>,
-  >
-  extends VicAuxMarks<Datum, TMarksConfig>
+export abstract class VicMapAuxMarks<Datum, TMarksConfig extends MarksConfig>
+  extends AuxMarks<Datum, TMarksConfig>
   implements OnInit
 {
   attributeDataConfig: VicAttributeDataDimensionConfig<Datum>;

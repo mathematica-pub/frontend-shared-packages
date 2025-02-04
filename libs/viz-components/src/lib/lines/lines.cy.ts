@@ -43,6 +43,9 @@ const dateData = continentPopulationDateYearData;
 const numericData = ContinentPopulationNumYearData;
 const tooltipYOffset = 60; // need to offset otherwise the hover will be on the tooltip itself rather than svg
 
+const lineSelector = '.vic-lines-line';
+const markerSelector = '.vic-lines-marker';
+
 // ***********************************************************
 // Set up Lines component -- can use with Date or numeric values for x axis
 // ***********************************************************
@@ -198,6 +201,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
+        .class((d) => d.continent.split(' ').join('-'))
         .xDate((xDate) => xDate.valueAccessor((d) => d.year))
         .y((y) => y.valueAccessor((d) => d.population))
         .stroke((stroke) =>
@@ -206,9 +210,9 @@ describe('it creates the correct marks - x axis values are Dates', () => {
         .getConfig();
     mountDateLinesComponent(linesConfig);
     const categories = [];
-    cy.get('.vic-line')
-      .each(($lines) => {
-        categories.push($lines.attr('category'));
+    cy.get(lineSelector)
+      .each((line) => {
+        categories.push(line.attr('class').split(' ')[1].split('-').join(' '));
       })
       .then(() => {
         expect(categories).to.have.members([
@@ -231,17 +235,24 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(testData)
+        .class((d) => d.continent.split(' ').join('-'))
         .xDate((xDate) => xDate.valueAccessor((d) => d.year))
         .y((y) => y.valueAccessor((d) => d.population))
         .stroke((stroke) =>
           stroke.color((color) => color.valueAccessor((d) => d.continent))
         )
-        .pointMarkers((markers) => markers.class('test-point-marker'))
+        .pointMarkers((markers) =>
+          markers.class((d) => d.continent.split(' ').join('-'))
+        )
         .getConfig();
     mountDateLinesComponent(linesConfig);
-    cy.get('.test-point-marker')
-      .each(($pointMarker) => {
-        const category = $pointMarker.attr('category');
+    cy.get('.vic-lines-marker')
+      .each((marker) => {
+        const category = marker
+          .attr('class')
+          .split(' ')[1]
+          .split('-')
+          .join(' ');
         markersCounts[category].actual += 1;
       })
       .then(() => {
@@ -266,17 +277,24 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(testData)
+        .class((d) => d.continent.split(' ').join('-'))
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) => dimension.valueAccessor((d) => d.population))
         .stroke((stroke) =>
           stroke.color((color) => color.valueAccessor((d) => d.continent))
         )
-        .pointMarkers((markers) => markers.class('test-point-marker'))
+        .pointMarkers((markers) =>
+          markers.class((d) => d.continent.split(' ').join('-'))
+        )
         .getConfig();
     mountDateLinesComponent(linesConfig);
-    cy.get('.test-point-marker')
-      .each(($pointMarker) => {
-        const category = $pointMarker.attr('category');
+    cy.get('.vic-lines-marker')
+      .each((marker) => {
+        const category = marker
+          .attr('class')
+          .split(' ')[1]
+          .split('-')
+          .join(' ');
         markersCounts[category].actual += 1;
       })
       .then(() => {
@@ -301,17 +319,24 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(testData)
+        .class((d) => d.continent.split(' ').join('-'))
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) => dimension.valueAccessor((d) => d.population))
         .stroke((stroke) =>
           stroke.color((color) => color.valueAccessor((d) => d.continent))
         )
-        .pointMarkers((markers) => markers.class('test-point-marker'))
+        .pointMarkers((markers) =>
+          markers.class((d) => d.continent.split(' ').join('-'))
+        )
         .getConfig();
     mountDateLinesComponent(linesConfig);
-    cy.get('.test-point-marker')
-      .each(($pointMarker) => {
-        const category = $pointMarker.attr('category');
+    cy.get('.vic-lines-marker')
+      .each((marker) => {
+        const category = marker
+          .attr('class')
+          .split(' ')[1]
+          .split('-')
+          .join(' ');
         markersCounts[category].actual += 1;
       })
       .then(() => {
@@ -326,6 +351,7 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationNumYearDatum>()
         .data(numericData)
+        .class((d) => d.continent.split(' ').join('-'))
         .xNumeric((dimension) =>
           dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
         )
@@ -336,9 +362,9 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
         .getConfig();
     mountNumberLinesComponent(linesConfig);
     const categories = [];
-    cy.get('.vic-line')
-      .each(($lines) => {
-        categories.push($lines.attr('category'));
+    cy.get(lineSelector)
+      .each((line) => {
+        categories.push(line.attr('class').split(' ')[1].split('-').join(' '));
       })
       .then(() => {
         expect(categories).to.have.members([
@@ -352,6 +378,7 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationNumYearDatum>()
           .data(numericData)
+          .class((d) => d.continent.split(' ').join('-'))
           .xNumeric((dimension) =>
             dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
           )
@@ -362,16 +389,10 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
           .areaFills()
           .getConfig();
       mountNumberLinesComponent(linesConfig);
-      const categories = [];
-      cy.get('.vic-line-area')
-        .each(($lines) => {
-          categories.push($lines.attr('category'));
-        })
-        .then(() => {
-          expect(categories).to.have.members([
-            ...new Set(numericData.map((d) => d.continent)),
-          ]);
-        });
+      cy.get('.vic-lines-area').should(
+        'have.length',
+        [...new Set(numericData.map((x) => x.continent))].length
+      );
     });
   });
 });
@@ -384,6 +405,7 @@ describe('if the user specifies a y domain that is smaller than max value', () =
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
+        .class((d) => d.continent.split(' ').join('-'))
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -395,16 +417,18 @@ describe('if the user specifies a y domain that is smaller than max value', () =
     mountDateLinesComponent(linesConfig);
     cy.wait(axisTickTextWaitTime);
     const categories = [];
-    cy.get('.vic-line')
+    cy.get(lineSelector)
       .each(($lines) => {
-        categories.push($lines.attr('category'));
+        categories.push(
+          $lines.attr('class').split(' ')[1].split('-').join(' ')
+        );
       })
       .then(() => {
         expect(categories).to.have.members([
           ...new Set(dateData.map((d) => d.continent)),
         ]);
       });
-    cy.get('.vic-y.vic-axis-g .tick text').each(($tick) => {
+    cy.get('.vic-axis-y-quantitative .tick text').each(($tick) => {
       const tickValue = parseInt($tick.text());
       expect(tickValue).to.be.gte(0);
       expect(tickValue).to.be.lte(4900000000);
@@ -417,6 +441,7 @@ describe('if the user specifies an x domain that is smaller than max value', () 
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationNumYearDatum>()
         .data(numericData)
+        .class((d) => d.continent.split(' ').join('-'))
         .xNumeric((dimension) =>
           dimension
             .valueAccessor((d) => d.year)
@@ -431,16 +456,16 @@ describe('if the user specifies an x domain that is smaller than max value', () 
     mountNumberLinesComponent(linesConfig);
     cy.wait(axisTickTextWaitTime);
     const categories = [];
-    cy.get('.vic-line')
-      .each(($lines) => {
-        categories.push($lines.attr('category'));
+    cy.get(lineSelector)
+      .each((line) => {
+        categories.push(line.attr('class').split(' ')[1].split('-').join(' '));
       })
       .then(() => {
         expect(categories).to.have.members([
           ...new Set(dateData.map((d) => d.continent)),
         ]);
       });
-    cy.get('.vic-x.vic-axis-g .tick text').each(($tick) => {
+    cy.get('.vic-axis-x-quantitative .tick text').each(($tick) => {
       const tickValue = parseInt($tick.text());
       expect(tickValue).to.be.gte(2020);
       expect(tickValue).to.be.lte(2080);
@@ -457,6 +482,7 @@ describe('it creates lines with the correct properties per config', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
+        .class((d) => d.continent.split(' ').join('-'))
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) => dimension.valueAccessor((d) => d.population))
         .stroke((stroke) =>
@@ -464,7 +490,7 @@ describe('it creates lines with the correct properties per config', () => {
         )
         .getConfig();
     mountDateLinesComponent(linesConfig);
-    cy.get('.vic-line').each(($line, i) => {
+    cy.get(lineSelector).each(($line, i) => {
       cy.wrap($line).should('have.attr', 'stroke', schemeTableau10[i]);
     });
   });
@@ -472,6 +498,7 @@ describe('it creates lines with the correct properties per config', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
+        .class((d) => d.continent.split(' ').join('-'))
         .curve(curveBasis)
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) =>
@@ -482,15 +509,15 @@ describe('it creates lines with the correct properties per config', () => {
         )
         .getConfig();
     mountDateLinesComponent(linesConfig);
-    cy.get('.vic-line').should('have.length', 6);
+    cy.get(lineSelector).should('have.length', 6);
   });
 
   describe('pointMarkers', () => {
-    const markerClass = 'test-point-marker';
     it('draws the correct number of point markers', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
+          .class((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -498,11 +525,11 @@ describe('it creates lines with the correct properties per config', () => {
           .stroke((stroke) =>
             stroke.color((color) => color.valueAccessor((d) => d.continent))
           )
-          .pointMarkers((markers) => markers.class(markerClass))
+          .pointMarkers()
           .getConfig();
       mountDateLinesComponent(linesConfig);
-      cy.get(`.${markerClass}`).should('have.length', 24);
-      cy.get(`.${markerClass}`)
+      cy.get(markerSelector).should('have.length', 24);
+      cy.get(markerSelector)
         .filter(
           (index, element) =>
             window.getComputedStyle(element).display === 'block'
@@ -513,6 +540,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
+          .class((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -520,17 +548,17 @@ describe('it creates lines with the correct properties per config', () => {
           .stroke((stroke) =>
             stroke.color((color) => color.valueAccessor((d) => d.continent))
           )
-          .pointMarkers((markers) => markers.class(markerClass).display(false))
+          .pointMarkers((markers) => markers.display(false))
           .getConfig();
       mountDateLinesComponent(linesConfig);
-      cy.get(`.${markerClass}`).should('have.length', 24);
-      cy.get(`.${markerClass}`)
+      cy.get(markerSelector).should('have.length', 24);
+      cy.get(markerSelector)
         .filter(
           (index, element) =>
             window.getComputedStyle(element).display === 'block'
         )
         .should('have.length', 0);
-      cy.get(`.${markerClass}`)
+      cy.get(markerSelector)
         .filter(
           (index, element) =>
             window.getComputedStyle(element).display === 'none'
@@ -541,6 +569,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
+          .class((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -549,18 +578,18 @@ describe('it creates lines with the correct properties per config', () => {
             stroke.color((color) => color.valueAccessor((d) => d.continent))
           )
           .pointMarkers((markers) =>
-            markers.class(markerClass).display((d) => d.continent === 'Asia')
+            markers.display((d) => d.continent === 'Asia')
           )
           .getConfig();
       mountDateLinesComponent(linesConfig);
-      cy.get(`.${markerClass}`).should('have.length', 24);
-      cy.get(`.${markerClass}`)
+      cy.get(markerSelector).should('have.length', 24);
+      cy.get(markerSelector)
         .filter(
           (index, element) =>
             window.getComputedStyle(element).display === 'block'
         )
         .should('have.length', 4);
-      cy.get(`.${markerClass}`)
+      cy.get(markerSelector)
         .filter(
           (index, element) =>
             window.getComputedStyle(element).display === 'none'
@@ -568,11 +597,11 @@ describe('it creates lines with the correct properties per config', () => {
         .should('have.length', 20);
     });
     it('draws point markers with the correct radius - user provides custom radius', () => {
-      const markerClass = 'test-point-marker';
       const radius = 4;
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
+          .class((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -580,10 +609,10 @@ describe('it creates lines with the correct properties per config', () => {
           .stroke((stroke) =>
             stroke.color((color) => color.valueAccessor((d) => d.continent))
           )
-          .pointMarkers((markers) => markers.class(markerClass).radius(radius))
+          .pointMarkers((markers) => markers.radius(radius))
           .getConfig();
       mountDateLinesComponent(linesConfig);
-      cy.get(`.${markerClass}`).each(($pointMarker) => {
+      cy.get(markerSelector).each(($pointMarker) => {
         cy.wrap($pointMarker).should('have.attr', 'r', radius.toString());
       });
     });
@@ -594,6 +623,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
+          .class((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -607,10 +637,10 @@ describe('it creates lines with the correct properties per config', () => {
           )
           .getConfig();
       mountDateLinesComponent(linesConfig);
-      cy.get('.vic-lines-g').should('have.attr', 'stroke-width', '3');
-      cy.get('.vic-lines-g').should('have.attr', 'stroke-opacity', '0.5');
-      cy.get('.vic-lines-g').should('have.attr', 'stroke-linecap', 'square');
-      cy.get('.vic-lines-g').should('have.attr', 'stroke-linejoin', 'miter');
+      cy.get('.vic-lines').should('have.attr', 'stroke-width', '3');
+      cy.get('.vic-lines').should('have.attr', 'stroke-opacity', '0.5');
+      cy.get('.vic-lines').should('have.attr', 'stroke-linecap', 'square');
+      cy.get('.vic-lines').should('have.attr', 'stroke-linejoin', 'miter');
     });
   });
 
@@ -619,6 +649,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
+          .class((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -630,7 +661,7 @@ describe('it creates lines with the correct properties per config', () => {
           .getConfig();
       mountDateLinesComponent(linesConfig);
       const labels = [];
-      cy.get('.vic-line-label')
+      cy.get('.vic-lines-label')
         .each(($label) => {
           labels.push($label.text());
         })
@@ -651,6 +682,7 @@ describe('displays tooltips for correct data per hover position', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
+        .class((d) => d.continent.split(' ').join('-'))
         .xDate((xDate) =>
           // When running in headless mode, realHover is finicky with point markers that are on the edge of the svg container
           // Padded the x and y domains to avoid this issue
@@ -675,7 +707,7 @@ describe('displays tooltips for correct data per hover position', () => {
   dateData.forEach((_, i) => {
     describe(`Data point at index ${i}`, () => {
       beforeEach(() => {
-        cy.get('.vic-lines-datum-marker').eq(i).realHover();
+        cy.get('.vic-lines-marker').eq(i).realHover();
       });
 
       it('displays a tooltip', () => {
@@ -699,7 +731,7 @@ describe('displays tooltips for correct data per hover position', () => {
       it('tooltip appears at the correct position', () => {
         cy.get('.vic-html-tooltip-overlay').then(($el) => {
           const tooltipBox = $el[0].getBoundingClientRect();
-          cy.get('.vic-lines-datum-marker')
+          cy.get('.vic-lines-marker')
             .eq(i)
             .then(($el) => {
               const markerBox = $el[0].getBoundingClientRect();

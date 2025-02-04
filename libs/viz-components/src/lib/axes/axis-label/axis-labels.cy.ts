@@ -118,22 +118,32 @@ describe('It creates axis labels that are visible when default values are used',
     cy.wait(axisTickTextWaitTime);
   });
   it('should have visible x and y axis labels that are centered on axes', () => {
-    cy.get('.vic-x-axis-label').should('have.text', 'Year');
-    cy.get('.vic-y-axis-label').should('have.text', 'Population');
+    cy.get('.vic-axis-x-quantitative .vic-axis-label').should(
+      'have.text',
+      'Year'
+    );
+    cy.get('.vic-axis-y-quantitative .vic-axis-label').should(
+      'have.text',
+      'Population'
+    );
     cy.get<SVGGElement>('.vic-xy-background').then((chartBackground) => {
       const chartRect = chartBackground[0].getBBox();
-      cy.get<SVGTextElement>('.vic-x-axis-label').then((xAxisLabel) => {
-        const textRect = xAxisLabel[0].getBoundingClientRect();
-        expect(
-          textRect.left + (textRect.right - textRect.left) / 2
-        ).to.be.closeTo(margin.left + chartRect.width / 2, 4);
-      });
-      cy.get<SVGTextElement>('.vic-y-axis-label').then((yAxisLabel) => {
-        const textRect = yAxisLabel[0].getBoundingClientRect();
-        expect(
-          textRect.top + (textRect.bottom - textRect.top) / 2
-        ).to.be.closeTo(margin.top + chartRect.height / 2, 4);
-      });
+      cy.get<SVGTextElement>('.vic-axis-x-quantitative .vic-axis-label').then(
+        (xAxisLabel) => {
+          const textRect = xAxisLabel[0].getBoundingClientRect();
+          expect(
+            textRect.left + (textRect.right - textRect.left) / 2
+          ).to.be.closeTo(margin.left + chartRect.width / 2, 4);
+        }
+      );
+      cy.get<SVGTextElement>('.vic-axis-y-quantitative .vic-axis-label').then(
+        (yAxisLabel) => {
+          const textRect = yAxisLabel[0].getBoundingClientRect();
+          expect(
+            textRect.top + (textRect.bottom - textRect.top) / 2
+          ).to.be.closeTo(margin.top + chartRect.height / 2, 4);
+        }
+      );
     });
   });
 });
@@ -153,14 +163,18 @@ describe('It creates axis labels that correctly positioned when positions are st
   });
   it('should have visible x and y axis labels that are at the leading edge of axes', () => {
     cy.get<SVGGElement>('.vic-xy-background').then(() => {
-      cy.get<SVGTextElement>('.vic-x-axis-label').then((xAxisLabel) => {
-        const textRect = xAxisLabel[0].getBoundingClientRect();
-        expect(textRect.left).to.be.closeTo(margin.left, 4);
-      });
-      cy.get<SVGTextElement>('.vic-y-axis-label').then((yAxisLabel) => {
-        const textRect = yAxisLabel[0].getBoundingClientRect();
-        expect(textRect.bottom).to.be.closeTo(margin.top, 4);
-      });
+      cy.get<SVGTextElement>('.vic-axis-x-quantitative .vic-axis-label').then(
+        (xAxisLabel) => {
+          const textRect = xAxisLabel[0].getBoundingClientRect();
+          expect(textRect.left).to.be.closeTo(margin.left, 4);
+        }
+      );
+      cy.get<SVGTextElement>('.vic-axis-y-quantitative .vic-axis-label').then(
+        (yAxisLabel) => {
+          const textRect = yAxisLabel[0].getBoundingClientRect();
+          expect(textRect.bottom).to.be.closeTo(margin.top, 4);
+        }
+      );
     });
   });
 });
@@ -181,14 +195,18 @@ describe('It creates axis labels that are correctly positioned when positions ar
   it('should have visible x and y axis labels that are at the trailing edge of axes', () => {
     cy.get<SVGGElement>('.vic-xy-background').then((chartBackground) => {
       const chartRect = chartBackground[0].getBoundingClientRect();
-      cy.get<SVGTextElement>('.vic-x-axis-label').then((xAxisLabel) => {
-        const textRect = xAxisLabel[0].getBoundingClientRect();
-        expect(textRect.right).to.be.closeTo(chartRect.right, 4);
-      });
-      cy.get<SVGTextElement>('.vic-y-axis-label').then((yAxisLabel) => {
-        const textRect = yAxisLabel[0].getBoundingClientRect();
-        expect(textRect.bottom).to.be.closeTo(chartRect.bottom, 4);
-      });
+      cy.get<SVGTextElement>('.vic-axis-x-quantitative .vic-axis-label').then(
+        (xAxisLabel) => {
+          const textRect = xAxisLabel[0].getBoundingClientRect();
+          expect(textRect.right).to.be.closeTo(chartRect.right, 4);
+        }
+      );
+      cy.get<SVGTextElement>('.vic-axis-y-quantitative .vic-axis-label').then(
+        (yAxisLabel) => {
+          const textRect = yAxisLabel[0].getBoundingClientRect();
+          expect(textRect.bottom).to.be.closeTo(chartRect.bottom, 4);
+        }
+      );
     });
   });
 });
