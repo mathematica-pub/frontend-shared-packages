@@ -3,11 +3,11 @@ import { ContinuousValue, DataValue } from '../../core/types/values';
 import { DateChartPositionDimension } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position';
 import { NumberChartPositionDimension } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position';
 import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
-import { MarksOptions } from '../../marks/config/marks-options';
+import { DataMarksOptions } from '../../marks/config/marks-options';
 
 export interface StackedAreaOptions<Datum, CategoricalDomain extends DataValue>
-  extends MarksOptions<Datum>,
-    MarksOptions<Datum> {
+  extends DataMarksOptions<Datum>,
+    DataMarksOptions<Datum> {
   color: OrdinalVisualValueDimension<Datum, CategoricalDomain, string>;
   categoricalOrder: CategoricalDomain[];
   curve: CurveFactory;

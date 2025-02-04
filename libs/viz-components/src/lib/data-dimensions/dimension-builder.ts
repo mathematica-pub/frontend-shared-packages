@@ -12,7 +12,13 @@ export abstract class DataDimensionBuilder<
    *
    * If provided, this function will be used instead of the format specifier (available only for quantitative dimensions)
    */
-  formatFunction(formatFunction: (d: Datum) => string): this {
+  formatFunction(formatFunction: null): this;
+  formatFunction(formatFunction: (d: Datum) => string): this;
+  formatFunction(formatFunction: ((d: Datum) => string) | null): this {
+    if (formatFunction === null) {
+      this._formatFunction = undefined;
+      return this;
+    }
     this._formatFunction = formatFunction;
     return this;
   }

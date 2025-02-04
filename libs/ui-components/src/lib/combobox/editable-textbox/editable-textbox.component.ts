@@ -8,8 +8,8 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
+import { BehaviorSubject, skip } from 'rxjs';
 import {
   AutoComplete,
   ComboboxAction,
@@ -19,6 +19,7 @@ import {
   TextboxAction,
   VisualFocus,
 } from '../combobox.service';
+import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 import { TextboxComponent } from '../textbox/textbox.component';
 
 @Component({
@@ -34,64 +35,82 @@ export class EditableTextboxComponent
   implements OnInit, AfterViewInit
 {
   @ViewChild('box') inputElRef: ElementRef<HTMLInputElement>;
-  @Input() autoComplete: AutoComplete = AutoComplete.list;
   @Input() autoSelect = false;
   @Input() autoSelectTrigger: 'any' | 'character' = 'character';
-  @Input() formControl: FormControl<string>;
+  @Input() displaySelected = true;
+  @Input() initialValue = '';
   @Input() inputType: 'text' | 'search' = 'text';
+  @Input() ngFormControl: FormControl<string>;
   @Input() placeholder = '';
   @Output() valueChanges = new EventEmitter<string>();
   moveFocusToTextboxKeys = ['RightArrow', 'LeftArrow', 'Home', 'End'];
-  value = '';
+  value = new BehaviorSubject<string>('');
+  value$ = this.value.asObservable();
   override openKeys = ['ArrowDown', 'ArrowUp'];
 
   override ngOnInit(): void {
-    super.ngOnInit();
+    this.service.autoComplete = this.displaySelected
+      ? AutoComplete.list
+      : AutoComplete.none;
     this.service.shouldAutoSelectOnListboxClose =
       this.autoSelect && this.autoSelectTrigger === 'any';
     this.service.nullActiveIdOnClose = true;
-    if (this.formControl) {
-      this.setValueChangeHandlingForFormControl();
+    this.service.hasEditableTextbox = true;
+    super.ngOnInit();
+  }
+
+  override ngAfterViewInit(): void {
+    super.ngAfterViewInit();
+    if (this.initialValue || this.ngFormControl?.value) {
+      this.value.next(this.initialValue || this.ngFormControl.value);
     }
   }
 
-  setInputValue(value: string): void {
-    if (this.formControl) {
-      this.formControl.setValue(value);
+  override setLabel(): void {
+    this.service.selectedOptionsToEmit$ // when a user clicks
+      .pipe(skip(1))
+      .subscribe((selectedOptions) => this.onSelectionChange(selectedOptions));
+  }
+
+  onSelectionChange(selectedOptions: ListboxOptionComponent[]): void {
+    if (this.service.isMultiSelect) {
+      this.setAndEmitValue('');
     } else {
-      this.inputElRef.nativeElement.value = value;
-    }
-    if (value === '') {
-      this.service.emitOptionAction(OptionAction.nullActiveIndex);
+      const label = selectedOptions.length
+        ? selectedOptions[0].label?.nativeElement.innerText.trim()
+        : '';
+      this.setAndEmitValue(label);
     }
   }
 
   onInputChange(value: string): void {
-    if (!this.formControl) {
-      if (value === '') {
-        this.setAutoSelectWhenInputIsEmpty();
-      } else {
-        this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
-      }
+    if (value === '') {
+      this.setAutoSelectWhenInputIsEmpty();
+    } else {
+      this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
+    }
+    this.setAndEmitValue(value);
+  }
+
+  setAndEmitValue(value: string): void {
+    this.setValue(value);
+    this.emitValue(value);
+  }
+
+  setValue(value: string): void {
+    this.value.next(value);
+  }
+
+  emitValue(value: string): void {
+    if (this.ngFormControl) {
+      this.ngFormControl.setValue(value);
+    } else {
       this.valueChanges.emit(value);
     }
   }
 
-  setValueChangeHandlingForFormControl(): void {
-    this.formControl.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        if (this.autoSelect) {
-          if (value === '') {
-            this.setAutoSelectWhenInputIsEmpty();
-          } else {
-            this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
-          }
-        }
-      });
-  }
-
   override handleClick(): void {
+    this.service.setIsKeyboardEvent(false);
     if (this.service.isOpen) {
       this.service.closeListbox();
     } else {
@@ -116,7 +135,8 @@ export class EditableTextboxComponent
 
   override onEscape(): void {
     if (!this.service.isOpen) {
-      this.setInputValue('');
+      this.setAndEmitValue('');
+      this.service.emitOptionAction(OptionAction.nullActiveIndex);
     } else {
       this.service.closeListbox();
       this.service.setVisualFocus(VisualFocus.textbox);
@@ -168,7 +188,7 @@ export class EditableTextboxComponent
       return TextboxAction.cursorFirst;
     } else if (key === Key.End) {
       return TextboxAction.cursorLast;
-    } else if (this.isPrintableCharacter(key)) {
+    } else if (this.isPrintableCharacter(key) || key === 'Backspace') {
       return TextboxAction.addChar;
     } else if (key === Key.Tab) {
       return ListboxAction.closeSelect;

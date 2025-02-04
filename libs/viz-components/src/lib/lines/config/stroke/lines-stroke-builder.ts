@@ -30,13 +30,25 @@ export class LinesStrokeBuilder<Datum> {
    *
    * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
    */
+  color(color: null): this;
   color(
-    setProperties?: (
+    color: (
       dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
     ) => void
+  ): this;
+  color(
+    color:
+      | ((
+          dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
+        ) => void)
+      | null
   ): this {
+    if (color === null) {
+      this.colorDimensionBuilder = undefined;
+      return this;
+    }
     this.initColorDimensionBuilder();
-    setProperties?.(this.colorDimensionBuilder);
+    color(this.colorDimensionBuilder);
     return this;
   }
 

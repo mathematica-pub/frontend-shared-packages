@@ -15,7 +15,7 @@ import { BehaviorSubject } from 'rxjs';
 export class ExternalSelectionsComponent {
   disabled: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
   disabled$ = this.disabled.asObservable();
-  selected: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
+  selected: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(['ME']);
   selected$ = this.selected.asObservable();
   options: { displayName: string; id: string }[] = [
     { displayName: 'Connecticut', id: 'CT' },

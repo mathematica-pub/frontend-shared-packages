@@ -10,7 +10,7 @@ export class MapLegendContentStub<Datum> extends MapLegend<
     return [1, 12];
   }
 
-  getLeftOffset(values: number[]): number {
+  getLeftOffset(values: string[]): number {
     return 12;
   }
 }

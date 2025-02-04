@@ -16,7 +16,7 @@ const DEFAULT = {
 @Injectable()
 export class VicQuantitativeRulesConfigBuilder<
   Datum extends number | Date,
-> extends VicAuxMarksBuilder {
+> extends VicAuxMarksBuilder<Datum> {
   protected _color: (d: Datum) => string;
   protected _data: Datum[];
   protected dimensions: QuantitativeRulesDimensions;
@@ -45,12 +45,29 @@ export class VicQuantitativeRulesConfigBuilder<
 
   /**
    * REQUIRED. Sets the data that will be used to render the quantitative rules.
+   *
    * This component is not a Primary Marks component, so this data will not affect chart-level scales.
    *
    * @param data The data to be used to render the quantitative rules. Should be an array of numbers or dates.
    */
   data(data: Datum[]): this {
     this._data = data;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. A config for the behavior of the rule labels.
+   */
+  labels(): this;
+  labels(labels: null): this;
+  labels(labels: (labels: RulesLabelsBuilder<Datum>) => void): this;
+  labels(labels?: ((labels: RulesLabelsBuilder<Datum>) => void) | null): this {
+    if (labels === null) {
+      this.labelsBuilder = undefined;
+      return this;
+    }
+    this.labelsBuilder = new RulesLabelsBuilder();
+    labels?.(this.labelsBuilder);
     return this;
   }
 
@@ -67,20 +84,17 @@ export class VicQuantitativeRulesConfigBuilder<
   }
 
   /**
-   * OPTIONAL. A config for the behavior of the rule labels.
-   */
-  labels(setProperties?: (labels: RulesLabelsBuilder<Datum>) => void): this {
-    this.labelsBuilder = new RulesLabelsBuilder();
-    setProperties?.(this.labelsBuilder);
-    return this;
-  }
-
-  /**
    * OPTIONAL. A config for the behavior of the rule stroke.
    */
-  stroke(setProperties?: (stroke: StrokeBuilder) => void): this {
+  stroke(stroke: null): this;
+  stroke(stroke: (stroke: StrokeBuilder) => void): this;
+  stroke(stroke: ((stroke: StrokeBuilder) => void) | null): this {
+    if (stroke === null) {
+      this.strokeBuilder = undefined;
+      return this;
+    }
     this.initStrokeBuilder();
-    setProperties?.(this.strokeBuilder);
+    stroke(this.strokeBuilder);
     return this;
   }
 
@@ -94,8 +108,10 @@ export class VicQuantitativeRulesConfigBuilder<
   getConfig(): QuantitativeRulesConfig<Datum> {
     this.validateBuilder();
     return new QuantitativeRulesConfig({
+      marksClass: 'vic-quantitative-rules',
       color: this._color,
       data: this._data,
+      datumClass: this._class,
       dimensions: this.dimensions,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,

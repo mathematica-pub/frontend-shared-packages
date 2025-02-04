@@ -4,7 +4,6 @@ combobox:
   combobox-label: 'components/ComboboxLabelComponent.html'
   textbox: 'components/TextboxComponent.html'
   editable-textbox: 'components/EditableTextboxComponent.html'
-  ng-form-editable-textbox: 'components/NgFormEditableTextboxComponent.html'
   listbox: 'components/ListboxComponent.html'
   listbox-group: 'components/ListboxGroupComponent.html'
   listbox-label: 'components/ListboxLabelComponent.html'

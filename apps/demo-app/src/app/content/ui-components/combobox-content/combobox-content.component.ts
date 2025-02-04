@@ -3,7 +3,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ListboxOptionComponent } from '@hsi/ui-components';
 import { ContentContainerComponent } from '../../content-container/content-container.component';
 import { ExternalSelectionsComponent } from './external-selections/external-selections.component';
-import { FilterableOptionsComboboxComponent } from './filterable-options/filterable-options.component';
+import { FilterableOptionsMultiSelectFormControlComboboxComponent } from './filterable-options/filterable-options-multi-form-control/filterable-options-multi-form-control.component';
+import { FilterableOptionsMultiSelectComboboxComponent } from './filterable-options/filterable-options-multi/filterable-options-multi.component';
+import { FilterableOptionsSingleSelectFormControlComboboxComponent } from './filterable-options/filterable-options-single-form-control/filterable-options-single-form-control.component';
+import { FilterableOptionsSingleSelectComboboxComponent } from './filterable-options/filterable-options-single/filterable-options-single.component';
 import { MinimalImplementationComboboxComponent } from './minimal-implementation/minimal-implementation.component';
 
 @Component({
@@ -13,7 +16,10 @@ import { MinimalImplementationComboboxComponent } from './minimal-implementation
     CommonModule,
     ContentContainerComponent,
     ExternalSelectionsComponent,
-    FilterableOptionsComboboxComponent,
+    FilterableOptionsSingleSelectComboboxComponent,
+    FilterableOptionsSingleSelectFormControlComboboxComponent,
+    FilterableOptionsMultiSelectComboboxComponent,
+    FilterableOptionsMultiSelectFormControlComboboxComponent,
     MinimalImplementationComboboxComponent,
   ],
   templateUrl: './combobox-content.component.html',

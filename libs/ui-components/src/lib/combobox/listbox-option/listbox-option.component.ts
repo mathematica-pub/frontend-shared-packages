@@ -7,13 +7,14 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { ComboboxService } from '../combobox.service';
 
 export interface ListboxOptionPropertyChange {
   property: 'selected' | 'disabled';
   value: boolean;
   comboboxId: string;
+  id: number;
   optionValue: string | number | boolean;
 }
 
@@ -26,7 +27,7 @@ let nextUniqueId = 0;
 })
 export class ListboxOptionComponent implements OnChanges {
   @ViewChild('label') label: ElementRef<HTMLDivElement>;
-  @ViewChild('option') optionContent: TemplateRef<unknown>;
+  @ViewChild('option') template: TemplateRef<unknown>;
   @Input() boxDisplayLabel: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() value: any;
@@ -49,8 +50,8 @@ export class ListboxOptionComponent implements OnChanges {
   selected$ = this._selected.asObservable();
   private _disabled: BehaviorSubject<boolean> = new BehaviorSubject(false);
   disabled$ = this._disabled.asObservable();
-  private externalPropertyChanges: Subject<ListboxOptionPropertyChange> =
-    new Subject();
+  private externalPropertyChanges: BehaviorSubject<ListboxOptionPropertyChange> =
+    new BehaviorSubject(null);
   externalPropertyChanges$ = this.externalPropertyChanges.asObservable();
 
   constructor(protected service: ComboboxService) {}
@@ -61,21 +62,32 @@ export class ListboxOptionComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes['disabled'] &&
-      !(changes['disabled'].isFirstChange() && !this.disabled)
-    ) {
+    if (changes['disabled']) {
       this.updateDisabled(this.disabled);
-      this.externalPropertyChanges.next(this.getPropertyChange('disabled'));
+
+      if (!this.isFirstChangeAndValueIsFalse(changes, 'disabled')) {
+        this.externalPropertyChanges.next(this.getPropertyChange('disabled'));
+      }
     }
-    if (
-      !this.disabled &&
-      changes['selected'] &&
-      !(changes['selected'].isFirstChange() && !this.selected)
-    ) {
-      this.updateSelected(this.selected);
-      this.externalPropertyChanges.next(this.getPropertyChange('selected'));
+
+    if (changes['selected']) {
+      if (changes['selected'].isFirstChange()) {
+        this.updateSelected(this.selected);
+        if (this.selected) {
+          this.externalPropertyChanges.next(this.getPropertyChange('selected'));
+        }
+      } else if (!this.disabled && this.selected !== this._selected.value) {
+        this.updateSelected(this.selected);
+        this.externalPropertyChanges.next(this.getPropertyChange('selected'));
+      }
     }
+  }
+
+  isFirstChangeAndValueIsFalse(
+    change: SimpleChanges,
+    property: 'selected' | 'disabled'
+  ): boolean {
+    return change[property].isFirstChange() && !this[property];
   }
 
   getPropertyChange(
@@ -85,17 +97,13 @@ export class ListboxOptionComponent implements OnChanges {
       property,
       value: this[property],
       comboboxId: this.service.id,
+      id: this.id,
       optionValue: this.valueToEmit,
     };
   }
 
   protected updateSelected(selected: boolean): void {
     this._selected.next(selected);
-    if (selected) {
-      this.service.addSelection(this.valueToEmit);
-    } else {
-      this.service.removeSelection(this.valueToEmit);
-    }
   }
 
   private updateDisabled(disabled: boolean): void {

@@ -35,7 +35,7 @@ function createConfig(): GeographiesConfig<Datum, { name: string }, any> {
     .geojsonPropertiesLayer((layer) =>
       layer
         .geographies(features as any)
-        .fillGeojsonProperties((dimension) => dimension.range(['lime']))
+        .fill((dimension) => dimension.range(['lime']))
     )
     .getConfig();
 }

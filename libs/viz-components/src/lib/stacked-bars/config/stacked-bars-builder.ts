@@ -36,23 +36,49 @@ export class VicStackedBarsConfigBuilder<
     Object.assign(this, DEFAULT);
   }
 
+  stackOffset(stackOffset: null): this;
   stackOffset(
     stackOffset: (
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       series: Series<any, any>,
       order: Iterable<number>
     ) => void
+  ): this;
+  stackOffset(
+    stackOffset:
+      | ((
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          series: Series<any, any>,
+          order: Iterable<number>
+        ) => void)
+      | null
   ): this {
+    if (stackOffset === null) {
+      this._stackOffset = DEFAULT._stackOffset;
+      return this;
+    }
     this._stackOffset = stackOffset;
     return this;
   }
 
+  stackOrder(stackOrder: null): this;
   stackOrder(
-    stackOrder: (
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      series: Series<any, any>
-    ) => Iterable<number>
+    stackOrder:
+      | ((series: Series<Datum, TOrdinalValue>) => Iterable<number>)
+      | null
+  ): this;
+  stackOrder(
+    stackOrder:
+      | ((
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          series: Series<any, any>
+        ) => Iterable<number>)
+      | null
   ): this {
+    if (stackOrder === null) {
+      this._stackOrder = DEFAULT._stackOrder;
+      return this;
+    }
     this._stackOrder = stackOrder;
     return this;
   }
@@ -60,9 +86,11 @@ export class VicStackedBarsConfigBuilder<
   override getConfig(): StackedBarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Stacked Bars');
     return new StackedBarsConfig(this.dimensions, {
+      marksClass: 'vic-stacked-bars',
       color: this.colorDimensionBuilder._build('Color'),
       customFills: this._customFills,
       data: this._data,
+      datumClass: this._class,
       mixBlendMode: this._mixBlendMode,
       ordinal: this.ordinalDimensionBuilder._build(
         'band',

@@ -2,16 +2,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   InjectionToken,
   ViewEncapsulation,
 } from '@angular/core';
-import { GeoPath, GeoProjection, geoPath, select } from 'd3';
+import { GeoPath, geoPath, GeoProjection, select } from 'd3';
 import { Selection } from 'd3-selection';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
 import { MapChartComponent } from '../charts/map-chart/map-chart.component';
-import { VicMapPrimaryMarks } from '../marks/map-marks/map-primary-marks/map-primary-marks';
+import { MapPrimaryMarks } from '../marks/map-marks/map-primary-marks/map-primary-marks';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { GeographiesConfig } from './config/geographies-config';
 import { GeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
@@ -24,6 +25,8 @@ export type LayersGroup = Selection<SVGGElement, unknown, null, undefined>;
 export const GEOGRAPHIES = new InjectionToken<
   GeographiesComponent<unknown, unknown>
 >('GeographiesComponent');
+
+export type GeographiesSvgElement = 'layer' | 'g' | 'feature' | 'label';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -43,12 +46,16 @@ export const GEOGRAPHIES = new InjectionToken<
       useExisting: MapChartComponent,
     },
   ],
+  host: {
+    '[class]': 'config.marksClass',
+    '[style.mixed-blend-mode]': 'config.blendMode',
+  },
 })
 export class GeographiesComponent<
   Datum,
   TProperties extends GeoJsonProperties = GeoJsonProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
-> extends VicMapPrimaryMarks<
+> extends MapPrimaryMarks<
   Datum,
   GeographiesConfig<Datum, TProperties, TGeometry>
 > {
@@ -70,10 +77,15 @@ export class GeographiesComponent<
       GeographiesFeature<TProperties, TGeometry>
     >[]
   > = this.pathsByLayer.asObservable();
-  formatForClassName = (s: string): string => s.replace(/\s/g, '-');
+  public elRef = inject<ElementRef<SVGGElement>>(ElementRef);
 
-  constructor(public elRef: ElementRef) {
-    super();
+  get class(): Record<GeographiesSvgElement, string> {
+    return {
+      layer: this.config.marksClass + '-layer',
+      g: this.config.marksClass + '-group',
+      feature: this.config.marksClass + '-feature',
+      label: this.config.marksClass + '-label',
+    };
   }
 
   override initFromConfig(): void {
@@ -135,7 +147,7 @@ export class GeographiesComponent<
         SVGGElement,
         | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
         | GeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
-      >('.vic-geographies-layer')
+      >(`.${this.class.layer}`)
       .data<
         | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
         | GeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
@@ -146,7 +158,8 @@ export class GeographiesComponent<
             .append('g')
             .attr(
               'class',
-              (d) => `vic-geographies-layer layer-${d.id} ${d.class ?? ''}`
+              (layer) =>
+                `${this.class.layer} ${this.class.layer}-${layer.id} ${layer.marksClass}`
             ),
         (update) => update,
         (exit) => exit.remove()
@@ -156,24 +169,20 @@ export class GeographiesComponent<
       const geographyGroup = layerGroup
         .filter((d) => d.id === layer.id)
         .selectAll<SVGGElement, GeographiesFeature<TProperties, TGeometry>>(
-          `.vic-geography-g`
+          `.${this.class.g}`
         )
         .data<GeographiesFeature<TProperties, TGeometry>>(
           (d) => d.geographies,
           (d) => this.config.featureIndexAccessor(d)
         )
         .join('g')
-        .attr(
-          'class',
-          (d) =>
-            `vic-geography-g ${this.formatForClassName(
-              this.config.featureIndexAccessor(d)
-            )}`
+        .attr('class', (d) =>
+          `${this.class.g} ${layer.featureClass(d.properties)}`.trim()
         );
 
       geographyGroup
         .selectAll<SVGPathElement, GeographiesFeature<TProperties, TGeometry>>(
-          'path'
+          `.${this.class.feature}`
         )
         .data<GeographiesFeature<TProperties, TGeometry>>(
           (d) => [d],
@@ -184,9 +193,7 @@ export class GeographiesComponent<
             enter
               .append('path')
               .attr('d', (feature) => this.path(feature))
-              .attr('class', (feature) =>
-                this.formatForClassName(layer.featureIndexAccessor(feature))
-              )
+              .attr('class', this.class.feature)
               // layer-index is used on event directives
               .attr('data-layer-index', layer.id)
               .attr('stroke', layer.stroke.color)
@@ -200,9 +207,7 @@ export class GeographiesComponent<
             update.call((update) =>
               update
                 .attr('d', (feature) => this.path(feature))
-                .attr('class', (feature) =>
-                  this.formatForClassName(layer.featureIndexAccessor(feature))
-                )
+                .attr('class', this.class.feature)
                 .attr('data-layer-index', layer.id)
                 .transition(t)
                 .attr('fill', (feature) => layer.getFill(feature))
@@ -224,7 +229,7 @@ export class GeographiesComponent<
           .selectAll<
             SVGTextElement,
             GeographiesFeature<TProperties, TGeometry>
-          >('.vic-geography-label')
+          >(`.${this.class.label}`)
           .data<GeographiesFeature<TProperties, TGeometry>>(
             (d) => [d],
             (d) => this.config.featureIndexAccessor(d)
@@ -233,7 +238,7 @@ export class GeographiesComponent<
             (enter) =>
               enter
                 .append('text')
-                .attr('class', 'vic-geography-label')
+                .attr('class', this.class.label)
                 // layer-index is used on event directives
                 .attr('data-layer-index', layer.id)
                 .attr('text-anchor', layer.labels.textAnchor)
@@ -294,7 +299,9 @@ export class GeographiesComponent<
       (paths, layer, i) => {
         if (layer.enableEventActions) {
           paths.push(
-            select(this.elRef.nativeElement).selectAll(`.layer-${i} path`)
+            select(this.elRef.nativeElement).selectAll(
+              `.${this.class.layer}-${i} .${this.class.feature}`
+            )
           );
         }
         return paths;

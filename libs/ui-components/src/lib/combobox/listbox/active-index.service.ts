@@ -13,9 +13,9 @@ import {
   OptionAction,
   VisualFocus,
 } from '../combobox.service';
-import { ListboxFilteringService } from '../listbox-filtering/listbox-filtering.service';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
-import { ListboxScrollService } from '../listbox-scroll/listbox-scroll.service';
+import { ListboxFilteringService } from './listbox-filtering.service';
+import { ListboxScrollService } from './listbox-scroll.service';
 
 @Injectable()
 export class ActiveIndexService {
@@ -167,7 +167,7 @@ export class ActiveIndexService {
     index: number,
     options: ListboxOptionComponent[]
   ): void {
-    const indexEl = options[index].label?.nativeElement;
+    const indexEl = options[index].label?.nativeElement.parentElement;
     if (indexEl && this.scrollContentRef.nativeElement) {
       if (this.scrolling.isScrollable(this.scrollContentRef.nativeElement)) {
         this.scrolling.maintainElementVisibility(
