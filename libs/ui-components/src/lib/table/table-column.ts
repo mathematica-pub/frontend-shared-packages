@@ -11,9 +11,9 @@ export type TableCellAlignment = 'left' | 'center' | 'right';
 
 export class TableColumn<Datum> {
   /**
-   * The label of the column. Used in the table header.
+   * The id of the column. Used in the table header.
    * */
-  label: string;
+  id: string;
   /**
    * Function to extract the value to be sorted on from the datum.
    * If not provided, the formatted value will be used for sorting.

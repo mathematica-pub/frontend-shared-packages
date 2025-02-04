@@ -19,7 +19,7 @@ describe('SingleSortHeaderComponent', () => {
     column = new TableColumn<{ name: string }>({
       getFormattedValue: (x) => x.name,
       sortDirection: SortDirection.asc,
-      label: 'name',
+      id: 'name',
     });
     component.column = column;
     component.sortIcon = 'sortIcon';
@@ -28,7 +28,7 @@ describe('SingleSortHeaderComponent', () => {
   describe('getColumnSortClasses', () => {
     it('should return sort classes - case: is actively sorted', () => {
       component.column = new TableColumn<{ name: string }>({
-        label: 'test',
+        id: 'test',
         getFormattedValue: (x) => x.name,
         sortDirection: SortDirection.asc,
         activelySorted: true,

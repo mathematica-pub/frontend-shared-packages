@@ -8,6 +8,6 @@ import { TableComponent } from './table.component';
 @NgModule({
   declarations: [TableComponent, SingleSortHeaderComponent],
   imports: [CommonModule, CdkTableModule, MatIconModule],
-  exports: [TableComponent],
+  exports: [TableComponent, CdkTableModule],
 })
 export class TableModule {}
