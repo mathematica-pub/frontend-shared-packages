@@ -65,7 +65,7 @@ describe('TableComponent', () => {
       }>({
         getSortValue: (x) => x.name,
         sortDirection: SortDirection.asc,
-        label: 'name',
+        id: 'name',
         sortOrder: 1,
       });
       const columns = [

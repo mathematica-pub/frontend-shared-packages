@@ -107,7 +107,7 @@ export class TableComponent<Datum> implements OnInit {
     toggleSortDirection = true
   ): TableColumn<Datum>[] {
     const columnsWithSortDir = columns.map((x) => {
-      if (x.label === activeSortColumn.label) {
+      if (x.id === activeSortColumn.id) {
         if (toggleSortDirection) {
           x.sortDirection =
             x.sortDirection === SortDirection.asc
@@ -128,7 +128,7 @@ export class TableComponent<Datum> implements OnInit {
 
   setTableHeaders(): void {
     this.tableHeaders$ = this.columns$.pipe(
-      map((columns) => columns.map((x) => x.label)),
+      map((columns) => columns.map((x) => x.id)),
       distinctUntilChanged((a, b) => isEqual(a, b)),
       shareReplay(1)
     );
@@ -157,9 +157,9 @@ export class TableComponent<Datum> implements OnInit {
     columns: TableColumn<Datum>[]
   ): Datum[] {
     const sortedColumns = columns.slice().sort((columnA, columnB) => {
-      return columnA.label === primaryColumnSort.label
+      return columnA.id === primaryColumnSort.id
         ? -1
-        : columnB.label === primaryColumnSort.label
+        : columnB.id === primaryColumnSort.id
           ? 1
           : columnA.sortOrder - columnB.sortOrder;
     });
@@ -178,26 +178,6 @@ export class TableComponent<Datum> implements OnInit {
   }
 
   columnTrackingFunction(_: number, column: TableColumn<Datum>) {
-    return column.label;
-  }
-}
-
-
-hsiUiTableHeader
-class HsiUiTableDataSource extends DataSource<Datum> {
-
-  // user inputs the full data 
-  // user inputs some column sorting configuration 
-  constructor(private inputData$: Observable<Datum[]>, private sortConfig: TableColumn<Datum>[]) {
-    super();
-    this.transformedData$ = combineLatest([sortConfig$, this.inputData$]).pipe(return subsetData)
-  }
-
-  handleSort(column: whateverDataTypeThisIs) {
-    this.sortConfig[column] -- what is the sort function? use some smart default if not provided 
-    handle tiebreaks using this.sortConfig[column].sortOrder (will need other columns' sort functions & orders)
-  }
-  override connect(): Observable<readonly Datum[]> {
-      return this.transformedData$;
+    return column.id;
   }
 }

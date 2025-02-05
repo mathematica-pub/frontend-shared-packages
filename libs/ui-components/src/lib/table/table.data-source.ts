@@ -1,16 +1,22 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { CdkHeaderRowDef } from '@angular/cdk/table';
-import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatest,
+  filter,
+  map,
+  merge,
+  scan,
+  shareReplay,
+  withLatestFrom,
+} from 'rxjs';
 import { SortDirection, TableColumn } from './table-column';
 
-export class HsiUiTableHeader extends CdkHeaderRowDef {}
-
 export class HsiUiTableDataSource<Datum> extends DataSource<Datum> {
-  private data = new BehaviorSubject<Datum[]>([]);
-  private data$ = this.data.asObservable();
-  private columns = new BehaviorSubject<TableColumn<Datum>[]>([]);
-  // user inputs the full data
-  // user inputs some column sorting configuration
+  private sortedData$: Observable<Datum[]>;
+
+  private sortColId = new BehaviorSubject<string>(null);
+  private sortColId$ = this.sortColId.asObservable();
 
   // TODO: get rid of subscribe, use rxjs operators instead
   // TODO: clean up table-column.ts only use properties used in this class
@@ -18,61 +24,151 @@ export class HsiUiTableDataSource<Datum> extends DataSource<Datum> {
   // TODO: plan sort column directive
   constructor(
     private inputData$: Observable<Datum[]>,
-    private columns$: Observable<TableColumn<Datum>[]>
+    private inputColumns$: Observable<TableColumn<Datum>[]>
   ) {
     super();
 
-    columns$.subscribe((columns) => {
-      this.columns.next(columns);
-    });
-    combineLatest([columns$, inputData$])
-      .pipe(
-        map(([sort, data]) => {
-          console.log(data, sort);
-          return data;
-        })
+    // this.columns$ = this.inputColumns$
+    //   .getValue()
+    //   .slice()
+    //   .sort((columnA, columnB) => {
+    //     return columnA.id === columnId
+    //       ? -1
+    //       : columnB.id === columnId
+    //         ? 1
+    //         : columnA.sortOrder - columnB.sortOrder;
+    //   });
+
+    // const sortedData = this.data
+    //   .getValue()
+    //   .slice()
+    //   .sort((a, b) => {
+    //     for (const column of sortedColumns) {
+    //       let returnValue = column.ascendingSortFunction(a, b);
+    //       if (column.sortDirection === SortDirection.desc) {
+    //         returnValue *= -1;
+    //       }
+    //       if (returnValue !== 0) return returnValue;
+    //     }
+    //     return 0;
+    //   });
+
+    // sortedColumns[0].sortDirection =
+    //   sortedColumns[0].sortDirection == SortDirection.asc
+    //     ? SortDirection.desc
+    //     : SortDirection.asc;
+
+    const config$ = combineLatest([this.inputData$, this.inputColumns$]).pipe(
+      withLatestFrom(this.sortColId$),
+      map(([[data, cols], sortId]) => () => {
+        // const activeSortColumn =
+        //   cols.find((c) => c.id == sortId) || this.getMinSortOrderColumn(cols);
+        const columns = this.getColumnsWithNewSortApplied(sortId, cols, false);
+        return {
+          data: this.sortData(data, sortId, columns),
+          columns,
+        };
+      })
+    );
+
+    const sort$ = this.sortColId$.pipe(
+      filter((sortId) => sortId !== null),
+      map(
+        (sortId) =>
+          (sortedConfig: { data: Datum[]; columns: TableColumn<Datum>[] }) => {
+            const columns = this.getColumnsWithNewSortApplied(
+              sortId,
+              sortedConfig.columns
+            );
+            return {
+              data: this.sortData(sortedConfig.data, sortId, columns),
+              columns: columns,
+            };
+          }
       )
-      .subscribe((data) => this.data.next(data));
+    );
+
+    const sortedConfig$ = merge(config$, sort$).pipe(
+      scan((sortedConfig, changeFn) => changeFn(sortedConfig), {
+        data: [],
+        columns: [],
+      }),
+      shareReplay(1) // do not remove sort toggle will be called twice
+    );
+
+    this.sortedData$ = sortedConfig$.pipe(
+      map((x) => x.data),
+      shareReplay(1)
+    );
+    this.inputColumns$ = sortedConfig$.pipe(
+      map((x) => x.columns),
+      shareReplay(1)
+    );
+  }
+
+  sortData(
+    data: Datum[],
+    primaryColumnSortId: string,
+    columns: TableColumn<Datum>[]
+  ): Datum[] {
+    const sortedColumns = columns.slice().sort((columnA, columnB) => {
+      return columnA.id === primaryColumnSortId
+        ? -1
+        : columnB.id === primaryColumnSortId
+          ? 1
+          : columnA.sortOrder - columnB.sortOrder;
+    });
+
+    const sortedData = data.slice().sort((a, b) => {
+      for (const column of sortedColumns) {
+        let returnValue = column.ascendingSortFunction(a, b);
+        if (column.sortDirection === SortDirection.desc) {
+          returnValue *= -1;
+        }
+        if (returnValue !== 0) return returnValue;
+      }
+      return 0;
+    });
+    return sortedData;
+  }
+
+  // getMinSortOrderColumn(columns: TableColumn<Datum>[]): TableColumn<Datum> {
+  //   const minSortOrder = min(columns, (x) => x.sortOrder);
+  //   return columns.find((x) => x.sortOrder === minSortOrder);
+  // }
+
+  getColumnsWithNewSortApplied(
+    activeSortColumnId: string,
+    columns: TableColumn<Datum>[],
+    toggleSortDirection = true
+  ): TableColumn<Datum>[] {
+    const columnsWithSortDir = columns.map((x) => {
+      if (x.id === activeSortColumnId) {
+        if (toggleSortDirection) {
+          x.sortDirection =
+            x.sortDirection === SortDirection.asc
+              ? SortDirection.desc
+              : SortDirection.asc;
+        }
+        x.activelySorted = true;
+      } else {
+        if (toggleSortDirection) {
+          x.sortDirection = x.initialSortDirection;
+        }
+        x.activelySorted = false;
+      }
+      return x;
+    });
+    return columnsWithSortDir;
   }
 
   handleSort(columnId: string) {
-    const sortedColumns = this.columns
-      .getValue()
-      .slice()
-      .sort((columnA, columnB) => {
-        return columnA.id === columnId
-          ? -1
-          : columnB.id === columnId
-            ? 1
-            : columnA.sortOrder - columnB.sortOrder;
-      });
-
-    const sortedData = this.data
-      .getValue()
-      .slice()
-      .sort((a, b) => {
-        for (const column of sortedColumns) {
-          let returnValue = column.ascendingSortFunction(a, b);
-          if (column.sortDirection === SortDirection.desc) {
-            returnValue *= -1;
-          }
-          if (returnValue !== 0) return returnValue;
-        }
-        return 0;
-      });
-
-    sortedColumns[0].sortDirection =
-      sortedColumns[0].sortDirection == SortDirection.asc
-        ? SortDirection.desc
-        : SortDirection.asc;
-
-    this.columns.next(sortedColumns);
-    this.data.next(sortedData);
+    this.sortColId.next(columnId);
   }
 
   override disconnect(_collectionViewer: CollectionViewer): void {}
 
   override connect(_collectionViewer: CollectionViewer): Observable<Datum[]> {
-    return this.data$;
+    return this.sortedData$;
   }
 }

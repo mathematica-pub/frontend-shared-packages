@@ -1,4 +1,4 @@
-<table class="table-container" cdk-table [dataSource]="dataSource">
+<!-- <table class="table-container" cdk-table [dataSource]="dataSource">
   <col
     *ngFor="let column of columns$ | async; trackBy: columnTrackingFunction"
     span="1"
@@ -7,7 +7,7 @@
 
   <ng-container
     *ngFor="let column of columns$ | async; trackBy: columnTrackingFunction"
-    [cdkColumnDef]="column.label"
+    [cdkColumnDef]="column.id"
   >
     <ng-container
       *ngIf="column.sortable; then sortIconCells; else basicCells"
@@ -66,4 +66,4 @@
     *cdkRowDef="let row; columns: tableHeaders$ | async"
   ></tr>
   <ng-template></ng-template>
-</table>
+</table> -->
