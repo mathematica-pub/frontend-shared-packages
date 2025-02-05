@@ -34,13 +34,13 @@
     top: 8px;
   }
 
-  .dots-example .vic-chart-svg > g:nth-child(2),
-  .dots-example .vic-chart-svg > g:nth-child(5) {
+  .dots-example .vic-chart-svg > .vic-xy-background,
+  .dots-example .vic-chart-svg > .vic-dots {
     display: none;
   }
 
-  .bars-simple-states-example .vic-chart-svg > g:nth-child(2),
-  .bars-simple-states-example .vic-chart-svg > g:nth-child(5) {
+  .bars-simple-states-example .vic-chart-svg > .vic-xy-background,
+  .bars-simple-states-example .vic-chart-svg > .vic-bars {
     display: none;
   }
 
@@ -49,10 +49,8 @@
     width: 100%;
     padding: grid(6) 0 grid(10) 0;
 
-    .vic-x.vic-axis-g .tick,
-    .vic-y.vic-axis-g .tick,
-    .vic-x.vic-axis-g .domain,
-    .vic-y.vic-axis-g .domain {
+    .vic-axis .tick,
+    .vic-axis .domain {
       opacity: 0.3;
     }
   }

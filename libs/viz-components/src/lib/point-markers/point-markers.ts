@@ -1,8 +1,8 @@
 import { PointMarkersOptions } from './point-markers-options';
 
 export class PointMarkers<Datum> implements PointMarkersOptions<Datum> {
+  readonly datumClass: (d: Datum, i: number) => string;
   readonly display: (d: Datum) => boolean;
-  readonly class: string;
   readonly growByOnHover: number;
   readonly radius: number;
 

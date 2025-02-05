@@ -8,8 +8,8 @@ export class QuantitativeRulesConfig<Datum extends number | Date>
   extends XyMarksConfig<Datum>
   implements QuantitativeRulesOptions<Datum>
 {
-  readonly dimensions: QuantitativeRulesDimensions;
   color: (d: Datum) => string;
+  readonly dimensions: QuantitativeRulesDimensions;
   labels: QuantitativeRulesLabels<Datum>;
   stroke: Stroke;
 

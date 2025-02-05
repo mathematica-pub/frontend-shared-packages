@@ -46,6 +46,9 @@ export interface XyChartScales {
   styleUrls: ['../chart/chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: CHART, useExisting: ChartComponent }],
+  host: {
+    class: 'vic-xy-chart',
+  },
 })
 export class XyChartComponent extends ChartComponent implements Chart, OnInit {
   private scales: BehaviorSubject<XyChartScales> = new BehaviorSubject(null);

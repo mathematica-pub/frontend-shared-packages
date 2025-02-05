@@ -70,6 +70,10 @@ export class LinesConfig<Datum>
     );
   }
 
+  getDataFromCategory(category: string): Datum[] {
+    return this.linesD3Data.get(category).map((i) => this.data[i]);
+  }
+
   private setLinesKeyFunction(): void {
     this.linesKeyFunction = (d): string => d[0];
   }

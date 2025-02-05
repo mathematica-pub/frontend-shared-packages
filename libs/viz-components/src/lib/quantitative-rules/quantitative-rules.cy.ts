@@ -51,6 +51,10 @@ const barsVerticalMargin = { top: 20, right: 20, bottom: 4, left: 40 };
 const barsChartHeight = 400;
 const barsChartWidth = 600;
 
+const groupSelector = '.vic-quantitative-rules-group';
+const ruleSelector = '.vic-quantitative-rules-rule';
+const labelSelector = '.vic-quantitative-rules-label';
+
 // ***********************************************************
 // Horizontal bar chart component set up
 // ***********************************************************
@@ -369,12 +373,9 @@ describe('it creates the correct rules and labels - vertical rules on horizontal
       .color(ruleColor)
       .getConfig();
     mountHorizontalBarsComponent(rulesConfig);
-    cy.get('.vic-quantitative-rule-group').should(
-      'have.length',
-      ruleData.length
-    );
-    cy.get('.vic-quantitative-rule').should('have.length', ruleData.length);
-    cy.get('.vic-quantitative-rule').each(($rule) => {
+    cy.get(groupSelector).should('have.length', ruleData.length);
+    cy.get(ruleSelector).should('have.length', ruleData.length);
+    cy.get(ruleSelector).each(($rule) => {
       expect($rule.attr('stroke')).to.equal(ruleColor);
     });
   });
@@ -387,7 +388,7 @@ describe('it creates the correct rules and labels - vertical rules on horizontal
       .color(getColor)
       .getConfig();
     mountHorizontalBarsComponent(rulesConfig);
-    cy.get('.vic-quantitative-rule').each(($rule, index) => {
+    cy.get(ruleSelector).each(($rule, index) => {
       if (index === 0) {
         expect($rule.attr('stroke')).to.equal('chartreuse');
       } else {
@@ -405,25 +406,17 @@ describe('it creates the correct rules and labels - vertical rules on horizontal
       .labels()
       .getConfig();
     mountHorizontalBarsComponent(rulesConfig);
-    cy.get('.vic-quantitative-rule-group').each(($group, index) => {
+    cy.get(groupSelector).each(($group, index) => {
       if (index === 0) {
-        expect($group.find('.vic-quantitative-rule').attr('stroke')).to.equal(
-          'chartreuse'
-        );
-        expect(
-          $group.find('.vic-quantitative-rule-label').attr('fill')
-        ).to.equal('chartreuse');
-        expect($group.find('.vic-quantitative-rule-label').text()).to.equal(
+        expect($group.find(ruleSelector).attr('stroke')).to.equal('chartreuse');
+        expect($group.find(labelSelector).attr('fill')).to.equal('chartreuse');
+        expect($group.find(labelSelector).text()).to.equal(
           `${ruleData[index]}`
         );
       } else {
-        expect($group.find('.vic-quantitative-rule').attr('stroke')).to.equal(
-          'magenta'
-        );
-        expect(
-          $group.find('.vic-quantitative-rule-label').attr('fill')
-        ).to.equal('magenta');
-        expect($group.find('.vic-quantitative-rule-label').text()).to.equal(
+        expect($group.find(ruleSelector).attr('stroke')).to.equal('magenta');
+        expect($group.find(labelSelector).attr('fill')).to.equal('magenta');
+        expect($group.find(labelSelector).text()).to.equal(
           `${ruleData[index]}`
         );
       }
@@ -443,27 +436,15 @@ describe('it creates the correct rules and labels - vertical rules on horizontal
       )
       .getConfig();
     mountHorizontalBarsComponent(rulesConfig);
-    cy.get('.vic-quantitative-rule-group').each(($group, index) => {
+    cy.get(groupSelector).each(($group, index) => {
       if (index === 0) {
-        expect($group.find('.vic-quantitative-rule').attr('stroke')).to.equal(
-          'chartreuse'
-        );
-        expect(
-          $group.find('.vic-quantitative-rule-label').attr('fill')
-        ).to.equal('green');
-        expect($group.find('.vic-quantitative-rule-label').text()).to.equal(
-          'pretty big'
-        );
+        expect($group.find(ruleSelector).attr('stroke')).to.equal('chartreuse');
+        expect($group.find(labelSelector).attr('fill')).to.equal('green');
+        expect($group.find(labelSelector).text()).to.equal('pretty big');
       } else {
-        expect($group.find('.vic-quantitative-rule').attr('stroke')).to.equal(
-          'magenta'
-        );
-        expect(
-          $group.find('.vic-quantitative-rule-label').attr('fill')
-        ).to.equal('hotpink');
-        expect($group.find('.vic-quantitative-rule-label').text()).to.equal(
-          'really big'
-        );
+        expect($group.find(ruleSelector).attr('stroke')).to.equal('magenta');
+        expect($group.find(labelSelector).attr('fill')).to.equal('hotpink');
+        expect($group.find(labelSelector).text()).to.equal('really big');
       }
     });
   });
@@ -491,27 +472,19 @@ describe('it creates the correct rules and labels - horizontal rules on vertical
       )
       .getConfig();
     mountVerticalBarsComponent(rulesConfig);
-    cy.get('.vic-quantitative-rule-group').each(($group, index) => {
+    cy.get(groupSelector).each(($group, index) => {
       if (index === 0) {
-        expect($group.find('.vic-quantitative-rule').attr('stroke')).to.equal(
-          'chartreuse'
-        );
         expect(
-          $group.find('.vic-quantitative-rule-label').attr('fill')
-        ).to.equal('green');
-        expect($group.find('.vic-quantitative-rule-label').text()).to.equal(
-          'pretty big'
-        );
+          $group.find('.vic-quantitative-rules-rule').attr('stroke')
+        ).to.equal('chartreuse');
+        expect($group.find(labelSelector).attr('fill')).to.equal('green');
+        expect($group.find(labelSelector).text()).to.equal('pretty big');
       } else {
-        expect($group.find('.vic-quantitative-rule').attr('stroke')).to.equal(
-          'magenta'
-        );
         expect(
-          $group.find('.vic-quantitative-rule-label').attr('fill')
-        ).to.equal('hotpink');
-        expect($group.find('.vic-quantitative-rule-label').text()).to.equal(
-          'really big'
-        );
+          $group.find('.vic-quantitative-rules-rule').attr('stroke')
+        ).to.equal('magenta');
+        expect($group.find(labelSelector).attr('fill')).to.equal('hotpink');
+        expect($group.find(labelSelector).text()).to.equal('really big');
       }
     });
   });
@@ -531,15 +504,12 @@ describe('it creates the correct rules and labels on a date line chart', () => {
       .labels()
       .getConfig();
     mountDateLinesComponent<number>(rulesConfig);
-    cy.get('.vic-quantitative-rule-group').should(
-      'have.length',
-      ruleData.length
-    );
-    cy.get('.vic-quantitative-rule').should('have.length', ruleData.length);
-    cy.get('.vic-quantitative-rule').each(($rule) => {
+    cy.get(groupSelector).should('have.length', ruleData.length);
+    cy.get(ruleSelector).should('have.length', ruleData.length);
+    cy.get(ruleSelector).each(($rule) => {
       expect($rule.attr('stroke')).to.equal(ruleColor);
     });
-    cy.get('.vic-quantitative-rule-label').each(($rule, index) => {
+    cy.get(labelSelector).each(($rule, index) => {
       expect($rule.text()).to.equal(`${ruleData[index]}`);
     });
   });
@@ -553,15 +523,12 @@ describe('it creates the correct rules and labels on a date line chart', () => {
       .labels((labels) => labels.value(() => 'no return'))
       .getConfig();
     mountDateLinesComponent<Date>(rulesConfig);
-    cy.get('.vic-quantitative-rule-group').should(
-      'have.length',
-      ruleData.length
-    );
-    cy.get('.vic-quantitative-rule').should('have.length', ruleData.length);
-    cy.get('.vic-quantitative-rule').each(($rule) => {
+    cy.get(groupSelector).should('have.length', ruleData.length);
+    cy.get(ruleSelector).should('have.length', ruleData.length);
+    cy.get(ruleSelector).each(($rule) => {
       expect($rule.attr('stroke')).to.equal(ruleColor);
     });
-    cy.get('.vic-quantitative-rule-label').each(($rule) => {
+    cy.get(labelSelector).each(($rule) => {
       expect($rule.text()).to.equal('no return');
     });
   });
@@ -581,15 +548,12 @@ describe('it creates the correct rules and labels on a number line chart', () =>
       .labels()
       .getConfig();
     mountNumberLinesComponent(rulesConfig);
-    cy.get('.vic-quantitative-rule-group').should(
-      'have.length',
-      ruleData.length
-    );
-    cy.get('.vic-quantitative-rule').should('have.length', ruleData.length);
-    cy.get('.vic-quantitative-rule').each(($rule) => {
+    cy.get(groupSelector).should('have.length', ruleData.length);
+    cy.get(ruleSelector).should('have.length', ruleData.length);
+    cy.get(ruleSelector).each(($rule) => {
       expect($rule.attr('stroke')).to.equal(ruleColor);
     });
-    cy.get('.vic-quantitative-rule-label').each(($rule, index) => {
+    cy.get(labelSelector).each(($rule, index) => {
       expect($rule.text()).to.equal(`${ruleData[index]}`);
     });
   });
@@ -603,15 +567,12 @@ describe('it creates the correct rules and labels on a number line chart', () =>
       .labels((labels) => labels.value(() => 'no return'))
       .getConfig();
     mountNumberLinesComponent(rulesConfig);
-    cy.get('.vic-quantitative-rule-group').should(
-      'have.length',
-      ruleData.length
-    );
-    cy.get('.vic-quantitative-rule').should('have.length', ruleData.length);
-    cy.get('.vic-quantitative-rule').each(($rule) => {
+    cy.get(groupSelector).should('have.length', ruleData.length);
+    cy.get(ruleSelector).should('have.length', ruleData.length);
+    cy.get(ruleSelector).each(($rule) => {
       expect($rule.attr('stroke')).to.equal(ruleColor);
     });
-    cy.get('.vic-quantitative-rule-label').each(($rule) => {
+    cy.get(labelSelector).each(($rule) => {
       expect($rule.text()).to.equal('no return');
     });
   });

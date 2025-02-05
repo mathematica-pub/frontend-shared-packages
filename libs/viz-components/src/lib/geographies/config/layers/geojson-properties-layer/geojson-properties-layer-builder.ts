@@ -1,11 +1,12 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { FillDefinition } from 'libs/viz-components/src/public-api';
 import { OrdinalVisualValueDimensionBuilder } from '../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
+import { FillDefinition } from '../../../../fill-definitions/fill-definitions';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
 import { GeographiesGeojsonPropertiesLayer } from './geojson-properties-layer';
 
 const DEFAULT = {
+  _class: () => '',
   _enableEventActions: false,
 };
 
@@ -86,12 +87,14 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
   _build(): GeographiesGeojsonPropertiesLayer<TProperties, TGeometry> {
     this.validateBuilder();
     return new GeographiesGeojsonPropertiesLayer({
-      class: this._class,
+      marksClass: 'vic-geographies-geojson-properties-layer',
       customFills: this._customFills,
+      featureClass: this._class,
       enableEventActions: this._enableEventActions,
       fill: this.fillBuilder._build('Fill'),
       geographies: this._geographies,
       labels: this.labelsBuilder?._build(),
+      mixBlendMode: this._mixBlendMode,
       stroke: this.strokeBuilder?._build(),
     });
   }

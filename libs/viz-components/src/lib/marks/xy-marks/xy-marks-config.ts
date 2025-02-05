@@ -1,5 +1,5 @@
-import { MarksConfig } from '../config/marks-config';
+import { DataMarksConfig } from '../config/marks-config';
 
-export abstract class XyMarksConfig<Datum> extends MarksConfig<Datum> {
+export abstract class XyMarksConfig<Datum> extends DataMarksConfig<Datum> {
   valueIndices: number[];
 }

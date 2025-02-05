@@ -94,7 +94,7 @@ const mountGeographiesComponent = (
 // ***********************************************************
 // Test dimension
 // ***********************************************************
-describe('the Categorical Bins Attribute Data dimension', () => {
+describe.only('the Categorical Bins Attribute Data dimension', () => {
   let geographiesConfig: GeographiesConfig<
     StateIncomePopulationYearDatum,
     TestMapGeometryProperties
@@ -124,6 +124,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .categoricalBins((dimension) =>
@@ -154,9 +155,11 @@ describe('the Categorical Bins Attribute Data dimension', () => {
               return x.income < binValues[i + 1] && x.income >= binValues[i];
             }
           })
-          .map((x) => x.state.replace(/\s/g, '-'));
+          .map((x) => x.state);
         statesInAttributeData.forEach((state) => {
-          cy.get(`.vic-geography-g path.${state}`).then((path) => {
+          cy.get(
+            `.vic-geographies-group.${state.split(' ').join('-')} path`
+          ).then((path) => {
             expect(path.attr('fill')).to.eq(color);
           });
         });
@@ -185,6 +188,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .categoricalBins((dimension) =>
@@ -218,7 +222,9 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         { data: lowStates, color: 'blue' },
       ].forEach((group) => {
         group.data.forEach((state) => {
-          cy.get(`.vic-geography-g path.${state}`).then((path) => {
+          cy.get(
+            `.vic-geographies-group.${state.split(' ').join('-')} path`
+          ).then((path) => {
             expect(path.attr('fill')).to.eq(group.color);
           });
         });
@@ -249,6 +255,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .categoricalBins((dimension) =>
@@ -284,7 +291,9 @@ describe('the Categorical Bins Attribute Data dimension', () => {
           .map((d) => d.state.replace(/\s/g, '-'));
         const color = rangeValues[i % rangeValues.length];
         statesInAttributeData.forEach((state) => {
-          cy.get(`.vic-geography-g path.${state}`).then((path) => {
+          cy.get(
+            `.vic-geographies-group.${state.split(' ').join('-')} path`
+          ).then((path) => {
             expect(path.attr('fill')).to.eq(color);
           });
         });
@@ -326,6 +335,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         .attributeDataLayer((layer) =>
           layer
             .data(dataWithFalsyValues)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .categoricalBins((dimension) =>
@@ -352,13 +362,13 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         )
         .getConfig();
       mountGeographiesComponent(geographiesConfig);
-      cy.get(`.vic-geography-g path.Florida`).then((path) => {
+      cy.get(`.vic-geographies-group.Florida path`).then((path) => {
         expect(path.attr('fill')).to.eq(nullColor);
       });
-      cy.get(`.vic-geography-g path.Texas`).then((path) => {
+      cy.get(`.vic-geographies-group.Texas path`).then((path) => {
         expect(path.attr('fill')).to.eq(nullColor);
       });
-      cy.get(`.vic-geography-g path.California`).then((path) => {
+      cy.get(`.vic-geographies-group.California path`).then((path) => {
         expect(path.attr('fill')).to.eq(nullColor);
       });
     });
@@ -390,6 +400,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .categoricalBins((dimension) =>
@@ -417,7 +428,9 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         )
         .map((x) => x.properties.name.replace(/\s/g, '-'));
       geographiesNotInAttributeData.forEach((state) => {
-        cy.get(`.vic-geography-g path.${state}`).then((path) => {
+        cy.get(
+          `.vic-geographies-group.${state.split(' ').join('-')} path`
+        ).then((path) => {
           expect(path.attr('fill')).to.eq(nullColor);
         });
       });
