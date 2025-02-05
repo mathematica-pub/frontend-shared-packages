@@ -752,7 +752,7 @@ describe('grid lines', () => {
     });
     cy.wait(axisTickTextWaitTime);
     cy.get('.vic-grid-line').each(($line, i) => {
-      if (i % 2 === 0 && i > 0) {
+      if (i % 2 === 0) {
         cy.wrap($line).should('not.have.css', 'display', 'none');
       } else {
         cy.wrap($line).should('have.css', 'display', 'none');
