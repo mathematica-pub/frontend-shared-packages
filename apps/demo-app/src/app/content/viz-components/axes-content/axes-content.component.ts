@@ -84,12 +84,12 @@ export class AxesContentComponent implements OnInit {
 
     this.defaultGridAxes = {
       x: this.xQuantitativeAxis
-        .label((label) => label.text(''))
+        .label(null)
         .tickFormat('.0f')
         .grid()
         .getConfig(),
       y: this.yQuantitativeAxis
-        .label((label) => label.text(''))
+        .label(null)
         .tickFormat('.0f')
         .grid()
         .getConfig(),
@@ -98,7 +98,7 @@ export class AxesContentComponent implements OnInit {
     this.customGridAxes = {
       x: this.xQuantitativeAxis
         .tickFormat('.0f')
-        .label((label) => label.text(''))
+        .label(null)
         .grid((grid) =>
           grid
             .filter((i) => i % 2 !== 0)
@@ -107,7 +107,7 @@ export class AxesContentComponent implements OnInit {
         .getConfig(),
       y: this.yQuantitativeAxis
         .tickFormat('.0f')
-        .label((label) => label.text(''))
+        .label(null)
         .grid((grid) =>
           grid
             .filter((i) => i % 2 !== 0)
