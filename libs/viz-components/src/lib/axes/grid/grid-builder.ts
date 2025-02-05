@@ -2,7 +2,7 @@ import { StrokeBuilder } from '../../stroke/stroke-builder';
 import { Grid } from './grid-config';
 
 const DEFAULT = {
-  _filter: () => true,
+  _filter: (i) => i > 0,
 };
 
 export class GridBuilder {
@@ -16,6 +16,8 @@ export class GridBuilder {
   /**
    * OPTIONAL. Determines whether or not to display grid lines. Must specify a function
    *  that takes the index of the grid line and returns a boolean.
+   *
+   * Default: (i) => i > 0, but can be overriden to display all grid lines.
    */
   filter(filter: ((i: number) => boolean) | null) {
     if (filter === null) {

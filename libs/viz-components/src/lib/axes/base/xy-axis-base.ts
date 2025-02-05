@@ -104,9 +104,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
       .call(this.axis.tickSizeInner(this.getGridLineLength()))
       .selectAll('.tick')
       .attr('class', `${this.class.grid}-line`)
-      .style('display', (_, i) =>
-        this.config.grid.filter(i) && i > 0 ? null : 'none'
-      )
+      .style('display', (_, i) => (this.config.grid.filter(i) ? null : 'none'))
       .select('line')
       .attr('stroke', this.config.grid.stroke.color)
       .attr('stroke-dasharray', this.config.grid.stroke.dasharray)
