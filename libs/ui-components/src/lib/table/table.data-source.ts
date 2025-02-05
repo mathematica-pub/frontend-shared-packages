@@ -18,47 +18,15 @@ export class HsiUiTableDataSource<Datum> extends DataSource<Datum> {
   private sortColId = new BehaviorSubject<string>(null);
   private sortColId$ = this.sortColId.asObservable();
 
-  // TODO: get rid of subscribe, use rxjs operators instead
-  // TODO: clean up table-column.ts only use properties used in this class
   // TODO: add sort icon to table example
   // TODO: plan sort column directive
   constructor(
     private inputData$: Observable<Datum[]>,
-    private inputColumns$: Observable<TableColumn<Datum>[]>
+    private columns$: Observable<TableColumn<Datum>[]>
   ) {
     super();
 
-    // this.columns$ = this.inputColumns$
-    //   .getValue()
-    //   .slice()
-    //   .sort((columnA, columnB) => {
-    //     return columnA.id === columnId
-    //       ? -1
-    //       : columnB.id === columnId
-    //         ? 1
-    //         : columnA.sortOrder - columnB.sortOrder;
-    //   });
-
-    // const sortedData = this.data
-    //   .getValue()
-    //   .slice()
-    //   .sort((a, b) => {
-    //     for (const column of sortedColumns) {
-    //       let returnValue = column.ascendingSortFunction(a, b);
-    //       if (column.sortDirection === SortDirection.desc) {
-    //         returnValue *= -1;
-    //       }
-    //       if (returnValue !== 0) return returnValue;
-    //     }
-    //     return 0;
-    //   });
-
-    // sortedColumns[0].sortDirection =
-    //   sortedColumns[0].sortDirection == SortDirection.asc
-    //     ? SortDirection.desc
-    //     : SortDirection.asc;
-
-    const config$ = combineLatest([this.inputData$, this.inputColumns$]).pipe(
+    const config$ = combineLatest([this.inputData$, this.columns$]).pipe(
       withLatestFrom(this.sortColId$),
       map(([[data, cols], sortId]) => () => {
         // const activeSortColumn =
@@ -100,7 +68,7 @@ export class HsiUiTableDataSource<Datum> extends DataSource<Datum> {
       map((x) => x.data),
       shareReplay(1)
     );
-    this.inputColumns$ = sortedConfig$.pipe(
+    this.columns$ = sortedConfig$.pipe(
       map((x) => x.columns),
       shareReplay(1)
     );

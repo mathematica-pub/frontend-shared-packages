@@ -1,32 +1,15 @@
-import { ascending } from 'd3';
-
 export enum SortDirection {
   asc = 'asc',
   desc = 'desc',
 }
 
 export type SortDirectionType = keyof typeof SortDirection;
-export type TableValue = string | number | boolean | Date;
-export type TableCellAlignment = 'left' | 'center' | 'right';
 
 export class TableColumn<Datum> {
   /**
    * The id of the column. Used in the table header.
    * */
   id: string;
-  /**
-   * Function to extract the value to be sorted on from the datum.
-   * If not provided, the formatted value will be used for sorting.
-   */
-  getSortValue: (x: Datum) => TableValue;
-  /**
-   * Function to format the value for display in the table.
-   */
-  getFormattedValue: (x: Datum) => string;
-  /**
-   * Function to determine the alignment of the cell content.
-   */
-  getAlignment: (x: Datum) => TableCellAlignment;
   /**
    * Width of the column. Can be a percentage or pixel value.
    */
@@ -55,16 +38,7 @@ export class TableColumn<Datum> {
 
   constructor(init?: Partial<TableColumn<Datum>>) {
     this.sortDirection = SortDirection.asc;
-    this.getAlignment = () => 'left';
     Object.assign(this, init);
     this.initialSortDirection = this.sortDirection;
-    if (this.ascendingSortFunction === undefined) {
-      this.ascendingSortFunction = this.defaultSort;
-    }
-  }
-
-  defaultSort(a: Datum, b: Datum): number {
-    const accessor = this.getSortValue || this.getFormattedValue;
-    return ascending(accessor(a), accessor(b));
   }
 }
