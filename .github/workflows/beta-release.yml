@@ -72,7 +72,7 @@ jobs:
       - name: Extract version from tag
         run: |
           git fetch --tags
-          LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          LATEST_TAG=$(git tag --list "${REFERENCED_PACKAGE}-*" | sort -V | tail -n 1)
           VERSION=$(echo $LATEST_TAG | sed "s/^$REFERENCED_PACKAGE-//")
           echo "NEW_VERSION=$VERSION" >> $GITHUB_ENV
 
