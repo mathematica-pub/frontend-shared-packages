@@ -40,7 +40,7 @@ There are no required methods for axis grids.
 
 ```builder-method
 name: filter
-description: Determines whether or not to display grid lines. Must specify a function that takes the index of the grid line and returns a boolean.
+description: Determines whether or not to display grid lines. Must specify a function that takes the index of the grid line and returns a boolean. By default, this function filters out the first grid line (that overlaps the axis domain line). This can be overridden by specifying a filter function of `(i) => true`.
 params:
   - name: filter
     type: '((i: number) => boolean) | null'
