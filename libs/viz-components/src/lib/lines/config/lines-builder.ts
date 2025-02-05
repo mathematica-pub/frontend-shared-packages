@@ -53,12 +53,14 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   areaFills(
     areaFills?: ((areaFills: AreaFillsBuilder<Datum>) => void) | null
   ): this {
+    console.log('areaFills', areaFills);
     if (areaFills === null) {
       this.areaFillsBuilder = undefined;
       return this;
     }
     this.initBelowLinesAreaFillBuilder();
     areaFills?.(this.areaFillsBuilder);
+    console.log('this.areaFillsBuilder', this.areaFillsBuilder);
     return this;
   }
 
@@ -206,8 +208,10 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   getConfig(): LinesConfig<Datum> {
     this.validateBuilder();
     return new LinesConfig({
+      marksClass: 'vic-lines',
       curve: this._curve,
       data: this._data,
+      datumClass: this._class,
       labelLines: this._labelLines,
       lineLabelsFormat: this._lineLabelsFormat,
       mixBlendMode: this._mixBlendMode,

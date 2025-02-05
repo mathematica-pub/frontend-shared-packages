@@ -11,7 +11,7 @@ import {
   MultiPolygon,
   Polygon,
 } from 'geojson';
-import { PrimaryMarksConfig } from '../../marks/primary-marks/config/primary-marks-config';
+import { MarksConfig } from '../../marks';
 import { GeographiesFeature } from '../geographies-feature';
 import { GeographiesOptions } from './geographies-options';
 import { GeographiesAttributeDataLayer } from './layers/attribute-data-layer/attribute-data-layer';
@@ -22,7 +22,7 @@ export class GeographiesConfig<
     TProperties extends GeoJsonProperties,
     TGeometry extends Geometry = MultiPolygon | Polygon,
   >
-  extends PrimaryMarksConfig<Datum>
+  extends MarksConfig
   implements GeographiesOptions<Datum, TProperties, TGeometry>
 {
   readonly boundary:
@@ -30,7 +30,6 @@ export class GeographiesConfig<
     | ExtendedFeatureCollection
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
-  override data: null;
   readonly attributeDataLayer: GeographiesAttributeDataLayer<
     Datum,
     TProperties,

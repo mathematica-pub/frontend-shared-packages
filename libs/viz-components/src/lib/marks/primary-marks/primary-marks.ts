@@ -7,18 +7,18 @@ import {
   inject,
 } from '@angular/core';
 import { Ranges } from '../../charts';
-import { MarksOptions } from '../config/marks-options';
+import { DataMarksConfig, MarksConfig } from '../config/marks-config';
 import { Marks } from '../marks';
 
 export const VIC_PRIMARY_MARKS = new InjectionToken<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  VicPrimaryMarks<unknown, any>
->('VicPrimaryMarks');
+  PrimaryMarks<unknown, any>
+>('PrimaryMarks');
 
 @Directive()
-export abstract class VicPrimaryMarks<
+export abstract class PrimaryMarks<
     Datum,
-    TPrimaryMarksConfig extends MarksOptions<Datum>,
+    TPrimaryMarksConfig extends MarksConfig | DataMarksConfig<Datum>,
   >
   extends Marks
   implements Marks, OnChanges

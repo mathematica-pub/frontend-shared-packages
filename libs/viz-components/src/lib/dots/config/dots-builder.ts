@@ -12,7 +12,7 @@ import { DotsConfig } from './dots-config';
 
 const DEFAULT = {
   _pointerDetectionRadius: 12,
-  _fill: 'none',
+  _fill: 'lightgray',
   _opacity: 1,
   _radius: 2,
 };
@@ -23,7 +23,6 @@ export class VicDotsConfigBuilder<
   XOrdinalDomain extends DataValue = string,
   YOrdinalDomain extends DataValue = string,
 > extends PrimaryMarksBuilder<Datum> {
-  private _key: (datum: Datum) => string;
   private _opacity: number;
   private _pointerDetectionRadius: number;
   private fillBuilderCategorical: OrdinalVisualValueDimensionBuilder<
@@ -65,28 +64,6 @@ export class VicDotsConfigBuilder<
   constructor() {
     super();
     Object.assign(this, DEFAULT);
-  }
-
-  /**
-   * OPTIONAL. The distance from a line in which a hover event will trigger a tooltip, in px.
-   *
-   * This is used to ensure that a tooltip is triggered only when a user's pointer is close to lines.
-   *
-   * @default 12
-   */
-  pointerDetectionRadius(pointerDetectionRadius: number): this {
-    this._pointerDetectionRadius = pointerDetectionRadius;
-    return this;
-  }
-
-  /**
-   * OPTIONAL. Sets the opacity of the dots.
-   *
-   * @default 1
-   */
-  opacity(opacity: number): this {
-    this._opacity = opacity;
-    return this;
   }
 
   /**
@@ -157,20 +134,12 @@ export class VicDotsConfigBuilder<
   }
 
   /**
-   * OPTIONAL. Sets a key that will be set as a `key` attribute on the SVGGElement that is the parent for each SVGCircleElement.
+   * OPTIONAL. Sets the opacity of the dots.
    *
-   * Can be used to differentiate between dots.
-   *
-   * No key wil be set if this method is not called.
+   * @default 1
    */
-  key(key: null): this;
-  key(key: (datum: Datum) => string): this;
-  key(key: (datum: Datum) => string): this {
-    if (key === null) {
-      this._key = undefined;
-      return this;
-    }
-    this._key = key;
+  opacity(opacity: number): this {
+    this._opacity = opacity;
     return this;
   }
 
@@ -390,9 +359,10 @@ export class VicDotsConfigBuilder<
       ? this.radiusBuilderCategorical
       : this.radiusBuilderNumber || this.radiusBuilderConst;
     return new DotsConfig<Datum, XOrdinalDomain, YOrdinalDomain>({
+      marksClass: 'vic-dots',
       data: this._data,
+      datumClass: this._class,
       fill: fillBuilder._build(fillName),
-      key: this._key,
       mixBlendMode: this._mixBlendMode,
       opacity: this._opacity,
       pointerDetectionRadius: this._pointerDetectionRadius,

@@ -1,4 +1,4 @@
-import { Directive, ElementRef, ViewChild } from '@angular/core';
+import { Directive, ElementRef, inject } from '@angular/core';
 import { select } from 'd3';
 import { Observable } from 'rxjs';
 import { GenericScale } from '../../core';
@@ -13,21 +13,23 @@ export type XyAxisScale = {
   scale: GenericScale<any, any>;
 };
 
+type AxisSvgElements = 'label';
+
 /**
  * A base directive for all axes.
  */
 @Directive()
 export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
-  never,
+  unknown,
   XyAxisConfig<TickValue>
 > {
-  @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  axisFunction: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axis: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  axisFunction: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
+  elRef = inject<ElementRef<SVGGElement>>(ElementRef);
 
   abstract getScale(): Observable<XyAxisScale>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,6 +38,12 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   abstract setTicks(tickFormat: string | ((value: TickValue) => string)): void;
   abstract setScale(): void;
   abstract createLabel(): void;
+
+  get class(): Record<AxisSvgElements, string> {
+    return {
+      label: 'vic-axis-label',
+    };
+  }
 
   override initFromConfig(): void {
     this.drawMarks();
@@ -62,11 +70,11 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   }
 
   drawAxis(transitionDuration: number): void {
-    const t = select(this.axisRef.nativeElement)
+    const t = select(this.elRef.nativeElement)
       .transition()
       .duration(transitionDuration);
 
-    select(this.axisRef.nativeElement)
+    select(this.elRef.nativeElement)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .transition(t as any)
       .call(this.axis)
@@ -96,7 +104,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
       width = this.scale.bandwidth();
     } else if (typeof this.config.wrap.wrapWidth === 'function') {
       const chartWidth = this.scale.range()[1] - this.scale.range()[0];
-      const numOfTicks = select(this.axisRef.nativeElement)
+      const numOfTicks = select(this.elRef.nativeElement)
         .selectAll('.tick')
         .size();
       width = this.config.wrap.wrapWidth(chartWidth, numOfTicks);
@@ -109,19 +117,19 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
 
   postProcessAxisFeatures(): void {
     if (this.config.removeDomainLine) {
-      select(this.axisRef.nativeElement).call((g) =>
+      select(this.elRef.nativeElement).call((g) =>
         g.select('.domain').remove()
       );
     }
 
     if (this.config.removeTickLabels) {
-      select(this.axisRef.nativeElement).call((g) =>
+      select(this.elRef.nativeElement).call((g) =>
         g.selectAll('.tick text').remove()
       );
     }
 
     if (this.config.removeTickMarks) {
-      select(this.axisRef.nativeElement).call((g) =>
+      select(this.elRef.nativeElement).call((g) =>
         g.selectAll('.tick line').remove()
       );
     }

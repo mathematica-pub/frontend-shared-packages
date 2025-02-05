@@ -45,6 +45,8 @@ export class GeographiesAttributeDataLayer<
   readonly data: Datum[];
   datumsByGeographyIndex: InternMap<string, Datum>;
   geographyIndexAccessor: (d: Datum) => string;
+  readonly marksClass: string;
+  readonly mixBlendMode: string;
 
   constructor(
     options: GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
@@ -57,7 +59,6 @@ export class GeographiesAttributeDataLayer<
     if (this.geographyIndexAccessor === undefined) {
       console.error('Geography index accessor is required for data layers');
     }
-    this.class = `vic-geographies-data-layer ${this.class ?? ''}`;
     this.initPropertiesFromData();
   }
 
