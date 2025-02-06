@@ -2,7 +2,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SortDirection, TableColumn } from '../table-column';
-import { TableComponent } from '../table.component';
 import { SingleSortHeaderComponent } from './single-sort-header.component';
 
 describe('SingleSortHeaderComponent', () => {
@@ -12,7 +11,6 @@ describe('SingleSortHeaderComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SingleSortHeaderComponent],
-      providers: [TableComponent],
     });
     fixture = TestBed.createComponent(SingleSortHeaderComponent);
     component = fixture.componentInstance;
