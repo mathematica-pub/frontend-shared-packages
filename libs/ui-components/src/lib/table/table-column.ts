@@ -45,7 +45,10 @@ export class TableColumn<Datum> {
    */
   isRowHeader = false;
   readonly initialSortDirection: SortDirectionType;
-
+  /**
+   * Whether the column data has been sorted since initialization.
+   */
+  sortedOnInit = false;
   constructor(init?: Partial<TableColumn<Datum>>) {
     this.sortDirection = SortDirection.asc;
     Object.assign(this, init);

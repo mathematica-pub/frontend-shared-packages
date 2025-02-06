@@ -106,11 +106,13 @@ export class HsiUiTableDataSource<Datum> extends DataSource<Datum> {
   ): TableColumn<Datum>[] {
     const columnsWithSortDir = columns.map((x) => {
       if (x.id === activeSortColumnId) {
-        if (toggleSortDirection) {
+        if (toggleSortDirection && x.sortedOnInit) {
           x.sortDirection =
             x.sortDirection === SortDirection.asc
               ? SortDirection.desc
               : SortDirection.asc;
+        } else if (toggleSortDirection) {
+          x.sortedOnInit = true;
         }
         x.activelySorted = true;
       } else {
