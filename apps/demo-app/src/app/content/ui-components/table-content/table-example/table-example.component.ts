@@ -23,6 +23,9 @@ enum ColumnNames {
 export class TableExampleComponent {
   columnIds = [ColumnNames.fruit, ColumnNames.color];
   data$ = of([
+    { fruit: 'lemon', color: 'yellow' },
+    { fruit: 'mango', color: 'orange' },
+    { fruit: 'avocado', color: 'green' },
     { fruit: 'apple', color: 'red' },
     { fruit: 'orange', color: 'orange' },
     { fruit: 'banana', color: 'yellow' },

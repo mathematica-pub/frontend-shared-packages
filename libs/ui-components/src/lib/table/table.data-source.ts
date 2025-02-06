@@ -1,4 +1,4 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
+import { DataSource } from '@angular/cdk/collections';
 import {
   BehaviorSubject,
   Observable,
@@ -29,11 +29,9 @@ export class HsiUiTableDataSource<Datum> extends DataSource<Datum> {
     const config$ = combineLatest([this.inputData$, this.columns$]).pipe(
       withLatestFrom(this.sortColId$),
       map(([[data, cols], sortId]) => () => {
-        // const activeSortColumn =
-        //   cols.find((c) => c.id == sortId) || this.getMinSortOrderColumn(cols);
         const columns = this.getColumnsWithNewSortApplied(sortId, cols, false);
         return {
-          data: this.sortData(data, sortId, columns),
+          data: sortId ? this.sortData(data, sortId, columns) : data,
           columns,
         };
       })
@@ -46,7 +44,8 @@ export class HsiUiTableDataSource<Datum> extends DataSource<Datum> {
           (sortedConfig: { data: Datum[]; columns: TableColumn<Datum>[] }) => {
             const columns = this.getColumnsWithNewSortApplied(
               sortId,
-              sortedConfig.columns
+              sortedConfig.columns,
+              true
             );
             return {
               data: this.sortData(sortedConfig.data, sortId, columns),
@@ -100,11 +99,6 @@ export class HsiUiTableDataSource<Datum> extends DataSource<Datum> {
     return sortedData;
   }
 
-  // getMinSortOrderColumn(columns: TableColumn<Datum>[]): TableColumn<Datum> {
-  //   const minSortOrder = min(columns, (x) => x.sortOrder);
-  //   return columns.find((x) => x.sortOrder === minSortOrder);
-  // }
-
   getColumnsWithNewSortApplied(
     activeSortColumnId: string,
     columns: TableColumn<Datum>[],
@@ -134,9 +128,9 @@ export class HsiUiTableDataSource<Datum> extends DataSource<Datum> {
     this.sortColId.next(columnId);
   }
 
-  override disconnect(_collectionViewer: CollectionViewer): void {}
+  override disconnect(): void {}
 
-  override connect(_collectionViewer: CollectionViewer): Observable<Datum[]> {
+  override connect(): Observable<Datum[]> {
     return this.sortedData$;
   }
 }

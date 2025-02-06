@@ -1,26 +1,17 @@
 @if (columns$ | async; as columns) {
   <table cdk-table [dataSource]="dataSource">
-    <ng-container [cdkColumnDef]="ColumnNames.fruit">
-      <th
-        cdk-header-cell
-        *cdkHeaderCellDef
-        (click)="dataSource.handleSort(ColumnNames.fruit)"
-      >
-        Fruit
-      </th>
-      <td cdk-cell *cdkCellDef="let element"> {{ element.fruit }} </td>
-    </ng-container>
-
-    <ng-container [cdkColumnDef]="ColumnNames.color">
-      <th
-        cdk-header-cell
-        *cdkHeaderCellDef
-        (click)="dataSource.handleSort(ColumnNames.color)"
-      >
-        Color
-      </th>
-      <td cdk-cell *cdkCellDef="let element"> {{ element.color }} </td>
-    </ng-container>
+    @for (name of ColumnNames | keyvalue; track name.key) {
+      <ng-container [cdkColumnDef]="name.value">
+        <th
+          cdk-header-cell
+          *cdkHeaderCellDef
+          (click)="dataSource.handleSort(name.value)"
+        >
+          {{ name.value }}
+        </th>
+        <td cdk-cell *cdkCellDef="let element"> {{ element[name.key] }} </td>
+      </ng-container>
+    }
 
     <tr cdk-header-row *cdkHeaderRowDef="columnIds"></tr>
     <tr cdk-row *cdkRowDef="let row; columns: columnIds"></tr>
