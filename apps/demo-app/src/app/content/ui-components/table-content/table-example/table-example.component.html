@@ -1,18 +1,29 @@
 @if (columns$ | async; as columns) {
-  <table cdk-table [dataSource]="dataSource">
-    @for (name of ColumnNames | keyvalue; track name.key) {
-      <ng-container [cdkColumnDef]="name.value">
-        <th
-          cdk-header-cell
-          *cdkHeaderCellDef
-          (click)="dataSource.handleSort(name.value)"
-        >
-          {{ name.value }}
-        </th>
-        <td cdk-cell *cdkCellDef="let element"> {{ element[name.key] }} </td>
+  <table cdk-table [dataSource]="dataSource" class="table-container">
+    @for (column of columns; track columnTrackingFunction) {
+      <ng-container [cdkColumnDef]="column.id">
+        @if (column.sortable) {
+          <th
+            hsi-ui-single-sort-header
+            scope="col"
+            cdk-header-cell
+            *cdkHeaderCellDef="let element"
+            [column]="column"
+            [sortIcon]="sortIcon"
+            (click)="dataSource.handleSort(column.id)"
+          >
+            {{ column.id }}</th
+          >
+        } @else {
+          <th cdk-header-cell *cdkHeaderCellDef="let element">
+            {{ column.id }}
+          </th>
+        }
+        <td cdk-cell *cdkCellDef="let element">
+          {{ column.getFormattedValue(element) }}
+        </td>
       </ng-container>
     }
-
     <tr cdk-header-row *cdkHeaderRowDef="columnIds"></tr>
     <tr cdk-row *cdkRowDef="let row; columns: columnIds"></tr>
   </table>

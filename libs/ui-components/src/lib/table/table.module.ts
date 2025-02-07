@@ -7,6 +7,6 @@ import { SingleSortHeaderComponent } from './single-sort-header/single-sort-head
 @NgModule({
   declarations: [SingleSortHeaderComponent],
   imports: [CommonModule, CdkTableModule, MatIconModule],
-  exports: [CdkTableModule],
+  exports: [CdkTableModule, SingleSortHeaderComponent],
 })
 export class TableModule {}
