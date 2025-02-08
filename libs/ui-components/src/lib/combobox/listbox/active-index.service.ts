@@ -172,7 +172,7 @@ export class ActiveIndexService {
       if (this.scrolling.isScrollable(this.scrollContentRef.nativeElement)) {
         this.scrolling.maintainElementVisibility(
           indexEl,
-          this.scrollContentRef.nativeElement.parentElement
+          this.scrollContentRef.nativeElement
         );
       }
       if (!this.scrolling.isElementInView(indexEl)) {
