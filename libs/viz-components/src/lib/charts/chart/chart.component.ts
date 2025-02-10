@@ -61,6 +61,9 @@ export interface ChartScaling {
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss'],
   providers: [{ provide: CHART, useExisting: ChartComponent }],
+  host: {
+    class: 'vic-chart',
+  },
 })
 export class ChartComponent implements Chart, OnInit, OnChanges {
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;

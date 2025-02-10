@@ -65,7 +65,7 @@ function getDomainValues(): Promise<[number, number]> {
 
 function getD3DomainRect(): Promise<DOMRect> {
   return new Promise((resolve) => {
-    cy.get('.vic-x.vic-axis-g .domain').then((domain) => {
+    cy.get('.vic-axis-x-quantitative .domain').then((domain) => {
       const domainRect = (domain[0] as unknown as SVGPathElement).getBBox();
       resolve(domainRect);
     });
@@ -85,7 +85,7 @@ function distanceBetweenBarAndDomainMaxIs(
 }
 
 function getBarWidthByIndex(index: number): Cypress.Chainable {
-  return cy.get('.vic-bar').eq(index).invoke('attr', 'width');
+  return cy.get('.vic-bars-bar').eq(index).invoke('attr', 'width');
 }
 
 describe('it correctly sets quantitative domain - all values are positive, 0 is explicitly included in domain', () => {

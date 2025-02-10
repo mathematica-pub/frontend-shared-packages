@@ -2,7 +2,9 @@ import { VicAuxMarksBuilder } from '../../../marks';
 import { AxisLabelBuilder } from '../../axis-label/axis-label-builder';
 import { TickWrapBuilder } from '../../tick-wrap/tick-wrap-builder';
 
-export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
+export abstract class XyAxisBaseBuilder<
+  TickValue,
+> extends VicAuxMarksBuilder<void> {
   protected _axis: 'x' | 'y';
   protected _dimension: 'ordinal' | 'quantitative';
   protected _removeDomainLine: boolean;
@@ -13,6 +15,7 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
   protected _tickSizeOuter: number;
   protected tickWrapBuilder: TickWrapBuilder;
   protected labelBuilder: AxisLabelBuilder;
+  protected marksClass: string;
 
   /**
    * OPTIONAL. Specifies properties for an axis label.
@@ -110,8 +113,6 @@ export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
 
   /**
    * A config object to specify how tick labels should wrap.
-   *
-   * Note: In `Bars`, bar labels are tick labels.
    */
   wrapTickText(wrap: null): this;
   wrapTickText(wrap: (wrap: TickWrapBuilder) => void): this;

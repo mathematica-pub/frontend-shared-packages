@@ -31,6 +31,9 @@ import { CHART } from '../chart/chart.token';
   templateUrl: '../chart/chart.component.html',
   styleUrls: ['../chart/chart.component.scss'],
   providers: [{ provide: CHART, useExisting: ChartComponent }],
+  host: {
+    class: 'vic-map-chart',
+  },
 })
 export class MapChartComponent<Datum> extends ChartComponent implements Chart {
   private attributeProperties: BehaviorSubject<{

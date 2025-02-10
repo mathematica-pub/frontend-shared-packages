@@ -1,3 +1,4 @@
+<!-- Slot exists so that projected content can have access to scales -->
 <ng-content select="[html-elements-before]"></ng-content>
 <div
   #div
@@ -17,4 +18,5 @@
     <ng-content select="[svg-elements]"></ng-content>
   </svg>
 </div>
+<!-- Slot exists so that projected content can have access to scales -->
 <ng-content select="[html-elements-after]"></ng-content>

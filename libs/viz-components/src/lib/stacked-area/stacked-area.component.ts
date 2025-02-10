@@ -2,10 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   InjectionToken,
   NgZone,
 } from '@angular/core';
-import { Transition, area, select } from 'd3';
+import { area, select, Transition } from 'd3';
 import { ChartComponent, XyChartComponent, XyChartScales } from '../charts';
 import { GenericScale } from '../core';
 import { DataValue } from '../core/types/values';
@@ -34,10 +35,12 @@ export interface StackedAreaTooltipDatum<
   };
 }
 
+type StackedAreaSvgElements = 'area';
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-stacked-area]',
-  templateUrl: './stacked-area.component.html',
+  template: '',
   styleUrls: ['./stacked-area.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -45,6 +48,9 @@ export interface StackedAreaTooltipDatum<
     { provide: STACKED_AREA, useExisting: StackedAreaComponent },
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
+  host: {
+    '[class]': 'config.marksClass',
+  },
 })
 export class StackedAreaComponent<
   Datum,
@@ -62,12 +68,13 @@ export class StackedAreaComponent<
     color: undefined,
     useTransition: undefined,
   };
+  protected elRef = inject<ElementRef<SVGSVGElement>>(ElementRef);
+  private zone = inject(NgZone);
 
-  constructor(
-    private areasRef: ElementRef<SVGSVGElement>,
-    private zone: NgZone
-  ) {
-    super();
+  get class(): Record<StackedAreaSvgElements, string> {
+    return {
+      area: this.config.marksClass + '-area',
+    };
   }
 
   setChartScalesFromRanges(useTransition: boolean): void {
@@ -106,14 +113,19 @@ export class StackedAreaComponent<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.areas = select(this.areasRef.nativeElement)
-      .selectAll('path')
+    this.areas = select(this.elRef.nativeElement)
+      .selectAll(`.${this.class.area}`)
       .data(this.config.series)
       .join(
         (enter) =>
           enter
             .append('path')
-            .property('key', ([{ i }]) => this.config.color.values[i])
+            .attr(
+              'class',
+              ([{ i }]) =>
+                `${this.class.area} ${this.config.datumClass(this.config.data[i], i)}`
+            )
+            // .property('key', ([{ i }]) => this.config.color.values[i])
             .attr('fill', ([{ i }]) =>
               this.scales.color(this.config.color.values[i])
             )
