@@ -23,10 +23,6 @@ export class TableColumn<Datum> {
    */
   getFormattedValue: (x: Datum) => string;
   /**
-   * Width of the column. Can be a percentage or pixel value.
-   */
-  width: string;
-  /**
    * Function to determine the sort order of the column.
    * If not provided, sort with use d3.ascending on the getSortValue or getFormattedValue.
    */
@@ -42,10 +38,6 @@ export class TableColumn<Datum> {
    * Sorting tiebreaks are determined by increasing sortOrder number.
    **/
   sortOrder: number = Number.MAX_SAFE_INTEGER;
-  /**
-   * Whether the column is a row header.
-   */
-  isRowHeader = false;
   readonly initialSortDirection: SortDirectionType;
   /**
    * Whether the column data has been sorted since initialization.

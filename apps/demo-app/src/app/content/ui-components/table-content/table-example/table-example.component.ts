@@ -47,7 +47,6 @@ export class TableExampleComponent {
       sortable: true,
       sortDirection: 'asc', // initial sort direction
       getFormattedValue: (x) => x.fruit,
-      width: '80px',
     }),
     new TableColumn<{ fruit: string; color: string }>({
       id: ColumnNames.color,
