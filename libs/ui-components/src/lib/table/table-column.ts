@@ -1,3 +1,5 @@
+import { ascending } from 'd3';
+
 export enum SortDirection {
   asc = 'asc',
   desc = 'desc',
@@ -53,5 +55,13 @@ export class TableColumn<Datum> {
     this.sortDirection = SortDirection.asc;
     Object.assign(this, init);
     this.initialSortDirection = this.sortDirection;
+    if (this.ascendingSortFunction === undefined) {
+      this.ascendingSortFunction = this.defaultSort;
+    }
+  }
+
+  defaultSort(a: Datum, b: Datum): number {
+    const accessor = this.getSortValue || this.getFormattedValue;
+    return ascending(accessor(a), accessor(b));
   }
 }
