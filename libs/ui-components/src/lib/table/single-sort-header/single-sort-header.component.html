@@ -1,6 +1,9 @@
 <div class="header-cell-sort">
   <span>{{ column.label }}</span>
-  <span class="material-symbols-outlined" [ngClass]="getColumnSortClasses()">{{
-    sortIcon
-  }}</span>
+  <span
+    aria-hidden="true"
+    class="material-symbols-outlined"
+    [ngClass]="getColumnSortClasses()"
+    >{{ sortIcon }}</span
+  >
 </div>

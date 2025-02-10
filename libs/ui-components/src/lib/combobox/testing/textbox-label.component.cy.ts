@@ -30,7 +30,11 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-textbox>
         <p boxLabel>Select a fruit</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -75,7 +79,11 @@ describe('Single-select combobox with a default (dynamic) label', () => {
     <p class="combobox-value">{{ value$ | async }}</p>
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-textbox>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -124,7 +132,11 @@ describe('Single-select combobox with a default label / no boxLabel', () => {
       </hsi-ui-combobox-label>
       <hsi-ui-textbox>
         <p boxLabel>Select a fruit</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -177,7 +189,11 @@ describe('Multi-select combobox with a default (dynamic) label', () => {
       </hsi-ui-combobox-label>
       <hsi-ui-textbox [dynamicLabel]="false">
         <p boxLabel>Select a fruit, A-E</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -228,7 +244,11 @@ describe('Textbox with a static label', () => {
         [selectedCountLabel]="{ plural: 'fruits', singular: 'fruit' }"
       >
         <p boxLabel>Select fruits</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -289,7 +309,11 @@ describe('Multi-select combobox with a show selected count label', () => {
         [selectedCountLabel]="{ singular: 'fruit', plural: 'fruits' }"
       >
         <p boxLabel>Select fruits</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -370,7 +394,11 @@ describe('Grouped multi-select combobox with a show selected count label', () =>
       </hsi-ui-combobox-label>
       <hsi-ui-textbox [customLabel]="customLabel">
         <p boxLabel>Select fruits</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -452,7 +480,11 @@ describe('Multi-select combobox with a custom label', () => {
       </hsi-ui-combobox-label>
       <hsi-ui-textbox>
         <p boxLabel>Select fruits</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -513,7 +545,11 @@ describe('Multi-select combobox with a dynamic label and initial selections', ()
         [selectedCountLabel]="{ plural: 'fruits', singular: 'fruit' }"
       >
         <p boxLabel>Select fruits</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
