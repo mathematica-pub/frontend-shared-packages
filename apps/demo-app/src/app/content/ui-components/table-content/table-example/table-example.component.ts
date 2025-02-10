@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   HsiUiTableDataSource,
   TableColumn,
@@ -24,7 +19,6 @@ enum ColumnNames {
   templateUrl: './table-example.component.html',
   styleUrls: ['../../../examples.scss', './table-example.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 export class TableExampleComponent {
   @Input() sortIcon: string = 'arrow_upward';
