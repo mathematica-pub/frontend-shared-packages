@@ -24,7 +24,7 @@ export class CsaStackedBarsComponent extends CaAccessStackedBarsComponent {
   }
 
   override getComparisonDescription(): string {
-    return this.config.data[0].compValDesc;
+    return this.config.data[0].compValDesc.toLowerCase();
   }
 
   updatePercentileGroup(): void {
