@@ -6,6 +6,7 @@ import { DataService } from 'apps/my-work/src/app/core/services/data.service';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { CaAccessChartComponent } from '../ca-access-chart.component';
 import { CsaDatum } from '../csa/csa.component';
+import { dataPath } from '../data-paths.constants';
 import { CsaRaceDotPlotComponent } from './csa-race-dot-plot/csa-race-dot-plot.component';
 
 export interface CsaRaceDatum extends CsaDatum {
@@ -27,7 +28,7 @@ export interface CsaRaceDatum extends CsaDatum {
   encapsulation: ViewEncapsulation.None,
 })
 export class CsaRaceComponent extends CaAccessChartComponent {
-  override dataPath = 'content/data/Mock_BDA_Results.csv';
+  override dataPath = dataPath.bda;
   override filters = {
     measureCodes: [],
     delivSyss: [],

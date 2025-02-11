@@ -6,6 +6,7 @@ import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-con
 import { DataService } from '../../../core/services/data.service';
 import { CaAccessChartComponent } from '../ca-access-chart.component';
 import { CaDatum } from '../ca-access-stacked-bars.component';
+import { dataPath } from '../data-paths.constants';
 import { BdaDotPlotComponent } from './bda-dot-plot/bda-dot-plot.component';
 
 export interface BdaDatum extends CaDatum {
@@ -27,7 +28,7 @@ export interface BdaDatum extends CaDatum {
   encapsulation: ViewEncapsulation.None,
 })
 export class BdaComponent extends CaAccessChartComponent {
-  override dataPath = 'content/data/Mock_BDA_Results.csv';
+  override dataPath = dataPath.bda;
   override filters = {
     measureCodes: [],
     delivSyss: [],

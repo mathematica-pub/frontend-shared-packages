@@ -16,6 +16,7 @@ import { DataService } from 'apps/my-work/src/app/core/services/data.service';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { ascending, extent } from 'd3';
 import { combineLatest, debounceTime, filter, map, Observable } from 'rxjs';
+import { dataPath } from '../data-paths.constants';
 import {
   IcaDatum,
   IcaDotPlotComponent,
@@ -47,7 +48,7 @@ interface Option {
   encapsulation: ViewEncapsulation.None,
 })
 export class IcaComponent implements OnInit {
-  dataPath = 'content/data/Mock_Statistical_Results.csv';
+  dataPath = dataPath.csa;
   data$: Observable<IcaDatum[]>;
   filter$: Observable<FormGroup<SelectionForm>>;
   filteredData$: Observable<IcaDatum[]>;

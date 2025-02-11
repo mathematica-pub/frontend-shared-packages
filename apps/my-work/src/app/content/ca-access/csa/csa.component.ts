@@ -6,6 +6,7 @@ import { DataService } from 'apps/my-work/src/app/core/services/data.service';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { CaAccessChartComponent } from '../ca-access-chart.component';
 import { CaDatum } from '../ca-access-stacked-bars.component';
+import { dataPath } from '../data-paths.constants';
 import { CsaDotPlotComponent } from './csa-dot-plot/csa-dot-plot.component';
 
 export interface CsaDatum extends CaDatum {
@@ -28,7 +29,7 @@ export interface CsaDatum extends CaDatum {
   encapsulation: ViewEncapsulation.None,
 })
 export class CsaComponent extends CaAccessChartComponent {
-  override dataPath = 'content/data/Mock_Statistical_Results.csv';
+  override dataPath = dataPath.csa;
   override filters = {
     measureCodes: [],
     delivSyss: [],
