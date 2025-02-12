@@ -24,12 +24,10 @@ import { SelectAllListboxOptionComponent } from './select-all-listbox-option/sel
 
 let nextUniqueId = 0;
 
-export enum VisualFocus {
-  textbox = 'textbox',
-  listbox = 'listbox',
+export enum FocusTextbox {
+  default = 'default',
+  includeMobile = 'includeMobile',
 }
-
-// export type VisualFocusType = keyof typeof VisualFocus;
 
 export interface KeyboardEventWithAutocomplete {
   event: KeyboardEvent;
@@ -116,11 +114,10 @@ export class ComboboxService {
   label$ = this.label.asObservable();
   private optionAction: Subject<OptionAction | string> = new Subject();
   optionAction$ = this.optionAction.asObservable();
-  private _visualFocus: BehaviorSubject<VisualFocus> =
-    new BehaviorSubject<VisualFocus>(VisualFocus.textbox);
+  private focusTextbox: Subject<FocusTextbox> = new Subject<FocusTextbox>();
+  focusTextbox$ = this.focusTextbox.asObservable();
   private touched: BehaviorSubject<boolean> = new BehaviorSubject(false);
   touched$ = this.touched.asObservable();
-  visualFocus$ = this._visualFocus.asObservable();
   allOptions$: Observable<ListboxOptionComponent[]>;
   groups$: Observable<ListboxGroupComponent[]>;
   optionPropertyChanges$: Observable<ListboxOptionPropertyChange>;
@@ -135,10 +132,6 @@ export class ComboboxService {
 
   get isOpen(): boolean {
     return this._isOpen.value;
-  }
-
-  get visualFocus(): VisualFocus {
-    return this._visualFocus.value;
   }
 
   initActiveDescendant(source$?: Observable<string>): void {
@@ -177,8 +170,8 @@ export class ComboboxService {
     this.touched.next(true);
   }
 
-  setVisualFocus(focus: VisualFocus): void {
-    this._visualFocus.next(focus);
+  emitTextboxFocus(focus: FocusTextbox): void {
+    this.focusTextbox.next(focus);
   }
 
   emitOptionAction(action: OptionAction | string): void {

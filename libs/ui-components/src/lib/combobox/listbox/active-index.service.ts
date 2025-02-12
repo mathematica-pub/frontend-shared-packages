@@ -10,8 +10,8 @@ import {
 import {
   AutoComplete,
   ComboboxService,
+  FocusTextbox,
   OptionAction,
-  VisualFocus,
 } from '../combobox.service';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 import { ListboxFilteringService } from './listbox-filtering.service';
@@ -157,7 +157,7 @@ export class ActiveIndexService {
   }
 
   handleActiveIndexWhenCannotBeSet(): void {
-    this.service.setVisualFocus(VisualFocus.textbox);
+    this.service.emitTextboxFocus(FocusTextbox.textbox);
     if (this.service.autoComplete !== AutoComplete.none) {
       this.activeIndex.next(null);
     }

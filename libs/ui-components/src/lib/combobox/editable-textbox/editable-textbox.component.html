@@ -14,7 +14,9 @@
     (blur)="handleBlur($event)"
     (keydown)="handleKeydown($event)"
     autocomplete="off"
-    [attr.aria-label]="(service.label$ | async) === null ? ariaLabel : null"
+    [attr.aria-label]="
+      (service.label$ | async) === null ? ariaLabel : placeholder
+    "
     [attr.aria-labelledby]="
       (service.label$ | async) !== null ? service.comboboxLabelId : null
     "
