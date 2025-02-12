@@ -143,7 +143,8 @@ export class CaAccessDotPlotComponent implements OnChanges {
       this.rollupData.forEach((d) => {
         if ('strat' in d) {
           // add a space to distinguish between duplicate stratVals (race and ethnicity)
-          const ethnicitySpace = d.strat === 'ETHNICITY' ? ' ' : '';
+          const ethnicitySpace =
+            (d.strat as string).toLowerCase() === 'ethnicity' ? ' ' : '';
           d.stratVal = d.stratVal + ethnicitySpace;
         }
       });
