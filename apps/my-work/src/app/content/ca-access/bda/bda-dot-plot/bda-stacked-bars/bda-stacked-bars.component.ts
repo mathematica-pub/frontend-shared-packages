@@ -115,7 +115,7 @@ export class BdaStackedBarsComponent
       .attr('class', 'goal')
       .attr(
         'transform',
-        `translate(${x}, ${-(this.scales.y as any).bandwidth() / 2 - 4})`
+        `translate(${x}, ${-(this.scales.y as any).bandwidth() / 2 - 6})`
       );
     group
       .selectAll('rect')
