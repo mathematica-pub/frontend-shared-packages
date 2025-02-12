@@ -15,7 +15,11 @@
     (keydown)="handleKeydown($event)"
     autocomplete="off"
     [attr.aria-label]="
-      (service.label$ | async) === null ? ariaLabel : placeholder
+      (service.label$ | async) === null
+        ? ariaLabel || placeholder || service.isMultiSelect
+          ? 'Search and select options'
+          : 'Search and select an option'
+        : null
     "
     [attr.aria-labelledby]="
       (service.label$ | async) !== null ? service.comboboxLabelId : null
