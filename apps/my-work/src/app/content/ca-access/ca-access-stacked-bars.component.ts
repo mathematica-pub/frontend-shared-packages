@@ -48,7 +48,7 @@ export class CaAccessStackedBarsComponent
   headerOffset = -50;
   yAxisOffset = -0.8;
   additionalYAxisOffset = `${this.yAxisOffset - 2.5}em`;
-  radius = 4;
+  radius = 5;
   percentOffset: string;
 
   override ngOnInit(): void {
