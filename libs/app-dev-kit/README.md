@@ -1,7 +1,7 @@
 # AppDevKit
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version
-18.2.0.
+18.2.0. test
 
 ## Code scaffolding
 
