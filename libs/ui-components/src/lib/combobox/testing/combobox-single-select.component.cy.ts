@@ -22,7 +22,11 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
       </hsi-ui-combobox-label>
       <hsi-ui-textbox class="textbox">
         <span boxLabel>Select a fruit</span>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -128,7 +132,11 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       </hsi-ui-combobox-label>
       <hsi-ui-textbox>
         <span boxLabel>Select a fruit</span>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -182,7 +190,11 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
       </hsi-ui-combobox-label>
       <hsi-ui-textbox>
         <span boxLabel>Select a fruit</span>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -235,7 +247,11 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
           >This combobox stores your favorite of the first 6 Star Wars
           movies!</p
         >
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -317,7 +333,11 @@ describe('ComboboxGroupedSingleTestComponent', () => {
       </hsi-ui-combobox-label>
       <hsi-ui-textbox>
         <p boxLabel>Select a fruit, A-E</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
