@@ -21,7 +21,11 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
       </hsi-ui-combobox-label>
       <hsi-ui-textbox>
         <p boxLabel>Select a fruit, A-E</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -33,10 +37,18 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
         <hsi-ui-listbox-option *ngFor="let option of options"
-          ><span class="material-symbols-outlined icon checkbox" selectedIcon>
+          ><span
+            aria-hidden="true"
+            class="material-symbols-outlined icon checkbox"
+            selectedIcon
+          >
             check_box
           </span>
-          <span unselectedIcon class="material-symbols-outlined icon checkbox">
+          <span
+            unselectedIcon
+            aria-hidden="true"
+            class="material-symbols-outlined icon checkbox"
+          >
             check_box_outline_blank </span
           >{{ option.displayName }}</hsi-ui-listbox-option
         >
@@ -113,7 +125,11 @@ describe('Default multi-select combobox', () => {
         [selectedCountLabel]="{ singular: 'fruit', plural: 'fruits' }"
       >
         <p boxLabel>Select a fruit, A-E</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -283,7 +299,11 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
         <span>Fruits</span>
       </hsi-ui-combobox-label>
       <hsi-ui-textbox [useListboxLabelAsBoxPlaceholder]="true">
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -364,7 +384,11 @@ describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
       </hsi-ui-combobox-label>
       <hsi-ui-textbox>
         <p boxLabel>Select a fruit, A-E</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>

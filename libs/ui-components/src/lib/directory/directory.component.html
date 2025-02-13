@@ -12,9 +12,13 @@
       >
         <p class="name">{{ item.name }}</p>
         @if (open[item.name]) {
-          <span class="material-symbols-outlined arrow">expand_more</span>
+          <span aria-hidden="true" class="material-symbols-outlined arrow"
+            >expand_more</span
+          >
         } @else {
-          <span class="material-symbols-outlined arrow">chevron_right</span>
+          <span aria-hidden="true" class="material-symbols-outlined arrow"
+            >chevron_right</span
+          >
         }
       </div>
       <hsi-ui-directory
