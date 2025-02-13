@@ -32,7 +32,11 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
         [countSelectedLabel]="countSelectedLabel"
       >
         <p boxLabel>Select a fruit, A-E</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -128,7 +132,11 @@ describe('ComboboxSelectAllMultiComponent', () => {
       </hsi-ui-combobox-label>
       <hsi-ui-textbox [dynamicLabel]="dynamicLabel">
         <p boxLabel>Select a fruit, A-E</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -275,7 +283,11 @@ describe('ComboboxExternalSelectedTestComponent', () => {
       </hsi-ui-combobox-label>
       <hsi-ui-textbox [dynamicLabel]="dynamicLabel">
         <p boxLabel>Select a fruit, A-E</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>

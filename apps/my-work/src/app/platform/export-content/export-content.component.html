@@ -3,7 +3,9 @@
     ><span class="file-name">{{ getBaseFileName() }}.{{ fileType }}</span></p
   >
   <button class="download-button" (click)="downloadImage()"
-    ><span class="material-symbols-outlined download-icon">download</span>
+    ><span aria-hidden="true" class="material-symbols-outlined download-icon"
+      >download</span
+    >
   </button>
 </div>
 <div
