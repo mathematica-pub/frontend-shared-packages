@@ -16,7 +16,11 @@ import { scss } from './combobox-testing.constants';
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-textbox>
         <p boxLabel>Select a fruit</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -152,7 +156,11 @@ describe('Multi-select grouped combobox with a default (dynamic) label', () => {
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-textbox [selectedCountLabel]="countLabel">
         <p boxLabel>Select a fruit</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -235,7 +243,11 @@ describe('Multi-select grouped combobox with external selections', () => {
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-textbox>
         <p boxLabel>Select a fruit</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -342,7 +354,11 @@ describe('Multi-select grouped combobox with external selections', () => {
     <hsi-ui-combobox class="fruits-dropdown">
       <hsi-ui-textbox>
         <p boxLabel>Select a fruit</p>
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
