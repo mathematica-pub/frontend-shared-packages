@@ -31,23 +31,8 @@
       "inputs": ["default", "^production"],
       "dependsOn": ["^build"]
     },
-    "github-release": {
-      "executor": "@jscutlery/semver:github",
-      "options": {
-        "tag": "{tag}",
-        "notes": "{notes}"
-      }
-    },
     "version": {
-      "executor": "@jscutlery/semver:version",
-      "dependsOn": ["create-changelog"],
-      "options": {
-        "preset": "angular",
-        "skipCommit": true,
-        "skipRootChangelog": true,
-        "postTargets": ["build-release", "publish", "github-release"],
-        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
-      }
+      "dependsOn": ["create-changelog"]
     }
   },
   "defaultBase": "main",

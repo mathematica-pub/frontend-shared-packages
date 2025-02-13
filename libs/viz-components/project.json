@@ -38,6 +38,13 @@
         "command": "cd ./dist/viz-components && npm publish && git push --tags"
       }
     },
+    "github-release": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "{tag}",
+        "notes": "{notes}"
+      }
+    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
@@ -77,6 +84,16 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "touch libs/viz-components/CHANGELOG.md"
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "skipCommit": true,
+        "skipProjectChangelog": true,
+        "postTargets": ["build-release", "publish", "github-release"],
+        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
       }
     }
   }
