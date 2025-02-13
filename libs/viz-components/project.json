@@ -38,13 +38,6 @@
         "command": "cd ./dist/viz-components && npm publish && git push --tags"
       }
     },
-    "github-release": {
-      "executor": "@jscutlery/semver:github",
-      "options": {
-        "tag": "{tag}",
-        "notes": "{notes}"
-      }
-    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
@@ -80,15 +73,10 @@
         "command": "cd libs/viz-components && npx cypress open"
       }
     },
-    "version": {
-      "executor": "@jscutlery/semver:version",
+    "create-changelog": {
+      "executor": "nx:run-commands",
       "options": {
-        "preset": "angular",
-        "skipCommit": true,
-        "skipProjectChangelog": true,
-        "skipRootChangelog": true,
-        "postTargets": ["build-release", "publish", "github-release"],
-        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
+        "command": "touch libs/viz-components/CHANGELOG.md"
       }
     }
   }
