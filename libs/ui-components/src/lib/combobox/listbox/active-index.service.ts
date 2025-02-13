@@ -157,7 +157,7 @@ export class ActiveIndexService {
   }
 
   handleActiveIndexWhenCannotBeSet(): void {
-    this.service.emitTextboxFocus(FocusTextbox.textbox);
+    this.service.emitTextboxFocus(FocusTextbox.default);
     if (this.service.autoComplete !== AutoComplete.none) {
       this.activeIndex.next(null);
     }
