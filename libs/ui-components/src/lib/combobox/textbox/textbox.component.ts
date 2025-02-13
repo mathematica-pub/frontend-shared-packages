@@ -108,7 +108,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
           event.relatedTarget.classList.contains('listbox-group') ||
           event.relatedTarget.classList.contains('listbox-group-label')
         ) {
-          this.service.emitTextboxFocus(FocusTextbox.default);
+          this.service.emitTextboxFocus();
           return;
         }
       }
@@ -148,7 +148,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
 
   onEscape(): void {
     this.service.closeListbox();
-    this.service.emitTextboxFocus(FocusTextbox.default);
+    this.service.emitTextboxFocus();
   }
 
   getActionFromKeydownEvent(event: KeyboardEvent): ComboboxAction {

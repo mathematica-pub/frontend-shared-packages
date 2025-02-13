@@ -190,7 +190,7 @@ export class ListboxComponent
       )
       .subscribe(([action, activeIndex, options]) => {
         if (options.length === 0) {
-          this.service.emitTextboxFocus(FocusTextbox.default);
+          this.service.emitTextboxFocus();
           return;
         }
         if (!this.actionIsTypingChar(action)) {
@@ -255,7 +255,7 @@ export class ListboxComponent
     if (!this.isMultiSelect) {
       this.service.closeListbox();
     }
-    this.service.emitTextboxFocus(FocusTextbox.default);
+    this.service.emitTextboxFocus();
   }
 
   handleOptionSelect(
@@ -287,7 +287,7 @@ export class ListboxComponent
     options: ListboxOptionComponent[]
   ): void {
     if (!option || option.isDisabled()) {
-      this.service.emitTextboxFocus(FocusTextbox.default);
+      this.service.emitTextboxFocus();
       return;
     }
     if (this.isMultiSelect) {

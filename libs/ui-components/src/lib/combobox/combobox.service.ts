@@ -170,7 +170,7 @@ export class ComboboxService {
     this.touched.next(true);
   }
 
-  emitTextboxFocus(focus: FocusTextbox): void {
+  emitTextboxFocus(focus: FocusTextbox = FocusTextbox.default): void {
     this.focusTextbox.next(focus);
   }
 
