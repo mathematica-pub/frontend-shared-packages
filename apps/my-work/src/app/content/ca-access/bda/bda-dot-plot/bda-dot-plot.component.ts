@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 import {
   VicBarsConfigBuilder,
   VicBarsModule,
@@ -36,9 +36,20 @@ import { BdaStackedBarsComponent } from './bda-stacked-bars/bda-stacked-bars.com
   templateUrl: './bda-dot-plot.component.html',
   styleUrl: './bda-dot-plot.component.scss',
 })
-export class BdaDotPlotComponent extends CaAccessDotPlotComponent {
+export class BdaDotPlotComponent
+  extends CaAccessDotPlotComponent
+  implements OnChanges
+{
   override labelWidth = 140;
   override bandwidth = 26;
+
+  override ngOnChanges(): void {
+    if (this.data[0]) {
+      console.log('this.data after changes', this.data);
+      this.setProperties();
+      this.chartHeight = this.rollupData.length * this.bandwidth;
+    }
+  }
 
   override getCurrentRollup(x: BdaDatum, plan: BdaDatum): boolean {
     return x.stratVal === plan.stratVal && x.strat === plan.strat;

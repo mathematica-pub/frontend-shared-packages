@@ -143,4 +143,14 @@ export class BdaStackedBarsComponent
   override getStackElementWidth(): number {
     return this.goalThickness;
   }
+
+  override getStackElementY(datum: StackDatum): number {
+    return this.scales.y(this.config[this.config.dimensions.y].values[datum.i]);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  override getStackElementHeight(datum: StackDatum): number {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (this.scales.y as any).bandwidth();
+  }
 }
