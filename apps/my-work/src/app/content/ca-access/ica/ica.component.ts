@@ -88,8 +88,6 @@ export class IcaComponent implements OnInit {
             units: x.Units,
             value: +extents[1] - +extents[0],
             planValue: x.Value && !isNaN(x.Value) ? +x.Value : null,
-            ica_25: x.ICA_25 && !isNaN(x.ICA_25) ? +x.ICA_25 : null,
-            ica_75: x.ICA_75 && !isNaN(x.ICA_75) ? +x.ICA_75 : null,
             directionality: x.Directionality,
             plans: [],
           };

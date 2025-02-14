@@ -27,8 +27,6 @@ export interface IcaDatum {
   size: string;
   county: string;
   plans: number[];
-  ica_25: number;
-  ica_75: number;
   measureCode: string;
   stratVal: string;
   delivSys: string;
@@ -142,7 +140,7 @@ export class IcaDotPlotComponent implements OnChanges {
         )
         .color((dimension) => dimension.valueAccessor((d) => d.series))
         .stackOrder(() => [1, 0])
-        .stackOffset(() => 100)
+        // .stackOffset(() => 100)
         .getConfig();
 
       this.yAxisConfig = this.yOrdinalAxis.tickSizeOuter(0).getConfig();
