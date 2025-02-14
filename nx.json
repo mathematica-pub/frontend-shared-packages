@@ -30,6 +30,9 @@
     "publish": {
       "inputs": ["default", "^production"],
       "dependsOn": ["^build"]
+    },
+    "version": {
+      "dependsOn": ["create-changelog"]
     }
   },
   "defaultBase": "main",

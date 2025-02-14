@@ -59,12 +59,17 @@
       },
       "outputs": ["{options.outputFile}"]
     },
+    "create-changelog": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "touch libs/app-dev-kit/CHANGELOG.md"
+      }
+    },
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
         "preset": "angular",
         "skipCommit": true,
-        "skipProjectChangelog": true,
         "skipRootChangelog": true,
         "postTargets": ["build-release", "publish", "github-release"],
         "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
