@@ -27,6 +27,8 @@ export interface IcaDatum {
   size: string;
   county: string;
   plans: number[];
+  ica_25: number;
+  ica_75: number;
   measureCode: string;
   stratVal: string;
   delivSys: string;
