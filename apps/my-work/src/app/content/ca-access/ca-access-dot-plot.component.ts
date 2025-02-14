@@ -128,7 +128,7 @@ export class CaAccessDotPlotComponent implements OnChanges {
     });
 
     if (this.rollupData.length > 0) {
-      this.chartHeight = this.rollupData.length * this.bandwidth;
+      this.chartHeight = this.rollupData.length * this.bandwidth * 2;
 
       const dotMax = max(this.rollupData.map((d) => max(d.plans)));
       const barMax = max(this.rollupData, (d) => this.getBarValue(d));

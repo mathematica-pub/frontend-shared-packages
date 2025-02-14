@@ -42,20 +42,20 @@ export class CsaStackedBarsComponent extends CaAccessStackedBarsComponent {
       .attr('class', 'percentile')
       .attr(
         'transform',
-        `translate(${x}, ${-(this.scales.y as any).bandwidth() / 2 - 4})`
+        `translate(${x}, ${-(this.scales.y as any).bandwidth() / 4 - 4})`
       );
     group
       .selectAll('rect')
       .data((d) => [d])
       .join('rect')
       .attr('width', '11em')
-      .attr('height', (this.scales.y as any).bandwidth());
+      .attr('height', (this.scales.y as any).bandwidth() / 2);
     group
       .selectAll('text')
       .data((d) => [d])
       .join('text')
       .attr('dx', '0.5em')
-      .attr('dy', (this.scales.y as any).bandwidth() / 2)
+      .attr('dy', (this.scales.y as any).bandwidth() / 4)
       .text('25th—75th Percentiles');
   }
 }

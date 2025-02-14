@@ -1,5 +1,5 @@
 $blue: #2d6e8d; // was #4472c4;
-$lightblue: #deebf7; // was #dbe9f9;
+$lightblue: #deebf7; // #f9a71c; was #dbe9f9;
 $lineColor: #505050;
 $font-family: Segoe UI;
 
@@ -59,7 +59,7 @@ circle {
 }
 
 .gridline {
-  stroke: $lineColor; // was #f0f0f0;
+  stroke: #f0f0f0; // $lineColor; was #f0f0f0;
 }
 
 .tick {
@@ -73,7 +73,7 @@ circle {
 }
 
 .vic-y .domain {
-  stroke: $lineColor; // was #bfbfbf;
+  stroke: #bfbfbf; // $lineColor; was #bfbfbf;
 }
 
 .vic-x .domain {

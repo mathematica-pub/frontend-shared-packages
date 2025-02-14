@@ -6,7 +6,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { StackedBarsComponent } from '@hsi/viz-components';
+import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
 import { format, select, Selection } from 'd3';
 
 export interface CaDatum {
@@ -296,5 +296,17 @@ export class CaAccessStackedBarsComponent
     select(this.chart.svgRef.nativeElement)
       .selectAll('.vic-y text')
       .style('transform', `translate(${this.additionalYAxisOffset}, 0)`);
+  }
+
+  override getStackElementY(datum: StackDatum): number {
+    return (
+      this.scales.y(this.config[this.config.dimensions.y].values[datum.i]) +
+      (this.scales.y as any).bandwidth() / 4
+    );
+  }
+
+  override getStackElementHeight(datum: StackDatum): number {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (this.scales.y as any).bandwidth() / 2;
   }
 }
