@@ -305,6 +305,7 @@ export class CaAccessStackedBarsComponent
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override getStackElementHeight(datum: StackDatum): number {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (this.scales.y as any).bandwidth() / 2;
