@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { StackedBarsComponent } from '@hsi/viz-components';
+import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
 import { select, Selection } from 'd3';
 import { IcaDatum } from '../ica-dot-plot.component';
 
@@ -25,6 +25,7 @@ export class IcaStackedBarsComponent
   headerOffset = -50;
   yAxisOffset = -0.8;
   radius = 4;
+  barThickness = 3;
 
   override ngOnInit(): void {
     this.createCircleGroup();
@@ -44,7 +45,6 @@ export class IcaStackedBarsComponent
     this.updateBarElements();
     this.updateGridlines();
     this.updateCircleElements();
-    this.updateBarThickness();
     this.updateDirectionLabel();
     this.updatePlanHeader();
     this.updateYLabels();
@@ -136,17 +136,6 @@ export class IcaStackedBarsComponent
       .attr('class', 'plan');
   }
 
-  updateBarThickness(): void {
-    select(this.chart.svgRef.nativeElement)
-      .select('.vic-bars-g')
-      .style(
-        'transform',
-        `translateY(${(this.scales.y as any).bandwidth() / 2 - 1}px)`
-      )
-      .selectAll('rect')
-      .attr('height', 3);
-  }
-
   getDirection(): string {
     return this.config.data[0].directionality === 'Higher is better'
       ? 'below'
@@ -182,5 +171,18 @@ export class IcaStackedBarsComponent
     select(this.chart.svgRef.nativeElement)
       .selectAll('.vic-y text')
       .attr('dx', this.yAxisOffset);
+  }
+
+  override getStackElementY(datum: StackDatum): number {
+    return (
+      this.scales.y(this.config[this.config.dimensions.y].values[datum.i]) +
+      (this.scales.y as any).bandwidth() / 2 -
+      this.barThickness / 2
+    );
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  override getStackElementHeight(datum: StackDatum): number {
+    return this.barThickness;
   }
 }
