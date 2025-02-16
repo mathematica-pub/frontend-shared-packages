@@ -36,9 +36,10 @@ export interface Ranges {
   y: [number, number];
 }
 
-export interface ChartScaling {
+export interface ChartResizing {
   width: boolean;
   height: boolean;
+  useViewbox: boolean;
 }
 
 /**
@@ -71,6 +72,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   @Input() config: ChartConfig = new VicChartConfigBuilder().getConfig();
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;
   @ViewChild('svg', { static: true }) svgRef: ElementRef<SVGSVGElement>;
+  protected multiples: ['one', 'two'];
   private _height: BehaviorSubject<number> = new BehaviorSubject(null);
   height$ = this._height.asObservable();
   private _margin: BehaviorSubject<ElementSpacing> = new BehaviorSubject(null);
@@ -121,7 +123,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   }
 
   private getDivWidthObservable(): Observable<number> {
-    if (!this.config.scaleChartWithContainerWidth.width) {
+    if (!this.config.resize.width || this.config.resize.useViewbox) {
       return of(this.config.width);
     }
 
@@ -155,13 +157,11 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   }
 
   getSvgWidthFromDivWidth(divWidth: number): number {
-    return !this.config.scaleChartWithContainerWidth.width
-      ? this.config.width
-      : divWidth;
+    return !this.config.resize.width ? this.config.width : divWidth;
   }
 
   getSvgHeightFromWidth(width: number): number {
-    return this.config.scaleChartWithContainerWidth.height &&
+    return this.config.resize.height &&
       this.divRef.nativeElement.offsetWidth <= this.config.width
       ? width / this.config.aspectRatio
       : this.config.height;

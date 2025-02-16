@@ -103,6 +103,7 @@ export class GeographiesComponent<
   }
 
   setProjection(): void {
+    console.log('set projections');
     this.projection = this.config.projection.fitSize(
       [
         this.ranges.x[1] - this.ranges.x[0],

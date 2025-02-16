@@ -113,6 +113,7 @@ export class LinesSmallMultiplesExampleComponent implements OnInit {
     const chartConfig = this.chart
       .margin({ top: 36, right: 12, bottom: 36, left: 64 })
       .getConfig();
+
     // axis configs should pertain to all charts -- that is a principle of small multiples
     const xAxisConfig = this.xAxisQuantitative
       .tickFormat('%Y')

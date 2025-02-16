@@ -1,3 +1,4 @@
+<!-- @for (item of multiples; track $index) { -->
 <!-- Slot exists so that projected content can have access to scales -->
 <ng-container *ngTemplateOutlet="htmlElementsBefore"></ng-container>
 <div
@@ -9,8 +10,12 @@
   <svg
     #svg
     class="vic-chart-svg"
-    [attr.width]="(svgDimensions$ | async).width"
-    [attr.height]="(svgDimensions$ | async).height"
+    [class.vic-chart-viewbox]="config.resize.useViewbox"
+    [class.vic-chart-resize-width]="config.resize.width"
+    [class.vic-chart-resize-height]="config.resize.height"
+    [attr.width]="config.resize.useViewbox ? null : (svgDimensions$ | async).width"
+    [attr.height]="config.resize.useViewbox ? null : (svgDimensions$ | async).height"
+    [attr.viewBox]="config.resize.useViewbox ? '0 0 ' + config.width + ' ' + config.height : null"
   >
     <defs>
       <ng-container *ngTemplateOutlet="svgDefs"></ng-container>
@@ -20,6 +25,7 @@
 </div>
 <!-- Slot exists so that projected content can have access to scales -->
 <ng-container *ngTemplateOutlet="htmlElementsAfter"></ng-container>
+<!-- } -->
 
 <ng-template #htmlElementsBefore>
   <ng-content select="[html-elements-before]"></ng-content>

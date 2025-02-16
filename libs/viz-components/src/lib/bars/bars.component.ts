@@ -7,7 +7,7 @@ import {
   NgZone,
   ViewEncapsulation,
 } from '@angular/core';
-import { select, selectAll, Transition } from 'd3';
+import { select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
@@ -486,9 +486,12 @@ export class BarsComponent<
   }
 
   getLabelDomRect(d: BarDatum<TOrdinalValue>): DOMRect {
-    const selection = selectAll<SVGTextElement, BarDatum<TOrdinalValue>>(
-      `.${this.class.label}`
-    ).filter((datum) => datum.index === d.index);
+    const selection = this.barGroups
+      .selectAll<
+        SVGTextElement,
+        BarDatum<TOrdinalValue>
+      >(`.${this.class.label}`)
+      .filter((datum) => datum.index === d.index);
     return selection.node().getBoundingClientRect();
   }
 
