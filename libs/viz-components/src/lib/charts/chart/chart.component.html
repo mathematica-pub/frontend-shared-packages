@@ -1,4 +1,3 @@
-<!-- @for (item of multiples; track $index) { -->
 <!-- Slot exists so that projected content can have access to scales -->
 <ng-container *ngTemplateOutlet="htmlElementsBefore"></ng-container>
 <div
@@ -25,7 +24,6 @@
 </div>
 <!-- Slot exists so that projected content can have access to scales -->
 <ng-container *ngTemplateOutlet="htmlElementsAfter"></ng-container>
-<!-- } -->
 
 <ng-template #htmlElementsBefore>
   <ng-content select="[html-elements-before]"></ng-content>
