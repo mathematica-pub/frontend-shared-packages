@@ -35,6 +35,6 @@ export abstract class VicMapAuxMarks<Datum, TMarksConfig extends MarksConfig>
   }
 
   getTransitionDuration(): number {
-    return this.chart.transitionDuration;
+    return this.chart.config.transitionDuration;
   }
 }

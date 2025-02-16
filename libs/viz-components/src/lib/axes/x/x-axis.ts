@@ -31,7 +31,7 @@ export function xAxisMixin<
     }
 
     getBottomTranslate(range: [number, number]): number {
-      return range[0] - range[1] + this.chart.margin.top;
+      return range[0] - range[1] + this.chart.config.margin.top;
     }
 
     setScale(): void {
@@ -51,8 +51,8 @@ export function xAxisMixin<
       let y = config.offset.y;
       y +=
         this.config.side === 'top'
-          ? this.chart.margin.top * -1 + spaceFromMarginEdge
-          : this.chart.margin.bottom - spaceFromMarginEdge;
+          ? this.chart.config.margin.top * -1 + spaceFromMarginEdge
+          : this.chart.config.margin.bottom - spaceFromMarginEdge;
       let anchor: 'start' | 'middle' | 'end';
       const range = this.scales.x.range();
 

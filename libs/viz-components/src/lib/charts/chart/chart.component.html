@@ -1,10 +1,10 @@
 <!-- Slot exists so that projected content can have access to scales -->
-<ng-content select="[html-elements-before]"></ng-content>
+<ng-container *ngTemplateOutlet="htmlElementsBefore"></ng-container>
 <div
   #div
   class="vic-chart-container"
-  [style.maxWidth.px]="width"
-  [style.maxHeight.px]="height"
+  [style.maxWidth.px]="config.width"
+  [style.maxHeight.px]="config.height"
 >
   <svg
     #svg
@@ -13,10 +13,26 @@
     [attr.height]="(svgDimensions$ | async).height"
   >
     <defs>
-      <ng-content select="[svg-defs]"></ng-content>
+      <ng-container *ngTemplateOutlet="svgDefs"></ng-container>
     </defs>
-    <ng-content select="[svg-elements]"></ng-content>
+    <ng-container *ngTemplateOutlet="svgElements"></ng-container>
   </svg>
 </div>
 <!-- Slot exists so that projected content can have access to scales -->
-<ng-content select="[html-elements-after]"></ng-content>
+<ng-container *ngTemplateOutlet="htmlElementsAfter"></ng-container>
+
+<ng-template #htmlElementsBefore>
+  <ng-content select="[html-elements-before]"></ng-content>
+</ng-template>
+
+<ng-template #svgDefs>
+  <ng-content select="[svg-defs]"></ng-content>
+</ng-template>
+
+<ng-template #svgElements>
+  <ng-content select="[svg-elements]"></ng-content>
+</ng-template>
+
+<ng-template #htmlElementsAfter>
+  <ng-content select="[html-elements-after]"></ng-content>
+</ng-template>

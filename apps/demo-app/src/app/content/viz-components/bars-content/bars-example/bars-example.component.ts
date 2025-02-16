@@ -7,11 +7,13 @@ import {
   BarsEventOutput,
   BarsHoverMoveDirective,
   BarsHoverMoveEmitTooltipData,
+  ChartConfig,
   ElementSpacing,
   HoverMoveAction,
   HtmlTooltipConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
+  VicChartConfigBuilder,
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
@@ -34,6 +36,7 @@ import { format } from 'd3';
 import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: BarsConfig<MetroUnemploymentDatum, string>;
   xAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
@@ -64,6 +67,7 @@ enum Orientation {
   styleUrls: ['./bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [
+    VicChartConfigBuilder,
     VicBarsConfigBuilder,
     VicXOrdinalAxisConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
@@ -101,6 +105,7 @@ export class BarsExampleComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private bars: VicBarsConfigBuilder<MetroUnemploymentDatum, string>,
+    private chart: VicChartConfigBuilder,
     private xOrdinalAxis: VicXOrdinalAxisConfigBuilder<string>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>,
@@ -125,6 +130,15 @@ export class BarsExampleComponent implements OnInit {
     const filteredData = data.filter(
       (d) => d.date.getFullYear() === 2008 && d.date.getMonth() === 3
     );
+
+    const chartConfig = this.chart
+      .margin(this.margin)
+      .height(800)
+      .resize({
+        height: false,
+      })
+      .getConfig();
+
     const xAxisConfig =
       orientation === Orientation.horizontal
         ? this.xQuantitativeAxis.side('top').tickFormat('.0f').getConfig()
@@ -167,6 +181,7 @@ export class BarsExampleComponent implements OnInit {
       .getConfig();
 
     return {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,

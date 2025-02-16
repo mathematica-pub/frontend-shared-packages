@@ -1,18 +1,8 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import {
-  MatButtonToggleChange,
-  MatButtonToggleModule,
-} from '@angular/material/button-toggle';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {
   ChartConfig,
-  ElementSpacing,
   EventAction,
   HoverMoveAction,
   HtmlTooltipConfig,
@@ -25,13 +15,9 @@ import {
   LinesHoverMoveEmitTooltipData,
   VicChartConfigBuilder,
   VicChartModule,
-  VicColumnConfig,
   VicDataExport,
-  VicDataExportConfig,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicImageDownloadService,
-  VicJpegImageConfig,
   VicLinesConfigBuilder,
   VicLinesModule,
   VicQuantitativeAxisConfig,
@@ -45,7 +31,7 @@ import {
 import { MetroUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
-import { HighlightLineForLabel } from './line-input-actions';
+import { HighlightLineForLabel } from './line-small-multiples-input-actions';
 
 interface ViewModel {
   chartConfig: ChartConfig;
@@ -57,7 +43,7 @@ interface ViewModel {
 const includeFiles = ['line-input-actions.ts'];
 
 @Component({
-  selector: 'app-lines-example',
+  selector: 'app-lines-small-multiples-example',
   standalone: true,
   imports: [
     CommonModule,
@@ -70,8 +56,8 @@ const includeFiles = ['line-input-actions.ts'];
     VicHtmlTooltipModule,
     MatButtonToggleModule,
   ],
-  templateUrl: './lines-example.component.html',
-  styleUrls: ['./lines-example.component.scss'],
+  templateUrl: './lines-small-multiples-example.component.html',
+  styleUrls: ['./lines-small-multiples-example.component.scss'],
   providers: [
     VicChartConfigBuilder,
     VicLinesConfigBuilder,
@@ -80,15 +66,9 @@ const includeFiles = ['line-input-actions.ts'];
     VicHtmlTooltipConfigBuilder,
   ],
 })
-export class LinesExampleComponent implements OnInit {
+export class LinesSmallMultiplesExampleComponent implements OnInit {
   @ViewChild('imageNode') imageNode: ElementRef<HTMLElement>;
   vm$: Observable<ViewModel>;
-  margin: ElementSpacing = {
-    top: 36,
-    right: 12,
-    bottom: 36,
-    left: 64,
-  };
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
@@ -111,11 +91,6 @@ export class LinesExampleComponent implements OnInit {
   ];
   includeFiles = includeFiles;
   folderName = 'lines-example';
-  tooltipEvent: BehaviorSubject<'hover' | 'click'> = new BehaviorSubject<
-    'hover' | 'click'
-  >('click');
-  tooltipEvent$ = this.tooltipEvent.asObservable();
-  private imageService = inject(VicImageDownloadService);
 
   constructor(
     private dataService: DataService,
@@ -134,12 +109,16 @@ export class LinesExampleComponent implements OnInit {
     );
   }
 
-  onEventToggleChange(change: MatButtonToggleChange): void {
-    this.tooltipEvent.next(change.value);
-  }
-
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
-    const chartConfig = this.chart.margin(this.margin).getConfig();
+    const chartConfig = this.chart
+      .margin({
+        top: 36,
+        right: 12,
+        bottom: 36,
+        left: 64,
+      })
+      .getConfig();
+    // axis configs should pertain to all charts -- that is a principle of small multiples
     const xAxisConfig = this.xAxisQuantitative
       .tickFormat('%Y')
       .label((label) => label.position('middle').text('Year'))
@@ -155,6 +134,7 @@ export class LinesExampleComponent implements OnInit {
       )
       .tickFormat('.0%')
       .getConfig();
+
     const dataConfig = this.lines
       .data(data)
       .xDate((xDate) => xDate.valueAccessor((d) => d.date))
@@ -176,7 +156,6 @@ export class LinesExampleComponent implements OnInit {
       .getConfig();
 
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
-
     return {
       chartConfig,
       dataConfig,
@@ -221,51 +200,5 @@ export class LinesExampleComponent implements OnInit {
   onBackdropClick(): void {
     this.removeTooltipEvent.next();
     this.updateTooltipConfig('hover');
-  }
-
-  async downloadImage(): Promise<void> {
-    const imageConfig = new VicJpegImageConfig({
-      containerNode: this.imageNode.nativeElement,
-      fileName: 'testfile',
-    });
-    await this.imageService.downloadImage(imageConfig);
-  }
-
-  saveCsv(data): void {
-    const lineMetadata = [
-      {
-        fileType: 'csv',
-        numFiles: 1,
-        typesOfCoolThings: 'many cool things, bruv',
-      },
-      {
-        fileType: 'excel',
-        numFiles: 3,
-        typesOfCoolThings: 'so many dope things',
-      },
-    ];
-
-    const dataConfig = new VicDataExportConfig({
-      data: data,
-      includeAllKeysAsDefault: true,
-    });
-    const lineMetadataConfig = new VicDataExportConfig({
-      data: lineMetadata,
-      flipped: true,
-      flippedHeaderKey: 'fileType',
-      marginBottom: 2,
-      defaultColumnList: ['fileType', 'numFiles'],
-      columns: [
-        new VicColumnConfig({
-          title: 'Types of Cool ThInGs',
-          valueAccessor: (x) => x.typesOfCoolThings,
-        }),
-      ],
-    });
-
-    this.downloadService.saveCSV('lines-example', [
-      lineMetadataConfig,
-      dataConfig,
-    ]);
   }
 }

@@ -28,6 +28,9 @@ import {
 import { Dimensions, ElementSpacing } from '../../core/types/layout';
 import { Chart } from './chart';
 import { CHART } from './chart.token';
+import { VicChartConfigBuilder } from './config/chart-builder';
+import { ChartConfig } from './config/chart-config';
+import { ElementWidthObserver } from './element-width-observer';
 
 export interface Ranges {
   x: [number, number];
@@ -60,117 +63,57 @@ export interface ChartScaling {
   selector: 'vic-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss'],
-  providers: [{ provide: CHART, useExisting: ChartComponent }],
+  providers: [
+    { provide: CHART, useExisting: ChartComponent },
+    ElementWidthObserver,
+  ],
   host: {
     class: 'vic-chart',
   },
 })
 export class ChartComponent implements Chart, OnInit, OnChanges {
+  @Input() config: ChartConfig = new VicChartConfigBuilder().getConfig();
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;
   @ViewChild('svg', { static: true }) svgRef: ElementRef<SVGSVGElement>;
-  /**
-   * If chart size is dynamic, the maximum height of the chart.
-   *
-   * In that case, this value is used to determine the aspect ratio of the chart which will be maintained on resizing
-   *
-   * If chart size is static, the fixed height of the chart.
-   */
-  @Input() height = 600;
-  /**
-   * The margin that will be established between the edges of the svg and the svg's contents.
-   */
-  @Input() margin: ElementSpacing = {
-    top: 36,
-    right: 36,
-    bottom: 36,
-    left: 36,
-  };
-
-  /**
-   * Determines whether the chart size is fixed or will scale with its container.
-   *
-   * Width and height properties can be set separately. If both are true, the aspect ratio determined by width and height values will be maintained.
-   */
-  @Input() scaleChartWithContainerWidth: ChartScaling = {
-    width: true,
-    height: true,
-  };
-  /**
-   * A time duration for all transitions in the chart, in ms.
-   */
-  @Input() transitionDuration = 250;
-  /**
-   * If chart size is dynamic, the maximum width of the chart.
-   *
-   * In that case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing
-   *
-   * If chart size is static, the fixed width of the chart.
-   */
-  @Input() width = 800;
-  aspectRatio: number;
-  private _height: BehaviorSubject<number> = new BehaviorSubject(this.height);
+  private _height: BehaviorSubject<number> = new BehaviorSubject(null);
   height$ = this._height.asObservable();
-  private _margin: BehaviorSubject<ElementSpacing> = new BehaviorSubject(
-    this.margin
-  );
+  private _margin: BehaviorSubject<ElementSpacing> = new BehaviorSubject(null);
   margin$ = this._margin.asObservable();
   ranges$: Observable<Ranges>;
   svgDimensions$: Observable<Dimensions>;
   protected destroyRef = inject(DestroyRef);
+  private widthObserver = inject(ElementWidthObserver);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'height')
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
     ) {
-      this.setAspectRatio();
-      this._height.next(this.height);
-    }
-    if (NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'width')) {
-      this.setAspectRatio();
-    }
-    if (
-      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'margin')
-    ) {
-      this._margin.next(this.margin);
+      this.initFromConfig();
     }
   }
 
   ngOnInit(): void {
-    this.setAspectRatio();
+    this.initFromConfig();
+  }
+
+  initFromConfig(): void {
+    this._height.next(this.config.height);
+    this._margin.next(this.config.margin);
     this.createDimensionObservables();
   }
 
-  setAspectRatio(): void {
-    this.aspectRatio = this.width / this.height;
-  }
-
   createDimensionObservables() {
-    let divWidth$: Observable<number>;
-
-    if (this.scaleChartWithContainerWidth.width) {
-      const width$ = of(
-        min([this.divRef.nativeElement.offsetWidth, this.width])
-      );
-      const divWidthResize$ = this.getDivWidthResizeObservable();
-      // ensure that there is always a subscription to divWidthResize$ so that it emits
-      divWidthResize$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
-
-      divWidth$ = merge(width$, divWidthResize$).pipe(distinctUntilChanged());
-    } else {
-      divWidth$ = of(this.width);
-    }
-
-    const height$ = this.height$.pipe(startWith(this.height));
-
-    this.svgDimensions$ = combineLatest([divWidth$, height$]).pipe(
-      filter(([divWidth, height]) => divWidth > 0 && height > 0),
-      map(([divWidth]) => this.getSvgDimensionsFromDivWidth(divWidth)),
+    const divWidth$ = this.getDivWidthObservable();
+    const height$ = this.height$.pipe(startWith(this.config.height));
+    const margin$ = this.margin$.pipe(
+      startWith(this.config.margin),
       distinctUntilChanged((a, b) => isEqual(a, b)),
       shareReplay(1)
     );
 
-    const margin$ = this.margin$.pipe(
-      startWith(this.margin),
+    this.svgDimensions$ = combineLatest([divWidth$, height$]).pipe(
+      filter(([divWidth, height]) => divWidth > 0 && height > 0),
+      map(([divWidth]) => this.getSvgDimensionsFromDivWidth(divWidth)),
       distinctUntilChanged((a, b) => isEqual(a, b)),
       shareReplay(1)
     );
@@ -182,18 +125,19 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
     );
   }
 
-  getDivWidthResizeObservable(): Observable<number> {
-    const el = this.divRef.nativeElement;
-    return new Observable((subscriber) => {
-      const observer = new ResizeObserver((entries) => {
-        subscriber.next(entries[0].contentRect.width);
-      });
-      observer.observe(el);
-      return () => {
-        observer.unobserve(el);
-        observer.disconnect();
-      };
-    });
+  private getDivWidthObservable(): Observable<number> {
+    if (!this.config.scaleChartWithContainerWidth.width) {
+      return of(this.config.width);
+    }
+
+    const initialWidth$ = of(
+      min([this.divRef.nativeElement.offsetWidth, this.config.width])
+    );
+
+    const resize$ = this.widthObserver.observe(this.divRef.nativeElement);
+    // ensure that there is always a subscription to divWidthResize$ so that it emits
+    resize$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    return merge(initialWidth$, resize$).pipe(distinctUntilChanged());
   }
 
   getSvgDimensionsFromDivWidth(divWidth: number) {
@@ -203,24 +147,26 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   }
 
   getSvgWidthFromDivWidth(divWidth: number): number {
-    return !this.scaleChartWithContainerWidth.width ? this.width : divWidth;
+    return !this.config.scaleChartWithContainerWidth.width
+      ? this.config.width
+      : divWidth;
   }
 
   getSvgHeightFromWidth(width: number): number {
-    return this.scaleChartWithContainerWidth.height &&
-      this.divRef.nativeElement.offsetWidth <= this.width
-      ? width / this.aspectRatio
-      : this.height;
+    return this.config.scaleChartWithContainerWidth.height &&
+      this.divRef.nativeElement.offsetWidth <= this.config.width
+      ? width / this.config.aspectRatio
+      : this.config.height;
   }
 
   getRangesFromSvgDimensions(dimensions: Dimensions): Ranges {
     const xRange: [number, number] = [
-      this.margin.left,
-      dimensions.width - this.margin.right,
+      this.config.margin.left,
+      dimensions.width - this.config.margin.right,
     ];
     const yRange: [number, number] = [
-      dimensions.height - this.margin.bottom,
-      this.margin.top,
+      dimensions.height - this.config.margin.bottom,
+      this.config.margin.top,
     ];
     return { x: xRange, y: yRange };
   }

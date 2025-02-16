@@ -81,8 +81,8 @@ export function quantitativeAxisMixin<
       return (
         this.config.numTicks ||
         this.config.getSuggestedNumTicksFromChartDimension({
-          height: this.chart.height,
-          width: this.chart.width,
+          height: this.chart.config.height,
+          width: this.chart.config.width,
         })
       );
     }
