@@ -30,7 +30,6 @@ import { Chart } from './chart';
 import { CHART } from './chart.token';
 import { VicChartConfigBuilder } from './config/chart-builder';
 import { ChartConfig } from './config/chart-config';
-import { ElementWidthObserver } from './element-width-observer';
 
 export interface Ranges {
   x: [number, number];
@@ -63,10 +62,7 @@ export interface ChartScaling {
   selector: 'vic-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss'],
-  providers: [
-    { provide: CHART, useExisting: ChartComponent },
-    ElementWidthObserver,
-  ],
+  providers: [{ provide: CHART, useExisting: ChartComponent }],
   host: {
     class: 'vic-chart',
   },
@@ -82,7 +78,6 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   ranges$: Observable<Ranges>;
   svgDimensions$: Observable<Dimensions>;
   protected destroyRef = inject(DestroyRef);
-  private widthObserver = inject(ElementWidthObserver);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
@@ -134,10 +129,23 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
       min([this.divRef.nativeElement.offsetWidth, this.config.width])
     );
 
-    const resize$ = this.widthObserver.observe(this.divRef.nativeElement);
+    const resize$ = this.observeElementWidth(this.divRef.nativeElement);
     // ensure that there is always a subscription to divWidthResize$ so that it emits
     resize$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
     return merge(initialWidth$, resize$).pipe(distinctUntilChanged());
+  }
+
+  private observeElementWidth(element: HTMLElement): Observable<number> {
+    return new Observable((subscriber) => {
+      const observer = new ResizeObserver((entries) => {
+        subscriber.next(entries[0].contentRect.width);
+      });
+      observer.observe(element);
+      return () => {
+        observer.unobserve(element);
+        observer.disconnect();
+      };
+    });
   }
 
   getSvgDimensionsFromDivWidth(divWidth: number) {

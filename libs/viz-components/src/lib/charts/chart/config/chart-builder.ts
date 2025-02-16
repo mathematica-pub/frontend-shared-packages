@@ -4,11 +4,11 @@ import { ChartScaling } from '../chart.component';
 import { ChartConfig } from './chart-config';
 
 const DEFAULT = {
-  height: 600,
-  margin: { top: 36, right: 36, bottom: 36, left: 36 },
-  scaleChartWithContainerWidth: { width: true, height: true },
-  transitionDuration: 250,
-  width: 800,
+  _height: 600,
+  _margin: { top: 36, right: 36, bottom: 36, left: 36 },
+  _scaleChartWithContainerWidth: { width: true, height: true },
+  _transitionDuration: 250,
+  _width: 800,
 };
 
 @Injectable()
