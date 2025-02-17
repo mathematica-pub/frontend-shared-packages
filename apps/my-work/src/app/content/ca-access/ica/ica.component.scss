@@ -133,3 +133,19 @@ $axisFontSize: 16px;
     alignment-baseline: middle;
   }
 }
+
+.size-label {
+  text {
+    text-transform: uppercase;
+    text-anchor: middle;
+  }
+
+  line {
+    stroke: black;
+    stroke-width: 2px;
+  }
+}
+
+.size-title {
+  text-anchor: middle;
+}

@@ -18,16 +18,21 @@ export class IcaStackedBarsComponent
   extends StackedBarsComponent<IcaDatum, string>
   implements OnInit
 {
+  sizeGroup: Selection<SVGGElement, unknown, null, undefined>;
   circleGroup: Selection<SVGGElement, unknown, null, undefined>;
   comparisonGroup: Selection<SVGGElement, unknown, null, undefined>;
   directionLabel: Selection<SVGTextElement, unknown, null, undefined>;
   headerGroup: Selection<SVGGElement, unknown, null, undefined>;
+  labelWidth = 60;
+  sizePadding = 3;
   headerOffset = -50;
   yAxisOffset = -0.8;
   radius = 4;
   barThickness = 3;
 
   override ngOnInit(): void {
+    this.createSizeGroup();
+    this.createSizeTitle();
     this.createCircleGroup();
     this.createDirectionLabel();
     this.createHeaderGroup();
@@ -48,6 +53,21 @@ export class IcaStackedBarsComponent
     this.updateDirectionLabel();
     this.updatePlanHeader();
     this.updateYLabels();
+    this.updateSizeTitle();
+    this.updateSizeLabels();
+  }
+
+  createSizeGroup(): void {
+    this.sizeGroup = select(this.chart.svgRef.nativeElement)
+      .append('g')
+      .attr('class', 'size-labels');
+  }
+
+  createSizeTitle(): void {
+    this.sizeGroup
+      .append('text')
+      .attr('class', 'size-title')
+      .text('County Categories by Population');
   }
 
   createCircleGroup(): void {
@@ -171,6 +191,68 @@ export class IcaStackedBarsComponent
     select(this.chart.svgRef.nativeElement)
       .selectAll('.vic-y text')
       .attr('dx', this.yAxisOffset);
+  }
+
+  updateSizeTitle(): void {
+    const x = -this.labelWidth - 120;
+    const y = this.chart.height / 2;
+    this.sizeGroup
+      .select('.size-title')
+      .attr('x', x)
+      .attr('y', y)
+      .attr('transform', `rotate(-90, ${x}, ${y})`);
+  }
+
+  updateSizeLabels(): void {
+    let data = [...new Set(this.config.data.map((d) => d.size))];
+    data = data.length > 1 ? data : [];
+    const reverseData = [...this.config.data].reverse();
+    const sizes = this.sizeGroup
+      .selectAll('.size-label')
+      .data(data)
+      .join('g')
+      .attr('class', 'size-label');
+    const offset = -this.labelWidth - 80;
+    sizes
+      .selectAll('text')
+      .data((d) => [d])
+      .join('text')
+      .text((d) => d)
+      .attr('x', offset)
+      .attr('y', (d) => this.getAverageY(d, reverseData))
+      .attr('transform', (d) => {
+        const y = this.getAverageY(d, reverseData);
+        return `rotate(-90, ${offset}, ${y})`;
+      });
+    sizes
+      .selectAll('line')
+      .data((d) => [d])
+      .join('line')
+      .attr('x1', offset + 8)
+      .attr('x2', offset + 8)
+      .attr('y1', (d) => this.getY1(d))
+      .attr('y2', (d) => this.getY2(d, reverseData));
+  }
+
+  getY1(d: any): number {
+    const size = this.config.data.find((x) => x.size === d);
+    return this.scales.y(size.county) + this.sizePadding;
+  }
+
+  getY2(d: any, reverseData: IcaDatum[]): number {
+    const size = reverseData.find((x) => x.size === d);
+    return (
+      this.scales.y(size.county) +
+      (this.scales.y as any).bandwidth() -
+      this.sizePadding
+    );
+  }
+
+  getAverageY(d: any, reverseData: IcaDatum[]): number {
+    const y1 = this.getY1(d);
+    const y2 = this.getY2(d, reverseData);
+    const average = (y1 + y2) / 2;
+    return average;
   }
 
   override getStackElementY(datum: StackDatum): number {
