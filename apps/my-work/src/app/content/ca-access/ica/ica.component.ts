@@ -75,7 +75,8 @@ export class IcaComponent implements OnInit {
               plan.County === x.County &&
               plan.DelivSys === x.DelivSys &&
               plan.Measure_Code === x.Measure_Code &&
-              plan.StratVal === x.StratVal
+              plan.StratVal === x.StratVal &&
+              !isNaN(plan.Value)
           );
           const extents = extent(filteredPlans.map((plan: any) => plan.Value));
           const obj: IcaDatum = {

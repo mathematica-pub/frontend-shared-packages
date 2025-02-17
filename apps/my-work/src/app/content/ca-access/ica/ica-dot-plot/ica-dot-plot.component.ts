@@ -85,29 +85,31 @@ export class IcaDotPlotComponent implements OnChanges {
   setProperties(): void {
     this.rollupData = [];
 
-    this.data.forEach((plan) => {
-      const visibleStack = structuredClone(plan);
-      const currentRollup = this.rollupData.find(
-        (x) => x.county === plan.county
-      );
-      const currentInvisibleRollup = this.rollupData.find(
-        (x) => x.county === plan.county && x.series === 'invisible'
-      );
-      if (!currentRollup) {
-        visibleStack.plans = [plan.planValue];
+    this.data
+      .filter((plan) => plan.planValue !== null)
+      .forEach((plan) => {
+        const visibleStack = structuredClone(plan);
+        const currentRollup = this.rollupData.find(
+          (x) => x.county === plan.county
+        );
+        const currentInvisibleRollup = this.rollupData.find(
+          (x) => x.county === plan.county && x.series === 'invisible'
+        );
+        if (!currentRollup) {
+          visibleStack.plans = [plan.planValue];
 
-        const invisibleStack = structuredClone(plan);
-        invisibleStack.series = 'invisible';
-        invisibleStack.plans = [plan.planValue];
+          const invisibleStack = structuredClone(plan);
+          invisibleStack.series = 'invisible';
+          invisibleStack.plans = [plan.planValue];
 
-        this.rollupData.push(visibleStack);
-        this.rollupData.push(invisibleStack);
-      } else {
-        currentRollup.plans.push(plan.planValue);
-        currentInvisibleRollup.plans.push(plan.planValue);
-        currentInvisibleRollup.value = min(currentInvisibleRollup.plans);
-      }
-    });
+          this.rollupData.push(visibleStack);
+          this.rollupData.push(invisibleStack);
+        } else {
+          currentRollup.plans.push(plan.planValue);
+          currentInvisibleRollup.plans.push(plan.planValue);
+          currentInvisibleRollup.value = min(currentInvisibleRollup.plans);
+        }
+      });
 
     this.rollupData = this.rollupData.filter((d) => d.plans.length > 1);
 

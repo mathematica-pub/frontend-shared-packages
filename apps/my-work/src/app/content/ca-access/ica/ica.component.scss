@@ -109,6 +109,16 @@ $axisFontSize: 16px;
   font-size: $axisFontSize;
 }
 
+.range-title {
+  font-size: $axisFontSize;
+  font-weight: bold;
+}
+
+.range-label {
+  font-size: $axisFontSize;
+  alignment-baseline: middle;
+}
+
 .vic-axis-g,
 .size-headers,
 .comparison-label,
@@ -148,4 +158,8 @@ $axisFontSize: 16px;
 
 .size-title {
   text-anchor: middle;
+}
+
+.ranges {
+  text-anchor: end;
 }

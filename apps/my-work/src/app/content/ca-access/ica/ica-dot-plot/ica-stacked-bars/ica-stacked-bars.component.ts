@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
-import { select, Selection } from 'd3';
+import { extent, format, select, Selection } from 'd3';
 import { IcaDatum } from '../ica-dot-plot.component';
 
 @Component({
@@ -23,12 +23,14 @@ export class IcaStackedBarsComponent
   comparisonGroup: Selection<SVGGElement, unknown, null, undefined>;
   directionLabel: Selection<SVGTextElement, unknown, null, undefined>;
   headerGroup: Selection<SVGGElement, unknown, null, undefined>;
+  rangeGroup: Selection<SVGGElement, unknown, null, undefined>;
   labelWidth = 60;
   sizePadding = 3;
   headerOffset = -50;
   yAxisOffset = -0.8;
   radius = 4;
   barThickness = 3;
+  rangeOffset = '2.5em';
 
   override ngOnInit(): void {
     this.createSizeGroup();
@@ -38,6 +40,7 @@ export class IcaStackedBarsComponent
     this.createHeaderGroup();
     this.createSizeHeaderGroup();
     this.createPlanHeaderGroup();
+    this.createRangeGroup();
     super.ngOnInit();
   }
 
@@ -52,6 +55,7 @@ export class IcaStackedBarsComponent
     this.updateCircleElements();
     this.updateDirectionLabel();
     this.updatePlanHeader();
+    this.updateRange();
     this.updateYLabels();
     this.updateSizeTitle();
     this.updateSizeLabels();
@@ -119,6 +123,18 @@ export class IcaStackedBarsComponent
       .attr('cy', -this.radius - 2);
   }
 
+  createRangeGroup(): void {
+    this.rangeGroup = select(this.chart.svgRef.nativeElement)
+      .append('g')
+      .attr('class', 'ranges');
+    this.rangeGroup
+      .append('text')
+      .attr('class', 'range-title')
+      .attr('dx', this.rangeOffset)
+      .attr('y', '-0.5em')
+      .text('Range');
+  }
+
   updateGridlines(): void {
     this.updateGridline('horizontal');
     this.updateGridline('vertical');
@@ -139,17 +155,19 @@ export class IcaStackedBarsComponent
     this.circleGroup
       .selectAll('.county')
       .data(
-        this.config.data.filter((plan: IcaDatum) => plan.series !== 'invisible')
+        this.config.data.filter(
+          (county: IcaDatum) => county.series !== 'invisible'
+        )
       )
       .join('g')
       .attr('class', (county) => county.county + ' county')
       .attr(
         'transform',
-        (plan: IcaDatum) =>
-          `translate(0, ${this.scales.y(plan.county) + (this.scales.y as any).bandwidth() / 2})`
+        (county: IcaDatum) =>
+          `translate(0, ${this.scales.y(county.county) + (this.scales.y as any).bandwidth() / 2})`
       )
       .selectAll('.plan')
-      .data((plan: IcaDatum) => plan.plans)
+      .data((county: IcaDatum) => county.plans)
       .join('circle')
       .attr('r', this.radius)
       .attr('cx', (plan) => this.scales.x(plan))
@@ -185,6 +203,23 @@ export class IcaStackedBarsComponent
       const x = 0;
       return `translate(${x}, 0)`;
     });
+  }
+
+  updateRange(): void {
+    this.rangeGroup.attr('transform', `translate(${this.chart.width}, 0)`);
+    this.rangeGroup
+      .selectAll('.range-label')
+      .data(this.config.data.filter((d) => d.series !== 'invisible'))
+      .join('text')
+      .attr('class', 'range-label')
+      .text((d) => {
+        const extents = extent(d.plans);
+        const range = extents[1] - extents[0];
+        return format('.1f')(range);
+      })
+      .attr('y', (d) => this.scales.y(d.county))
+      .attr('dy', (this.scales.y as any).bandwidth() / 2)
+      .attr('dx', this.rangeOffset);
   }
 
   updateYLabels(): void {
