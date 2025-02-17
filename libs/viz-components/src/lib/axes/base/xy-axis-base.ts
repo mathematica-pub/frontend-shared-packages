@@ -1,5 +1,5 @@
-import { Directive, ElementRef, inject, ViewChild } from '@angular/core';
-import { select } from 'd3';
+import { Directive, ElementRef, inject } from '@angular/core';
+import { select, Selection } from 'd3';
 import { Observable } from 'rxjs';
 import { GenericScale } from '../../core';
 import { DataValue } from '../../core/types/values';
@@ -13,7 +13,7 @@ export type XyAxisScale = {
   scale: GenericScale<any, any>;
 };
 
-type AxisSvgElements = 'grid' | 'label';
+type AxisSvgElements = 'gridGroup' | 'label' | 'axisGroup';
 
 /**
  * A base directive for all axes.
@@ -28,9 +28,10 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axisFunction: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  axisGroup: Selection<SVGGElement, any, SVGGElement, any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
   elRef = inject<ElementRef<SVGGElement>>(ElementRef);
-  @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
 
   abstract getScale(): Observable<XyAxisScale>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -42,7 +43,8 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
 
   get class(): Record<AxisSvgElements, string> {
     return {
-      grid: 'vic-grid',
+      gridGroup: 'vic-grid',
+      axisGroup: 'vic-axis-group',
       label: 'vic-axis-label',
     };
   }
@@ -71,17 +73,21 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   }
 
   drawAxis(): void {
-    const axisGroup = select(this.axisRef.nativeElement);
+    this.axisGroup = select(this.elRef.nativeElement)
+      .append('g')
+      .attr('class', this.class.axisGroup);
 
-    axisGroup
+    this.axisGroup
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .transition(this.getTransition(axisGroup))
+      .transition(this.getTransition(this.axisGroup))
       .call(this.axis)
       .on('end', () => {
         this.styleTicks();
       });
 
-    select(this.elRef.nativeElement).select(`.${this.class.grid}`).remove();
+    select(this.elRef.nativeElement)
+      .select(`.${this.class.gridGroup}`)
+      .remove();
 
     if (this.config.grid) {
       this.drawGrid();
@@ -97,13 +103,13 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   drawGrid(): void {
     const gridGroup = select(this.elRef.nativeElement)
       .append('g')
-      .attr('class', this.class.grid);
+      .attr('class', this.class.gridGroup);
 
     gridGroup
       .transition(this.getTransition(gridGroup))
       .call(this.axis.tickSizeInner(this.getGridLineLength()))
       .selectAll('.tick')
-      .attr('class', `${this.class.grid}-line`)
+      .attr('class', `${this.class.gridGroup}-line`)
       .style('display', (_, i) => (this.config.grid.filter(i) ? null : 'none'))
       .select('line')
       .attr('stroke', this.config.grid.stroke.color)
@@ -162,7 +168,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   }
 
   postProcessAxisFeatures(): void {
-    const axisGroup = select(this.axisRef.nativeElement);
+    const axisGroup = select(this.elRef.nativeElement);
     if (this.config.removeDomainLine) {
       axisGroup.call((g) => g.select('.domain').remove());
     }

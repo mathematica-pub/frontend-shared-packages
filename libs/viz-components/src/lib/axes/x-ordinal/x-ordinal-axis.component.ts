@@ -9,7 +9,7 @@ const XOrdinalAxis = xAxisMixin(ordinalAxisMixin(XyAxis));
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-x-ordinal-axis]',
-  templateUrl: '../base/xy-axis-base.html',
+  template: '',
   styles: [
     `
       .vic-axis-x-ordinal .vic-axis-label {
