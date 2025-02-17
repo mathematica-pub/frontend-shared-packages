@@ -8,7 +8,7 @@ const XQuantitativeAxis = xAxisMixin(quantitativeAxisMixin(XyAxis));
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-x-quantitative-axis]',
-  templateUrl: '../base/xy-axis-base.html',
+  template: '',
   styles: [
     `
       .vic-axis-x-quantitative .vic-axis-label {
@@ -24,6 +24,7 @@ const XQuantitativeAxis = xAxisMixin(quantitativeAxisMixin(XyAxis));
     class: 'vic-axis',
     '[attr.mix-blend-mode]': 'config.mixBlendMode',
     '[attr.transform]': 'translate',
+    'font-size': '10px',
   },
 })
 export class XQuantitativeAxisComponent extends XQuantitativeAxis {}
