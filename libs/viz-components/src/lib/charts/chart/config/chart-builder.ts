@@ -6,7 +6,7 @@ import { ChartConfig } from './chart-config';
 const DEFAULT = {
   _height: 600,
   _margin: { top: 36, right: 36, bottom: 36, left: 36 },
-  _resize: { width: true, height: true, useViewbox: true },
+  _resize: { width: true, height: true, useViewbox: false },
   _transitionDuration: 250,
   _width: 800,
 };
@@ -67,10 +67,10 @@ export class VicChartConfigBuilder {
     resize: Partial<{ width: boolean; height: boolean; useViewbox: boolean }>
   ): this {
     this._resize = {
-      width: resize.width || this._resize.width,
-      height: resize.height || this._resize.height,
-      useViewbox: resize.useViewbox || this._resize.useViewbox,
+      ...this._resize,
+      ...resize,
     };
+    console.log(this._resize);
     return this;
   }
 
