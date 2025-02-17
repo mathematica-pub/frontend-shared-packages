@@ -1,4 +1,4 @@
-import { Directive, ElementRef, inject, ViewChild } from '@angular/core';
+import { Directive, ElementRef, inject } from '@angular/core';
 import { select } from 'd3';
 import { Observable } from 'rxjs';
 import { GenericScale } from '../../core';
@@ -13,7 +13,7 @@ export type XyAxisScale = {
   scale: GenericScale<any, any>;
 };
 
-type AxisSvgElements = 'grid' | 'label';
+type AxisSvgElements = 'grid' | 'label' | 'axisGroup';
 
 /**
  * A base directive for all axes.
@@ -26,11 +26,12 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axis: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  axisGroup: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axisFunction: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
   elRef = inject<ElementRef<SVGGElement>>(ElementRef);
-  @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
 
   abstract getScale(): Observable<XyAxisScale>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -44,6 +45,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     return {
       grid: 'vic-grid',
       label: 'vic-axis-label',
+      axisGroup: 'vic-axis-group',
     };
   }
 
@@ -71,11 +73,15 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   }
 
   drawAxis(): void {
-    const axisGroup = select(this.axisRef.nativeElement);
+    if (!this.axisGroup) {
+      this.axisGroup = select(this.elRef.nativeElement)
+        .append('g')
+        .attr('class', this.class.axisGroup);
+    }
 
-    axisGroup
+    this.axisGroup
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .transition(this.getTransition(axisGroup))
+      .transition(this.getTransition(this.axisGroup))
       .call(this.axis)
       .on('end', () => {
         this.styleTicks();
@@ -126,7 +132,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   }
 
   styleTicks(): void {
-    const tickText = select(this.elRef.nativeElement).selectAll('.tick text');
+    const tickText = this.axisGroup.selectAll('.tick text');
     if (this.config.tickLabelFontSize) {
       this.setTickFontSize(tickText);
     }
@@ -162,17 +168,16 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   }
 
   postProcessAxisFeatures(): void {
-    const axisGroup = select(this.axisRef.nativeElement);
     if (this.config.removeDomainLine) {
-      axisGroup.call((g) => g.select('.domain').remove());
+      this.axisGroup.call((g) => g.select('.domain').remove());
     }
 
     if (this.config.removeTickLabels) {
-      axisGroup.call((g) => g.selectAll('.tick text').remove());
+      this.axisGroup.call((g) => g.selectAll('.tick text').remove());
     }
 
     if (this.config.removeTickMarks) {
-      axisGroup.call((g) => g.selectAll('.tick line').remove());
+      this.axisGroup.call((g) => g.selectAll('.tick line').remove());
     }
 
     if (this.config.label) {
