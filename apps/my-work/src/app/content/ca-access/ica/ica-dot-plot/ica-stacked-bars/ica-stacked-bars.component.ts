@@ -38,7 +38,6 @@ export class IcaStackedBarsComponent
     this.createCircleGroup();
     this.createDirectionLabel();
     this.createHeaderGroup();
-    this.createSizeHeaderGroup();
     this.createPlanHeaderGroup();
     this.createRangeGroup();
     super.ngOnInit();
@@ -92,22 +91,6 @@ export class IcaStackedBarsComponent
       .append('g')
       .attr('class', 'headers')
       .attr('transform', `translate(0, ${this.headerOffset})`);
-  }
-
-  createSizeHeaderGroup(): void {
-    const group = this.headerGroup.append('g').attr('class', 'size-headers');
-    group
-      .append('text')
-      .attr('dy', '-0.6em')
-      .attr('x', -9)
-      .attr('dx', this.yAxisOffset)
-      .text('County Categories');
-    group
-      .append('text')
-      .attr('dy', '0.6em')
-      .attr('x', -9)
-      .attr('dx', this.yAxisOffset)
-      .text('by Population');
   }
 
   createPlanHeaderGroup(): void {
