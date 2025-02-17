@@ -106,7 +106,7 @@ describe('the XyAxis abstract class', () => {
     });
     it('calls drawAxis once with the correct value', () => {
       abstractClass.drawMarks();
-      expect(abstractClass.drawAxis).toHaveBeenCalledTimes(1);
+      expect(abstractClass.drawAxis).toHaveBeenCalledOnceWith(200);
     });
     it('calls postProcessAxisFeatures once', () => {
       abstractClass.drawMarks();

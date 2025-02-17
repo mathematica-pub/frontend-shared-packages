@@ -39,9 +39,7 @@ interface Axes {
 })
 export class AxesContentComponent implements OnInit {
   defaultAxes: Axes;
-  customLabelAxes: Axes;
-  defaultGridAxes: Axes;
-  customGridAxes: Axes;
+  customAxes: Axes;
 
   constructor(
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
@@ -60,7 +58,7 @@ export class AxesContentComponent implements OnInit {
         .getConfig(),
     };
 
-    this.customLabelAxes = {
+    this.customAxes = {
       x: this.xQuantitativeAxis
         .tickFormat('.0f')
         .label((label) =>
@@ -78,40 +76,6 @@ export class AxesContentComponent implements OnInit {
             .position('start')
             .anchor('start')
             .offset({ x: 8, y: 8 })
-        )
-        .getConfig(),
-    };
-
-    this.defaultGridAxes = {
-      x: this.xQuantitativeAxis
-        .label(null)
-        .tickFormat('.0f')
-        .grid()
-        .getConfig(),
-      y: this.yQuantitativeAxis
-        .label(null)
-        .tickFormat('.0f')
-        .grid()
-        .getConfig(),
-    };
-
-    this.customGridAxes = {
-      x: this.xQuantitativeAxis
-        .tickFormat('.0f')
-        .label(null)
-        .grid((grid) =>
-          grid
-            .filter((i) => i % 2 !== 0)
-            .stroke((stroke) => stroke.dasharray('5').color('blue'))
-        )
-        .getConfig(),
-      y: this.yQuantitativeAxis
-        .tickFormat('.0f')
-        .label(null)
-        .grid((grid) =>
-          grid
-            .filter((i) => i % 2 !== 0)
-            .stroke((stroke) => stroke.dasharray('5').color('red'))
         )
         .getConfig(),
     };

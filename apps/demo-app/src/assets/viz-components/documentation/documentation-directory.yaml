@@ -143,14 +143,6 @@ axis-components:
     builder: 'injectables/VicYQuantitativeAxisConfigBuilder.html'
   internal:
     base: 'directives/XyAxis.html'
-    grid:
-      builder: 'classes/GridBuilder.html'
-      grid: 'classes/Grid.html'
-      options: 'interfaces/GridOptions.html'
-    label:
-      builder: 'classes/AxisLabelBuilder.html'
-      label: 'classes/AxisLabel.html'
-      options: 'interfaces/AxisLabelOptions.html'
     tick-wrap:
       builder: 'classes/TickWrapBuilder.html'
       tick-wrap: 'classes/TickWrap.html'

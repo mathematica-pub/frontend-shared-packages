@@ -1,6 +1,5 @@
 import { VicAuxMarksBuilder } from '../../../marks';
 import { AxisLabelBuilder } from '../../axis-label/axis-label-builder';
-import { GridBuilder } from '../../grid/grid-builder';
 import { TickWrapBuilder } from '../../tick-wrap/tick-wrap-builder';
 
 export abstract class XyAxisBaseBuilder<
@@ -15,27 +14,8 @@ export abstract class XyAxisBaseBuilder<
   protected _tickLabelFontSize: number;
   protected _tickSizeOuter: number;
   protected tickWrapBuilder: TickWrapBuilder;
-  protected gridBuilder: GridBuilder;
   protected labelBuilder: AxisLabelBuilder;
   protected marksClass: string;
-
-  /**
-   * OPTIONAL. An object to configure grid lines.
-   *
-   * To unset the grid, call with null.
-   */
-  grid(): this;
-  grid(grid: null): this;
-  grid(grid: (grid: GridBuilder) => void): this;
-  grid(grid?: ((grid: GridBuilder) => void) | null): this {
-    if (grid === null) {
-      this.gridBuilder = undefined;
-      return this;
-    }
-    this.gridBuilder = new GridBuilder();
-    grid?.(this.gridBuilder);
-    return this;
-  }
 
   /**
    * OPTIONAL. Specifies properties for an axis label.
