@@ -30,7 +30,7 @@ describe('the XAxis mixin', () => {
       },
       x: 'scale',
     } as any;
-    abstractClass.chart = {
+    abstractClass.chart.config = {
       margin: { top: 10 },
     } as any;
   });
