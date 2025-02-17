@@ -53,7 +53,7 @@ export class VicChartConfigBuilder {
   /**
    * OPTIONAL. Determines whether the chart size is fixed or will resize as the container width changes sizes, and how this resizing will be done.
    *
-   * If `useViewbox` is true, the chart will resize via the viewbox attribute, scalling all contents of the chart at once. (For example, as the chart grows smaller, svg text in the chart will also grow proportionally smaller.) This is a more performant way to resize the chart.
+   * If `useViewbox` is true, the chart will resize via the viewbox attribute, scaling all contents of the chart at once. (For example, as the chart grows smaller, svg text in the chart will also grow proportionally smaller.) This is a more performant way to resize the chart.
    *
    * If `useViewbox` is false, the chart will resize by changing the width and height attributes of the svg element, recalculating scales and re-rendering the chart. This is a less performant way to resize the chart but may be necessary in some cases, particularly when the chart contains elements like text that should not be resized.
    *
@@ -61,7 +61,7 @@ export class VicChartConfigBuilder {
    *
    * Note that the chart does not respond to changes in container height.
    *
-   * @default { width: true, height: true; useViewbox: true }
+   * @default { width: true, height: true; useViewbox: false }
    */
   resize(
     resize: Partial<{ width: boolean; height: boolean; useViewbox: boolean }>
@@ -70,7 +70,6 @@ export class VicChartConfigBuilder {
       ...this._resize,
       ...resize,
     };
-    console.log(this._resize);
     return this;
   }
 
