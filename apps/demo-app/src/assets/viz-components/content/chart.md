@@ -61,7 +61,7 @@ params:
 
 ```builder-method
 name: resize
-description: Determines whether the chart size is fixed or will resize as the container width changes sizes, and how this resizing will be done. The default value is `{ width: true, height: true, useViewbox: true }`.
+description: "Determines whether the chart size is fixed or will resize as the container width changes sizes, and how this resizing will be done. The default value is `{ width: true, height: true, useViewbox: true }`."
 params:
   - name: resize
     type: "Partial<{ width: boolean; height: boolean; useViewbox: boolean }>"

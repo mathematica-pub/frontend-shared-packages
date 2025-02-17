@@ -12,8 +12,10 @@ import { BehaviorSubject } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
+  ChartConfig,
   GeographiesHoverDirective,
   GeographiesHoverEmitTooltipData,
+  VicChartConfigBuilder,
   VicGeographiesConfigBuilder,
   VicGeographiesModule,
   VicHtmlTooltipModule,
@@ -62,11 +64,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-geographies',
   template: `
-    <vic-map-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-    >
+    <vic-map-chart [config]="chartConfig">
       <svg:g
         vic-primary-marks-geographies
         svg-elements
@@ -104,9 +102,6 @@ class TestGeographiesComponent {
     StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
@@ -121,6 +116,12 @@ class TestGeographiesComponent {
       TestMapGeometryProperties
     >(),
   ];
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .margin(margin)
+    .width(chartWidth)
+    .height(chartHeight)
+    .resize({ useViewbox: false })
+    .getConfig();
 
   updateTooltipForNewOutput(
     data: GeographiesEventOutput<StateIncomeDatum>
