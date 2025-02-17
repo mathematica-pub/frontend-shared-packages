@@ -33,6 +33,7 @@ viz-components:
   title: Viz Components
   items:
     overview: overview.md
+    chart: chart.md
     primary-marks:
       bars: bars.md
       dots: dots.md

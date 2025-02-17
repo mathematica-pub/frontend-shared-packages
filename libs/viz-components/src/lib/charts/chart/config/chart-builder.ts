@@ -57,7 +57,7 @@ export class VicChartConfigBuilder {
    *
    * If `useViewbox` is false, the chart will resize by changing the width and height attributes of the svg element, recalculating scales and re-rendering the chart. This is a less performant way to resize the chart but may be necessary in some cases, particularly when the chart contains elements like text that should not be resized.
    *
-   * If `useViewbox` is false, Width and height can be used to determine which dimensionss will resize when the chart's container changes width. If both are true, the chart will resize in both dimensions. If only one is true, the chart will resize in that dimension only.
+   * If `useViewbox` is false, width and height can be used to determine which dimensionss will resize when the chart's container changes width. If both are true, the chart will resize in both dimensions. If only one is true, the chart will resize in that dimension only.
    *
    * Note that the chart does not respond to changes in container height.
    *
@@ -90,6 +90,8 @@ export class VicChartConfigBuilder {
    * In that case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing
    *
    * If chart size is static, the fixed width of the chart.
+   *
+   * @default 800
    */
   width(width: number): this {
     this._width = width;
