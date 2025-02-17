@@ -2,8 +2,10 @@ import { Component, Input } from '@angular/core';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
+  ChartConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
+  VicChartConfigBuilder,
   VicChartModule,
   VicLinesConfigBuilder,
   VicLinesModule,
@@ -62,12 +64,7 @@ const labelSelector = '.vic-quantitative-rules-label';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-quantitative-rules-horizontal-bar',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -90,9 +87,12 @@ class TestQuantitativeRulesHorizontalBarsComponent {
   @Input() rulesConfig: QuantitativeRulesConfig<number>;
   @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  margin = barsHorizontalMargin;
-  chartHeight = barsChartHeight;
-  chartWidth = barsChartWidth;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(barsChartHeight)
+    .width(barsChartWidth)
+    .margin(barsHorizontalMargin)
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 }
 
 const mountHorizontalBarsComponent = (
@@ -143,12 +143,7 @@ const mountHorizontalBarsComponent = (
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-quantitative-rules-vertical-bar',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
         <svg:g
@@ -172,9 +167,13 @@ class TestVerticalBarsComponent {
   @Input() rulesConfig: QuantitativeRulesConfig<number>;
   @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  margin = barsVerticalMargin;
-  chartHeight = barsChartHeight;
-  chartWidth = barsChartWidth;
+  @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(barsChartHeight)
+    .width(barsChartWidth)
+    .margin(barsVerticalMargin)
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 }
 
 const mountVerticalBarsComponent = (
@@ -232,12 +231,7 @@ const linesNumericData = ContinentPopulationNumYearData;
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-lines',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -268,9 +262,12 @@ class TestLinesComponent<
   @Input() rulesConfig: QuantitativeRulesConfig<RuleDatum>;
   @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
   @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<QuantAxisType>;
-  margin = linesMargin;
-  chartHeight = linesChartHeight;
-  chartWidth = linesChartWidth;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(linesChartHeight)
+    .width(linesChartWidth)
+    .margin(linesMargin)
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 }
 
 const lineImports = [
