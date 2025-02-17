@@ -45,4 +45,5 @@ viz-components:
     aux-marks:
       xy-axes:
         axes: xy-axes.md
+        grid: xy-axis-grid.md
         labels: xy-axis-labels.md
