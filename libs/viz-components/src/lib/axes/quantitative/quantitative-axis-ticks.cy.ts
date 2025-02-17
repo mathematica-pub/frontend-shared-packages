@@ -8,6 +8,7 @@ import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
 import { BarsOptions } from '../../bars/config/bars-options';
 import { VicChartModule } from '../../charts/chart/chart.module';
 import { VicXyChartModule } from '../../charts/xy-chart/xy-chart.module';
+import { VicXyBackgroundModule } from '../../xy-background';
 import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
 import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';
 import { VicQuantitativeAxisConfig } from './quantitative-axis-config';
@@ -27,6 +28,7 @@ const tickTextSelector = '.vic-axis-x-quantitative .tick text';
       [scaleChartWithContainerWidth]="{ width: true, height: false }"
     >
       <ng-container svg-elements>
+        <svg:g vic-xy-background></svg:g>
         <svg:g
           vic-x-quantitative-axis
           [config]="xQuantitativeAxisConfig"
@@ -52,6 +54,7 @@ describe('it correctly sets ticks', () => {
     VicBarsModule,
     VicXQuantitativeAxisModule,
     VicXyChartModule,
+    VicXyBackgroundModule,
   ];
   beforeEach(() => {
     axisConfig = new VicXQuantitativeAxisConfigBuilder()
@@ -153,6 +156,7 @@ describe('integer formatted ticks', () => {
     VicBarsModule,
     VicXQuantitativeAxisModule,
     VicXyChartModule,
+    VicXyBackgroundModule,
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<
@@ -323,6 +327,7 @@ describe('float formatted ticks', () => {
     VicBarsModule,
     VicXQuantitativeAxisModule,
     VicXyChartModule,
+    VicXyBackgroundModule,
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<
@@ -506,6 +511,7 @@ describe('percent formatted ticks', () => {
     VicBarsModule,
     VicXQuantitativeAxisModule,
     VicXyChartModule,
+    VicXyBackgroundModule,
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<
@@ -659,6 +665,98 @@ describe('percent formatted ticks', () => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         expect(tickValues).to.deep.equal(['0%']);
       });
+    });
+  });
+});
+
+describe('grid lines', () => {
+  let barsConfig: BarsOptions<{ state: string; value: number }, string>;
+  let axisConfig: VicQuantitativeAxisConfig<number>;
+  const declarations = [TestXQuantitativeAxisComponent];
+  const imports = [
+    VicChartModule,
+    VicBarsModule,
+    VicXQuantitativeAxisModule,
+    VicXyChartModule,
+    VicXyBackgroundModule,
+  ];
+  beforeEach(() => {
+    barsConfig = new VicBarsConfigBuilder<
+      { state: string; value: number },
+      string
+    >()
+      .data([
+        { state: 'Alabama', value: 1.1 },
+        { state: 'Alaska', value: 2.2 },
+        { state: 'Arizona', value: 30.3 },
+      ])
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
+      )
+      .getConfig();
+  });
+  it('height matches chart area', () => {
+    axisConfig = new VicXQuantitativeAxisConfigBuilder().grid().getConfig();
+    cy.mount(TestXQuantitativeAxisComponent, {
+      declarations,
+      imports,
+      componentProperties: {
+        barsConfig: barsConfig,
+        xQuantitativeAxisConfig: axisConfig,
+      },
+    });
+    cy.wait(axisTickTextWaitTime);
+    cy.get('.vic-xy-background')
+      .invoke('height')
+      .then((backgroundHeight) => {
+        cy.get('.vic-grid-line line').each(($line) => {
+          cy.wrap($line)
+            .invoke('attr', 'y2')
+            .then((tickLineHeight) => {
+              const absTickLineHeight = Math.abs(parseFloat(tickLineHeight));
+              expect(absTickLineHeight).to.equal(backgroundHeight);
+            });
+        });
+      });
+  });
+  it('number of lines matches number of ticks if no filter is specified', () => {
+    axisConfig = new VicXQuantitativeAxisConfigBuilder()
+      .numTicks(4)
+      .grid()
+      .getConfig();
+    cy.mount(TestXQuantitativeAxisComponent, {
+      declarations,
+      imports,
+      componentProperties: {
+        barsConfig: barsConfig,
+        xQuantitativeAxisConfig: axisConfig,
+      },
+    });
+    cy.wait(axisTickTextWaitTime);
+    cy.get('.vic-grid-line').should('have.length', 4);
+  });
+  it('lines are visible for every other tick given a filter (excluding line overlapping axis)', () => {
+    axisConfig = new VicXQuantitativeAxisConfigBuilder()
+      .numTicks(4)
+      .grid((grid) => grid.filter((i) => i % 2 === 0))
+      .getConfig();
+    cy.mount(TestXQuantitativeAxisComponent, {
+      declarations,
+      imports,
+      componentProperties: {
+        barsConfig: barsConfig,
+        xQuantitativeAxisConfig: axisConfig,
+      },
+    });
+    cy.wait(axisTickTextWaitTime);
+    cy.get('.vic-grid-line').each(($line, i) => {
+      if (i % 2 === 0) {
+        cy.wrap($line).should('not.have.css', 'display', 'none');
+      } else {
+        cy.wrap($line).should('have.css', 'display', 'none');
+      }
     });
   });
 });
