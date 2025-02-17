@@ -5,7 +5,11 @@
 Each Viz Components chart that a user makes requires an outer `ChartComponent`, or a component that
 extends `ChartComponent`, such as `XyChartComponent` or `MapChartComponent`.
 
-Uner the hood, the chart component creates the chart's SVG, and it also hosts scales for the chart
+```html
+<vic-chart [config]="config"> <-- chart content goes here --> </vic-chart>
+```
+
+Under the hood, the chart component creates the chart's SVG, and it also hosts scales for the chart
 that child components can access and subscribe to.
 
 ## Configuration
