@@ -123,7 +123,9 @@ $axisFontSize: 16px;
 .size-headers,
 .comparison-label,
 .direction-label,
-.size-title {
+.size-title,
+.percentile-label,
+.plan-header {
   font-size: $axisFontSize;
 }
 
@@ -163,4 +165,10 @@ $axisFontSize: 16px;
 
 .ranges {
   text-anchor: end;
+}
+
+.percentile-line {
+  stroke: $blue;
+  stroke-width: 2;
+  stroke-dasharray: 8 4;
 }

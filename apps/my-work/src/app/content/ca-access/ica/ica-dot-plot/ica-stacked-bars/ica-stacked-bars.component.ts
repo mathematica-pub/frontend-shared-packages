@@ -24,6 +24,7 @@ export class IcaStackedBarsComponent
   directionLabel: Selection<SVGTextElement, unknown, null, undefined>;
   headerGroup: Selection<SVGGElement, unknown, null, undefined>;
   rangeGroup: Selection<SVGGElement, unknown, null, undefined>;
+  percentileGroup: Selection<SVGGElement, unknown, null, undefined>;
   labelWidth = 60;
   sizePadding = 3;
   headerOffset = -50;
@@ -35,6 +36,7 @@ export class IcaStackedBarsComponent
   override ngOnInit(): void {
     this.createSizeGroup();
     this.createSizeTitle();
+    this.createPercentileGroup();
     this.createCircleGroup();
     this.createDirectionLabel();
     this.createHeaderGroup();
@@ -51,6 +53,7 @@ export class IcaStackedBarsComponent
     }
     this.updateBarElements();
     this.updateGridlines();
+    this.updatePercentiles();
     this.updateCircleElements();
     this.updateDirectionLabel();
     this.updatePlanHeader();
@@ -73,6 +76,12 @@ export class IcaStackedBarsComponent
       .text('County Categories by Population');
   }
 
+  createPercentileGroup(): void {
+    this.percentileGroup = select(this.chart.svgRef.nativeElement)
+      .append('g')
+      .attr('class', 'percentiles');
+  }
+
   createCircleGroup(): void {
     this.circleGroup = select(this.chart.svgRef.nativeElement)
       .append('g')
@@ -89,8 +98,7 @@ export class IcaStackedBarsComponent
   createHeaderGroup(): void {
     this.headerGroup = select(this.chart.svgRef.nativeElement)
       .append('g')
-      .attr('class', 'headers')
-      .attr('transform', `translate(0, ${this.headerOffset})`);
+      .attr('class', 'headers');
   }
 
   createPlanHeaderGroup(): void {
@@ -98,12 +106,13 @@ export class IcaStackedBarsComponent
     group
       .append('text')
       .attr('x', this.radius * 2 + 20)
+      .attr('dy', '-0.5em')
       .text('Plans');
     group
       .append('circle')
       .attr('r', this.radius)
       .attr('cx', '1em')
-      .attr('cy', -this.radius - 2);
+      .attr('cy', -this.radius - 9);
   }
 
   createRangeGroup(): void {
@@ -132,6 +141,46 @@ export class IcaStackedBarsComponent
       .attr('class', `${orientation} gridline`)
       .attr('x2', orientation === 'horizontal' ? this.chart.width : 0)
       .attr('y2', orientation === 'vertical' ? -this.chart.height : 0);
+  }
+
+  updatePercentiles(): void {
+    const data = [
+      this.config.data[0].ica_25,
+      this.config.data[0].ica_75,
+    ].filter((d) => d !== null);
+    this.percentileGroup
+      .selectAll('.percentile-label')
+      .data(data)
+      .join('text')
+      .attr('class', 'percentile-label')
+      .text((d, i) => (i === 0 ? '25th' : '75th percentile'))
+      .attr('x', (d) => this.getPercentileX(d))
+      .attr('y', '-0.5em')
+      .attr('dx', '-1em');
+    this.percentileGroup
+      .selectAll('.percentile-line')
+      .data(data)
+      .join('line')
+      .attr('class', 'percentile-line')
+      .text((d) => d)
+      .attr('x1', (d) => this.scales.x(d))
+      .attr('x2', (d) => this.scales.x(d))
+      .attr('y2', this.chart.height);
+  }
+
+  getPercentileX(percentile: number): number {
+    let x = this.scales.x(percentile);
+    const gap = this.scales.x(
+      this.config.data[0].ica_75 - this.config.data[0].ica_25
+    );
+    const minGap = 50;
+    const adjustment = 15;
+    if (gap < minGap && percentile < this.config.data[0].ica_75) {
+      x -= adjustment;
+    } else if (gap < minGap) {
+      x += adjustment;
+    }
+    return x;
   }
 
   updateCircleElements(): void {
@@ -181,9 +230,14 @@ export class IcaStackedBarsComponent
 
   updatePlanHeader(): void {
     this.headerGroup.select('.plan-header').attr('transform', () => {
-      // const x = this.compPosition < 0.15 ? this.chart.width - 80 : 0;
-      // TODO: position based on percentiles
-      const x = 0;
+      const isIca25Low = this.scales.x(this.config.data[0].ica_25) < 100;
+      let x = 0;
+      if (isIca25Low) {
+        x = this.chart.width - 160;
+        const isIca75High =
+          this.scales.x(this.config.data[0].ica_75) > this.chart.width * 0.7;
+        if (isIca75High) x = this.chart.width * 0.4;
+      }
       return `translate(${x}, 0)`;
     });
   }
