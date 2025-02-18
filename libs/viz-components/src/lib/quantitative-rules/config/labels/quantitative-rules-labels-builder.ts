@@ -27,16 +27,42 @@ export class RulesLabelsBuilder<Datum> {
     this._value = (d: Datum) => `${d}`;
   }
 
-  color(color: string | ((d: Datum) => string)) {
+  /**
+   * OPTIONAL. Set the color of the labels.
+   *
+   * If not provided, the color of the line will be used.
+   *
+   * To unset the color, pass `null`.
+   */
+  color(color: null): this;
+  color(color: string): this;
+  color(color: (d: Datum) => string): this;
+  color(color: string | ((d: Datum) => string) | null) {
+    if (color === null) {
+      this._color = null;
+      return this;
+    }
     this._color = typeof color === 'string' ? () => color : color;
     return this;
   }
 
+  /**
+   * OPTIONAL. Set the display of the labels.
+   *
+   * If not provided, the labels will be displayed.
+   *
+   * @default true
+   */
   display(display: boolean | ((d: Datum) => boolean)) {
     this._display = typeof display === 'boolean' ? () => display : display;
     return this;
   }
 
+  /**
+   * OPTIONAL. Set the dominant baseline of the labels.
+   *
+   * @default 'middle'
+   */
   dominantBaseline(
     dominantBaseline:
       | 'middle'
@@ -52,23 +78,41 @@ export class RulesLabelsBuilder<Datum> {
     return this;
   }
 
-  value(value: (d: Datum) => string) {
-    this._value = value;
-    return this;
-  }
-
+  /**
+   * OPTIONAL. Set the offset of the labels.
+   *
+   * @default -12 for horizontal orientation, 0 for vertical orientation
+   */
   offset(offset: number) {
     this._offset = offset;
     return this;
   }
 
+  /**
+   * OPTIONAL. Set the position of the labels.
+   *
+   * @default end for horizontal orientation, end for vertical orientation
+   */
   position(position: (start: number, end: number, d: Datum) => number) {
     this._position = position;
     return this;
   }
 
+  /**
+   * OPTIONAL. Set the text anchor of the labels.
+   *
+   * @default 'end' for horizontal orientation, 'middle' for vertical orientation
+   */
   textAnchor(textAnchor: 'start' | 'middle' | 'end') {
     this._textAnchor = textAnchor;
+    return this;
+  }
+
+  /**
+   * REQUIRED. Set the value of the labels.
+   */
+  value(value: (d: Datum) => string) {
+    this._value = value;
     return this;
   }
 
@@ -107,6 +151,9 @@ export class RulesLabelsBuilder<Datum> {
     }
     if (!this._textAnchor) {
       this._textAnchor = orientation === 'horizontal' ? 'end' : 'middle';
+    }
+    if (!this.value) {
+      throw new Error('QuantitativeRulesLabels: value is required');
     }
   }
 }

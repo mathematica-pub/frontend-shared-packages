@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import {
-  CountSelectedLabel,
   HsiUiComboboxModule,
   ListboxOptionComponent,
+  SelectedCountLabel,
 } from '@hsi/ui-components';
 
 @Component({
@@ -16,7 +16,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MinimalImplementationComboboxComponent {
-  @Input() countLabel: CountSelectedLabel;
+  @Input() countLabel: SelectedCountLabel;
   @Input() customLabel: (selectedOptions: ListboxOptionComponent[]) => string;
   @Input() dynamicLabel = true;
   @Input() externalLabel = false;

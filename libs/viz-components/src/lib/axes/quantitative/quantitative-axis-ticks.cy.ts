@@ -8,6 +8,7 @@ import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
 import { BarsOptions } from '../../bars/config/bars-options';
 import { VicChartModule } from '../../charts/chart/chart.module';
 import { VicXyChartModule } from '../../charts/xy-chart/xy-chart.module';
+import { VicXyBackgroundModule } from '../../xy-background';
 import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
 import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';
 import { VicQuantitativeAxisConfig } from './quantitative-axis-config';
@@ -16,6 +17,7 @@ import { VicQuantitativeAxisConfig } from './quantitative-axis-config';
 // because d3 creates the elements and sets the text value in a transition).
 // This wait time is necessary to ensure that the text value of the tick elements has been set by d3.
 const axisTickTextWaitTime = 1000;
+const tickTextSelector = '.vic-axis-x-quantitative .tick text';
 
 @Component({
   selector: 'vic-test-x-quantitative-axis',
@@ -26,6 +28,7 @@ const axisTickTextWaitTime = 1000;
       [scaleChartWithContainerWidth]="{ width: true, height: false }"
     >
       <ng-container svg-elements>
+        <svg:g vic-xy-background></svg:g>
         <svg:g
           vic-x-quantitative-axis
           [config]="xQuantitativeAxisConfig"
@@ -51,6 +54,7 @@ describe('it correctly sets ticks', () => {
     VicBarsModule,
     VicXQuantitativeAxisModule,
     VicXyChartModule,
+    VicXyBackgroundModule,
   ];
   beforeEach(() => {
     axisConfig = new VicXQuantitativeAxisConfigBuilder()
@@ -86,7 +90,7 @@ describe('it correctly sets ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has a last tick whose value is less than or equal to the max value', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         const lastTick = ticks[ticks.length - 1];
         expect(Number(lastTick.textContent)).to.be.at.most(
           barsConfig.data.map((d) => d.value).reduce((a, b) => Math.max(a, b))
@@ -111,7 +115,7 @@ describe('it correctly sets ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has the specified tick values', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         expect(tickValues).to.deep.equal(axisConfig.tickValues.map(String));
       });
@@ -134,7 +138,7 @@ describe('it correctly sets ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has the specified tick values, excluding those that are outside of the data range', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         expect(tickValues).to.deep.equal(['1', '2', '7', '21']);
       });
@@ -152,6 +156,7 @@ describe('integer formatted ticks', () => {
     VicBarsModule,
     VicXQuantitativeAxisModule,
     VicXyChartModule,
+    VicXyBackgroundModule,
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<
@@ -188,7 +193,7 @@ describe('integer formatted ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are formatted as specified -- case .0f', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         ticks.each((i, tick) => {
           expect(tick.textContent).to.match(validFormatRegex);
         });
@@ -212,7 +217,7 @@ describe('integer formatted ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has the specified tick values, rounded to the nearest integer', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         expect(tickValues).to.deep.equal(['1', '2', '8', '21']);
       });
@@ -251,14 +256,14 @@ describe('integer formatted ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are formatted as integers', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         ticks.each((i, tick) => {
           expect(tick.textContent).to.match(validFormatRegex);
         });
       });
     });
     it('has only one tick per integer in the domain / does not have duplicate tick values', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         expect(tickValues).to.deep.equal(['0', '1', '2', '3']);
       });
@@ -297,14 +302,14 @@ describe('integer formatted ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are formatted as integers', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         ticks.each((i, tick) => {
           expect(tick.textContent).to.match(validFormatRegex);
         });
       });
     });
     it('has only one tick and that tick is at zero', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         expect(tickValues).to.deep.equal(['0']);
       });
@@ -322,6 +327,7 @@ describe('float formatted ticks', () => {
     VicBarsModule,
     VicXQuantitativeAxisModule,
     VicXyChartModule,
+    VicXyBackgroundModule,
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<
@@ -358,7 +364,7 @@ describe('float formatted ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are formatted as floats with the correct number of decimal places - case .1f', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         ticks.each((i, tick) => {
           expect(tick.textContent).to.match(validFormatRegex);
         });
@@ -382,7 +388,7 @@ describe('float formatted ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has the specified tick values, rounded to the nearest tenth', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         expect(tickValues).to.deep.equal(['1.0', '2.3', '7.0', '21.2']);
       });
@@ -427,21 +433,21 @@ describe('float formatted ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are correctly formatted', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         ticks.each((i, tick) => {
           expect(tick.textContent).to.match(validFormatRegex);
         });
       });
     });
     it('does not have duplicate tick values', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         const uniqueTickValues = [...new Set(tickValues)];
         expect(tickValues.length).to.deep.equal(uniqueTickValues.length);
       });
     });
     it('does not have more than the possible number of tick values given formatter', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         expect(tickValues.length).to.be.at.most(possibleValues);
       });
@@ -480,14 +486,14 @@ describe('float formatted ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are formatted as floats with the correct number of decimal places - case .1f', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         ticks.each((i, tick) => {
           expect(tick.textContent).to.match(validFormatRegex);
         });
       });
     });
     it('has only one tick and that tick is at zero and correctly formatted', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         expect(tickValues).to.deep.equal(['0.0']);
       });
@@ -505,6 +511,7 @@ describe('percent formatted ticks', () => {
     VicBarsModule,
     VicXQuantitativeAxisModule,
     VicXyChartModule,
+    VicXyBackgroundModule,
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<
@@ -541,7 +548,7 @@ describe('percent formatted ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are formatted as percentages with the correct number of decimal places - case .0%', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         ticks.each((i, tick) => {
           expect(tick.textContent).to.match(validFormatRegex);
         });
@@ -565,7 +572,7 @@ describe('percent formatted ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has the specified tick values, rounded to the nearest integer', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         expect(tickValues).to.deep.equal(['1%', '3%', '7%', '21%']);
       });
@@ -594,21 +601,21 @@ describe('percent formatted ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are correctly formatted', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         ticks.each((i, tick) => {
           expect(tick.textContent).to.match(validFormatRegex);
         });
       });
     });
     it('does not have duplicate tick values', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         const uniqueTickValues = [...new Set(tickValues)];
         expect(tickValues.length).to.deep.equal(uniqueTickValues.length);
       });
     });
     it('does not have more than the possible number of tick values given formatter', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         expect(tickValues.length).to.be.at.most(possibleValues);
       });
@@ -647,17 +654,109 @@ describe('percent formatted ticks', () => {
       cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are correctly formatted', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         ticks.each((i, tick) => {
           expect(tick.textContent).to.match(validFormatRegex);
         });
       });
     });
     it('has only one tick and that tick is at zero and correctly formatted', () => {
-      cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
+      cy.get(tickTextSelector).then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         expect(tickValues).to.deep.equal(['0%']);
       });
+    });
+  });
+});
+
+describe('grid lines', () => {
+  let barsConfig: BarsOptions<{ state: string; value: number }, string>;
+  let axisConfig: VicQuantitativeAxisConfig<number>;
+  const declarations = [TestXQuantitativeAxisComponent];
+  const imports = [
+    VicChartModule,
+    VicBarsModule,
+    VicXQuantitativeAxisModule,
+    VicXyChartModule,
+    VicXyBackgroundModule,
+  ];
+  beforeEach(() => {
+    barsConfig = new VicBarsConfigBuilder<
+      { state: string; value: number },
+      string
+    >()
+      .data([
+        { state: 'Alabama', value: 1.1 },
+        { state: 'Alaska', value: 2.2 },
+        { state: 'Arizona', value: 30.3 },
+      ])
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
+      )
+      .getConfig();
+  });
+  it('height matches chart area', () => {
+    axisConfig = new VicXQuantitativeAxisConfigBuilder().grid().getConfig();
+    cy.mount(TestXQuantitativeAxisComponent, {
+      declarations,
+      imports,
+      componentProperties: {
+        barsConfig: barsConfig,
+        xQuantitativeAxisConfig: axisConfig,
+      },
+    });
+    cy.wait(axisTickTextWaitTime);
+    cy.get('.vic-xy-background')
+      .invoke('height')
+      .then((backgroundHeight) => {
+        cy.get('.vic-grid-line line').each(($line) => {
+          cy.wrap($line)
+            .invoke('attr', 'y2')
+            .then((tickLineHeight) => {
+              const absTickLineHeight = Math.abs(parseFloat(tickLineHeight));
+              expect(absTickLineHeight).to.equal(backgroundHeight);
+            });
+        });
+      });
+  });
+  it('number of lines matches number of ticks if no filter is specified', () => {
+    axisConfig = new VicXQuantitativeAxisConfigBuilder()
+      .numTicks(4)
+      .grid()
+      .getConfig();
+    cy.mount(TestXQuantitativeAxisComponent, {
+      declarations,
+      imports,
+      componentProperties: {
+        barsConfig: barsConfig,
+        xQuantitativeAxisConfig: axisConfig,
+      },
+    });
+    cy.wait(axisTickTextWaitTime);
+    cy.get('.vic-grid-line').should('have.length', 4);
+  });
+  it('lines are visible for every other tick given a filter (excluding line overlapping axis)', () => {
+    axisConfig = new VicXQuantitativeAxisConfigBuilder()
+      .numTicks(4)
+      .grid((grid) => grid.filter((i) => i % 2 === 0))
+      .getConfig();
+    cy.mount(TestXQuantitativeAxisComponent, {
+      declarations,
+      imports,
+      componentProperties: {
+        barsConfig: barsConfig,
+        xQuantitativeAxisConfig: axisConfig,
+      },
+    });
+    cy.wait(axisTickTextWaitTime);
+    cy.get('.vic-grid-line').each(($line, i) => {
+      if (i % 2 === 0) {
+        cy.wrap($line).should('not.have.css', 'display', 'none');
+      } else {
+        cy.wrap($line).should('have.css', 'display', 'none');
+      }
     });
   });
 });

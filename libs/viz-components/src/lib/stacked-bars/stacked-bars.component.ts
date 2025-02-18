@@ -1,11 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  InjectionToken,
   Input,
   ViewEncapsulation,
 } from '@angular/core';
-import { SeriesPoint, Transition, select } from 'd3';
+import { BaseType, SeriesPoint, Transition, select } from 'd3';
+import { Selection } from 'd3-selection';
 import { BarsComponent } from '../bars/bars.component';
+import { ChartComponent, XyChartComponent } from '../charts';
 import { DataValue } from '../core/types/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { StackedBarsConfig } from './config/stacked-bars-config';
@@ -14,22 +17,42 @@ export type StackDatum = SeriesPoint<{ [key: string]: number }> & {
   i: number;
 };
 
+export type StackedBarGroupSelection = Selection<
+  BaseType | SVGRectElement,
+  StackDatum,
+  SVGGElement | BaseType,
+  StackDatum[]
+>;
+
+// Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use "unknown"
+// https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
+export const STACKED_BARS = new InjectionToken<
+  StackedBarsComponent<unknown, DataValue>
+>('StackedBarsComponent');
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-stacked-bars]',
-  templateUrl: '../bars/bars.component.html',
+  template: '',
   styleUrls: ['./stacked-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: VIC_PRIMARY_MARKS, useExisting: StackedBarsComponent },
+    { provide: STACKED_BARS, useExisting: StackedBarsComponent },
+    { provide: ChartComponent, useExisting: XyChartComponent },
   ],
+  host: {
+    '[class]': 'config.marksClass',
+    '[style.mixBlendMode]': 'config.mixBlendMode',
+  },
 })
 export class StackedBarsComponent<
   Datum,
   TOrdinalValue extends DataValue,
 > extends BarsComponent<Datum, TOrdinalValue> {
   @Input() override config: StackedBarsConfig<Datum, TOrdinalValue>;
+  stackedBarGroups: StackedBarGroupSelection;
 
   override drawBars(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
@@ -37,20 +60,34 @@ export class StackedBarsComponent<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.barGroups = select(this.barsRef.nativeElement)
-      .selectAll('g')
-      .data(this.config.stackedData)
+    this.stackedBarGroups = select(this.elRef.nativeElement)
+      .selectAll<SVGGElement, StackDatum[]>(
+        `.${this.config.marksClass}-category-group`
+      )
+      .data<StackDatum[]>(this.config.stackedData)
       .join('g')
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .attr('fill', ([{ i }]: any) =>
+      .attr('class', `${this.config.marksClass}-category-group`.trim())
+      .attr('fill', ([{ i }]: StackDatum[]) =>
         this.scales.color(this.config.color.values[i])
       )
-      .selectAll('rect')
+      .selectAll(`.${this.class.g}`)
       .data((d) => d)
+      .join((enter) =>
+        enter
+          .append('g')
+          .attr('class', (d) =>
+            `${this.class.g} ${this.config.datumClass(this.config.data[d.i], d.i)}`.trim()
+          )
+      );
+
+    this.stackedBarGroups
+      .selectAll(`.${this.class.bar}`)
+      .data((d) => [d])
       .join(
         (enter) =>
           enter
             .append('rect')
+            .attr('class', () => this.class.bar)
             .attr('x', (d) => this.getStackElementX(d))
             .attr('y', (d) => this.getStackElementY(d))
             .attr('width', (d) => this.getStackElementWidth(d))
@@ -74,7 +111,7 @@ export class StackedBarsComponent<
             .attr('height', 0)
             .remove()
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ) as any;
+      );
   }
 
   getStackElementX(datum: StackDatum): number {
@@ -113,5 +150,9 @@ export class StackedBarsComponent<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (this.scales.y as any).bandwidth();
     }
+  }
+
+  getSourceDatumFromStackedBarDatum(datum: StackDatum): Datum {
+    return this.config.data[datum.i];
   }
 }

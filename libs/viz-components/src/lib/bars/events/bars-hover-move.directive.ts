@@ -85,7 +85,8 @@ export class BarsHoverMoveDirective<
   }
 
   getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
-    const tooltipData = this.bars.getTooltipData(this.barDatum);
+    const datum = this.bars.getSourceDatumFromBarDatum(this.barDatum);
+    const tooltipData = this.bars.getTooltipData(datum);
     const extras = {
       origin: this.origin,
       positionX: this.pointerX,

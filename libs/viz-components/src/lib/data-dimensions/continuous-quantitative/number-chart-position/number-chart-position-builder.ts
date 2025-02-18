@@ -43,7 +43,13 @@ export class NumberChartPositionDimensionBuilder<
    *
    * If not provided, the domain will be determined by the data.
    */
+  domain(domain: null): this;
+  domain(domain: [number, number]): this;
   domain(domain: [number, number]): this {
+    if (domain === null) {
+      this._domain = undefined;
+      return this;
+    }
     this._domain = domain;
     return this;
   }
@@ -51,7 +57,13 @@ export class NumberChartPositionDimensionBuilder<
   /**
    * OPTIONAL. Sets a format specifier that will be applied to the value of this dimension for display purposes.
    */
+  formatSpecifier(formatSpecifier: null): this;
+  formatSpecifier(formatSpecifier: string): this;
   formatSpecifier(formatSpecifier: string): this {
+    if (formatSpecifier === null) {
+      this._formatSpecifier = undefined;
+      return this;
+    }
     this._formatSpecifier = formatSpecifier;
     return this;
   }
@@ -125,12 +137,23 @@ export class NumberChartPositionDimensionBuilder<
    *
    * @default d3.scaleLinear
    */
+  scaleFn(scaleFn: null): this;
+  scaleFn(
+    scaleFn: (
+      domain?: Iterable<number>,
+      range?: Iterable<number>
+    ) => ScaleContinuousNumeric<number, number>
+  ): this;
   scaleFn(
     scaleFn: (
       domain?: Iterable<number>,
       range?: Iterable<number>
     ) => ScaleContinuousNumeric<number, number>
   ): this {
+    if (scaleFn === null) {
+      this._scaleFn = undefined;
+      return this;
+    }
     this._scaleFn = scaleFn;
     return this;
   }

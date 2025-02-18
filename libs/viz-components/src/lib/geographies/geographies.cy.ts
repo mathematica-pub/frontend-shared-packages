@@ -205,6 +205,7 @@ describe('drawing the geography paths for various layers', () => {
           .attributeDataLayer((layer) =>
             layer
               .data(attributeData)
+              .class((d) => d.name.split(' ').join('-'))
               .geographies(states.features)
               .geographyIndexAccessor((d) => d.state)
               .noBins((dimension) =>
@@ -216,7 +217,7 @@ describe('drawing the geography paths for various layers', () => {
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
-        cy.get('.vic-geography-g path').then((paths) => {
+        cy.get('.vic-geographies-group path').then((paths) => {
           expect(paths).to.have.length(states.features.length);
           cy.wrap(paths).each((path) => {
             expect(path.attr('stroke')).to.eq('black');
@@ -252,27 +253,29 @@ describe('drawing the geography paths for various layers', () => {
           .geojsonPropertiesLayer((layer) =>
             layer
               .geographies(states.features)
+              .class((d) => d.name.split(' ').join('-'))
               .stroke((stroke) => stroke.color('black').width(1))
           )
           .geojsonPropertiesLayer((layer) =>
             layer
               .geographies(usBoundary.features)
+              .class((d) => d.name.split(' ').join('-'))
               .stroke((stroke) => stroke.color('red').width(1))
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
-        cy.get('.vic-geography-g path').should(
+        cy.get('.vic-geographies-group path').should(
           'have.length',
           states.features.length + usBoundary.features.length
         );
-        cy.get('.layer-0 path').then((paths) => {
+        cy.get('.vic-geographies-layer-0 path').then((paths) => {
           expect(paths).to.have.length(states.features.length);
           cy.wrap(paths).each((path) => {
             expect(path.attr('stroke')).to.eq('black');
             expect(path.attr('stroke-width')).to.eq('1');
           });
         });
-        cy.get('.layer-1 path').then((paths) => {
+        cy.get('.vic-geographies-layer-1 path').then((paths) => {
           expect(paths).to.have.length(usBoundary.features.length);
           cy.wrap(paths).each((path) => {
             expect(path.attr('stroke')).to.eq('red');
@@ -307,6 +310,7 @@ describe('drawing the geography paths for various layers', () => {
           .attributeDataLayer((layer) =>
             layer
               .data(attributeData)
+              .class((d) => d.name.split(' ').join('-'))
               .geographies(states.features)
               .geographyIndexAccessor((d) => d.state)
               .noBins((dimension) =>
@@ -323,7 +327,9 @@ describe('drawing the geography paths for various layers', () => {
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
-        cy.get('.vic-geographies-data-layer path').then((paths) => {
+        cy.get(
+          '.vic-geographies-layer.vic-geographies-attribute-data-layer path'
+        ).then((paths) => {
           expect(paths).to.have.length(states.features.length);
           cy.wrap(paths).each((path) => {
             expect(path.attr('stroke')).to.eq('black');
@@ -331,7 +337,7 @@ describe('drawing the geography paths for various layers', () => {
             expect(path.attr('fill')).to.not.eq('none');
           });
         });
-        cy.get('.layer-1 path').then((paths) => {
+        cy.get('.vic-geographies-layer-1 path').then((paths) => {
           expect(paths).to.have.length(usBoundary.features.length);
           cy.wrap(paths).each((path) => {
             expect(path.attr('stroke')).to.eq('red');
@@ -398,8 +404,9 @@ describe('drawing the geography paths for various layers', () => {
           .geojsonPropertiesLayer((layer) =>
             layer
               .geographies(states.features)
+              .class((d) => d.name.split(' ').join('-'))
               .stroke((stroke) => stroke.color('black').width(1))
-              .fillGeojsonProperties((dimension) =>
+              .fill((dimension) =>
                 dimension
                   .scale((stateNameLength) =>
                     stateNamesScale(+stateNameLength.length)
@@ -410,22 +417,23 @@ describe('drawing the geography paths for various layers', () => {
           .geojsonPropertiesLayer((layer) =>
             layer
               .geographies(usBoundary.features)
+              .class((d) => d.name.split(' ').join('-'))
               .stroke((stroke) => stroke.color('blue').width(1))
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
-        cy.get('.vic-geography-g path').should(
+        cy.get('.vic-geographies-group path').should(
           'have.length',
           states.features.length + usBoundary.features.length
         );
-        cy.get('.layer-0 path').then((paths) => {
+        cy.get('.vic-geographies-layer-0 path').then((paths) => {
           expect(paths).to.have.length(states.features.length);
           cy.wrap(paths).each((path) => {
             expect(path.attr('stroke')).to.eq('black');
             expect(path.attr('stroke-width')).to.eq('1');
           });
         });
-        cy.get('.layer-1 path').then((paths) => {
+        cy.get('.vic-geographies-layer-1 path').then((paths) => {
           expect(paths).to.have.length(usBoundary.features.length);
           cy.wrap(paths).each((path) => {
             expect(path.attr('stroke')).to.eq('blue');
@@ -435,7 +443,7 @@ describe('drawing the geography paths for various layers', () => {
         const colors = [255];
         stateNames.forEach((d, i) => {
           const state = d.replace(/\s/g, '-');
-          cy.get(`.vic-geography-g path.${state}`).then((path) => {
+          cy.get(`.vic-geographies-group.${state} path`).then((path) => {
             const color = parseInt(
               path.attr('fill').split('(')[1].split(',')[1]
             );
@@ -483,6 +491,7 @@ describe('drawing the geography labels various layers', () => {
           .attributeDataLayer((layer) =>
             layer
               .data(attributeData)
+              .class((d) => d.name.split(' ').join('-'))
               .geographies(
                 states.features.filter(
                   (x) => x.properties.name[x.properties.name.length - 1] !== 'a'
@@ -494,7 +503,6 @@ describe('drawing the geography labels various layers', () => {
                   .valueAccessor((d) => d.income)
                   .range(['white', 'orangered'])
               )
-              .class('test-data-layer')
               .stroke((stroke) => stroke.color('black').width(1))
               .labels((labels) =>
                 labels.valueAccessor((d) => d.properties.id).color('black')
@@ -507,10 +515,8 @@ describe('drawing the geography labels various layers', () => {
                   (x) => x.properties.name[x.properties.name.length - 1] === 'a'
                 )
               )
-              .fillGeojsonProperties((dimension) =>
-                dimension.range(['darkblue'])
-              )
-              .class('test-no-data-layer')
+              .class((d) => d.name.split(' ').join('-'))
+              .fill((dimension) => dimension.range(['darkblue']))
               .stroke((stroke) => stroke.width(1))
               .labels((labels) =>
                 labels
@@ -520,7 +526,7 @@ describe('drawing the geography labels various layers', () => {
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
-        cy.get('.vic-geography-g').then((groups) => {
+        cy.get('.vic-geographies-group').then((groups) => {
           expect(groups).to.have.length(states.features.length);
           cy.wrap(groups)
             .find('text')
@@ -528,14 +534,18 @@ describe('drawing the geography labels various layers', () => {
               expect(labels).to.have.length(states.features.length);
             });
         });
-        cy.get('.test-data-layer .vic-geography-g').then((groups) => {
+        cy.get(
+          '.vic-geographies-attribute-data-layer .vic-geographies-group'
+        ).then((groups) => {
           cy.wrap(groups).each((group) => {
             const label = group.find('text');
             expect(label.text().length).to.equal(2);
             expect(label.attr('fill')).to.eq('black');
           });
         });
-        cy.get('.test-no-data-layer .vic-geography-g').then((groups) => {
+        cy.get(
+          '.vic-geographies-geojson-properties-layer .vic-geographies-group'
+        ).then((groups) => {
           cy.wrap(groups).each((group) => {
             const label = group.find('text');
             expect(label.text().length).to.equal(3);
@@ -570,6 +580,7 @@ const mountGeographiesForTooltipTests = (json: TestUsMapTopology) => {
     .attributeDataLayer((layer) =>
       layer
         .data(attributeData)
+        .class((d) => d.name.split(' ').join('-'))
         .geographies(states.features)
         .geographyIndexAccessor((d) => d.state)
         .noBins((dimension) =>
@@ -598,7 +609,7 @@ describe('displays tooltips for correct data per hover position', () => {
         cy.fixture('usMap.json').then((response) => {
           mountGeographiesForTooltipTests(response);
           cy.get(
-            `.vic-geography-g.${stateDatum.state.split(' ').join('-')}`
+            `.vic-geographies-group.${stateDatum.state.split(' ').join('-')}`
           ).realHover();
           cy.get('.vic-html-tooltip-overlay').should('be.visible');
           cy.get('.vic-html-tooltip-overlay p')
@@ -610,7 +621,7 @@ describe('displays tooltips for correct data per hover position', () => {
           cy.get('.vic-html-tooltip-overlay').then(($el) => {
             const tooltipBox = $el[0].getBoundingClientRect();
             cy.get(
-              `.vic-geography-g.${stateDatum.state.split(' ').join('-')}`
+              `.vic-geographies-group.${stateDatum.state.split(' ').join('-')}`
             ).then(($stateEl) => {
               const stateBox = $stateEl[0].getBoundingClientRect();
               expect(mean([tooltipBox.left, tooltipBox.right])).to.be.closeTo(

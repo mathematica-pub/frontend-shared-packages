@@ -25,11 +25,29 @@
           </div>
           <div class="example">
             <p class="chart-title default"
-              >With a custom positioned and wrapped labels</p
+              >With custom positioned and wrapped labels</p
             >
             <app-dots-scatterplot-example
-              [xAxisConfig]="customAxes.x"
-              [yAxisConfig]="customAxes.y"
+              [xAxisConfig]="customLabelAxes.x"
+              [yAxisConfig]="customLabelAxes.y"
+            ></app-dots-scatterplot-example>
+          </div>
+        </div>
+      }
+      @case ('small axis grid examples') {
+        <div class="small-examples-container grid">
+          <div class="example">
+            <p class="chart-title default">With default grid configuration</p>
+            <app-dots-scatterplot-example
+              [xAxisConfig]="defaultGridAxes.x"
+              [yAxisConfig]="defaultGridAxes.y"
+            ></app-dots-scatterplot-example>
+          </div>
+          <div class="example">
+            <p class="chart-title default">With custom grid configuration</p>
+            <app-dots-scatterplot-example
+              [xAxisConfig]="customGridAxes.x"
+              [yAxisConfig]="customGridAxes.y"
             ></app-dots-scatterplot-example>
           </div>
         </div>

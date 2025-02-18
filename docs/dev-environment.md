@@ -25,6 +25,7 @@ The beta release process is as follows:
    warrant a version bump.
 2. Leave a comment on the PR that says `beta-release-bot: <package name>` (e.g.
    `beta-release-bot: viz-components`). This should kick off a beta release job.
+   > NOTE: the comment cannot be part of a PR review
 3. An automated comment should be left on your PR. This will either indicate success and provide
    instructions for how to install your beta release or notify you of a workflow failure.
 

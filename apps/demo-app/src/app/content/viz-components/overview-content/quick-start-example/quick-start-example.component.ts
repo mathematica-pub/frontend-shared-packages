@@ -68,7 +68,6 @@ export class QuickStartExampleComponent implements OnInit {
           .y((dimension) => dimension.valueAccessor((d) => d.division))
       )
       .color((dimension) => dimension.range(['teal']))
-      .labels()
       .getConfig();
 
     this.xAxisConfig = this.xQuantitativeAxis.getConfig();

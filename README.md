@@ -120,11 +120,3 @@ Two people (at least one maintainer) need to review the PR for it to be merged.
 ## Development Best Practices
 
 TODO: add some info about best practices
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for a full list of changes. We only record minor and major versions
-in the changelog.
-
-This document should include a list of each version, and link to the release/tag describing its
-changes.

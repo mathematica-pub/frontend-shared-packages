@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { CurveFactory, curveLinear } from 'd3';
 import { DateChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position-builder';
 import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder';
-import { OrdinalVisualValueDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { PointMarkersBuilder } from '../../point-markers/point-markers-builder';
 import { LinesStrokeBuilder } from '../config/stroke/lines-stroke-builder';
@@ -28,11 +27,6 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private _labelLines: boolean;
   private _lineLabelsFormat: (d: string) => string;
   private _pointerDetectionRadius: number;
-  private colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<
-    Datum,
-    string,
-    string
-  >;
   private pointMarkersBuilder: PointMarkersBuilder<Datum>;
   private strokeBuilder: LinesStrokeBuilder<Datum>;
   private xDimensionBuilder:
@@ -44,6 +38,34 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   constructor() {
     super();
     Object.assign(this, DEFAULT);
+  }
+
+  /**
+   * OPTIONAL. A config to set fill underneath lines.
+   *
+   * If no argument is provided, the default area fills will be created.
+   *
+   * To unset the area fills, call with `null`.
+   */
+  areaFills(): this;
+  areaFills(areaFills: null): this;
+  areaFills(areaFills: (areaFills: AreaFillsBuilder<Datum>) => void): this;
+  areaFills(
+    areaFills?: ((areaFills: AreaFillsBuilder<Datum>) => void) | null
+  ): this {
+    console.log('areaFills', areaFills);
+    if (areaFills === null) {
+      this.areaFillsBuilder = undefined;
+      return this;
+    }
+    this.initBelowLinesAreaFillBuilder();
+    areaFills?.(this.areaFillsBuilder);
+    console.log('this.areaFillsBuilder', this.areaFillsBuilder);
+    return this;
+  }
+
+  private initBelowLinesAreaFillBuilder(): void {
+    this.areaFillsBuilder = new AreaFillsBuilder();
   }
 
   /**
@@ -91,22 +113,37 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * OPTIONAL. A config for the behavior of markers for each datum on the line.
    *
-   * Creating this config will create markers on lines.
+   * Creating this config will create markers on lines. If no argument is provided, the default markers will be created.
    */
+  pointMarkers(): this;
+  pointMarkers(pointMarkers: null): this;
   pointMarkers(
-    setProperties?: (pointMarkers: PointMarkersBuilder<Datum>) => void
+    pointMarkers: ((pointMarkers: PointMarkersBuilder<Datum>) => void) | null
+  ): this;
+  pointMarkers(
+    pointMarkers?: ((pointMarkers: PointMarkersBuilder<Datum>) => void) | null
   ): this {
+    if (pointMarkers === null) {
+      this.pointMarkersBuilder = undefined;
+      return this;
+    }
     this.pointMarkersBuilder = new PointMarkersBuilder();
-    setProperties?.(this.pointMarkersBuilder);
+    pointMarkers?.(this.pointMarkersBuilder);
     return this;
   }
 
   /**
    * OPTIONAL. A config for the behavior of the line stroke.
    */
-  stroke(setProperties?: (stroke: LinesStrokeBuilder<Datum>) => void): this {
+  stroke(stroke: null): this;
+  stroke(stroke: (stroke: LinesStrokeBuilder<Datum>) => void): this;
+  stroke(stroke: ((stroke: LinesStrokeBuilder<Datum>) => void) | null): this {
+    if (stroke === null) {
+      this.strokeBuilder = undefined;
+      return this;
+    }
     this.initStrokeBuilder();
-    setProperties?.(this.strokeBuilder);
+    stroke(this.strokeBuilder);
     return this;
   }
 
@@ -117,54 +154,52 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
+  xNumeric(xNumeric: null): this;
   xNumeric(
-    setProperties: (
-      dimension: NumberChartPositionDimensionBuilder<Datum>
-    ) => void
+    xNumeric: (x: NumberChartPositionDimensionBuilder<Datum>) => void
+  ): this;
+  xNumeric(
+    x: ((x: NumberChartPositionDimensionBuilder<Datum>) => void) | null
   ): this {
+    if (x === null) {
+      this.xDimensionBuilder = undefined;
+      return this;
+    }
     this.xDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
-    setProperties(this.xDimensionBuilder);
+    x(this.xDimensionBuilder);
     return this;
   }
 
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using Date date.
    */
+  xDate(xDate: null): this;
+  xDate(xDate: (x: DateChartPositionDimensionBuilder<Datum>) => void): this;
   xDate(
-    setProperties: (dimension: DateChartPositionDimensionBuilder<Datum>) => void
+    x: ((x: DateChartPositionDimensionBuilder<Datum>) => void) | null
   ): this {
+    if (x === null) {
+      this.xDimensionBuilder = undefined;
+      return this;
+    }
     this.xDimensionBuilder = new DateChartPositionDimensionBuilder<Datum>();
-    setProperties(this.xDimensionBuilder);
+    x(this.xDimensionBuilder);
     return this;
   }
 
   /**
    * REQUIRED. A config for the behavior of the chart's y dimension.
    */
-  y(
-    setProperties: (
-      dimension: NumberChartPositionDimensionBuilder<Datum>
-    ) => void
-  ): this {
+  y(y: null): this;
+  y(y: (y: NumberChartPositionDimensionBuilder<Datum>) => void): this;
+  y(y: ((y: NumberChartPositionDimensionBuilder<Datum>) => void) | null): this {
+    if (y === null) {
+      this.yDimensionBuilder = undefined;
+      return this;
+    }
     this.yDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
-    setProperties(this.yDimensionBuilder);
+    y(this.yDimensionBuilder);
     return this;
-  }
-
-  /**
-   * OPTIONAL. A config to set fill underneath lines.
-   *
-   */
-  areaFills(
-    setProperties?: (areaFills: AreaFillsBuilder<Datum>) => void
-  ): this {
-    this.initBelowLinesAreaFillBuilder();
-    setProperties?.(this.areaFillsBuilder);
-    return this;
-  }
-
-  private initBelowLinesAreaFillBuilder(): void {
-    this.areaFillsBuilder = new AreaFillsBuilder();
   }
 
   /**
@@ -173,8 +208,10 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   getConfig(): LinesConfig<Datum> {
     this.validateBuilder();
     return new LinesConfig({
+      marksClass: 'vic-lines',
       curve: this._curve,
       data: this._data,
+      datumClass: this._class,
       labelLines: this._labelLines,
       lineLabelsFormat: this._lineLabelsFormat,
       mixBlendMode: this._mixBlendMode,

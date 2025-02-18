@@ -17,7 +17,11 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
         <span>Fruits</span>
       </hsi-ui-combobox-label>
       <hsi-ui-textbox class="textbox" [useListboxLabelAsBoxPlaceholder]="true">
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>
@@ -124,7 +128,11 @@ describe('keyboard navigation with a single select listbox', () => {
         <span>Fruits</span>
       </hsi-ui-combobox-label>
       <hsi-ui-textbox class="textbox" [useListboxLabelAsBoxPlaceholder]="true">
-        <span class="material-symbols-outlined expand-more" boxIcon>
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
           expand_more
         </span>
       </hsi-ui-textbox>

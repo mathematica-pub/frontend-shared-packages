@@ -41,6 +41,8 @@ const customCategoricalScale = (d: string) => {
   }
 };
 
+const barSelector = '.vic-bars-bar';
+
 // ***********************************************************
 // Horizontal bar chart component set up
 // ***********************************************************
@@ -148,7 +150,7 @@ describe('marks have expected fill', () => {
         .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar').each(($bar) => {
+      cy.get(barSelector).each(($bar) => {
         expect($bar.attr('fill')).to.equal(color);
       });
     });
@@ -166,7 +168,7 @@ describe('marks have expected fill', () => {
         .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar').each(($bar) => {
+      cy.get(barSelector).each(($bar) => {
         expect($bar.attr('fill')).to.equal(color);
       });
     });
@@ -187,7 +189,7 @@ describe('marks have expected fill', () => {
         .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar').each(($bar, i) => {
+      cy.get(barSelector).each(($bar, i) => {
         switch (countryFactsData[i].continent) {
           case 'Asia':
             expect($bar.attr('fill')).to.equal(color[0]);
@@ -229,7 +231,7 @@ describe('marks have expected fill', () => {
         .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar').each(($bar, i) => {
+      cy.get(barSelector).each(($bar, i) => {
         switch (countryFactsData[i].continent) {
           case 'Asia':
             expect($bar.attr('fill')).to.equal('red');
@@ -265,7 +267,7 @@ describe('marks have expected fill', () => {
         .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar').each(($bar) => {
+      cy.get(barSelector).each(($bar) => {
         expect($bar.attr('fill')).to.equal('chartreuse');
       });
     });
@@ -299,7 +301,7 @@ describe('user provides a fill pattern', () => {
       .labels((labels) => labels.display(true))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig);
-    cy.get('.vic-bar').each(($bar, i) => {
+    cy.get(barSelector).each(($bar, i) => {
       if (i === 2) {
         expect($bar.attr('fill')).to.equal(`url(#${dotsPatternMagenta})`);
       } else {
@@ -331,7 +333,7 @@ describe('user provides a fill pattern', () => {
       .labels((labels) => labels.display(true))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig);
-    cy.get('.vic-bar').each(($bar, i) => {
+    cy.get(barSelector).each(($bar, i) => {
       if (i === 2) {
         expect($bar.attr('fill')).to.equal(`url(#${dotsPatternMagenta})`);
       } else {
@@ -381,7 +383,7 @@ describe('user provides a fill pattern', () => {
       .labels((labels) => labels.display(true))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig);
-    cy.get('.vic-bar').each(($bar, i) => {
+    cy.get(barSelector).each(($bar, i) => {
       if (i === 2) {
         expect($bar.attr('fill')).to.equal(`url(#${dotsPatternTeal})`);
       } else {

@@ -14,7 +14,9 @@ import { GeographiesAttributeDataLayerBuilder } from './layers/attribute-data-la
 import { GeographiesGeojsonPropertiesLayerBuilder } from './layers/geojson-properties-layer/geojson-properties-layer-builder';
 
 const DEFAULT = {
+  _class: () => '',
   _projection: geoAlbersUsa(),
+  _mixBlendMode: 'normal',
 };
 
 /** Builds a configuration object for a GeographiesComponent.
@@ -38,6 +40,7 @@ export class VicGeographiesConfigBuilder<
     | ExtendedFeatureCollection
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
+  protected _class: (d: Datum) => string;
   private _featureIndexAccessor: (
     d: GeographiesFeature<TProperties, TGeometry>
   ) => string;
@@ -90,22 +93,37 @@ export class VicGeographiesConfigBuilder<
    *
    * If events are enabled, the geojson properties will be used to populate the tooltip.
    *
-   * This method can be called multiple times to create multiple layers.
+   * This method can be called multiple times to create multiple layers. If this method is called with null, all layers will be removed. (Though subsequent calls can be made to add new layers.)
    *
    * The order in which layers are created will determine the order in which they are drawn.
    *
    * Multiple layers can be used to draw different parts of the map with different styles.
    */
+  geojsonPropertiesLayer(geojson: null): this;
   geojsonPropertiesLayer(
-    setProperties: (
-      builder: GeographiesGeojsonPropertiesLayerBuilder<TProperties, TGeometry>
+    geojson: (
+      geojson: GeographiesGeojsonPropertiesLayerBuilder<TProperties, TGeometry>
     ) => void
+  ): this;
+  geojsonPropertiesLayer(
+    geojson:
+      | ((
+          geojson: GeographiesGeojsonPropertiesLayerBuilder<
+            TProperties,
+            TGeometry
+          >
+        ) => void)
+      | null
   ): this {
+    if (geojson === null) {
+      this.geojsonBuilders = [];
+      return this;
+    }
     const builder = new GeographiesGeojsonPropertiesLayerBuilder<
       TProperties,
       TGeometry
     >();
-    setProperties?.(builder);
+    geojson(builder);
     this.geojsonBuilders.push(builder);
     return this;
   }
@@ -117,21 +135,37 @@ export class VicGeographiesConfigBuilder<
    *
    * This method can be called only once.
    */
+  attributeDataLayer(attributeData: null): this;
   attributeDataLayer(
-    setProperties: (
-      builder: GeographiesAttributeDataLayerBuilder<
+    attributeData: (
+      attributeData: GeographiesAttributeDataLayerBuilder<
         Datum,
         TProperties,
         TGeometry
       >
     ) => void
+  ): this;
+  attributeDataLayer(
+    attributeData:
+      | ((
+          attributeData: GeographiesAttributeDataLayerBuilder<
+            Datum,
+            TProperties,
+            TGeometry
+          >
+        ) => void)
+      | null
   ): this {
+    if (attributeData === null) {
+      this.attributeDataBuilder = undefined;
+      return this;
+    }
     this.attributeDataBuilder = new GeographiesAttributeDataLayerBuilder<
       Datum,
       TProperties,
       TGeometry
     >();
-    setProperties?.(this.attributeDataBuilder);
+    attributeData(this.attributeDataBuilder);
     return this;
   }
 
@@ -160,10 +194,10 @@ export class VicGeographiesConfigBuilder<
    */
   getConfig(): GeographiesConfig<Datum, TProperties, TGeometry> {
     this.validateBuilder();
-    return new GeographiesConfig<Datum, TProperties, TGeometry>({
+    const config = new GeographiesConfig<Datum, TProperties, TGeometry>({
+      marksClass: 'vic-geographies',
       attributeDataLayer: this.attributeDataBuilder?._build(),
       boundary: this._boundary,
-      data: null,
       mixBlendMode: this._mixBlendMode,
       featureIndexAccessor: this._featureIndexAccessor,
       geojsonPropertiesLayers: this.geojsonBuilders.length
@@ -171,6 +205,8 @@ export class VicGeographiesConfigBuilder<
         : undefined,
       projection: this._projection,
     });
+    this.geojsonBuilders = [];
+    return config;
   }
 
   private validateBuilder(): void {

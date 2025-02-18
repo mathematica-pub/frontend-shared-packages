@@ -1,6 +1,6 @@
 export interface PointMarkersOptions<Datum> {
+  datumClass: (d: Datum, i: number) => string;
   display: (d: Datum) => boolean;
-  class: string;
   growByOnHover: number;
   radius: number;
 }

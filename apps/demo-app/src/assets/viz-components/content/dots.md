@@ -57,52 +57,6 @@ params:
 ```
 
 ```builder-method
-overview: One of the following methods must be called to set the fill color of the circles.
-methods:
-  - name: fill
-    description: Set the fill color for all circles from a string.
-    params:
-      - name: fill
-        type: string
-        description: A named HTML color ('red') or hex code '#ff0000' value for the fill attribute for all circles.
-  - name: fillCategorical
-    description: Create the specifications for the fill color of the dots using string values.
-    params:
-      - name: fillCategorical
-        type: '(fill: OrdinalVisualValueDimensionBuilder<Datum, string, string>) => void'
-        description: A callback that allows for specification of how categorical values will be transformed into string values (named HTML colors or hex codes) to be used as values for the fill attribute for circles.
-  - name: fillNumeric
-    description: Create the specifications for the fill color of the dots using number values.
-    params:
-      - name: fillNumeric
-        type: '(fill: OrdinalVisualValueDimensionBuilder<Datum, number, string>) => void'
-        description: A callback that allows for specification of how numeric values will be transformed into string values (named HTML colors or hex codes) to be used as values for the fill attribute for circles.
-```
-
-```builder-method
-overview: One of the following methods must be called to set the radius of the circles.
-methods:
-  - name: radius
-    description: Set the radius value for all circles from a number.
-    params:
-      - name: radius
-        type: number
-        description: A number that will be used as the r attribute for all circles.
-  - name: radiusCategorical
-    description: Create the specifications for the radius of the dots using string values.
-    params:
-      - name: radiusCategorical
-        type: '(radius: OrdinalVisualValueDimensionBuilder<Datum, string, string>) => void'
-        description: A callback that allows for specification of how categorical values will be transformed into numbers to be used as values for the r attribute for circles.
-  - name: radiusNumeric
-    description: Create the specifications for the radius of the dots using number values.
-    params:
-      - name: radiusNumeric
-        type: '(radius: OrdinalVisualValueDimensionBuilder<Datum, number, string>) => void'
-        description: A callback that allows for specification of how numeric values will be transformed into numbers to be used as values for the the r attribute for circles.
-```
-
-```builder-method
 overview: One of the following methods must be called to set the x position of the circles.
 methods:
   - name: xDate
@@ -151,12 +105,76 @@ methods:
 ### Optional Methods
 
 ```builder-method
+name: 'class'
+description: 'Sets the class attribute for each dot.'
+params:
+  - name: 'class'
+    type: '((d: Datum) => string) | string | null'
+    description: A string value for the `class` attribute of the `SVGGElement` for each dot.
+```
+
+```builder-method
+overview: One of the following methods can be called to set the fill color of the circles. If no method is called, the default fill color is `lightgray`.
+methods:
+  - name: fill
+    description: Set the fill color for all circles from a string.
+    params:
+      - name: fill
+        type: string | null
+        description: A named HTML color ('red') or hex code '#ff0000' value for the fill attribute for all circles.
+  - name: fillCategorical
+    description: Create the specifications for the fill color of the dots using string values.
+    params:
+      - name: fillCategorical
+        type: '((fill: OrdinalVisualValueDimensionBuilder<Datum, string, string>) => void) | null'
+        description: A callback that allows for specification of how categorical values will be transformed into string values (named HTML colors or hex codes) to be used as values for the fill attribute for circles.
+  - name: fillNumeric
+    description: Create the specifications for the fill color of the dots using number values.
+    params:
+      - name: fillNumeric
+        type: '((fill: OrdinalVisualValueDimensionBuilder<Datum, number, string>) => void) | null'
+        description: A callback that allows for specification of how numeric values will be transformed into string values (named HTML colors or hex codes) to be used as values for the fill attribute for circles.
+```
+
+```builder-method
+name: mixBlendMode
+description: Sets the mix-blend-mode for the svg. If not called, the default mix-blend-mode is 'normal'.
+params:
+  - name: mixBlendMode
+    type: string | null
+    description: A string value for the `mix-blend-mode` attribute of the `SVGElement`.
+```
+
+```builder-method
 name: opacity
-description: Sets the opacity for each dot.
+description: Sets the opacity for each dot. If not called, the default opacity is 1.
 params:
   - name: opacity
-    type: number
+    type: number | null
     description: A value between 0 and 1 for the `opacity` attribute of the `SVGCircleElement`.
+```
+
+```builder-method
+overview: One of the following methods can be called to set the radius of the circles. If no method is called, the default radius is 2.
+methods:
+  - name: radius
+    description: Set the radius value for all circles from a number.
+    params:
+      - name: radius
+        type: number | null
+        description: A number that will be used as the r attribute for all circles.
+  - name: radiusCategorical
+    description: Create the specifications for the radius of the dots using string values.
+    params:
+      - name: radiusCategorical
+        type: '((radius: OrdinalVisualValueDimensionBuilder<Datum, string, string>) => void) | null'
+        description: A callback that allows for specification of how categorical values will be transformed into numbers to be used as values for the r attribute for circles.
+  - name: radiusNumeric
+    description: Create the specifications for the radius of the dots using number values.
+    params:
+      - name: radiusNumeric
+        type: '((radius: OrdinalVisualValueDimensionBuilder<Datum, number, string>) => void) | null'
+        description: A callback that allows for specification of how numeric values will be transformed into numbers to be used as values for the the r attribute for circles.
 ```
 
 ```builder-method
@@ -164,7 +182,7 @@ name: stroke
 description: Sets the stroke attributes for each dot.
 params:
   - name: stroke
-    type: '(stroke: StrokeBuilder) => void'
+    type: '((stroke: StrokeBuilder) => void) | null'
     description: A callback that allows for the specification of the attributes for the stroke of the dots.
 ```
 

@@ -122,6 +122,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .equalFrequenciesBins((bins) => bins.valueAccessor((d) => d.income))
@@ -159,7 +160,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         acc[binNumber].push(d.state);
         return acc;
       }, []);
-      cy.get('.vic-geography-g path').then((states) => {
+      cy.get('.vic-geographies-group path').then((states) => {
         // get unique bin colors for geographies in attribute data
         const binColors = uniqBy(
           states
@@ -180,11 +181,11 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         binColors.forEach((color, i) => {
           // check that the states in each bin have the same color
           statesByBin[i].forEach((state) => {
-            cy.get(`.vic-geography-g path.${state.split(' ').join('-')}`).then(
-              (path) => {
-                expect(path.attr('fill')).to.eq(color);
-              }
-            );
+            cy.get(
+              `.vic-geographies-group.${state.split(' ').join('-')} path`
+            ).then((path) => {
+              expect(path.attr('fill')).to.eq(color);
+            });
           });
         });
       });
@@ -212,6 +213,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .equalFrequenciesBins((bins) =>
@@ -257,11 +259,11 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
       range.forEach((color, i) => {
         // check that the states in each bin have the same color
         statesByBin[i].forEach((state) => {
-          cy.get(`.vic-geography-g path.${state.split(' ').join('-')}`).then(
-            (path) => {
-              expect(path.attr('fill')).to.eq(color);
-            }
-          );
+          cy.get(
+            `.vic-geographies-group.${state.split(' ').join('-')} path`
+          ).then((path) => {
+            expect(path.attr('fill')).to.eq(color);
+          });
         });
       });
     });
@@ -289,6 +291,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
+            .class((d) => d.name.split(' ').join('-'))
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
             .equalFrequenciesBins((bins) =>
@@ -332,7 +335,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         return acc;
       }, []);
       let colors = [];
-      cy.get('.vic-geography-g path').then((paths) => {
+      cy.get('.vic-geographies-group path').then((paths) => {
         paths.each((i, el) => {
           const path = el as unknown as SVGPathElement;
           const fill = path.getAttribute('fill');
@@ -347,7 +350,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         );
         paths.each((i, el) => {
           const path = el as unknown as SVGPathElement;
-          const state = path.classList[0].split('-').join(' ');
+          const state = path.parentElement.classList[1].split('-').join(' ');
           const binIndex = statesByBin.findIndex((bin) => bin.includes(state));
           if (binIndex > -1) {
             expect(path.getAttribute('fill')).to.eq(colors[binIndex]);

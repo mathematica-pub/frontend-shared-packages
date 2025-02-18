@@ -21,4 +21,6 @@ export interface GeographiesAttributeDataLayerOptions<
   customFills: FillDefinition<Datum>[];
   data: Datum[];
   geographyIndexAccessor: (d: Datum) => string;
+  marksClass: string;
+  mixBlendMode: string;
 }

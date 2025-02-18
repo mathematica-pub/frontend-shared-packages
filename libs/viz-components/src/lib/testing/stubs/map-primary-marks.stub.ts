@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { MarksOptions } from '../../marks/config/marks-options';
-import { VicMapPrimaryMarks } from '../../marks/map-marks/map-primary-marks/map-primary-marks';
+import { MapPrimaryMarks } from '../../marks/map-marks/map-primary-marks/map-primary-marks';
 
-export class MapPrimaryMarksStub<Datum> extends VicMapPrimaryMarks<
+export class MapPrimaryMarksStub<Datum> extends MapPrimaryMarks<
   Datum,
-  MarksOptions<Datum>
+  MarksOptions
 > {
   override setChartScalesFromRanges(useTransition: boolean): void {
     return;

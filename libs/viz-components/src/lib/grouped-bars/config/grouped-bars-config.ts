@@ -31,4 +31,9 @@ export class GroupedBarsConfig<Datum, TOrdinalValue extends DataValue>
       );
     });
   }
+
+  override setBarsKeyFunction(): void {
+    this.barsKeyFunction = (i: number): string =>
+      `${this.color.values[i]}-${this.ordinal.values[i]}`;
+  }
 }

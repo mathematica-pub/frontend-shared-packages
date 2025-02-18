@@ -5,9 +5,13 @@
     >
   }
   @if (countLabel) {
-    <hsi-ui-textbox [showSelectedCount]="countLabel">
+    <hsi-ui-textbox [selectedCountLabel]="countLabel">
       <p boxLabel>Select states</p>
-      <span class="material-symbols-outlined expand-more" boxIcon>
+      <span
+        aria-hidden="true"
+        class="material-symbols-outlined expand-more"
+        boxIcon
+      >
         expand_more
       </span>
     </hsi-ui-textbox>
@@ -18,7 +22,11 @@
       } @else {
         <p boxLabel>Select a state</p>
       }
-      <span class="material-symbols-outlined expand-more" boxIcon>
+      <span
+        aria-hidden="true"
+        class="material-symbols-outlined expand-more"
+        boxIcon
+      >
         expand_more
       </span>
     </hsi-ui-textbox>
@@ -30,12 +38,20 @@
     >
       <hsi-ui-select-all-listbox-option>
         @if (icons) {
-          <span class="material-symbols-outlined icon checkbox" selectedIcon>
+          <span
+            aria-hidden="true"
+            class="material-symbols-outlined icon checkbox"
+            selectedIcon
+          >
             check_box
           </span>
         }
         @if (icons) {
-          <span unselectedIcon class="material-symbols-outlined icon checkbox">
+          <span
+            unselectedIcon
+            aria-hidden="true"
+            class="material-symbols-outlined icon checkbox"
+          >
             check_box_outline_blank
           </span>
         }
@@ -44,13 +60,18 @@
       @for (option of options; track option.id) {
         <hsi-ui-listbox-option>
           @if (icons) {
-            <span class="material-symbols-outlined icon checkbox" selectedIcon>
+            <span
+              aria-hidden="true"
+              class="material-symbols-outlined icon checkbox"
+              selectedIcon
+            >
               check_box
             </span>
           }
           @if (icons) {
             <span
               unselectedIcon
+              aria-hidden="true"
               class="material-symbols-outlined icon checkbox"
             >
               check_box_outline_blank
