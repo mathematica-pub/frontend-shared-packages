@@ -93,45 +93,6 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
       });
   }
 
-  getGridLineLength(): number {
-    const gridLineScale =
-      this.config.grid.axis === 'x' ? this.scales.y : this.scales.x;
-    return -1 * Math.abs(gridLineScale.range()[1] - gridLineScale.range()[0]);
-  }
-
-  drawGrid(): void {
-    if (!this.gridGroup) {
-      this.gridGroup = select(this.elRef.nativeElement)
-        .append('g')
-        .attr('class', this.class.gridGroup);
-    }
-
-    this.gridGroup
-      .transition(this.getTransition(this.gridGroup))
-      .call(this.axis.tickSizeInner(this.getGridLineLength()))
-      .selectAll('.tick')
-      .attr('class', `${this.class.gridGroup}-line`)
-      .style('display', (_, i) => (this.config.grid.filter(i) ? null : 'none'))
-      .select('line')
-      .attr('stroke', this.config.grid.stroke.color)
-      .attr('stroke-dasharray', this.config.grid.stroke.dasharray)
-      .attr('stroke-width', this.config.grid.stroke.width)
-      .attr('opacity', this.config.grid.stroke.opacity)
-      .attr('stroke-linecap', this.config.grid.stroke.linecap)
-      .attr('stroke-linejoin', this.config.grid.stroke.linejoin);
-
-    this.gridGroup.call((g) => {
-      g.selectAll('text').remove();
-      g.selectAll('.domain').remove();
-    });
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getTransition(selection: any): any {
-    const transitionDuration = this.getTransitionDuration();
-    return selection.transition().duration(transitionDuration);
-  }
-
   styleTicks(): void {
     const tickText = select(this.elRef.nativeElement).selectAll('.tick text');
     if (this.config.tickLabelFontSize) {
@@ -169,21 +130,59 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   }
 
   postProcessAxisFeatures(): void {
-    const axisGroup = select(this.elRef.nativeElement);
     if (this.config.removeDomainLine) {
-      axisGroup.call((g) => g.select('.domain').remove());
+      this.axisGroup.call((g) => g.select('.domain').remove());
     }
 
     if (this.config.removeTickLabels) {
-      axisGroup.call((g) => g.selectAll('.tick text').remove());
+      this.axisGroup.call((g) => g.selectAll('.tick text').remove());
     }
 
     if (this.config.removeTickMarks) {
-      axisGroup.call((g) => g.selectAll('.tick line').remove());
+      this.axisGroup.call((g) => g.selectAll('.tick line').remove());
     }
 
     if (this.config.label) {
       this.createLabel();
     }
+  }
+
+  drawGrid(): void {
+    if (!this.gridGroup) {
+      this.gridGroup = select(this.elRef.nativeElement)
+        .append('g')
+        .attr('class', this.class.gridGroup);
+    }
+
+    this.gridGroup
+      .transition(this.getTransition(this.gridGroup))
+      .call(this.axis.tickSizeInner(this.getGridLineLength()))
+      .selectAll('.tick')
+      .attr('class', `${this.class.gridGroup}-line`)
+      .style('display', (_, i) => (this.config.grid.filter(i) ? null : 'none'))
+      .select('line')
+      .attr('stroke', this.config.grid.stroke.color)
+      .attr('stroke-dasharray', this.config.grid.stroke.dasharray)
+      .attr('stroke-width', this.config.grid.stroke.width)
+      .attr('opacity', this.config.grid.stroke.opacity)
+      .attr('stroke-linecap', this.config.grid.stroke.linecap)
+      .attr('stroke-linejoin', this.config.grid.stroke.linejoin);
+
+    this.gridGroup.call((g) => {
+      g.selectAll('text').remove();
+      g.selectAll('.domain').remove();
+    });
+  }
+
+  getGridLineLength(): number {
+    const gridLineScale =
+      this.config.grid.axis === 'x' ? this.scales.y : this.scales.x;
+    return -1 * Math.abs(gridLineScale.range()[1] - gridLineScale.range()[0]);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getTransition(selection: any): any {
+    const transitionDuration = this.getTransitionDuration();
+    return selection.transition().duration(transitionDuration);
   }
 }
