@@ -73,9 +73,11 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   }
 
   drawAxis(): void {
-    this.axisGroup = select(this.elRef.nativeElement)
-      .append('g')
-      .attr('class', this.class.axisGroup);
+    if (!this.axisGroup) {
+      this.axisGroup = select(this.elRef.nativeElement)
+        .append('g')
+        .attr('class', this.class.axisGroup);
+    }
 
     this.axisGroup
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

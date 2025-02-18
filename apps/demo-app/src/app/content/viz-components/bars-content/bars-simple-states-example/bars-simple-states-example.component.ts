@@ -73,7 +73,7 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
         left: 80,
       })
       .height(160)
-      .height(400)
+      .width(400)
       .resize({ height: false })
       .getConfig();
 
