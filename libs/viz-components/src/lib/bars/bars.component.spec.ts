@@ -761,7 +761,7 @@ describe('BarsComponent', () => {
       });
       it('calls alignTextInPositiveDirection once', () => {
         component.getLabelTextAnchor(datum, bbox);
-        expect(alignTextSpy).toHaveBeenCalledOnceWith(datum);
+        expect(alignTextSpy).toHaveBeenCalledOnceWith(datum, bbox);
       });
       it('returns start if text should be aligned in positive direction', () => {
         alignTextSpy.and.returnValue(true);
@@ -795,7 +795,7 @@ describe('BarsComponent', () => {
       });
       it('calls alignTextInPositiveDirection once', () => {
         component.getLabelDominantBaseline(datum, bbox);
-        expect(alignTextSpy).toHaveBeenCalledOnceWith(datum);
+        expect(alignTextSpy).toHaveBeenCalledOnceWith(datum, bbox);
       });
       it('returns text-after-edge if text should be aligned in positive direction', () => {
         alignTextSpy.and.returnValue(true);
@@ -849,7 +849,7 @@ describe('BarsComponent', () => {
     describe('quantitative value is not zero or non-numeric', () => {
       it('calls barLabelFitsOutsideBar once', () => {
         component.alignTextInPositiveDirection(datum, bbox);
-        expect(fitsOutsideSpy).toHaveBeenCalledOnceWith(datum);
+        expect(fitsOutsideSpy).toHaveBeenCalledOnceWith(datum, bbox);
       });
       describe('barLabelFitsOutsideBar returns true', () => {
         it('returns true if value is higher than 0', () => {
@@ -950,12 +950,10 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('barLabelFitsOutsideBar()', () => {
+  describe('labelFitsOutsideBar()', () => {
     let datum: BarDatum<string>;
     let xSpy: jasmine.Spy;
     let ySpy: jasmine.Spy;
-    let getBarWidthSpy: jasmine.Spy;
-    let getBarHeightSpy: jasmine.Spy;
     const bbox = { width: 0, height: 0 } as DOMRect;
     beforeEach(() => {
       xSpy = jasmine.createSpy('x').and.returnValue(10);
@@ -970,6 +968,7 @@ describe('BarsComponent', () => {
     describe('bars are horizontal', () => {
       beforeEach(() => {
         component.config = horizontalConfig();
+        (component.config as any).labels = { offset: 4 };
         datum = component.getBarDatumFromIndex(2);
       });
       it('calls getBarToChartEdgeDistance once with the correct values - quant value is positive', () => {
@@ -989,12 +988,12 @@ describe('BarsComponent', () => {
           10
         );
       });
-      it('returns true if the distance is less than the label width', () => {
-        getBarWidthSpy.and.returnValue(5);
+      it('returns true if the distance is greater than the label width and offset', () => {
+        bbox.width = 5;
         expect(component.labelFitsOutsideBar(datum, bbox)).toEqual(true);
       });
-      it('returns false if the distance is greater than the label width', () => {
-        getBarWidthSpy.and.returnValue(15);
+      it('returns false if the distance is less than the label width and offset', () => {
+        bbox.width = 20;
         expect(component.labelFitsOutsideBar(datum, bbox)).toEqual(false);
       });
     });
@@ -1020,23 +1019,76 @@ describe('BarsComponent', () => {
           20
         );
       });
-      it('returns true if the distance is less than the label height', () => {
-        getBarHeightSpy.and.returnValue(5);
+      it('returns true if the distance is less than the label height + offset', () => {
+        bbox.height = 5;
         expect(component.labelFitsOutsideBar(datum, bbox)).toEqual(true);
       });
       it('returns false if the distance is greater than the label height', () => {
-        getBarHeightSpy.and.returnValue(15);
+        bbox.height = 20;
         expect(component.labelFitsOutsideBar(datum, bbox)).toEqual(false);
       });
     });
   });
 
   describe('getBarToChartEdgeDistance()', () => {
-    it('returns the correct value if isPositiveValue is true', () => {
-      expect(component.getBarToChartEdgeDistance(true, [1, 2], 10)).toEqual(8);
+    let range: [number, number];
+    describe('if range[0] < range[1] (horizontal)', () => {
+      beforeEach(() => {
+        range = [10, 100];
+      });
+      describe('positive value', () => {
+        it('returns 0 if the bar is beyond the far edge of the chart', () => {
+          expect(component.getBarToChartEdgeDistance(true, range, 110)).toEqual(
+            0
+          );
+        });
+        it('returns the correct value if the bar is within the chart', () => {
+          expect(component.getBarToChartEdgeDistance(true, range, 90)).toEqual(
+            10
+          );
+        });
+      });
+      describe('negative value', () => {
+        it('returns 0 if the bar is beyond the close edge of the chart', () => {
+          expect(component.getBarToChartEdgeDistance(false, range, 0)).toEqual(
+            0
+          );
+        });
+        it('returns the correct value if the bar is within the chart', () => {
+          expect(component.getBarToChartEdgeDistance(false, range, 20)).toEqual(
+            10
+          );
+        });
+      });
     });
-    it('returns the correct value if isPositiveValue is false', () => {
-      expect(component.getBarToChartEdgeDistance(false, [1, 2], 10)).toEqual(9);
+    describe('if range[1] > range[0] (vertical)', () => {
+      beforeEach(() => {
+        range = [100, 10];
+      });
+      describe('positive value', () => {
+        it('returns 0 if the bar is beyond the far edge of the chart', () => {
+          expect(component.getBarToChartEdgeDistance(true, range, 110)).toEqual(
+            0
+          );
+        });
+        it('returns the correct value if the bar is within the chart', () => {
+          expect(component.getBarToChartEdgeDistance(true, range, 90)).toEqual(
+            10
+          );
+        });
+      });
+      describe('negative value', () => {
+        it('returns 0 if the bar is beyond the close edge of the chart', () => {
+          expect(component.getBarToChartEdgeDistance(false, range, 0)).toEqual(
+            0
+          );
+        });
+        it('returns the correct value if the bar is within the chart', () => {
+          expect(component.getBarToChartEdgeDistance(false, range, 20)).toEqual(
+            10
+          );
+        });
+      });
     });
   });
 
