@@ -37,6 +37,10 @@ option {
   padding: 80px 20px 50px 190px !important;
 }
 
+.header {
+  width: fit-content;
+}
+
 line,
 rect {
   shape-rendering: crispedges;

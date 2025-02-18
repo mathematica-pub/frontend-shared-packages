@@ -34,7 +34,16 @@
   </div>
 </form>
 @if (filteredData$ | async; as data) {
-  <app-export-content fileName="ica">
+  <app-export-content
+    [fileName]="
+      'ICA ' +
+      myForm.value[filterTypes[0]] +
+      ' ' +
+      myForm.value[filterTypes[1]] +
+      ' ' +
+      myForm.value[filterTypes[2]]
+    "
+  >
     <app-ica-dot-plot [data]="data"></app-ica-dot-plot>
   </app-export-content>
 }
