@@ -57,6 +57,7 @@ circle {
     fill: #5b6771;
   }
 
+  // the invisible stack bars
   & > g:last-child rect {
     display: none;
   }
