@@ -98,7 +98,6 @@ export class VicChartConfigBuilder {
   }
 
   getConfig(): ChartConfig {
-    console.log('resive', this._resize);
     return new ChartConfig({
       aspectRatio: this._width / this._height,
       height: this._height,

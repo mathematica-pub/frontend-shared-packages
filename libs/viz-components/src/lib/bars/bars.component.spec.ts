@@ -152,7 +152,7 @@ describe('BarsComponent', () => {
   describe('drawMarks()', () => {
     beforeEach(() => {
       spyOn(component, 'drawBars');
-      spyOn(component, 'drawBarLabels');
+      spyOn(component, 'drawLabels');
       spyOn(component, 'updateBarElements');
       spyOn(component, 'getTransitionDuration').and.returnValue(100);
       component.config = horizontalConfig();
@@ -163,12 +163,12 @@ describe('BarsComponent', () => {
     });
     it('calls drawBarLabels if config.labels is truthy', () => {
       component.drawMarks();
-      expect(component.drawBarLabels).toHaveBeenCalledOnceWith(100);
+      expect(component.drawLabels).toHaveBeenCalledOnceWith(100);
     });
     it('does not call drawBarLabels if config.labels is falsy', () => {
       (component.config as any).labels = undefined;
       component.drawMarks();
-      expect(component.drawBarLabels).not.toHaveBeenCalled();
+      expect(component.drawLabels).not.toHaveBeenCalled();
     });
     it('calls updateBarElements', () => {
       component.drawMarks();
@@ -707,7 +707,7 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('getBarLabelText()', () => {
+  describe('getLabelText()', () => {
     let datum: BarDatum<string>;
     beforeEach(() => {
       component.config = horizontalConfig();
@@ -719,32 +719,33 @@ describe('BarsComponent', () => {
     });
     it('returns the correct value if value is not a number', () => {
       datum.quantitative = 'not a number' as any;
-      expect(component.getBarLabelText(datum)).toEqual('no value');
+      expect(component.getLabelText(datum)).toEqual('no value');
     });
     it('calls customFormat once with full datum if formatFunction exists', () => {
       (component.config.quantitative as any).formatFunction = (d) =>
         d.quantitative + '!';
-      component.getBarLabelText(datum);
+      component.getLabelText(datum);
       expect(ValueUtilities.customFormat).toHaveBeenCalledOnceWith(
         data[2],
         component.config.quantitative.formatFunction
       );
     });
     it('calls formatValue once with the correct value if formatFunction does not exist', () => {
-      component.getBarLabelText(datum);
+      component.getLabelText(datum);
       expect(ValueUtilities.d3Format).toHaveBeenCalledOnceWith(
         3,
         component.config.quantitative.formatSpecifier
       );
     });
     it('returns the formatted value', () => {
-      expect(component.getBarLabelText(datum)).toEqual('d3 formatted value');
+      expect(component.getLabelText(datum)).toEqual('d3 formatted value');
     });
   });
 
-  describe('getBarLabelTextAnchor()', () => {
+  describe('getLabelTextAnchor()', () => {
     let datum: BarDatum<string>;
     let alignTextSpy: jasmine.Spy;
+    const bbox = { width: 0, height: 0 } as DOMRect;
     beforeEach(() => {
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
@@ -752,37 +753,40 @@ describe('BarsComponent', () => {
     });
     it('returns middle if bars are vertical', () => {
       component.config = verticalConfig();
-      expect(component.getBarLabelTextAnchor(datum)).toEqual('middle');
+      expect(component.getLabelTextAnchor(datum, bbox)).toEqual('middle');
     });
     describe('bars are horizontal', () => {
       beforeEach(() => {
         component.config = horizontalConfig();
       });
       it('calls alignTextInPositiveDirection once', () => {
-        component.getBarLabelTextAnchor(datum);
+        component.getLabelTextAnchor(datum, bbox);
         expect(alignTextSpy).toHaveBeenCalledOnceWith(datum);
       });
       it('returns start if text should be aligned in positive direction', () => {
         alignTextSpy.and.returnValue(true);
-        expect(component.getBarLabelTextAnchor(datum)).toEqual('start');
+        expect(component.getLabelTextAnchor(datum, bbox)).toEqual('start');
       });
       it('returns end if text should be aligned in negative direction', () => {
         alignTextSpy.and.returnValue(false);
-        expect(component.getBarLabelTextAnchor(datum)).toEqual('end');
+        expect(component.getLabelTextAnchor(datum, bbox)).toEqual('end');
       });
     });
   });
 
-  describe('getBarLabelDominantBaseline()', () => {
+  describe('getLabelDominantBaseline()', () => {
     let datum: BarDatum<string>;
     let alignTextSpy: jasmine.Spy;
+    const bbox = { width: 0, height: 0 } as DOMRect;
     beforeEach(() => {
       alignTextSpy = spyOn(component, 'alignTextInPositiveDirection');
     });
     it('returns central if bars are horizontal', () => {
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
-      expect(component.getBarLabelDominantBaseline(datum)).toEqual('central');
+      expect(component.getLabelDominantBaseline(datum, bbox)).toEqual(
+        'central'
+      );
     });
     describe('bars are vertical', () => {
       beforeEach(() => {
@@ -790,18 +794,18 @@ describe('BarsComponent', () => {
         datum = component.getBarDatumFromIndex(2);
       });
       it('calls alignTextInPositiveDirection once', () => {
-        component.getBarLabelDominantBaseline(datum);
+        component.getLabelDominantBaseline(datum, bbox);
         expect(alignTextSpy).toHaveBeenCalledOnceWith(datum);
       });
       it('returns text-after-edge if text should be aligned in positive direction', () => {
         alignTextSpy.and.returnValue(true);
-        expect(component.getBarLabelDominantBaseline(datum)).toEqual(
+        expect(component.getLabelDominantBaseline(datum, bbox)).toEqual(
           'text-after-edge'
         );
       });
       it('returns text-before-edge if text should be aligned in negative direction', () => {
         alignTextSpy.and.returnValue(false);
-        expect(component.getBarLabelDominantBaseline(datum)).toEqual(
+        expect(component.getLabelDominantBaseline(datum, bbox)).toEqual(
           'text-before-edge'
         );
       });
@@ -812,69 +816,81 @@ describe('BarsComponent', () => {
     let datum: BarDatum<string>;
     let zeroOrNonNumericSpy: jasmine.Spy;
     let fitsOutsideSpy: jasmine.Spy;
+    const bbox = { width: 0, height: 0 } as DOMRect;
     beforeEach(() => {
       zeroOrNonNumericSpy = spyOn(
         component,
         'positionZeroOrNonNumericValueLabelInPositiveDirection'
       );
-      fitsOutsideSpy = spyOn(component, 'barLabelFitsOutsideBar');
+      fitsOutsideSpy = spyOn(component, 'labelFitsOutsideBar');
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
     });
     describe('quantitative value is zero or non-numeric', () => {
       it('calls positionZeroOrNonNumericValueLabelInPositiveDirection once - value is 0', () => {
         datum.quantitative = 0;
-        component.alignTextInPositiveDirection(datum);
+        component.alignTextInPositiveDirection(datum, bbox);
         expect(zeroOrNonNumericSpy).toHaveBeenCalledTimes(1);
       });
       it('calls positionZeroOrNonNumericValueLabelInPositiveDirection once - value is non-numeric', () => {
         datum.quantitative = 'not a number' as any;
-        component.alignTextInPositiveDirection(datum);
+        component.alignTextInPositiveDirection(datum, bbox);
         expect(zeroOrNonNumericSpy).toHaveBeenCalledTimes(1);
       });
       it('returns the return value from positionZeroOrNonNumericValueLabelInPositiveDirection if quant value is non-numeric', () => {
         datum.quantitative = 'not a number' as any;
         zeroOrNonNumericSpy.and.returnValue(true);
-        component.alignTextInPositiveDirection(datum);
-        expect(component.alignTextInPositiveDirection(datum)).toEqual(true);
+        component.alignTextInPositiveDirection(datum, bbox);
+        expect(component.alignTextInPositiveDirection(datum, bbox)).toEqual(
+          true
+        );
       });
     });
     describe('quantitative value is not zero or non-numeric', () => {
       it('calls barLabelFitsOutsideBar once', () => {
-        component.alignTextInPositiveDirection(datum);
+        component.alignTextInPositiveDirection(datum, bbox);
         expect(fitsOutsideSpy).toHaveBeenCalledOnceWith(datum);
       });
       describe('barLabelFitsOutsideBar returns true', () => {
         it('returns true if value is higher than 0', () => {
           fitsOutsideSpy.and.returnValue(true);
-          expect(component.alignTextInPositiveDirection(datum)).toEqual(true);
+          expect(component.alignTextInPositiveDirection(datum, bbox)).toEqual(
+            true
+          );
         });
         it('returns false if value is lower than 0', () => {
           datum.quantitative = -1;
           fitsOutsideSpy.and.returnValue(true);
-          expect(component.alignTextInPositiveDirection(datum)).toEqual(false);
+          expect(component.alignTextInPositiveDirection(datum, bbox)).toEqual(
+            false
+          );
         });
       });
       describe('barLabelFitsOutsideBar returns false', () => {
         it('returns false if value is higher than 0', () => {
           fitsOutsideSpy.and.returnValue(false);
-          expect(component.alignTextInPositiveDirection(datum)).toEqual(false);
+          expect(component.alignTextInPositiveDirection(datum, bbox)).toEqual(
+            false
+          );
         });
         it('returns true if value is lower than 0', () => {
           datum.quantitative = -1;
           fitsOutsideSpy.and.returnValue(false);
-          expect(component.alignTextInPositiveDirection(datum)).toEqual(true);
+          expect(component.alignTextInPositiveDirection(datum, bbox)).toEqual(
+            true
+          );
         });
       });
     });
   });
 
-  describe('getBarLabelColor()', () => {
+  describe('getLabelColor()', () => {
     let datum: BarDatum<string>;
     let fitsOutsideSpy: jasmine.Spy;
     let higherContrastSpy: jasmine.Spy;
+    const bbox = { width: 0, height: 0 } as DOMRect;
     beforeEach(() => {
-      fitsOutsideSpy = spyOn(component, 'barLabelFitsOutsideBar');
+      fitsOutsideSpy = spyOn(component, 'labelFitsOutsideBar');
       spyOn(component, 'getBarColor').and.returnValue('blue');
       higherContrastSpy = spyOn(
         ColorUtilities,
@@ -885,24 +901,24 @@ describe('BarsComponent', () => {
     });
     it('returns the default color if quant value is non-numeric', () => {
       datum.quantitative = 'not a number' as any;
-      expect(component.getBarLabelColor(datum)).toEqual(
+      expect(component.getLabelColor(datum, bbox)).toEqual(
         component.config.labels.color.default
       );
     });
     it('returns the default color if quant value is 0', () => {
       datum.quantitative = 0;
-      expect(component.getBarLabelColor(datum)).toEqual(
+      expect(component.getLabelColor(datum, bbox)).toEqual(
         component.config.labels.color.default
       );
     });
     describe('quant value is not 0 or non-numeric', () => {
       it('calls barLabelFitsOutsideBar once if', () => {
-        component.getBarLabelColor(datum);
+        component.getLabelColor(datum, bbox);
         expect(fitsOutsideSpy).toHaveBeenCalledTimes(1);
       });
       it('returns the default color if barLabelFitsOutsideBar returns true', () => {
         fitsOutsideSpy.and.returnValue(true);
-        expect(component.getBarLabelColor(datum)).toEqual(
+        expect(component.getLabelColor(datum, bbox)).toEqual(
           component.config.labels.color.default
         );
       });
@@ -911,11 +927,11 @@ describe('BarsComponent', () => {
           fitsOutsideSpy.and.returnValue(false);
         });
         it('calls getBarColor once with the datum', () => {
-          component.getBarLabelColor(datum);
+          component.getLabelColor(datum, bbox);
           expect(component.getBarColor).toHaveBeenCalledOnceWith(datum);
         });
         it('calls getHigherContrastColorForBackground once with the correct values', () => {
-          component.getBarLabelColor(datum);
+          component.getLabelColor(datum, bbox);
           expect(
             ColorUtilities.getHigherContrastColorForBackground
           ).toHaveBeenCalledOnceWith(
@@ -926,7 +942,9 @@ describe('BarsComponent', () => {
         });
         it('returns the result of getHigherContrastColorForBackground', () => {
           higherContrastSpy.and.returnValue('higher contrast');
-          expect(component.getBarLabelColor(datum)).toEqual('higher contrast');
+          expect(component.getLabelColor(datum, bbox)).toEqual(
+            'higher contrast'
+          );
         });
       });
     });
@@ -938,12 +956,11 @@ describe('BarsComponent', () => {
     let ySpy: jasmine.Spy;
     let getBarWidthSpy: jasmine.Spy;
     let getBarHeightSpy: jasmine.Spy;
+    const bbox = { width: 0, height: 0 } as DOMRect;
     beforeEach(() => {
       xSpy = jasmine.createSpy('x').and.returnValue(10);
       ySpy = jasmine.createSpy('y').and.returnValue(20);
       spyOn(component, 'getBarToChartEdgeDistance').and.returnValue(10);
-      getBarWidthSpy = spyOn(component, 'getBarLabelWidth');
-      getBarHeightSpy = spyOn(component, 'getBarLabelHeight');
       component.ranges = { x: [1, 2], y: [3, 4] };
       component.scales = {
         x: xSpy,
@@ -956,7 +973,7 @@ describe('BarsComponent', () => {
         datum = component.getBarDatumFromIndex(2);
       });
       it('calls getBarToChartEdgeDistance once with the correct values - quant value is positive', () => {
-        component.barLabelFitsOutsideBar(datum);
+        component.labelFitsOutsideBar(datum, bbox);
         expect(component.getBarToChartEdgeDistance).toHaveBeenCalledOnceWith(
           true,
           [1, 2],
@@ -965,7 +982,7 @@ describe('BarsComponent', () => {
       });
       it('calls getBarToChartEdgeDistance once with the correct values - quant value is negative', () => {
         datum.quantitative = -1;
-        component.barLabelFitsOutsideBar(datum);
+        component.labelFitsOutsideBar(datum, bbox);
         expect(component.getBarToChartEdgeDistance).toHaveBeenCalledOnceWith(
           false,
           [1, 2],
@@ -974,11 +991,11 @@ describe('BarsComponent', () => {
       });
       it('returns true if the distance is less than the label width', () => {
         getBarWidthSpy.and.returnValue(5);
-        expect(component.barLabelFitsOutsideBar(datum)).toEqual(true);
+        expect(component.labelFitsOutsideBar(datum, bbox)).toEqual(true);
       });
       it('returns false if the distance is greater than the label width', () => {
         getBarWidthSpy.and.returnValue(15);
-        expect(component.barLabelFitsOutsideBar(datum)).toEqual(false);
+        expect(component.labelFitsOutsideBar(datum, bbox)).toEqual(false);
       });
     });
     describe('bars are vertical', () => {
@@ -987,7 +1004,7 @@ describe('BarsComponent', () => {
         datum = component.getBarDatumFromIndex(2);
       });
       it('calls getBarToChartEdgeDistance once with the correct values - quant value is positive', () => {
-        component.barLabelFitsOutsideBar(datum);
+        component.labelFitsOutsideBar(datum, bbox);
         expect(component.getBarToChartEdgeDistance).toHaveBeenCalledOnceWith(
           true,
           [3, 4],
@@ -996,7 +1013,7 @@ describe('BarsComponent', () => {
       });
       it('calls getBarToChartEdgeDistance once with the correct values - quant value is negative', () => {
         datum.quantitative = -1;
-        component.barLabelFitsOutsideBar(datum);
+        component.labelFitsOutsideBar(datum, bbox);
         expect(component.getBarToChartEdgeDistance).toHaveBeenCalledOnceWith(
           false,
           [3, 4],
@@ -1005,11 +1022,11 @@ describe('BarsComponent', () => {
       });
       it('returns true if the distance is less than the label height', () => {
         getBarHeightSpy.and.returnValue(5);
-        expect(component.barLabelFitsOutsideBar(datum)).toEqual(true);
+        expect(component.labelFitsOutsideBar(datum, bbox)).toEqual(true);
       });
       it('returns false if the distance is greater than the label height', () => {
         getBarHeightSpy.and.returnValue(15);
-        expect(component.barLabelFitsOutsideBar(datum)).toEqual(false);
+        expect(component.labelFitsOutsideBar(datum, bbox)).toEqual(false);
       });
     });
   });
@@ -1023,65 +1040,26 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('getBarLabelWidth()', () => {
+  describe('getLabelX()', () => {
     let datum: BarDatum<string>;
-    beforeEach(() => {
-      component.config = horizontalConfig();
-      datum = component.getBarDatumFromIndex(2);
-      component.config.labels.offset = 10;
-      spyOn(component, 'getLabelDomRect').and.returnValue({
-        width: 20,
-      } as any);
-    });
-    it('calls getLabelRect once with the correct values', () => {
-      component.getBarLabelWidth(datum);
-      expect(component.getLabelDomRect).toHaveBeenCalledOnceWith(datum);
-    });
-    it('returns the correct value', () => {
-      expect(component.getBarLabelWidth(datum)).toEqual(30);
-    });
-  });
-
-  describe('getBarLabelHeight()', () => {
-    let datum: BarDatum<string>;
-    beforeEach(() => {
-      component.config = verticalConfig();
-      datum = component.getBarDatumFromIndex(2);
-      component.config.labels.offset = 10;
-      spyOn(component, 'getLabelDomRect').and.returnValue({
-        height: 20,
-      } as any);
-    });
-    it('calls getLabelRect once with the correct values', () => {
-      component.getBarLabelHeight(datum);
-      expect(component.getLabelDomRect).toHaveBeenCalledOnceWith(datum);
-    });
-    it('returns the correct value', () => {
-      expect(component.getBarLabelHeight(datum)).toEqual(30);
-    });
-  });
-
-  describe('getBarLabelX()', () => {
-    let datum: BarDatum<string>;
+    const bbox = { width: 0, height: 0 } as DOMRect;
     beforeEach(() => {
       spyOn(component, 'getBarWidthOrdinal').and.returnValue(10);
-      spyOn(component, 'getBarLabelQuantitativeAxisPosition').and.returnValue(
-        50
-      );
+      spyOn(component, 'getLabelQuantitativeAxisPosition').and.returnValue(50);
     });
     describe('bars are horizontal', () => {
       beforeEach(() => {
         component.config = horizontalConfig();
         datum = component.getBarDatumFromIndex(2);
       });
-      it('calls getBarLabelQuantitativeAxisPosition once with datum', () => {
-        component.getBarLabelX(datum);
+      it('calls getLabelQuantitativeAxisPosition once with datum', () => {
+        component.getLabelX(datum, bbox);
         expect(
-          component.getBarLabelQuantitativeAxisPosition
-        ).toHaveBeenCalledOnceWith(datum);
+          component.getLabelQuantitativeAxisPosition
+        ).toHaveBeenCalledOnceWith(datum, bbox);
       });
       it('returns the correct value', () => {
-        expect(component.getBarLabelX(datum)).toEqual(50);
+        expect(component.getLabelX(datum, bbox)).toEqual(50);
       });
     });
     describe('bars are vertical', () => {
@@ -1090,22 +1068,21 @@ describe('BarsComponent', () => {
         datum = component.getBarDatumFromIndex(2);
       });
       it('calls getBarWidthOrdinal once', () => {
-        component.getBarLabelX(datum);
+        component.getLabelX(datum, bbox);
         expect(component.getBarWidthOrdinal).toHaveBeenCalledTimes(1);
       });
       it('returns the correct value', () => {
-        expect(component.getBarLabelX(datum)).toEqual(5);
+        expect(component.getLabelX(datum, bbox)).toEqual(5);
       });
     });
   });
 
-  describe('getBarLabelY()', () => {
+  describe('getLabelY()', () => {
     let datum: BarDatum<string>;
+    const bbox = { width: 0, height: 0 } as DOMRect;
     beforeEach(() => {
       spyOn(component, 'getBarHeightOrdinal').and.returnValue(10);
-      spyOn(component, 'getBarLabelQuantitativeAxisPosition').and.returnValue(
-        50
-      );
+      spyOn(component, 'getLabelQuantitativeAxisPosition').and.returnValue(50);
     });
     describe('bars are horizontal', () => {
       beforeEach(() => {
@@ -1113,11 +1090,11 @@ describe('BarsComponent', () => {
         datum = component.getBarDatumFromIndex(2);
       });
       it('calls getBarHeightOrdinal once', () => {
-        component.getBarLabelY(datum);
+        component.getLabelY(datum, bbox);
         expect(component.getBarHeightOrdinal).toHaveBeenCalledTimes(1);
       });
       it('returns the correct value', () => {
-        expect(component.getBarLabelY(datum)).toEqual(5);
+        expect(component.getLabelY(datum, bbox)).toEqual(5);
       });
     });
     describe('bars are vertical', () => {
@@ -1125,29 +1102,28 @@ describe('BarsComponent', () => {
         component.config = verticalConfig();
         datum = component.getBarDatumFromIndex(2);
       });
-      it('calls getBarLabelQuantitativeAxisPosition once with datum', () => {
-        component.getBarLabelY(datum);
+      it('calls getLabelQuantitativeAxisPosition once with datum', () => {
+        component.getLabelY(datum, bbox);
         expect(
-          component.getBarLabelQuantitativeAxisPosition
-        ).toHaveBeenCalledOnceWith(datum);
+          component.getLabelQuantitativeAxisPosition
+        ).toHaveBeenCalledOnceWith(datum, bbox);
       });
       it('returns the correct value', () => {
-        expect(component.getBarLabelY(datum)).toEqual(50);
+        expect(component.getLabelY(datum, bbox)).toEqual(50);
       });
     });
   });
 
-  describe('getBarLabelQuantitativeAxisPosition()', () => {
+  describe('getLabelQuantitativeAxisPosition()', () => {
     let datum: BarDatum<string>;
     let isZeroOrNonNumericSpy: jasmine.Spy;
+    const bbox = { width: 0, height: 0 } as DOMRect;
     beforeEach(() => {
       spyOn(
         component,
-        'getBarLabelPositionForZeroOrNonnumericValue'
+        'getLabelPositionForZeroOrNonnumericValue'
       ).and.returnValue(10);
-      spyOn(component, 'getBarLabelPositionForNumericValue').and.returnValue(
-        20
-      );
+      spyOn(component, 'getLabelPositionForNumericValue').and.returnValue(20);
       isZeroOrNonNumericSpy = spyOn(component, 'isZeroOrNonNumeric');
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
@@ -1157,18 +1133,18 @@ describe('BarsComponent', () => {
         isZeroOrNonNumericSpy.and.returnValue(true);
       });
       it('calls isZeroOrNonNumeric once', () => {
-        component.getBarLabelQuantitativeAxisPosition(datum);
+        component.getLabelQuantitativeAxisPosition(datum, bbox);
         expect(component.isZeroOrNonNumeric).toHaveBeenCalledTimes(1);
       });
-      it('calls getBarLabelPositionForZeroOrNonnumericValue once if value is zero', () => {
+      it('calls getLabelPositionForZeroOrNonnumericValue once if value is zero', () => {
         isZeroOrNonNumericSpy.and.returnValue(true);
-        component.getBarLabelQuantitativeAxisPosition(datum);
+        component.getLabelQuantitativeAxisPosition(datum, bbox);
         expect(
-          component.getBarLabelPositionForZeroOrNonnumericValue
+          component.getLabelPositionForZeroOrNonnumericValue
         ).toHaveBeenCalledTimes(1);
       });
-      it('returns the value from getBarLabelPositionForZeroOrNonnumericValue', () => {
-        expect(component.getBarLabelQuantitativeAxisPosition(datum)).toEqual(
+      it('returns the value from getLabelPositionForZeroOrNonnumericValue', () => {
+        expect(component.getLabelQuantitativeAxisPosition(datum, bbox)).toEqual(
           10
         );
       });
@@ -1177,21 +1153,21 @@ describe('BarsComponent', () => {
       beforeEach(() => {
         isZeroOrNonNumericSpy.and.returnValue(false);
       });
-      it('calls getBarLabelPositionForNumericValue once', () => {
-        component.getBarLabelQuantitativeAxisPosition(datum);
+      it('calls getLabelPositionForNumericValue once', () => {
+        component.getLabelQuantitativeAxisPosition(datum, bbox);
         expect(
-          component.getBarLabelPositionForNumericValue
-        ).toHaveBeenCalledOnceWith(datum);
+          component.getLabelPositionForNumericValue
+        ).toHaveBeenCalledOnceWith(datum, bbox);
       });
-      it('returns the value from getBarLabelPositionForNumericValue', () => {
-        expect(component.getBarLabelQuantitativeAxisPosition(datum)).toEqual(
+      it('returns the value from getLabelPositionForNumericValue', () => {
+        expect(component.getLabelQuantitativeAxisPosition(datum, bbox)).toEqual(
           20
         );
       });
     });
   });
 
-  describe('getBarLabelPositionForZeroOrNonnumericValue()', () => {
+  describe('getLabelPositionForZeroOrNonnumericValue()', () => {
     let positionSpy: jasmine.Spy;
     beforeEach(() => {
       positionSpy = spyOn(
@@ -1205,18 +1181,18 @@ describe('BarsComponent', () => {
         component.config.labels.offset = 20;
       });
       it('calls positionZeroOrNonNumericValueLabelInPositiveDirection once', () => {
-        component.getBarLabelPositionForZeroOrNonnumericValue();
+        component.getLabelPositionForZeroOrNonnumericValue();
         expect(positionSpy).toHaveBeenCalledTimes(1);
       });
       it('returns config.labels.offset if positionInPositiveDirection is true', () => {
         positionSpy.and.returnValue(true);
-        expect(component.getBarLabelPositionForZeroOrNonnumericValue()).toEqual(
+        expect(component.getLabelPositionForZeroOrNonnumericValue()).toEqual(
           20
         );
       });
       it('returns -config.labels.offset if positionInPositiveDirection is false', () => {
         positionSpy.and.returnValue(false);
-        expect(component.getBarLabelPositionForZeroOrNonnumericValue()).toEqual(
+        expect(component.getLabelPositionForZeroOrNonnumericValue()).toEqual(
           -20
         );
       });
@@ -1227,30 +1203,31 @@ describe('BarsComponent', () => {
         component.config.labels.offset = 20;
       });
       it('calls positionZeroOrNonNumericValueLabelInPositiveDirection once', () => {
-        component.getBarLabelPositionForZeroOrNonnumericValue();
+        component.getLabelPositionForZeroOrNonnumericValue();
         expect(positionSpy).toHaveBeenCalledTimes(1);
       });
       it('returns config.labels.offset if positionInPositiveDirection is false', () => {
         positionSpy.and.returnValue(false);
-        expect(component.getBarLabelPositionForZeroOrNonnumericValue()).toEqual(
+        expect(component.getLabelPositionForZeroOrNonnumericValue()).toEqual(
           20
         );
       });
       it('returns -config.labels.offset if positionInPositiveDirection is true', () => {
         positionSpy.and.returnValue(true);
-        expect(component.getBarLabelPositionForZeroOrNonnumericValue()).toEqual(
+        expect(component.getLabelPositionForZeroOrNonnumericValue()).toEqual(
           -20
         );
       });
     });
   });
 
-  describe('getBarLabelPositionForNumericValue()', () => {
+  describe('getLabelPositionForNumericValue()', () => {
     let datum: BarDatum<string>;
     let fitsOutsideSpy: jasmine.Spy;
+    const bbox = { width: 0, height: 0 } as DOMRect;
     beforeEach(() => {
-      spyOn(component, 'getBarLabelOrigin').and.returnValue(50);
-      fitsOutsideSpy = spyOn(component, 'barLabelFitsOutsideBar');
+      spyOn(component, 'getLabelOrigin').and.returnValue(50);
+      fitsOutsideSpy = spyOn(component, 'labelFitsOutsideBar');
     });
     describe('bars are horizontal', () => {
       beforeEach(() => {
@@ -1260,23 +1237,23 @@ describe('BarsComponent', () => {
       });
       describe('quantitative value is positive', () => {
         it('calls barLabelFitsOutsideBar once', () => {
-          component.getBarLabelPositionForNumericValue(datum);
-          expect(component.getBarLabelOrigin).toHaveBeenCalledOnceWith(
+          component.getLabelPositionForNumericValue(datum, bbox);
+          expect(component.getLabelOrigin).toHaveBeenCalledOnceWith(
             datum,
             true
           );
         });
         it('returns the origin plus the offset if the label fits outside the bar', () => {
           fitsOutsideSpy.and.returnValue(true);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            70
-          );
+          expect(
+            component.getLabelPositionForNumericValue(datum, bbox)
+          ).toEqual(70);
         });
         it('returns the origin minus the offset if the label fits inside the bar', () => {
           fitsOutsideSpy.and.returnValue(false);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            30
-          );
+          expect(
+            component.getLabelPositionForNumericValue(datum, bbox)
+          ).toEqual(30);
         });
       });
       describe('quantitative value is negative', () => {
@@ -1284,23 +1261,23 @@ describe('BarsComponent', () => {
           datum.quantitative = -1;
         });
         it('calls barLabelFitsOutsideBar once', () => {
-          component.getBarLabelPositionForNumericValue(datum);
-          expect(component.getBarLabelOrigin).toHaveBeenCalledOnceWith(
+          component.getLabelPositionForNumericValue(datum, bbox);
+          expect(component.getLabelOrigin).toHaveBeenCalledOnceWith(
             datum,
             false
           );
         });
         it('returns the origin minus the offset if the label fits outside the bar', () => {
           fitsOutsideSpy.and.returnValue(true);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            30
-          );
+          expect(
+            component.getLabelPositionForNumericValue(datum, bbox)
+          ).toEqual(30);
         });
         it('returns the origin plus the offset if the label fits inside the bar', () => {
           fitsOutsideSpy.and.returnValue(false);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            70
-          );
+          expect(
+            component.getLabelPositionForNumericValue(datum, bbox)
+          ).toEqual(70);
         });
       });
     });
@@ -1313,15 +1290,15 @@ describe('BarsComponent', () => {
       describe('quantitative value is positive', () => {
         it('returns the origin minus the offset if the label fits outside the bar', () => {
           fitsOutsideSpy.and.returnValue(true);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            30
-          );
+          expect(
+            component.getLabelPositionForNumericValue(datum, bbox)
+          ).toEqual(30);
         });
         it('returns the origin plus the offset if the label fits inside the bar', () => {
           fitsOutsideSpy.and.returnValue(false);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            70
-          );
+          expect(
+            component.getLabelPositionForNumericValue(datum, bbox)
+          ).toEqual(70);
         });
       });
       describe('quantitative value is negative', () => {
@@ -1330,21 +1307,21 @@ describe('BarsComponent', () => {
         });
         it('returns the origin plus the offset if the label fits outside the bar', () => {
           fitsOutsideSpy.and.returnValue(true);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            70
-          );
+          expect(
+            component.getLabelPositionForNumericValue(datum, bbox)
+          ).toEqual(70);
         });
         it('returns the origin minus the offset if the label fits inside the bar', () => {
           fitsOutsideSpy.and.returnValue(false);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            30
-          );
+          expect(
+            component.getLabelPositionForNumericValue(datum, bbox)
+          ).toEqual(30);
         });
       });
     });
   });
 
-  describe('getBarLabelOrigin', () => {
+  describe('getLabelOrigin', () => {
     let datum: BarDatum<string>;
     beforeEach(() => {
       spyOn(component, 'getBarDimensionQuantitative').and.returnValue(10);
@@ -1356,17 +1333,17 @@ describe('BarsComponent', () => {
         component.config.labels.offset = 20;
       });
       it('calls getBarDimensionQuantitative once with datum and x if value is positive', () => {
-        component.getBarLabelOrigin(datum, true);
+        component.getLabelOrigin(datum, true);
         expect(component.getBarDimensionQuantitative).toHaveBeenCalledOnceWith(
           datum,
           'x'
         );
       });
       it('returns the value from getBarHeightQuantitative for positive values', () => {
-        expect(component.getBarLabelOrigin(datum, true)).toBe(10);
+        expect(component.getLabelOrigin(datum, true)).toBe(10);
       });
       it('returns zero for values that are not positive', () => {
-        expect(component.getBarLabelOrigin(datum, false)).toBe(0);
+        expect(component.getLabelOrigin(datum, false)).toBe(0);
       });
     });
     describe('if bars are vertical', () => {
@@ -1376,17 +1353,17 @@ describe('BarsComponent', () => {
         component.config.labels.offset = 20;
       });
       it('calls getBarDimensionQuantitative once with datum and y if value is negative', () => {
-        component.getBarLabelOrigin(datum, false);
+        component.getLabelOrigin(datum, false);
         expect(component.getBarDimensionQuantitative).toHaveBeenCalledOnceWith(
           datum,
           'y'
         );
       });
       it('returns zero for positive values', () => {
-        expect(component.getBarLabelOrigin(datum, true)).toBe(0);
+        expect(component.getLabelOrigin(datum, true)).toBe(0);
       });
       it('returns the value from getBarHeightQuantitative for negative values', () => {
-        expect(component.getBarLabelOrigin(datum, false)).toBe(10);
+        expect(component.getLabelOrigin(datum, false)).toBe(10);
       });
     });
   });

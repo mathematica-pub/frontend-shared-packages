@@ -53,14 +53,12 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   areaFills(
     areaFills?: ((areaFills: AreaFillsBuilder<Datum>) => void) | null
   ): this {
-    console.log('areaFills', areaFills);
     if (areaFills === null) {
       this.areaFillsBuilder = undefined;
       return this;
     }
     this.initBelowLinesAreaFillBuilder();
     areaFills?.(this.areaFillsBuilder);
-    console.log('this.areaFillsBuilder', this.areaFillsBuilder);
     return this;
   }
 

@@ -29,14 +29,11 @@ export abstract class NumberDimension<Datum> extends DataDimension<
   readonly includeZeroInDomain: boolean;
 
   setDomain(valuesOverride?: [number, number]) {
-    console.log('valuesOverride', valuesOverride);
     const extents: [number, number] =
       this.domain === undefined
         ? valuesOverride || [min(this.values), max(this.values)]
         : this.domain;
-    console.log('extents', extents);
     this.calculatedDomain = this.getCalculatedDomain(extents);
-    console.log('calculatedDomain', this.calculatedDomain);
     this.setDomainIncludesZero();
   }
 

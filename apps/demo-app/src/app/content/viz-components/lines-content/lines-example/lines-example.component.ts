@@ -150,7 +150,7 @@ export class LinesExampleComponent implements OnInit {
           .position('start')
           .text('Percent Unemployment (US Bureau of Labor Statistics)')
           .anchor('start')
-          .wrap((wrap) => wrap.width(110).maintainXPosition(true))
+          .wrap((wrap) => wrap.width(40).maintainXPosition(true))
           .offset({ x: 8, y: 12 })
       )
       .tickFormat('.0%')

@@ -39,8 +39,6 @@ export class NumberChartPositionDimension<Datum>
 
   setPropertiesFromData(data: Datum[]): void {
     this.setValues(data);
-    console.log('values', this.values);
-    console.log('dp', this.domainPadding);
     this.setDomain();
   }
 

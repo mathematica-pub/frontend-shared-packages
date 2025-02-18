@@ -30,6 +30,8 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axisGroup: Selection<SVGGElement, any, SVGGElement, any>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  gridGroup: Selection<SVGGElement, any, SVGGElement, any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
   elRef = inject<ElementRef<SVGGElement>>(ElementRef);
 
@@ -69,6 +71,9 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     this.setScale();
     this.setAxisFromScaleAndConfig();
     this.drawAxis();
+    if (this.config.grid) {
+      this.drawGrid();
+    }
     this.postProcessAxisFeatures();
   }
 
@@ -86,14 +91,6 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
       .on('end', () => {
         this.styleTicks();
       });
-
-    select(this.elRef.nativeElement)
-      .select(`.${this.class.gridGroup}`)
-      .remove();
-
-    if (this.config.grid) {
-      this.drawGrid();
-    }
   }
 
   getGridLineLength(): number {
@@ -103,12 +100,14 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   }
 
   drawGrid(): void {
-    const gridGroup = select(this.elRef.nativeElement)
-      .append('g')
-      .attr('class', this.class.gridGroup);
+    if (!this.gridGroup) {
+      this.gridGroup = select(this.elRef.nativeElement)
+        .append('g')
+        .attr('class', this.class.gridGroup);
+    }
 
-    gridGroup
-      .transition(this.getTransition(gridGroup))
+    this.gridGroup
+      .transition(this.getTransition(this.gridGroup))
       .call(this.axis.tickSizeInner(this.getGridLineLength()))
       .selectAll('.tick')
       .attr('class', `${this.class.gridGroup}-line`)
@@ -121,7 +120,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
       .attr('stroke-linecap', this.config.grid.stroke.linecap)
       .attr('stroke-linejoin', this.config.grid.stroke.linejoin);
 
-    gridGroup.call((g) => {
+    this.gridGroup.call((g) => {
       g.selectAll('text').remove();
       g.selectAll('.domain').remove();
     });

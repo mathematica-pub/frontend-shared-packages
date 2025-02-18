@@ -93,8 +93,8 @@ export class BarsComponent<
   barGroups: BarGroupSelection;
   bars: BehaviorSubject<BarSelection> = new BehaviorSubject(null);
   bars$ = this.bars.asObservable();
-  barLabels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
-  barLabels$ = this.bars.asObservable();
+  labels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
+  labels$ = this.bars.asObservable();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override scales: { color: GenericScale<any, any> } & XyChartScales = {
     x: undefined,
@@ -131,11 +131,10 @@ export class BarsComponent<
   }
 
   drawMarks(): void {
-    console.log('domain', this.scales.y.domain());
     const transitionDuration = this.getTransitionDuration();
     this.drawBars(transitionDuration);
     if (this.config.labels) {
-      this.drawBarLabels(transitionDuration);
+      this.drawLabels(transitionDuration);
     }
     this.updateBarElements();
   }
@@ -220,7 +219,7 @@ export class BarsComponent<
       : this.getBarColor(datum);
   }
 
-  drawBarLabels(transitionDuration: number): void {
+  drawLabels(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -439,7 +438,7 @@ export class BarsComponent<
     if (this.isZeroOrNonNumeric(d.quantitative)) {
       return this.positionZeroOrNonNumericValueLabelInPositiveDirection();
     }
-    const placeLabelOutsideBar = this.barLabelFitsOutsideBar(d, labelBbox);
+    const placeLabelOutsideBar = this.labelFitsOutsideBar(d, labelBbox);
     const isPositiveValue = d.quantitative > 0;
     return placeLabelOutsideBar ? isPositiveValue : !isPositiveValue;
   }
@@ -447,7 +446,7 @@ export class BarsComponent<
   getLabelColor(d: BarDatum<TOrdinalValue>, labelBbox: DOMRect): string {
     if (
       this.isZeroOrNonNumeric(d.quantitative) ||
-      this.barLabelFitsOutsideBar(d, labelBbox)
+      this.labelFitsOutsideBar(d, labelBbox)
     ) {
       return this.config.labels.color.default;
     }
@@ -459,10 +458,7 @@ export class BarsComponent<
     );
   }
 
-  barLabelFitsOutsideBar(
-    d: BarDatum<TOrdinalValue>,
-    labelBbox: DOMRect
-  ): boolean {
+  labelFitsOutsideBar(d: BarDatum<TOrdinalValue>, labelBbox: DOMRect): boolean {
     const isPositiveValue = d.quantitative > 0;
     // This approach assumes that the bar labels do not wrap.
     const distanceToChartEdge = this.getBarToChartEdgeDistance(
@@ -541,7 +537,7 @@ export class BarsComponent<
   ): number {
     const isPositiveValue = d.quantitative > 0;
     const origin = this.getLabelOrigin(d, isPositiveValue);
-    const placeLabelOutsideBar = this.barLabelFitsOutsideBar(d, bbox);
+    const placeLabelOutsideBar = this.labelFitsOutsideBar(d, bbox);
     if (
       (this.config.dimensions.isVertical && placeLabelOutsideBar) ||
       (this.config.dimensions.isHorizontal && !placeLabelOutsideBar)
@@ -585,12 +581,12 @@ export class BarsComponent<
       SVGRectElement,
       number
     >(`.${this.class.bar}`);
-    const barLabels = select(this.elRef.nativeElement).selectAll<
+    const labels = select(this.elRef.nativeElement).selectAll<
       SVGTextElement,
       number
     >(`.${this.class.label}`);
     this.bars.next(bars);
-    this.barLabels.next(barLabels);
+    this.labels.next(labels);
   }
 
   getTooltipData(datum: Datum): BarsTooltipDatum<Datum, TOrdinalValue> {
