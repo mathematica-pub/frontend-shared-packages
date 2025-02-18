@@ -1,6 +1,5 @@
-$blue: #2d6e8d; // was #4472c4;
-$lightblue: #deebf7; // #f9a71c; was #dbe9f9;
-$lineColor: #505050;
+@import 'color.scss';
+
 $font-family: Segoe UI;
 
 svg {
@@ -59,7 +58,7 @@ circle {
 }
 
 .gridline {
-  stroke: #f0f0f0; // $lineColor; was #f0f0f0;
+  stroke: $gridLine;
 }
 
 .tick {
@@ -73,7 +72,7 @@ circle {
 }
 
 .vic-y .domain {
-  stroke: #bfbfbf; // $lineColor; was #bfbfbf;
+  stroke: $domainLine;
 }
 
 .vic-x .domain {
