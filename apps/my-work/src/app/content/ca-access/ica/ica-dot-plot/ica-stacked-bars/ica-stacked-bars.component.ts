@@ -229,15 +229,22 @@ export class IcaStackedBarsComponent
         const isIca75High =
           this.scales.x(this.config.data[0].ica_75) > this.chart.width * 0.7;
         if (isIca75High) x = this.chart.width * 0.4;
+      } else {
+        if (this.isIca75VeryHigh()) x = this.chart.width * 0.4;
       }
       return `translate(${x}, 0)`;
     });
   }
 
+  isIca75VeryHigh(): boolean {
+    return this.scales.x(this.config.data[0].ica_75) > this.chart.width - 100;
+  }
+
   updateRange(): void {
     const data = this.config.data.filter((d) => d.series !== 'invisible');
     const maxValue = max(data.map((d) => d.value));
-    this.rangeGroup.attr('transform', `translate(${this.chart.width}, 0)`);
+    const x = this.isIca75VeryHigh() ? 5 : this.chart.width;
+    this.rangeGroup.attr('transform', `translate(${x}, 0)`);
     this.rangeGroup
       .selectAll('.range-label')
       .data(data)
