@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
-import { extent, format, select, Selection } from 'd3';
+import { extent, format, max, select, Selection } from 'd3';
 import { IcaDatum } from '../ica-dot-plot.component';
 
 @Component({
@@ -35,7 +35,6 @@ export class IcaStackedBarsComponent
 
   override ngOnInit(): void {
     this.createSizeGroup();
-    this.createSizeTitle();
     this.createPercentileGroup();
     this.createCircleGroup();
     this.createDirectionLabel();
@@ -67,13 +66,6 @@ export class IcaStackedBarsComponent
     this.sizeGroup = select(this.chart.svgRef.nativeElement)
       .append('g')
       .attr('class', 'size-labels');
-  }
-
-  createSizeTitle(): void {
-    this.sizeGroup
-      .append('text')
-      .attr('class', 'size-title')
-      .text('County Categories by Population');
   }
 
   createPercentileGroup(): void {
@@ -243,16 +235,19 @@ export class IcaStackedBarsComponent
   }
 
   updateRange(): void {
+    const data = this.config.data.filter((d) => d.series !== 'invisible');
+    const maxValue = max(data.map((d) => d.value));
     this.rangeGroup.attr('transform', `translate(${this.chart.width}, 0)`);
     this.rangeGroup
       .selectAll('.range-label')
-      .data(this.config.data.filter((d) => d.series !== 'invisible'))
+      .data(data)
       .join('text')
       .attr('class', 'range-label')
       .text((d) => {
         const extents = extent(d.plans);
         const range = extents[1] - extents[0];
-        return format('.1f')(range);
+        const decimals = maxValue > 1 ? '1' : '2';
+        return format(`.${decimals}f`)(range);
       })
       .attr('y', (d) => this.scales.y(d.county))
       .attr('dy', (this.scales.y as any).bandwidth() / 2)
@@ -268,20 +263,28 @@ export class IcaStackedBarsComponent
   updateSizeTitle(): void {
     const x = -this.labelWidth - 120;
     const y = this.chart.height / 2;
+    const data = this.getSizeLabelData();
     this.sizeGroup
-      .select('.size-title')
+      .selectAll('.size-title')
+      .data(data.length ? ['County Categories by Population'] : [])
+      .join('text')
+      .attr('class', 'size-title')
+      .text((d) => d)
       .attr('x', x)
       .attr('y', y)
       .attr('transform', `rotate(-90, ${x}, ${y})`);
   }
 
+  getSizeLabelData(): string[] {
+    const data = [...new Set(this.config.data.map((d) => d.size))];
+    return data.length > 1 ? data : [];
+  }
+
   updateSizeLabels(): void {
-    let data = [...new Set(this.config.data.map((d) => d.size))];
-    data = data.length > 1 ? data : [];
     const reverseData = [...this.config.data].reverse();
     const sizes = this.sizeGroup
       .selectAll('.size-label')
-      .data(data)
+      .data(this.getSizeLabelData())
       .join('g')
       .attr('class', 'size-label');
     const offset = -this.labelWidth - 80;
