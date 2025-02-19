@@ -78,7 +78,7 @@ export class IcaComponent implements OnInit {
               plan.StratVal === x.StratVal &&
               !isNaN(plan.Value)
           );
-          const extents = extent(filteredPlans.map((plan: any) => plan.Value));
+          const extents = extent(filteredPlans.map((plan: any) => +plan.Value));
           const obj: IcaDatum = {
             series: 'percentile',
             size: x.County_Size,
