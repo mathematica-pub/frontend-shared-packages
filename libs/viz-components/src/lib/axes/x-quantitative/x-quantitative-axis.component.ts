@@ -24,7 +24,6 @@ const XQuantitativeAxis = xAxisMixin(quantitativeAxisMixin(XyAxis));
     class: 'vic-axis',
     '[attr.mix-blend-mode]': 'config.mixBlendMode',
     '[attr.transform]': 'translate',
-    'font-size': '10px',
   },
 })
 export class XQuantitativeAxisComponent extends XQuantitativeAxis {}

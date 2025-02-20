@@ -25,7 +25,6 @@ const XOrdinalAxis = xAxisMixin(ordinalAxisMixin(XyAxis));
     class: 'vic-axis',
     '[attr.mix-blend-mode]': 'config.mixBlendMode',
     '[attr.transform]': 'translate',
-    'font-size': '10px',
   },
 })
 export class XOrdinalAxisComponent<

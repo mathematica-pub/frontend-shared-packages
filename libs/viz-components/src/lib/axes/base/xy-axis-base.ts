@@ -1,5 +1,5 @@
 import { Directive, ElementRef, inject } from '@angular/core';
-import { select } from 'd3';
+import { select, Selection } from 'd3';
 import { Observable } from 'rxjs';
 import { GenericScale } from '../../core';
 import { DataValue } from '../../core/types/values';
@@ -13,7 +13,7 @@ export type XyAxisScale = {
   scale: GenericScale<any, any>;
 };
 
-type AxisSvgElements = 'grid' | 'label' | 'axisGroup';
+type AxisSvgElements = 'gridGroup' | 'label' | 'axisGroup';
 
 /**
  * A base directive for all axes.
@@ -26,9 +26,11 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axis: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  axisGroup: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axisFunction: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  axisGroup: Selection<SVGGElement, any, SVGGElement, any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  gridGroup: Selection<SVGGElement, any, SVGGElement, any>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
   elRef = inject<ElementRef<SVGGElement>>(ElementRef);
@@ -43,9 +45,9 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
 
   get class(): Record<AxisSvgElements, string> {
     return {
-      grid: 'vic-grid',
-      label: 'vic-axis-label',
+      gridGroup: 'vic-grid',
       axisGroup: 'vic-axis-group',
+      label: 'vic-axis-label',
     };
   }
 
@@ -69,6 +71,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     this.setScale();
     this.setAxisFromScaleAndConfig();
     this.drawAxis();
+    this.drawGrid();
     this.postProcessAxisFeatures();
   }
 
@@ -86,53 +89,10 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
       .on('end', () => {
         this.styleTicks();
       });
-
-    select(this.elRef.nativeElement).select(`.${this.class.grid}`).remove();
-
-    if (this.config.grid) {
-      this.drawGrid();
-    }
-  }
-
-  getGridLineLength(): number {
-    const gridLineScale =
-      this.config.grid.axis === 'x' ? this.scales.y : this.scales.x;
-    return -1 * Math.abs(gridLineScale.range()[1] - gridLineScale.range()[0]);
-  }
-
-  drawGrid(): void {
-    const gridGroup = select(this.elRef.nativeElement)
-      .append('g')
-      .attr('class', this.class.grid);
-
-    gridGroup
-      .transition(this.getTransition(gridGroup))
-      .call(this.axis.tickSizeInner(this.getGridLineLength()))
-      .selectAll('.tick')
-      .attr('class', `${this.class.grid}-line`)
-      .style('display', (_, i) => (this.config.grid.filter(i) ? null : 'none'))
-      .select('line')
-      .attr('stroke', this.config.grid.stroke.color)
-      .attr('stroke-dasharray', this.config.grid.stroke.dasharray)
-      .attr('stroke-width', this.config.grid.stroke.width)
-      .attr('opacity', this.config.grid.stroke.opacity)
-      .attr('stroke-linecap', this.config.grid.stroke.linecap)
-      .attr('stroke-linejoin', this.config.grid.stroke.linejoin);
-
-    gridGroup.call((g) => {
-      g.selectAll('text').remove();
-      g.selectAll('.domain').remove();
-    });
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getTransition(selection: any): any {
-    const transitionDuration = this.getTransitionDuration();
-    return selection.transition().duration(transitionDuration);
   }
 
   styleTicks(): void {
-    const tickText = this.axisGroup.selectAll('.tick text');
+    const tickText = select(this.elRef.nativeElement).selectAll('.tick text');
     if (this.config.tickLabelFontSize) {
       this.setTickFontSize(tickText);
     }
@@ -183,5 +143,58 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     if (this.config.label) {
       this.createLabel();
     }
+  }
+
+  drawGrid(): void {
+    if (this.config.grid) {
+      if (!this.gridGroup) {
+        this.gridGroup = select(this.elRef.nativeElement)
+          .append('g')
+          .attr('class', this.class.gridGroup);
+      } else {
+        this.gridGroup
+          .selectAll(`.${this.class.gridGroup}-line`)
+          .attr('class', 'tick');
+      }
+
+      this.gridGroup
+        .transition(this.getTransition(this.gridGroup))
+        .call(this.axis.tickSizeInner(this.getGridLineLength()))
+        .selectAll('.tick')
+        .attr('class', `${this.class.gridGroup}-line`)
+        .style('display', (_, i) =>
+          this.config.grid.filter(i) ? null : 'none'
+        )
+        .select('line')
+        .attr('stroke', this.config.grid.stroke.color)
+        .attr('stroke-dasharray', this.config.grid.stroke.dasharray)
+        .attr('stroke-width', this.config.grid.stroke.width)
+        .attr('opacity', this.config.grid.stroke.opacity)
+        .attr('stroke-linecap', this.config.grid.stroke.linecap)
+        .attr('stroke-linejoin', this.config.grid.stroke.linejoin);
+
+      this.gridGroup.call((g) => {
+        g.selectAll('text').remove();
+        g.selectAll('.domain').remove();
+      });
+    } else {
+      select(this.elRef.nativeElement)
+        .select(`.${this.class.gridGroup}`)
+        .remove();
+
+      this.gridGroup = undefined;
+    }
+  }
+
+  getGridLineLength(): number {
+    const gridLineScale =
+      this.config.grid.axis === 'x' ? this.scales.y : this.scales.x;
+    return -1 * Math.abs(gridLineScale.range()[1] - gridLineScale.range()[0]);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getTransition(selection: any): any {
+    const transitionDuration = this.getTransitionDuration();
+    return selection.transition().duration(transitionDuration);
   }
 }
