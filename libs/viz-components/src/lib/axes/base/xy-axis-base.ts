@@ -13,7 +13,7 @@ export type XyAxisScale = {
   scale: GenericScale<any, any>;
 };
 
-type AxisSvgElements = 'gridGroup' | 'label' | 'axisGroup';
+type AxisSvgElements = 'gridGroup' | 'gridLine' | 'label' | 'axisGroup';
 
 /**
  * A base directive for all axes.
@@ -45,7 +45,8 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
 
   get class(): Record<AxisSvgElements, string> {
     return {
-      gridGroup: 'vic-grid',
+      gridGroup: 'vic-grid-group',
+      gridLine: 'vic-grid-line',
       axisGroup: 'vic-axis-group',
       label: 'vic-axis-label',
     };
@@ -151,17 +152,13 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
         this.gridGroup = select(this.elRef.nativeElement)
           .append('g')
           .attr('class', this.class.gridGroup);
-      } else {
-        this.gridGroup
-          .selectAll(`.${this.class.gridGroup}-line`)
-          .attr('class', 'tick');
       }
 
       this.gridGroup
         .transition(this.getTransition(this.gridGroup))
         .call(this.axis.tickSizeInner(this.getGridLineLength()))
         .selectAll('.tick')
-        .attr('class', `${this.class.gridGroup}-line`)
+        .attr('class', `tick ${this.class.gridLine}`)
         .style('display', (_, i) =>
           this.config.grid.filter(i) ? null : 'none'
         )
