@@ -236,8 +236,9 @@ export class IcaStackedBarsComponent
       .text((d) => {
         const extents = extent(d.plans);
         const range = extents[1] - extents[0];
-        const decimals = maxValue > 1 ? '1' : '2';
-        return format(`.${decimals}f`)(range);
+        const decimals = maxValue > 1 || d.units === 'Percentage' ? '1' : '2';
+        const units = d.units === 'Percentage' ? '%' : 'f';
+        return format(`.${decimals}${units}`)(range);
       })
       .attr('y', (d) => this.scales.y(d.county))
       .attr('dy', (this.scales.y as any).bandwidth() / 2)
