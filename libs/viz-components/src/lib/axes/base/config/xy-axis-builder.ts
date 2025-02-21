@@ -67,7 +67,7 @@ export abstract class XyAxisBaseBuilder<
   }
 
   /**
-   * OPTIONAL. If always, all ticks (lines and tick values) will be removed.
+   * OPTIONAL. If true, all ticks (lines and tick values) will be removed.
    */
   removeTickLabels(value: boolean = true): this {
     this._removeTickLabels = value;

@@ -30,9 +30,6 @@ describe('the XAxis mixin', () => {
       },
       x: 'scale',
     } as any;
-    abstractClass.chart = {
-      margin: { top: 10 },
-    } as any;
   });
 
   describe('setTranslate()', () => {
@@ -59,7 +56,7 @@ describe('the XAxis mixin', () => {
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .side('bottom')
         .getConfig();
-      expect(abstractClass.getTranslateDistance()).toBe(90);
+      expect(abstractClass.getTranslateDistance()).toBe(100);
     });
   });
 
