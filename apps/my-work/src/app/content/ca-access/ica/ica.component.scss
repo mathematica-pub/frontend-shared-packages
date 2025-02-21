@@ -64,7 +64,7 @@ circle {
   }
 }
 
-.gridline {
+.vic-grid-line line {
   stroke: $gridLine;
 }
 
@@ -73,7 +73,7 @@ circle {
     font-family: $font-family;
   }
 
-  line:not(.gridline) {
+  line {
     display: none;
   }
 }

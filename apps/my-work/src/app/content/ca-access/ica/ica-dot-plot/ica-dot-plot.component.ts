@@ -147,11 +147,15 @@ export class IcaDotPlotComponent implements OnChanges {
         // .stackOffset(() => 100)
         .getConfig();
 
-      this.yAxisConfig = this.yOrdinalAxis.tickSizeOuter(0).getConfig();
+      this.yAxisConfig = this.yOrdinalAxis
+        .tickSizeOuter(0)
+        .grid((grid) => grid.filter(() => true))
+        .getConfig();
       this.xAxisConfig = this.xQuantitativeAxis
         .tickFormat(this.getTickFormat())
         .numTicks(5)
         .tickSizeOuter(0)
+        .grid()
         .getConfig();
     }
   }

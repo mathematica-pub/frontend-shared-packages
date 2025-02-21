@@ -171,11 +171,13 @@ export class CaAccessDotPlotComponent implements OnChanges {
         .wrapTickText((wrap) =>
           wrap.wrapWidth(this.labelWidth).maintainYPosition(true)
         )
+        .grid((grid) => grid.filter(() => true))
         .getConfig();
       this.xAxisConfig = this.xQuantitativeAxis
         .tickFormat(this.getTickFormat())
         .numTicks(5)
         .tickSizeOuter(0)
+        .grid()
         .getConfig();
     }
   }

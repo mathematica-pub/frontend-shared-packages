@@ -51,7 +51,6 @@ export class IcaStackedBarsComponent
       this.drawBarLabels(transitionDuration);
     }
     this.updateBarElements();
-    this.updateGridlines();
     this.updatePercentiles();
     this.updateCircleElements();
     this.updateDirectionLabel();
@@ -117,22 +116,6 @@ export class IcaStackedBarsComponent
       .attr('dx', this.rangeOffset)
       .attr('y', '-0.5em')
       .text('Range');
-  }
-
-  updateGridlines(): void {
-    this.updateGridline('horizontal');
-    this.updateGridline('vertical');
-  }
-
-  updateGridline(orientation: string): void {
-    select(this.chart.svgRef.nativeElement)
-      .selectAll(orientation === 'horizontal' ? '.vic-y .tick' : '.vic-x .tick')
-      .selectAll(`.${orientation}.gridline`)
-      .data((d) => [d])
-      .join('line')
-      .attr('class', `${orientation} gridline`)
-      .attr('x2', orientation === 'horizontal' ? this.chart.width : 0)
-      .attr('y2', orientation === 'vertical' ? -this.chart.height : 0);
   }
 
   updatePercentiles(): void {

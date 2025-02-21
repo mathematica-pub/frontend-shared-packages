@@ -69,7 +69,6 @@ export class CaAccessStackedBarsComponent
     }
     this.setCompValues();
     this.updateBarElements();
-    this.updateGridlines();
     this.updateCircleElements();
     this.updateComparison();
     this.updatePercentLabels();
@@ -136,22 +135,6 @@ export class CaAccessStackedBarsComponent
     this.compVal = this.config.data[0].compVal;
     this.compIsBig = this.scales.x(this.compVal) > this.chart.width / 2;
     this.compPosition = this.compVal / this.scales.x.domain()[1];
-  }
-
-  updateGridlines(): void {
-    this.updateGridline('horizontal');
-    this.updateGridline('vertical');
-  }
-
-  updateGridline(orientation: string): void {
-    select(this.chart.svgRef.nativeElement)
-      .selectAll(orientation === 'horizontal' ? '.vic-y .tick' : '.vic-x .tick')
-      .selectAll(`.${orientation}.gridline`)
-      .data((d) => [d])
-      .join('line')
-      .attr('class', `${orientation} gridline`)
-      .attr('x2', orientation === 'horizontal' ? this.chart.width : 0)
-      .attr('y2', orientation === 'vertical' ? -this.chart.height : 0);
   }
 
   updateCircleElements(): void {
