@@ -177,7 +177,7 @@ export class CaAccessStackedBarsComponent
       .data((d) => [d])
       .join('line')
       .attr('y1', this.chart.height)
-      .attr('y2', this.headerOffset - (this.scales.y as any).bandwidth() / 2);
+      .attr('y2', this.headerOffset - 16);
 
     comparisonGroup
       .selectAll('text')
