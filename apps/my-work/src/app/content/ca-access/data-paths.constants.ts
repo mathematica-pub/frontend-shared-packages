@@ -11,4 +11,4 @@ const path = {
   },
 };
 
-export const dataPath = path.real;
+export const dataPath = path.mock;
