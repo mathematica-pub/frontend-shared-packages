@@ -31,7 +31,7 @@ export class IcaStackedBarsComponent
   yAxisOffset = -0.8;
   radius = 4;
   barThickness = 3;
-  rangeOffset = '2.5em';
+  rangeOffset = '3em';
 
   override ngOnInit(): void {
     this.createSizeGroup();
