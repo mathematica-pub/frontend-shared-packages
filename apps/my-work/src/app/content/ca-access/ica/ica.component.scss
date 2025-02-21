@@ -55,13 +55,11 @@ circle {
   stroke: $darkBlue;
 }
 
-.vic-bars-g {
-  rect {
-    fill: $darkBlue;
-  }
+.vic-stacked-bars-category-group {
+  fill: $darkBlue;
 
   // the invisible stack bars
-  & > g:last-child rect {
+  &:last-child rect {
     display: none;
   }
 }
