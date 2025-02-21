@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { axisLeft, axisRight, select } from 'd3';
+import { axisLeft, axisRight } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
@@ -99,11 +99,9 @@ export function yAxisMixin<
         anchor = config.anchor || 'end';
       }
 
-      select(this.elRef.nativeElement)
-        .selectAll(`.${this.class.label}`)
-        .remove();
+      this.axisGroup.selectAll(`.${this.class.label}`).remove();
 
-      select(this.elRef.nativeElement).call((g) =>
+      this.axisGroup.call((g) =>
         g
           .append('text')
           .attr('class', this.class.label)
@@ -117,7 +115,7 @@ export function yAxisMixin<
 
       if (config.wrap) {
         this.config.label.wrap.wrap(
-          select(this.elRef.nativeElement).select(`.${this.class.label}`)
+          this.axisGroup.select(`.${this.class.label}`)
         );
       }
     }

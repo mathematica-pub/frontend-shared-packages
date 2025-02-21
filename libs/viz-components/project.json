@@ -91,7 +91,7 @@
       "options": {
         "preset": "angular",
         "skipCommit": true,
-        "skipProjectChangelog": true,
+        "skipRootChangelog": true,
         "postTargets": ["build-release", "publish", "github-release"],
         "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
       }

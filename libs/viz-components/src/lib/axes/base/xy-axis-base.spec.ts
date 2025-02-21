@@ -85,6 +85,7 @@ describe('the XyAxis abstract class', () => {
       spyOn(abstractClass, 'setScale');
       spyOn(abstractClass, 'setAxisFromScaleAndConfig');
       spyOn(abstractClass, 'drawAxis');
+      spyOn(abstractClass, 'drawGrid');
       spyOn(abstractClass, 'postProcessAxisFeatures');
       spyOn(abstractClass, 'getTransitionDuration').and.returnValue(200);
     });
