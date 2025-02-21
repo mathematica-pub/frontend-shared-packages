@@ -75,7 +75,6 @@ export class CaAccessStackedBarsComponent
     this.updateDirectionLabel();
     this.updateXLabel();
     this.updatePlanHeader();
-    this.updateYLabels();
   }
 
   createCircleGroup(): void {
@@ -273,12 +272,6 @@ export class CaAccessStackedBarsComponent
       const x = this.compPosition < 0.15 ? this.chart.width - 80 : 0;
       return `translate(${x}, 0)`;
     });
-  }
-
-  updateYLabels(): void {
-    select(this.chart.svgRef.nativeElement)
-      .selectAll('.vic-y text')
-      .style('transform', `translate(${this.additionalYAxisOffset}, 0)`);
   }
 
   override getStackElementY(datum: StackDatum): number {

@@ -104,7 +104,7 @@ $axisFontSize: 16px;
   font-size: $axisFontSize;
 }
 
-.vic-axis-g,
+.vic-axis-group,
 .size-headers,
 .comparison-label,
 .direction-label,
@@ -122,4 +122,8 @@ $axisFontSize: 16px;
 
 .size-headers {
   text-anchor: end;
+}
+
+.vic-axis-y-ordinal text {
+  transform: translateX(-3.3em);
 }
