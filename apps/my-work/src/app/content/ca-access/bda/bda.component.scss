@@ -4,12 +4,13 @@
   padding-left: 250px !important;
 }
 
-.vic-bars-g rect {
+.vic-stacked-bars-bar,
+.goal rect {
   fill: $goalColor;
 }
 
-.goal rect {
-  fill: $goalColor;
+.vic-stacked-bars-category-group:last-child {
+  display: none;
 }
 
 .strat-label {

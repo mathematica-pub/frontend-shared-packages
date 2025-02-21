@@ -5,10 +5,8 @@
   stroke: $darkBlue;
 }
 
-.vic-bars-g {
-  rect {
-    @include percentile;
-  }
+.vic-stacked-bars-bar {
+  @include percentile;
 }
 
 .percentile {
