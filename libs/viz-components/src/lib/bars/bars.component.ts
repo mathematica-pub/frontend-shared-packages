@@ -211,15 +211,15 @@ export class BarsComponent<
             .attr('class', this.class.background)
             .attr('fill', this.config.backgrounds.color)
             .attr('transform', (d) => this.getBackgroundTransform(d))
-            .attr('width', (d) => this.getBackgroundWidth(d))
-            .attr('height', (d) => this.getBackgroundBarHeight(d)),
+            .attr('width', this.getBackgroundWidth())
+            .attr('height', this.getBackgroundBarHeight()),
         (update) =>
           update
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr('transform', (d) => this.getBackgroundTransform(d))
-            .attr('width', (d) => this.getBackgroundWidth(d))
-            .attr('height', (d) => this.getBackgroundBarHeight(d)),
+            .attr('width', this.getBackgroundWidth())
+            .attr('height', this.getBackgroundBarHeight()),
         (exit) => exit.remove()
       )
       .lower();
@@ -398,7 +398,7 @@ export class BarsComponent<
     return `translate(0,${range[1] - offsetFromBottom})`;
   }
 
-  getBackgroundWidth(d: BarDatum<TOrdinalValue>): number {
+  getBackgroundWidth(): number {
     if (this.config.dimensions.quantitativeDimension === 'width') {
       const range = this.scales.x.range();
       return range[1] - range[0];
@@ -406,7 +406,7 @@ export class BarsComponent<
     return this.getBarWidthOrdinal();
   }
 
-  getBackgroundBarHeight(d: BarDatum<TOrdinalValue>): number {
+  getBackgroundBarHeight(): number {
     if (this.config.dimensions.quantitativeDimension === 'height') {
       const range = this.scales.y.range();
       return range[0] - range[1];
@@ -639,10 +639,13 @@ export class BarsComponent<
   }
 
   updateBarElements(): void {
+    const barEventElementsSelector = this.config.backgrounds.events
+      ? `.${this.class.bar}, .${this.class.background}`
+      : `.${this.class.bar}`;
     const bars = select(this.elRef.nativeElement).selectAll<
       SVGRectElement,
       number
-    >(`.${this.class.bar}`);
+    >(barEventElementsSelector);
     const barLabels = select(this.elRef.nativeElement).selectAll<
       SVGTextElement,
       number
