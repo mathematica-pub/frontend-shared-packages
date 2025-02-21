@@ -39,6 +39,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   abstract setTicks(tickFormat: string | ((value: TickValue) => string)): void;
   abstract setScale(): void;
   abstract createLabel(): void;
+  abstract getDomainTranslate(): string | null;
 
   get class(): Record<AxisSvgElements, string> {
     return {
@@ -163,7 +164,35 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
 
   postProcessAxisFeatures(): void {
     const axisGroup = select(this.axisRef.nativeElement);
-    if (this.config.removeDomainLine) {
+    const zeroAxisTranslate = this.getDomainTranslate();
+
+    if (
+      this.config.removeDomainLine !== 'always' &&
+      zeroAxisTranslate !== null
+    ) {
+      axisGroup.call((g) =>
+        g
+          .select('.domain')
+          .attr('transform', zeroAxisTranslate)
+          .attr('class', 'domain zero-axis-domain')
+          .attr(
+            'stroke-dasharray',
+            this.config.zeroAxisStroke === 'solid'
+              ? null
+              : this.config.zeroAxisStroke
+          )
+      );
+    }
+
+    if (zeroAxisTranslate === null) {
+      axisGroup.call((g) => g.select('.domain').attr('class', 'domain'));
+    }
+
+    if (
+      this.config.removeDomainLine === 'always' ||
+      (this.config.removeDomainLine === 'unlessZeroAxis' &&
+        zeroAxisTranslate === null)
+    ) {
       axisGroup.call((g) => g.select('.domain').remove());
     }
 
@@ -178,5 +207,14 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     if (this.config.label) {
       this.createLabel();
     }
+  }
+
+  otherAxisHasPosAndNegValues(dimension: 'x' | 'y'): boolean {
+    const otherDimension = dimension === 'x' ? 'y' : 'x';
+    const domain = this.scales[otherDimension].domain();
+    if (domain.length > 2 || isNaN(domain[0]) || isNaN(domain[1])) {
+      return false;
+    }
+    return domain[0] < 0 && domain[1] > 0;
   }
 }

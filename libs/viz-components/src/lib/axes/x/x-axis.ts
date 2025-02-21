@@ -20,18 +20,28 @@ export function xAxisMixin<
     }
 
     getTranslateDistance(): number {
-      const range = this.scales.y.range();
       return this.config.side === 'top'
-        ? this.getTopTranslate(range)
-        : this.getBottomTranslate(range);
+        ? this.getTopTranslate()
+        : this.getBottomTranslate();
     }
 
-    getTopTranslate(range: [number, number]): number {
-      return range[1];
+    getTopTranslate(): number {
+      return this.scales.y.range()[1];
     }
 
-    getBottomTranslate(range: [number, number]): number {
-      return range[0] - range[1] + this.chart.margin.top;
+    getBottomTranslate(): number {
+      return this.scales.y.range()[0];
+    }
+
+    getDomainTranslate(): string | null {
+      if (this.otherAxisHasPosAndNegValues('x')) {
+        const translateDistance =
+          this.config.side === 'top'
+            ? this.scales.y(0) - this.scales.y.range()[1]
+            : this.scales.y(0) - this.scales.y.range()[0];
+        return `translate(0, ${translateDistance})`;
+      }
+      return null;
     }
 
     setScale(): void {

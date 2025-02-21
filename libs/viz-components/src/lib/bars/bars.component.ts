@@ -67,7 +67,7 @@ export interface BarsTooltipDatum<Datum, TOrdinalValue extends DataValue> {
   };
 }
 
-type BarsSvgElement = 'g' | 'bar' | 'label';
+type BarsSvgElement = 'g' | 'bar' | 'label' | 'background';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -110,6 +110,7 @@ export class BarsComponent<
       g: this.config.marksClass + '-group',
       bar: this.config.marksClass + '-bar',
       label: this.config.marksClass + '-label',
+      background: this.config.marksClass + '-background',
     };
   }
 
@@ -133,6 +134,9 @@ export class BarsComponent<
   drawMarks(): void {
     const transitionDuration = this.getTransitionDuration();
     this.drawBars(transitionDuration);
+    if (this.config.backgrounds) {
+      this.drawBackgrounds(transitionDuration);
+    }
     if (this.config.labels) {
       this.drawBarLabels(transitionDuration);
     }
@@ -189,6 +193,36 @@ export class BarsComponent<
             .attr('fill', (d) => this.getBarFill(d)),
         (exit) => exit.remove()
       );
+  }
+
+  drawBackgrounds(transitionDuration: number): void {
+    const t = select(this.chart.svgRef.nativeElement)
+      .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
+
+    this.barGroups
+      .selectAll<SVGRectElement, number>(`.${this.class.background}`)
+      .data<BarDatum<TOrdinalValue>>((i) => [this.getBarDatumFromIndex(i)])
+      .join(
+        (enter) =>
+          enter
+            .append('rect')
+            .attr('class', this.class.background)
+            .attr('fill', this.config.backgrounds.color)
+            .attr('transform', (d) => this.getBackgroundTransform(d))
+            .attr('width', (d) => this.getBackgroundWidth(d))
+            .attr('height', (d) => this.getBackgroundBarHeight(d)),
+        (update) =>
+          update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            .transition(t as any)
+            .attr('transform', (d) => this.getBackgroundTransform(d))
+            .attr('width', (d) => this.getBackgroundWidth(d))
+            .attr('height', (d) => this.getBackgroundBarHeight(d)),
+        (exit) => exit.remove()
+      )
+      .lower();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -349,6 +383,36 @@ export class BarsComponent<
   getBarHeightOrdinal(): number {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (this.scales.y as any).bandwidth();
+  }
+
+  getBackgroundTransform(d: BarDatum<TOrdinalValue>): string | null {
+    if (this.config.dimensions.quantitativeDimension === 'width') {
+      const range = this.scales.x.range();
+      const offsetFromLeft =
+        d.quantitative < 0 ? this.scales.x(d.quantitative) : this.scales.x(0);
+      return `translate(${range[0] - offsetFromLeft},0)`;
+    }
+    const range = this.scales.y.range();
+    const offsetFromBottom =
+      d.quantitative < 0 ? this.scales.y(0) : this.scales.y(d.quantitative);
+    return `translate(0,${range[1] - offsetFromBottom})`;
+  }
+
+  getBackgroundWidth(d: BarDatum<TOrdinalValue>): number {
+    if (this.config.dimensions.quantitativeDimension === 'width') {
+      const range = this.scales.x.range();
+      return range[1] - range[0];
+    }
+    return this.getBarWidthOrdinal();
+  }
+
+  getBackgroundBarHeight(d: BarDatum<TOrdinalValue>): number {
+    if (this.config.dimensions.quantitativeDimension === 'height') {
+      const range = this.scales.y.range();
+      return range[0] - range[1];
+    } else {
+      return this.getBarHeightOrdinal();
+    }
   }
 
   getBarDimensionQuantitative(

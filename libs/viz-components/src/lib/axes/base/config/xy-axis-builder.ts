@@ -2,18 +2,20 @@ import { VicAuxMarksBuilder } from '../../../marks';
 import { AxisLabelBuilder } from '../../axis-label/axis-label-builder';
 import { GridBuilder } from '../../grid/grid-builder';
 import { TickWrapBuilder } from '../../tick-wrap/tick-wrap-builder';
+import { RemoveDomain } from './xy-axis-options';
 
 export abstract class XyAxisBaseBuilder<
   TickValue,
 > extends VicAuxMarksBuilder<void> {
   protected _axis: 'x' | 'y';
   protected _dimension: 'ordinal' | 'quantitative';
-  protected _removeDomainLine: boolean;
+  protected _removeDomainLine: RemoveDomain;
   protected _removeTickLabels: boolean;
   protected _removeTickMarks: boolean;
   protected _tickFormat: string | ((value: TickValue) => string);
   protected _tickLabelFontSize: number;
   protected _tickSizeOuter: number;
+  protected _zeroAxisStroke: 'solid' | string;
   protected tickWrapBuilder: TickWrapBuilder;
   protected gridBuilder: GridBuilder;
   protected labelBuilder: AxisLabelBuilder;
@@ -55,15 +57,17 @@ export abstract class XyAxisBaseBuilder<
   }
 
   /**
-   * OPTIONAL. If true, the default line that D3 creates for the axis will be removed.
+   * OPTIONAL. If always, the default domain line that D3 creates for the axis will be removed. If never, the line will be retained. If atChartEdge, the line will be removed if the axis is at the edge of the chart, but retained if the axis is in the middle of the chart.
+   *
+   * If called with no argument, the default value is 'atChartEdge'.
    */
-  removeDomainLine(value: boolean = true): this {
+  removeDomainLine(value: RemoveDomain = 'unlessZeroAxis'): this {
     this._removeDomainLine = value;
     return this;
   }
 
   /**
-   * OPTIONAL. If true, all ticks (lines and tick values) will be removed.
+   * OPTIONAL. If always, all ticks (lines and tick values) will be removed.
    */
   removeTickLabels(value: boolean = true): this {
     this._removeTickLabels = value;
@@ -143,6 +147,11 @@ export abstract class XyAxisBaseBuilder<
     }
     this.tickWrapBuilder = new TickWrapBuilder();
     wrap(this.tickWrapBuilder);
+    return this;
+  }
+
+  zeroAxisStroke(value: 'solid' | string): this {
+    this._zeroAxisStroke = value;
     return this;
   }
 }

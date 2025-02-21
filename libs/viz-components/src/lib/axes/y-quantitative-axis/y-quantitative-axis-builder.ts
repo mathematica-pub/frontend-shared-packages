@@ -6,6 +6,8 @@ import { YQuantitativeAxisConfig } from './y-quantitative-axis-config';
 const DEFAULT = {
   _side: 'left',
   _tickFormat: ',.1f',
+  _removeDomainLine: 'never',
+  _zeroAxisStroke: '2',
 };
 
 @Injectable()
@@ -77,6 +79,7 @@ export class VicYQuantitativeAxisConfigBuilder<
       tickSizeOuter: this._tickSizeOuter,
       tickValues: this._tickValues,
       wrap: this.tickWrapBuilder?._build(),
+      zeroAxisStroke: this._zeroAxisStroke,
     });
   }
 }

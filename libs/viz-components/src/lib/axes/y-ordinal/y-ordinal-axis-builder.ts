@@ -6,6 +6,8 @@ import { YOrdinalAxisConfig } from './y-ordinal-axis-config';
 const DEFAULT = {
   _side: 'left',
   _tickSizeOuter: 0,
+  _removeDomainLine: 'unlessZeroAxis',
+  _zeroAxisStroke: '2',
 };
 
 @Injectable()
@@ -42,6 +44,7 @@ export class VicYOrdinalAxisConfigBuilder<
       tickLabelFontSize: this._tickLabelFontSize,
       tickSizeOuter: this._tickSizeOuter,
       wrap: this.tickWrapBuilder?._build(),
+      zeroAxisStroke: this._zeroAxisStroke,
     });
   }
 }

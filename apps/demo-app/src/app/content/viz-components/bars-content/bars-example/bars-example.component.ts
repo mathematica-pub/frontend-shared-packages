@@ -128,10 +128,10 @@ export class BarsExampleComponent implements OnInit {
     const xAxisConfig =
       orientation === Orientation.horizontal
         ? this.xQuantitativeAxis.side('top').tickFormat('.0f').getConfig()
-        : this.xOrdinalAxis.getConfig();
+        : this.xOrdinalAxis.removeTickMarks().getConfig();
     const yAxisConfig =
       orientation === Orientation.horizontal
-        ? this.yOrdinalAxis.getConfig()
+        ? this.yOrdinalAxis.removeTickMarks().getConfig()
         : this.yQuantitativeAxis.tickFormat('.0f').getConfig();
 
     const dataConfig = this.bars
@@ -163,6 +163,7 @@ export class BarsExampleComponent implements OnInit {
           : null
       )
       .color((dimension) => dimension.range(['slategray']))
+      .backgrounds((backgrounds) => backgrounds.color('linen'))
       .labels((labels) => labels.display(true))
       .getConfig();
 
