@@ -45,10 +45,9 @@ export function yAxisMixin<
 
     getDomainTranslate(): string | null {
       if (this.otherAxisHasPosAndNegValues('y')) {
+        const rangeIndexForSide = this.config.side === 'left' ? 0 : 1;
         const translateDistance =
-          this.config.side === 'left'
-            ? this.scales.x(0) - this.scales.x.range()[0]
-            : this.scales.x(0) - this.scales.x.range()[1];
+          this.scales.x(0) - this.scales.x.range()[rangeIndexForSide];
         return `translate(${translateDistance}, 0)`;
       }
       return null;

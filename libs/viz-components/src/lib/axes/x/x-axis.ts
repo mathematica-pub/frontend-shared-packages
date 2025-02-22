@@ -35,10 +35,9 @@ export function xAxisMixin<
 
     getDomainTranslate(): string | null {
       if (this.otherAxisHasPosAndNegValues('x')) {
+        const rangeIndexForSide = this.config.side === 'top' ? 1 : 0;
         const translateDistance =
-          this.config.side === 'top'
-            ? this.scales.y(0) - this.scales.y.range()[1]
-            : this.scales.y(0) - this.scales.y.range()[0];
+          this.scales.y(0) - this.scales.y.range()[rangeIndexForSide];
         return `translate(0, ${translateDistance})`;
       }
       return null;
