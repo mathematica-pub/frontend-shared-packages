@@ -74,7 +74,6 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     this.setAxisFromScaleAndConfig();
     this.drawAxis();
     this.drawGrid();
-    this.postProcessAxisFeatures();
   }
 
   drawAxis(): void {
@@ -89,11 +88,18 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
       .transition(this.getTransition(this.axisGroup))
       .call(this.axis)
       .on('end', () => {
-        this.styleTicks();
+        this.processTicks();
       });
+
+    this.processDomain();
+    this.processTickLabels();
+    this.processTickMarks();
+    if (this.config.label) {
+      this.createLabel();
+    }
   }
 
-  styleTicks(): void {
+  processTicks(): void {
     const tickText = select(this.elRef.nativeElement).selectAll('.tick text');
     if (this.config.tickLabelFontSize) {
       this.setTickFontSize(tickText);
@@ -129,7 +135,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     wrap.wrap(tickTextSelection);
   }
 
-  postProcessAxisFeatures(): void {
+  processDomain(): void {
     const zeroAxisTranslate = this.getDomainTranslate();
 
     if (
@@ -139,6 +145,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
       this.axisGroup.call((g) =>
         g
           .select('.domain')
+          .transition(this.getTransition(this.axisGroup))
           .attr('transform', zeroAxisTranslate)
           .attr('class', 'domain zero-axis-domain')
           .attr(
@@ -161,17 +168,17 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     ) {
       this.axisGroup.call((g) => g.select('.domain').remove());
     }
+  }
 
+  processTickLabels(): void {
     if (this.config.removeTickLabels) {
       this.axisGroup.call((g) => g.selectAll('.tick text').remove());
     }
+  }
 
+  processTickMarks(): void {
     if (this.config.removeTickMarks) {
       this.axisGroup.call((g) => g.selectAll('.tick line').remove());
-    }
-
-    if (this.config.label) {
-      this.createLabel();
     }
   }
 
