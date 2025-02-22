@@ -24,42 +24,47 @@ export class VicXQuantitativeAxisConfigBuilder<
   }
 
   /**
-   * OPTIONAL. The number of ticks to pass to D3's axis.ticks().
+   * OPTIONAL. Approximately specifies the number of ticks for the axis.
    *
-   * If not provided, D3 will determine the number of ticks.
+   * @param value - The number of ticks to pass to D3's axis.ticks(), or null to unset the number of ticks.
    *
-   * To unset the number of ticks, call with null.
+   * If not called, a reasonable and valid default will be used based on the size of the chart.
+   *
+   * Note that this number will be passed to D3's `ticks()` method and therefore it can be an approximate number of ticks.
    */
-  numTicks(numTicks: number | null): this {
-    if (numTicks === null) {
+  numTicks(value: number | null): this {
+    if (value === null) {
       this._numTicks = undefined;
       return this;
     }
-    this._numTicks = numTicks;
+    this._numTicks = value;
     return this;
   }
 
   /**
-   * OPTIONAL. The side of the chart where the axis will be placed.
+   * OPTIONAL. Specifies the location of the axis on the chart.
    *
-   * @default 'bottom'
+   * @param value - The side of the chart where the axis will be placed.
+   *
+   * If not called, the default value is `bottom`.
    */
-  side(side: 'top' | 'bottom'): this {
-    this._side = side;
+  side(value: 'top' | 'bottom'): this {
+    this._side = value;
     return this;
   }
 
   /**
-   * OPTIONAL. The tick values to pass to D3's axis.tickValues().
+   * OPTIONAL. Determines the values that will show up as ticks on the axis.
    *
-   * To unset the tick values, call with null.
+   * @param values - An array of quantitative values to pass to D3's axis.tickValues(), or null to unset the tick values.
+   *
    */
-  tickValues(tickValues: TickValue[] | null): this {
-    if (tickValues === null) {
+  tickValues(values: TickValue[] | null): this {
+    if (values === null) {
       this._tickValues = undefined;
       return this;
     }
-    this._tickValues = tickValues;
+    this._tickValues = values;
     return this;
   }
 

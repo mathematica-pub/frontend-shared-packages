@@ -21,12 +21,14 @@ export class VicYOrdinalAxisConfigBuilder<
   }
 
   /**
-   * OPTIONAL. The side of the chart where the axis will be placed.
+   * OPTIONAL. Specifies the location of the axis on the chart.
    *
-   * @default 'left'
+   * @param value - The side of the chart where the axis will be placed.
+   *
+   * If not called, the default value is `left`.
    */
-  side(side: 'left' | 'right'): this {
-    this._side = side;
+  side(value: 'left' | 'right'): this {
+    this._side = value;
     return this;
   }
 

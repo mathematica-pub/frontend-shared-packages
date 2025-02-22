@@ -14,22 +14,26 @@ export class BarsBackgroundsBuilder {
   }
 
   /**
-   * Sets the color of the background.
+   * OPTIONAL. Determines the color of the background.
    *
-   * @default 'whitesmoke'
+   * @param value - The color of the background.
+   *
+   * If not called, the default color is 'whitesmoke'.
    */
-  color(color: string): this {
-    this._color = color;
+  color(value: string): this {
+    this._color = value;
     return this;
   }
 
   /**
-   * Sets whether the background is interactive or not.
+   * Determines whether the background is interactive or not.
    *
-   * @default false
+   * @param value - If `true`, the background is interactive and will respond to Viz Components events. If `false`, the background is not interactive.
+   *
+   * If not called, the default value is `false`.
    */
-  events(events: boolean): this {
-    this._events = events;
+  events(value: boolean): this {
+    this._events = value;
     return this;
   }
 
