@@ -639,7 +639,7 @@ export class BarsComponent<
   }
 
   updateBarElements(): void {
-    const barEventElementsSelector = this.config.backgrounds.events
+    const barEventElementsSelector = this.config.backgrounds?.events
       ? `.${this.class.bar}, .${this.class.background}`
       : `.${this.class.bar}`;
     const bars = select(this.elRef.nativeElement).selectAll<
