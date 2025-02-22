@@ -21,7 +21,12 @@ import {
   YOrdinalAxisConfig,
   YQuantitativeAxisConfig,
 } from '../axes';
-import { VicChartModule, VicXyChartModule } from '../charts';
+import {
+  ChartConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
+  VicXyChartModule,
+} from '../charts';
 import { HoverMoveAction } from '../events';
 import {
   countryFactsData,
@@ -57,12 +62,7 @@ const dotGSelector = '.vic-dots-group';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-lines',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -121,9 +121,6 @@ class TestDotsQuantQuantComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
   @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
   @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<number>;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
@@ -134,6 +131,12 @@ class TestDotsQuantQuantComponent<Datum> {
   hoverActions: HoverMoveAction<DotsHoverMoveDirective<Datum>>[] = [
     new DotsHoverMoveEmitTooltipData(),
   ];
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(chartHeight)
+    .width(chartWidth)
+    .margin(margin)
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 
   updateTooltipForNewOutput(data: DotsEventOutput<Datum>): void {
     this.updateTooltipData(data);
@@ -195,12 +198,7 @@ function mountDotsXQuantYQuantComponent(
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-lines',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -220,6 +218,12 @@ class TestDotsXQuantYOrdinalComponent<Datum> {
   margin = margin;
   chartHeight = chartHeight;
   chartWidth = chartWidth;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(chartHeight)
+    .width(chartWidth)
+    .margin(margin)
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 }
 
 const quantOrdinalImports = [
@@ -258,12 +262,7 @@ function mountDotsXQuantYOrdinalComponent(
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-lines',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-y-quantitative-axis
@@ -280,9 +279,12 @@ class TestDotsXOrdinalYQuantComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
   @Input() xOrdinalAxisConfig: XOrdinalAxisConfig<string>;
   @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(chartHeight)
+    .width(chartWidth)
+    .margin(margin)
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 }
 
 const ordinalQuantImports = [

@@ -64,6 +64,6 @@ export abstract class VicXyPrimaryMarks<
   }
 
   getTransitionDuration(): number {
-    return this.scales.useTransition ? this.chart.transitionDuration : 0;
+    return this.scales.useTransition ? this.chart.config.transitionDuration : 0;
   }
 }

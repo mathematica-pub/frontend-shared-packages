@@ -97,9 +97,9 @@ const routes = [
   {
     path: '**',
     loadComponent: () =>
-      import('../content-container/content-container.component').then(
-        (m) => m.ContentContainerComponent
-      ),
+      import(
+        '../viz-components/default-content/default-content.component'
+      ).then((m) => m.DefaultContentComponent),
   },
 ];
 

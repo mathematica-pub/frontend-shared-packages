@@ -11,6 +11,7 @@ import {
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
 import {
+  ChartConfig,
   ElementSpacing,
   EventAction,
   HoverMoveAction,
@@ -22,6 +23,7 @@ import {
   LinesHoverMoveDefaultStyles,
   LinesHoverMoveDirective,
   LinesHoverMoveEmitTooltipData,
+  VicChartConfigBuilder,
   VicChartModule,
   VicColumnConfig,
   VicDataExport,
@@ -46,6 +48,7 @@ import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { HighlightLineForLabel } from './line-input-actions';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: LinesConfig<MetroUnemploymentDatum>;
   xAxisConfig: VicQuantitativeAxisConfig<Date>;
   yAxisConfig: VicQuantitativeAxisConfig<number>;
@@ -70,6 +73,7 @@ const includeFiles = ['line-input-actions.ts'];
   templateUrl: './lines-example.component.html',
   styleUrls: ['./lines-example.component.scss'],
   providers: [
+    VicChartConfigBuilder,
     VicLinesConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
@@ -116,7 +120,8 @@ export class LinesExampleComponent implements OnInit {
   constructor(
     private dataService: DataService,
     public downloadService: VicDataExport,
-    public lines: VicLinesConfigBuilder<MetroUnemploymentDatum>,
+    private chart: VicChartConfigBuilder,
+    private lines: VicLinesConfigBuilder<MetroUnemploymentDatum>,
     private xAxisQuantitative: VicXQuantitativeAxisConfigBuilder<Date>,
     private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
     private tooltip: VicHtmlTooltipConfigBuilder
@@ -134,6 +139,7 @@ export class LinesExampleComponent implements OnInit {
   }
 
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
+    const chartConfig = this.chart.margin(this.margin).getConfig();
     const xAxisConfig = this.xAxisQuantitative
       .tickFormat('%Y')
       .label((label) => label.position('middle').text('Year'))
@@ -144,7 +150,6 @@ export class LinesExampleComponent implements OnInit {
           .position('start')
           .text('Percent Unemployment (US Bureau of Labor Statistics)')
           .anchor('start')
-          .wrap((wrap) => wrap.width(110).maintainXPosition(true))
           .offset({ x: 8, y: 12 })
       )
       .tickFormat('.0%')
@@ -170,7 +175,9 @@ export class LinesExampleComponent implements OnInit {
       .getConfig();
 
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
+
     return {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,

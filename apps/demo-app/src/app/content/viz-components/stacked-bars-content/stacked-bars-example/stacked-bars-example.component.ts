@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
   BarsEventOutput,
+  ChartConfig,
   ElementSpacing,
   EventAction,
   HoverMoveAction,
@@ -11,6 +12,7 @@ import {
   StackedBarsConfig,
   StackedBarsHoverMoveDirective,
   StackedBarsHoverMoveEmitTooltipData,
+  VicChartConfigBuilder,
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
@@ -30,6 +32,7 @@ import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, Observable, Subject, filter, map } from 'rxjs';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: StackedBarsConfig<IndustryUnemploymentDatum, Date>;
   xAxisConfig: XOrdinalAxisConfig<Date>;
   yAxisConfig: YQuantitativeAxisConfig<number>;
@@ -52,6 +55,7 @@ interface ViewModel {
   styleUrls: ['./stacked-bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [
+    VicChartConfigBuilder,
     VicStackedBarsConfigBuilder,
     VicXOrdinalAxisConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
@@ -87,6 +91,7 @@ export class StackedBarsExampleComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
+    private chart: VicChartConfigBuilder,
     private stackedBars: VicStackedBarsConfigBuilder<
       IndustryUnemploymentDatum,
       Date
@@ -107,6 +112,14 @@ export class StackedBarsExampleComponent implements OnInit {
     const yearlyData = data.filter(
       (d) => d.date.getUTCDate() === 1 && d.date.getUTCMonth() === 0
     );
+    const chartConfig = this.chart
+      .margin({
+        top: 8,
+        right: 0,
+        bottom: 36,
+        left: 64,
+      })
+      .getConfig();
     const xAxisConfig = this.xAxisOrdinal.tickFormat('%Y').getConfig();
     const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').getConfig();
     const dataConfig = this.stackedBars
@@ -120,6 +133,7 @@ export class StackedBarsExampleComponent implements OnInit {
       .getConfig();
 
     return {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,

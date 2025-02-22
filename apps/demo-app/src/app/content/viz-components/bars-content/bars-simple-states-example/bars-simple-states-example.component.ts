@@ -7,9 +7,11 @@ import {
 } from '@angular/core';
 import {
   BarsConfig,
+  ChartConfig,
   ElementSpacing,
   VicBarsConfigBuilder,
   VicBarsModule,
+  VicChartConfigBuilder,
   VicChartModule,
   VicOrdinalAxisConfig,
   VicQuantitativeAxisConfig,
@@ -30,6 +32,7 @@ import {
 } from '../../data/location-category-data';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: BarsConfig<LocationCategoryDatum, string>;
   ordinalAxisConfig: VicOrdinalAxisConfig<string>;
   quantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
@@ -53,6 +56,7 @@ interface ViewModel {
   styleUrl: './bars-simple-states-example.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    VicChartConfigBuilder,
     VicBarsConfigBuilder,
     VicXOrdinalAxisConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
@@ -73,6 +77,7 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
   vm: ViewModel;
 
   constructor(
+    private chart: VicChartConfigBuilder,
     private bars: VicBarsConfigBuilder<LocationCategoryDatum, string>,
     private xOrdinalAxis: VicXOrdinalAxisConfigBuilder<string>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
@@ -87,6 +92,13 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
   getViewModel(): void {
     let ordinalAxisConfig: VicOrdinalAxisConfig<string>;
     let quantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
+
+    const chartConfig = this.chart
+      .margin(this.margin)
+      .height(this.height)
+      .width(this.width)
+      .resize({ height: false })
+      .getConfig();
 
     if (this.orientation === 'horizontal') {
       ordinalAxisConfig = this.yOrdinalAxis.removeTickMarks().getConfig();
@@ -144,6 +156,7 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
       .getConfig();
 
     this.vm = {
+      chartConfig,
       dataConfig,
       ordinalAxisConfig,
       quantitativeAxisConfig,
