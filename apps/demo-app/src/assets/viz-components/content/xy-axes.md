@@ -59,7 +59,7 @@ name: grid
 description: Sets the grid for the axis.
 params:
   - name: grid
-    type: '(grid: GridBuilder) => void)'
+    type: '((grid: GridBuilder) => void) | null'
     description: A callback that allows for the specification of an axis grid.
 ```
 

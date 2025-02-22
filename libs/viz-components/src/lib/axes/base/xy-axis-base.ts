@@ -13,7 +13,7 @@ export type XyAxisScale = {
   scale: GenericScale<any, any>;
 };
 
-type AxisSvgElements = 'gridGroup' | 'label' | 'axisGroup';
+type AxisSvgElements = 'gridGroup' | 'gridLine' | 'label' | 'axisGroup';
 
 /**
  * A base directive for all axes.
@@ -45,7 +45,8 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
 
   get class(): Record<AxisSvgElements, string> {
     return {
-      gridGroup: 'vic-grid',
+      gridGroup: 'vic-grid-group',
+      gridLine: 'vic-grid-line',
       axisGroup: 'vic-axis-group',
       label: 'vic-axis-label',
     };
@@ -71,9 +72,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     this.setScale();
     this.setAxisFromScaleAndConfig();
     this.drawAxis();
-    if (this.config.grid) {
-      this.drawGrid();
-    }
+    this.drawGrid();
     this.postProcessAxisFeatures();
   }
 
@@ -148,30 +147,40 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   }
 
   drawGrid(): void {
-    if (!this.gridGroup) {
-      this.gridGroup = select(this.elRef.nativeElement)
-        .append('g')
-        .attr('class', this.class.gridGroup);
+    if (this.config.grid) {
+      if (!this.gridGroup) {
+        this.gridGroup = select(this.elRef.nativeElement)
+          .append('g')
+          .attr('class', this.class.gridGroup);
+      }
+
+      this.gridGroup
+        .transition(this.getTransition(this.gridGroup))
+        .call(this.axis.tickSizeInner(this.getGridLineLength()))
+        .selectAll('.tick')
+        .attr('class', `tick ${this.class.gridLine}`)
+        .style('display', (_, i) =>
+          this.config.grid.filter(i) ? null : 'none'
+        )
+        .select('line')
+        .attr('stroke', this.config.grid.stroke.color)
+        .attr('stroke-dasharray', this.config.grid.stroke.dasharray)
+        .attr('stroke-width', this.config.grid.stroke.width)
+        .attr('opacity', this.config.grid.stroke.opacity)
+        .attr('stroke-linecap', this.config.grid.stroke.linecap)
+        .attr('stroke-linejoin', this.config.grid.stroke.linejoin);
+
+      this.gridGroup.call((g) => {
+        g.selectAll('text').remove();
+        g.selectAll('.domain').remove();
+      });
+    } else {
+      select(this.elRef.nativeElement)
+        .select(`.${this.class.gridGroup}`)
+        .remove();
+
+      this.gridGroup = undefined;
     }
-
-    this.gridGroup
-      .transition(this.getTransition(this.gridGroup))
-      .call(this.axis.tickSizeInner(this.getGridLineLength()))
-      .selectAll('.tick')
-      .attr('class', `${this.class.gridGroup}-line`)
-      .style('display', (_, i) => (this.config.grid.filter(i) ? null : 'none'))
-      .select('line')
-      .attr('stroke', this.config.grid.stroke.color)
-      .attr('stroke-dasharray', this.config.grid.stroke.dasharray)
-      .attr('stroke-width', this.config.grid.stroke.width)
-      .attr('opacity', this.config.grid.stroke.opacity)
-      .attr('stroke-linecap', this.config.grid.stroke.linecap)
-      .attr('stroke-linejoin', this.config.grid.stroke.linejoin);
-
-    this.gridGroup.call((g) => {
-      g.selectAll('text').remove();
-      g.selectAll('.domain').remove();
-    });
   }
 
   getGridLineLength(): number {

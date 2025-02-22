@@ -90,23 +90,25 @@ export function yAxisMixin<
 
       this.axisGroup.selectAll(`.${this.class.label}`).remove();
 
-      this.axisGroup
-        .append('text')
-        .attr('class', this.class.label)
-        .attr('transform', rotate)
-        .attr('x', config.position === 'middle' ? y * -1 : x)
-        .attr('y', config.position === 'middle' ? x * -1 : y)
-        .attr('text-anchor', anchor)
-        .attr('alignment-baseline', alignmentBaseline)
-        .text(this.config.label.text)
-        .call((l) => {
-          if (config.wrap) {
-            // ensure that label is actually in the DOM before wrapping
-            requestAnimationFrame(() => {
-              this.config.label.wrap.wrap(l);
-            });
-          }
-        });
+      this.axisGroup.call((g) =>
+        g
+          .append('text')
+          .attr('class', this.class.label)
+          .attr('transform', rotate)
+          .attr('x', config.position === 'middle' ? y * -1 : x)
+          .attr('y', config.position === 'middle' ? x * -1 : y)
+          .attr('text-anchor', anchor)
+          .attr('alignment-baseline', alignmentBaseline)
+          .text(this.config.label.text)
+          .call((l) => {
+            if (config.wrap) {
+              // ensure that label is actually in the DOM before wrapping
+              requestAnimationFrame(() => {
+                this.config.label.wrap.wrap(l);
+              });
+            }
+          })
+      );
     }
   }
 

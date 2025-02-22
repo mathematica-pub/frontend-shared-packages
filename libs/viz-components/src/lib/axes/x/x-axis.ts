@@ -69,22 +69,24 @@ export function xAxisMixin<
 
       this.axisGroup.selectAll(`.${this.class.label}`).remove();
 
-      this.axisGroup
-        .append('text')
-        .attr('class', this.class.label)
-        .attr('x', x)
-        .attr('y', y)
-        .attr('text-anchor', anchor)
-        .text(this.config.label.text)
-        .call((l) => {
-          if (config.wrap) {
-            // ensure that label is actually in the DOM before wrapping
-            requestAnimationFrame(() => {
-              this.config.label.wrap.wrap(l);
-              l.selectAll('tspan').attr('x', x);
-            });
-          }
-        });
+      this.axisGroup.call((g) =>
+        g
+          .append('text')
+          .attr('class', this.class.label)
+          .attr('x', x)
+          .attr('y', y)
+          .attr('text-anchor', anchor)
+          .text(this.config.label.text)
+          .call((l) => {
+            if (config.wrap) {
+              // ensure that label is actually in the DOM before wrapping
+              requestAnimationFrame(() => {
+                this.config.label.wrap.wrap(l);
+                l.selectAll('tspan').attr('x', x);
+              });
+            }
+          })
+      );
     }
   }
 
