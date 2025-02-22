@@ -554,8 +554,8 @@ describe('it creates the correct bars in the correct order for the data', () => 
             const size = parseFloat($bar.attr(barAttr));
             const axisSelector =
               orientation === 'horizontal'
-                ? '.vic-axis-y-ordinal'
-                : '.vic-axis-x-ordinal';
+                ? '.vic-axis-x-quantitative'
+                : '.vic-axis-y-quantitative';
             cy.get<SVGPathElement>(`${axisSelector} .domain`).then((domain) => {
               const domainRect = domain[0].getBBox();
               expect(size).to.be.above(domainRect[barAttr]);
