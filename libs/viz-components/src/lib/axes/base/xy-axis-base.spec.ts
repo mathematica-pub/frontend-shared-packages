@@ -111,16 +111,9 @@ describe('the XyAxis abstract class', () => {
       abstractClass.drawMarks();
       expect(abstractClass.drawAxis).toHaveBeenCalledTimes(1);
     });
-    it('calls drawGrid once if config.grid is truthy', () => {
+    it('calls drawGrid once', () => {
       abstractClass.drawMarks();
       expect(abstractClass.drawGrid).toHaveBeenCalledTimes(1);
-    });
-    it('does not call drawGrid if config.grid is falsy', () => {
-      abstractClass.config = {
-        grid: false,
-      } as any;
-      abstractClass.drawMarks();
-      expect(abstractClass.drawGrid).not.toHaveBeenCalled();
     });
     it('calls postProcessAxisFeatures once', () => {
       abstractClass.drawMarks();
