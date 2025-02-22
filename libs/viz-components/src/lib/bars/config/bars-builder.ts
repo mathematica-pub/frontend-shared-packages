@@ -14,6 +14,94 @@ import {
 } from './bars-dimensions';
 import { BarsLabelsBuilder } from './labels/bars-labels-builder';
 
+abstract class BaseDimensionsBuilder<Datum, TOrdinalValue extends DataValue> {
+  protected _ordinalDimensionBuilder: OrdinalChartPositionDimensionBuilder<
+    Datum,
+    TOrdinalValue
+  >;
+  protected _quantitativeDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
+
+  // Getter methods for VicBarsConfigBuilder to access the builders
+  get ordinalDimensionBuilder() {
+    return this._ordinalDimensionBuilder;
+  }
+
+  get quantitativeDimensionBuilder() {
+    return this._quantitativeDimensionBuilder;
+  }
+
+  protected initOrdinalDimensionBuilder() {
+    this._ordinalDimensionBuilder = new OrdinalChartPositionDimensionBuilder();
+  }
+
+  protected initQuantitativeDimensionBuilder() {
+    this._quantitativeDimensionBuilder =
+      new NumberChartPositionDimensionBuilder();
+  }
+}
+
+export class HorizontalBarsDimensionsBuilder<
+  Datum,
+  TOrdinalValue extends DataValue,
+> extends BaseDimensionsBuilder<Datum, TOrdinalValue> {
+  /**
+   * REQUIRED. Creates a number-chart position dimension that will control aspects of the quantitative dimension of the chart.
+   */
+  x(
+    setProperties: (
+      dimension: NumberChartPositionDimensionBuilder<Datum>
+    ) => void
+  ): this {
+    this.initQuantitativeDimensionBuilder();
+    setProperties(this._quantitativeDimensionBuilder);
+    return this;
+  }
+
+  /**
+   * REQUIRED. Creates an ordinal dimension that will control aspects of the ordinal dimension of the chart.
+   */
+  y(
+    setProperties: (
+      dimension: OrdinalChartPositionDimensionBuilder<Datum, TOrdinalValue>
+    ) => void
+  ): this {
+    this.initOrdinalDimensionBuilder();
+    setProperties(this._ordinalDimensionBuilder);
+    return this;
+  }
+}
+
+export class VerticalBarsDimensionsBuilder<
+  Datum,
+  TOrdinalValue extends DataValue,
+> extends BaseDimensionsBuilder<Datum, TOrdinalValue> {
+  /**
+   * REQUIRED. Creates an ordinal dimension that will control aspects of the ordinal dimension of the chart.
+   */
+  x(
+    setProperties: (
+      dimension: OrdinalChartPositionDimensionBuilder<Datum, TOrdinalValue>
+    ) => void
+  ): this {
+    this.initOrdinalDimensionBuilder();
+    setProperties(this._ordinalDimensionBuilder);
+    return this;
+  }
+
+  /**
+   * REQUIRED. Creates a number-chart position dimension that will control aspects of the quantitative dimension of the chart.
+   */
+  y(
+    setProperties: (
+      dimension: NumberChartPositionDimensionBuilder<Datum>
+    ) => void
+  ): this {
+    this.initQuantitativeDimensionBuilder();
+    setProperties(this._quantitativeDimensionBuilder);
+    return this;
+  }
+}
+
 /**
  * Builds a configuration object for a BarsComponent.
  *
@@ -245,97 +333,5 @@ export class VicBarsConfigBuilder<
 
   protected getQuantitativeDimensionName(): string {
     return this._orientation === 'horizontal' ? 'X' : 'Y';
-  }
-}
-
-export class HorizontalBarsDimensionsBuilder<
-  Datum,
-  TOrdinalValue extends DataValue,
-> {
-  ordinalDimensionBuilder: OrdinalChartPositionDimensionBuilder<
-    Datum,
-    TOrdinalValue
-  >;
-  quantitativeDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
-
-  /**
-   * REQUIRED. Creates a number-chart position dimension that will control aspects of the quantitative dimension of the chart.
-   */
-  x(
-    setProperties: (
-      dimension: NumberChartPositionDimensionBuilder<Datum>
-    ) => void
-  ): this {
-    this.initQuantitativeDimensionBuilder();
-    setProperties(this.quantitativeDimensionBuilder);
-    return this;
-  }
-
-  private initQuantitativeDimensionBuilder() {
-    this.quantitativeDimensionBuilder =
-      new NumberChartPositionDimensionBuilder();
-  }
-
-  /**
-   * REQUIRED. Creates an ordinal dimension that will control aspects of the ordinal dimension of the chart.
-   */
-  y(
-    setProperties: (
-      dimension: OrdinalChartPositionDimensionBuilder<Datum, TOrdinalValue>
-    ) => void
-  ): this {
-    this.initOrdinalDimensionBuilder();
-    setProperties(this.ordinalDimensionBuilder);
-    return this;
-  }
-
-  private initOrdinalDimensionBuilder() {
-    this.ordinalDimensionBuilder = new OrdinalChartPositionDimensionBuilder();
-  }
-}
-
-export class VerticalBarsDimensionsBuilder<
-  Datum,
-  TOrdinalValue extends DataValue,
-> {
-  ordinalDimensionBuilder: OrdinalChartPositionDimensionBuilder<
-    Datum,
-    TOrdinalValue
-  >;
-  quantitativeDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
-
-  /**
-   * REQUIRED. Creates an ordinal dimension that will control aspects of the ordinal dimension of the chart.
-   */
-  x(
-    setProperties: (
-      dimension: OrdinalChartPositionDimensionBuilder<Datum, TOrdinalValue>
-    ) => void
-  ): this {
-    this.initOrdinalDimensionBuilder();
-    setProperties(this.ordinalDimensionBuilder);
-    return this;
-  }
-
-  private initOrdinalDimensionBuilder() {
-    this.ordinalDimensionBuilder = new OrdinalChartPositionDimensionBuilder();
-  }
-
-  /**
-   * REQUIRED. Creates a number-chart position dimension that will control aspects of the quantitative dimension of the chart.
-   */
-  y(
-    setProperties: (
-      dimension: NumberChartPositionDimensionBuilder<Datum>
-    ) => void
-  ): this {
-    this.initQuantitativeDimensionBuilder();
-    setProperties(this.quantitativeDimensionBuilder);
-    return this;
-  }
-
-  private initQuantitativeDimensionBuilder() {
-    this.quantitativeDimensionBuilder =
-      new NumberChartPositionDimensionBuilder();
   }
 }
