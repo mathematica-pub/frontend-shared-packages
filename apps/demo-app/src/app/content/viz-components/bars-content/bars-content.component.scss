@@ -1,1 +1,30 @@
+@use 'functions' as *;
 
+.bars-content-container {
+  .main-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .small-examples-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: grid(20);
+    align-items: flex-end;
+    align-self: center;
+    padding-bottom: grid(4);
+  }
+
+  // .horizontal-example {
+  //   transform: translateX(24px);
+  // }
+
+  // .vertical-example {
+  //   transform: translateX(80px);
+  // }
+
+  .example-title {
+    font-size: 13px;
+    padding-bottom: grid(1);
+  }
+}
