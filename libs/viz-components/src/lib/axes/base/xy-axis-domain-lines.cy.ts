@@ -40,6 +40,7 @@ const data = ContinentPopulationNumYearData;
       [height]="chartHeight"
       [width]="chartWidth"
       [scaleChartWithContainerWidth]="{ width: true, height: false }"
+      [transitionDuration]="0"
     >
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
@@ -168,6 +169,7 @@ describe('Domain lines positioning, two quant dimensions', () => {
       [height]="chartHeight"
       [width]="chartWidth"
       [scaleChartWithContainerWidth]="{ width: true, height: false }"
+      [transitionDuration]="0"
     >
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
@@ -299,6 +301,7 @@ describe('Domain lines positioning, one quant, one ordinal dimension - horizonta
       [height]="chartHeight"
       [width]="chartWidth"
       [scaleChartWithContainerWidth]="{ width: true, height: false }"
+      [transitionDuration]="0"
     >
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
