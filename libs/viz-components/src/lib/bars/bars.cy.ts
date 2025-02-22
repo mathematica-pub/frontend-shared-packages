@@ -78,6 +78,7 @@ const labelSelector = '.vic-bars-label';
       [height]="chartHeight"
       [width]="chartWidth"
       [scaleChartWithContainerWidth]="{ width: true, height: false }"
+      [transitionDuration]="0"
     >
       <ng-container svg-elements>
         <svg:g
@@ -188,6 +189,7 @@ const mountHorizontalBarsComponent = (
       [height]="chartHeight"
       [width]="chartWidth"
       [scaleChartWithContainerWidth]="{ width: true, height: false }"
+      [transitionDuration]="0"
     >
       <ng-container svg-elements>
         <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
