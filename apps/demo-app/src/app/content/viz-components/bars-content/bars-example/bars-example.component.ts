@@ -46,6 +46,11 @@ enum Orientation {
   vertical = 'vertical',
   horizontal = 'horizontal',
 }
+
+interface LayoutProperties {
+  orientation: Orientation;
+  margin: ElementSpacing;
+}
 @Component({
   selector: 'app-bars-example',
   standalone: true,
@@ -78,12 +83,6 @@ enum Orientation {
 })
 export class BarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
-  margin: ElementSpacing = {
-    top: 36,
-    right: 0,
-    bottom: 32,
-    left: 300,
-  };
   folderName = 'bars-example';
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
@@ -97,10 +96,17 @@ export class BarsExampleComponent implements OnInit {
   hoverAndMoveActions: HoverMoveAction<
     BarsHoverMoveDirective<MetroUnemploymentDatum, string>
   >[] = [new BarsHoverMoveEmitTooltipData()];
-  orientation: BehaviorSubject<keyof typeof Orientation> = new BehaviorSubject(
-    Orientation.horizontal as keyof typeof Orientation
-  );
-  orientation$ = this.orientation.asObservable();
+  layoutProperties: BehaviorSubject<LayoutProperties> =
+    new BehaviorSubject<LayoutProperties>({
+      orientation: Orientation.horizontal,
+      margin: {
+        top: 36,
+        right: 0,
+        bottom: 32,
+        left: 300,
+      },
+    });
+  layoutProperties$ = this.layoutProperties.asObservable();
 
   constructor(
     private dataService: DataService,
@@ -118,43 +124,47 @@ export class BarsExampleComponent implements OnInit {
       filter((x) => !!x)
     );
 
-    this.vm$ = combineLatest([data$, this.orientation$]).pipe(
-      map(([data, orientation]) => this.getViewModel(data, orientation))
+    this.vm$ = combineLatest([data$, this.layoutProperties$]).pipe(
+      map(([data, layoutProperties]) =>
+        this.getViewModel(data, layoutProperties)
+      )
     );
   }
 
   getViewModel(
     data: MetroUnemploymentDatum[],
-    orientation: 'horizontal' | 'vertical'
+    layout: LayoutProperties
   ): ViewModel {
     const filteredData = data.filter(
       (d) => d.date.getFullYear() === 2008 && d.date.getMonth() === 3
     );
 
     const chartConfig = this.chart
-      .margin(this.margin)
-      .height(orientation === 'horizontal' ? 800 : 500)
+      .margin(layout.margin)
+      .width(layout.orientation === 'horizontal' ? 800 : 960)
+      .height(layout.orientation === 'horizontal' ? 800 : 500)
       .resize({
         height: false,
       })
       .getConfig();
 
     const xAxisConfig =
-      orientation === Orientation.horizontal
+      layout.orientation === Orientation.horizontal
         ? this.xQuantitativeAxis.side('top').tickFormat('.0f').getConfig()
         : this.xOrdinalAxis
-            .removeTickMarks()
+            // .removeTickMarks()
             .removeDomainLine('never')
+            .rotateTickLabels(30)
             .getConfig();
     const yAxisConfig =
-      orientation === Orientation.horizontal
+      layout.orientation === Orientation.horizontal
         ? this.yOrdinalAxis.removeTickMarks().getConfig()
         : this.yQuantitativeAxis.tickFormat('.0f').getConfig();
 
     const dataConfig = this.bars
       .data(filteredData)
       .horizontal(
-        orientation === Orientation.horizontal
+        layout.orientation === Orientation.horizontal
           ? (bars) =>
               bars
                 .x((dimension) =>
@@ -167,7 +177,7 @@ export class BarsExampleComponent implements OnInit {
           : null
       )
       .vertical(
-        orientation === Orientation.vertical
+        layout.orientation === Orientation.vertical
           ? (bars) =>
               bars
                 .x((dimension) => dimension.valueAccessor((d) => d.division))
@@ -184,6 +194,8 @@ export class BarsExampleComponent implements OnInit {
       .labels((labels) => labels.display(true))
       .getConfig();
 
+    console.log('xaxisconfig', xAxisConfig.rotateTickLabels);
+    console.log('yaxisconfig', yAxisConfig.rotateTickLabels);
     return {
       chartConfig,
       dataConfig,
@@ -228,26 +240,15 @@ export class BarsExampleComponent implements OnInit {
     this.tooltipConfig.next(config);
   }
 
-  changeMargin(): void {
-    this.margin = {
-      top: 36,
-      right: 0,
-      bottom: 8,
-      left: Math.random() * 500,
-    };
-  }
-
-  updateOrientation(value: keyof typeof Orientation): void {
-    this.orientation.next(value);
-    this.updateMargin(value);
-  }
-
-  updateMargin(orientation: keyof typeof Orientation): void {
-    this.margin = {
-      top: 36,
-      right: 0,
-      bottom: 8,
-      left: orientation === Orientation.horizontal ? 300 : 36,
-    };
+  updateOrientation(value: Orientation): void {
+    this.layoutProperties.next({
+      orientation: value,
+      margin: {
+        top: 36,
+        right: 0,
+        bottom: value === Orientation.horizontal ? 32 : 200,
+        left: value === Orientation.horizontal ? 300 : 160,
+      },
+    });
   }
 }

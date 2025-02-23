@@ -41,6 +41,7 @@ export class VicYOrdinalAxisConfigBuilder<
       removeDomainLine: this._removeDomainLine,
       removeTickLabels: this._removeTickLabels,
       removeTickMarks: this._removeTickMarks,
+      rotateTickLabels: this._rotateTickLabels,
       side: this._side,
       tickFormat: this._tickFormat,
       tickLabelFontSize: this._tickLabelFontSize,

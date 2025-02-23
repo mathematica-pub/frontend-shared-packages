@@ -12,6 +12,7 @@ export interface XyAxisBaseOptions<TickValue> extends MarksOptions {
   removeDomainLine: RemoveDomain;
   removeTickLabels: boolean;
   removeTickMarks: boolean;
+  rotateTickLabels: number;
   tickFormat: string | ((value: TickValue) => string);
   tickLabelFontSize: number;
   tickSizeOuter: number;

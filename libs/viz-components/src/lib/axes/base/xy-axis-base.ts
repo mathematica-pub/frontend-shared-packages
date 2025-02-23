@@ -174,6 +174,16 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     if (this.config.removeTickLabels) {
       this.axisGroup.call((g) => g.selectAll('.tick text').remove());
     }
+
+    if (this.config.rotateTickLabels) {
+      this.axisGroup.call((g) =>
+        g
+          .selectAll('.tick text')
+          .style('transform', `rotate(-${this.config.rotateTickLabels}deg)`)
+          .attr('text-anchor', 'end')
+          .attr('alignment-baseline', 'start')
+      );
+    }
   }
 
   processTickMarks(): void {

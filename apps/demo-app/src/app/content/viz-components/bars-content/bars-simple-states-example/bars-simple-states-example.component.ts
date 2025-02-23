@@ -74,6 +74,8 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
   };
   @Input() width = 400;
   @Input() height = 160;
+  @Input() useLabels = false;
+  @Input() useBackgrounds = false;
   vm: ViewModel;
 
   constructor(
@@ -136,6 +138,7 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
                   x
                     .valueAccessor((d) => d.value)
                     .domainPaddingRoundUpToInterval(() => 0.2)
+                    .formatSpecifier('.0%')
                 )
                 .y((y) => y.valueAccessor((d) => d.location))
           : null
@@ -149,9 +152,12 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
                   y
                     .valueAccessor((d) => d.value)
                     .domainPaddingRoundUpToInterval(() => 0.2)
+                    .formatSpecifier('.0%')
                 )
           : null
       )
+      .backgrounds(this.useBackgrounds ? undefined : null)
+      .labels(this.useLabels ? undefined : null)
       .color((color) => color.range(['royalblue']))
       .getConfig();
 

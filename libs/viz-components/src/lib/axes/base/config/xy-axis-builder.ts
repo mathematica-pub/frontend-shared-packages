@@ -12,6 +12,7 @@ export abstract class XyAxisBaseBuilder<
   protected _removeDomainLine: RemoveDomain;
   protected _removeTickLabels: boolean;
   protected _removeTickMarks: boolean;
+  protected _rotateTickLabels: number;
   protected _tickFormat: string | ((value: TickValue) => string);
   protected _tickLabelFontSize: number;
   protected _tickSizeOuter: number;
@@ -99,6 +100,23 @@ export abstract class XyAxisBaseBuilder<
    */
   removeTickMarks(value: boolean = true): this {
     this._removeTickMarks = value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Determines the rotation of tick labels.
+   *
+   * @param value - The rotation of the tick labels in degrees, or `null` to unset the rotation.
+   *
+   * If not called, ticks will not be rotated.
+   */
+
+  rotateTickLabels(value: number | null): this {
+    if (value === null) {
+      this._rotateTickLabels = undefined;
+      return this;
+    }
+    this._rotateTickLabels = value;
     return this;
   }
 

@@ -22,7 +22,11 @@ import { BarsSimpleStatesExampleComponent } from './bars-simple-states-example/b
     ContentContainerComponent,
   ],
   templateUrl: './bars-content.component.html',
-  styleUrls: ['../../examples.scss', './bars-content.component.scss'],
+  styleUrls: [
+    '../../examples.scss',
+    '../../api-documentation.scss',
+    './bars-content.component.scss',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })

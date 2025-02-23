@@ -15,16 +15,20 @@
     padding-bottom: grid(4);
   }
 
-  // .horizontal-example {
-  //   transform: translateX(24px);
-  // }
+  .example-title.horizontal {
+    transform: translateX(80px);
+  }
 
-  // .vertical-example {
-  //   transform: translateX(80px);
-  // }
+  .example-title.vertical {
+    transform: translateX(48px);
+  }
 
   .example-title {
     font-size: 13px;
     padding-bottom: grid(1);
+  }
+
+  .vic-bars-label {
+    font-size: 10px;
   }
 }

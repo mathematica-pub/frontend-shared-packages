@@ -3,7 +3,7 @@
   <mat-button-toggle-group
     class="direction-toggle-group"
     [hideSingleSelectionIndicator]="true"
-    [value]="orientation$ | async"
+    [value]="(layoutProperties$ | async).orientation"
     (change)="updateOrientation($event.value)"
     ><mat-button-toggle value="horizontal">Horizontal</mat-button-toggle
     ><mat-button-toggle value="vertical">Vertical</mat-button-toggle>
@@ -21,7 +21,7 @@
           [template]="htmlTooltip"
         ></vic-html-tooltip>
       </svg:g>
-      @if ((orientation$ | async) === 'horizontal') {
+      @if ((layoutProperties$ | async).orientation === 'horizontal') {
         <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig" />
         <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" />
       } @else {
@@ -39,7 +39,7 @@
     [style.--color]="(tooltipData$ | async).color"
     class="bars-example-tooltip-container"
   >
-    @if ((orientation$ | async) === 'horizontal') {
+    @if ((layoutProperties$ | async).orientation === 'horizontal') {
       <p class="tooltip-label category">
         {{ (tooltipData$ | async).values.y }}
       </p>

@@ -11,6 +11,12 @@ const DEFAULT = {
   _width: 800,
 };
 
+/**
+ * Builds a configuration object for a BarsComponent.
+ *
+ * Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. `providers: [VicChartConfigBuilder]` in the component decorator)
+ *
+ */
 @Injectable()
 export class VicChartConfigBuilder {
   private _height: number;
