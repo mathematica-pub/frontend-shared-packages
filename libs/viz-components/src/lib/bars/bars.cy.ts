@@ -182,41 +182,30 @@ const mountHorizontalBarsComponent = (
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-vertical-bar',
   template: `
-    <<<<<<< HEAD
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-      [transitionDuration]="0"
-    >
-      =======
-      <vic-xy-chart [config]="chartConfig">
-        >>>>>>> 83f09f98c9bbb2cde736f567df1c488871f5edb9
-        <ng-container svg-elements>
-          <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
-          <svg:g
-            vic-y-quantitative-axis
-            [config]="yQuantitativeAxisConfig"
-          ></svg:g>
-          <svg:g
-            vic-primary-marks-bars
-            [config]="barsConfig"
-            [vicBarsHoverActions]="hoverActions"
-            (vicBarsHoverOutput)="updateTooltipForNewOutput($event)"
-          >
-            <vic-html-tooltip
-              [config]="tooltipConfig$ | async"
-              [template]="htmlTooltip"
-            ></vic-html-tooltip>
-          </svg:g>
-        </ng-container>
-      </vic-xy-chart>
-
-      <ng-template #htmlTooltip>
-        <p>{{ (tooltipData$ | async).values.y }}</p>
-      </ng-template>
+    <vic-xy-chart [config]="chartConfig">
+      <ng-container svg-elements>
+        <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
+        <svg:g
+          vic-y-quantitative-axis
+          [config]="yQuantitativeAxisConfig"
+        ></svg:g>
+        <svg:g
+          vic-primary-marks-bars
+          [config]="barsConfig"
+          [vicBarsHoverActions]="hoverActions"
+          (vicBarsHoverOutput)="updateTooltipForNewOutput($event)"
+        >
+          <vic-html-tooltip
+            [config]="tooltipConfig$ | async"
+            [template]="htmlTooltip"
+          ></vic-html-tooltip>
+        </svg:g>
+      </ng-container>
     </vic-xy-chart>
+
+    <ng-template #htmlTooltip>
+      <p>{{ (tooltipData$ | async).values.y }}</p>
+    </ng-template>
   `,
   styles: [],
 })
