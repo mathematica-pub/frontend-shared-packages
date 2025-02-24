@@ -167,14 +167,16 @@ params:
 ```
 
 ```builder-method
-name: zeroAxisStroke
-description: Specifies the stroke-dasharray of domain line when the domain is a zero axis in the center of the chart.
+name: zeroAxis
+description: Determines whether an axis is drawn at the zero tick mark of the perpedicular axis when there re positive and negative values in the chart, and the stroke-dasharray of the zero axis if drawn.
 params:
-  - name: value
-    type: "'solid' | string | null"
+  - name: zeroAxis
+    type: '{ strokeDasharray: string | null, useZeroAxis: boolean } | null'
     description:
-      - 'The stroke of the zero axis. Can be `solid` if a solid line is desired or a string that specifies the stroke-dasharray.'
-      - "If not called, the default value is '2 2' which creates a dashed line."
+      - An object with two properties: `strokeDasharray` and `useZeroAxis`. `strokeDasharray` is a string that specifies the stroke-dasharray of the zero axis, and `useZeroAxis` is a boolean that determines whether the zero axis will be drawn.
+      - If `strokeDasharray` is `null`, the zero axis will be drawn as a solid line.
+      - If `useZeroAxis` is `false`, the zero axis will not be drawn, and the domain line will be drawn at the edge of the chart.
+      - If not called, or if called with `null`, the default value is `{ strokeDasharray: '2 2', useZeroAxis: true }`.
 ```
 
 #### X Axes

@@ -60,7 +60,7 @@ export class DotsExampleComponent implements OnInit {
   margin: ElementSpacing = {
     top: 36,
     right: 0,
-    bottom: 8,
+    bottom: 24,
     left: 60,
   };
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
@@ -90,7 +90,10 @@ export class DotsExampleComponent implements OnInit {
 
   getViewModel(data: WeatherDatum[]): ViewModel {
     const xAxisConfig = this.xQuantitativeAxis.tickFormat('.1f').getConfig();
-    const yAxisConfig = this.yQuantitativeAxis.tickFormat('.1f').getConfig();
+    const yAxisConfig = this.yQuantitativeAxis
+      .tickFormat('.1f')
+      .zeroAxis({ useZeroAxis: false })
+      .getConfig();
 
     const dataConfig = this.dots
       .data(data.filter((x) => x.date.getFullYear() === 2012))

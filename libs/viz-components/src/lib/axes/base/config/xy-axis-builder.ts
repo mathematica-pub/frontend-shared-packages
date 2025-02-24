@@ -15,7 +15,10 @@ export abstract class XyAxisBaseBuilder<
   protected _tickFormat: string | ((value: TickValue) => string);
   protected _tickLabelFontSize: number;
   protected _tickSizeOuter: number;
-  protected _zeroAxisStroke: 'solid' | string;
+  protected _zeroAxis: {
+    strokeDasharray: string | null;
+    useZeroAxis: boolean;
+  };
   protected tickWrapBuilder: TickWrapBuilder;
   protected gridBuilder: GridBuilder;
   protected labelBuilder: AxisLabelBuilder;
@@ -173,14 +176,31 @@ export abstract class XyAxisBaseBuilder<
   }
 
   /**
-   * OPTIONAL. Specifies the stroke-dasharray of domain line when the domain is a zero axis in the center of the chart.
+   * OPTIONAL. Determines whether an axis is drawn at the zero tick mark of the perpedicular axis when there re positive and negative values in the chart, and the stroke-dasharray of the zero axis if drawn.
    *
-   * @param value - The stroke of the zero axis. Can be 'solid' if a solid line is desired or a string that specifies the stroke-dasharray.
+   * @param value - An object with two properties: `strokeDasharray` and `useZeroAxis`. `strokeDasharray` is a string that specifies the stroke-dasharray of the zero axis, and `useZeroAxis` is a boolean that determines whether the zero axis will be drawn.
    *
-   * If not called, the default value is '2 2' which creates a dashed line.
+   * If `strokeDasharray` is `null`, the zero axis will be drawn as a solid line.
+   *
+   * If `useZeroAxis` is `false`, the zero axis will not be drawn, and the domain line will be drawn at the edge of the chart.
+   *
+   * If not called, or if called with `null`, the default value is `{ strokeDasharray: '2 2', useZeroAxis: true }`.
    */
-  zeroAxisStroke(value: 'solid' | string): this {
-    this._zeroAxisStroke = value;
+  zeroAxis(
+    value: Partial<{
+      strokeDasharray: string | null;
+      useZeroAxis: boolean;
+    }> | null
+  ): this {
+    const defaultValue = { strokeDasharray: '2', useZeroAxis: true };
+    if (value === null) {
+      this._zeroAxis = defaultValue;
+      return this;
+    }
+    this._zeroAxis = {
+      ...defaultValue,
+      ...value,
+    };
     return this;
   }
 }

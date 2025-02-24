@@ -139,6 +139,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     const zeroAxisTranslate = this.getDomainTranslate();
 
     if (
+      this.config.zeroAxis.useZeroAxis &&
       this.config.removeDomainLine !== 'always' &&
       zeroAxisTranslate !== null
     ) {
@@ -148,12 +149,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
           .transition(this.getTransition(this.axisGroup))
           .attr('transform', zeroAxisTranslate)
           .attr('class', 'domain zero-axis-domain')
-          .attr(
-            'stroke-dasharray',
-            this.config.zeroAxisStroke === 'solid'
-              ? null
-              : this.config.zeroAxisStroke
-          )
+          .attr('stroke-dasharray', this.config.zeroAxis.strokeDasharray)
       );
     }
 
