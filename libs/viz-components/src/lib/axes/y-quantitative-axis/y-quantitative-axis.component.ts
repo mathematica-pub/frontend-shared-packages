@@ -8,7 +8,7 @@ const YQuantitativeAxis = yAxisMixin(quantitativeAxisMixin(XyAxis));
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-y-quantitative-axis]',
-  templateUrl: '../base/xy-axis-base.html',
+  template: '',
   styles: [
     `
       .vic-axis-y-quantitative .vic-axis-label {
