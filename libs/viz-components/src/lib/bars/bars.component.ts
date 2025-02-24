@@ -503,15 +503,31 @@ export class BarsComponent<
       this.isZeroOrNonNumeric(d.quantitative) ||
       this.barLabelFitsOutsideBar(d)
     ) {
+      if (this.config.backgrounds) {
+        // try to use the default label color if it has enough contrast
+        if (
+          ColorUtilities.getContrastRatio(
+            this.config.labels.color.default,
+            this.config.backgrounds.color
+          ) >= 4.5
+        ) {
+          return this.config.labels.color.default;
+        }
+        // if it doesn't, user the color with the higher contrast against the background
+        return ColorUtilities.getHigherContrastColorForBackground(
+          this.config.backgrounds.color,
+          this.config.labels.color.default,
+          this.config.labels.color.withinBarAlternative
+        );
+      }
       return this.config.labels.color.default;
-    } else {
-      const barColor = this.getBarColor(d);
-      return ColorUtilities.getHigherContrastColorForBackground(
-        barColor,
-        this.config.labels.color.default,
-        this.config.labels.color.withinBarAlternative
-      );
     }
+    const barColor = this.getBarColor(d);
+    return ColorUtilities.getHigherContrastColorForBackground(
+      barColor,
+      this.config.labels.color.default,
+      this.config.labels.color.withinBarAlternative
+    );
   }
 
   barLabelFitsOutsideBar(d: BarDatum<TOrdinalValue>): boolean {
