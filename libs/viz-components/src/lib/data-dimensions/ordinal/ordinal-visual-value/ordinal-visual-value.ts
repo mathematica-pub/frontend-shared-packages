@@ -4,12 +4,6 @@ import { DataDimension } from '../../dimension';
 import { OrdinalVisualValueDimensionOptions } from './ordinal-visual-value-options';
 
 /**
- * A dimension that transforms string / number / Date values into a value of type number or string.
- *
- * This dimension is intended to be used to set a visual property of an element in a chart.
- *
- * The first generic is the type of the data that will be passed to the dimension. The second generic is the type of the value that will be used to set the visual property. The third generic is the type of the range of the scale / the output value.
- *
  * TESTABLE FUNCTIONALITY
  *
  * - It extracts values for the dimension from data.
@@ -25,6 +19,13 @@ import { OrdinalVisualValueDimensionOptions } from './ordinal-visual-value-optio
  *   - tested in: ordinal-chart-position.spec.ts
  */
 
+/**
+ * A dimension that transforms string / number / Date values into a value of type number or string.
+ *
+ * This dimension is intended to be used to set a visual property of an element in a chart.
+ *
+ * The first generic is the type of the data that will be passed to the dimension. The second generic is the type of the value that will be used to set the visual property. The third generic is the type of the range of the scale / the output value.
+ */
 export class OrdinalVisualValueDimension<
   Datum,
   Domain extends DataValue,

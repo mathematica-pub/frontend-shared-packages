@@ -23,18 +23,18 @@ export class OrdinalVisualValueDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets an array of categorical values that will be used to define the domain of the scale.
+   * OPTIONAL. Determines the array of categorical values that is used as the domain of the scale.
+   *
+   * @param value - An array of categorical values, or `null` to unset the domain.
    *
    * If not provided, the domain will be determined by the data.
    */
-  domain(domain: null): this;
-  domain(domain: Domain[]): this;
-  domain(domain: Domain[]): this {
-    if (domain === null) {
+  domain(value: Domain[] | null): this {
+    if (value === null) {
       this._domain = undefined;
       return this;
     }
-    this._domain = domain;
+    this._domain = value;
     return this;
   }
 

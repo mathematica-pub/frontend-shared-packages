@@ -4,13 +4,7 @@ import { DataDimension } from '../../dimension';
 import { OrdinalChartPositionDimensionOptions } from './ordinal-chart-position-options';
 
 /**
- * A dimension that transforms string / number / Date values into a position on a chart.
- *
- * This dimension is used for the positional dimensions of a chart, such as x and y. The underlying scale will always be a [D3 band scale](https://d3js.org/d3-scale/band). The range of the scale will be a dimension from the chart.
- *
- * The first generic is the type of the data that will be passed to the dimension. The second generic is the type of the value that will be used to position the data on the chart.
- *
- * TESTABLE FUNCTIONALITY
+ *  TESTABLE FUNCTIONALITY
  *
  * - It extracts values for the dimension from data.
  *   - tested in: bars.cy.ts, dots.cy.ts, stacked-bars.cy.ts
@@ -28,6 +22,13 @@ import { OrdinalChartPositionDimensionOptions } from './ordinal-chart-position-o
  *   - tested in: ordinal-chart-position.spec.ts
  */
 
+/**
+ * A dimension that transforms string / number / Date values into a position on a chart.
+ *
+ * This dimension is used for the positional dimensions of a chart, such as x and y. The underlying scale will always be a [D3 band scale](https://d3js.org/d3-scale/band). The range of the scale will be a dimension from the chart.
+ *
+ * The first generic is the type of the data that will be passed to the dimension. The second generic is the type of the value that will be used to position the data on the chart.
+ */
 export class OrdinalChartPositionDimension<Datum, Domain extends DataValue>
   extends DataDimension<Datum, Domain>
   implements OrdinalChartPositionDimensionOptions<Datum, Domain>

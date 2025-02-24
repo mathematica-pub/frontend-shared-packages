@@ -3,10 +3,6 @@ import { isNumber } from '../../../core/utilities/type-guards';
 import { DataDimension } from '../../dimension';
 
 /**
- * An abstract dimension that for dimensions whose input values are numbers. It assumes that the domain is two numbers.
- *
- * The generic is the type of the data that will be passed to the dimension.
- *
  * TESTABLE FUNCTIONALITY
  *
  * - The domain will be the user=provided domain if the user provides a domain.
@@ -17,6 +13,12 @@ import { DataDimension } from '../../dimension';
  *    - tested in: number-dimension.spec.ts
  * - domainIncludesZero will be true if 0 is in the domain.
  *   - tested in: number-dimension.spec.ts
+ */
+
+/**
+ * An abstract dimension that for dimensions whose input values are numbers. It assumes that the domain is two numbers.
+ *
+ * The generic is the type of the data that will be passed to the dimension.
  */
 export abstract class NumberDimension<Datum> extends DataDimension<
   Datum,
