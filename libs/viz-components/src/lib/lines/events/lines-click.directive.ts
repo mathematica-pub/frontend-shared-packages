@@ -10,6 +10,7 @@ import {
   Self,
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import { DataValue } from '../../core/types/values';
 import { EventAction } from '../../events/action';
 import { ClickDirective } from '../../events/click.directive';
 import { LINES, LinesComponent } from '../lines.component';
@@ -24,10 +25,16 @@ import { LinesInputEventDirective } from './lines-input-event.directive';
 })
 export class LinesClickDirective<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
+  ChartMultipleDomain extends DataValue = string,
+  TLinesComponent extends LinesComponent<
+    Datum,
+    ChartMultipleDomain
+  > = LinesComponent<Datum, ChartMultipleDomain>,
 > extends ClickDirective {
   @Input('vicLinesChartClickActions')
-  actions: EventAction<LinesClickDirective<Datum, ExtendedLinesComponent>>[];
+  actions: EventAction<
+    LinesClickDirective<Datum, ChartMultipleDomain, TLinesComponent>
+  >[];
   @Input('vicLinesChartClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicLinesChartClickOutput') eventOutput = new EventEmitter<
@@ -35,21 +42,27 @@ export class LinesClickDirective<
   >();
 
   constructor(
-    @Inject(LINES) public lines: ExtendedLinesComponent,
+    @Inject(LINES) public lines: TLinesComponent,
     @Self()
     @Optional()
-    public hoverDirective?: LinesHoverDirective<Datum, ExtendedLinesComponent>,
+    public hoverDirective?: LinesHoverDirective<
+      Datum,
+      ChartMultipleDomain,
+      TLinesComponent
+    >,
     @Self()
     @Optional()
     public hoverAndMoveDirective?: LinesHoverMoveDirective<
       Datum,
-      ExtendedLinesComponent
+      ChartMultipleDomain,
+      TLinesComponent
     >,
     @Self()
     @Optional()
     public inputEventDirective?: LinesInputEventDirective<
       Datum,
-      ExtendedLinesComponent
+      ChartMultipleDomain,
+      TLinesComponent
     >
   ) {
     super();
@@ -111,7 +124,7 @@ export class LinesClickDirective<
   }
 
   disableAction(
-    directive: LinesEventDirective<Datum, ExtendedLinesComponent>
+    directive: LinesEventDirective<Datum, ChartMultipleDomain, TLinesComponent>
   ): void {
     if (directive) {
       directive.preventAction = true;
@@ -119,7 +132,7 @@ export class LinesClickDirective<
   }
 
   enableAction(
-    directive: LinesEventDirective<Datum, ExtendedLinesComponent>,
+    directive: LinesEventDirective<Datum, ChartMultipleDomain, TLinesComponent>,
     cancelCurrentActions: boolean
   ): void {
     if (directive) {

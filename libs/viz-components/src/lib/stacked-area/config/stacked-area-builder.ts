@@ -33,7 +33,8 @@ const DEFAULT = {
 export class VicStackedAreaConfigBuilder<
   Datum,
   CategoricalDomain extends DataValue,
-> extends PrimaryMarksBuilder<Datum> {
+  ChartMultipleDomain extends DataValue = string,
+> extends PrimaryMarksBuilder<Datum, ChartMultipleDomain> {
   private colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<
     Datum,
     CategoricalDomain,
@@ -225,7 +226,11 @@ export class VicStackedAreaConfigBuilder<
   /**
    * REQUIRED. Builds the configuration object for the stacked area chart.
    */
-  getConfig(): StackedAreaConfig<Datum, CategoricalDomain> {
+  getConfig(): StackedAreaConfig<
+    Datum,
+    CategoricalDomain,
+    ChartMultipleDomain
+  > {
     this.validateBuilder();
     return new StackedAreaConfig({
       marksClass: 'vic-stacked-area',
@@ -235,6 +240,7 @@ export class VicStackedAreaConfigBuilder<
       data: this._data,
       datumClass: this._class,
       mixBlendMode: this._mixBlendMode,
+      multiples: this.multiplesBuilder?._build(),
       stackOrder: this._stackOrder,
       stackOffset: this._stackOffset,
       x: this.xDimensionBuilder._build('X'),

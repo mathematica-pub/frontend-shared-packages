@@ -27,22 +27,29 @@ import { BarsInputEventDirective } from './bars-input-event.directive';
 })
 export class BarsClickDirective<
   Datum,
-  TOrdinalValue extends DataValue,
-  TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+  TBarsComponent extends BarsComponent<
     Datum,
-    TOrdinalValue
-  >,
+    OrdinalDomain,
+    ChartMultipleDomain
+  > = BarsComponent<Datum, OrdinalDomain, ChartMultipleDomain>,
 > extends ClickDirective {
   @Input('vicBarsClickActions')
   actions: EventAction<
-    BarsClickDirective<Datum, TOrdinalValue, TBarsComponent>
+    BarsClickDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TBarsComponent
+    >
   >[];
   @Input('vicBarsClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicBarsClickOutput') eventOutput = new EventEmitter<
-    BarsEventOutput<Datum, TOrdinalValue>
+    BarsEventOutput<Datum, OrdinalDomain>
   >();
-  barDatum: BarDatum<TOrdinalValue>;
+  barDatum: BarDatum<OrdinalDomain>;
   origin: SVGRectElement;
   pointerX: number;
   pointerY: number;
@@ -53,21 +60,24 @@ export class BarsClickDirective<
     @Optional()
     public hoverDirective?: BarsHoverDirective<
       Datum,
-      TOrdinalValue,
+      OrdinalDomain,
+      ChartMultipleDomain,
       TBarsComponent
     >,
     @Self()
     @Optional()
     public hoverAndMoveDirective?: BarsHoverMoveDirective<
       Datum,
-      TOrdinalValue,
+      OrdinalDomain,
+      ChartMultipleDomain,
       TBarsComponent
     >,
     @Self()
     @Optional()
     public inputEventDirective?: BarsInputEventDirective<
       Datum,
-      TOrdinalValue,
+      OrdinalDomain,
+      ChartMultipleDomain,
       TBarsComponent
     >
   ) {
@@ -88,7 +98,7 @@ export class BarsClickDirective<
 
   onElementClick(event: PointerEvent): void {
     this.origin = event.target as SVGRectElement;
-    this.barDatum = select(this.origin).datum() as BarDatum<TOrdinalValue>;
+    this.barDatum = select(this.origin).datum() as BarDatum<OrdinalDomain>;
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     if (this.hoverDirective) {
       this.pointerX = this.hoverDirective.positionX;
@@ -105,7 +115,7 @@ export class BarsClickDirective<
     this.pointerY = undefined;
   }
 
-  getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
+  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain> {
     const datum = this.bars.getSourceDatumFromBarDatum(this.barDatum);
     const data = this.bars.getTooltipData(datum);
     const extras = {
@@ -143,7 +153,12 @@ export class BarsClickDirective<
   }
 
   disableAction(
-    directive: BarsEventDirective<Datum, TOrdinalValue, TBarsComponent>
+    directive: BarsEventDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TBarsComponent
+    >
   ): void {
     if (directive) {
       directive.preventAction = true;
@@ -151,7 +166,12 @@ export class BarsClickDirective<
   }
 
   enableAction(
-    directive: BarsEventDirective<Datum, TOrdinalValue, TBarsComponent>,
+    directive: BarsEventDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TBarsComponent
+    >,
     cancelCurrentActions: boolean
   ): void {
     if (directive) {

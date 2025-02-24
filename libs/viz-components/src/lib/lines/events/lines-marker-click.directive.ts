@@ -10,6 +10,7 @@ import {
   Self,
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import { DataValue } from '../../core/types/values';
 import { EventAction } from '../../events/action';
 import { ClickDirective } from '../../events/click.directive';
 import { ListenElement } from '../../events/event.directive';
@@ -30,7 +31,11 @@ import { LinesInputEventDirective } from './lines-input-event.directive';
 })
 export class LinesMarkerClickDirective<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
+  ChartMultipleDomain extends DataValue = string,
+  TLinesComponent extends LinesComponent<
+    Datum,
+    ChartMultipleDomain
+  > = LinesComponent<Datum, ChartMultipleDomain>,
 > extends ClickDirective {
   /**
    * An array of user-provided [EventAction]{@link EventAction} instances.
@@ -40,7 +45,7 @@ export class LinesMarkerClickDirective<
    */
   @Input('vicLinesMarkerClickActions')
   actions: EventAction<
-    LinesMarkerClickDirective<Datum, ExtendedLinesComponent>
+    LinesMarkerClickDirective<Datum, ChartMultipleDomain, TLinesComponent>
   >[];
   /**
    * A user-provided `Observable<void>` that triggers the `onEnd` method of all user-provided
@@ -63,21 +68,27 @@ export class LinesMarkerClickDirective<
   pointIndex: number;
 
   constructor(
-    @Inject(LINES) public lines: ExtendedLinesComponent,
+    @Inject(LINES) public lines: TLinesComponent,
     @Self()
     @Optional()
-    public hoverDirective?: LinesHoverDirective<Datum, ExtendedLinesComponent>,
+    public hoverDirective?: LinesHoverDirective<
+      Datum,
+      ChartMultipleDomain,
+      TLinesComponent
+    >,
     @Self()
     @Optional()
     public hoverAndMoveDirective?: LinesHoverMoveDirective<
       Datum,
-      ExtendedLinesComponent
+      ChartMultipleDomain,
+      TLinesComponent
     >,
     @Self()
     @Optional()
     public inputEventDirective?: LinesInputEventDirective<
       Datum,
-      ExtendedLinesComponent
+      ChartMultipleDomain,
+      TLinesComponent
     >
   ) {
     super();
@@ -132,7 +143,7 @@ export class LinesMarkerClickDirective<
   }
 
   disableAction(
-    directive: LinesEventDirective<Datum, ExtendedLinesComponent>
+    directive: LinesEventDirective<Datum, ChartMultipleDomain, TLinesComponent>
   ): void {
     if (directive) {
       directive.preventAction = true;
@@ -140,7 +151,7 @@ export class LinesMarkerClickDirective<
   }
 
   enableAction(
-    directive: LinesEventDirective<Datum, ExtendedLinesComponent>
+    directive: LinesEventDirective<Datum, ChartMultipleDomain, TLinesComponent>
   ): void {
     if (directive) {
       directive.preventAction = false;

@@ -27,10 +27,15 @@ import { GroupedBarsConfig } from './config/grouped-bars-config';
 })
 export class GroupedBarsComponent<
   Datum,
-  TOrdinalValue extends DataValue,
-> extends BarsComponent<Datum, TOrdinalValue> {
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+> extends BarsComponent<Datum, OrdinalDomain, ChartMultipleDomain> {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('config') override config: GroupedBarsConfig<Datum, TOrdinalValue>;
+  @Input('config') override config: GroupedBarsConfig<
+    Datum,
+    OrdinalDomain,
+    ChartMultipleDomain
+  >;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   groupScale: any;
 
@@ -55,15 +60,15 @@ export class GroupedBarsComponent<
     }
   }
 
-  override getBarColor(d: BarDatum<TOrdinalValue>): string {
+  override getBarColor(d: BarDatum<OrdinalDomain>): string {
     return this.scales.color(d.color);
   }
 
-  override getBarXOrdinal(d: BarDatum<TOrdinalValue>): number {
+  override getBarXOrdinal(d: BarDatum<OrdinalDomain>): number {
     return this.scales.x(d.ordinal) + this.groupScale(d.color);
   }
 
-  override getBarY(d: BarDatum<TOrdinalValue>): number {
+  override getBarY(d: BarDatum<OrdinalDomain>): number {
     if (this.config.dimensions.ordinal === 'x') {
       return this.getBarYQuantitative(d);
     } else {
@@ -71,11 +76,11 @@ export class GroupedBarsComponent<
     }
   }
 
-  override getBarYOrdinal(d: BarDatum<TOrdinalValue>): number {
+  override getBarYOrdinal(d: BarDatum<OrdinalDomain>): number {
     return this.scales.y(d.ordinal) + this.groupScale(d.color);
   }
 
-  override getBarYQuantitative(d: BarDatum<TOrdinalValue>): number {
+  override getBarYQuantitative(d: BarDatum<OrdinalDomain>): number {
     return this.scales.y(d.quantitative);
   }
 

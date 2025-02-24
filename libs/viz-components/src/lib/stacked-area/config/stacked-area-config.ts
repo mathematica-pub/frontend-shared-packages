@@ -16,9 +16,13 @@ import { DataMarksOptions } from '../../marks/config/marks-options';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { StackedAreaOptions } from './stacked-area-options';
 
-export class StackedAreaConfig<Datum, CategoricalDomain extends DataValue>
-  extends XyPrimaryMarksConfig<Datum>
-  implements DataMarksOptions<Datum>
+export class StackedAreaConfig<
+    Datum,
+    CategoricalDomain extends DataValue,
+    ChartMultipleDomain extends DataValue = string,
+  >
+  extends XyPrimaryMarksConfig<Datum, ChartMultipleDomain>
+  implements DataMarksOptions<Datum, ChartMultipleDomain>
 {
   color: OrdinalVisualValueDimension<Datum, CategoricalDomain, string>;
   categoricalOrder: CategoricalDomain[];
@@ -44,7 +48,9 @@ export class StackedAreaConfig<Datum, CategoricalDomain extends DataValue>
     i: number;
   })[][];
 
-  constructor(options: StackedAreaOptions<Datum, CategoricalDomain>) {
+  constructor(
+    options: StackedAreaOptions<Datum, CategoricalDomain, ChartMultipleDomain>
+  ) {
     super();
     Object.assign(this, options);
     this.initPropertiesFromData();

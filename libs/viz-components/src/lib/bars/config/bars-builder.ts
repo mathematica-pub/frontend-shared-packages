@@ -111,7 +111,8 @@ export class VerticalBarsDimensionsBuilder<
 export class VicBarsConfigBuilder<
   Datum,
   OrdinalDomain extends DataValue,
-> extends PrimaryMarksBuilder<Datum> {
+  ChartMultipleDomain extends DataValue = string,
+> extends PrimaryMarksBuilder<Datum, ChartMultipleDomain> {
   protected _customFills: FillDefinition<Datum>[];
   protected dimensions: BarsDimensions;
   protected _orientation: 'horizontal' | 'vertical';
@@ -280,7 +281,7 @@ export class VicBarsConfigBuilder<
    *
    * The user must call this at the end of the chain of methods to build the configuration object.
    */
-  getConfig(): BarsConfig<Datum, OrdinalDomain> {
+  getConfig(): BarsConfig<Datum, OrdinalDomain, ChartMultipleDomain> {
     this.validateBuilder('Bars');
     return new BarsConfig(this.dimensions, {
       marksClass: 'vic-bars',
@@ -291,6 +292,7 @@ export class VicBarsConfigBuilder<
       datumClass: this._class,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
+      multiples: this.multiplesBuilder?._build(),
       ordinal: this.ordinalDimensionBuilder._build(
         'band',
         this.getOrdinalDimensionName()

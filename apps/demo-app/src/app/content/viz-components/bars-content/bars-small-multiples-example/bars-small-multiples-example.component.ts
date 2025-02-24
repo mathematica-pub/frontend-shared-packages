@@ -30,16 +30,16 @@ import {
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
-import { MetroUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
+import { WeatherDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { format } from 'd3';
 import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 
 interface ViewModel {
   chartConfig: ChartConfig;
-  dataConfig: BarsConfig<MetroUnemploymentDatum, string>;
-  xAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
-  yAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
+  dataConfig: BarsConfig<WeatherDatum, Date>;
+  xAxisConfig: VicOrdinalAxisConfig<Date> | VicQuantitativeAxisConfig<number>;
+  yAxisConfig: VicOrdinalAxisConfig<Date> | VicQuantitativeAxisConfig<number>;
 }
 
 enum Orientation {
@@ -52,7 +52,7 @@ interface LayoutProperties {
   margin: ElementSpacing;
 }
 @Component({
-  selector: 'app-bars-example',
+  selector: 'app-bars-small-multiples-example',
   standalone: true,
   imports: [
     CommonModule,
@@ -68,8 +68,8 @@ interface LayoutProperties {
     MatButtonModule,
     MatButtonToggleModule,
   ],
-  templateUrl: './bars-example.component.html',
-  styleUrls: ['./bars-example.component.scss'],
+  templateUrl: './bars-small-multiples-example.component.html',
+  styleUrls: ['./bars-small-multiples-example.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [
     VicChartConfigBuilder,
@@ -81,20 +81,17 @@ interface LayoutProperties {
     VicHtmlTooltipConfigBuilder,
   ],
 })
-export class BarsExampleComponent implements OnInit {
+export class BarsSmallMultiplesExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
-  folderName = 'bars-example';
+  folderName = 'bars-smll-multiples-example';
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<
-    BarsEventOutput<MetroUnemploymentDatum, string>
-  > = new BehaviorSubject<BarsEventOutput<MetroUnemploymentDatum, string>>(
-    null
-  );
+  tooltipData: BehaviorSubject<BarsEventOutput<WeatherDatum, string>> =
+    new BehaviorSubject<BarsEventOutput<WeatherDatum, string>>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverAndMoveActions: HoverMoveAction<
-    BarsHoverMoveDirective<MetroUnemploymentDatum, string>
+    BarsHoverMoveDirective<WeatherDatum, string>
   >[] = [new BarsHoverMoveEmitTooltipData()];
   layoutProperties: BehaviorSubject<LayoutProperties> =
     new BehaviorSubject<LayoutProperties>({
@@ -103,26 +100,24 @@ export class BarsExampleComponent implements OnInit {
         top: 36,
         right: 0,
         bottom: 32,
-        left: 300,
+        left: 160,
       },
     });
   layoutProperties$ = this.layoutProperties.asObservable();
 
   constructor(
     private dataService: DataService,
-    private bars: VicBarsConfigBuilder<MetroUnemploymentDatum, string>,
+    private bars: VicBarsConfigBuilder<WeatherDatum, Date>,
     private chart: VicChartConfigBuilder,
-    private xOrdinalAxis: VicXOrdinalAxisConfigBuilder<string>,
+    private xOrdinalAxis: VicXOrdinalAxisConfigBuilder<Date>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
-    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>,
+    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<Date>,
     private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
     private tooltip: VicHtmlTooltipConfigBuilder
   ) {}
 
   ngOnInit(): void {
-    const data$ = this.dataService.metroUnemploymentData$.pipe(
-      filter((x) => !!x)
-    );
+    const data$ = this.dataService.weatherData$.pipe(filter((x) => !!x));
 
     this.vm$ = combineLatest([data$, this.layoutProperties$]).pipe(
       map(([data, layoutProperties]) =>
@@ -131,34 +126,35 @@ export class BarsExampleComponent implements OnInit {
     );
   }
 
-  getViewModel(
-    data: MetroUnemploymentDatum[],
-    layout: LayoutProperties
-  ): ViewModel {
+  getViewModel(data: WeatherDatum[], layout: LayoutProperties): ViewModel {
     const filteredData = data.filter(
-      (d) => d.date.getFullYear() === 2008 && d.date.getMonth() === 3
+      (d) => d.date.getFullYear() === 2012 && d.date.getDate() === 1
     );
 
     const chartConfig = this.chart
       .margin(layout.margin)
       .width(layout.orientation === 'horizontal' ? 800 : 960)
-      .height(layout.orientation === 'horizontal' ? 800 : 500)
+      .height(layout.orientation === 'horizontal' ? 500 : 500)
+      // .multiples((multiples) => multiples.valueAccessor((d) => d.location))
       .resize({
         height: false,
       })
       .getConfig();
 
+    console.log('chartConfig', chartConfig);
+
     const xAxisConfig =
       layout.orientation === Orientation.horizontal
         ? this.xQuantitativeAxis.side('top').tickFormat('.0f').getConfig()
         : this.xOrdinalAxis
-            // .removeTickMarks()
+            .removeTickMarks()
             .removeDomainLine('never')
             .rotateTickLabels(30)
+            .tickFormat('%B %Y')
             .getConfig();
     const yAxisConfig =
       layout.orientation === Orientation.horizontal
-        ? this.yOrdinalAxis.removeTickMarks().getConfig()
+        ? this.yOrdinalAxis.removeTickMarks().tickFormat('%B %Y').getConfig()
         : this.yQuantitativeAxis.tickFormat('.0f').getConfig();
 
     const dataConfig = this.bars
@@ -169,28 +165,28 @@ export class BarsExampleComponent implements OnInit {
               bars
                 .x((dimension) =>
                   dimension
-                    .valueAccessor((d) => d.value)
+                    .valueAccessor((d) => d.tempMax)
                     .formatFunction((d) => this.getQuantitativeValueFormat(d))
                     .domainPaddingPixels()
                 )
-                .y((dimension) => dimension.valueAccessor((d) => d.division))
+                .y((dimension) => dimension.valueAccessor((d) => d.date))
           : null
       )
       .vertical(
         layout.orientation === Orientation.vertical
           ? (bars) =>
               bars
-                .x((dimension) => dimension.valueAccessor((d) => d.division))
+                .x((dimension) => dimension.valueAccessor((d) => d.date))
                 .y((dimension) =>
                   dimension
-                    .valueAccessor((d) => d.value)
+                    .valueAccessor((d) => d.wind)
                     .formatFunction((d) => this.getQuantitativeValueFormat(d))
                     .domainPaddingPixels()
                 )
           : null
       )
-      .color((dimension) => dimension.range(['slategray']))
-      .backgrounds((backgrounds) => backgrounds.color('linen'))
+      .color((dimension) => dimension.range(['darkgreen']))
+      .backgrounds((backgrounds) => backgrounds.color('thistle'))
       .labels((labels) => labels.display(true))
       .getConfig();
 
@@ -202,30 +198,24 @@ export class BarsExampleComponent implements OnInit {
     };
   }
 
-  getQuantitativeValueFormat(d: MetroUnemploymentDatum): string {
+  getQuantitativeValueFormat(d: WeatherDatum): string {
     const label =
-      d.value === undefined || d.value === null
+      d.tempMax === undefined || d.tempMax === null
         ? 'N/A'
-        : format('.1f')(d.value);
-    return d.value > 8 ? `${label}*` : label;
+        : format('.1f')(d.tempMax);
+    return label;
   }
 
-  updateTooltipForNewOutput(
-    data: BarsEventOutput<MetroUnemploymentDatum, string>
-  ): void {
+  updateTooltipForNewOutput(data: BarsEventOutput<WeatherDatum, string>): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(
-    data: BarsEventOutput<MetroUnemploymentDatum, string>
-  ): void {
+  updateTooltipData(data: BarsEventOutput<WeatherDatum, string>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(
-    data: BarsEventOutput<MetroUnemploymentDatum, string>
-  ): void {
+  updateTooltipConfig(data: BarsEventOutput<WeatherDatum, string>): void {
     const config = this.tooltip
       .barsPosition(data?.origin, [
         {
@@ -245,7 +235,7 @@ export class BarsExampleComponent implements OnInit {
         top: 36,
         right: 0,
         bottom: value === Orientation.horizontal ? 32 : 200,
-        left: value === Orientation.horizontal ? 300 : 160,
+        left: value === Orientation.horizontal ? 160 : 160,
       },
     });
   }

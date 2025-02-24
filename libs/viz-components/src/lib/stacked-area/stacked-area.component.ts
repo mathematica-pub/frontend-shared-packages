@@ -19,7 +19,7 @@ import { StackedAreaEventOutput } from './events/stacked-area-event-output';
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
 export const STACKED_AREA = new InjectionToken<
-  StackedAreaComponent<unknown, DataValue>
+  StackedAreaComponent<unknown, DataValue, DataValue>
 >('StackedAreaComponent');
 
 export interface StackedAreaTooltipDatum<
@@ -54,15 +54,18 @@ type StackedAreaSvgElements = 'area';
 })
 export class StackedAreaComponent<
   Datum,
-  TCategoricalValue extends DataValue,
+  CategoricalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
 > extends VicXyPrimaryMarks<
   Datum,
-  StackedAreaConfig<Datum, TCategoricalValue>
+  ChartMultipleDomain,
+  StackedAreaConfig<Datum, CategoricalDomain, ChartMultipleDomain>
 > {
   area;
   areas;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override scales: { color: GenericScale<any, any> } & XyChartScales = {
+    multiple: undefined,
     x: undefined,
     y: undefined,
     color: undefined,
@@ -149,8 +152,8 @@ export class StackedAreaComponent<
     categoryYMin: number,
     categoryYMax: number,
     categoryIndex: number
-  ): StackedAreaEventOutput<Datum, TCategoricalValue> {
-    const data: StackedAreaTooltipDatum<Datum, TCategoricalValue>[] =
+  ): StackedAreaEventOutput<Datum, CategoricalDomain> {
+    const data: StackedAreaTooltipDatum<Datum, CategoricalDomain>[] =
       closestXIndicies.map((i) => {
         const datum = this.getDatumFromIndex(i);
         return {
@@ -197,7 +200,7 @@ export class StackedAreaComponent<
   }
 
   private sortTooltipDataByCategoricalSortOrder(
-    data: StackedAreaTooltipDatum<Datum, TCategoricalValue>[]
+    data: StackedAreaTooltipDatum<Datum, CategoricalDomain>[]
   ) {
     if (this.config.categoricalOrder) {
       data.sort((a, b) => {

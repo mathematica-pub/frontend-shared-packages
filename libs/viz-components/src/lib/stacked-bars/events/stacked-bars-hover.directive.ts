@@ -19,18 +19,25 @@ import {
 })
 export class StackedBarsHoverDirective<
   Datum,
-  TOrdinalValue extends DataValue,
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
   TStackedBarsComponent extends StackedBarsComponent<
     Datum,
-    TOrdinalValue
-  > = StackedBarsComponent<Datum, TOrdinalValue>,
+    OrdinalDomain,
+    ChartMultipleDomain
+  > = StackedBarsComponent<Datum, OrdinalDomain, ChartMultipleDomain>,
 > extends HoverDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicStackedBarsHoverActions') actions: EventAction<
-    StackedBarsHoverDirective<Datum, TOrdinalValue, TStackedBarsComponent>
+    StackedBarsHoverDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TStackedBarsComponent
+    >
   >[];
   @Output('vicStackedBarsHoverOutput') eventOutput = new EventEmitter<
-    BarsEventOutput<Datum, TOrdinalValue>
+    BarsEventOutput<Datum, OrdinalDomain>
   >();
   stackedBarDatum: StackDatum;
   origin: SVGRectElement;
@@ -72,7 +79,7 @@ export class StackedBarsHoverDirective<
     }
   }
 
-  getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
+  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain> {
     const datum = this.bars.getSourceDatumFromStackedBarDatum(
       this.stackedBarDatum
     );

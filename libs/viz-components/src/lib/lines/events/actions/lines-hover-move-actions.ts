@@ -1,3 +1,4 @@
+import { DataValue } from '../../../core/types/values';
 import { HoverMoveAction } from '../../../events/action';
 import { LinesMarkerDatum } from '../../config/lines-config';
 import {
@@ -14,10 +15,23 @@ import { LinesHoverMoveDirective } from '../lines-hover-move.directive';
  */
 export class LinesHoverMoveDefaultLinesStyles<
   Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> implements HoverMoveAction<LinesHoverMoveDirective<Datum, TLinesComponent>>
+  ChartMultipleDomain extends DataValue = string,
+  TLinesComponent extends LinesComponent<
+    Datum,
+    ChartMultipleDomain
+  > = LinesComponent<Datum, ChartMultipleDomain>,
+> implements
+    HoverMoveAction<
+      LinesHoverMoveDirective<Datum, ChartMultipleDomain, TLinesComponent>
+    >
 {
-  onStart(directive: LinesHoverMoveDirective<Datum, TLinesComponent>): void {
+  onStart(
+    directive: LinesHoverMoveDirective<
+      Datum,
+      ChartMultipleDomain,
+      TLinesComponent
+    >
+  ): void {
     directive.lines.lineGroups
       .filter(
         ([category]) =>
@@ -40,7 +54,13 @@ export class LinesHoverMoveDefaultLinesStyles<
       .style('stroke', '#ddd');
   }
 
-  onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>): void {
+  onEnd(
+    directive: LinesHoverMoveDirective<
+      Datum,
+      ChartMultipleDomain,
+      TLinesComponent
+    >
+  ): void {
     directive.lines.lineGroups
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
       .style('stroke', null);
@@ -56,10 +76,23 @@ export class LinesHoverMoveDefaultLinesStyles<
  */
 export class LinesHoverMoveDefaultMarkersStyles<
   Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> implements HoverMoveAction<LinesHoverMoveDirective<Datum, TLinesComponent>>
+  ChartMultipleDomain extends DataValue,
+  TLinesComponent extends LinesComponent<
+    Datum,
+    ChartMultipleDomain
+  > = LinesComponent<Datum, ChartMultipleDomain>,
+> implements
+    HoverMoveAction<
+      LinesHoverMoveDirective<Datum, ChartMultipleDomain, TLinesComponent>
+    >
 {
-  onStart(directive: LinesHoverMoveDirective<Datum, TLinesComponent>): void {
+  onStart(
+    directive: LinesHoverMoveDirective<
+      Datum,
+      ChartMultipleDomain,
+      TLinesComponent
+    >
+  ): void {
     directive.lines.lineGroups
       .filter(
         ([category]) =>
@@ -93,7 +126,13 @@ export class LinesHoverMoveDefaultMarkersStyles<
       .style('display', 'none');
   }
 
-  onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>): void {
+  onEnd(
+    directive: LinesHoverMoveDirective<
+      Datum,
+      ChartMultipleDomain,
+      TLinesComponent
+    >
+  ): void {
     directive.lines.lineGroups
       .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
       .style('display', (d) => d.display)
@@ -110,12 +149,21 @@ export class LinesHoverMoveDefaultMarkersStyles<
  */
 export class LinesHoverMoveDefaultStyles<
   Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> implements HoverMoveAction<LinesHoverMoveDirective<Datum, TLinesComponent>>
+  ChartMultipleDomain extends DataValue,
+  TLinesComponent extends LinesComponent<
+    Datum,
+    ChartMultipleDomain
+  > = LinesComponent<Datum, ChartMultipleDomain>,
+> implements
+    HoverMoveAction<
+      LinesHoverMoveDirective<Datum, ChartMultipleDomain, TLinesComponent>
+    >
 {
-  linesStyles: HoverMoveAction<LinesHoverMoveDirective<Datum, TLinesComponent>>;
+  linesStyles: HoverMoveAction<
+    LinesHoverMoveDirective<Datum, ChartMultipleDomain, TLinesComponent>
+  >;
   markersStyles: HoverMoveAction<
-    LinesHoverMoveDirective<Datum, TLinesComponent>
+    LinesHoverMoveDirective<Datum, ChartMultipleDomain, TLinesComponent>
   >;
 
   constructor() {
@@ -123,14 +171,26 @@ export class LinesHoverMoveDefaultStyles<
     this.markersStyles = new LinesHoverMoveDefaultMarkersStyles();
   }
 
-  onStart(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
+  onStart(
+    directive: LinesHoverMoveDirective<
+      Datum,
+      ChartMultipleDomain,
+      TLinesComponent
+    >
+  ) {
     this.linesStyles.onStart(directive);
     if (directive.lines.config.pointMarkers) {
       this.markersStyles.onStart(directive);
     }
   }
 
-  onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
+  onEnd(
+    directive: LinesHoverMoveDirective<
+      Datum,
+      ChartMultipleDomain,
+      TLinesComponent
+    >
+  ) {
     this.linesStyles.onEnd(directive);
     if (directive.lines.config.pointMarkers) {
       this.markersStyles.onEnd(directive);
@@ -140,15 +200,34 @@ export class LinesHoverMoveDefaultStyles<
 
 export class LinesHoverMoveEmitTooltipData<
   Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> implements HoverMoveAction<LinesHoverMoveDirective<Datum, TLinesComponent>>
+  ChartMultipleDomain extends DataValue,
+  TLinesComponent extends LinesComponent<
+    Datum,
+    ChartMultipleDomain
+  > = LinesComponent<Datum, ChartMultipleDomain>,
+> implements
+    HoverMoveAction<
+      LinesHoverMoveDirective<Datum, ChartMultipleDomain, TLinesComponent>
+    >
 {
-  onStart(directive: LinesHoverMoveDirective<Datum, TLinesComponent>): void {
+  onStart(
+    directive: LinesHoverMoveDirective<
+      Datum,
+      ChartMultipleDomain,
+      TLinesComponent
+    >
+  ): void {
     const tooltipData = directive.getEventOutput();
     directive.eventOutput.emit(tooltipData);
   }
 
-  onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>): void {
+  onEnd(
+    directive: LinesHoverMoveDirective<
+      Datum,
+      ChartMultipleDomain,
+      TLinesComponent
+    >
+  ): void {
     directive.eventOutput.emit(null);
   }
 }

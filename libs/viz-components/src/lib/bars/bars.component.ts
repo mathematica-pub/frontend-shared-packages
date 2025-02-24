@@ -27,9 +27,9 @@ import { BarsConfig } from './config/bars-config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use "unknown"
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
-export const BARS = new InjectionToken<BarsComponent<unknown, DataValue>>(
-  'BarsComponent'
-);
+export const BARS = new InjectionToken<
+  BarsComponent<unknown, DataValue, DataValue>
+>('BarsComponent');
 
 export type BarGroupSelection = Selection<
   SVGGElement,
@@ -88,8 +88,13 @@ type BarsSvgElement = 'g' | 'bar' | 'label' | 'background';
 })
 export class BarsComponent<
   Datum,
-  TOrdinalValue extends DataValue,
-> extends VicXyPrimaryMarks<Datum, BarsConfig<Datum, TOrdinalValue>> {
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+> extends VicXyPrimaryMarks<
+  Datum,
+  ChartMultipleDomain,
+  BarsConfig<Datum, OrdinalDomain, ChartMultipleDomain>
+> {
   barGroups: BarGroupSelection;
   bars: BehaviorSubject<BarSelection> = new BehaviorSubject(null);
   bars$ = this.bars.asObservable();
@@ -97,6 +102,7 @@ export class BarsComponent<
   labels$ = this.bars.asObservable();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override scales: { color: GenericScale<any, any> } & XyChartScales = {
+    multiple: undefined,
     x: undefined,
     y: undefined,
     color: undefined,
@@ -173,8 +179,8 @@ export class BarsComponent<
       );
 
     this.barGroups
-      .selectAll<SVGRectElement, BarDatum<TOrdinalValue>>(`.${this.class.bar}`)
-      .data<BarDatum<TOrdinalValue>>((i) => [this.getBarDatumFromIndex(i)])
+      .selectAll<SVGRectElement, BarDatum<OrdinalDomain>>(`.${this.class.bar}`)
+      .data<BarDatum<OrdinalDomain>>((i) => [this.getBarDatumFromIndex(i)])
       .join(
         (enter) =>
           enter
@@ -203,7 +209,7 @@ export class BarsComponent<
 
     this.barGroups
       .selectAll<SVGRectElement, number>(`.${this.class.background}`)
-      .data<BarDatum<TOrdinalValue>>((i) => [this.getBarDatumFromIndex(i)])
+      .data<BarDatum<OrdinalDomain>>((i) => [this.getBarDatumFromIndex(i)])
       .join(
         (enter) =>
           enter
@@ -232,7 +238,7 @@ export class BarsComponent<
       : '';
   }
 
-  getBarDatumFromIndex(i: number): BarDatum<TOrdinalValue> {
+  getBarDatumFromIndex(i: number): BarDatum<OrdinalDomain> {
     return {
       index: i,
       quantitative: this.config.quantitative.values[i],
@@ -241,13 +247,13 @@ export class BarsComponent<
     };
   }
 
-  getBarGroupTransform(datum: BarDatum<TOrdinalValue>): string {
+  getBarGroupTransform(datum: BarDatum<OrdinalDomain>): string {
     const x = this.getBarX(datum);
     const y = this.getBarY(datum);
     return `translate(${x},${y})`;
   }
 
-  getBarFill(datum: BarDatum<TOrdinalValue>): string {
+  getBarFill(datum: BarDatum<OrdinalDomain>): string {
     return this.config.customFills
       ? this.getBarPattern(datum)
       : this.getBarColor(datum);
@@ -260,10 +266,10 @@ export class BarsComponent<
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups
-      .selectAll<SVGTextElement, BarDatum<TOrdinalValue>>(
+      .selectAll<SVGTextElement, BarDatum<OrdinalDomain>>(
         `.${this.class.label}`
       )
-      .data<BarDatum<TOrdinalValue>>((i: number) => [
+      .data<BarDatum<OrdinalDomain>>((i: number) => [
         {
           index: i,
           quantitative: this.config.quantitative.values[i],
@@ -282,7 +288,7 @@ export class BarsComponent<
             .call((selection) => {
               selection.each((d, i, nodes) => {
                 const bbox = nodes[i].getBBox();
-                select<SVGTextElement, BarDatum<TOrdinalValue>>(nodes[i])
+                select<SVGTextElement, BarDatum<OrdinalDomain>>(nodes[i])
                   .style('fill', (d) => this.getLabelColor(d, bbox))
                   .attr('text-anchor', (d) => this.getLabelTextAnchor(d, bbox))
                   .attr('dominant-baseline', (d) =>
@@ -302,7 +308,7 @@ export class BarsComponent<
             .call((selection) => {
               selection.each((d, i, nodes) => {
                 const bbox = nodes[i].getBBox();
-                select<SVGTextElement, BarDatum<TOrdinalValue>>(nodes[i])
+                select<SVGTextElement, BarDatum<OrdinalDomain>>(nodes[i])
                   .style('fill', (d) => this.getLabelColor(d, bbox))
                   .attr('text-anchor', (d) => this.getLabelTextAnchor(d, bbox))
                   .attr('dominant-baseline', (d) =>
@@ -317,18 +323,18 @@ export class BarsComponent<
       );
   }
 
-  getBarX(d: BarDatum<TOrdinalValue>): number {
+  getBarX(d: BarDatum<OrdinalDomain>): number {
     if (this.config.dimensions.x === 'ordinal') {
       return this.getBarXOrdinal(d);
     }
     return this.getBarXQuantitative(d);
   }
 
-  getBarXOrdinal(d: BarDatum<TOrdinalValue>): number {
+  getBarXOrdinal(d: BarDatum<OrdinalDomain>): number {
     return this.scales.x(d.ordinal);
   }
 
-  getBarXQuantitative(d: BarDatum<TOrdinalValue>): number {
+  getBarXQuantitative(d: BarDatum<OrdinalDomain>): number {
     if (this.isZeroOrNonNumeric(d.quantitative)) {
       const origin = this.getBarQuantitativeOrigin();
       return this.scales.x(origin);
@@ -341,18 +347,18 @@ export class BarsComponent<
     return this.scales.x(this.getQuantitativeDomainFromScale()[0]);
   }
 
-  getBarY(d: BarDatum<TOrdinalValue>): number {
+  getBarY(d: BarDatum<OrdinalDomain>): number {
     if (this.config.dimensions.y === 'ordinal') {
       return this.getBarYOrdinal(d);
     }
     return this.getBarYQuantitative(d);
   }
 
-  getBarYOrdinal(d: BarDatum<TOrdinalValue>): number {
+  getBarYOrdinal(d: BarDatum<OrdinalDomain>): number {
     return this.scales.y(d.ordinal);
   }
 
-  getBarYQuantitative(d: BarDatum<TOrdinalValue>): number {
+  getBarYQuantitative(d: BarDatum<OrdinalDomain>): number {
     if (this.isZeroOrNonNumeric(d.quantitative)) {
       const origin = this.getBarQuantitativeOrigin();
       return this.scales.y(origin);
@@ -369,7 +375,7 @@ export class BarsComponent<
     return this.scales[this.config.dimensions.quantitative].domain();
   }
 
-  getBarWidth(d: BarDatum<TOrdinalValue>): number {
+  getBarWidth(d: BarDatum<OrdinalDomain>): number {
     if (this.config.dimensions.quantitativeDimension === 'width') {
       return this.getBarDimensionQuantitative(d, 'x');
     }
@@ -381,7 +387,7 @@ export class BarsComponent<
     return (this.scales.x as any).bandwidth();
   }
 
-  getBarHeight(d: BarDatum<TOrdinalValue>): number {
+  getBarHeight(d: BarDatum<OrdinalDomain>): number {
     if (this.config.dimensions.quantitativeDimension === 'height') {
       return this.getBarDimensionQuantitative(d, 'y');
     }
@@ -393,7 +399,7 @@ export class BarsComponent<
     return (this.scales.y as any).bandwidth();
   }
 
-  getBackgroundTransform(d: BarDatum<TOrdinalValue>): string | null {
+  getBackgroundTransform(d: BarDatum<OrdinalDomain>): string | null {
     if (this.config.dimensions.quantitativeDimension === 'width') {
       const range = this.scales.x.range();
       const offsetFromLeft =
@@ -424,7 +430,7 @@ export class BarsComponent<
   }
 
   getBarDimensionQuantitative(
-    d: BarDatum<TOrdinalValue>,
+    d: BarDatum<OrdinalDomain>,
     dimension: 'x' | 'y'
   ): number {
     if (this.isZeroOrNonNumeric(d.quantitative)) {
@@ -444,7 +450,7 @@ export class BarsComponent<
     return this.config.hasNegativeValues ? domain[1] : domain[0];
   }
 
-  getBarPattern(d: BarDatum<TOrdinalValue>): string {
+  getBarPattern(d: BarDatum<OrdinalDomain>): string {
     const color = this.getBarColor(d);
     return FillUtilities.getFill(
       this.config.data[d.index],
@@ -453,11 +459,11 @@ export class BarsComponent<
     );
   }
 
-  getBarColor(d: BarDatum<TOrdinalValue>): string {
+  getBarColor(d: BarDatum<OrdinalDomain>): string {
     return this.scales.color(d.color);
   }
 
-  getLabelText(d: BarDatum<TOrdinalValue>): string {
+  getLabelText(d: BarDatum<OrdinalDomain>): string {
     const datum = this.config.data[d.index];
     if (!isNumber(d.quantitative)) {
       return this.config.labels.noValueFunction(datum);
@@ -474,7 +480,7 @@ export class BarsComponent<
   }
 
   getLabelTextAnchor(
-    d: BarDatum<TOrdinalValue>,
+    d: BarDatum<OrdinalDomain>,
     labelBbox: DOMRect
   ): 'start' | 'middle' | 'end' {
     if (this.config.dimensions.isVertical) {
@@ -484,7 +490,7 @@ export class BarsComponent<
   }
 
   getLabelDominantBaseline(
-    d: BarDatum<TOrdinalValue>,
+    d: BarDatum<OrdinalDomain>,
     labelBbox: DOMRect
   ): 'text-after-edge' | 'text-before-edge' | 'central' {
     if (this.config.dimensions.isHorizontal) {
@@ -496,7 +502,7 @@ export class BarsComponent<
   }
 
   alignTextInPositiveDirection(
-    d: BarDatum<TOrdinalValue>,
+    d: BarDatum<OrdinalDomain>,
     labelBbox: DOMRect
   ): boolean {
     if (this.isZeroOrNonNumeric(d.quantitative)) {
@@ -507,7 +513,7 @@ export class BarsComponent<
     return placeLabelOutsideBar ? isPositiveValue : !isPositiveValue;
   }
 
-  getLabelColor(d: BarDatum<TOrdinalValue>, labelBbox: DOMRect): string {
+  getLabelColor(d: BarDatum<OrdinalDomain>, labelBbox: DOMRect): string {
     if (
       this.isZeroOrNonNumeric(d.quantitative) ||
       this.labelFitsOutsideBar(d, labelBbox)
@@ -522,7 +528,7 @@ export class BarsComponent<
     );
   }
 
-  labelFitsOutsideBar(d: BarDatum<TOrdinalValue>, labelBbox: DOMRect): boolean {
+  labelFitsOutsideBar(d: BarDatum<OrdinalDomain>, labelBbox: DOMRect): boolean {
     const isPositiveValue = d.quantitative > 0;
     // This approach assumes that the bar labels do not wrap.
     const distanceToChartEdge = this.getBarToChartEdgeDistance(
@@ -551,24 +557,24 @@ export class BarsComponent<
     return isPositiveValue ? max - endOfBarPosition : endOfBarPosition - min;
   }
 
-  getLabelDomRect(d: BarDatum<TOrdinalValue>): DOMRect {
+  getLabelDomRect(d: BarDatum<OrdinalDomain>): DOMRect {
     const selection = this.barGroups
       .selectAll<
         SVGTextElement,
-        BarDatum<TOrdinalValue>
+        BarDatum<OrdinalDomain>
       >(`.${this.class.label}`)
       .filter((datum) => datum.index === d.index);
     return selection.node().getBoundingClientRect();
   }
 
-  getLabelX(d: BarDatum<TOrdinalValue>, bbox: DOMRect): number {
+  getLabelX(d: BarDatum<OrdinalDomain>, bbox: DOMRect): number {
     if (this.config.dimensions.x === 'ordinal') {
       return this.getBarWidthOrdinal() / 2;
     }
     return this.getLabelQuantitativeAxisPosition(d, bbox);
   }
 
-  getLabelY(d: BarDatum<TOrdinalValue>, bbox: DOMRect): number {
+  getLabelY(d: BarDatum<OrdinalDomain>, bbox: DOMRect): number {
     if (this.config.dimensions.y === 'ordinal') {
       return this.getBarHeightOrdinal() / 2;
     }
@@ -576,7 +582,7 @@ export class BarsComponent<
   }
 
   getLabelQuantitativeAxisPosition(
-    d: BarDatum<TOrdinalValue>,
+    d: BarDatum<OrdinalDomain>,
     bbox: DOMRect
   ): number {
     if (this.isZeroOrNonNumeric(d.quantitative)) {
@@ -596,7 +602,7 @@ export class BarsComponent<
   }
 
   getLabelPositionForNumericValue(
-    d: BarDatum<TOrdinalValue>,
+    d: BarDatum<OrdinalDomain>,
     bbox: DOMRect
   ): number {
     const isPositiveValue = d.quantitative > 0;
@@ -615,7 +621,7 @@ export class BarsComponent<
       : origin - this.config.labels.offset;
   }
 
-  getLabelOrigin(d: BarDatum<TOrdinalValue>, isPositiveValue: boolean): number {
+  getLabelOrigin(d: BarDatum<OrdinalDomain>, isPositiveValue: boolean): number {
     if (this.config.dimensions.isHorizontal) {
       return isPositiveValue ? this.getBarDimensionQuantitative(d, 'x') : 0;
     }
@@ -656,7 +662,7 @@ export class BarsComponent<
     this.labels.next(labels);
   }
 
-  getTooltipData(datum: Datum): BarsTooltipDatum<Datum, TOrdinalValue> {
+  getTooltipData(datum: Datum): BarsTooltipDatum<Datum, OrdinalDomain> {
     const ordinalValue = this.config.ordinal.formatFunction
       ? ValueUtilities.customFormat(datum, this.config.ordinal.formatFunction)
       : this.config.ordinal.valueAccessor(datum);
@@ -670,7 +676,7 @@ export class BarsComponent<
           this.config.quantitative.formatSpecifier
         );
     const category = this.config.color.valueAccessor(datum);
-    const tooltipData: BarsTooltipDatum<Datum, TOrdinalValue> = {
+    const tooltipData: BarsTooltipDatum<Datum, OrdinalDomain> = {
       datum,
       color: this.scales.color(category),
       values: {
@@ -688,7 +694,7 @@ export class BarsComponent<
     return tooltipData;
   }
 
-  getSourceDatumFromBarDatum(barDatum: BarDatum<TOrdinalValue>): Datum {
+  getSourceDatumFromBarDatum(barDatum: BarDatum<OrdinalDomain>): Datum {
     return this.config.data.find(
       (d) =>
         this.config.ordinal.values[barDatum.index] ===

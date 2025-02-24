@@ -27,7 +27,7 @@ export type StackedBarGroupSelection = Selection<
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use "unknown"
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
 export const STACKED_BARS = new InjectionToken<
-  StackedBarsComponent<unknown, DataValue>
+  StackedBarsComponent<unknown, DataValue, DataValue>
 >('StackedBarsComponent');
 
 @Component({
@@ -49,9 +49,14 @@ export const STACKED_BARS = new InjectionToken<
 })
 export class StackedBarsComponent<
   Datum,
-  TOrdinalValue extends DataValue,
-> extends BarsComponent<Datum, TOrdinalValue> {
-  @Input() override config: StackedBarsConfig<Datum, TOrdinalValue>;
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+> extends BarsComponent<Datum, OrdinalDomain, ChartMultipleDomain> {
+  @Input() override config: StackedBarsConfig<
+    Datum,
+    OrdinalDomain,
+    ChartMultipleDomain
+  >;
   stackedBarGroups: StackedBarGroupSelection;
 
   override drawBars(transitionDuration: number): void {

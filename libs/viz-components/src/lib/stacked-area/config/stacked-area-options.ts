@@ -5,9 +5,11 @@ import { NumberChartPositionDimension } from '../../data-dimensions/continuous-q
 import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
 import { DataMarksOptions } from '../../marks/config/marks-options';
 
-export interface StackedAreaOptions<Datum, CategoricalDomain extends DataValue>
-  extends DataMarksOptions<Datum>,
-    DataMarksOptions<Datum> {
+export interface StackedAreaOptions<
+  Datum,
+  CategoricalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue,
+> extends DataMarksOptions<Datum, ChartMultipleDomain> {
   color: OrdinalVisualValueDimension<Datum, CategoricalDomain, string>;
   categoricalOrder: CategoricalDomain[];
   curve: CurveFactory;

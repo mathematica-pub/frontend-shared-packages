@@ -12,6 +12,7 @@ import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
 import { MapChartComponent } from '../charts/map-chart/map-chart.component';
+import { DataValue } from '../core';
 import { MapPrimaryMarks } from '../marks/map-marks/map-primary-marks/map-primary-marks';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { GeographiesConfig } from './config/geographies-config';
@@ -55,8 +56,10 @@ export class GeographiesComponent<
   Datum,
   TProperties extends GeoJsonProperties = GeoJsonProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
+  ChartMultipleDomain extends DataValue = string,
 > extends MapPrimaryMarks<
   Datum,
+  ChartMultipleDomain,
   GeographiesConfig<Datum, TProperties, TGeometry>
 > {
   projection: GeoProjection;

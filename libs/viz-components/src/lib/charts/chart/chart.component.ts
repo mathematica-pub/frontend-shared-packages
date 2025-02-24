@@ -25,6 +25,7 @@ import {
   shareReplay,
   startWith,
 } from 'rxjs';
+import { GenericScale } from '../../core';
 import { Dimensions, ElementSpacing } from '../../core/types/layout';
 import { Chart } from './chart';
 import { CHART } from './chart.token';
@@ -40,6 +41,11 @@ export interface ChartResizing {
   width: boolean;
   height: boolean;
   useViewbox: boolean;
+}
+
+export interface BaseScales {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  multiple: GenericScale<any, any>;
 }
 
 /**
@@ -68,11 +74,14 @@ export interface ChartResizing {
     class: 'vic-chart',
   },
 })
-export class ChartComponent implements Chart, OnInit, OnChanges {
+export class ChartComponent<Scales extends BaseScales = BaseScales>
+  implements Chart, OnInit, OnChanges
+{
   @Input() config: ChartConfig = new VicChartConfigBuilder().getConfig();
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;
   @ViewChild('svg', { static: true }) svgRef: ElementRef<SVGSVGElement>;
-  protected multiples: ['one', 'two'];
+  protected scales: BehaviorSubject<Scales> = new BehaviorSubject<Scales>(null);
+  scales$ = this.scales.asObservable().pipe(filter((scales) => !!scales));
   private _height: BehaviorSubject<number> = new BehaviorSubject(null);
   height$ = this._height.asObservable();
   private _margin: BehaviorSubject<ElementSpacing> = new BehaviorSubject(null);

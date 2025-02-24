@@ -19,16 +19,23 @@ import { STACKED_BARS, StackedBarsComponent } from '../stacked-bars.component';
 })
 export class StackedBarsInputEventDirective<
   Datum,
-  TOrdinalValue extends DataValue,
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
   TStackedBarsComponent extends StackedBarsComponent<
     Datum,
-    TOrdinalValue
-  > = StackedBarsComponent<Datum, TOrdinalValue>,
+    OrdinalDomain,
+    ChartMultipleDomain
+  > = StackedBarsComponent<Datum, OrdinalDomain, ChartMultipleDomain>,
 > extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicStackedBarsInputEventActions')
   actions: InputEventAction<
-    StackedBarsInputEventDirective<Datum, TOrdinalValue, TStackedBarsComponent>
+    StackedBarsInputEventDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TStackedBarsComponent
+    >
   >[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input('vicStackedBarsInputEvent$') override inputEvent$: Observable<any>;
@@ -39,7 +46,7 @@ export class StackedBarsInputEventDirective<
   constructor(
     destroyRef: DestroyRef,
     @Inject(STACKED_BARS)
-    public bars: StackedBarsComponent<Datum, TOrdinalValue>
+    public bars: StackedBarsComponent<Datum, OrdinalDomain, ChartMultipleDomain>
   ) {
     super(destroyRef);
   }

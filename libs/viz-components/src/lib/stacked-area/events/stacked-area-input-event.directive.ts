@@ -19,14 +19,20 @@ import { STACKED_AREA, StackedAreaComponent } from '../stacked-area.component';
 })
 export class StackedAreaInputEventDirective<
   Datum,
-  TCategoricalValue extends DataValue,
-  TStackedAreaComponent extends StackedAreaComponent<Datum, TCategoricalValue>,
+  CategoricalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+  TStackedAreaComponent extends StackedAreaComponent<
+    Datum,
+    CategoricalDomain,
+    ChartMultipleDomain
+  > = StackedAreaComponent<Datum, CategoricalDomain, ChartMultipleDomain>,
 > extends InputEventDirective {
   @Input('vicStackedAreaInputActions')
   actions: InputEventAction<
     StackedAreaInputEventDirective<
       Datum,
-      TCategoricalValue,
+      CategoricalDomain,
+      ChartMultipleDomain,
       TStackedAreaComponent
     >
   >[];

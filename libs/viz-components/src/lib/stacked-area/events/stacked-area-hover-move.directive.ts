@@ -14,22 +14,25 @@ import { StackedAreaEventOutput } from './stacked-area-event-output';
 })
 export class StackedAreaHoverMoveDirective<
   Datum,
-  TCategoricalValue extends DataValue,
+  CategoricalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
   TStackedAreaComponent extends StackedAreaComponent<
     Datum,
-    TCategoricalValue
-  > = StackedAreaComponent<Datum, TCategoricalValue>,
+    CategoricalDomain,
+    ChartMultipleDomain
+  > = StackedAreaComponent<Datum, CategoricalDomain, ChartMultipleDomain>,
 > extends HoverMoveDirective {
   @Input('vicStackedAreaHoverMoveActions')
   actions: HoverMoveAction<
     StackedAreaHoverMoveDirective<
       Datum,
-      TCategoricalValue,
+      CategoricalDomain,
+      ChartMultipleDomain,
       TStackedAreaComponent
     >
   >[];
   @Output('vicStackedAreaHoverMoveOutput') eventOutput = new EventEmitter<
-    StackedAreaEventOutput<Datum, TCategoricalValue>
+    StackedAreaEventOutput<Datum, CategoricalDomain>
   >();
   pointerX: number;
   pointerY: number;
@@ -134,7 +137,7 @@ export class StackedAreaHoverMoveDirective<
     this.categoryIndex = closestDatum ? closestDatumIndex : undefined;
   }
 
-  getTooltipData(): StackedAreaEventOutput<Datum, TCategoricalValue> {
+  getTooltipData(): StackedAreaEventOutput<Datum, CategoricalDomain> {
     const tooltipData = this.stackedArea.getTooltipData(
       this.closestXIndicies,
       this.categoryYMin,

@@ -1,4 +1,5 @@
 import {
+  DataValue,
   InputEventAction,
   LinesComponent,
   LinesGroupSelectionDatum,
@@ -8,12 +9,18 @@ import {
 
 export class HighlightLineForLabel<
   Datum,
-  ExtendedLineComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
+  ChartMultipleDomain extends DataValue = string,
+  TLineComponent extends LinesComponent<
+    Datum,
+    ChartMultipleDomain
+  > = LinesComponent<Datum, ChartMultipleDomain>,
 > implements
-    InputEventAction<LinesInputEventDirective<Datum, ExtendedLineComponent>>
+    InputEventAction<
+      LinesInputEventDirective<Datum, ChartMultipleDomain, TLineComponent>
+    >
 {
   onStart(
-    event: LinesInputEventDirective<Datum, ExtendedLineComponent>,
+    event: LinesInputEventDirective<Datum, ChartMultipleDomain, TLineComponent>,
     label: string
   ): void {
     event.lines.lineGroups
@@ -41,7 +48,9 @@ export class HighlightLineForLabel<
       .raise();
   }
 
-  onEnd(event: LinesInputEventDirective<Datum, ExtendedLineComponent>): void {
+  onEnd(
+    event: LinesInputEventDirective<Datum, ChartMultipleDomain, TLineComponent>
+  ): void {
     event.lines.lineGroups
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
       .style('stroke', null);

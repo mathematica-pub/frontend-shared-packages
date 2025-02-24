@@ -8,15 +8,19 @@ const DEFAULT = {
   intraGroupPadding: 0.05,
 };
 
-export class GroupedBarsConfig<Datum, TOrdinalValue extends DataValue>
-  extends BarsConfig<Datum, TOrdinalValue>
-  implements GroupedBarsOptions<Datum, TOrdinalValue>
+export class GroupedBarsConfig<
+    Datum,
+    OrdinalDomain extends DataValue,
+    ChartMultipleDomain extends DataValue = string,
+  >
+  extends BarsConfig<Datum, OrdinalDomain, ChartMultipleDomain>
+  implements GroupedBarsOptions<Datum, OrdinalDomain, ChartMultipleDomain>
 {
   intraGroupPadding: number;
 
   constructor(
     dimensions: BarsDimensions,
-    options: GroupedBarsOptions<Datum, TOrdinalValue>
+    options: GroupedBarsOptions<Datum, OrdinalDomain, ChartMultipleDomain>
   ) {
     super(dimensions, options);
     Object.assign(this, DEFAULT, options);

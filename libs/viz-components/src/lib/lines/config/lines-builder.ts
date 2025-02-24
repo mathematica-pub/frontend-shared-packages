@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CurveFactory, curveLinear } from 'd3';
+import { DataValue } from '../../core';
 import { DateChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position-builder';
 import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
@@ -22,7 +23,10 @@ const DEFAULT = {
  * The generic parameter, Datum, is the type of the data that will be used to create the lines.
  */
 @Injectable()
-export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
+export class VicLinesConfigBuilder<
+  Datum,
+  ChartMultipleDomain extends DataValue = string,
+> extends PrimaryMarksBuilder<Datum, ChartMultipleDomain> {
   private _curve: CurveFactory;
   private _labelLines: boolean;
   private _lineLabelsFormat: (d: string) => string;
@@ -203,7 +207,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * REQUIRED. Builds the configuration object for the LinesComponent.
    */
-  getConfig(): LinesConfig<Datum> {
+  getConfig(): LinesConfig<Datum, ChartMultipleDomain> {
     this.validateBuilder();
     return new LinesConfig({
       marksClass: 'vic-lines',
@@ -213,6 +217,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
       labelLines: this._labelLines,
       lineLabelsFormat: this._lineLabelsFormat,
       mixBlendMode: this._mixBlendMode,
+      multiples: this.multiplesBuilder?._build(),
       pointerDetectionRadius: this._pointerDetectionRadius,
       pointMarkers: this.pointMarkersBuilder?._build(),
       stroke: this.strokeBuilder._build(),

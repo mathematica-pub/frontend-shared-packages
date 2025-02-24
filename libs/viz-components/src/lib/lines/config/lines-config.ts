@@ -1,4 +1,5 @@
 import { CurveFactory, group, range } from 'd3';
+import { DataValue } from '../../core';
 import { DateChartPositionDimension } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position';
 import { NumberChartPositionDimension } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
@@ -15,9 +16,9 @@ export interface LinesMarkerDatum {
   display: string;
 }
 
-export class LinesConfig<Datum>
-  extends XyPrimaryMarksConfig<Datum>
-  implements LinesOptions<Datum>
+export class LinesConfig<Datum, ChartMultipleDomain extends DataValue = string>
+  extends XyPrimaryMarksConfig<Datum, ChartMultipleDomain>
+  implements LinesOptions<Datum, ChartMultipleDomain>
 {
   readonly curve: CurveFactory;
   readonly labelLines: boolean;
@@ -33,7 +34,7 @@ export class LinesConfig<Datum>
     | NumberChartPositionDimension<Datum>;
   readonly y: NumberChartPositionDimension<Datum>;
 
-  constructor(options: LinesOptions<Datum>) {
+  constructor(options: LinesOptions<Datum, ChartMultipleDomain>) {
     super();
     Object.assign(this, options);
     this.initPropertiesFromData();

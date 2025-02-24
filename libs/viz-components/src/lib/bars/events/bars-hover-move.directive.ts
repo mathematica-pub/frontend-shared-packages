@@ -15,20 +15,27 @@ import { BarsEventOutput } from './bars-event-output';
 })
 export class BarsHoverMoveDirective<
   Datum,
-  TOrdinalValue extends DataValue,
-  TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+  TBarsComponent extends BarsComponent<
     Datum,
-    TOrdinalValue
-  >,
+    OrdinalDomain,
+    ChartMultipleDomain
+  > = BarsComponent<Datum, OrdinalDomain, ChartMultipleDomain>,
 > extends HoverMoveDirective {
   @Input('vicBarsHoverMoveActions')
   actions: HoverMoveAction<
-    BarsHoverMoveDirective<Datum, TOrdinalValue, TBarsComponent>
+    BarsHoverMoveDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TBarsComponent
+    >
   >[];
   @Output('vicBarsHoverMoveOutput') eventOutput = new EventEmitter<
-    BarsEventOutput<Datum, TOrdinalValue>
+    BarsEventOutput<Datum, OrdinalDomain>
   >();
-  barDatum: BarDatum<TOrdinalValue>;
+  barDatum: BarDatum<OrdinalDomain>;
   origin: SVGRectElement;
   pointerX: number;
   pointerY: number;
@@ -63,10 +70,10 @@ export class BarsHoverMoveDirective<
     }
   }
 
-  getBarDatum(event: PointerEvent): BarDatum<TOrdinalValue> {
+  getBarDatum(event: PointerEvent): BarDatum<OrdinalDomain> {
     return select(
       event.target as SVGRectElement
-    ).datum() as BarDatum<TOrdinalValue>;
+    ).datum() as BarDatum<OrdinalDomain>;
   }
 
   onElementPointerMove(event: PointerEvent) {
@@ -84,7 +91,7 @@ export class BarsHoverMoveDirective<
     this.origin = undefined;
   }
 
-  getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
+  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain> {
     const datum = this.bars.getSourceDatumFromBarDatum(this.barDatum);
     const tooltipData = this.bars.getTooltipData(datum);
     const extras = {

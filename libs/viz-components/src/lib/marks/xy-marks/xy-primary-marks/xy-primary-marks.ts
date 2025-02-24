@@ -6,6 +6,7 @@ import {
   XyChartScales,
   XyContentScale,
 } from '../../../charts/xy-chart/xy-chart.component';
+import { DataValue } from '../../../core/types/values';
 import { DataMarksOptions } from '../../config/marks-options';
 import { PrimaryMarks } from '../../primary-marks/primary-marks';
 import { XyMarks } from '../xy-marks';
@@ -16,9 +17,10 @@ import { XyMarks } from '../xy-marks';
 @Directive()
 export abstract class VicXyPrimaryMarks<
     Datum,
-    TPrimaryMarksConfig extends DataMarksOptions<Datum>,
+    ChartMultipleDomain extends DataValue,
+    TPrimaryMarksConfig extends DataMarksOptions<Datum, ChartMultipleDomain>,
   >
-  extends PrimaryMarks<Datum, TPrimaryMarksConfig>
+  extends PrimaryMarks<Datum, ChartMultipleDomain, TPrimaryMarksConfig>
   implements OnInit, XyMarks
 {
   scales: XyChartScales;

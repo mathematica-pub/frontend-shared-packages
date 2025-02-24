@@ -19,8 +19,9 @@ const DEFAULT = {
 @Injectable()
 export class VicGroupedBarsConfigBuilder<
   Datum,
-  TOrdinalValue extends DataValue,
-> extends VicBarsConfigBuilder<Datum, TOrdinalValue> {
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+> extends VicBarsConfigBuilder<Datum, OrdinalDomain, ChartMultipleDomain> {
   private _intraGroupPadding: number;
 
   constructor() {
@@ -41,7 +42,11 @@ export class VicGroupedBarsConfigBuilder<
   /**
    * REQUIRED. Builds the configuration object for a GroupedBarsComponent.
    */
-  override getConfig(): GroupedBarsConfig<Datum, TOrdinalValue> {
+  override getConfig(): GroupedBarsConfig<
+    Datum,
+    OrdinalDomain,
+    ChartMultipleDomain
+  > {
     this.validateBuilder('Grouped Bars');
     return new GroupedBarsConfig(this.dimensions, {
       marksClass: 'vic-grouped-bars',
@@ -53,6 +58,7 @@ export class VicGroupedBarsConfigBuilder<
       intraGroupPadding: this._intraGroupPadding,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
+      multiples: this.multiplesBuilder?._build(),
       ordinal: this.ordinalDimensionBuilder._build(
         'band',
         this.getOrdinalDimensionName()

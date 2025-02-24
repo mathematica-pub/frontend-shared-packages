@@ -10,9 +10,13 @@ import { BarsDimensions } from './bars-dimensions';
 import { BarsOptions } from './bars-options';
 import { BarsLabels } from './labels/bars-labels';
 
-export class BarsConfig<Datum, OrdinalDomain extends DataValue>
-  extends XyPrimaryMarksConfig<Datum>
-  implements BarsOptions<Datum, OrdinalDomain>
+export class BarsConfig<
+    Datum,
+    OrdinalDomain extends DataValue,
+    ChartMultipleDomain extends DataValue = string,
+  >
+  extends XyPrimaryMarksConfig<Datum, ChartMultipleDomain>
+  implements BarsOptions<Datum, OrdinalDomain, ChartMultipleDomain>
 {
   barsKeyFunction: (i: number) => string;
   readonly backgrounds: BarsBackgrounds;
@@ -26,7 +30,7 @@ export class BarsConfig<Datum, OrdinalDomain extends DataValue>
 
   constructor(
     dimensions: BarsDimensions,
-    options: BarsOptions<Datum, OrdinalDomain>
+    options: BarsOptions<Datum, OrdinalDomain, ChartMultipleDomain>
   ) {
     super();
     Object.assign(this, options);

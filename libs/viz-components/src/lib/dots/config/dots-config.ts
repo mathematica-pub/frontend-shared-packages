@@ -15,9 +15,11 @@ export class DotsConfig<
     Datum,
     XOrdinalDomain extends DataValue = string,
     YOrdinalDomain extends DataValue = string,
+    ChartMultipleDomain extends DataValue = string,
   >
-  extends XyPrimaryMarksConfig<Datum>
-  implements DotsOptions<Datum, XOrdinalDomain, YOrdinalDomain>
+  extends XyPrimaryMarksConfig<Datum, ChartMultipleDomain>
+  implements
+    DotsOptions<Datum, XOrdinalDomain, YOrdinalDomain, ChartMultipleDomain>
 {
   fill:
     | OrdinalVisualValueDimension<Datum, string, string>
@@ -37,7 +39,14 @@ export class DotsConfig<
     | DateChartPositionDimension<Datum>
     | OrdinalChartPositionDimension<Datum, YOrdinalDomain>;
 
-  constructor(options: DotsOptions<Datum, XOrdinalDomain, YOrdinalDomain>) {
+  constructor(
+    options: DotsOptions<
+      Datum,
+      XOrdinalDomain,
+      YOrdinalDomain,
+      ChartMultipleDomain
+    >
+  ) {
     super();
     Object.assign(this, options);
     this.initPropertiesFromData();

@@ -6,12 +6,29 @@ import { StackedBarsInputEventDirective } from './stacked-bars-input-event.direc
 
 export type StackedBarsEventDirective<
   Datum,
-  TOrdinalValue extends DataValue,
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue,
   TStackedBarsComponent extends StackedBarsComponent<
     Datum,
-    TOrdinalValue
-  > = StackedBarsComponent<Datum, TOrdinalValue>,
+    OrdinalDomain,
+    ChartMultipleDomain
+  > = StackedBarsComponent<Datum, OrdinalDomain, ChartMultipleDomain>,
 > =
-  | StackedBarsHoverDirective<Datum, TOrdinalValue, TStackedBarsComponent>
-  | StackedBarsHoverMoveDirective<Datum, TOrdinalValue, TStackedBarsComponent>
-  | StackedBarsInputEventDirective<Datum, TOrdinalValue, TStackedBarsComponent>;
+  | StackedBarsHoverDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TStackedBarsComponent
+    >
+  | StackedBarsHoverMoveDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TStackedBarsComponent
+    >
+  | StackedBarsInputEventDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TStackedBarsComponent
+    >;

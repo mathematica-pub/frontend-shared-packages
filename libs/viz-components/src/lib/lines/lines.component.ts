@@ -14,7 +14,8 @@ import {
   XyChartComponent,
   XyChartScales,
 } from '../charts/xy-chart/xy-chart.component';
-import { GenericScale } from '../core';
+import { GenericScale } from '../core/types/scale';
+import { DataValue } from '../core/types/values';
 import { ValueUtilities } from '../core/utilities/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
@@ -30,7 +31,7 @@ export type LinesGroupSelection = Selection<
 
 export type LinesGroupSelectionDatum = [string, number[]];
 
-export const LINES = new InjectionToken<LinesComponent<unknown>>(
+export const LINES = new InjectionToken<LinesComponent<unknown, DataValue>>(
   'LinesComponent'
 );
 
@@ -68,9 +69,13 @@ type LinesSvgElements = 'g' | 'line' | 'area' | 'marker' | 'label';
     fill: 'none',
   },
 })
-export class LinesComponent<Datum> extends VicXyPrimaryMarks<
+export class LinesComponent<
   Datum,
-  LinesConfig<Datum>
+  ChartMultipleDomain extends DataValue = string,
+> extends VicXyPrimaryMarks<
+  Datum,
+  ChartMultipleDomain,
+  LinesConfig<Datum, ChartMultipleDomain>
 > {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   line: (x: any[]) => any;
@@ -81,6 +86,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   markerIndexAttr = 'index';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override scales: { color: GenericScale<any, any> } & XyChartScales = {
+    multiple: undefined,
     x: undefined,
     y: undefined,
     color: undefined,
