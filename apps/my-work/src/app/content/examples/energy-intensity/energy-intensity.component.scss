@@ -1,4 +1,9 @@
 @use 'index' as hsi-adk;
+@use 'vars' as *;
+
+.text-container {
+  width: calc(100vw - $sidebar-width - hsi-adk.grid(16));
+}
 
 .title {
   @include hsi-adk.title-large;
