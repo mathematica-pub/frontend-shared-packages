@@ -65,9 +65,19 @@ export class DotsConfig<
   }
 
   protected setValueIndices(): void {
-    this.valueIndices = range(this.data.length).filter(
-      (i) => this.isValidValue('x', i) && this.isValidValue('y', i)
-    );
+    this.valueIndices = range(this.data.length).filter((index) => {
+      if (
+        !this.isValidMultipleValue(index) ||
+        !this.isPositionableValue(index)
+      ) {
+        return false;
+      }
+      return true;
+    });
+  }
+
+  private isPositionableValue(index: number): boolean {
+    return this.isValidValue('x', index) && this.isValidValue('y', index);
   }
 
   private isValidValue(dimension: 'x' | 'y', i: number): boolean {

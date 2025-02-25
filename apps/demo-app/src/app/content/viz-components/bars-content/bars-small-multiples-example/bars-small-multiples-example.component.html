@@ -8,28 +8,39 @@
     ><mat-button-toggle value="horizontal">Horizontal</mat-button-toggle
     ><mat-button-toggle value="vertical">Vertical</mat-button-toggle>
   </mat-button-toggle-group>
-  <vic-xy-chart [config]="vm.chartConfig">
-    <ng-container svg-elements>
-      <svg:g
-        vic-primary-marks-bars
-        [config]="vm.dataConfig"
-        [vicBarsHoverMoveActions]="hoverAndMoveActions"
-        (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
-      >
-        <vic-html-tooltip
-          [config]="tooltipConfig$ | async"
-          [template]="htmlTooltip"
-        ></vic-html-tooltip>
-      </svg:g>
-      @if ((layoutProperties$ | async).orientation === 'horizontal') {
-        <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig" />
-        <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" />
-      } @else {
-        <svg:g vic-x-ordinal-axis [config]="vm.xAxisConfig" />
-        <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig" />
-      }
-    </ng-container>
-  </vic-xy-chart>
+  <div class="chart-container">
+    @for (city of vm.dataConfig.multiples.calculatedDomain; track $index) {
+      <vic-xy-chart [config]="vm.chartConfig">
+        <p
+          class="chart-title"
+          [style.paddingLeft.px]="vm.chartConfig.margin.left"
+          html-elements-before
+          >{{ city }}</p
+        >
+        <ng-container svg-elements>
+          <svg:g
+            vic-primary-marks-bars
+            [config]="vm.dataConfig"
+            [multiple]="{ value: city, index: $index }"
+            [vicBarsHoverMoveActions]="hoverAndMoveActions"
+            (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+          >
+            <vic-html-tooltip
+              [config]="tooltipConfig$ | async"
+              [template]="htmlTooltip"
+            ></vic-html-tooltip>
+          </svg:g>
+          @if ((layoutProperties$ | async).orientation === 'horizontal') {
+            <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig" />
+            <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" />
+          } @else {
+            <svg:g vic-x-ordinal-axis [config]="vm.xAxisConfig" />
+            <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig" />
+          }
+        </ng-container>
+      </vic-xy-chart>
+    }
+  </div>
 </div>
 
 <ng-template #loading>Loading...</ng-template>

@@ -7,9 +7,9 @@ import {
   XyContentScale,
 } from '../../../charts/xy-chart/xy-chart.component';
 import { DataValue } from '../../../core/types/values';
-import { DataMarksOptions } from '../../config/marks-options';
 import { PrimaryMarks } from '../../primary-marks/primary-marks';
 import { XyMarks } from '../xy-marks';
+import { XyPrimaryMarksConfig } from './xy-primary-marks-config';
 
 /**
  * @internal
@@ -18,7 +18,10 @@ import { XyMarks } from '../xy-marks';
 export abstract class VicXyPrimaryMarks<
     Datum,
     ChartMultipleDomain extends DataValue,
-    TPrimaryMarksConfig extends DataMarksOptions<Datum, ChartMultipleDomain>,
+    TPrimaryMarksConfig extends XyPrimaryMarksConfig<
+      Datum,
+      ChartMultipleDomain
+    >,
   >
   extends PrimaryMarks<Datum, ChartMultipleDomain, TPrimaryMarksConfig>
   implements OnInit, XyMarks
@@ -29,6 +32,7 @@ export abstract class VicXyPrimaryMarks<
     XyContentScale.y,
   ];
   public override chart = inject(XyChartComponent);
+  valueIndices: number[]; // reflects any chart multiple
 
   ngOnInit(): void {
     this.subscribeToRanges();
@@ -61,8 +65,19 @@ export abstract class VicXyPrimaryMarks<
         this.scales.x = scales.x;
         this.scales.y = scales.y;
         this.scales.useTransition = scales.useTransition;
+        this.setValueIndicesForChart();
         this.drawMarks();
       });
+  }
+
+  setValueIndicesForChart(): void {
+    if (!this.config.multiples || !this.multiple) {
+      this.valueIndices = this.config.valueIndices;
+    } else {
+      this.valueIndices = this.config.valueIndices.filter(
+        (i) => this.config.multiples.values[i] === this.multiple.value
+      );
+    }
   }
 
   getTransitionDuration(): number {

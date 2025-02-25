@@ -121,13 +121,13 @@ export class BarsComponent<
   }
 
   setChartScalesFromRanges(useTransition: boolean): void {
+    this.scales.color = this.config.color.getScale();
     const x = this.config[this.config.dimensions.x].getScaleFromRange(
       this.ranges.x
     );
     const y = this.config[this.config.dimensions.y].getScaleFromRange(
       this.ranges.y
     );
-    this.scales.color = this.config.color.getScale();
     this.chart.updateScales({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       x: x as unknown as GenericScale<any, any>,
@@ -157,7 +157,7 @@ export class BarsComponent<
 
     this.barGroups = select(this.elRef.nativeElement)
       .selectAll<SVGGElement, number>(`.${this.class.g}`)
-      .data<number>(this.config.valueIndices, this.config.barsKeyFunction)
+      .data<number>(this.valueIndices, this.config.barsKeyFunction)
       .join(
         (enter) =>
           enter

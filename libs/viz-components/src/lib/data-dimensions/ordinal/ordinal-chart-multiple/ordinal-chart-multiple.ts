@@ -40,6 +40,10 @@ export class OrdinalChartMultipleDimension<
     this._calculatedDomain = [...this.internSetDomain.values()];
   }
 
+  domainIncludes(value: Domain): boolean {
+    return this.internSetDomain.has(value);
+  }
+
   private setScale(): void {
     const domain = [...this.internSetDomain.values()];
     this.scale = scaleOrdinal(domain, range(domain.length));

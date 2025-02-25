@@ -58,7 +58,7 @@ export class StackedAreaConfig<
 
   protected initPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
-    this.setValueIndicies();
+    this.setValueIndices();
     this.setSeries();
     this.initQuantitativeDomainFromStack();
   }
@@ -69,7 +69,7 @@ export class StackedAreaConfig<
     this.color.setPropertiesFromData(this.data);
   }
 
-  private setValueIndicies(): void {
+  private setValueIndices(): void {
     this.valueIndices = range(this.x.values.length).filter((i) =>
       this.color.domainIncludes(this.color.values[i])
     );

@@ -28,6 +28,7 @@ export abstract class PrimaryMarks<
   implements Marks, OnChanges
 {
   @Input() config: TPrimaryMarksConfig;
+  @Input() multiple: { value: ChartMultipleDomain; index: number };
   ranges: Ranges;
   destroyRef = inject(DestroyRef);
 

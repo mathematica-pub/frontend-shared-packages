@@ -149,7 +149,7 @@ export class DotsComponent<
     this.dotGroups = select(this.elRef.nativeElement)
       .selectAll<SVGGElement, DotDatum>(`.${this.class.g}`)
       .data<DotDatum>(
-        this.config.valueIndices.map((i) => this.getDotDatumFromIndex(i))
+        this.valueIndices.map((i) => this.getDotDatumFromIndex(i))
       )
       .join(
         (enter) =>

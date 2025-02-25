@@ -97,13 +97,14 @@ export class BarsSmallMultiplesExampleComponent implements OnInit {
     new BehaviorSubject<LayoutProperties>({
       orientation: Orientation.horizontal,
       margin: {
-        top: 36,
+        top: 24,
         right: 0,
         bottom: 32,
         left: 160,
       },
     });
   layoutProperties$ = this.layoutProperties.asObservable();
+  chartMultiples = ['Seattle', 'New York'];
 
   constructor(
     private dataService: DataService,
@@ -133,11 +134,12 @@ export class BarsSmallMultiplesExampleComponent implements OnInit {
 
     const chartConfig = this.chart
       .margin(layout.margin)
-      .width(layout.orientation === 'horizontal' ? 800 : 960)
-      .height(layout.orientation === 'horizontal' ? 500 : 500)
+      .width(layout.orientation === 'horizontal' ? 400 : 300)
+      .height(layout.orientation === 'horizontal' ? 300 : 400)
       // .multiples((multiples) => multiples.valueAccessor((d) => d.location))
       .resize({
         height: false,
+        width: false,
       })
       .getConfig();
 
@@ -159,6 +161,9 @@ export class BarsSmallMultiplesExampleComponent implements OnInit {
 
     const dataConfig = this.bars
       .data(filteredData)
+      .multiples((dimension) =>
+        dimension.valueAccessor((d) => d.location).domain(this.chartMultiples)
+      )
       .horizontal(
         layout.orientation === Orientation.horizontal
           ? (bars) =>
