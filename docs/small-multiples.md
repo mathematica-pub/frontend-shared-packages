@@ -15,7 +15,10 @@ sharing.
 
 ## Layout Options
 
-There are two options for small multiple layouts:
+There are three options for small multiple layouts:
 
 1. Fixed dimensions + CSS grid: Charts move to the next row when the page gets narrower
 2. Fixed number of charts: Charts scale (get smaller) when the page gets narrower
+3. Hybridize with breakpoints
+
+We only support option <<insert option here>>.
