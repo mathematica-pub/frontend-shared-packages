@@ -11,7 +11,9 @@
   >
 </div>
 @if (barsData$ | async; as barData) {
-  <app-export-content fileName="EnergyIntensity_2020"
+  <app-export-content
+    fileName="EnergyIntensity_2020"
+    altText="Energy Intensity Bar Chart 2020"
     ><app-energy-intensity-bar [data]="barData"></app-energy-intensity-bar>
   </app-export-content>
 }

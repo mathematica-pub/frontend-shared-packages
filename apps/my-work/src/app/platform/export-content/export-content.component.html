@@ -14,7 +14,13 @@
   [style.width.px]="width ? width + imagePadding : null"
   [style.height.px]="height ? height + imagePadding : null"
 >
-  <div #image class="image" [style.padding.px]="imagePadding">
+  <div
+    #image
+    role="img"
+    [attr.aria-label]="altText"
+    class="image"
+    [style.padding.px]="imagePadding"
+  >
     <ng-content></ng-content>
   </div>
 </div>

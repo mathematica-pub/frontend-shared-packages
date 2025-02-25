@@ -33,6 +33,7 @@ export class ExportContentComponent {
   @Input() height: number;
   @Input() imagePadding = 8;
   @Input() width: number;
+  @Input() altText: string = '';
   @ViewChild('image') image: ElementRef<HTMLElement>;
   id = uniqueId++;
 
