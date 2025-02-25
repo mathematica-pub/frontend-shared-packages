@@ -90,15 +90,23 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   }
 
   handleBlur(event: FocusEvent): void {
-    // clicking (desktop) will trigger blur event
-    // keyboard navigation (desktop) will not trigger blur event
-    // tapping (mobile) will trigger blur event
-    // swiping (VoiceOver) will trigger blur event
+    // DESCRIPTION OF HOW VARIOUS DEVICES/ASSISTIVE TECHNOLOGIES DO/NOT TRIGGER ANY BLUR EVENT (FocusEvent)
+    // clicking (desktop) will trigger a blur event (item is focused, user clicks away, blur event fires)
+    // keyboard navigation (desktop) will not trigger a blur event (item is focused, user navigates to another item, blur event does not fire)
+    // tapping (mobile) will trigger a blur event (item is focused, user taps away, blur event fires)
+    // swiping (VoiceOver) will trigger a blur event (item is focused, user swipes away, blur event fires)
 
-    // we do not refocus on the textbox on iOS/Android / do not support keyboard nav on iOS/Android
-    // we refocus to listen to keyboard events, but with VoiceOver, the focus gets thrown
-    // back up and users cannot navigate the list naturally. Hence we have decided that we won't
-    // support keyboard events on mobile.
+    // The code below (lines 106 - 116) will refocus the textbox when the textbox receives blur event, and the
+    // source of the blue event (related target) is something in the listbox.
+    // We keep the focus on the textbox so that we can continue to listen for keyboard events to provide
+    // keyboard navigation/interaction with the listbox options. The refocusing does not affect keyboard navigation,
+    // and is unnoticable to the user.
+
+    // However, VoiceOver (iOS assistive tech) will move the navigation back to the textbox when the textbox is focused,
+    // which means the user will need to strt navigating the options from the top of the listbox every time they select
+    // an option. (If we throw the focus). For this reason, we have decided that we will not support keyboard navigation
+    // (which would need to happen on a connected external keybord) on mobile devices, as keyboard nav requires that the
+    // focus stays on the textbox. Ostensibly it is standard practice to not support keyboard navigation on mobile devices.
 
     if (!this.isMobile()) {
       if (event.relatedTarget && this.isHtmlElement(event.relatedTarget)) {
@@ -112,7 +120,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
           return;
         }
       }
-      this.service.emitBlurEvent();
+      this.service.emitTextboxBlur();
     }
   }
 

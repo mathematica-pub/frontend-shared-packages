@@ -101,8 +101,8 @@ export class ComboboxService {
   scrollWhenOpened = false;
   shouldAutoSelectOnListboxClose = false;
   activeDescendant$: Observable<string>;
-  private blurEvent: Subject<void> = new Subject();
-  blurEvent$ = this.blurEvent.asObservable();
+  private textboxBlur: Subject<void> = new Subject();
+  textboxBlur$ = this.textboxBlur.asObservable();
   private projectedContentIsInDOM: BehaviorSubject<boolean> =
     new BehaviorSubject(false);
   projectedContentIsInDOM$ = this.projectedContentIsInDOM.asObservable();
@@ -162,8 +162,8 @@ export class ComboboxService {
     this.projectedContentIsInDOM.next(true);
   }
 
-  emitBlurEvent(): void {
-    this.blurEvent.next();
+  emitTextboxBlur(): void {
+    this.textboxBlur.next();
   }
 
   setTouched(): void {

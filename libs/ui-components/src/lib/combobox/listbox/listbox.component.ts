@@ -151,7 +151,7 @@ export class ListboxComponent
   }
 
   setOnBlurEvent() {
-    this.service.blurEvent$
+    this.service.textboxBlur$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         withLatestFrom(

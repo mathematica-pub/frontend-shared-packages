@@ -63,7 +63,7 @@ export class ComboboxComponent implements OnInit {
           if (this.platform.IOS || this.platform.ANDROID) {
             this.service.emitTextboxFocus(FocusTextbox.includeMobile);
           }
-          this.service.emitBlurEvent();
+          this.service.emitTextboxBlur();
         });
     });
   }
