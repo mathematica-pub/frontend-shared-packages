@@ -123,7 +123,6 @@ export class EditableTextboxComponent
         }
       }
     }
-    // should this be on mobile too?
     this.service.emitTextboxFocus();
   }
 
