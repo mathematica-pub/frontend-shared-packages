@@ -230,7 +230,9 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             )
             .attr('opacity', this.config.areaFills.opacity)
             .attr('d', ([, lineData]) => this.lineArea(lineData))
-            .attr('display', this.config.areaFills.display ? null : 'none'),
+            .attr('display', ([category]) =>
+              this.config.areaFills.display(category) ? null : 'none'
+            ),
         (update) =>
           update
             .attr('fill', ([category, indices]) =>
@@ -243,7 +245,9 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
                 .transition(t as any)
                 .attr('d', ([, lineData]) => this.lineArea(lineData))
             )
-            .attr('display', this.config.areaFills.display ? null : 'none'),
+            .attr('display', ([category]) =>
+              this.config.areaFills.display(category) ? null : 'none'
+            ),
         (exit) => exit.remove()
       );
   }
