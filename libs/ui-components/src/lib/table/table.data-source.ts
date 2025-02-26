@@ -130,9 +130,9 @@ export class HsiUiTableDataSource<Datum> extends DataSource<Datum> {
     this.sortColId.next(columnId);
   }
 
-  override disconnect(): void {}
+  disconnect(): void {}
 
-  override connect(): Observable<Datum[]> {
+  connect(): Observable<Datum[]> {
     return this.sortedData$;
   }
 }
