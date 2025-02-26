@@ -32,7 +32,9 @@ minimal implementation
 <hsi-ui-combobox>
   <hsi-ui-textbox>
     <p boxLabel>Select a state</p>
-    <span class="material-symbols-outlined expand-more" boxIcon> expand_more </span>
+    <span aria-hidden="true" class="material-symbols-outlined expand-more" boxIcon>
+      expand_more
+    </span>
   </hsi-ui-textbox>
   <hsi-ui-listbox (valueChanges)="onSelection($event)">
     @for (option of options; track option) {
@@ -222,7 +224,9 @@ static label example
 ```html
 <hsi-ui-textbox [dynamicLabel]="false">
   <p boxLabel>Select states</p>
-  <span class="material-symbols-outlined expand-more" boxIcon> expand_more </span>
+  <span aria-hidden="true" class="material-symbols-outlined expand-more" boxIcon>
+    expand_more
+  </span>
 </hsi-ui-textbox>
 ```
 
@@ -242,7 +246,9 @@ count selected example
 ```html
 <hsi-ui-textbox [selectedCountLabel]="{singular: 'state', plural: 'states'}">
   <p boxLabel>Select states</p>
-  <span class="material-symbols-outlined expand-more" boxIcon> expand_more </span>
+  <span aria-hidden="true" class="material-symbols-outlined expand-more" boxIcon>
+    expand_more
+  </span>
 </hsi-ui-textbox>
 ```
 
@@ -261,7 +267,9 @@ custom label example
 ```html
 <hsi-ui-textbox [customLabel]="customLabel">
   <p boxLabel>Select states</p>
-  <span class="material-symbols-outlined expand-more" boxIcon> expand_more </span>
+  <span aria-hidden="true" class="material-symbols-outlined expand-more" boxIcon>
+    expand_more
+  </span>
 </hsi-ui-textbox>
 ```
 
@@ -323,7 +331,7 @@ external selection example
 <hsi-ui-combobox>
   <hsi-ui-textbox>
     <p boxLabel>Select states</p>
-    <span class="material-symbols-outlined expand-more" boxIcon>
+    <span aria-hidden="true" class="material-symbols-outlined expand-more" boxIcon>
       expand_more
     </span>
   </hsi-ui-textbox>
@@ -398,20 +406,25 @@ icons example
 <hsi-ui-combobox>
   <hsi-ui-textbox>
     <p boxLabel>Select a state</p>
-    <span class="material-symbols-outlined expand-more" boxIcon> expand_more </span>
+    <span aria-hidden="true" class="material-symbols-outlined expand-more" boxIcon>
+      expand_more
+    </span>
   </hsi-ui-textbox>
   <hsi-ui-listbox [isMultiSelect]="true" (valueChanges)="onSelection($event)">
     <hsi-ui-select-all-listbox-option>
-      <span class="material-symbols-outlined icon checkbox" selectedIcon> check_box </span>
-      <span unselectedIcon class="material-symbols-outlined icon checkbox">
+      <span aria-hidden="true" class="material-symbols-outlined icon checkbox" selectedIcon>
+        check_box
+      </span>
+      <span unselectedIcon aria-hidden="true" class="material-symbols-outlined icon checkbox">
         check_box_outline_blank
       </span>
       Select all</hsi-ui-select-all-listbox-option
     >
     @for (option of options; track option) {
     <hsi-ui-listbox-option
-      ><span class="material-symbols-outlined icon checkbox" selectedIcon> check_box </span
-      ><span unselectedIcon class="material-symbols-outlined icon checkbox">
+      ><span aria-hidden="true" class="material-symbols-outlined icon checkbox" selectedIcon>
+        check_box </span
+      ><span unselectedIcon aria-hidden="true" class="material-symbols-outlined icon checkbox">
         check_box_outline_blank </span
       >{{ option }}
     </hsi-ui-listbox-option>

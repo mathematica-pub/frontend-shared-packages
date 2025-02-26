@@ -7,7 +7,8 @@
     (keydown.enter)="navigateToDoc(siblings.previous)"
     ><p class="label">Previous</p
     ><p class="name"
-      ><span class="material-symbols-outlined arrow">arrow_back</span
+      ><span aria-hidden="true" class="material-symbols-outlined arrow"
+        >arrow_back</span
       >{{ previous }}</p
     ></div
   >
@@ -22,7 +23,9 @@
     ><p class="label">Next</p
     ><p class="name"
       >{{ next }}
-      <span class="material-symbols-outlined arrow">arrow_forward</span></p
+      <span aria-hidden="true" class="material-symbols-outlined arrow"
+        >arrow_forward</span
+      ></p
     ></div
   >
 }

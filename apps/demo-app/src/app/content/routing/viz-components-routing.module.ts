@@ -77,6 +77,13 @@ const routes = [
               ).then((m) => m.AxesContentComponent),
           },
           {
+            path: 'grid',
+            loadComponent: () =>
+              import(
+                '../viz-components/axes-content/axes-content.component'
+              ).then((m) => m.AxesContentComponent),
+          },
+          {
             path: 'labels',
             loadComponent: () =>
               import(
