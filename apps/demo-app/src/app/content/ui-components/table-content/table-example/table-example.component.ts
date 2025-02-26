@@ -5,6 +5,7 @@ import {
   TableColumn,
   TableModule,
 } from '@hsi/ui-components';
+import { TableColumnBuilder } from 'libs/ui-components/src/lib/table/table-column-builder';
 import { of } from 'rxjs';
 
 enum ColumnNames {
@@ -34,20 +35,20 @@ export class TableExampleComponent {
   ColumnNames = ColumnNames;
 
   columns$ = of([
-    new TableColumn<{ fruit: string; color: string }>({
-      id: ColumnNames.fruit,
-      ascendingSortFunction: (a, b) => a.fruit.localeCompare(b.fruit),
-      sortOrder: 1,
-      sortable: true,
-      sortDirection: 'asc', // initial sort direction
-      getFormattedValue: (x) => x.fruit,
-    }),
-    new TableColumn<{ fruit: string; color: string }>({
-      id: ColumnNames.color,
-      sortable: true,
-      ascendingSortFunction: (a, b) => a.color.localeCompare(b.color),
-      getFormattedValue: (x) => x.color,
-    }),
+    new TableColumnBuilder<{ fruit: string; color: string }>()
+      .id(ColumnNames.fruit)
+      .ascendingSortFunction((a, b) => a.fruit.localeCompare(b.fruit))
+      .sortOrder(1)
+      .sortable(true)
+      .sortDirection('asc') // initial sort direction
+      .getFormattedValue((x) => x.fruit)
+      ._build('FruitExampleColumn'),
+    new TableColumnBuilder<{ fruit: string; color: string }>()
+      .id(ColumnNames.color)
+      .sortable(true)
+      .ascendingSortFunction((a, b) => a.color.localeCompare(b.color))
+      .getFormattedValue((x) => x.color)
+      ._build('ColorExampleColumn'),
   ]);
   dataSource = new HsiUiTableDataSource(this.data$, this.columns$);
   columnTrackingFunction(
