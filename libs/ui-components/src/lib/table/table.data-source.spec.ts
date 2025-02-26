@@ -72,8 +72,8 @@ describe('DataSource', () => {
         c: descData, // flips correctly
       };
       const triggerValues = {
-        x: () => dataSource.handleSort(chosenColumn.id),
-        y: () => dataSource.handleSort(chosenColumn.id),
+        x: () => dataSource.sort(chosenColumn),
+        y: () => dataSource.sort(chosenColumn),
       };
       testScheduler.run(({ expectObservable, cold }) => {
         expectObservable(connection$).toBe(expectedMarbles, expectedValues);

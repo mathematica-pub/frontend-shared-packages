@@ -126,8 +126,8 @@ export class HsiUiTableDataSource<Datum> extends DataSource<Datum> {
     return columnsWithSortDir;
   }
 
-  handleSort(columnId: string) {
-    this.sortColId.next(columnId);
+  sort(column: TableColumn<Datum>) {
+    this.sortColId.next(column.id);
   }
 
   disconnect(): void {}

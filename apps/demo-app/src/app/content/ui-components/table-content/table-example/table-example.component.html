@@ -1,6 +1,6 @@
 @if (columns$ | async; as columns) {
   <table cdk-table [dataSource]="dataSource" class="table-container">
-    @for (column of columns; track columnTrackingFunction) {
+    @for (column of columns; track column.id) {
       <ng-container [cdkColumnDef]="column.id">
         @if (column.sortable) {
           <th
@@ -10,7 +10,7 @@
             *cdkHeaderCellDef="let element"
             [column]="column"
             [sortIcon]="sortIcon"
-            (click)="dataSource.handleSort(column.id)"
+            (click)="dataSource.sort(column)"
           >
             {{ column.id }}</th
           >
