@@ -46,7 +46,7 @@ export class CsaRaceComponent extends CaAccessChartComponent {
           series: 'percentile',
           size: x.County_Size,
           measureCode: x.Measure_Code,
-          stratVal: x.StratVal,
+          stratVal: x.StratVal_v2,
           delivSys: x.DelivSys,
           units: x.Units,
           value:
@@ -60,8 +60,8 @@ export class CsaRaceComponent extends CaAccessChartComponent {
           compValDesc: 'goal',
           directionality: x.Directionality,
           pctBelowComp:
-            x.BDA_PctBelowGoal && !isNaN(x.BDA_PctBelowGoal)
-              ? +x.BDA_PctBelowGoal
+            x.CSA_PctBelowGoal && !isNaN(x.CSA_PctBelowGoal)
+              ? +x.CSA_PctBelowGoal
               : null,
           plans: [],
           goal: x.BDA_Goal && !isNaN(x.BDA_Goal) ? +x.BDA_Goal : null,
