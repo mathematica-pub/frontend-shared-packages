@@ -225,6 +225,7 @@ class TestVerticalBarsComponent {
     .margin(verticalMargin)
     .height(chartHeight)
     .width(chartWidth)
+    .resize({ useViewbox: false })
     .getConfig();
 
   updateTooltipForNewOutput(
