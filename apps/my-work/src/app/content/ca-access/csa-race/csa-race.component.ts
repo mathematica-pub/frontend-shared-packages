@@ -32,8 +32,9 @@ export class CsaRaceComponent extends CaAccessChartComponent {
   override filters = {
     measureCodes: [],
     delivSyss: [],
+    stratVals: [],
   };
-  override filterTypes = ['delivSys', 'measureCode'];
+  override filterTypes = ['delivSys', 'measureCode', 'stratVal'];
 
   constructor(dataService: DataService) {
     super(dataService);
