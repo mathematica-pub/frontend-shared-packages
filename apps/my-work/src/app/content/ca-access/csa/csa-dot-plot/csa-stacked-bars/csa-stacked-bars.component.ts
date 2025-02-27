@@ -49,7 +49,8 @@ export class CsaStackedBarsComponent extends CaAccessStackedBarsComponent {
       .data((d) => [d])
       .join('rect')
       .attr('width', '11em')
-      .attr('height', (this.scales.y as any).bandwidth() / 2);
+      .attr('height', (this.scales.y as any).bandwidth() / 2)
+      .attr('transform', `translate(0, -2)`);
     group
       .selectAll('text')
       .data((d) => [d])
