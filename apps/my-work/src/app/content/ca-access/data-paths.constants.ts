@@ -1,7 +1,7 @@
 const folder = 'content/data/';
 
 const path = {
-  real: {
+  current: {
     bda: `${folder}BDA_Results_v2.csv`,
     csa: `${folder}Statistical_Results.csv`,
   },
@@ -15,4 +15,4 @@ const path = {
   },
 };
 
-export const dataPath = path.old;
+export const dataPath = path.current;
