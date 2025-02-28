@@ -100,7 +100,10 @@ export class DotsExampleComponent implements OnInit {
       .getConfig();
 
     const xAxisConfig = this.xQuantitativeAxis.tickFormat('.1f').getConfig();
-    const yAxisConfig = this.yQuantitativeAxis.tickFormat('.1f').getConfig();
+    const yAxisConfig = this.yQuantitativeAxis
+      .tickFormat('.1f')
+      .zeroAxis({ useZeroAxis: false })
+      .getConfig();
 
     const dataConfig = this.dots
       .data(data.filter((x) => x.date.getFullYear() === 2012))

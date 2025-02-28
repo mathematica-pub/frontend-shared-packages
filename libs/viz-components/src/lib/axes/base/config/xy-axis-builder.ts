@@ -2,21 +2,23 @@ import { VicAuxMarksBuilder } from '../../../marks';
 import { AxisLabelBuilder } from '../../axis-label/axis-label-builder';
 import { GridBuilder } from '../../grid/grid-builder';
 import { TickWrapBuilder } from '../../tick-wrap/tick-wrap-builder';
-import { RemoveDomain } from './xy-axis-options';
 
 export abstract class XyAxisBaseBuilder<
   TickValue,
 > extends VicAuxMarksBuilder<void> {
   protected _axis: 'x' | 'y';
   protected _dimension: 'ordinal' | 'quantitative';
-  protected _removeDomainLine: RemoveDomain;
+  protected _removeDomainLine: boolean;
   protected _removeTickLabels: boolean;
   protected _removeTickMarks: boolean;
   protected _rotateTickLabels: number;
   protected _tickFormat: string | ((value: TickValue) => string);
   protected _tickLabelFontSize: number;
   protected _tickSizeOuter: number;
-  protected _zeroAxisStroke: 'solid' | string;
+  protected _zeroAxis: {
+    strokeDasharray: string | null;
+    useZeroAxis: boolean;
+  };
   protected tickWrapBuilder: TickWrapBuilder;
   protected gridBuilder: GridBuilder;
   protected labelBuilder: AxisLabelBuilder;
@@ -62,15 +64,15 @@ export abstract class XyAxisBaseBuilder<
   /**
    * OPTIONAL. Determines whether the axis domain line will be removed.
    *
-   * @param value - `always` | `never` | `unlessZeroAxis`
+   * @param value - boolean
    *
-   * `always` will remove domain line that D3 creates in all cases. `never` will retain the line in all cases. `unlessZeroAxis` will remove the line if the line is positioned at the edge of the chart, but will retain the line if the chart has both positive and negative values, causing the line to be positioned in the middle of the chart.
+   * If true, the domain line will be removed. If false, the domain line will be retained.
    *
-   * If called with no argument, the default value is `unlessZeroAxis`.
+   * If called with no argument, the default value is `true`.
    *
-   * If not called, the default value for ordinal axes is `unlessZeroAxis` and for quantitative axes is `never`.
+   * If not called, the default value is `false` for quantitative axes and `true` for ordinal axes.
    */
-  removeDomainLine(value: RemoveDomain = 'unlessZeroAxis'): this {
+  removeDomainLine(value: boolean = true): this {
     this._removeDomainLine = value;
     return this;
   }
@@ -191,14 +193,31 @@ export abstract class XyAxisBaseBuilder<
   }
 
   /**
-   * OPTIONAL. Specifies the stroke-dasharray of domain line when the domain is a zero axis in the center of the chart.
+   * OPTIONAL. Determines whether an axis is drawn at the zero tick mark of the perpedicular axis when there re positive and negative values in the chart, and the stroke-dasharray of the zero axis if drawn.
    *
-   * @param value - The stroke of the zero axis. Can be 'solid' if a solid line is desired or a string that specifies the stroke-dasharray.
+   * @param value - An object with two properties: `strokeDasharray` and `useZeroAxis`. `strokeDasharray` is a string that specifies the stroke-dasharray of the zero axis, and `useZeroAxis` is a boolean that determines whether the zero axis will be drawn.
    *
-   * If not called, the default value is '2 2' which creates a dashed line.
+   * If `strokeDasharray` is `null`, the zero axis will be drawn as a solid line.
+   *
+   * If `useZeroAxis` is `false`, the zero axis will not be drawn, and the domain line will be drawn at the edge of the chart.
+   *
+   * If not called, or if called with `null`, the default value is `{ strokeDasharray: '2 2', useZeroAxis: true }`.
    */
-  zeroAxisStroke(value: 'solid' | string): this {
-    this._zeroAxisStroke = value;
+  zeroAxis(
+    value: Partial<{
+      strokeDasharray: string | null;
+      useZeroAxis: boolean;
+    }> | null
+  ): this {
+    const defaultValue = { strokeDasharray: '2', useZeroAxis: true };
+    if (value === null) {
+      this._zeroAxis = defaultValue;
+      return this;
+    }
+    this._zeroAxis = {
+      ...defaultValue,
+      ...value,
+    };
     return this;
   }
 }

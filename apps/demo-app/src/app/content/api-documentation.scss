@@ -30,7 +30,7 @@
 
     .param {
       .param-def {
-        padding-bottom: grid(1);
+        padding-bottom: grid(2);
       }
 
       .label {
@@ -52,6 +52,7 @@
       .param-description {
         @include hsi-adk.body-xs;
         padding-bottom: 0;
+        padding-left: grid(4);
       }
     }
   }
