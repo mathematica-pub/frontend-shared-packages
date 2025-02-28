@@ -6,7 +6,7 @@ import { ChartConfig } from './chart-config';
 const DEFAULT = {
   _height: 600,
   _margin: { top: 36, right: 36, bottom: 36, left: 36 },
-  _resize: { width: true, height: true, useViewbox: false },
+  _resize: { width: true, height: true, useViewbox: true },
   _transitionDuration: 250,
   _width: 800,
 };

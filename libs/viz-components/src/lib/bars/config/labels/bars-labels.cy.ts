@@ -161,6 +161,7 @@ class TestVerticalBarsWithLabelsComponent {
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .height(400)
     .margin({ top: 20, right: 20, bottom: 0, left: 40 })
+    .resize({ useViewbox: false })
     .getConfig();
 }
 

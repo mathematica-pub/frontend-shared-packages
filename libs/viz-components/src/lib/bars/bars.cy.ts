@@ -120,6 +120,7 @@ class TestHorizontalBarsComponent {
     .height(chartHeight)
     .width(chartWidth)
     .transitionDuration(0)
+    .resize({ useViewbox: false })
     .getConfig();
 
   updateTooltipForNewOutput(
@@ -227,6 +228,7 @@ class TestVerticalBarsComponent {
     .height(chartHeight)
     .width(chartWidth)
     .transitionDuration(0)
+    .resize({ useViewbox: false })
     .getConfig();
 
   updateTooltipForNewOutput(
