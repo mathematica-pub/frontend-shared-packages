@@ -2,14 +2,13 @@ import { VicAuxMarksBuilder } from '../../../marks';
 import { AxisLabelBuilder } from '../../axis-label/axis-label-builder';
 import { GridBuilder } from '../../grid/grid-builder';
 import { TickWrapBuilder } from '../../tick-wrap/tick-wrap-builder';
-import { RemoveDomain } from './xy-axis-options';
 
 export abstract class XyAxisBaseBuilder<
   TickValue,
 > extends VicAuxMarksBuilder<void> {
   protected _axis: 'x' | 'y';
   protected _dimension: 'ordinal' | 'quantitative';
-  protected _removeDomainLine: RemoveDomain;
+  protected _removeDomainLine: boolean;
   protected _removeTickLabels: boolean;
   protected _removeTickMarks: boolean;
   protected _tickFormat: string | ((value: TickValue) => string);
@@ -64,15 +63,15 @@ export abstract class XyAxisBaseBuilder<
   /**
    * OPTIONAL. Determines whether the axis domain line will be removed.
    *
-   * @param value - `always` | `never` | `unlessZeroAxis`
+   * @param value - boolean
    *
-   * `always` will remove domain line that D3 creates in all cases. `never` will retain the line in all cases. `unlessZeroAxis` will remove the line if the line is positioned at the edge of the chart, but will retain the line if the chart has both positive and negative values, causing the line to be positioned in the middle of the chart.
+   * If true, the domain line will be removed. If false, the domain line will be retained.
    *
-   * If called with no argument, the default value is `unlessZeroAxis`.
+   * If called with no argument, the default value is `true`.
    *
-   * If not called, the default value for ordinal axes is `unlessZeroAxis` and for quantitative axes is `never`.
+   * If not called, the default value is `false` for quantitative axes and `true` for ordinal axes.
    */
-  removeDomainLine(value: RemoveDomain = 'unlessZeroAxis'): this {
+  removeDomainLine(value: boolean = true): this {
     this._removeDomainLine = value;
     return this;
   }

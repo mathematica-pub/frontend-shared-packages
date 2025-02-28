@@ -3,13 +3,11 @@ import { AxisLabelOptions } from '../../axis-label/axis-label-options';
 import { Grid } from '../../grid/grid-config';
 import { TickWrap } from '../../tick-wrap/tick-wrap';
 
-export type RemoveDomain = 'always' | 'never' | 'unlessZeroAxis';
-
 export interface XyAxisBaseOptions<TickValue> extends MarksOptions {
   grid: Grid;
   label: AxisLabelOptions;
   marksClass: string;
-  removeDomainLine: RemoveDomain;
+  removeDomainLine: boolean;
   removeTickLabels: boolean;
   removeTickMarks: boolean;
   tickFormat: string | ((value: TickValue) => string);

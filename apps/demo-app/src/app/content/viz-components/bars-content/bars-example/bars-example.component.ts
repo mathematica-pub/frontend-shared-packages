@@ -129,10 +129,7 @@ export class BarsExampleComponent implements OnInit {
     const xAxisConfig =
       orientation === Orientation.horizontal
         ? this.xQuantitativeAxis.side('top').tickFormat('.0f').getConfig()
-        : this.xOrdinalAxis
-            .removeTickMarks()
-            .removeDomainLine('never')
-            .getConfig();
+        : this.xOrdinalAxis.removeTickMarks().getConfig();
     const yAxisConfig =
       orientation === Orientation.horizontal
         ? this.yOrdinalAxis.removeTickMarks().getConfig()

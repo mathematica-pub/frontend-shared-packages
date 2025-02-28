@@ -138,11 +138,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   processDomain(): void {
     const zeroAxisTranslate = this.getDomainTranslate();
 
-    if (
-      this.config.zeroAxis.useZeroAxis &&
-      this.config.removeDomainLine !== 'always' &&
-      zeroAxisTranslate !== null
-    ) {
+    if (this.config.zeroAxis.useZeroAxis && zeroAxisTranslate !== null) {
       this.axisGroup.call((g) =>
         g
           .select('.domain')
@@ -157,11 +153,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
       this.axisGroup.call((g) => g.select('.domain').attr('class', 'domain'));
     }
 
-    if (
-      this.config.removeDomainLine === 'always' ||
-      (this.config.removeDomainLine === 'unlessZeroAxis' &&
-        zeroAxisTranslate === null)
-    ) {
+    if (this.config.removeDomainLine && zeroAxisTranslate === null) {
       this.axisGroup.call((g) => g.select('.domain').remove());
     }
   }

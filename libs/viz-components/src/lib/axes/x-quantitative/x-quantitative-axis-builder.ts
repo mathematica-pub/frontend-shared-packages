@@ -6,7 +6,7 @@ import { XQuantitativeAxisConfig } from './x-quantitative-axis-config';
 const DEFAULT = {
   _side: 'bottom',
   _tickFormat: ',.1f',
-  _removeDomainLine: 'never',
+  _removeDomainLine: false,
   _zeroAxis: { strokeDasharray: '2', useZeroAxis: true },
 };
 

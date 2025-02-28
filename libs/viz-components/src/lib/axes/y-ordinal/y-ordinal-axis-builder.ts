@@ -6,7 +6,7 @@ import { YOrdinalAxisConfig } from './y-ordinal-axis-config';
 const DEFAULT = {
   _side: 'left',
   _tickSizeOuter: 0,
-  _removeDomainLine: 'unlessZeroAxis',
+  _removeDomainLine: true,
   _zeroAxis: { strokeDasharray: '2', useZeroAxis: true },
 };
 

@@ -6,7 +6,7 @@ import { XOrdinalAxisConfig } from './x-ordinal-axis-config';
 const DEFAULT = {
   _side: 'bottom',
   _tickSizeOuter: 0,
-  _removeDomainLine: 'unlessZeroAxis',
+  _removeDomainLine: true,
   _zeroAxis: { strokeDasharray: '2', useZeroAxis: true },
 };
 
