@@ -119,6 +119,7 @@ class TestHorizontalBarsComponent {
     .margin(horizontalMargin)
     .height(chartHeight)
     .width(chartWidth)
+    .resize({ useViewbox: false })
     .getConfig();
 
   updateTooltipForNewOutput(
