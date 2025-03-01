@@ -198,8 +198,8 @@ export class BarsExampleComponent implements OnInit {
                 )
           : null
       )
-      .color((dimension) => dimension.range(['slategray']))
-      .backgrounds((backgrounds) => backgrounds.color('linen'))
+      .color((dimension) => dimension.range(['royalblue']))
+      .backgrounds((backgrounds) => backgrounds.color('papayawhip'))
       .labels((labels) => labels.display(true))
       .getConfig();
 

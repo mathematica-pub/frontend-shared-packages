@@ -60,8 +60,12 @@ export abstract class XyAxis<
 
   setAxisFromScaleAndConfig(): void {
     this.axis = this.axisFunction(this.scale);
-    if (this.config.ticks.sizeOuter !== undefined) {
-      this.axis.tickSizeOuter(this.config.ticks.sizeOuter);
+
+    const baselineTranslate = this.getBaselineTranslate();
+    if (this.config.ticks.sizeOuter !== undefined || baselineTranslate) {
+      this.axis.tickSizeOuter(
+        baselineTranslate ? 0 : this.config.ticks.sizeOuter
+      );
     }
     if (this.config.ticks.format) {
       this.setTicks(this.config.ticks.format);

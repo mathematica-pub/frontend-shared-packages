@@ -62,7 +62,7 @@ export class StackedAreaExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,
-    right: 0,
+    right: 12,
     bottom: 36,
     left: 64,
   };

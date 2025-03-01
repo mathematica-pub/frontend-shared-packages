@@ -92,11 +92,8 @@ export class DotsExampleComponent implements OnInit {
       .margin({
         top: 36,
         right: 0,
-        bottom: 8,
+        bottom: 32,
         left: 60,
-      })
-      .resize({
-        height: false,
       })
       .getConfig();
 

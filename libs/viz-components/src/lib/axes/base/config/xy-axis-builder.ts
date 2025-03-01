@@ -6,7 +6,7 @@ import { AxisLabelBuilder } from '../../label/axis-label-builder';
 export abstract class XyAxisBaseBuilder extends VicAuxMarksBuilder<void> {
   protected _axis: 'x' | 'y';
   protected _dimension: 'ordinal' | 'quantitative';
-  protected baselineBuilder: AxisBaselineBuilder;
+  protected baselineBuilder: AxisBaselineBuilder = new AxisBaselineBuilder();
   protected gridBuilder: GridBuilder;
   protected labelBuilder: AxisLabelBuilder;
   protected marksClass: string;
