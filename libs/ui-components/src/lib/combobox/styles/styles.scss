@@ -49,18 +49,22 @@ $editable-textbox: (
 
 $listbox: (
   'z-index': 100,
-  'padding': grid(2) 0,
   'max-height': 300px,
   'background': var(--hsi-adk-color-primary-100, white),
-  'scrollable-container-margin': grid(1),
+  'padding-top': grid(1),
+  'padding-right': grid(1),
+  'padding-bottom': grid(1),
+  'padding-left': grid(1),
 );
 
 $listbox-option: (
   'hover': (
     'background': var(--hsi-adk-color-muted-primary-95, #f2f2f2),
+    'border-radius': 0,
   ),
   'selected': (
     'background': var(--hsi-adk-color-muted-primary-90, lightgray),
+    'border-radius': 0,
   ),
   'disabled': (
     'color': var(--hsi-adk-color-muted-primary-80, lightgray),
@@ -68,6 +72,7 @@ $listbox-option: (
   'current': (
     'background': var(--hsi-adk-color-muted-primary-40, darkgray),
     'color': var(--hsi-adk-color-primary-100, white),
+    'border-radius': 0,
   ),
   'label': (
     'padding': grid(3),
