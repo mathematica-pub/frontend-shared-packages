@@ -2,7 +2,8 @@
 
 ## Overview
 
-Users can use the `grid` method to draw grid lines oriented perpendicular to a particular axis.
+Users can use the `grid` method on an x- or y-axis builder to draw grid lines oriented perpendicular
+to that axis.
 
 By default, one grid line is drawn for each axis tick. However, axis grids can be customized by
 using the `filter` and `stroke` methods. These methods allow the user to conditionally hide grid
@@ -34,7 +35,7 @@ this.yQuantitativeAxis
 
 ### Required Methods
 
-There are no required methods for axis grids.
+There are no required methods.
 
 ### Optional Methods
 

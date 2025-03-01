@@ -152,7 +152,7 @@ export class EnergyIntensityBarComponent implements OnInit {
 
     this.yAxisConfig = this.yOrdinalAxis.getConfig();
     this.xAxisConfig = this.xQuantitativeAxis
-      .ticks((ticks) => ticks.format(',.0f').numTicks(4))
+      .ticks((ticks) => ticks.format(',.0f').count(4))
       .side('top')
       .getConfig();
   }

@@ -19,7 +19,7 @@ export class Ticks<Tick> implements TicksOptions<Tick> {
 }
 
 export class QuantitativeTicks<Tick> extends Ticks<Tick> {
-  numTicks: number;
+  count: number;
   spacing: number;
   values: Tick[];
 

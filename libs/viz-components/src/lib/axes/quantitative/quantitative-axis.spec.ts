@@ -149,7 +149,7 @@ describe('the QuantitativeAxis mixin', () => {
         'getValidNumTicksForStringFormatter'
       ).and.returnValue(10);
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
-        .ticks((t) => t.numTicks(1))
+        .ticks((t) => t.count(1))
         .getConfig();
     });
 
@@ -208,7 +208,7 @@ describe('the QuantitativeAxis mixin', () => {
     });
     it('returns the value from config.numTicks if it exists', () => {
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
-        .ticks((t) => t.numTicks(17))
+        .ticks((t) => t.count(17))
         .getConfig();
       expect((abstractClass as any).getNumTicks()).toEqual(17);
     });

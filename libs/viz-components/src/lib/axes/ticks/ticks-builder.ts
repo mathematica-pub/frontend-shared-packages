@@ -20,7 +20,7 @@ const DEFAULT = {
 };
 
 const QUANT_DEFAULT = {
-  _spacing: 60,
+  _spacing: 40,
 };
 
 export class TicksBuilder<Tick> {
@@ -87,23 +87,6 @@ export class TicksBuilder<Tick> {
   }
 
   /**
-   * OPTIONAL. Determines the rotation of tick labels.
-   *
-   * @param value - The rotation of the tick labels in degrees, or `null` to unset the rotation.
-   *
-   * If not called, ticks will not be rotated.
-   */
-
-  rotate(value: number | null): this {
-    if (value === null) {
-      this._rotate = undefined;
-      return this;
-    }
-    this._rotate = value;
-    return this;
-  }
-
-  /**
    * OPTIONAL. Sets the color of the stroke around the tick labels. Often used to improve the legibility of tick labels, for example, on dark backgrounds.
    *
    * @param value - The stroke of the tick labels.
@@ -120,7 +103,7 @@ export class TicksBuilder<Tick> {
   }
 
   /**
-   * OPTIONAL. Sets the opacity of a stroke around the tick labels. Often used when
+   * OPTIONAL. Sets the opacity of the stroke applied around the tick labels.
    *
    * @param value - The opacity of the stroke around the tick labels.
    *
@@ -152,21 +135,19 @@ export class TicksBuilder<Tick> {
   }
 
   /**
-   * OPTIONAL. Specifies how tick labels will be wrapped.
+   * OPTIONAL. Determines the rotation of tick labels.
    *
-   * @param wrap - A callback that specifies how tick labels will be wrapped, or `null` to unset the wrapping.
+   * @param value - The rotation of the tick labels in degrees, or `null` to unset the rotation.
    *
-   * If not called, the tick labels will not be wrapped.
+   * If not called, ticks will not be rotated.
    */
-  wrap(wrap: (wrap: TickWrapBuilder) => void): this;
-  wrap(wrap: null): this;
-  wrap(wrap: (wrap: TickWrapBuilder) => void | null): this {
-    if (wrap === null) {
-      this.wrapBuilder = undefined;
+
+  rotate(value: number | null): this {
+    if (value === null) {
+      this._rotate = undefined;
       return this;
     }
-    this.wrapBuilder = new TickWrapBuilder();
-    wrap(this.wrapBuilder);
+    this._rotate = value;
     return this;
   }
 
@@ -202,6 +183,25 @@ export class TicksBuilder<Tick> {
     return this;
   }
 
+  /**
+   * OPTIONAL. Specifies how tick labels will be wrapped.
+   *
+   * @param wrap - A callback that specifies how tick labels will be wrapped, or `null` to unset the wrapping.
+   *
+   * If not called, the tick labels will not be wrapped.
+   */
+  wrap(wrap: (wrap: TickWrapBuilder) => void): this;
+  wrap(wrap: null): this;
+  wrap(wrap: (wrap: TickWrapBuilder) => void | null): this {
+    if (wrap === null) {
+      this.wrapBuilder = undefined;
+      return this;
+    }
+    this.wrapBuilder = new TickWrapBuilder();
+    wrap(this.wrapBuilder);
+    return this;
+  }
+
   _build(): Ticks<Tick> {
     return new Ticks({
       fontSize: this._fontSize,
@@ -219,7 +219,7 @@ export class TicksBuilder<Tick> {
 }
 
 export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
-  private _numTicks: number | AxisTimeInterval;
+  private _count: number | AxisTimeInterval;
   private _spacing: number;
   private _values: Tick[];
 
@@ -239,12 +239,12 @@ export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
    *
    * Note that this number will be passed to D3's `ticks()` method and therefore it can be an approximate number of ticks.
    */
-  numTicks(value: number | AxisTimeInterval | null): this {
+  count(value: number | AxisTimeInterval | null): this {
     if (value === null) {
-      this._numTicks = undefined;
+      this._count = undefined;
       return this;
     }
-    this._numTicks = value;
+    this._count = value;
     return this;
   }
 
@@ -253,7 +253,7 @@ export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
    *
    * @param value - The spacing between ticks in pixels, or null to unset the spacing.
    *
-   * If not called, the default value is 60. If `num` is set, this value will be ignored.
+   * If not called, the default value is 40. If `count` is set, this value will be ignored.
    */
   spacing(value: number | null): this {
     if (value === null) {
@@ -287,7 +287,7 @@ export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
       labelsStroke: this._labelsStroke,
       labelsStrokeOpacity: this._labelsStrokeOpacity,
       labelsStrokeWidth: this._labelsStrokeWidth,
-      numTicks: this._numTicks,
+      count: this._count,
       rotate: this._rotate,
       size: this._size,
       sizeOuter: this._sizeOuter,

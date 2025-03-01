@@ -240,7 +240,7 @@ describe('Domain lines positioning, one quant, one ordinal dimension - horizonta
   let dataForYear = data.filter((d) => d.year === 2024);
   beforeEach(() => {
     xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-      .ticks((ticks) => ticks.format('.0f').numTicks(5))
+      .ticks((ticks) => ticks.format('.0f').count(5))
       .getConfig();
     yAxisConfig = new VicYOrdinalAxisConfigBuilder<string>().getConfig();
   });
@@ -365,7 +365,7 @@ describe('Domain lines positioning, one quant, one ordinal dimension - vertical 
   beforeEach(() => {
     xAxisConfig = new VicXOrdinalAxisConfigBuilder<string>().getConfig();
     yAxisConfig = new VicYQuantitativeAxisConfigBuilder<number>()
-      .ticks((ticks) => ticks.format('.0f').numTicks(5))
+      .ticks((ticks) => ticks.format('.0f').count(5))
       .getConfig();
   });
   it('should have visible y domain at left of chart and a x domain in the middle of the chart when data is pos and neg - vertical bar chart', () => {

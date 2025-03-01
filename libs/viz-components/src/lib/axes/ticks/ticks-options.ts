@@ -15,7 +15,7 @@ export interface TicksOptions<Tick> {
 }
 
 export interface QuantitativeTicksOptions<Tick> extends TicksOptions<Tick> {
-  numTicks: number | AxisTimeInterval;
+  count: number | AxisTimeInterval;
   spacing: number;
   values: Tick[];
 }

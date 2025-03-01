@@ -174,7 +174,7 @@ function mountDotsXQuantYQuantComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-    .ticks((ticks) => ticks.format('.0f').numTicks(5))
+    .ticks((ticks) => ticks.format('.0f').count(5))
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
@@ -238,7 +238,7 @@ function mountDotsXQuantYOrdinalComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-    .ticks((ticks) => ticks.format('.0f').numTicks(5))
+    .ticks((ticks) => ticks.format('.0f').count(5))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder<string>().getConfig();
   const declarations = [TestDotsXQuantYOrdinalComponent<CountryFactsDatum>];
@@ -298,7 +298,7 @@ function mountDotsXOrdinalYQuantComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
 ): void {
   const yAxisConfig = new VicYQuantitativeAxisConfigBuilder<number>()
-    .ticks((ticks) => ticks.format('.0f').numTicks(5))
+    .ticks((ticks) => ticks.format('.0f').count(5))
     .getConfig();
   const xAxisConfig = new VicXOrdinalAxisConfigBuilder<string>().getConfig();
   const declarations = [TestDotsXOrdinalYQuantComponent<CountryFactsDatum>];

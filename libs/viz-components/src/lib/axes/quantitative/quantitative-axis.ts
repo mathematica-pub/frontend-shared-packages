@@ -80,7 +80,7 @@ export function quantitativeAxisMixin<
 
     getNumTicks(): number | AxisTimeInterval {
       return (
-        this.config.ticks.numTicks ||
+        this.config.ticks.count ||
         this.config.getNumTicksBySpacing(this.config.ticks.spacing, {
           height: this.chart.config.height,
           width: this.chart.config.width,

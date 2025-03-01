@@ -247,7 +247,7 @@ describe('integer formatted ticks', () => {
         .labels((labels) => labels.display(true))
         .getConfig();
       axisConfig = new VicXQuantitativeAxisConfigBuilder()
-        .ticks((ticks) => ticks.format('.0f').numTicks(100))
+        .ticks((ticks) => ticks.format('.0f').count(100))
         .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
         declarations,
@@ -292,7 +292,7 @@ describe('integer formatted ticks', () => {
         .labels((labels) => labels.display(true))
         .getConfig();
       axisConfig = new VicXQuantitativeAxisConfigBuilder()
-        .ticks((ticks) => ticks.format('.0f').numTicks(10))
+        .ticks((ticks) => ticks.format('.0f').count(10))
         .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
         declarations,
@@ -416,7 +416,7 @@ describe('float formatted ticks', () => {
         .labels((labels) => labels.display(true))
         .getConfig();
       axisConfig = new VicXQuantitativeAxisConfigBuilder()
-        .ticks((ticks) => ticks.format('.1f').numTicks(100))
+        .ticks((ticks) => ticks.format('.1f').count(100))
         .getConfig();
       const numDecimalPlaces = 1;
       possibleValues =
@@ -473,7 +473,7 @@ describe('float formatted ticks', () => {
         .labels((labels) => labels.display(true))
         .getConfig();
       axisConfig = new VicXQuantitativeAxisConfigBuilder()
-        .ticks((ticks) => ticks.format('.1f').numTicks(10))
+        .ticks((ticks) => ticks.format('.1f').count(10))
         .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
         declarations,
@@ -583,7 +583,7 @@ describe('percent formatted ticks', () => {
     let possibleValues: number;
     beforeEach(() => {
       axisConfig = new VicXQuantitativeAxisConfigBuilder()
-        .ticks((ticks) => ticks.format('.0%').numTicks(100))
+        .ticks((ticks) => ticks.format('.0%').count(100))
         .getConfig();
       const numDecimalPlaces = 2;
       possibleValues =
@@ -640,7 +640,7 @@ describe('percent formatted ticks', () => {
         .labels((labels) => labels.display(true))
         .getConfig();
       axisConfig = new VicXQuantitativeAxisConfigBuilder()
-        .ticks((ticks) => ticks.format('.0%').numTicks(10))
+        .ticks((ticks) => ticks.format('.0%').count(10))
         .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
         declarations,
@@ -722,7 +722,7 @@ describe('grid lines', () => {
   });
   it('number of lines matches number of ticks if no filter is specified', () => {
     axisConfig = new VicXQuantitativeAxisConfigBuilder()
-      .ticks((ticks) => ticks.numTicks(4))
+      .ticks((ticks) => ticks.count(4))
       .grid()
       .getConfig();
     cy.mount(TestXQuantitativeAxisComponent, {
@@ -738,7 +738,7 @@ describe('grid lines', () => {
   });
   it('lines are visible for every other tick given a filter (excluding line overlapping axis)', () => {
     axisConfig = new VicXQuantitativeAxisConfigBuilder()
-      .ticks((ticks) => ticks.numTicks(4))
+      .ticks((ticks) => ticks.count(4))
       .grid((grid) => grid.filter((i) => i % 2 === 0))
       .getConfig();
     cy.mount(TestXQuantitativeAxisComponent, {

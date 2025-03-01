@@ -31,6 +31,7 @@ import {
 import {
   LocationCategoryDatum,
   statesElectionData,
+  statesElectionDataPosNeg,
 } from '../../data/location-category-data';
 
 interface ViewModel {
@@ -82,6 +83,7 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
   @Input() height = 160;
   @Input() useLabels = false;
   @Input() useBackgrounds = false;
+  @Input() usePosNegData = false;
   vm: ViewModel;
 
   constructor(
@@ -117,7 +119,9 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
         .ticks((ticks) => ticks.size(0))
         .getConfig();
       quantitativeAxisConfig = this.xQuantitativeAxis
-        .ticks((ticks) => ticks.format('.0%').numTicks(5))
+        .ticks((ticks) =>
+          ticks.format(this.usePosNegData ? '.1%' : '.0%').count(5)
+        )
         .label((label) =>
           label.text('Percentage of Population').offset({ y: 12 })
         )
@@ -129,18 +133,21 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
         )
         .getConfig();
       quantitativeAxisConfig = this.yQuantitativeAxis
-        .ticks((ticks) => ticks.format('.0%').numTicks(5))
+        .ticks((ticks) =>
+          ticks.format(this.usePosNegData ? '.1%' : '.0%').count(5)
+        )
         .label((label) => label.text('Percentage of Population'))
         .getConfig();
     }
 
+    let chartData = this.usePosNegData
+      ? statesElectionDataPosNeg.filter((d) => d.category === '2020')
+      : statesElectionData.filter((d) => d.category === 'D');
+
+    chartData = chartData.slice().sort((a, b) => b.value - a.value);
+
     const dataConfig = this.bars
-      .data(
-        statesElectionData
-          .filter((d) => d.category === 'D')
-          .slice()
-          .sort((a, b) => b.value - a.value)
-      )
+      .data(chartData)
       .horizontal(
         this.orientation === 'horizontal'
           ? (bars) =>

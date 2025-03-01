@@ -52,6 +52,23 @@
           </div>
         </div>
       }
+      @case ('small axis baseline examples') {
+        <div class="small-examples-container baseline">
+          <div class="example">
+            <p class="chart-title default">With default axis baselines</p>
+            <app-bars-simple-states-example></app-bars-simple-states-example>
+          </div>
+          <div class="example">
+            <p class="chart-title default"
+              >With a default zero axis when there are positive and negative
+              values</p
+            >
+            <app-bars-simple-states-example
+              [usePosNegData]="true"
+            ></app-bars-simple-states-example>
+          </div>
+        </div>
+      }
     }
   </ng-template>
 </app-content-container>

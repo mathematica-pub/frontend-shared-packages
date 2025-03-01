@@ -12,12 +12,14 @@ export abstract class XyAxisBaseBuilder extends VicAuxMarksBuilder<void> {
   protected marksClass: string;
 
   /**
-   * OPTIONAL. Specifies the configuration for the axis baseline.
+   * OPTIONAL. Specifies the configuration for the axis baseline. The baseline is the line that typically runs along the edge of the chart, from which tick marks and labels are drawn.
    *
    * @param baseline - A function that specifies properties for the axis baseline, or `null` to unset the baseline.
    *
-   * If called with no argument, the default values of the baseline will be used.
+   * If called with null, the default values of the baseline will be used.
    */
+  baseline(baseline: (baseline: AxisBaselineBuilder) => void): this;
+  baseline(baseline: null): this;
   baseline(baseline: (baseline: AxisBaselineBuilder) => void): this {
     this.baselineBuilder = new AxisBaselineBuilder();
     if (baseline === null) {
