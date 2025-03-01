@@ -6,8 +6,9 @@ import { VicYOrdinalAxisConfig } from './y-ordinal-axis-config';
 
 const DEFAULT = {
   _side: 'left',
-  _removeDomainLine: true,
-  _zeroAxis: { strokeDasharray: '2', useZeroAxis: true },
+  _baseline: {
+    display: false,
+  },
 };
 
 const TICKS_DEFAULT = {
@@ -62,7 +63,7 @@ export class VicYOrdinalAxisConfigBuilder<
 
   getConfig(): VicYOrdinalAxisConfig<Tick> {
     return new VicYOrdinalAxisConfig({
-      baseline: this.baselineBuilder._build(),
+      baseline: this.baselineBuilder._build('ordinal'),
       grid: this.gridBuilder?._build('y'),
       label: this.labelBuilder?._build('y'),
       marksClass: 'vic-axis-y-ordinal',

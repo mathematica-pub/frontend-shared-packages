@@ -1,7 +1,6 @@
 import { AxisBaseline } from './axis-baseline';
 
 const DEFAULT = {
-  _display: true,
   _zeroBaseline: {
     display: true,
     dasharray: '2, 2',
@@ -65,7 +64,10 @@ export class AxisBaselineBuilder {
     return this;
   }
 
-  _build(): AxisBaseline {
+  _build(dimension: 'ordinal' | 'quantitative'): AxisBaseline {
+    if (this._display === undefined) {
+      this._display = dimension === 'ordinal' ? false : true;
+    }
     return new AxisBaseline({
       display: this._display,
       zeroBaseline: this._zeroBaseline,

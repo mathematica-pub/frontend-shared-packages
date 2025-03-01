@@ -1,7 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { BarsConfig, VicBarsConfigBuilder, VicBarsModule } from '../../bars';
-import { VicChartModule, VicXyChartModule } from '../../charts';
+import {
+  VicChartConfigBuilder,
+  VicChartModule,
+  VicXyChartModule,
+} from '../../charts';
 import {
   LinesConfig,
   VicLinesConfigBuilder,
@@ -35,13 +39,7 @@ const data = ContinentPopulationNumYearData;
 @Component({
   selector: 'vic-test-zero-axis-lines',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-      [transitionDuration]="0"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
         <svg:g
@@ -62,9 +60,11 @@ class TestZeroAxisLinesComponent<Datum> {
   @Input() linesConfig: LinesConfig<Datum>;
   @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
   @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  chartConfig = new VicChartConfigBuilder()
+    .margin(margin)
+    .height(chartHeight)
+    .width(chartWidth)
+    .getConfig();
 }
 
 const linesImports = [
@@ -164,13 +164,7 @@ describe('Domain lines positioning, two quant dimensions', () => {
 @Component({
   selector: 'vic-test-zero-axis-horizontal-bars',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-      [transitionDuration]="0"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
         <svg:g vic-primary-marks-bars [config]="barsConfig"></svg:g>
@@ -188,9 +182,11 @@ class TestZeroAxisHorizontalBarsComponent<Datum> {
   @Input() barsConfig: BarsConfig<Datum, string>;
   @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  chartConfig = new VicChartConfigBuilder()
+    .margin(margin)
+    .height(chartHeight)
+    .width(chartWidth)
+    .getConfig();
 }
 
 const horizontalBarsImports = [
@@ -295,13 +291,7 @@ describe('Domain lines positioning, one quant, one ordinal dimension - horizonta
 @Component({
   selector: 'vic-test-zero-axis-vertical-bars',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-      [transitionDuration]="0"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
         <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
@@ -319,9 +309,11 @@ class TestZeroAxisVerticalBarsComponent<Datum> {
   @Input() barsConfig: BarsConfig<Datum, string>;
   @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
   @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  chartConfig = new VicChartConfigBuilder()
+    .margin(margin)
+    .height(chartHeight)
+    .width(chartWidth)
+    .getConfig();
 }
 
 const verticalBarsImports = [

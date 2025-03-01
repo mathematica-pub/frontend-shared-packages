@@ -61,7 +61,7 @@ export class VicXQuantitativeAxisConfigBuilder<
 
   getConfig(): VicXQuantitativeAxisConfig<Tick> {
     return new VicXQuantitativeAxisConfig<Tick>({
-      baseline: this.baselineBuilder._build(),
+      baseline: this.baselineBuilder._build('quantitative'),
       grid: this.gridBuilder?._build('x'),
       label: this.labelBuilder?._build('x'),
       marksClass: 'vic-axis-x-quantitative',
