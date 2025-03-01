@@ -29,7 +29,7 @@ import { VicYQuantitativeAxisConfigBuilder } from '../y-quantitative-axis/y-quan
 import { VicYQuantitativeAxisConfig } from '../y-quantitative-axis/y-quantitative-axis-config';
 import { VicYQuantitativeAxisModule } from '../y-quantitative-axis/y-quantitative-axis.module';
 
-const axisTickTextWaitTime = 1000;
+const axisTickTextWaitTime = 2000;
 
 const margin = { top: 60, right: 20, bottom: 40, left: 80 };
 const chartHeight = 400;
