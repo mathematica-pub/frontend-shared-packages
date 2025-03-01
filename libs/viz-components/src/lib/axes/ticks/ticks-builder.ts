@@ -193,7 +193,7 @@ export class TicksBuilder<Tick> {
    *
    * If not called on ordinal axes, the default value is 0. If not called on quantitative axes, no modification is made to D3's default value.
    */
-  tickSizeOuter(value: number | null): this {
+  sizeOuter(value: number | null): this {
     if (value === null) {
       this._sizeOuter = undefined;
       return this;
