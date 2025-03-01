@@ -17,16 +17,18 @@ import {
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicOrdinalAxisConfig,
-  VicQuantitativeAxisConfig,
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
@@ -38,8 +40,12 @@ import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 interface ViewModel {
   chartConfig: ChartConfig;
   dataConfig: BarsConfig<MetroUnemploymentDatum, string>;
-  xAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
-  yAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
+  xAxisConfig:
+    | VicXOrdinalAxisConfig<string>
+    | VicXQuantitativeAxisConfig<number>;
+  yAxisConfig:
+    | VicYOrdinalAxisConfig<string>
+    | VicYQuantitativeAxisConfig<number>;
 }
 
 enum Orientation {
@@ -150,12 +156,19 @@ export class BarsExampleComponent implements OnInit {
 
     const xAxisConfig =
       layout.orientation === Orientation.horizontal
-        ? this.xQuantitativeAxis.side('top').tickFormat('.0f').getConfig()
-        : this.xOrdinalAxis.removeTickMarks().rotateTickLabels(30).getConfig();
+        ? this.xQuantitativeAxis
+            .side('top')
+            .ticks((ticks) => ticks.format('.0f'))
+            .getConfig()
+        : this.xOrdinalAxis
+            .ticks((ticks) => ticks.size(0).rotate(30))
+            .getConfig();
     const yAxisConfig =
       layout.orientation === Orientation.horizontal
-        ? this.yOrdinalAxis.removeTickMarks().getConfig()
-        : this.yQuantitativeAxis.tickFormat('.0f').getConfig();
+        ? this.yOrdinalAxis.ticks((ticks) => ticks.size(0)).getConfig()
+        : this.yQuantitativeAxis
+            .ticks((ticks) => ticks.format('.0f'))
+            .getConfig();
 
     const dataConfig = this.bars
       .data(filteredData)
@@ -190,8 +203,6 @@ export class BarsExampleComponent implements OnInit {
       .labels((labels) => labels.display(true))
       .getConfig();
 
-    console.log('xaxisconfig', xAxisConfig.rotateTickLabels);
-    console.log('yaxisconfig', yAxisConfig.rotateTickLabels);
     return {
       chartConfig,
       dataConfig,

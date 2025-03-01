@@ -5,6 +5,7 @@ import { GenericScale } from '../../core';
 import { DataValue } from '../../core/types/values';
 import { XyAuxMarks } from '../../marks';
 import { SvgTextWrap } from '../../svg-text-wrap/svg-text-wrap';
+import { Ticks } from '../ticks/ticks';
 import { XyAxisConfig } from './config/xy-axis-config';
 
 export type XyAxisScale = {
@@ -19,10 +20,10 @@ type AxisSvgElements = 'gridGroup' | 'gridLine' | 'label' | 'axisGroup';
  * A base directive for all axes.
  */
 @Directive()
-export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
-  unknown,
-  XyAxisConfig<TickValue>
-> {
+export abstract class XyAxis<
+  Tick extends DataValue,
+  TicksConfig extends Ticks<Tick>,
+> extends XyAuxMarks<unknown, XyAxisConfig<Tick, TicksConfig>> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axis: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,10 +40,10 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract setAxisFunction(): any;
   abstract setTranslate(): void;
-  abstract setTicks(tickFormat: string | ((value: TickValue) => string)): void;
+  abstract setTicks(tickFormat: string | ((value: Tick) => string)): void;
   abstract setScale(): void;
   abstract createLabel(): void;
-  abstract getDomainTranslate(): string | null;
+  abstract getBaselineTranslate(): string | null;
 
   get class(): Record<AxisSvgElements, string> {
     return {
@@ -59,11 +60,11 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
 
   setAxisFromScaleAndConfig(): void {
     this.axis = this.axisFunction(this.scale);
-    if (this.config.tickSizeOuter !== undefined) {
-      this.axis.tickSizeOuter(this.config.tickSizeOuter);
+    if (this.config.ticks.sizeOuter !== undefined) {
+      this.axis.tickSizeOuter(this.config.ticks.sizeOuter);
     }
-    if (this.config.tickFormat) {
-      this.setTicks(this.config.tickFormat);
+    if (this.config.ticks.format) {
+      this.setTicks(this.config.ticks.format);
     }
   }
 
@@ -101,73 +102,78 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
 
   processTicks(): void {
     const tickText = select(this.elRef.nativeElement).selectAll('.tick text');
-    if (this.config.tickLabelFontSize) {
+    if (this.config.ticks.fontSize) {
       this.setTickFontSize(tickText);
     }
-    if (this.config.wrap) {
+    if (this.config.ticks.wrap) {
       this.wrapAxisTickText(tickText);
     }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setTickFontSize(tickTextSelection: any): void {
-    tickTextSelection.attr('font-size', this.config.tickLabelFontSize);
+    tickTextSelection.attr('font-size', this.config.ticks.fontSize);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   wrapAxisTickText(tickTextSelection: any): void {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { wrapWidth, ...properties } = this.config.wrap;
+    const { wrapWidth, ...properties } = this.config.ticks.wrap;
 
     let width: number;
-    if (this.config.wrap.wrapWidth === 'bandwidth') {
+    if (this.config.ticks.wrap.wrapWidth === 'bandwidth') {
       width = this.scale.bandwidth();
-    } else if (typeof this.config.wrap.wrapWidth === 'function') {
+    } else if (typeof this.config.ticks.wrap.wrapWidth === 'function') {
       const chartWidth = this.scale.range()[1] - this.scale.range()[0];
       const numOfTicks = select(this.elRef.nativeElement)
         .selectAll('.tick')
         .size();
-      width = this.config.wrap.wrapWidth(chartWidth, numOfTicks);
+      width = this.config.ticks.wrap.wrapWidth(chartWidth, numOfTicks);
     } else {
-      width = this.config.wrap.wrapWidth;
+      width = this.config.ticks.wrap.wrapWidth;
     }
     const wrap = new SvgTextWrap({ ...properties, width });
     wrap.wrap(tickTextSelection);
   }
 
   processDomain(): void {
-    const zeroAxisTranslate = this.getDomainTranslate();
+    const zeroAxisTranslate = this.getBaselineTranslate();
 
-    if (this.config.zeroAxis.useZeroAxis && zeroAxisTranslate !== null) {
+    if (
+      this.config.baseline.zeroBaseline.display &&
+      zeroAxisTranslate !== null
+    ) {
       this.axisGroup.call((g) =>
         g
           .select('.domain')
           .transition(this.getTransition(this.axisGroup))
           .attr('transform', zeroAxisTranslate)
-          .attr('class', 'domain zero-axis-domain')
-          .attr('stroke-dasharray', this.config.zeroAxis.strokeDasharray)
+          .attr('class', 'domain baseline zero-axis-baseline')
+          .attr('stroke-dasharray', this.config.baseline.zeroBaseline.dasharray)
       );
     }
 
     if (zeroAxisTranslate === null) {
-      this.axisGroup.call((g) => g.select('.domain').attr('class', 'domain'));
+      this.axisGroup.call((g) =>
+        g.select('.domain').attr('class', 'domain baseline')
+      );
     }
 
-    if (this.config.removeDomainLine && zeroAxisTranslate === null) {
+    if (!this.config.baseline.display && zeroAxisTranslate === null) {
       this.axisGroup.call((g) => g.select('.domain').remove());
     }
   }
 
   processTickLabels(): void {
-    if (this.config.removeTickLabels) {
+    if (this.config.ticks.labelsDisplay === false) {
       this.axisGroup.call((g) => g.selectAll('.tick text').remove());
     }
 
-    if (this.config.rotateTickLabels) {
+    if (this.config.ticks.rotate) {
       this.axisGroup.call((g) =>
         g
           .selectAll('.tick text')
-          .style('transform', `rotate(-${this.config.rotateTickLabels}deg)`)
+          .style('transform', `rotate(-${this.config.ticks.rotate}deg)`)
           .attr('text-anchor', 'end')
           .attr('alignment-baseline', 'start')
       );
@@ -175,7 +181,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   }
 
   processTickMarks(): void {
-    if (this.config.removeTickMarks) {
+    if (this.config.ticks.size === 0) {
       this.axisGroup.call((g) => g.selectAll('.tick line').remove());
     }
   }

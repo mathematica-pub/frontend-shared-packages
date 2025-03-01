@@ -13,16 +13,18 @@ import {
   VicBarsModule,
   VicChartConfigBuilder,
   VicChartModule,
-  VicOrdinalAxisConfig,
-  VicQuantitativeAxisConfig,
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
@@ -34,8 +36,12 @@ import {
 interface ViewModel {
   chartConfig: ChartConfig;
   dataConfig: BarsConfig<LocationCategoryDatum, string>;
-  ordinalAxisConfig: VicOrdinalAxisConfig<string>;
-  quantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
+  ordinalAxisConfig:
+    | VicXOrdinalAxisConfig<string>
+    | VicYOrdinalAxisConfig<string>;
+  quantitativeAxisConfig:
+    | VicXQuantitativeAxisConfig<number>
+    | VicYQuantitativeAxisConfig<number>;
 }
 
 @Component({
@@ -92,8 +98,12 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
   }
 
   getViewModel(): void {
-    let ordinalAxisConfig: VicOrdinalAxisConfig<string>;
-    let quantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
+    let ordinalAxisConfig:
+      | VicXOrdinalAxisConfig<string>
+      | VicYOrdinalAxisConfig<string>;
+    let quantitativeAxisConfig:
+      | VicXQuantitativeAxisConfig<number>
+      | VicYQuantitativeAxisConfig<number>;
 
     const chartConfig = this.chart
       .margin(this.margin)
@@ -103,22 +113,23 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
       .getConfig();
 
     if (this.orientation === 'horizontal') {
-      ordinalAxisConfig = this.yOrdinalAxis.removeTickMarks().getConfig();
+      ordinalAxisConfig = this.yOrdinalAxis
+        .ticks((ticks) => ticks.size(0))
+        .getConfig();
       quantitativeAxisConfig = this.xQuantitativeAxis
-        .tickFormat('.0%')
-        .numTicks(5)
+        .ticks((ticks) => ticks.format('.0%').numTicks(5))
         .label((label) =>
           label.text('Percentage of Population').offset({ y: 12 })
         )
         .getConfig();
     } else {
       ordinalAxisConfig = this.xOrdinalAxis
-        .removeTickMarks()
-        .tickFormat((state) => this.getStateAbbreviation(state))
+        .ticks((ticks) =>
+          ticks.size(0).format((state) => this.getStateAbbreviation(state))
+        )
         .getConfig();
       quantitativeAxisConfig = this.yQuantitativeAxis
-        .tickFormat('.0%')
-        .numTicks(5)
+        .ticks((ticks) => ticks.format('.0%').numTicks(5))
         .label((label) => label.text('Percentage of Population'))
         .getConfig();
     }

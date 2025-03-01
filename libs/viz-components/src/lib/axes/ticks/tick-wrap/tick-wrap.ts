@@ -1,4 +1,4 @@
-import { SvgTextWrap } from '../../svg-text-wrap/svg-text-wrap';
+import { SvgTextWrap } from '../../../svg-text-wrap/svg-text-wrap';
 import { TickWrapOptions } from './tick-wrap-options';
 
 /**

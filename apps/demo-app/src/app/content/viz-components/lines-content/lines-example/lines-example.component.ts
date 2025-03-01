@@ -34,11 +34,12 @@ import {
   VicJpegImageConfig,
   VicLinesConfigBuilder,
   VicLinesModule,
-  VicQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
@@ -50,8 +51,8 @@ import { HighlightLineForLabel } from './line-input-actions';
 interface ViewModel {
   chartConfig: ChartConfig;
   dataConfig: LinesConfig<MetroUnemploymentDatum>;
-  xAxisConfig: VicQuantitativeAxisConfig<Date>;
-  yAxisConfig: VicQuantitativeAxisConfig<number>;
+  xAxisConfig: VicXQuantitativeAxisConfig<Date>;
+  yAxisConfig: VicYQuantitativeAxisConfig<number>;
   labels: string[];
 }
 const includeFiles = ['line-input-actions.ts'];
@@ -141,7 +142,7 @@ export class LinesExampleComponent implements OnInit {
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
     const chartConfig = this.chart.margin(this.margin).getConfig();
     const xAxisConfig = this.xAxisQuantitative
-      .tickFormat('%Y')
+      .ticks((ticks) => ticks.format('%Y'))
       .label((label) => label.position('middle').text('Year'))
       .getConfig();
     const yAxisConfig = this.yAxisQuantitative
@@ -152,7 +153,7 @@ export class LinesExampleComponent implements OnInit {
           .anchor('start')
           .offset({ x: 8, y: 12 })
       )
-      .tickFormat('.0%')
+      .ticks((ticks) => ticks.format('.0%'))
       .getConfig();
     const dataConfig = this.lines
       .data(data)

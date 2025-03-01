@@ -4,10 +4,10 @@ import { BarsConfig } from 'libs/viz-components/src/lib/bars/config/bars-config'
 import {
   ChartConfig,
   VicChartConfigBuilder,
+  VicXQuantitativeAxisConfig,
 } from 'libs/viz-components/src/public-api';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
-import { VicQuantitativeAxisConfig } from '../../../../axes/quantitative/quantitative-axis-config';
 import { VicXQuantitativeAxisConfigBuilder } from '../../../../axes/x-quantitative/x-quantitative-axis-builder';
 import { VicXQuantitativeAxisModule } from '../../../../axes/x-quantitative/x-quantitative-axis.module';
 import { BarsComponent } from '../../../../bars/bars.component';
@@ -40,7 +40,7 @@ type Datum = { state: string; value: number };
 })
 class TestXQuantitativeDomainComponent implements AfterViewInit {
   @Input() barsConfig: BarsConfig<Datum, string>;
-  @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   @ViewChild(BarsComponent) barsComponent: BarsComponent<Datum, string>;
   domain = new BehaviorSubject<[number, number]>([undefined, undefined]);
   domain$ = this.domain.asObservable();
@@ -94,7 +94,7 @@ function getBarWidthByIndex(index: number): Cypress.Chainable {
 
 describe('it correctly sets quantitative domain - all values are positive, 0 is explicitly included in domain', () => {
   let barsConfig: BarsConfig<Datum, string>;
-  let axisConfig: VicQuantitativeAxisConfig<number>;
+  let axisConfig: VicXQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
     VicChartModule,
@@ -117,7 +117,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-      .tickFormat('.0f')
+      .ticks((ticks) => ticks.format('.0f'))
       .getConfig();
   });
   describe('X domain is the default: 0, max value', () => {
@@ -245,7 +245,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
 
 describe('it correctly sets quantitative domain - all values are positive, 0 is NOT in domain', () => {
   let barsConfig: BarsConfig<Datum, string>;
-  let axisConfig: VicQuantitativeAxisConfig<number>;
+  let axisConfig: VicXQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
     VicChartModule,
@@ -268,7 +268,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-      .tickFormat('.0f')
+      .ticks((ticks) => ticks.format('.0f'))
       .getConfig();
   });
   describe('X domain is default/not padded', () => {
@@ -396,7 +396,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
 
 describe('it correctly sets quantitative domain - all values are negative, 0 is explicitly included in domain', () => {
   let barsConfig: BarsConfig<Datum, string>;
-  let axisConfig: VicQuantitativeAxisConfig<number>;
+  let axisConfig: VicXQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
     VicChartModule,
@@ -419,7 +419,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-      .tickFormat('.0f')
+      .ticks((ticks) => ticks.format('.0f'))
       .getConfig();
   });
   describe('X domain is the default: min value, 0', () => {
@@ -565,7 +565,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
 
 describe('it correctly sets quantitative domain - all values are negative, 0 is NOT in domain', () => {
   let barsConfig: BarsConfig<Datum, string>;
-  let axisConfig: VicQuantitativeAxisConfig<number>;
+  let axisConfig: VicXQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
     VicChartModule,
@@ -588,7 +588,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-      .tickFormat('.0f')
+      .ticks((ticks) => ticks.format('.0f'))
       .getConfig();
   });
   describe('X domain turns off including 0', () => {
@@ -714,7 +714,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
 
 describe('it correctly sets quantitative domain - values are positive and negative', () => {
   let barsConfig: BarsConfig<Datum, string>;
-  let axisConfig: VicQuantitativeAxisConfig<number>;
+  let axisConfig: VicXQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
     VicChartModule,
@@ -739,7 +739,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
       .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-      .tickFormat('.0f')
+      .ticks((ticks) => ticks.format('.0f'))
       .getConfig();
   });
   describe('X domain is the default: min value, 0', () => {
@@ -892,7 +892,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
 
 describe('it correctly sets quantitative domain - all values are positive and less than one, 0 is explicitly included in domain', () => {
   let barsConfig: BarsConfig<Datum, string>;
-  let axisConfig: VicQuantitativeAxisConfig<number>;
+  let axisConfig: VicXQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
     VicChartModule,
@@ -915,7 +915,7 @@ describe('it correctly sets quantitative domain - all values are positive and le
       .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-      .tickFormat('.0f')
+      .ticks((ticks) => ticks.format('.0f'))
       .getConfig();
   });
   describe('X domain is the default: 0, max value', () => {

@@ -15,11 +15,12 @@ import {
   VicDotsModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
@@ -30,8 +31,8 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 interface ViewModel {
   chartConfig: ChartConfig;
   dataConfig: DotsConfig<WeatherDatum>;
-  xAxisConfig: VicQuantitativeAxisConfig<number>;
-  yAxisConfig: VicQuantitativeAxisConfig<number>;
+  xAxisConfig: VicXQuantitativeAxisConfig<number>;
+  yAxisConfig: VicYQuantitativeAxisConfig<number>;
 }
 
 @Component({
@@ -99,10 +100,12 @@ export class DotsExampleComponent implements OnInit {
       })
       .getConfig();
 
-    const xAxisConfig = this.xQuantitativeAxis.tickFormat('.1f').getConfig();
+    const xAxisConfig = this.xQuantitativeAxis
+      .ticks((ticks) => ticks.format('.1f'))
+      .getConfig();
     const yAxisConfig = this.yQuantitativeAxis
-      .tickFormat('.1f')
-      .zeroAxis({ useZeroAxis: false })
+      .ticks((ticks) => ticks.format('.1f'))
+      .baseline((baseline) => baseline.zeroBaseline({ dasharray: 'none' }))
       .getConfig();
 
     const dataConfig = this.dots
