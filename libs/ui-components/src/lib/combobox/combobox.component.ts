@@ -11,9 +11,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter, fromEvent, merge } from 'rxjs';
+import { filter, fromEvent, merge, withLatestFrom } from 'rxjs';
 import { ComboboxLabelComponent } from './combobox-label/combobox-label.component';
-import { ComboboxService } from './combobox.service';
+import { ComboboxService, FocusTextbox } from './combobox.service';
 
 @Component({
   selector: 'hsi-ui-combobox',
@@ -53,12 +53,17 @@ export class ComboboxComponent implements OnInit {
       )
         .pipe(
           takeUntilDestroyed(this.destroyRef),
+          withLatestFrom(this.service.isOpen$),
           filter(
-            (event) => !event.composedPath().includes(this.elRef.nativeElement)
+            ([event, isOpen]) =>
+              isOpen && !event.composedPath().includes(this.elRef.nativeElement)
           )
         )
         .subscribe(() => {
-          this.service.emitBlurEvent();
+          if (this.platform.IOS || this.platform.ANDROID) {
+            this.service.emitTextboxFocus(FocusTextbox.includeMobile);
+          }
+          this.service.emitTextboxBlur();
         });
     });
   }

@@ -24,12 +24,10 @@ import { SelectAllListboxOptionComponent } from './select-all-listbox-option/sel
 
 let nextUniqueId = 0;
 
-export enum VisualFocus {
-  textbox = 'textbox',
-  listbox = 'listbox',
+export enum FocusTextbox {
+  default = 'default',
+  includeMobile = 'includeMobile',
 }
-
-// export type VisualFocusType = keyof typeof VisualFocus;
 
 export interface KeyboardEventWithAutocomplete {
   event: KeyboardEvent;
@@ -103,8 +101,8 @@ export class ComboboxService {
   scrollWhenOpened = false;
   shouldAutoSelectOnListboxClose = false;
   activeDescendant$: Observable<string>;
-  private blurEvent: Subject<void> = new Subject();
-  blurEvent$ = this.blurEvent.asObservable();
+  private textboxBlur: Subject<void> = new Subject();
+  textboxBlur$ = this.textboxBlur.asObservable();
   private projectedContentIsInDOM: BehaviorSubject<boolean> =
     new BehaviorSubject(false);
   projectedContentIsInDOM$ = this.projectedContentIsInDOM.asObservable();
@@ -116,11 +114,10 @@ export class ComboboxService {
   label$ = this.label.asObservable();
   private optionAction: Subject<OptionAction | string> = new Subject();
   optionAction$ = this.optionAction.asObservable();
-  private _visualFocus: BehaviorSubject<VisualFocus> =
-    new BehaviorSubject<VisualFocus>(VisualFocus.textbox);
+  private focusTextbox: Subject<FocusTextbox> = new Subject<FocusTextbox>();
+  focusTextbox$ = this.focusTextbox.asObservable();
   private touched: BehaviorSubject<boolean> = new BehaviorSubject(false);
   touched$ = this.touched.asObservable();
-  visualFocus$ = this._visualFocus.asObservable();
   allOptions$: Observable<ListboxOptionComponent[]>;
   groups$: Observable<ListboxGroupComponent[]>;
   optionPropertyChanges$: Observable<ListboxOptionPropertyChange>;
@@ -135,10 +132,6 @@ export class ComboboxService {
 
   get isOpen(): boolean {
     return this._isOpen.value;
-  }
-
-  get visualFocus(): VisualFocus {
-    return this._visualFocus.value;
   }
 
   initActiveDescendant(source$?: Observable<string>): void {
@@ -169,16 +162,16 @@ export class ComboboxService {
     this.projectedContentIsInDOM.next(true);
   }
 
-  emitBlurEvent(): void {
-    this.blurEvent.next();
+  emitTextboxBlur(): void {
+    this.textboxBlur.next();
   }
 
   setTouched(): void {
     this.touched.next(true);
   }
 
-  setVisualFocus(focus: VisualFocus): void {
-    this._visualFocus.next(focus);
+  emitTextboxFocus(focus: FocusTextbox = FocusTextbox.default): void {
+    this.focusTextbox.next(focus);
   }
 
   emitOptionAction(action: OptionAction | string): void {
