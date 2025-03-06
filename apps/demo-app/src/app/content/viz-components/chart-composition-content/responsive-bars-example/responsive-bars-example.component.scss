@@ -1,0 +1,46 @@
+@use 'vars' as *;
+@use 'functions' as *;
+@use 'index' as hsi-adk;
+@use '../../styles/placeholders.scss' as *;
+
+.bars-example {
+  .ui-instructions {
+    padding-bottom: grid(2);
+  }
+
+  .direction-toggle-group {
+    margin-bottom: grid(4);
+    display: inline-grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .margin-change-button {
+    display: block;
+    margin-bottom: grid(4);
+  }
+
+  .chart-container {
+    display: grid;
+    grid-template-columns: 80px auto;
+  }
+
+  .chart-title {
+    font-size: 10px;
+  }
+
+  .vic-xy-chart.vic-chart {
+    display: flex;
+  }
+
+  .vic-bars-label {
+    font-size: 12px;
+  }
+
+  .vic-chart-svg {
+    display: inline;
+  }
+}
+
+.bars-example-tooltip-container {
+  @extend %vic-examples-tooltip-container-styles;
+}

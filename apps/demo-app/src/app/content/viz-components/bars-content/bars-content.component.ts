@@ -9,7 +9,6 @@ import { SplitPanelExampleDisplayComponent } from '../../../platform/split-panel
 import { ContentContainerComponent } from '../../content-container/content-container.component';
 import { BarsExampleComponent } from './bars-example/bars-example.component';
 import { BarsSimpleStatesExampleComponent } from './bars-simple-states-example/bars-simple-states-example.component';
-import { BarsSmallMultiplesExampleComponent } from './bars-small-multiples-example/bars-small-multiples-example.component';
 
 @Component({
   selector: 'app-bars-content',
@@ -21,7 +20,6 @@ import { BarsSmallMultiplesExampleComponent } from './bars-small-multiples-examp
     BarsExampleComponent,
     BarsSimpleStatesExampleComponent,
     ContentContainerComponent,
-    BarsSmallMultiplesExampleComponent,
   ],
   templateUrl: './bars-content.component.html',
   styleUrls: [

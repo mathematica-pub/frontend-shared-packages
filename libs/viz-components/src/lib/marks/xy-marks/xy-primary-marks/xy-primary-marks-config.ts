@@ -9,9 +9,6 @@ export abstract class XyPrimaryMarksConfig<
 
   protected getIndicesByMultiple(): Map<ChartMultipleDomain, number[]> {
     const map = new Map<ChartMultipleDomain, number[]>();
-    if (!this.multiples) {
-      return map;
-    }
     this.multiples.values.forEach((value, index) => {
       if (!map.has(value)) {
         map.set(value, []);
@@ -22,9 +19,6 @@ export abstract class XyPrimaryMarksConfig<
   }
 
   protected isValidMultipleValue(index: number): boolean {
-    if (!this.multiples) {
-      return true;
-    }
     return this.multiples.domainIncludes(this.multiples.values[index]);
   }
 }

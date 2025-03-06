@@ -57,13 +57,18 @@ export type BarDatum<T> = {
   color: string;
 };
 
-export interface BarsTooltipDatum<Datum, TOrdinalValue extends DataValue> {
+export interface BarsTooltipDatum<
+  Datum,
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue,
+> {
   datum: Datum;
   color: string;
   values: {
-    x: TOrdinalValue | string;
-    y: TOrdinalValue | string;
+    x: OrdinalDomain | string;
+    y: OrdinalDomain | string;
     category: string;
+    multiple: ChartMultipleDomain;
   };
 }
 
@@ -679,7 +684,9 @@ export class BarsComponent<
     this.labels.next(labels);
   }
 
-  getTooltipData(datum: Datum): BarsTooltipDatum<Datum, OrdinalDomain> {
+  getTooltipData(
+    datum: Datum
+  ): BarsTooltipDatum<Datum, OrdinalDomain, ChartMultipleDomain> {
     const ordinalValue = this.config.ordinal.formatFunction
       ? ValueUtilities.customFormat(datum, this.config.ordinal.formatFunction)
       : this.config.ordinal.valueAccessor(datum);
@@ -693,7 +700,12 @@ export class BarsComponent<
           this.config.quantitative.formatSpecifier
         );
     const category = this.config.color.valueAccessor(datum);
-    const tooltipData: BarsTooltipDatum<Datum, OrdinalDomain> = {
+    const multiple = this.config.multiples?.valueAccessor(datum);
+    const tooltipData: BarsTooltipDatum<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain
+    > = {
       datum,
       color: this.scales.color(category),
       values: {
@@ -706,6 +718,7 @@ export class BarsComponent<
             ? ordinalValue
             : quantitativeValue,
         category,
+        multiple,
       },
     };
     return tooltipData;
@@ -719,5 +732,30 @@ export class BarsComponent<
         this.config.quantitative.values[barDatum.index] ===
           this.config.quantitative.valueAccessor(d)
     );
+  }
+
+  getThisMultipleBarDatumFromEventOriginDatum(
+    originBarDatum: BarDatum<OrdinalDomain>
+  ): BarDatum<OrdinalDomain> {
+    const index = this.config.data.findIndex(
+      (d) =>
+        this.dataValuesAreEqual(
+          this.config.ordinal.valueAccessor(d),
+          originBarDatum.ordinal
+        ) &&
+        this.dataValuesAreEqual(
+          this.config.multiples?.valueAccessor(d),
+          this.multiple.value
+        )
+    );
+    return this.getBarDatumFromIndex(index);
+  }
+
+  dataValuesAreEqual(a: DataValue, b: DataValue): boolean {
+    if (a instanceof Date && b instanceof Date) {
+      return a.getTime() === b.getTime();
+    } else {
+      return a === b;
+    }
   }
 }

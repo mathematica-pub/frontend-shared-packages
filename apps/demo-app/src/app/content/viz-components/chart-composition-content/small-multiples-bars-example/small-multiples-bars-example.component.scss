@@ -23,18 +23,23 @@
     display: flex;
   }
 
-  .chart-title {
+  .group-title {
+    padding-bottom: grid(2);
   }
 
-  .vic-xy-chart {
-    display: block;
+  .chart-title {
+    font-size: 14px;
   }
 
   .vic-bars-label {
     font-size: 12px;
   }
+
+  .vic-chart-svg {
+    display: inline;
+  }
 }
 
-.bars-example-tooltip-container {
-  @extend %vic-examples-tooltip-container-styles;
+.small-multiples-bars-example-tooltip-container {
+  @extend %vic-examples-multiples-tooltip-container-styles;
 }

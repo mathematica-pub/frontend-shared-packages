@@ -53,7 +53,7 @@ export class StackedBarsClickDirective<
   @Input('vicStackedBarsClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicStackedBarsClickOutput') eventOutput = new EventEmitter<
-    BarsEventOutput<Datum, OrdinalDomain>
+    BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain>
   >();
   stackedBarDatum: StackDatum;
   origin: SVGRectElement;
@@ -117,7 +117,7 @@ export class StackedBarsClickDirective<
     this.pointerY = undefined;
   }
 
-  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain> {
+  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain> {
     const datum = this.bars.getSourceDatumFromStackedBarDatum(
       this.stackedBarDatum
     );

@@ -1,0 +1,62 @@
+<div class="bars-example" *ngIf="vm$ | async as vm; else loading">
+  <p class="group-title" [style.paddingLeft.px]="vm.chartConfigLeft.margin.left"
+    >Average Rainfall by Month</p
+  >
+  <vic-shared-context class="chart-container">
+    @for (city of vm.dataConfig.multiples.calculatedDomain; track $index) {
+      <vic-xy-chart
+        [config]="$index === 0 ? vm.chartConfigLeft : vm.chartConfigOther"
+      >
+        <p
+          html-elements-before
+          class="chart-title"
+          [style.paddingLeft.px]="
+            ($index === 0 ? vm.chartConfigLeft : vm.chartConfigOther).margin
+              .left
+          "
+          >{{ city }}</p
+        >
+        <ng-container svg-elements>
+          <svg:g
+            vic-primary-marks-bars
+            [config]="vm.dataConfig"
+            [multiple]="{ value: city, index: $index }"
+            [vicBarsHoverMoveActions]="hoverAndMoveActions"
+            (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+          >
+            <vic-html-tooltip
+              [config]="tooltipConfig$ | async"
+              [template]="htmlTooltip"
+            ></vic-html-tooltip>
+          </svg:g>
+          <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig" />
+          @if ($index === 0) {
+            <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" />
+          }
+        </ng-container>
+      </vic-xy-chart>
+    }
+  </vic-shared-context>
+</div>
+
+<ng-template #loading>Loading...</ng-template>
+
+<ng-template #htmlTooltip>
+  <div
+    [style.--color]="(tooltipData$ | async).color"
+    class="small-multiples-bars-example-tooltip-container"
+  >
+    <p class="tooltip-label multiple">
+      {{ (tooltipData$ | async).values.multiple }}
+    </p>
+    <p class="tooltip-label category">
+      {{ (tooltipData$ | async).values.y }}
+    </p>
+    <div class="values-container">
+      <p class="tooltip-label y">
+        <span class="value-label">Value</span>
+        {{ (tooltipData$ | async).values.x }}
+      </p>
+    </div>
+  </div>
+</ng-template>

@@ -47,7 +47,7 @@ export class BarsClickDirective<
   @Input('vicBarsClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicBarsClickOutput') eventOutput = new EventEmitter<
-    BarsEventOutput<Datum, OrdinalDomain>
+    BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain>
   >();
   barDatum: BarDatum<OrdinalDomain>;
   origin: SVGRectElement;
@@ -115,7 +115,7 @@ export class BarsClickDirective<
     this.pointerY = undefined;
   }
 
-  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain> {
+  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain> {
     const datum = this.bars.getSourceDatumFromBarDatum(this.barDatum);
     const data = this.bars.getTooltipData(datum);
     const extras = {

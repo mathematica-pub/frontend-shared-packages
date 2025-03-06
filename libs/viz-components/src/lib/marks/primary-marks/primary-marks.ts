@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { Ranges } from '../../charts';
 import { DataValue } from '../../core/types/values';
+import { SharedContextComponent } from '../../shared-context/shared-context.component';
 import { DataMarksConfig, MarksConfig } from '../config/marks-config';
 import { Marks } from '../marks';
 
@@ -31,6 +32,9 @@ export abstract class PrimaryMarks<
   @Input() multiple: { value: ChartMultipleDomain; index: number };
   ranges: Ranges;
   destroyRef = inject(DestroyRef);
+  sharedContext = inject(SharedContextComponent<ChartMultipleDomain>, {
+    optional: true,
+  });
 
   /**
    * This method sets creates and sets scales on ChartComponent. Any methods that require ranges

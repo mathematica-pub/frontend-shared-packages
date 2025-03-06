@@ -1,9 +1,5 @@
 # Bars Primary Marks Component
 
-```custom-angular
-small multiples example
-```
-
 ## Overview
 
 The `BarsComponent` allows you to create `SvgRectElement`s within an `XyChart`, positioned and

@@ -37,7 +37,7 @@ export class StackedBarsHoverMoveDirective<
     >
   >[];
   @Output('vicStackedBarsHoverMoveOutput') eventOutput = new EventEmitter<
-    BarsEventOutput<Datum, OrdinalDomain>
+    BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain>
   >();
   origin: SVGRectElement;
   pointerX: number;
@@ -93,7 +93,7 @@ export class StackedBarsHoverMoveDirective<
     this.origin = undefined;
   }
 
-  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain> {
+  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain> {
     const datum = this.bars.getSourceDatumFromStackedBarDatum(
       this.stackedBarDatum
     );

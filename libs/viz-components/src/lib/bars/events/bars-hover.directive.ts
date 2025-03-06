@@ -33,7 +33,7 @@ export class BarsHoverDirective<
     >
   >[];
   @Output('vicBarsHoverOutput') eventOutput = new EventEmitter<
-    BarsEventOutput<Datum, OrdinalDomain>
+    BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain>
   >();
   barDatum: BarDatum<OrdinalDomain>;
   origin: SVGRectElement;
@@ -53,6 +53,22 @@ export class BarsHoverDirective<
       .subscribe((barSels) => {
         this.elements = barSels.nodes();
         this.setListeners();
+      });
+
+    this.bars.sharedContext?.pointerEnter$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(({ event, multiple }) => {
+        if (multiple !== this.bars.multiple.value) {
+          this.onElementPointerEnter(event);
+        }
+      });
+
+    this.bars.sharedContext?.pointerLeave$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((multiple) => {
+        if (multiple !== this.bars.multiple.value) {
+          this.onElementPointerLeave();
+        }
       });
   }
 
@@ -75,7 +91,7 @@ export class BarsHoverDirective<
     }
   }
 
-  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain> {
+  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain> {
     const datum = this.bars.getSourceDatumFromBarDatum(this.barDatum);
     const tooltipData = this.bars.getTooltipData(datum);
 

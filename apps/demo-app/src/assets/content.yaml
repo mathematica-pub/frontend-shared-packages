@@ -47,3 +47,8 @@ viz-components:
         axes: xy-axes.md
         grid: xy-axis-grid.md
         labels: xy-axis-labels.md
+    data-dimensions:
+      ordinal: ordinal-dimensions.md
+      continuous-quantitative: continuous-quantitative-dimensions.md
+    composing-components:
+      chart-multiples: chart-multiples.md

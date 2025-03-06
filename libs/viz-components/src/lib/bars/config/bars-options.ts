@@ -10,7 +10,7 @@ import { BarsLabels } from './labels/bars-labels';
 export interface BarsOptions<
   Datum,
   OrdinalDomain extends DataValue,
-  ChartMultipleDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
 > extends DataMarksOptions<Datum, ChartMultipleDomain> {
   backgrounds: BarsBackgrounds;
   color: OrdinalVisualValueDimension<Datum, string, string>;

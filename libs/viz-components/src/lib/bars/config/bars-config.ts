@@ -53,6 +53,25 @@ export class BarsConfig<
   }
 
   protected setValueIndices(): void {
+    if (this.multiples) {
+      this.setValueIncicesWithMultiples();
+    } else {
+      this.setValueIndicesNoMultiples();
+    }
+  }
+
+  protected setValueIndicesNoMultiples(): void {
+    this.valueIndices = range(this.data.length).filter((index) => {
+      if (!this.isValidOrdinalValue(index)) {
+        return false;
+      }
+      const ordinalValue = this.ordinal.values[index];
+      // Filter out duplicate ordinal values in the entire dataset
+      return this.ordinal.values.indexOf(ordinalValue) === index;
+    });
+  }
+
+  protected setValueIncicesWithMultiples(): void {
     const indicesByMultiple = this.getIndicesByMultiple();
     this.valueIndices = range(this.data.length).filter((index) => {
       if (
@@ -61,7 +80,7 @@ export class BarsConfig<
       ) {
         return false;
       }
-      const multipleValue = this.multiples?.values[index];
+      const multipleValue = this.multiples.values[index];
       const ordinalValue = this.ordinal.values[index];
 
       if (multipleValue !== undefined) {
@@ -77,8 +96,8 @@ export class BarsConfig<
           indicesInThisMultiple.indexOf(index)
         );
       }
-      // If no multiples, filter out duplicate ordinal values in the entire dataset
-      return this.ordinal.values.indexOf(ordinalValue) === index;
+      // If no valid multiple value
+      return false;
     });
   }
 
