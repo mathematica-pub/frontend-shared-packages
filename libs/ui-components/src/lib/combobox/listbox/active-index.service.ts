@@ -10,8 +10,8 @@ import {
 import {
   AutoComplete,
   ComboboxService,
+  FocusTextbox,
   OptionAction,
-  VisualFocus,
 } from '../combobox.service';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 import { ListboxFilteringService } from './listbox-filtering.service';
@@ -157,7 +157,7 @@ export class ActiveIndexService {
   }
 
   handleActiveIndexWhenCannotBeSet(): void {
-    this.service.setVisualFocus(VisualFocus.textbox);
+    this.service.emitTextboxFocus(FocusTextbox.includeMobile);
     if (this.service.autoComplete !== AutoComplete.none) {
       this.activeIndex.next(null);
     }
@@ -172,7 +172,7 @@ export class ActiveIndexService {
       if (this.scrolling.isScrollable(this.scrollContentRef.nativeElement)) {
         this.scrolling.maintainElementVisibility(
           indexEl,
-          this.scrollContentRef.nativeElement.parentElement
+          this.scrollContentRef.nativeElement
         );
       }
       if (!this.scrolling.isElementInView(indexEl)) {

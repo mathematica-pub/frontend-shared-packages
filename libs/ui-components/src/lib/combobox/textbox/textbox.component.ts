@@ -12,15 +12,15 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { runNgChangeDetectionThen } from '@hsi/app-dev-kit';
-import { BehaviorSubject, combineLatest, filter, skip, startWith } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, startWith } from 'rxjs';
 import {
   ComboboxAction,
   ComboboxService,
+  FocusTextbox,
   Key,
   ListboxAction,
   OptionAction,
   TextboxAction,
-  VisualFocus,
 } from '../combobox.service';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 import { SelectedCountLabel } from '../listbox/listbox.component';
@@ -34,7 +34,7 @@ import { SelectedCountLabel } from '../listbox/listbox.component';
   },
 })
 export class TextboxComponent implements OnInit, AfterViewInit {
-  @Input() ariaLabel?: string;
+  @Input() ariaLabel: string;
   @Input() selectedCountLabel?: SelectedCountLabel;
   @Input() customLabel: (selectedOptions: ListboxOptionComponent[]) => string;
   /*
@@ -76,14 +76,12 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   }
 
   setFocusListener(): void {
-    this.service.visualFocus$
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        skip(1),
-        filter((focus) => focus === VisualFocus.textbox)
-      )
-      .subscribe(() => {
-        this.focusBox();
+    this.service.focusTextbox$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((focusType) => {
+        if (!this.isMobile() || focusType === FocusTextbox.includeMobile) {
+          this.focusBox();
+        }
       });
   }
 
@@ -92,17 +90,38 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   }
 
   handleBlur(event: FocusEvent): void {
-    if (event.relatedTarget && this.isHtmlElement(event.relatedTarget)) {
-      if (event.relatedTarget.id.includes('listbox')) {
-        this.service.setVisualFocus(VisualFocus.textbox);
-        return;
-        // TODO: Figure out why we implemented this on Scorecard and if it's necessary
-      } else if (event.relatedTarget.tagName === 'BODY' && this.isMobile()) {
-        this.focusBox();
-        return;
+    // DESCRIPTION OF HOW VARIOUS DEVICES/ASSISTIVE TECHNOLOGIES DO/NOT TRIGGER ANY BLUR EVENT (FocusEvent)
+    // clicking (desktop) will trigger a blur event (item is focused, user clicks away, blur event fires)
+    // keyboard navigation (desktop) will not trigger a blur event (item is focused, user navigates to another item, blur event does not fire)
+    // tapping (mobile) will trigger a blur event (item is focused, user taps away, blur event fires)
+    // swiping (VoiceOver) will trigger a blur event (item is focused, user swipes away, blur event fires)
+
+    // The code below (lines 106 - 116) will refocus the textbox when the textbox receives blur event, and the
+    // source of the blue event (related target) is something in the listbox.
+    // We keep the focus on the textbox so that we can continue to listen for keyboard events to provide
+    // keyboard navigation/interaction with the listbox options. The refocusing does not affect keyboard navigation,
+    // and is unnoticable to the user.
+
+    // However, VoiceOver (iOS assistive tech) will move the navigation back to the textbox when the textbox is focused,
+    // which means the user will need to strt navigating the options from the top of the listbox every time they select
+    // an option. (If we throw the focus). For this reason, we have decided that we will not support keyboard navigation
+    // (which would need to happen on a connected external keybord) on mobile devices, as keyboard nav requires that the
+    // focus stays on the textbox. Ostensibly it is standard practice to not support keyboard navigation on mobile devices.
+
+    if (!this.isMobile()) {
+      if (event.relatedTarget && this.isHtmlElement(event.relatedTarget)) {
+        // when the blur happens because a listbox option was focused
+        if (
+          event.relatedTarget.id.includes('listbox') ||
+          event.relatedTarget.classList.contains('listbox-group') ||
+          event.relatedTarget.classList.contains('listbox-group-label')
+        ) {
+          this.service.emitTextboxFocus();
+          return;
+        }
       }
+      this.service.emitTextboxBlur();
     }
-    this.service.emitBlurEvent();
   }
 
   isHtmlElement(target: EventTarget): target is HTMLElement {
@@ -137,7 +156,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
 
   onEscape(): void {
     this.service.closeListbox();
-    this.service.setVisualFocus(VisualFocus.textbox);
+    this.service.emitTextboxFocus();
   }
 
   getActionFromKeydownEvent(event: KeyboardEvent): ComboboxAction {
