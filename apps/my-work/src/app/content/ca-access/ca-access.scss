@@ -47,6 +47,10 @@ rect {
   shape-rendering: crispedges;
 }
 
+.comparison line {
+  shape-rendering: auto;
+}
+
 circle {
   fill: none;
   stroke: black;
