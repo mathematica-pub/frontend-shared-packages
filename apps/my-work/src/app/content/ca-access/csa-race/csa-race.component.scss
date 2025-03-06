@@ -1,8 +1,9 @@
-@import '../ca-access.scss';
+@use '../ca-access.scss';
+@use '../color.scss';
 
 @mixin percentile {
-  fill: $lightblue;
-  stroke: $darkBlue;
+  fill: color.$lightblue;
+  stroke: color.$darkBlue;
 }
 
 .vic-stacked-bars-bar {

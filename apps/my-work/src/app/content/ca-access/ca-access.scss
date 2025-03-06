@@ -1,4 +1,4 @@
-@import 'color.scss';
+@use 'color.scss';
 
 $font-family: Segoe UI;
 
@@ -15,7 +15,7 @@ form {
 
 option {
   &:checked {
-    background: $lightblue;
+    background: color.$lightblue;
   }
 
   &[disabled] {
@@ -58,7 +58,7 @@ circle {
 }
 
 .vic-grid-line line {
-  stroke: $gridLine;
+  stroke: color.$gridLine;
 }
 
 .tick {
@@ -71,17 +71,13 @@ circle {
   }
 }
 
-.vic-y .domain {
-  stroke: $domainLine;
-}
-
-.vic-x .domain {
-  stroke: $blue;
+.domain {
+  stroke: color.$domainLine;
 }
 
 .comparison {
   line {
-    stroke: $blue;
+    stroke: color.$comparison;
     stroke-dasharray: 1 6;
     stroke-width: 2.5;
     stroke-linecap: round;

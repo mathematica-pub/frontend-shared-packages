@@ -1,4 +1,4 @@
-@import '../color.scss';
+@use '../color.scss';
 
 $font-family: Segoe UI;
 
@@ -15,7 +15,7 @@ form {
 
 option {
   &:checked {
-    background: $lightblue;
+    background: color.$lightblue;
   }
 
   &[disabled] {
@@ -48,15 +48,15 @@ rect {
 
 circle {
   fill: white;
-  stroke: $blue;
+  stroke: color.$blue;
 }
 
 @mixin percentile {
-  stroke: $darkBlue;
+  stroke: color.$darkBlue;
 }
 
 .vic-stacked-bars-category-group {
-  fill: $darkBlue;
+  fill: color.$darkBlue;
 
   // the invisible stack bars
   &:last-child rect {
@@ -65,7 +65,7 @@ circle {
 }
 
 .vic-grid-line line {
-  stroke: $gridLine;
+  stroke: color.$gridLine;
 }
 
 .tick {
@@ -78,12 +78,8 @@ circle {
   }
 }
 
-.vic-y .domain {
-  stroke: $domainLine;
-}
-
-.vic-x .domain {
-  stroke: $blue;
+.domain {
+  stroke: color.$domainLine;
 }
 
 .percent-labels line {
@@ -157,7 +153,7 @@ $axisFontSize: 16px;
 }
 
 .percentile-line {
-  stroke: $blue;
+  stroke: color.$comparison;
   stroke-width: 2;
   stroke-dasharray: 8 4;
 }
