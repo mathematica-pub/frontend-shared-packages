@@ -2,7 +2,7 @@
 @use '../color.scss';
 
 @mixin percentile {
-  fill: color.$lightblue;
+  fill: color.$bars;
   stroke: color.$darkBlue;
 }
 
