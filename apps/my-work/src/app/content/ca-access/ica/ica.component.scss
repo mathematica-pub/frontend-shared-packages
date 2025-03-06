@@ -86,19 +86,6 @@ circle {
   stroke: $blue;
 }
 
-.comparison {
-  line {
-    stroke: $blue;
-    stroke-dasharray: 1 6;
-    stroke-width: 2.5;
-    stroke-linecap: round;
-  }
-
-  text {
-    text-transform: capitalize;
-  }
-}
-
 .percent-labels line {
   stroke: black;
 }
