@@ -52,7 +52,7 @@ circle {
 }
 
 @mixin percentile {
-  stroke: color.$darkBlue;
+  stroke: color.$percentile;
 }
 
 .vic-stacked-bars-category-group {
