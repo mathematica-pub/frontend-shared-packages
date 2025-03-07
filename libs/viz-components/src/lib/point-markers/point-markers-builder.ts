@@ -51,6 +51,8 @@ export class PointMarkersBuilder<Datum> {
    *
    * @default () => true
    */
+  display(display: boolean): this;
+  display(display: (d: Datum) => boolean): this;
   display(display: boolean | ((d: Datum) => boolean)): this {
     this._display = typeof display === 'boolean' ? () => display : display;
     return this;
