@@ -61,7 +61,7 @@ export class VicChartConfigBuilder {
    *
    * Note that the chart does not respond to changes in container height.
    *
-   * @default { width: true, height: true; useViewbox: true }
+   * @default { width: true, height: true; useViewbox: false }
    */
   resize(
     resize: Partial<{ width: boolean; height: boolean; useViewbox: boolean }>
