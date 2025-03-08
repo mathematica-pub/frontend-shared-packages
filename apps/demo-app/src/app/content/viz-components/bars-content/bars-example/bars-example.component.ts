@@ -190,8 +190,6 @@ export class BarsExampleComponent implements OnInit {
       .labels((labels) => labels.display(true))
       .getConfig();
 
-    console.log('xaxisconfig', xAxisConfig.rotateTickLabels);
-    console.log('yaxisconfig', yAxisConfig.rotateTickLabels);
     return {
       chartConfig,
       dataConfig,
