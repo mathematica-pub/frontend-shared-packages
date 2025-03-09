@@ -89,6 +89,7 @@ params:
     type: 'number | null'
     description:
       - The rotation of the tick labels in degrees, or `null` to unset the rotation.
+      - Positive values rotate the labels counterclockwise, negative values rotate them clockwise.
       - If not called, the ticks will not be rotated.
 ```
 

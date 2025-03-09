@@ -139,6 +139,8 @@ export class TicksBuilder<Tick> {
    *
    * @param value - The rotation of the tick labels in degrees, or `null` to unset the rotation.
    *
+   * Positive values rotate clockwise, negative values rotate counterclockwise.
+   *
    * If not called, ticks will not be rotated.
    */
 
