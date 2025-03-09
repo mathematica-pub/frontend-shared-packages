@@ -140,7 +140,7 @@ params:
   - name: customFills
     type: 'values: FillDefinition<Datum>[] | null'
     description:
-      - 'An array of custom fills ({ defId: string; shouldApply: (d: Datum) => boolean;}[]), or `null` to unset the custom fills.'
+      - 'An array of custom fills (`{ defId: string; shouldApply: (d: Datum) => boolean;}[]`), or `null` to unset the custom fills.'
       - 'This will override any fill set by the `color` dimension.'
 ```
 
