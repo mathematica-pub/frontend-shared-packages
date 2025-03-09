@@ -14,6 +14,13 @@
     [scaleChartWithContainerWidth]="{ width: true, height: false }"
   >
     <ng-container svg-elements>
+      @if ((orientation$ | async) === 'horizontal') {
+        <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig" />
+        <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" />
+      } @else {
+        <svg:g vic-x-ordinal-axis [config]="vm.xAxisConfig" />
+        <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig" />
+      }
       <svg:g
         vic-primary-marks-bars
         [config]="vm.dataConfig"
@@ -25,13 +32,6 @@
           [template]="htmlTooltip"
         ></vic-html-tooltip>
       </svg:g>
-      @if ((orientation$ | async) === 'horizontal') {
-        <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig" />
-        <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" />
-      } @else {
-        <svg:g vic-x-ordinal-axis [config]="vm.xAxisConfig" />
-        <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig" />
-      }
     </ng-container>
   </vic-xy-chart>
 </div>
