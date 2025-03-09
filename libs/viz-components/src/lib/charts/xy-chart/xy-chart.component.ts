@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { GenericScale } from '../../core/types/scale';
 import { Chart } from '../chart/chart';
-import { BaseScales, ChartComponent } from '../chart/chart.component';
+import { ChartComponent, ChartScales } from '../chart/chart.component';
 import { CHART } from '../chart/chart.token';
 
 export enum XyContentScale {
@@ -16,7 +16,7 @@ export enum XyContentScale {
   y = 'y',
 }
 
-export interface XyChartScales extends BaseScales {
+export interface XyChartScales extends ChartScales {
   [XyContentScale.x]: GenericScale<any, any>;
   [XyContentScale.y]: GenericScale<any, any>;
   useTransition: boolean;

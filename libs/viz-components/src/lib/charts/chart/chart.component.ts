@@ -43,7 +43,7 @@ export interface ChartResizing {
   useViewbox: boolean;
 }
 
-export interface BaseScales {
+export interface ChartScales {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   multiple: GenericScale<any, any>;
 }
@@ -74,7 +74,7 @@ export interface BaseScales {
     class: 'vic-chart',
   },
 })
-export class ChartComponent<Scales extends BaseScales = BaseScales>
+export class ChartComponent<Scales extends ChartScales = ChartScales>
   implements Chart, OnInit, OnChanges
 {
   @Input() config: ChartConfig = new VicChartConfigBuilder().getConfig();
