@@ -21,10 +21,6 @@ const DEFAULT = {
 export class VicChartConfigBuilder {
   private _height: number;
   private _margin: ElementSpacing;
-  // protected multiplesBuilder: OrdinalChartMultipleDimensionBuilder<
-  //   Datum,
-  //   ChartMultipleDomain
-  // >;
   private _resize: ChartResizing;
   private _transitionDuration: number;
   private _width: number;
