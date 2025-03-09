@@ -91,7 +91,7 @@ export class BarsHoverMoveDirective<
         : this.getBarDatumForThisMultiple(event);
       this.origin = isOriginEvent
         ? (event.target as SVGRectElement)
-        : this.getOriginForThisMultiple();
+        : this.getOriginForThisMultiple(event.target as SVGRectElement);
     }
     if (this.actions && !this.preventAction) {
       this.actions.forEach((action) => {
@@ -108,14 +108,20 @@ export class BarsHoverMoveDirective<
     }
   }
 
-  getOriginForThisMultiple(): SVGRectElement {
-    const classes = this.origin.classList;
-    return this.bars.barGroups.selectAll('rect').filter((d, i, nodes) => {
-      return (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        isEqual(d, this.barDatum) && classes === (nodes[i] as any).classList
-      );
-    })[0];
+  getOriginForThisMultiple(sourceOrigin: SVGRectElement): SVGRectElement {
+    // use class to determine if source origin is bar or backgroundBar
+    const originClass = sourceOrigin.classList.value;
+    const origin = this.bars.barGroups
+      .selectAll<SVGRectElement, number>('rect')
+      .filter((d, i, nodes) => {
+        return (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          isEqual(d, this.barDatum) &&
+          originClass === (nodes[i] as SVGRectElement).classList.value
+        );
+      })
+      .node();
+    return origin;
   }
 
   getBarDatum(event: PointerEvent): BarDatum<OrdinalDomain> {

@@ -43,6 +43,9 @@ interface ViewModel {
   yAxisConfig: VicOrdinalAxisConfig<Date> | VicQuantitativeAxisConfig<number>;
 }
 
+type TooltipsConfig = Record<string, HtmlTooltipConfig>;
+type TooltipsData = Record<string, BarsEventOutput<WeatherDatum, string>>;
+
 @Component({
   selector: 'app-small-multiples-bars-example',
   standalone: true,
@@ -76,11 +79,11 @@ interface ViewModel {
 export class SmallMultiplesBarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
   folderName = 'small-multiples-bars-example';
-  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
-    new BehaviorSubject<HtmlTooltipConfig>(null);
+  tooltipConfig: BehaviorSubject<TooltipsConfig> =
+    new BehaviorSubject<TooltipsConfig>({});
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<BarsEventOutput<WeatherDatum, string>> =
-    new BehaviorSubject<BarsEventOutput<WeatherDatum, string>>(null);
+  tooltipData: BehaviorSubject<TooltipsData> =
+    new BehaviorSubject<TooltipsData>({});
   tooltipData$ = this.tooltipData.asObservable();
   hoverAndMoveActions: HoverMoveAction<
     BarsHoverMoveDirective<WeatherDatum, string>
@@ -193,11 +196,20 @@ export class SmallMultiplesBarsExampleComponent implements OnInit {
   }
 
   updateTooltipData(data: BarsEventOutput<WeatherDatum, string>): void {
-    this.tooltipData.next(data);
+    if (data === null) {
+      this.tooltipData.next({});
+      return;
+    }
+    const current = this.tooltipData.getValue();
+    current[data?.values.multiple] = data;
+    this.tooltipData.next(current);
   }
 
   updateTooltipConfig(data: BarsEventOutput<WeatherDatum, string>): void {
-    console.log(data);
+    if (data === null) {
+      this.tooltipConfig.next({});
+      return;
+    }
     const config = this.tooltip
       .barsPosition(data?.origin, [
         {
@@ -207,6 +219,8 @@ export class SmallMultiplesBarsExampleComponent implements OnInit {
       ])
       .show(!!data)
       .getConfig();
-    this.tooltipConfig.next(config);
+    const currentConfigs = this.tooltipConfig.getValue();
+    currentConfigs[data?.values.multiple] = config;
+    this.tooltipConfig.next(currentConfigs);
   }
 }

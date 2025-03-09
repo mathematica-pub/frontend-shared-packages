@@ -31,6 +31,8 @@ import { HtmlTooltipConfig } from './config/html-tooltip-config';
 })
 export class HtmlTooltipDirective implements OnChanges, OnDestroy {
   @Input() template: TemplateRef<HTMLElement>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @Input() templateContext: any;
   @Input() config: HtmlTooltipConfig;
   @Output() backdropClick = new EventEmitter<void>();
   backdropUnsubscribe: Subject<void> = new Subject<void>();
@@ -117,7 +119,11 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
   }
 
   getTemplatePortal(): TemplatePortal {
-    return new TemplatePortal(this.template, this.viewContainerRef);
+    return new TemplatePortal(
+      this.template,
+      this.viewContainerRef,
+      this.templateContext
+    );
   }
 
   hide(): void {
@@ -131,7 +137,7 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
       this.updatePosition();
     }
     if (this.configChanged(changes, 'panelClass')) {
-      this.updateClasses(changes['config'].previousValue.panelClass);
+      this.updateClasses(changes['config'].previousValue?.panelClass);
     }
     if (this.configChanged(changes, 'size')) {
       this.updateSize();
@@ -148,7 +154,9 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
   }
 
   updateClasses(prevClass: string[]): void {
-    this.overlayRef.removePanelClass(prevClass);
+    if (prevClass) {
+      this.overlayRef.removePanelClass(prevClass);
+    }
     this.overlayRef.addPanelClass(this.config.panelClass);
   }
 

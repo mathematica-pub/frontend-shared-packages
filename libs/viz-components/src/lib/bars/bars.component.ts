@@ -287,6 +287,7 @@ export class BarsComponent<
           enter
             .append<SVGTextElement>('text')
             .attr('class', this.class.label)
+            .style('pointer-events', 'none')
             .style('display', this.config.labels.display ? null : 'none')
             .text((d) => this.getLabelText(d))
             .style('visiblity', 'hidden')

@@ -25,8 +25,9 @@
             (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
           >
             <vic-html-tooltip
-              [config]="tooltipConfig$ | async"
+              [config]="(tooltipConfig$ | async)[city]"
               [template]="htmlTooltip"
+              [templateContext]="{ multiple: city }"
             ></vic-html-tooltip>
           </svg:g>
           <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig" />
@@ -41,22 +42,24 @@
 
 <ng-template #loading>Loading...</ng-template>
 
-<ng-template #htmlTooltip>
-  <div
-    [style.--color]="(tooltipData$ | async).color"
-    class="small-multiples-bars-example-tooltip-container"
-  >
-    <p class="tooltip-label multiple">
-      {{ (tooltipData$ | async).values.multiple }}
-    </p>
-    <p class="tooltip-label category">
-      {{ (tooltipData$ | async).values.y }}
-    </p>
-    <div class="values-container">
-      <p class="tooltip-label y">
-        <span class="value-label">Value</span>
-        {{ (tooltipData$ | async).values.x }}
+<ng-template #htmlTooltip let-multiple="multiple">
+  @if ((tooltipData$ | async)[multiple]; as tooltipData) {
+    <div
+      [style.--color]="tooltipData.color"
+      class="small-multiples-bars-example-tooltip-container"
+    >
+      <p class="tooltip-label multiple">
+        {{ tooltipData.values.multiple }}
       </p>
+      <p class="tooltip-label category">
+        {{ tooltipData.values.y }}
+      </p>
+      <div class="values-container">
+        <p class="tooltip-label y">
+          <span class="value-label">Value</span>
+          {{ tooltipData.values.x }}
+        </p>
+      </div>
     </div>
-  </div>
+  }
 </ng-template>
