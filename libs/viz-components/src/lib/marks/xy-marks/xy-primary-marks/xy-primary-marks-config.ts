@@ -19,6 +19,9 @@ export abstract class XyPrimaryMarksConfig<
   }
 
   protected isValidMultipleValue(index: number): boolean {
+    if (!this.multiples) {
+      return true;
+    }
     return this.multiples.domainIncludes(this.multiples.values[index]);
   }
 }
