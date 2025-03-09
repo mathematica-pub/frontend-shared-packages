@@ -6,8 +6,8 @@ import { XQuantitativeAxisConfig } from './x-quantitative-axis-config';
 const DEFAULT = {
   _side: 'bottom',
   _tickFormat: ',.1f',
-  _removeDomainLine: 'never',
-  _zeroAxisStroke: '2',
+  _removeDomainLine: false,
+  _zeroAxis: { strokeDasharray: '2', useZeroAxis: true },
 };
 
 @Injectable()
@@ -85,7 +85,7 @@ export class VicXQuantitativeAxisConfigBuilder<
       tickSizeOuter: this._tickSizeOuter,
       tickValues: this._tickValues,
       wrap: this.tickWrapBuilder?._build(),
-      zeroAxisStroke: this._zeroAxisStroke,
+      zeroAxis: this._zeroAxis,
     });
   }
 }
