@@ -84,24 +84,33 @@
 <ng-template #loading>Loading...</ng-template>
 
 <ng-template #htmlTooltip>
-  <ng-container *ngIf="tooltipData$ | async as tooltipData">
-    <div
-      [style.--color]="tooltipData.color"
-      class="lines-example-tooltip-container"
-    >
-      <p class="tooltip-label category">
-        {{ tooltipData.values.strokeColor }}
-      </p>
-      <div class="values-container">
-        <p class="tooltip-label x">
-          <span class="value-label">Date</span>
-          {{ tooltipData.values.x }}
+  @if (tooltipData$ | async; as tooltipData) {
+    <div class="lines-example-tooltip-container">
+      <div class="tooltip-content" [style.--color]="tooltipData.color">
+        <p class="tooltip-label category">
+          {{ tooltipData.values.strokeColor }}
         </p>
-        <p class="tooltip-label y">
-          <span class="value-label">Value</span>
-          {{ tooltipData.values.y }}
-        </p>
+        <div class="values-container">
+          <p class="tooltip-label x">
+            <span class="value-label">Date</span>
+            {{ tooltipData.values.x }}
+          </p>
+          <p class="tooltip-label y">
+            <span class="value-label">Value</span>
+            {{ tooltipData.values.y }}
+          </p>
+        </div>
       </div>
+      <svg
+        width="100%"
+        height="12"
+        [style.--width]="'20px'"
+        class="svg-triangle"
+      >
+        <g class="svg-g">
+          <path class="triangle-path" d="M 0,0 10,12 20,0"></path>
+        </g>
+      </svg>
     </div>
-  </ng-container>
+  }
 </ng-template>

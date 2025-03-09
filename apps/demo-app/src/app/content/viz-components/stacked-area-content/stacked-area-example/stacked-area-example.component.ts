@@ -137,7 +137,7 @@ export class StackedAreaExampleComponent implements OnInit {
       .stackedAreaPosition([
         {
           offsetX: data?.positionX,
-          offsetY: data ? data.hoveredAreaTop - 8 : undefined,
+          offsetY: data ? data.hoveredAreaTop - 2 : undefined,
         },
       ])
       .show(data?.hoveredDatum !== undefined)

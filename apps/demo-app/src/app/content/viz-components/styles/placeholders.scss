@@ -4,10 +4,14 @@
 @use 'colors';
 
 %vic-examples-base-tooltip-container-styles {
-  background: rgba(white, 0.9);
-  padding: grid(2);
-  border: 1px solid colors.$muted-primary-80;
-  width: 100%;
+  $outline-color: colors.$muted-primary-80;
+
+  .tooltip-content {
+    background: rgba(white, 0.9);
+    padding: grid(2);
+    border: 1px solid $outline-color;
+    width: 100%;
+  }
 
   .tooltip-label {
     display: flex;
@@ -16,6 +20,18 @@
 
   .value-label {
     @include hsi-adk.label-2xs-caps;
+  }
+
+  .svg-triangle {
+    $x-offset: calc(50% - (var(--width) / 2));
+    display: block;
+    transform: translate(#{$x-offset}, -2px);
+
+    .triangle-path {
+      stroke: $outline-color;
+      fill: white;
+      fill-opacity: 0.9;
+    }
   }
 }
 

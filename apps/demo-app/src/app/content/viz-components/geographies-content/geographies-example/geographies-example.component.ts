@@ -368,7 +368,7 @@ export class GeographiesExampleComponent implements OnInit {
       .geographiesPosition(data?.origin, [
         {
           offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 16 : undefined,
+          offsetY: data ? data.positionY - 2 : undefined,
         },
       ])
       .hasBackdrop(eventContext === 'click')
