@@ -108,7 +108,7 @@ export abstract class XyAxisBaseBuilder<
   /**
    * OPTIONAL. Determines the rotation of tick labels.
    *
-   * @param value - The rotation of the tick labels in degrees, or `null` to unset the rotation.
+   * @param value - The rotation of the tick labels in degrees, or `null` to unset the rotation. Positive values will rotate the labels counterclockwise.
    *
    * If not called, ticks will not be rotated.
    */
