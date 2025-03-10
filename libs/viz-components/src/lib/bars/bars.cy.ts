@@ -204,11 +204,10 @@ const mountHorizontalBarsComponent = (
           ></vic-html-tooltip>
         </svg:g>
       </ng-container>
+      <ng-template #htmlTooltip>
+        <p>{{ (tooltipData$ | async).values.y }}</p>
+      </ng-template>
     </vic-xy-chart>
-
-    <ng-template #htmlTooltip>
-      <p>{{ (tooltipData$ | async).values.y }}</p>
-    </ng-template>
   `,
   styles: [],
 })
