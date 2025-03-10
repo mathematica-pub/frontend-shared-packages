@@ -5,12 +5,14 @@
 
 %vic-examples-base-tooltip-container-styles {
   $outline-color: colors.$muted-primary-80;
+  display: inline-block;
+  position: relative;
 
   .tooltip-content {
     background: rgba(white, 0.9);
     padding: grid(2);
     border: 1px solid $outline-color;
-    width: 100%;
+    transform: translateY(-14px);
   }
 
   .tooltip-label {
@@ -26,6 +28,11 @@
     $x-offset: calc(50% - (var(--width) / 2));
     display: block;
     transform: translate(#{$x-offset}, -2px);
+    width: var(--width);
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 3px;
+    position: absolute;
 
     .triangle-path {
       stroke: $outline-color;
