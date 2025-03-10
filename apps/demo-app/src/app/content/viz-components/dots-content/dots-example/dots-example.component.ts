@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  ChartConfig,
   DotsConfig,
   DotsEventOutput,
   DotsHoverMoveDefaultStyles,
   DotsHoverMoveDirective,
   DotsHoverMoveEmitTooltipData,
-  ElementSpacing,
   HoverMoveAction,
   HtmlTooltipConfig,
+  VicChartConfigBuilder,
   VicChartModule,
   VicDotsConfigBuilder,
   VicDotsModule,
@@ -27,6 +28,7 @@ import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: DotsConfig<WeatherDatum>;
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicQuantitativeAxisConfig<number>;
@@ -49,6 +51,7 @@ interface ViewModel {
   styleUrl: './dots-example.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    VicChartConfigBuilder,
     VicDotsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
@@ -57,12 +60,6 @@ interface ViewModel {
 })
 export class DotsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
-  margin: ElementSpacing = {
-    top: 36,
-    right: 0,
-    bottom: 24,
-    left: 60,
-  };
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
@@ -76,6 +73,7 @@ export class DotsExampleComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
+    private chart: VicChartConfigBuilder,
     private dots: VicDotsConfigBuilder<WeatherDatum>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
@@ -89,6 +87,18 @@ export class DotsExampleComponent implements OnInit {
   }
 
   getViewModel(data: WeatherDatum[]): ViewModel {
+    const chartConfig = this.chart
+      .margin({
+        top: 36,
+        right: 0,
+        bottom: 8,
+        left: 60,
+      })
+      .resize({
+        height: false,
+      })
+      .getConfig();
+
     const xAxisConfig = this.xQuantitativeAxis.tickFormat('.1f').getConfig();
     const yAxisConfig = this.yQuantitativeAxis
       .tickFormat('.1f')
@@ -108,6 +118,7 @@ export class DotsExampleComponent implements OnInit {
       .getConfig();
 
     return {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,

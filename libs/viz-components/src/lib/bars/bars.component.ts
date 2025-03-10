@@ -7,7 +7,7 @@ import {
   NgZone,
   ViewEncapsulation,
 } from '@angular/core';
-import { select, selectAll, Transition } from 'd3';
+import { select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
@@ -93,8 +93,8 @@ export class BarsComponent<
   barGroups: BarGroupSelection;
   bars: BehaviorSubject<BarSelection> = new BehaviorSubject(null);
   bars$ = this.bars.asObservable();
-  barLabels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
-  barLabels$ = this.bars.asObservable();
+  labels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
+  labels$ = this.bars.asObservable();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override scales: { color: GenericScale<any, any> } & XyChartScales = {
     x: undefined,
@@ -138,7 +138,7 @@ export class BarsComponent<
       this.drawBackgrounds(transitionDuration);
     }
     if (this.config.labels) {
-      this.drawBarLabels(transitionDuration);
+      this.drawLabels(transitionDuration);
     }
     this.updateBarElements();
   }
@@ -253,7 +253,7 @@ export class BarsComponent<
       : this.getBarColor(datum);
   }
 
-  drawBarLabels(transitionDuration: number): void {
+  drawLabels(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -277,26 +277,42 @@ export class BarsComponent<
             .append<SVGTextElement>('text')
             .attr('class', this.class.label)
             .style('display', this.config.labels.display ? null : 'none')
-            .text((d) => this.getBarLabelText(d))
-            .style('fill', (d) => this.getBarLabelColor(d))
-            .attr('x', (d) => this.getBarLabelX(d))
-            .attr('y', (d) => this.getBarLabelY(d))
-            .attr('text-anchor', (d) => this.getBarLabelTextAnchor(d))
-            .attr('dominant-baseline', (d) =>
-              this.getBarLabelDominantBaseline(d)
-            ),
+            .text((d) => this.getLabelText(d))
+            .style('visiblity', 'hidden')
+            .call((selection) => {
+              selection.each((d, i, nodes) => {
+                const bbox = nodes[i].getBBox();
+                select<SVGTextElement, BarDatum<TOrdinalValue>>(nodes[i])
+                  .style('fill', (d) => this.getLabelColor(d, bbox))
+                  .attr('text-anchor', (d) => this.getLabelTextAnchor(d, bbox))
+                  .attr('dominant-baseline', (d) =>
+                    this.getLabelDominantBaseline(d, bbox)
+                  )
+                  .attr('x', this.getLabelX(d, bbox))
+                  .attr('y', this.getLabelY(d, bbox))
+                  .attr('visibility', 'visible');
+              });
+            }),
         (update) =>
           update
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
-            .text((d) => this.getBarLabelText(d))
-            .style('fill', (d) => this.getBarLabelColor(d))
-            .attr('x', (d) => this.getBarLabelX(d))
-            .attr('y', (d) => this.getBarLabelY(d))
-            .attr('text-anchor', (d) => this.getBarLabelTextAnchor(d))
-            .attr('dominant-baseline', (d) =>
-              this.getBarLabelDominantBaseline(d)
-            ),
+            .text((d) => this.getLabelText(d))
+            .style('visiblity', 'hidden')
+            .call((selection) => {
+              selection.each((d, i, nodes) => {
+                const bbox = nodes[i].getBBox();
+                select<SVGTextElement, BarDatum<TOrdinalValue>>(nodes[i])
+                  .style('fill', (d) => this.getLabelColor(d, bbox))
+                  .attr('text-anchor', (d) => this.getLabelTextAnchor(d, bbox))
+                  .attr('dominant-baseline', (d) =>
+                    this.getLabelDominantBaseline(d, bbox)
+                  )
+                  .attr('x', this.getLabelX(d, bbox))
+                  .attr('y', this.getLabelY(d, bbox))
+                  .attr('visibility', 'visible');
+              });
+            }),
         (exit) => exit.remove()
       );
   }
@@ -304,9 +320,8 @@ export class BarsComponent<
   getBarX(d: BarDatum<TOrdinalValue>): number {
     if (this.config.dimensions.x === 'ordinal') {
       return this.getBarXOrdinal(d);
-    } else {
-      return this.getBarXQuantitative(d);
     }
+    return this.getBarXQuantitative(d);
   }
 
   getBarXOrdinal(d: BarDatum<TOrdinalValue>): number {
@@ -320,20 +335,17 @@ export class BarsComponent<
     } else if (this.config.hasNegativeValues) {
       if (d.quantitative < 0) {
         return this.scales.x(d.quantitative);
-      } else {
-        return this.scales.x(0);
       }
-    } else {
-      return this.scales.x(this.getQuantitativeDomainFromScale()[0]);
+      return this.scales.x(0);
     }
+    return this.scales.x(this.getQuantitativeDomainFromScale()[0]);
   }
 
   getBarY(d: BarDatum<TOrdinalValue>): number {
     if (this.config.dimensions.y === 'ordinal') {
       return this.getBarYOrdinal(d);
-    } else {
-      return this.getBarYQuantitative(d);
     }
+    return this.getBarYQuantitative(d);
   }
 
   getBarYOrdinal(d: BarDatum<TOrdinalValue>): number {
@@ -347,12 +359,10 @@ export class BarsComponent<
     } else if (d.quantitative < 0) {
       if (this.config.quantitative.domainIncludesZero) {
         return this.scales.y(0);
-      } else {
-        return this.scales.y(this.getQuantitativeDomainFromScale()[1]);
       }
-    } else {
-      return this.scales.y(d.quantitative);
+      return this.scales.y(this.getQuantitativeDomainFromScale()[1]);
     }
+    return this.scales.y(d.quantitative);
   }
 
   getQuantitativeDomainFromScale(): number[] {
@@ -362,9 +372,8 @@ export class BarsComponent<
   getBarWidth(d: BarDatum<TOrdinalValue>): number {
     if (this.config.dimensions.quantitativeDimension === 'width') {
       return this.getBarDimensionQuantitative(d, 'x');
-    } else {
-      return this.getBarWidthOrdinal();
     }
+    return this.getBarWidthOrdinal();
   }
 
   getBarWidthOrdinal(): number {
@@ -375,9 +384,8 @@ export class BarsComponent<
   getBarHeight(d: BarDatum<TOrdinalValue>): number {
     if (this.config.dimensions.quantitativeDimension === 'height') {
       return this.getBarDimensionQuantitative(d, 'y');
-    } else {
-      return this.getBarHeightOrdinal();
     }
+    return this.getBarHeightOrdinal();
   }
 
   getBarHeightOrdinal(): number {
@@ -431,10 +439,9 @@ export class BarsComponent<
   getBarQuantitativeOrigin(): number {
     if (this.config.quantitative.domainIncludesZero) {
       return 0;
-    } else {
-      const domain = this.getQuantitativeDomainFromScale();
-      return this.config.hasNegativeValues ? domain[1] : domain[0];
     }
+    const domain = this.getQuantitativeDomainFromScale();
+    return this.config.hasNegativeValues ? domain[1] : domain[0];
   }
 
   getBarPattern(d: BarDatum<TOrdinalValue>): string {
@@ -450,58 +457,60 @@ export class BarsComponent<
     return this.scales.color(d.color);
   }
 
-  getBarLabelText(d: BarDatum<TOrdinalValue>): string {
+  getLabelText(d: BarDatum<TOrdinalValue>): string {
     const datum = this.config.data[d.index];
     if (!isNumber(d.quantitative)) {
       return this.config.labels.noValueFunction(datum);
-    } else {
-      return this.config.quantitative.formatFunction
-        ? ValueUtilities.customFormat(
-            datum,
-            this.config.quantitative.formatFunction
-          )
-        : ValueUtilities.d3Format(
-            d.quantitative,
-            this.config.quantitative.formatSpecifier
-          );
     }
+    return this.config.quantitative.formatFunction
+      ? ValueUtilities.customFormat(
+          datum,
+          this.config.quantitative.formatFunction
+        )
+      : ValueUtilities.d3Format(
+          d.quantitative,
+          this.config.quantitative.formatSpecifier
+        );
   }
 
-  getBarLabelTextAnchor(
-    d: BarDatum<TOrdinalValue>
+  getLabelTextAnchor(
+    d: BarDatum<TOrdinalValue>,
+    labelBbox: DOMRect
   ): 'start' | 'middle' | 'end' {
     if (this.config.dimensions.isVertical) {
       return 'middle';
-    } else {
-      return this.alignTextInPositiveDirection(d) ? 'start' : 'end';
     }
+    return this.alignTextInPositiveDirection(d, labelBbox) ? 'start' : 'end';
   }
 
-  getBarLabelDominantBaseline(
-    d: BarDatum<TOrdinalValue>
+  getLabelDominantBaseline(
+    d: BarDatum<TOrdinalValue>,
+    labelBbox: DOMRect
   ): 'text-after-edge' | 'text-before-edge' | 'central' {
     if (this.config.dimensions.isHorizontal) {
       return 'central';
-    } else {
-      return this.alignTextInPositiveDirection(d)
-        ? 'text-after-edge'
-        : 'text-before-edge';
     }
+    return this.alignTextInPositiveDirection(d, labelBbox)
+      ? 'text-after-edge'
+      : 'text-before-edge';
   }
 
-  alignTextInPositiveDirection(d: BarDatum<TOrdinalValue>): boolean {
+  alignTextInPositiveDirection(
+    d: BarDatum<TOrdinalValue>,
+    labelBbox: DOMRect
+  ): boolean {
     if (this.isZeroOrNonNumeric(d.quantitative)) {
       return this.positionZeroOrNonNumericValueLabelInPositiveDirection();
     }
-    const placeLabelOutsideBar = this.barLabelFitsOutsideBar(d);
+    const placeLabelOutsideBar = this.labelFitsOutsideBar(d, labelBbox);
     const isPositiveValue = d.quantitative > 0;
     return placeLabelOutsideBar ? isPositiveValue : !isPositiveValue;
   }
 
-  getBarLabelColor(d: BarDatum<TOrdinalValue>): string {
+  getLabelColor(d: BarDatum<TOrdinalValue>, labelBbox: DOMRect): string {
     if (
       this.isZeroOrNonNumeric(d.quantitative) ||
-      this.barLabelFitsOutsideBar(d)
+      this.labelFitsOutsideBar(d, labelBbox)
     ) {
       if (this.config.backgrounds) {
         // try to use the default label color if it has enough contrast
@@ -530,73 +539,70 @@ export class BarsComponent<
     );
   }
 
-  barLabelFitsOutsideBar(d: BarDatum<TOrdinalValue>): boolean {
+  labelFitsOutsideBar(d: BarDatum<TOrdinalValue>, labelBbox: DOMRect): boolean {
     const isPositiveValue = d.quantitative > 0;
     // This approach assumes that the bar labels do not wrap.
-    const distance = this.getBarToChartEdgeDistance(
+    const distanceToChartEdge = this.getBarToChartEdgeDistance(
       isPositiveValue,
       this.ranges[this.config.dimensions.quantitative],
       this.scales[this.config.dimensions.quantitative](d.quantitative)
     );
+
     if (this.config.dimensions.isHorizontal) {
-      return distance > this.getBarLabelWidth(d);
-    } else {
-      return distance > this.getBarLabelHeight(d);
+      return distanceToChartEdge > labelBbox.width + this.config.labels.offset;
     }
+    return distanceToChartEdge > labelBbox.height + this.config.labels.offset;
   }
 
   getBarToChartEdgeDistance(
     isPositiveValue: boolean,
     range: [number, number],
-    barDimension: number
+    endOfBarPosition: number
   ): number {
-    return isPositiveValue
-      ? Math.abs(range[1] - barDimension)
-      : Math.abs(barDimension - range[0]);
-  }
+    const [min, max] = range[0] < range[1] ? range : [range[1], range[0]];
 
-  getBarLabelWidth(d: BarDatum<TOrdinalValue>): number {
-    const width = this.getLabelDomRect(d).width;
-    return width + this.config.labels.offset;
-  }
+    if (endOfBarPosition <= min || endOfBarPosition >= max) {
+      return 0;
+    }
 
-  getBarLabelHeight(d: BarDatum<TOrdinalValue>): number {
-    const height = this.getLabelDomRect(d).height;
-    return height + this.config.labels.offset;
+    return isPositiveValue ? max - endOfBarPosition : endOfBarPosition - min;
   }
 
   getLabelDomRect(d: BarDatum<TOrdinalValue>): DOMRect {
-    const selection = selectAll<SVGTextElement, BarDatum<TOrdinalValue>>(
-      `.${this.class.label}`
-    ).filter((datum) => datum.index === d.index);
+    const selection = this.barGroups
+      .selectAll<
+        SVGTextElement,
+        BarDatum<TOrdinalValue>
+      >(`.${this.class.label}`)
+      .filter((datum) => datum.index === d.index);
     return selection.node().getBoundingClientRect();
   }
 
-  getBarLabelX(d: BarDatum<TOrdinalValue>): number {
+  getLabelX(d: BarDatum<TOrdinalValue>, bbox: DOMRect): number {
     if (this.config.dimensions.x === 'ordinal') {
       return this.getBarWidthOrdinal() / 2;
-    } else {
-      return this.getBarLabelQuantitativeAxisPosition(d);
     }
+    return this.getLabelQuantitativeAxisPosition(d, bbox);
   }
 
-  getBarLabelY(d: BarDatum<TOrdinalValue>): number {
+  getLabelY(d: BarDatum<TOrdinalValue>, bbox: DOMRect): number {
     if (this.config.dimensions.y === 'ordinal') {
       return this.getBarHeightOrdinal() / 2;
-    } else {
-      return this.getBarLabelQuantitativeAxisPosition(d);
     }
+    return this.getLabelQuantitativeAxisPosition(d, bbox);
   }
 
-  getBarLabelQuantitativeAxisPosition(d: BarDatum<TOrdinalValue>): number {
+  getLabelQuantitativeAxisPosition(
+    d: BarDatum<TOrdinalValue>,
+    bbox: DOMRect
+  ): number {
     if (this.isZeroOrNonNumeric(d.quantitative)) {
-      return this.getBarLabelPositionForZeroOrNonnumericValue();
-    } else {
-      return this.getBarLabelPositionForNumericValue(d);
+      return this.getLabelPositionForZeroOrNonnumericValue();
     }
+    return this.getLabelPositionForNumericValue(d, bbox);
   }
 
-  getBarLabelPositionForZeroOrNonnumericValue(): number {
+  getLabelPositionForZeroOrNonnumericValue(): number {
     const positionInPositiveDirection =
       this.positionZeroOrNonNumericValueLabelInPositiveDirection();
     return (positionInPositiveDirection &&
@@ -606,10 +612,13 @@ export class BarsComponent<
       : -this.config.labels.offset;
   }
 
-  getBarLabelPositionForNumericValue(d: BarDatum<TOrdinalValue>): number {
+  getLabelPositionForNumericValue(
+    d: BarDatum<TOrdinalValue>,
+    bbox: DOMRect
+  ): number {
     const isPositiveValue = d.quantitative > 0;
-    const origin = this.getBarLabelOrigin(d, isPositiveValue);
-    const placeLabelOutsideBar = this.barLabelFitsOutsideBar(d);
+    const origin = this.getLabelOrigin(d, isPositiveValue);
+    const placeLabelOutsideBar = this.labelFitsOutsideBar(d, bbox);
     if (
       (this.config.dimensions.isVertical && placeLabelOutsideBar) ||
       (this.config.dimensions.isHorizontal && !placeLabelOutsideBar)
@@ -617,22 +626,17 @@ export class BarsComponent<
       return isPositiveValue
         ? origin - this.config.labels.offset
         : origin + this.config.labels.offset;
-    } else {
-      return isPositiveValue
-        ? origin + this.config.labels.offset
-        : origin - this.config.labels.offset;
     }
+    return isPositiveValue
+      ? origin + this.config.labels.offset
+      : origin - this.config.labels.offset;
   }
 
-  getBarLabelOrigin(
-    d: BarDatum<TOrdinalValue>,
-    isPositiveValue: boolean
-  ): number {
+  getLabelOrigin(d: BarDatum<TOrdinalValue>, isPositiveValue: boolean): number {
     if (this.config.dimensions.isHorizontal) {
       return isPositiveValue ? this.getBarDimensionQuantitative(d, 'x') : 0;
-    } else {
-      return isPositiveValue ? 0 : this.getBarDimensionQuantitative(d, 'y');
     }
+    return isPositiveValue ? 0 : this.getBarDimensionQuantitative(d, 'y');
   }
 
   positionZeroOrNonNumericValueLabelInPositiveDirection(): boolean {
@@ -640,14 +644,13 @@ export class BarsComponent<
     const someValuesArePositive = quantitativeValues.some((x) => x > 0);
     if (someValuesArePositive) {
       return true;
-    } else {
-      const domainMaxIsGreaterThanZero =
-        this.getQuantitativeDomainFromScale()[1] > 0;
-      const everyValueIsEitherZeroOrNonnumeric = quantitativeValues.every((x) =>
-        this.isZeroOrNonNumeric(x)
-      );
-      return domainMaxIsGreaterThanZero && everyValueIsEitherZeroOrNonnumeric;
     }
+    const domainMaxIsGreaterThanZero =
+      this.getQuantitativeDomainFromScale()[1] > 0;
+    const everyValueIsEitherZeroOrNonnumeric = quantitativeValues.every((x) =>
+      this.isZeroOrNonNumeric(x)
+    );
+    return domainMaxIsGreaterThanZero && everyValueIsEitherZeroOrNonnumeric;
   }
 
   isZeroOrNonNumeric(value: unknown): boolean {
@@ -662,12 +665,12 @@ export class BarsComponent<
       SVGRectElement,
       number
     >(barEventElementsSelector);
-    const barLabels = select(this.elRef.nativeElement).selectAll<
+    const labels = select(this.elRef.nativeElement).selectAll<
       SVGTextElement,
       number
     >(`.${this.class.label}`);
     this.bars.next(bars);
-    this.barLabels.next(barLabels);
+    this.labels.next(labels);
   }
 
   getTooltipData(datum: Datum): BarsTooltipDatum<Datum, TOrdinalValue> {

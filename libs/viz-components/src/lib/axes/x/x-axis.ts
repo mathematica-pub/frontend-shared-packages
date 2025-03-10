@@ -60,8 +60,8 @@ export function xAxisMixin<
       let y = config.offset.y;
       y +=
         this.config.side === 'top'
-          ? this.chart.margin.top * -1 + spaceFromMarginEdge
-          : this.chart.margin.bottom - spaceFromMarginEdge;
+          ? this.chart.config.margin.top * -1 + spaceFromMarginEdge
+          : this.chart.config.margin.bottom - spaceFromMarginEdge;
       let anchor: 'start' | 'middle' | 'end';
       const range = this.scales.x.range();
 
@@ -86,15 +86,16 @@ export function xAxisMixin<
           .attr('y', y)
           .attr('text-anchor', anchor)
           .text(this.config.label.text)
+          .call((l) => {
+            if (config.wrap) {
+              // ensure that label is actually in the DOM before wrapping
+              requestAnimationFrame(() => {
+                this.config.label.wrap.wrap(l);
+                l.selectAll('tspan').attr('x', x);
+              });
+            }
+          })
       );
-
-      if (config.wrap) {
-        this.config.label.wrap.wrap(
-          this.axisGroup.select(`.${this.class.label}`)
-        );
-
-        this.axisGroup.selectAll(`.${this.class.label} tspan`).attr('x', x);
-      }
     }
   }
 

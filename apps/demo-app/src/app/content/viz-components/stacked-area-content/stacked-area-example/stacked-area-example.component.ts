@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
+  ChartConfig,
   ElementSpacing,
   HoverMoveAction,
   HtmlTooltipConfig,
@@ -8,6 +9,7 @@ import {
   StackedAreaEventOutput,
   StackedAreaHoverMoveDirective,
   StackedAreaHoverMoveEmitTooltipData,
+  VicChartConfigBuilder,
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
@@ -26,6 +28,7 @@ import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: StackedAreaConfig<IndustryUnemploymentDatum, string>;
   xAxisConfig: VicQuantitativeAxisConfig<Date>;
   yAxisConfig: VicQuantitativeAxisConfig<number>;
@@ -47,6 +50,7 @@ interface ViewModel {
   templateUrl: './stacked-area-example.component.html',
   styleUrls: ['./stacked-area-example.component.scss'],
   providers: [
+    VicChartConfigBuilder,
     VicStackedAreaConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
@@ -77,6 +81,7 @@ export class StackedAreaExampleComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
+    private chart: VicChartConfigBuilder,
     private stackedArea: VicStackedAreaConfigBuilder<
       IndustryUnemploymentDatum,
       string
@@ -94,6 +99,7 @@ export class StackedAreaExampleComponent implements OnInit {
   }
 
   getViewModel(data: IndustryUnemploymentDatum[]): ViewModel {
+    const chartConfig = this.chart.margin(this.margin).getConfig();
     const xAxisConfig = this.xAxisQuantitative.tickFormat('%Y').getConfig();
     const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').getConfig();
     const dataConfig = this.stackedArea
@@ -103,6 +109,7 @@ export class StackedAreaExampleComponent implements OnInit {
       .color((dimension) => dimension.valueAccessor((d) => d.industry))
       .getConfig();
     return {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,

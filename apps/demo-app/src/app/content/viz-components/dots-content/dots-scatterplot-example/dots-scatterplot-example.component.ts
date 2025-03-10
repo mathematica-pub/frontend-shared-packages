@@ -6,8 +6,10 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  ChartConfig,
   DotsConfig,
   ElementSpacing,
+  VicChartConfigBuilder,
   VicChartModule,
   VicDotsConfigBuilder,
   VicDotsModule,
@@ -28,6 +30,7 @@ interface Datum {
 }
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: DotsConfig<Datum>;
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicQuantitativeAxisConfig<number>;
@@ -58,6 +61,7 @@ const data: Datum[] = [
   styleUrl: './dots-scatterplot-example.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    VicChartConfigBuilder,
     VicDotsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
@@ -75,6 +79,7 @@ export class DotsScatterplotExampleComponent implements OnInit {
   };
 
   constructor(
+    private chart: VicChartConfigBuilder,
     private dots: VicDotsConfigBuilder<Datum>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>
@@ -85,6 +90,13 @@ export class DotsScatterplotExampleComponent implements OnInit {
   }
 
   getViewModel(): void {
+    const chartConfig = this.chart
+      .margin(this.margin)
+      .height(160)
+      .width(160)
+      .resize({ height: false })
+      .getConfig();
+
     let xAxisConfig: VicQuantitativeAxisConfig<number>;
     let yAxisConfig: VicQuantitativeAxisConfig<number>;
     if (this.xAxisConfig) {
@@ -112,6 +124,7 @@ export class DotsScatterplotExampleComponent implements OnInit {
       .getConfig();
 
     this.vm = {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,

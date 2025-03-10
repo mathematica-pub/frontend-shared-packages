@@ -4,7 +4,12 @@ import {
   VicXQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisConfigBuilder,
 } from '..';
-import { VicChartModule, VicXyChartModule } from '../../charts';
+import {
+  ChartConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
+  VicXyChartModule,
+} from '../../charts';
 import {
   LinesConfig,
   VicLinesConfigBuilder,
@@ -32,12 +37,7 @@ const data = ContinentPopulationNumYearData;
 @Component({
   selector: 'vic-test-axis-labels',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
         <svg:g
@@ -58,9 +58,12 @@ class TestAxisLabelsComponent<Datum> {
   @Input() linesConfig: LinesConfig<Datum>;
   @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
   @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<number>;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(chartHeight)
+    .width(chartWidth)
+    .margin(margin)
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 }
 
 const imports = [

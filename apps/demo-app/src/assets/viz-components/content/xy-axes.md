@@ -24,7 +24,7 @@ Each builder requires one generic type, which should be the type of the tick val
 `string`, `number`, or `Date`.
 
 ```ts
-import { VicDotsConfigBuilder } from '@hsi/viz-components';
+import { VicXQuantitativeAxisConfigBuilder } from '@hsi/viz-components';
 ...
 @Component({
   ...

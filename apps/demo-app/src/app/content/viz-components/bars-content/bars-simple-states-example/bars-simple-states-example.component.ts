@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   BarsConfig,
-  ElementSpacing,
+  ChartConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
+  VicChartConfigBuilder,
   VicChartModule,
   VicOrdinalAxisConfig,
   VicQuantitativeAxisConfig,
@@ -21,6 +22,7 @@ import {
 } from '../../data/location-category-data';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: BarsConfig<LocationCategoryDatum, string>;
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<number>;
@@ -42,6 +44,7 @@ interface ViewModel {
   styleUrl: './bars-simple-states-example.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    VicChartConfigBuilder,
     VicBarsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
@@ -49,14 +52,9 @@ interface ViewModel {
 })
 export class BarsSimpleStatesExampleComponent implements OnInit {
   vm: ViewModel;
-  margin: ElementSpacing = {
-    top: 0,
-    right: 0,
-    bottom: 24,
-    left: 80,
-  };
 
   constructor(
+    private chart: VicChartConfigBuilder,
     private bars: VicBarsConfigBuilder<LocationCategoryDatum, string>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<number>
@@ -67,6 +65,18 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
   }
 
   getViewModel(): void {
+    const chartConfig = this.chart
+      .margin({
+        top: 0,
+        right: 0,
+        bottom: 24,
+        left: 80,
+      })
+      .height(160)
+      .width(400)
+      .resize({ height: false })
+      .getConfig();
+
     const xAxisConfig = this.xQuantitativeAxis
       .tickFormat('.0%')
       .numTicks(5)
@@ -100,6 +110,7 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
       .getConfig();
 
     this.vm = {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,

@@ -154,6 +154,14 @@ represent a `division` value, and all bars will be `teal`.
 
 ### Adding additional components/features
 
+#### Chart config
+
+You can provide a configuration object to the `vic-xy-chart` component to set the size, margin, and
+resizing properties of the chart. This can be done by importing a `VicChartConfigBuilder`, providing
+it in the `providers` array, and using it to create a configuration object.
+
+Reasonable defaults will be used if you do not provide a configuration object.
+
 #### Axes
 
 To make this an actual data visualization, we will need to create some additional context,

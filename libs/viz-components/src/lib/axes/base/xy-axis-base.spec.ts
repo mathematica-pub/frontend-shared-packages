@@ -86,6 +86,9 @@ describe('the XyAxis abstract class', () => {
       spyOn(abstractClass, 'setAxisFromScaleAndConfig');
       spyOn(abstractClass, 'drawAxis');
       spyOn(abstractClass, 'drawGrid');
+      abstractClass.config = {
+        grid: true,
+      } as any;
     });
     it('calls setAxisFunction once', () => {
       abstractClass.initFromConfig();

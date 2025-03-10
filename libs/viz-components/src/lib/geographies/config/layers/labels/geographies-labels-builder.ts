@@ -101,8 +101,10 @@ export class GeographiesLabelsBuilder<
    *
    * @default () => true
    */
-  display(display: (featureIndex: string) => boolean): this {
-    this._display = display;
+  display(display: boolean): this;
+  display(display: (featureIndex: string) => boolean): this;
+  display(display: boolean | ((featureIndex: string) => boolean)): this {
+    this._display = typeof display === 'boolean' ? () => display : display;
     return this;
   }
 

@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { extent } from 'd3';
 import 'libs/viz-components/cypress/support/component';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { VicBarsModule } from '../../bars/bars.module';
 import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
 import { BarsOptions } from '../../bars/config/bars-options';
+import { ChartConfig, VicChartConfigBuilder } from '../../charts';
 import { VicChartModule } from '../../charts/chart/chart.module';
 import { VicXyChartModule } from '../../charts/xy-chart/xy-chart.module';
 import { VicXyBackgroundModule } from '../../xy-background';
@@ -22,11 +23,7 @@ const tickTextSelector = '.vic-axis-x-quantitative .tick text';
 @Component({
   selector: 'vic-test-x-quantitative-axis',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="800"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
         <svg:g
@@ -38,11 +35,22 @@ const tickTextSelector = '.vic-axis-x-quantitative .tick text';
     </vic-xy-chart>
   `,
   styles: [],
+  providers: [VicChartConfigBuilder],
 })
-class TestXQuantitativeAxisComponent {
+class TestXQuantitativeAxisComponent implements OnInit {
   @Input() barsConfig: BarsOptions<{ state: string; value: number }, string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  margin = { top: 20, right: 20, bottom: 20, left: 20 };
+  chartConfig: ChartConfig;
+
+  constructor(public chart: VicChartConfigBuilder) {}
+
+  ngOnInit(): void {
+    this.chartConfig = this.chart
+      .height(800)
+      .margin({ top: 20, right: 20, bottom: 20, left: 20 })
+      .resize({ height: false, useViewbox: false })
+      .getConfig();
+  }
 }
 
 describe('it correctly sets ticks', () => {
