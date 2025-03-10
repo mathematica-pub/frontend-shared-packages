@@ -145,6 +145,7 @@ export class BarsExampleComponent implements OnInit {
       .height(layout.orientation === 'horizontal' ? 800 : 500)
       .resize({
         height: false,
+        width: true,
       })
       .getConfig();
 
