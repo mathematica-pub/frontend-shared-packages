@@ -182,36 +182,25 @@ const mountHorizontalBarsComponent = (
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-vertical-bar',
   template: `
-    <<<<<<< HEAD
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-      [transitionDuration]="0"
-    >
-      =======
-      <vic-xy-chart [config]="chartConfig">
-        >>>>>>> 3c1cdc247a56da57d031cfbfb37e7a56b42c319f
-        <ng-container svg-elements>
-          <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
-          <svg:g
-            vic-y-quantitative-axis
-            [config]="yQuantitativeAxisConfig"
-          ></svg:g>
-          <svg:g
-            vic-primary-marks-bars
-            [config]="barsConfig"
-            [vicBarsHoverActions]="hoverActions"
-            (vicBarsHoverOutput)="updateTooltipForNewOutput($event)"
-          >
-            <vic-html-tooltip
-              [config]="tooltipConfig$ | async"
-              [template]="htmlTooltip"
-            ></vic-html-tooltip>
-          </svg:g>
-        </ng-container>
-      </vic-xy-chart>
+    <vic-xy-chart [config]="chartConfig">
+      <ng-container svg-elements>
+        <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
+        <svg:g
+          vic-y-quantitative-axis
+          [config]="yQuantitativeAxisConfig"
+        ></svg:g>
+        <svg:g
+          vic-primary-marks-bars
+          [config]="barsConfig"
+          [vicBarsHoverActions]="hoverActions"
+          (vicBarsHoverOutput)="updateTooltipForNewOutput($event)"
+        >
+          <vic-html-tooltip
+            [config]="tooltipConfig$ | async"
+            [template]="htmlTooltip"
+          ></vic-html-tooltip>
+        </svg:g>
+      </ng-container>
 
       <ng-template #htmlTooltip>
         <p>{{ (tooltipData$ | async).values.y }}</p>
