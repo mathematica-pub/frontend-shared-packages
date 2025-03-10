@@ -78,6 +78,7 @@ export class AxesContentComponent implements OnInit {
             .position('start')
             .anchor('start')
             .offset({ x: 8, y: 8 })
+            .wrap((wrap) => wrap.width(60).maintainXPosition(true))
         )
         .getConfig(),
     };

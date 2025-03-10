@@ -132,7 +132,7 @@ describe('GeographiesComponent', () => {
     beforeEach(() => {
       spyOn(component, 'drawMap');
       spyOn(component, 'updateGeographyElements');
-      component.chart = {
+      component.chart.config = {
         transitionDuration: 200,
       } as any;
     });

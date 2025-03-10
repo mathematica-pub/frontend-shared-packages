@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { BarsConfig } from 'libs/viz-components/src/lib/bars/config/bars-config';
+import {
+  ChartConfig,
+  VicChartConfigBuilder,
+} from 'libs/viz-components/src/public-api';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
 import { VicQuantitativeAxisConfig } from '../../../../axes/quantitative/quantitative-axis-config';
@@ -22,11 +26,7 @@ type Datum = { state: string; value: number };
   selector: 'vic-test-bars-quantitative-domain-padding',
   template: `
     <p *ngFor="let item of domain$ | async" class="domain-value">{{ item }}</p>
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="800"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -42,9 +42,13 @@ class TestXQuantitativeDomainComponent implements AfterViewInit {
   @Input() barsConfig: BarsConfig<Datum, string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   @ViewChild(BarsComponent) barsComponent: BarsComponent<Datum, string>;
-  margin = { top: 20, right: 20, bottom: 20, left: 20 };
   domain = new BehaviorSubject<[number, number]>([undefined, undefined]);
   domain$ = this.domain.asObservable();
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(800)
+    .margin({ top: 20, right: 20, bottom: 20, left: 20 })
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 
   ngAfterViewInit(): void {
     setTimeout(() => {

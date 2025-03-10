@@ -201,7 +201,7 @@ describe('the QuantitativeAxis mixin', () => {
 
   describe('getNumTicks', () => {
     beforeEach(() => {
-      abstractClass.chart = {
+      abstractClass.chart.config = {
         height: 50,
         width: 100,
       } as any;
