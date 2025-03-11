@@ -117,6 +117,7 @@ export class IcaDotPlotComponent implements OnChanges {
       this.chartHeight = this.rollupData.length * 15;
 
       this.trueMax = max(this.rollupData.map((d) => max(d.plans)));
+      if (this.trueMax < 1 && this.trueMax > 0.8) this.trueMax = 1;
 
       this.rollupData
         .sort((a, b) => {
