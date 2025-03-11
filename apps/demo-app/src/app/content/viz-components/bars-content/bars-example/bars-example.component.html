@@ -10,7 +10,6 @@
   </mat-button-toggle-group>
   <vic-xy-chart [config]="vm.chartConfig">
     <ng-container svg-elements>
-      <svg:g vic-xy-background></svg:g>
       @if ((orientation$ | async) === 'horizontal') {
         <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig" />
         <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" />

@@ -6,6 +6,8 @@ import { YOrdinalAxisConfig } from './y-ordinal-axis-config';
 const DEFAULT = {
   _side: 'left',
   _tickSizeOuter: 0,
+  _removeDomainLine: true,
+  _zeroAxis: { strokeDasharray: '2', useZeroAxis: true },
 };
 
 @Injectable()
@@ -19,12 +21,14 @@ export class VicYOrdinalAxisConfigBuilder<
   }
 
   /**
-   * OPTIONAL. The side of the chart where the axis will be placed.
+   * OPTIONAL. Specifies the location of the axis on the chart.
    *
-   * @default 'left'
+   * @param value - The side of the chart where the axis will be placed.
+   *
+   * If not called, the default value is `left`.
    */
-  side(side: 'left' | 'right'): this {
-    this._side = side;
+  side(value: 'left' | 'right'): this {
+    this._side = value;
     return this;
   }
 
@@ -42,6 +46,7 @@ export class VicYOrdinalAxisConfigBuilder<
       tickLabelFontSize: this._tickLabelFontSize,
       tickSizeOuter: this._tickSizeOuter,
       wrap: this.tickWrapBuilder?._build(),
+      zeroAxis: this._zeroAxis,
     });
   }
 }

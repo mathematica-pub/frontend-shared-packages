@@ -86,7 +86,6 @@ describe('the XyAxis abstract class', () => {
       spyOn(abstractClass, 'setAxisFromScaleAndConfig');
       spyOn(abstractClass, 'drawAxis');
       spyOn(abstractClass, 'drawGrid');
-      spyOn(abstractClass, 'postProcessAxisFeatures');
       abstractClass.config = {
         grid: true,
       } as any;
@@ -107,17 +106,13 @@ describe('the XyAxis abstract class', () => {
       abstractClass.drawMarks();
       expect(abstractClass.setAxisFromScaleAndConfig).toHaveBeenCalledTimes(1);
     });
-    it('calls drawAxis once with the correct value', () => {
+    it('calls drawAxis once', () => {
       abstractClass.drawMarks();
       expect(abstractClass.drawAxis).toHaveBeenCalledTimes(1);
     });
     it('calls drawGrid once', () => {
       abstractClass.drawMarks();
       expect(abstractClass.drawGrid).toHaveBeenCalledTimes(1);
-    });
-    it('calls postProcessAxisFeatures once', () => {
-      abstractClass.drawMarks();
-      expect(abstractClass.postProcessAxisFeatures).toHaveBeenCalledTimes(1);
     });
   });
 });

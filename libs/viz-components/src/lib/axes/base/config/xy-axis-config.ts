@@ -17,6 +17,7 @@ export abstract class XyAxisConfig<TickValue>
   tickLabelFontSize: number;
   tickSizeOuter: number;
   wrap: TickWrap;
+  zeroAxis: { strokeDasharray: string | null; useZeroAxis: boolean };
 
   abstract getSuggestedNumTicksFromChartDimension(dimensions: {
     height: number;

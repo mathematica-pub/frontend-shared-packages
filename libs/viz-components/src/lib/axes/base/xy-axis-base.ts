@@ -42,6 +42,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   abstract setTicks(tickFormat: string | ((value: TickValue) => string)): void;
   abstract setScale(): void;
   abstract createLabel(): void;
+  abstract getDomainTranslate(): string | null;
 
   get class(): Record<AxisSvgElements, string> {
     return {
@@ -73,7 +74,6 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     this.setAxisFromScaleAndConfig();
     this.drawAxis();
     this.drawGrid();
-    this.postProcessAxisFeatures();
   }
 
   drawAxis(): void {
@@ -88,11 +88,18 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
       .transition(this.getTransition(this.axisGroup))
       .call(this.axis)
       .on('end', () => {
-        this.styleTicks();
+        this.processTicks();
       });
+
+    this.processDomain();
+    this.processTickLabels();
+    this.processTickMarks();
+    if (this.config.label) {
+      this.createLabel();
+    }
   }
 
-  styleTicks(): void {
+  processTicks(): void {
     const tickText = select(this.elRef.nativeElement).selectAll('.tick text');
     if (this.config.tickLabelFontSize) {
       this.setTickFontSize(tickText);
@@ -128,22 +135,48 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     wrap.wrap(tickTextSelection);
   }
 
-  postProcessAxisFeatures(): void {
-    if (this.config.removeDomainLine) {
-      this.axisGroup.call((g) => g.select('.domain').remove());
+  processDomain(): void {
+    const zeroAxisTranslate = this.getDomainTranslate();
+
+    if (this.config.zeroAxis.useZeroAxis && zeroAxisTranslate !== null) {
+      this.axisGroup.call((g) =>
+        g
+          .select('.domain')
+          .transition(this.getTransition(this.axisGroup))
+          .attr('transform', zeroAxisTranslate)
+          .attr('class', 'domain zero-axis-domain')
+          .attr('stroke-dasharray', this.config.zeroAxis.strokeDasharray)
+      );
     }
 
+    if (zeroAxisTranslate === null) {
+      this.axisGroup.call((g) => g.select('.domain').attr('class', 'domain'));
+    }
+
+    if (this.config.removeDomainLine && zeroAxisTranslate === null) {
+      this.axisGroup.call((g) => g.select('.domain').remove());
+    }
+  }
+
+  processTickLabels(): void {
     if (this.config.removeTickLabels) {
       this.axisGroup.call((g) => g.selectAll('.tick text').remove());
     }
+  }
 
+  processTickMarks(): void {
     if (this.config.removeTickMarks) {
       this.axisGroup.call((g) => g.selectAll('.tick line').remove());
     }
+  }
 
-    if (this.config.label) {
-      this.createLabel();
+  otherAxisHasPosAndNegValues(dimension: 'x' | 'y'): boolean {
+    const otherDimension = dimension === 'x' ? 'y' : 'x';
+    const domain = this.scales[otherDimension].domain();
+    if (domain.length > 2 || isNaN(domain[0]) || isNaN(domain[1])) {
+      return false;
     }
+    return domain[0] < 0 && domain[1] > 0;
   }
 
   drawGrid(): void {

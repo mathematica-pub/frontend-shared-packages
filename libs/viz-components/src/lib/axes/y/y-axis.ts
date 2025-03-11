@@ -43,6 +43,16 @@ export function yAxisMixin<
       return range[1];
     }
 
+    getDomainTranslate(): string | null {
+      if (this.otherAxisHasPosAndNegValues('y')) {
+        const rangeIndexForSide = this.config.side === 'left' ? 0 : 1;
+        const translateDistance =
+          this.scales.x(0) - this.scales.x.range()[rangeIndexForSide];
+        return `translate(${translateDistance}, 0)`;
+      }
+      return null;
+    }
+
     setScale(): void {
       this.scale = this.scales.y;
     }

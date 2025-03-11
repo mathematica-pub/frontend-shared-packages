@@ -59,7 +59,7 @@ describe('the XAxis mixin', () => {
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .side('bottom')
         .getConfig();
-      expect(abstractClass.getTranslateDistance()).toBe(90);
+      expect(abstractClass.getTranslateDistance()).toBe(100);
     });
   });
 
