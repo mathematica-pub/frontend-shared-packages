@@ -108,24 +108,26 @@ export class CaAccessDotPlotComponent implements OnChanges {
   setProperties(): void {
     this.rollupData = [];
 
-    this.data.forEach((plan) => {
-      const visibleStack = structuredClone(plan);
-      const currentRollup = this.rollupData.find((x) =>
-        this.getCurrentRollup(x, plan)
-      );
-      if (!currentRollup) {
-        visibleStack.plans = [plan.planValue];
+    this.data
+      .filter((plan) => plan.planValue !== null)
+      .forEach((plan) => {
+        const visibleStack = structuredClone(plan);
+        const currentRollup = this.rollupData.find((x) =>
+          this.getCurrentRollup(x, plan)
+        );
+        if (!currentRollup) {
+          visibleStack.plans = [plan.planValue];
 
-        const invisibleStack = structuredClone(plan);
-        invisibleStack.series = 'invisible';
-        invisibleStack.value = this.getInvisibleStackValue(plan);
+          const invisibleStack = structuredClone(plan);
+          invisibleStack.series = 'invisible';
+          invisibleStack.value = this.getInvisibleStackValue(plan);
 
-        this.rollupData.push(visibleStack);
-        this.rollupData.push(invisibleStack);
-      } else {
-        currentRollup.plans.push(plan.planValue);
-      }
-    });
+          this.rollupData.push(visibleStack);
+          this.rollupData.push(invisibleStack);
+        } else {
+          currentRollup.plans.push(plan.planValue);
+        }
+      });
 
     if (this.rollupData.length > 0) {
       this.chartHeight = this.rollupData.length * this.bandwidth * 2;
