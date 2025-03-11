@@ -50,6 +50,10 @@ export class CsaDotPlotComponent extends CaAccessDotPlotComponent {
     return plan.percentile75;
   }
 
+  override getGoalValue(): number {
+    return (this.data[0] as CsaDatum).compVal;
+  }
+
   override getSortOrder(a: CsaDatum, b: CsaDatum): number {
     const order = ['Rural', 'Small', 'Medium', 'Large', 'Other'];
     return order.indexOf(a.size) - order.indexOf(b.size);
