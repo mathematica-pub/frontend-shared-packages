@@ -31,9 +31,9 @@ export class CsaStackedBarsComponent extends CaAccessStackedBarsComponent {
     let x = this.chart.width * 0.2;
     if (this.compPosition > 0.2 && this.compPosition < 0.66) {
       x = this.chart.width - 220;
-    } else if (this.compPosition > 0.05 && this.compPosition < 0.66) {
+    } else if (this.compPosition <= 0.2) {
       x = this.chart.width * 0.5;
-    } else if (this.compPosition > 0.05 && this.compPosition < 0.8) {
+    } else if (this.compPosition >= 0.66 && this.compPosition < 0.8) {
       x = this.chart.width * 0.14;
     }
     const percentile = this.config.data.some((d) => d.percentile25 !== null);
