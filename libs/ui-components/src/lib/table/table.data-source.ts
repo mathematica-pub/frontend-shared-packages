@@ -18,7 +18,6 @@ export class HsiUiTableDataSource<Datum> extends DataSource<Datum> {
   private sortColId = new BehaviorSubject<string>(null);
   private sortColId$ = this.sortColId.asObservable();
 
-  // TODO: add sort icon to table example
   // TODO: plan sort column directive
   constructor(
     private inputData$: Observable<Datum[]>,

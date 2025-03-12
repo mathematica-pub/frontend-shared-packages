@@ -8,11 +8,18 @@ export enum SortDirection {
 export type SortDirectionType = keyof typeof SortDirection;
 export type TableValue = string | number | boolean | Date;
 
+let nextUniqueId = 0;
+
 export class TableColumn<Datum> {
   /**
-   * The id of the column. Used in the table header.
+   * The unique id of the column. This is generated internally.
    * */
-  id: string;
+  readonly id: string;
+  /**
+   * The label of the column. Used in the table header.
+   * This field is required when using the `single-sort-header` component.
+   */
+  label: string;
   /**
    * Function to extract the value to be sorted on from the datum.
    * If not provided, the formatted value will be used for sorting.
@@ -27,7 +34,11 @@ export class TableColumn<Datum> {
    * If not provided, sort with use d3.ascending on the getSortValue or getFormattedValue.
    */
   ascendingSortFunction: (a: Datum, b: Datum) => number;
-  sortDirection: SortDirectionType;
+  /**
+   * The direction to start sorting this column in.
+   * @default SortDirection.asc
+   */
+  sortDirection: SortDirectionType = SortDirection.asc;
   /**
    * Whether the column is sortable.
    */
@@ -44,12 +55,13 @@ export class TableColumn<Datum> {
    */
   sortedOnInit = false;
   constructor(init?: Partial<TableColumn<Datum>>) {
-    this.sortDirection = SortDirection.asc;
     Object.assign(this, init);
     this.initialSortDirection = this.sortDirection;
     if (this.ascendingSortFunction === undefined) {
       this.ascendingSortFunction = this.defaultSort;
     }
+    this.id = nextUniqueId.toString();
+    nextUniqueId++;
   }
 
   defaultSort(a: Datum, b: Datum): number {
