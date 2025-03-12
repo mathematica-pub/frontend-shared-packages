@@ -13,6 +13,7 @@ export abstract class XyAxisConfig<TickValue>
   removeDomainLine: boolean;
   removeTickLabels: boolean;
   removeTickMarks: boolean;
+  rotateTickLabels: number;
   tickFormat: string | ((value: TickValue) => string);
   tickLabelFontSize: number;
   tickSizeOuter: number;

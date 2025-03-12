@@ -119,6 +119,7 @@ class TestHorizontalBarsComponent {
     .margin(horizontalMargin)
     .height(chartHeight)
     .width(chartWidth)
+    .transitionDuration(0)
     .resize({ useViewbox: false })
     .getConfig();
 
@@ -201,7 +202,6 @@ const mountHorizontalBarsComponent = (
           ></vic-html-tooltip>
         </svg:g>
       </ng-container>
-
       <ng-template #htmlTooltip>
         <p>{{ (tooltipData$ | async).values.y }}</p>
       </ng-template>
@@ -226,6 +226,7 @@ class TestVerticalBarsComponent {
     .margin(verticalMargin)
     .height(chartHeight)
     .width(chartWidth)
+    .transitionDuration(0)
     .resize({ useViewbox: false })
     .getConfig();
 

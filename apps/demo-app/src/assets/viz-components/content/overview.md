@@ -142,10 +142,10 @@ this.barsConfig = this.bars
   .data(this.data)
   .horizontal((bars) =>
     bars
-      .x((dimension) => dimension.valueAccessor((d) => d.value))
-      .y((dimension) => dimension.valueAccessor((d) => d.division))
+      .x((x) => x.valueAccessor((d) => d.value))
+      .y((y) => y.valueAccessor((d) => d.division))
   )
-  .fill((dimension) => dimension.range(['teal']))
+  .color((color) => color.range(['teal']))
   .getConfig();
 ```
 

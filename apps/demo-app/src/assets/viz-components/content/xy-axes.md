@@ -122,6 +122,18 @@ params:
 ```
 
 ```builder-method
+name: rotateTickLabels
+description: Specifies the rotation of tick labels.
+params:
+  - name: value
+    type: number | null
+    description:
+      - 'The rotation of the tick labels in degrees, or `null` to unset the rotation.'
+      - Positive values will rotate the labels counterclockwise.
+      - If not called, the ticks will not be rotated.
+```
+
+```builder-method
 name: tickFormat
 description: Specifies how tick labels will be formatted. The format can be a string or a function.
 params:

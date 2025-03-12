@@ -1,4 +1,14 @@
-# Domumenting Viz Components
+# Documenting Viz Components
+
+We need to document methods exposed to the user in two places: in the builder classes for display in
+VSCode tooltips, and in markdown files, which gets rendered in the documentation site.
+
+To maximize efficiency, we have found that it helps to first write all documentation in a builder
+class, and then transfer it to the markdown file.
+
+To provide a good user experience, we need to be consistent in how we both write and document
+methods, including the structure of the documentation and the terminology used. This document
+provides guidelines for how to do this.
 
 ## Documenting builder methods in builder classes
 
@@ -72,6 +82,10 @@ If a method has multiple overloads, the overload that we expect the user to use 
 should be first, so that it is shown in the tooltip.
 
 Users can see all overloads by typing `(` after the method name.
+
+### Other notes
+
+- Builder methods should only ever have one parameter, which is either a callback or a value.
 
 ## Documenting builder methods in custom .md files
 

@@ -107,14 +107,16 @@ export class DotsExampleComponent implements OnInit {
 
     const dataConfig = this.dots
       .data(data.filter((x) => x.date.getFullYear() === 2012))
-      .fillCategorical((dimension) =>
-        dimension.valueAccessor((d) => d.location).range(['#2cafb0', '#a560cc'])
+      .fillCategorical((fillCategorical) =>
+        fillCategorical
+          .valueAccessor((d) => d.location)
+          .range(['#2cafb0', '#a560cc'])
       )
-      .radiusNumeric((dimension) =>
-        dimension.valueAccessor((d) => d.wind).range([2, 8])
+      .radiusNumeric((radiusNumeric) =>
+        radiusNumeric.valueAccessor((d) => d.wind).range([2, 8])
       )
-      .xNumeric((dimension) => dimension.valueAccessor((d) => d.tempMax))
-      .yNumeric((dimension) => dimension.valueAccessor((d) => d.precipitation))
+      .xNumeric((xNumeric) => xNumeric.valueAccessor((d) => d.tempMax))
+      .yNumeric((yNumeric) => yNumeric.valueAccessor((d) => d.precipitation))
       .getConfig();
 
     return {

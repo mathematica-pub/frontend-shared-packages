@@ -11,6 +11,12 @@ const DEFAULT = {
   _width: 800,
 };
 
+/**
+ * Builds a configuration object for a ChartComponent.
+ *
+ * Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. `providers: [VicChartConfigBuilder]` in the component decorator)
+ *
+ */
 @Injectable()
 export class VicChartConfigBuilder {
   private _height: number;
@@ -24,34 +30,44 @@ export class VicChartConfigBuilder {
   }
 
   /**
-   * OPTIONAL. If chart size is dynamic, sets the maximum height of the chart. In this case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing.
+   * OPTIONAL. If chart size is dynamic, determines the maximum height of the chart. In this case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing. If chart size is not dynamic, sets the fixed height of the chart.
    *
-   * If chart size is static, the fixed height of the chart.
-   *
-   * @default 600
+   * @param value - The maximum height of the chart, in px. If chart size is static, the fixed height of the chart. If not called or called with `null`, a default value of 600 will be used.
    */
-  height(height: number): this {
-    this._height = height;
+  height(value: number | null): this {
+    if (value === null) {
+      value = DEFAULT._height;
+      return this;
+    }
+    this._height = value;
     return this;
   }
 
   /**
-   * OPTIONAL. The margin that will be established between the edges of the svg and the svg's contents, in px.
+   * OPTIONAL. Determines the margin that will be established between the edges of the svg and the svg's contents, in px.
    *
-   * @default { top: 36, right: 36, bottom: 36, left: 36 }
+   * @param value - The margin that will be established between the edges of the svg and the svg's contents, in px. If called with null, a default value of `{ top: 36, right: 36, bottom: 36, left: 36 }` will be used.
    */
-  margin(margin: {
-    top: number;
-    right: number;
-    bottom: number;
-    left: number;
-  }): this {
-    this._margin = margin;
+  margin(
+    value: {
+      top: number;
+      right: number;
+      bottom: number;
+      left: number;
+    } | null
+  ): this {
+    if (value === null) {
+      value = DEFAULT._margin;
+      return this;
+    }
+    this._margin = value;
     return this;
   }
 
   /**
    * OPTIONAL. Determines whether the chart size is fixed or will resize as the container width changes sizes, and how this resizing will be done.
+   *
+   * @param value - An object with up to three properties: `width`, `height`, and `useViewbox`. Can also be called with null to reset the resize configuration to its default value, which is `{ width: true, height: true, useViewbox: false }`.
    *
    * If `useViewbox` is true, the chart will resize via the viewbox attribute, scaling all contents of the chart at once. (For example, as the chart grows smaller, svg text in the chart will also grow proportionally smaller.) This is a more performant way to resize the chart.
    *
@@ -60,15 +76,21 @@ export class VicChartConfigBuilder {
    * If `useViewbox` is false, width and height can be used to determine which dimensions will resize when the chart's container changes width. If both are true, the chart will resize in both dimensions. If only one is true, the chart will resize in that dimension only.
    *
    * Note that the chart does not respond to changes in container height.
-   *
-   * @default { width: true, height: true; useViewbox: false }
    */
   resize(
-    resize: Partial<{ width: boolean; height: boolean; useViewbox: boolean }>
+    value: Partial<{
+      width: boolean;
+      height: boolean;
+      useViewbox: boolean;
+    }> | null
   ): this {
+    if (value === null) {
+      value = DEFAULT._resize;
+      return this;
+    }
     this._resize = {
       ...this._resize,
-      ...resize,
+      ...value,
     };
     return this;
   }
@@ -76,24 +98,28 @@ export class VicChartConfigBuilder {
   /**
    * OPTIONAL. A time duration for all transitions in the chart, in ms.
    *
-   * @default 250
+   * @@param value - The time duration for all transitions in the chart, in ms. If not called or called with null, a default value of 250 will be used.
    */
-  transitionDuration(transitionDuration: number): this {
-    this._transitionDuration = transitionDuration;
+  transitionDuration(value: number | null): this {
+    if (value === null) {
+      value = DEFAULT._transitionDuration;
+      return this;
+    }
+    this._transitionDuration = value;
     return this;
   }
 
   /**
-   * If chart size is dynamic, the maximum width of the chart.
+   * OPTIONAL. If chart size is dynamic, sets the maximum width of the chart. In this case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing. If chart size is not dynamic, sets the fixed width of the chart.
    *
-   * In that case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing
-   *
-   * If chart size is static, the fixed width of the chart.
-   *
-   * @default 800
+   * @param value - The maximum width of the chart, in px. If chart size is static, the fixed width of the chart. If not called or called with `null`, a default value of 800 will be used.
    */
-  width(width: number): this {
-    this._width = width;
+  width(value: number | null): this {
+    if (value === null) {
+      value = DEFAULT._width;
+      return this;
+    }
+    this._width = value;
     return this;
   }
 
