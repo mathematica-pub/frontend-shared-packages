@@ -34,12 +34,6 @@ export class CsaRaceStackedBarsComponent extends CaAccessStackedBarsComponent {
   }
 
   updatePercentileGroup(): void {
-    let x = this.chart.width * 0.2;
-    if (this.compPosition > 0.3 && this.compPosition < 0.66) {
-      x = this.chart.width - 220;
-    } else if (this.compPosition > 0.1 && this.compPosition < 0.66) {
-      x = this.chart.width * 0.4;
-    }
     const percentile = this.config.data.some((d) => d.percentile25 !== null);
     const group = this.headerGroup
       .selectAll('.percentile')
@@ -48,7 +42,7 @@ export class CsaRaceStackedBarsComponent extends CaAccessStackedBarsComponent {
       .attr('class', 'percentile')
       .attr(
         'transform',
-        `translate(${x}, ${-(this.scales.y as any).bandwidth() / 4 - 4})`
+        `translate(${this.percentileLabelPosition}, ${-(this.scales.y as any).bandwidth() / 4 - 4})`
       );
     group
       .selectAll('rect')

@@ -28,15 +28,6 @@ export class CsaStackedBarsComponent extends CaAccessStackedBarsComponent {
   }
 
   updatePercentileGroup(): void {
-    let x = this.chart.width * 0.2;
-    const breakpoint = 0.66;
-    if (this.compPosition > 0.2 && this.compPosition < breakpoint) {
-      x = this.chart.width - 220;
-    } else if (this.compPosition <= 0.2) {
-      x = this.chart.width * 0.5;
-    } else if (this.compPosition >= breakpoint && this.compPosition < 0.8) {
-      x = this.chart.width * 0.14;
-    }
     const percentile = this.config.data.some((d) => d.percentile25 !== null);
     const group = this.headerGroup
       .selectAll('.percentile')
@@ -45,7 +36,7 @@ export class CsaStackedBarsComponent extends CaAccessStackedBarsComponent {
       .attr('class', 'percentile')
       .attr(
         'transform',
-        `translate(${x}, ${-(this.scales.y as any).bandwidth() / 4 - 4})`
+        `translate(${this.percentileLabelPosition}, ${-(this.scales.y as any).bandwidth() / 4 - 4})`
       );
     group
       .selectAll('rect')

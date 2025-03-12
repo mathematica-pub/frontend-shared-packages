@@ -45,6 +45,8 @@ export class CaAccessStackedBarsComponent
   compVal: number;
   compIsBig: boolean;
   compPosition: number;
+  planLabelPosition: number;
+  percentileLabelPosition: number;
   headerOffset = -50;
   yAxisOffset = -0.8;
   additionalYAxisOffset = `${this.yAxisOffset - 2.5}em`;
@@ -68,6 +70,7 @@ export class CaAccessStackedBarsComponent
       this.drawBarLabels(transitionDuration);
     }
     this.setCompValues();
+    this.setLabelPositions();
     this.updateBarElements();
     this.updateCircleElements();
     this.updateComparison();
@@ -132,8 +135,34 @@ export class CaAccessStackedBarsComponent
 
   setCompValues(): void {
     this.compVal = this.config.data[0].compVal;
-    this.compIsBig = this.scales.x(this.compVal) > this.chart.width / 2;
     this.compPosition = this.compVal / this.scales.x.domain()[1];
+  }
+
+  setLabelPositions(): void {
+    const breakpoint = 0.7;
+    this.compIsBig =
+      this.scales.x(this.compVal) > this.chart.width * breakpoint;
+    const planEnd = this.chart.width - 80;
+    const percentileFront = 100;
+    if (this.compPosition < 0.15) {
+      this.planLabelPosition = planEnd;
+      this.percentileLabelPosition = this.chart.width - 320;
+    } else if (this.compPosition < 0.35) {
+      this.planLabelPosition = 0;
+      this.percentileLabelPosition = this.chart.width - 220;
+    } else if (this.compPosition < 0.55) {
+      this.planLabelPosition = planEnd;
+      this.percentileLabelPosition = 0;
+    } else if (this.compPosition < breakpoint) {
+      this.planLabelPosition = 0;
+      this.percentileLabelPosition = percentileFront;
+    } else if (this.compPosition < 0.85) {
+      this.planLabelPosition = planEnd;
+      this.percentileLabelPosition = 0;
+    } else {
+      this.planLabelPosition = 0;
+      this.percentileLabelPosition = percentileFront;
+    }
   }
 
   updateCircleElements(): void {
@@ -269,8 +298,8 @@ export class CaAccessStackedBarsComponent
 
   updatePlanHeader(): void {
     this.headerGroup.select('.plan-header').attr('transform', () => {
-      const x = this.compPosition < 0.15 ? this.chart.width - 80 : 0;
-      return `translate(${x}, 0)`;
+      // const x = this.compPosition < 0.15 ? this.chart.width - 80 : 0;
+      return `translate(${this.planLabelPosition}, 0)`;
     });
   }
 

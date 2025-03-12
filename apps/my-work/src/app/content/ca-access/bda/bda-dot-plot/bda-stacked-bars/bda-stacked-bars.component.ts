@@ -102,12 +102,6 @@ export class BdaStackedBarsComponent
   }
 
   updateGoalGroup(): void {
-    let x = this.chart.width * 0.4;
-    if (this.compPosition > 0.3 && this.compPosition < 0.66) {
-      x = this.chart.width - 60;
-    } else if (this.compPosition > 0.1 && this.compPosition < 0.66) {
-      x = this.chart.width * 0.6;
-    }
     const group = this.headerGroup
       .selectAll('.goal')
       .data([this.config.data[0].goal].filter((d) => d !== null))
@@ -115,7 +109,7 @@ export class BdaStackedBarsComponent
       .attr('class', 'goal')
       .attr(
         'transform',
-        `translate(${x}, ${-(this.scales.y as any).bandwidth() / 2 - 6})`
+        `translate(${this.percentileLabelPosition}, ${-(this.scales.y as any).bandwidth() / 2 - 6})`
       );
     group
       .selectAll('rect')
