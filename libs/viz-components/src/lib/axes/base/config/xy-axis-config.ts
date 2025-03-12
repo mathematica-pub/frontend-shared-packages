@@ -13,10 +13,12 @@ export abstract class XyAxisConfig<TickValue>
   removeDomainLine: boolean;
   removeTickLabels: boolean;
   removeTickMarks: boolean;
+  rotateTickLabels: number;
   tickFormat: string | ((value: TickValue) => string);
   tickLabelFontSize: number;
   tickSizeOuter: number;
   wrap: TickWrap;
+  zeroAxis: { strokeDasharray: string | null; useZeroAxis: boolean };
 
   abstract getSuggestedNumTicksFromChartDimension(dimensions: {
     height: number;

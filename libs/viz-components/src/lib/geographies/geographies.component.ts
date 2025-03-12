@@ -141,7 +141,7 @@ export class GeographiesComponent<
     const layerGroup = select(this.elRef.nativeElement)
       .style(
         'transform',
-        `translate(${this.chart.margin.left}px, ${this.chart.margin.top}px)`
+        `translate(${this.chart.config.margin.left}px, ${this.chart.config.margin.top}px)`
       )
       .selectAll<
         SVGGElement,

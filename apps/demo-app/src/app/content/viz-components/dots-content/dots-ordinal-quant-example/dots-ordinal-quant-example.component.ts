@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  ChartConfig,
   DotsConfig,
   ElementSpacing,
+  VicChartConfigBuilder,
   VicChartModule,
   VicDotsConfigBuilder,
   VicDotsModule,
@@ -21,6 +23,7 @@ import {
 } from '../../data/location-category-data';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: DotsConfig<LocationCategoryDatum>;
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<number>;
@@ -42,6 +45,7 @@ interface ViewModel {
   styleUrl: './dots-ordinal-quant-example.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    VicChartConfigBuilder,
     VicDotsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
@@ -57,6 +61,7 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
   };
 
   constructor(
+    private chart: VicChartConfigBuilder,
     private dots: VicDotsConfigBuilder<LocationCategoryDatum>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<number>
@@ -67,6 +72,13 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
   }
 
   getViewModel(): void {
+    const chartConfig = this.chart
+      .margin(this.margin)
+      .height(160)
+      .width(400)
+      .resize({ height: false })
+      .getConfig();
+
     const xAxisConfig = this.xQuantitativeAxis
       .tickFormat('.0%')
       .removeDomainLine()
@@ -95,6 +107,7 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
       .getConfig();
 
     this.vm = {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,

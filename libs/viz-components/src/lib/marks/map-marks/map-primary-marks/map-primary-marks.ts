@@ -54,6 +54,6 @@ export abstract class MapPrimaryMarks<
   }
 
   getTransitionDuration(): number {
-    return this.chart.transitionDuration;
+    return this.chart.config.transitionDuration;
   }
 }

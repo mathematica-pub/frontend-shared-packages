@@ -1,11 +1,20 @@
-.hsi-ui-listbox-container {
-  z-index: var(--hsi-ui-listbox-z-index);
+:host {
   position: absolute;
-  left: 0;
   top: 100%;
+  left: 0;
   width: 100%;
-  padding: var(--hsi-ui-listbox-padding)
-    var(--hsi-ui-listbox-padding-horizontal);
+  z-index: var(--hsi-ui-listbox-z-index);
+  background: var(--hsi-ui-listbox-background);
+  border-bottom-left-radius: var(--hsi-ui-combobox-border-radius);
+  border-bottom-right-radius: var(--hsi-ui-combobox-border-radius);
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+.hsi-ui-listbox {
+  padding-top: var(--hsi-ui-listbox-padding-top);
   background: var(--hsi-ui-listbox-background);
   border-left: var(--hsi-ui-combobox-border-width) solid
     var(--hsi-ui-combobox-border-color);
@@ -15,30 +24,39 @@
     var(--hsi-ui-combobox-border-color);
   border-bottom-left-radius: var(--hsi-ui-combobox-border-radius);
   border-bottom-right-radius: var(--hsi-ui-combobox-border-radius);
-}
-
-.hsi-ui-listbox-container:not(.open) {
-  display: none;
-}
-
-.hsi-ui-listbox-scrollable-container {
-  display: block;
   max-height: var(--hsi-ui-listbox-max-height);
   overflow-y: auto;
-  margin: var(--hsi-ui-listbox-scrollable-container-margin);
+}
+
+.hsi-ui-listbox:not(.open) {
+  display: none;
 }
 
 .hsi-ui-listbox-option {
   display: block;
   cursor: pointer;
+  margin-left: var(--hsi-ui-listbox-padding-left);
+  margin-right: var(--hsi-ui-listbox-padding-right);
+}
+
+.hsi-ui-listbox-option:not(.grouped-option):last-child,
+.hsi-ui-listbox-group-container:last-child .hsi-ui-listbox-option:last-child,
+.hsi-ui-listbox-option.current.keyboard-current:not(.grouped-option):last-child,
+.hsi-ui-listbox-group-container:last-child
+  .hsi-ui-listbox-option.current.keyboard-current:last-child {
+  margin-bottom: var(--hsi-ui-listbox-padding-bottom);
+  border-bottom-left-radius: var(--hsi-ui-combobox-border-radius);
+  border-bottom-right-radius: var(--hsi-ui-combobox-border-radius);
 }
 
 .hsi-ui-listbox-option:hover {
   background: var(--hsi-ui-listbox-option-hover-background);
+  border-radius: var(--hsi-ui-listbox-option-hover-border-radius);
 }
 
 .hsi-ui-listbox-option.selected {
   background: var(--hsi-ui-listbox-option-selected-background);
+  border-radius: var(--hsi-ui-listbox-option-selected-border-radius);
 }
 
 .hsi-ui-listbox-option.disabled {
@@ -48,10 +66,5 @@
 .hsi-ui-listbox-option.current.keyboard-current {
   background: var(--hsi-ui-listbox-option-current-background);
   color: var(--hsi-ui-listbox-option-current-color);
-}
-
-.hsi-ui-listbox-option:not(.grouped-option):last-child,
-.hsi-ui-listbox-group-container:last-child .hsi-ui-listbox-option:last-child {
-  border-bottom-left-radius: var(--hsi-ui-combobox-border-radius);
-  border-bottom-right-radius: var(--hsi-ui-combobox-border-radius);
+  border-radius: var(--hsi-ui-listbox-option-current-border-radius);
 }

@@ -10,8 +10,10 @@ export interface XyAxisBaseOptions<TickValue> extends MarksOptions {
   removeDomainLine: boolean;
   removeTickLabels: boolean;
   removeTickMarks: boolean;
+  rotateTickLabels: number;
   tickFormat: string | ((value: TickValue) => string);
   tickLabelFontSize: number;
   tickSizeOuter: number;
   wrap: TickWrap;
+  zeroAxis: { strokeDasharray: string | null; useZeroAxis: boolean };
 }

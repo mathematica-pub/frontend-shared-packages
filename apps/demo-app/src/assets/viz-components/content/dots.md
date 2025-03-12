@@ -22,8 +22,10 @@ The `VicDotsConfigBuilder` allows you to create a configuration object for the `
 It requires one generic type, which should be the type of a single datum in the array of data that
 will be passed to the component.
 
+**Required imports from @hsi/viz-components**
+
 ```ts
-import { VicDotsConfigBuilder } from '@hsi/viz-components';
+import { VicChartModule, VicXyChartModuke, VicDotsConfigBuilder, VicDotsModule } from '@hsi/viz-components';
 ...
 @Component({
   ...
@@ -39,7 +41,24 @@ import { VicDotsConfigBuilder } from '@hsi/viz-components';
     ...
   ]
 })
-constructor(private dots: VicDotsConfigBuilder<Datum>) {}
+constructor(private dots: VicDotsConfigBuilder<WeatherDatum>) {}
+```
+
+**Minimal example of creating a `DotsConfig`**
+
+```ts
+...
+dotsConfig: DotsConfig<WeatherDatum>;
+data: WeatherDatum[];
+...
+this.dotsConfig = this.dots
+  .data(data)
+  .radiusNumeric((radiusNumeric) =>
+    radiusNumeric.valueAccessor((d) => d.wind).range([2, 8])
+  )
+  .xNumeric((xNumeric) => xNumeric.valueAccessor((d) => d.tempMax))
+  .yNumeric((yNumeric) => yNumeric.valueAccessor((d) => d.precipitation))
+  .getConfig();
 ```
 
 ### Required Methods
@@ -186,7 +205,7 @@ params:
     description: A callback that allows for the specification of the attributes for the stroke of the dots.
 ```
 
-## Example
+## Example with code files
 
 ```custom-angular
 main example
