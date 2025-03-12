@@ -129,7 +129,7 @@ export class IcaStackedBarsComponent
       .join('text')
       .attr('class', 'percentile-label')
       .text((d, i) => (i === 0 ? '25th' : '75th percentile'))
-      .attr('x', (d) => this.getPercentileX(d))
+      .attr('x', (d, i) => this.getPercentileX(d, i))
       .attr('y', '-0.5em')
       .attr('dx', '-1em');
     this.percentileGroup
@@ -143,16 +143,16 @@ export class IcaStackedBarsComponent
       .attr('y2', this.chart.height);
   }
 
-  getPercentileX(percentile: number): number {
+  getPercentileX(percentile: number, i: number): number {
     let x = this.scales.x(percentile);
     const gap = this.scales.x(
       this.config.data[0].ica_75 - this.config.data[0].ica_25
     );
     const minGap = 50;
-    const adjustment = 15;
-    if (gap < minGap && percentile < this.config.data[0].ica_75) {
+    const adjustment = 20;
+    if (gap < minGap && i === 0) {
       x -= adjustment;
-    } else if (gap < minGap) {
+    } else if (gap < minGap && i === 1) {
       x += adjustment;
     }
     return x;
