@@ -2,8 +2,10 @@ import { Component, Input } from '@angular/core';
 import 'cypress-real-events';
 import { curveBasis, schemeTableau10 } from 'd3';
 import {
+  ChartConfig,
   LinesHoverMoveDirective,
   LinesHoverMoveEmitTooltipData,
+  VicChartConfigBuilder,
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
@@ -53,12 +55,7 @@ const markerSelector = '.vic-lines-marker';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-lines',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -98,9 +95,6 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   @Input() linesConfig: LinesConfig<Datum>;
   @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
   @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<QuantAxisType>;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
@@ -111,6 +105,12 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   hoverActions: HoverMoveAction<LinesHoverMoveDirective<Datum>>[] = [
     new LinesHoverMoveEmitTooltipData(),
   ];
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(chartHeight)
+    .width(chartWidth)
+    .margin(margin)
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 
   updateTooltipForNewOutput(data: LinesEventOutput<Datum>): void {
     this.updateTooltipData(data);

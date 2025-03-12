@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { schemeTableau10 } from 'd3';
 import {
+  ChartConfig,
   VicBarsModule,
+  VicChartConfigBuilder,
   VicChartModule,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
@@ -50,12 +52,7 @@ const barSelector = '.vic-bars-bar';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-horizontal-bar',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-defs>
         <svg:pattern
           [id]="dotsPatternMagenta"
@@ -94,11 +91,14 @@ class TestHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
   @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  margin = horizontalMargin;
   dotsPatternMagenta = dotsPatternMagenta;
   dotsPatternTeal = dotsPatternTeal;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(chartHeight)
+    .width(chartWidth)
+    .margin(horizontalMargin)
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 }
 
 const mountHorizontalBarsComponent = (

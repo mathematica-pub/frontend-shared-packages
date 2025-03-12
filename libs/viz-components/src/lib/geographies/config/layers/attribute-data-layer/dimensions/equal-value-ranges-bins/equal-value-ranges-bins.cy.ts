@@ -11,6 +11,8 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
+  ChartConfig,
+  VicChartConfigBuilder,
   VicGeographiesConfigBuilder,
   VicGeographiesModule,
   VicMapChartModule,
@@ -47,11 +49,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-geographies',
   template: `
-    <vic-map-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-    >
+    <vic-map-chart [config]="chartConfig">
       <svg:g
         vic-primary-marks-geographies
         svg-elements
@@ -68,9 +66,12 @@ class TestGeographiesComponent {
     StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .margin(margin)
+    .width(chartWidth)
+    .height(chartHeight)
+    .resize({ useViewbox: false })
+    .getConfig();
 }
 
 const mountGeographiesComponent = (

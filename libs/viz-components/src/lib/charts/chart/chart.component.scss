@@ -4,5 +4,12 @@
 
 .vic-chart-svg {
   display: block;
+}
+
+.vic-chart-svg:not(.vic-chart-viewbox) {
   overflow: visible;
+}
+
+.vic-chart-svg.vic-chart-viewbox {
+  width: 100%;
 }

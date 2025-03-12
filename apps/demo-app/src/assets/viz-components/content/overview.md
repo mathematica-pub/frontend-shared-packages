@@ -142,10 +142,10 @@ this.barsConfig = this.bars
   .data(this.data)
   .horizontal((bars) =>
     bars
-      .x((dimension) => dimension.valueAccessor((d) => d.value))
-      .y((dimension) => dimension.valueAccessor((d) => d.division))
+      .x((x) => x.valueAccessor((d) => d.value))
+      .y((y) => y.valueAccessor((d) => d.division))
   )
-  .fill((dimension) => dimension.range(['teal']))
+  .color((color) => color.range(['teal']))
   .getConfig();
 ```
 
@@ -153,6 +153,14 @@ This configuration will create horizontal bars, with one bar per item in `this.d
 represent a `division` value, and all bars will be `teal`.
 
 ### Adding additional components/features
+
+#### Chart config
+
+You can provide a configuration object to the `vic-xy-chart` component to set the size, margin, and
+resizing properties of the chart. This can be done by importing a `VicChartConfigBuilder`, providing
+it in the `providers` array, and using it to create a configuration object.
+
+Reasonable defaults will be used if you do not provide a configuration object.
 
 #### Axes
 

@@ -6,6 +6,8 @@ import { XOrdinalAxisConfig } from './x-ordinal-axis-config';
 const DEFAULT = {
   _side: 'bottom',
   _tickSizeOuter: 0,
+  _removeDomainLine: true,
+  _zeroAxis: { strokeDasharray: '2', useZeroAxis: true },
 };
 
 @Injectable()
@@ -20,12 +22,14 @@ export class VicXOrdinalAxisConfigBuilder<
   }
 
   /**
-   * OPTIONAL. The side of the chart where the axis will be placed.
+   * OPTIONAL. Specifies the location of the axis on the chart.
    *
-   * @default 'bottom'
+   * @param value - The side of the chart where the axis will be placed.
+   *
+   * If not called, the default value is `bottom`.
    */
-  side(side: 'top' | 'bottom'): this {
-    this._side = side;
+  side(value: 'top' | 'bottom'): this {
+    this._side = value;
     return this;
   }
 
@@ -38,11 +42,13 @@ export class VicXOrdinalAxisConfigBuilder<
       removeDomainLine: this._removeDomainLine,
       removeTickLabels: this._removeTickLabels,
       removeTickMarks: this._removeTickMarks,
+      rotateTickLabels: this._rotateTickLabels,
       side: this._side,
       tickFormat: this._tickFormat,
       tickLabelFontSize: this._tickLabelFontSize,
       tickSizeOuter: this._tickSizeOuter,
       wrap: this.tickWrapBuilder?._build(),
+      zeroAxis: this._zeroAxis,
     });
   }
 }

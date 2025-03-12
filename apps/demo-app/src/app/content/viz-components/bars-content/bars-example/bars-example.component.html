@@ -3,19 +3,14 @@
   <mat-button-toggle-group
     class="direction-toggle-group"
     [hideSingleSelectionIndicator]="true"
-    [value]="orientation$ | async"
+    [value]="(layoutProperties$ | async).orientation"
     (change)="updateOrientation($event.value)"
     ><mat-button-toggle value="horizontal">Horizontal</mat-button-toggle
     ><mat-button-toggle value="vertical">Vertical</mat-button-toggle>
   </mat-button-toggle-group>
-  <vic-xy-chart
-    [margin]="margin"
-    [height]="800"
-    [scaleChartWithContainerWidth]="{ width: true, height: false }"
-  >
+  <vic-xy-chart [config]="vm.chartConfig">
     <ng-container svg-elements>
-      <svg:g vic-xy-background></svg:g>
-      @if ((orientation$ | async) === 'horizontal') {
+      @if ((layoutProperties$ | async).orientation === 'horizontal') {
         <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig" />
         <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" />
       } @else {
@@ -44,7 +39,7 @@
     [style.--color]="(tooltipData$ | async).color"
     class="bars-example-tooltip-container"
   >
-    @if ((orientation$ | async) === 'horizontal') {
+    @if ((layoutProperties$ | async).orientation === 'horizontal') {
       <p class="tooltip-label category">
         {{ (tooltipData$ | async).values.y }}
       </p>
