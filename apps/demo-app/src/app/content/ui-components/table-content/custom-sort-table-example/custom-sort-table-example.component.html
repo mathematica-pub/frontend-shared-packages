@@ -4,19 +4,21 @@
       <ng-container [cdkColumnDef]="column.id">
         @if (column.sortable) {
           <th
-            [ngClass]="[
-              'material-sort-icon',
-              column.sortDirection,
-              column.activelySorted ? 'actively-sorted' : '',
-            ]"
             scope="col"
             cdk-header-cell
             *cdkHeaderCellDef="let element"
             (click)="dataSource.sort(column)"
           >
-            <span class="material-symbols-outlined" [attr.aria-hidden]="true">{{
-              sortIcon
-            }}</span>
+            <span
+              [ngClass]="[
+                'material-sort-icon',
+                column.sortDirection,
+                column.activelySorted ? 'actively-sorted' : '',
+                'material-symbols-outlined',
+              ]"
+              [attr.aria-hidden]="true"
+              >{{ sortIcon }}</span
+            >
             {{ column.label }}</th
           >
         } @else {
