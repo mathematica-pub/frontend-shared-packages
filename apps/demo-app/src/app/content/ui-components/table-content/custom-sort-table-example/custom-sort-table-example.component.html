@@ -1,0 +1,35 @@
+@if (columns$ | async; as columns) {
+  <table cdk-table [dataSource]="dataSource" class="table-container">
+    @for (column of columns; track column.id) {
+      <ng-container [cdkColumnDef]="column.id">
+        @if (column.sortable) {
+          <th
+            [ngClass]="[
+              'material-sort-icon',
+              column.sortDirection,
+              column.activelySorted ? 'actively-sorted' : undefined,
+            ]"
+            scope="col"
+            cdk-header-cell
+            *cdkHeaderCellDef="let element"
+            (click)="dataSource.sort(column)"
+          >
+            <span class="material-symbols-outlined" [attr.aria-hidden]="true">{{
+              sortIcon
+            }}</span>
+            {{ column.label }}</th
+          >
+        } @else {
+          <th cdk-header-cell *cdkHeaderCellDef="let element">
+            {{ column.label }}
+          </th>
+        }
+        <td cdk-cell *cdkCellDef="let element">
+          {{ column.getFormattedValue(element) }}
+        </td>
+      </ng-container>
+    }
+    <tr cdk-header-row *cdkHeaderRowDef="tableHeaders$ | async"></tr>
+    <tr cdk-row *cdkRowDef="let row; columns: tableHeaders$ | async"></tr>
+  </table>
+}

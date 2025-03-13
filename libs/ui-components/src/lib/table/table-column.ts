@@ -8,11 +8,9 @@ export enum SortDirection {
 export type SortDirectionType = keyof typeof SortDirection;
 export type TableValue = string | number | boolean | Date;
 
-let nextUniqueId = 0;
-
 export class TableColumn<Datum> {
   /**
-   * The unique id of the column. This is generated internally.
+   * The unique id of the column.
    * */
   readonly id: string;
   /**
@@ -60,8 +58,6 @@ export class TableColumn<Datum> {
     if (this.ascendingSortFunction === undefined) {
       this.ascendingSortFunction = this.defaultSort;
     }
-    this.id = nextUniqueId.toString();
-    nextUniqueId++;
   }
 
   defaultSort(a: Datum, b: Datum): number {

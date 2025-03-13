@@ -6,6 +6,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   HsiUiTableDataSource,
   TableColumn,
@@ -23,11 +24,14 @@ enum ColumnNames {
   selector: 'app-table-example',
   standalone: true,
   imports: [CommonModule, TableModule],
-  templateUrl: './table-example.component.html',
-  styleUrls: ['../../../examples.scss', './table-example.component.scss'],
+  templateUrl: './custom-sort-table-example.component.html',
+  styleUrls: [
+    '../../../examples.scss',
+    './custom-sort-table-example.component.scss',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableExampleComponent implements OnInit {
+export class CustomSortIconExampleTableComponent implements OnInit {
   @Input() sortIcon: string = 'arrow_upward';
   data$: Observable<{ fruit: string; color: string }[]>;
   columns$: Observable<TableColumn<{ fruit: string; color: string }>[]>;
@@ -77,9 +81,8 @@ export class TableExampleComponent implements OnInit {
   setTableHeaders(): void {
     this.tableHeaders$ = this.columns$.pipe(
       map((columns) => columns.map((x) => x.id)),
-      distinctUntilChanged(
-        (a, b) => a.length === b.length && a.every((v, i) => v === b[i])
-      ),
+      distinctUntilChanged(),
+      takeUntilDestroyed(this.destroyRef),
       shareReplay(1)
     );
   }

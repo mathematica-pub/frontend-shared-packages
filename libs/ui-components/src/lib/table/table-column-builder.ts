@@ -12,27 +12,35 @@ const DEFAULT = {
   _sortDirection: SortDirection.asc,
 };
 
+/**
+ * An internal builder class for a single table column.
+ */
 export class TableColumnBuilder<Datum> {
   private _id: string;
+  private _label: string;
   private _getSortValue: (x: Datum) => TableValue;
   private _getFormattedValue: (x: Datum) => string;
   private _ascendingSortFunction: (a: Datum, b: Datum) => number;
   private _sortDirection: SortDirectionType;
   private _sortable: boolean;
-  private _activelySorted: boolean; // init false?
   private _sortOrder: number;
-  private _sortedOnInit: boolean; // should this go?
 
   constructor() {
     Object.assign(this, DEFAULT);
   }
 
   /**
-   * NOT OPTIONAL. A boolean to determine whether the column is sortable.
-   *
+   * REQUIRED. A string to use as the id of the table column.
    */
   id(id: string): this {
     this._id = id;
+    return this;
+  }
+  /**
+   * OPTIONAL. A string to use as the label of the table column.
+   */
+  label(label: string): this {
+    this._label = label;
     return this;
   }
 
@@ -121,29 +129,37 @@ export class TableColumnBuilder<Datum> {
   }
 
   /**
-   * @internal This method is not intended to be used by consumers of this library.
+   * @internal Not meant to be called by consumers of the library.
    *
    * @param columnName A user-intelligible name for the column being built. Used for error messages. Should be title cased.
    */
-  _build(columnName: string): TableColumn<Datum> {
+  _build(columnName): TableColumn<Datum> {
     this.validateTableColumn(columnName);
     return new TableColumn({
-      id: this._id,
+      label: this._label,
       getSortValue: this._getSortValue,
       getFormattedValue: this._getFormattedValue,
       ascendingSortFunction: this._ascendingSortFunction,
       sortDirection: this._sortDirection,
       sortable: this._sortable,
-      // activelySorted: this._activelySorted, // todo
       sortOrder: this._sortOrder,
-      // sortedOnInit: this._sortedOnInit,
     });
   }
 
   protected validateTableColumn(columnName: string): void {
     if (!this._id) {
+      throw new Error(`ColumnBuilder: ${columnName}. ID is required.`);
+    }
+    if (
+      this._sortable &&
+      !(
+        this._ascendingSortFunction ||
+        this._getSortValue ||
+        this._getFormattedValue
+      )
+    ) {
       throw new Error(
-        `${columnName} Column: id is required. Please use method 'id' to set it.`
+        `ColumnBuilder: ${columnName}. Sortable columns must have at least one of the following fields: ascendingSortFunction, getSortValue or getFormattedValue.`
       );
     }
   }

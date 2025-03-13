@@ -1,0 +1,26 @@
+@use 'vars' as *;
+@use 'functions' as *;
+@use 'colors';
+
+.table-container {
+  border-spacing: 0;
+
+  td:last-child {
+    &.left {
+      padding-right: 0;
+    }
+  }
+
+  th:last-child {
+    &.left {
+      padding-right: 0;
+    }
+  }
+
+  th {
+    vertical-align: bottom;
+    &.sorted-header {
+      padding-right: 0;
+    }
+  }
+}
