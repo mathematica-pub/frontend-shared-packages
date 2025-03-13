@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  Input,
   OnInit,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -21,7 +20,7 @@ enum ColumnNames {
 }
 
 @Component({
-  selector: 'app-table-example',
+  selector: 'app-custom-sort-table-example',
   standalone: true,
   imports: [CommonModule, TableModule],
   templateUrl: './custom-sort-table-example.component.html',
@@ -32,7 +31,7 @@ enum ColumnNames {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomSortIconExampleTableComponent implements OnInit {
-  @Input() sortIcon: string = 'arrow_upward';
+  sortIcon: string = 'arrow_upward';
   data$: Observable<{ fruit: string; color: string }[]>;
   columns$: Observable<TableColumn<{ fruit: string; color: string }>[]>;
   dataSource: HsiUiTableDataSource<{ fruit: string; color: string }>;

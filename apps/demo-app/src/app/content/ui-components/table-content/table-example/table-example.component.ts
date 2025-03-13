@@ -6,6 +6,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   HsiUiTableDataSource,
   TableColumn,
@@ -80,6 +81,7 @@ export class TableExampleComponent implements OnInit {
       distinctUntilChanged(
         (a, b) => a.length === b.length && a.every((v, i) => v === b[i])
       ),
+      takeUntilDestroyed(this.destroyRef),
       shareReplay(1)
     );
   }

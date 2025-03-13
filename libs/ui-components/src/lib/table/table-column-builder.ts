@@ -136,6 +136,7 @@ export class TableColumnBuilder<Datum> {
   _build(columnName): TableColumn<Datum> {
     this.validateTableColumn(columnName);
     return new TableColumn({
+      id: this._id,
       label: this._label,
       getSortValue: this._getSortValue,
       getFormattedValue: this._getFormattedValue,
