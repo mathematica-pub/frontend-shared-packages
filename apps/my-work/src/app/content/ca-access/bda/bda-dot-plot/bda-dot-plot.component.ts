@@ -84,7 +84,7 @@ export class BdaDotPlotComponent
   }
 
   override getSortOrder(a: BdaDatum, b: BdaDatum): number {
-    const order = this.categories;
+    const order = structuredClone(this.categories);
     // account for mock categories
     order.race['Race 1 covers two lines'] = 0;
     order.race['Race 2'] = 1;
