@@ -245,13 +245,16 @@ export class CaAccessStackedBarsComponent
       .selectAll('.percent-label')
       .data(
         this.config.data.filter(
-          (category: CaDatum) =>
-            category.series !== 'invisible' && category.plans.length > 0
+          (category: CaDatum) => category.series !== 'invisible'
         )
       )
       .join('text')
       .attr('class', 'percent-label')
-      .attr('dx', `${this.yAxisOffset}em`)
+      .attr('dx', (category: CaDatum) =>
+        category.plans.length > 0
+          ? `${this.yAxisOffset}em`
+          : `${-this.yAxisOffset}em`
+      )
       .attr('dy', this.percentOffset)
       .attr(
         'y',
@@ -259,7 +262,14 @@ export class CaAccessStackedBarsComponent
           this.scales.y(this.getCategory(category)) +
           (this.scales.y as any).bandwidth() / 2
       )
-      .text((category: CaDatum) => format('.0%')(category.pctBelowComp));
+      .text((category: CaDatum) =>
+        category.plans.length > 0
+          ? format('.0%')(category.pctBelowComp)
+          : 'no plans available'
+      )
+      .style('text-anchor', (category: CaDatum) =>
+        category.plans.length > 0 ? 'end' : null
+      );
 
     percentGroup
       .selectAll('.comparison-label')
