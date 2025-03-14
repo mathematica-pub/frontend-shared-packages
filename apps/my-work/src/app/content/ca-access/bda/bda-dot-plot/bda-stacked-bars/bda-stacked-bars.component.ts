@@ -142,9 +142,10 @@ export class BdaStackedBarsComponent
     return this.scales.y(this.config[this.config.dimensions.y].values[datum.i]);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override getStackElementHeight(datum: StackDatum): number {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (this.scales.y as any).bandwidth();
+    const height = (this.scales.y as any).bandwidth();
+    // hide empty categories
+    return datum[0] === 0 && datum[1] === 0 ? 0 : height;
   }
 }

@@ -245,7 +245,8 @@ export class CaAccessStackedBarsComponent
       .selectAll('.percent-label')
       .data(
         this.config.data.filter(
-          (category: CaDatum) => category.series !== 'invisible'
+          (category: CaDatum) =>
+            category.series !== 'invisible' && category.plans.length > 0
         )
       )
       .join('text')

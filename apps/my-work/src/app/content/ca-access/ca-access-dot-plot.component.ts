@@ -69,6 +69,7 @@ export class CaAccessDotPlotComponent implements OnChanges {
   ngOnChanges(): void {
     if (this.data[0]) {
       console.log('this.data after changes', this.data);
+      this.setData();
       this.setProperties();
     }
   }
@@ -105,7 +106,7 @@ export class CaAccessDotPlotComponent implements OnChanges {
     return plan.stratVal;
   }
 
-  setProperties(): void {
+  setData(): void {
     this.rollupData = [];
 
     this.data
@@ -128,7 +129,9 @@ export class CaAccessDotPlotComponent implements OnChanges {
           currentRollup.plans.push(plan.planValue);
         }
       });
+  }
 
+  setProperties(): void {
     if (this.rollupData.length > 0) {
       this.chartHeight = this.rollupData.length * this.bandwidth * 2;
 
