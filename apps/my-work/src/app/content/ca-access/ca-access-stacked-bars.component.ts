@@ -134,7 +134,9 @@ export class CaAccessStackedBarsComponent
   }
 
   setCompValues(): void {
-    this.compVal = this.config.data[0].compVal;
+    this.compVal = this.config.data.find(
+      (category) => category.compVal > 0
+    ).compVal;
     this.compPosition = this.compVal / this.scales.x.domain()[1];
   }
 
