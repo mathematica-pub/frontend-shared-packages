@@ -104,7 +104,11 @@ export class BdaStackedBarsComponent
   updateGoalGroup(): void {
     const group = this.headerGroup
       .selectAll('.goal')
-      .data([this.config.data[0].goal].filter((d) => d !== null))
+      .data(
+        [this.config.data.find((category) => category.goal > 0).goal].filter(
+          (d) => d !== null
+        )
+      )
       .join('g')
       .attr('class', 'goal')
       .attr(
