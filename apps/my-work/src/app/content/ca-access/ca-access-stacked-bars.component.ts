@@ -217,7 +217,9 @@ export class CaAccessStackedBarsComponent
       .attr('y', this.headerOffset)
       .attr('dx', this.compIsBig ? '-0.4em' : '0.4em')
       .attr('text-anchor', this.compIsBig ? 'end' : null)
-      .text(this.config.data[0].compValDesc);
+      .text(
+        this.config.data.find((category) => category.compVal > 0).compValDesc
+      );
   }
 
   updatePercentLabels(): void {
