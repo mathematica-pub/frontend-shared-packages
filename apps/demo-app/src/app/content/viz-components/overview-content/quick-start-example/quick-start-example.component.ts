@@ -8,8 +8,10 @@ import {
 } from '@angular/core';
 import {
   BarsConfig,
+  ChartConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
+  VicChartConfigBuilder,
   VicChartModule,
   VicOrdinalAxisConfig,
   VicQuantitativeAxisConfig,
@@ -38,6 +40,7 @@ export interface MetroUnemploymentDatum {
     VicYOrdinalAxisModule,
   ],
   providers: [
+    VicChartConfigBuilder,
     VicBarsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
@@ -49,17 +52,22 @@ export interface MetroUnemploymentDatum {
 })
 export class QuickStartExampleComponent implements OnInit {
   @Input() data: MetroUnemploymentDatum[];
+  chartConfig: ChartConfig;
   barsConfig: BarsConfig<MetroUnemploymentDatum, string>;
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<string>;
 
   constructor(
+    private chart: VicChartConfigBuilder,
     private bars: VicBarsConfigBuilder<MetroUnemploymentDatum, string>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>
   ) {}
 
   ngOnInit() {
+    this.chartConfig = this.chart
+      .margin({ top: 24, right: 24, bottom: 24, left: 160 })
+      .getConfig();
     this.barsConfig = this.bars
       .data(this.data)
       .horizontal((bars) =>

@@ -45,6 +45,7 @@ export class VicGroupedBarsConfigBuilder<
     this.validateBuilder('Grouped Bars');
     return new GroupedBarsConfig(this.dimensions, {
       marksClass: 'vic-grouped-bars',
+      backgrounds: this.backgroundsBuilder?._build(),
       color: this.colorDimensionBuilder._build('Color'),
       customFills: this._customFills,
       data: this._data,

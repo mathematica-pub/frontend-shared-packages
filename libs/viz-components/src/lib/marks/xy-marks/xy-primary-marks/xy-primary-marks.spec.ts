@@ -165,7 +165,9 @@ describe('XyPrimaryMarks abstract class', () => {
 
   describe('getTransitionDuration', () => {
     beforeEach(() => {
-      abstractClass.chart.transitionDuration = 123;
+      abstractClass.chart.config = {
+        transitionDuration: 123,
+      } as any;
     });
     it('returns chart.transitionDuration if useTransition is true', () => {
       abstractClass.scales = {

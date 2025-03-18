@@ -1,9 +1,5 @@
 <div class="grouped-bars-example" *ngIf="vm$ | async as vm; else loading">
-  <vic-xy-chart
-    [margin]="margin"
-    [height]="600"
-    [scaleChartWithContainerWidth]="{ width: true, height: false }"
-  >
+  <vic-xy-chart [config]="vm.chartConfig">
     <ng-container svg-elements>
       <svg:g vic-xy-background></svg:g>
       <svg:g vic-x-ordinal-axis [config]="vm.xAxisConfig"></svg:g>

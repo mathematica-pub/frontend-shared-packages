@@ -1,7 +1,4 @@
-<vic-xy-chart
-  [margin]="{ top: 24, right: 24, bottom: 24, left: 160 }"
-  class="quick-start-example-chart"
->
+<vic-xy-chart [config]="chartConfig" class="quick-start-example-chart">
   <ng-container svg-elements>
     <svg:g vic-primary-marks-bars [config]="barsConfig" />
     <svg:g vic-x-quantitative-axis [config]="xAxisConfig" />

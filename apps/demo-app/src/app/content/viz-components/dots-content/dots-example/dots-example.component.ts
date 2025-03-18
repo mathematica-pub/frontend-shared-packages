@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  ChartConfig,
   DotsConfig,
   DotsEventOutput,
   DotsHoverMoveDefaultStyles,
   DotsHoverMoveDirective,
   DotsHoverMoveEmitTooltipData,
-  ElementSpacing,
   HoverMoveAction,
   HtmlTooltipConfig,
+  VicChartConfigBuilder,
   VicChartModule,
   VicDotsConfigBuilder,
   VicDotsModule,
@@ -27,6 +28,7 @@ import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: DotsConfig<WeatherDatum>;
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicQuantitativeAxisConfig<number>;
@@ -49,6 +51,7 @@ interface ViewModel {
   styleUrl: './dots-example.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    VicChartConfigBuilder,
     VicDotsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
@@ -57,12 +60,6 @@ interface ViewModel {
 })
 export class DotsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
-  margin: ElementSpacing = {
-    top: 36,
-    right: 0,
-    bottom: 8,
-    left: 60,
-  };
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
@@ -76,6 +73,7 @@ export class DotsExampleComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
+    private chart: VicChartConfigBuilder,
     private dots: VicDotsConfigBuilder<WeatherDatum>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
@@ -89,22 +87,40 @@ export class DotsExampleComponent implements OnInit {
   }
 
   getViewModel(data: WeatherDatum[]): ViewModel {
+    const chartConfig = this.chart
+      .margin({
+        top: 36,
+        right: 0,
+        bottom: 8,
+        left: 60,
+      })
+      .resize({
+        height: false,
+      })
+      .getConfig();
+
     const xAxisConfig = this.xQuantitativeAxis.tickFormat('.1f').getConfig();
-    const yAxisConfig = this.yQuantitativeAxis.tickFormat('.1f').getConfig();
+    const yAxisConfig = this.yQuantitativeAxis
+      .tickFormat('.1f')
+      .zeroAxis({ useZeroAxis: false })
+      .getConfig();
 
     const dataConfig = this.dots
       .data(data.filter((x) => x.date.getFullYear() === 2012))
-      .fillCategorical((dimension) =>
-        dimension.valueAccessor((d) => d.location).range(['#2cafb0', '#a560cc'])
+      .fillCategorical((fillCategorical) =>
+        fillCategorical
+          .valueAccessor((d) => d.location)
+          .range(['#2cafb0', '#a560cc'])
       )
-      .radiusNumeric((dimension) =>
-        dimension.valueAccessor((d) => d.wind).range([2, 8])
+      .radiusNumeric((radiusNumeric) =>
+        radiusNumeric.valueAccessor((d) => d.wind).range([2, 8])
       )
-      .xNumeric((dimension) => dimension.valueAccessor((d) => d.tempMax))
-      .yNumeric((dimension) => dimension.valueAccessor((d) => d.precipitation))
+      .xNumeric((xNumeric) => xNumeric.valueAccessor((d) => d.tempMax))
+      .yNumeric((yNumeric) => yNumeric.valueAccessor((d) => d.precipitation))
       .getConfig();
 
     return {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,
