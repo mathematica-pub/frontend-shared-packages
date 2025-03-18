@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 import { DataService } from 'apps/my-work/src/app/core/services/data.service';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
-import { ascending, extent } from 'd3';
+import { ascending } from 'd3';
 import { combineLatest, debounceTime, filter, map, Observable } from 'rxjs';
 import { dataPath } from '../data-paths.constants';
 import {
@@ -70,24 +70,18 @@ export class IcaComponent implements OnInit {
       filter((data) => data.length > 0),
       map((data) => {
         const transformed: IcaDatum[] = data.map((x: any) => {
-          const filteredPlans = data.filter(
-            (plan: any) =>
-              plan.County === x.County &&
-              plan.DelivSys === x.DelivSys &&
-              plan.Measure_Code === x.Measure_Code &&
-              plan.StratVal === x.StratVal &&
-              !isNaN(plan.Value)
-          );
-          const extents = extent(filteredPlans.map((plan: any) => +plan.Value));
+          let county = x.County === 'NULL' ? x.MCP_RepUnit : x.County;
+          county =
+            county === 'Riverside/San Bernardino' ? 'Riverside/SB' : county;
           const obj: IcaDatum = {
             series: 'percentile',
             size: x.County_Size,
-            county: x.County,
+            county: county,
             measureCode: x.Measure_Code,
             stratVal: x.StratVal,
             delivSys: x.DelivSys,
             units: x.Units,
-            value: +extents[1] - +extents[0],
+            value: null,
             planValue: x.Value && !isNaN(x.Value) ? +x.Value : null,
             ica_25: x.ICA_25 && !isNaN(x.ICA_25) ? +x.ICA_25 : null,
             ica_75: x.ICA_75 && !isNaN(x.ICA_75) ? +x.ICA_75 : null,

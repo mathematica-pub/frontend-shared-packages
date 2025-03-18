@@ -278,13 +278,27 @@ export class IcaStackedBarsComponent
       .data(this.getSizeLabelData())
       .join('g')
       .attr('class', 'size-label');
+
     const offset = -this.labelWidth - 80;
+    const rural = this.config.data.filter((d) => d.size === 'Rural').length;
+    const other = this.config.data.filter((d) => d.size === 'Other').length;
+    const isLabelsCollide = rural < 6 && other < 6;
+    const adjustment = rural < 4 || other < 4 ? 10 : 5;
+
     sizes
       .selectAll('text')
       .data((d) => [d])
       .join('text')
       .text((d) => d)
-      .attr('x', offset)
+      .attr('x', (d) => {
+        let shift = offset;
+        if (isLabelsCollide && d === 'Rural') {
+          shift += adjustment;
+        } else if (isLabelsCollide && d === 'Other') {
+          shift -= adjustment;
+        }
+        return shift;
+      })
       .attr('y', (d) => this.getAverageY(d, reverseData))
       .attr('transform', (d) => {
         const y = this.getAverageY(d, reverseData);

@@ -111,6 +111,16 @@ export class IcaDotPlotComponent implements OnChanges {
         }
       });
 
+    this.rollupData
+      .filter(
+        (category) =>
+          category.planValue !== null && category.series !== 'invisible'
+      )
+      .forEach((category) => {
+        const extents = extent(category.plans);
+        category.value = extents[1] - extents[0];
+      });
+
     this.rollupData = this.rollupData.filter((d) => d.plans.length > 1);
 
     if (this.rollupData.length > 0) {
