@@ -10,6 +10,7 @@ export class Ticks<Tick> implements TicksOptions<Tick> {
   labelsStrokeWidth: number;
   rotate: number;
   size: number;
+  sizeInner: number;
   sizeOuter: number;
   wrap: TickWrap;
 

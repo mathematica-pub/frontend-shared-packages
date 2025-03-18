@@ -95,13 +95,22 @@ params:
 
 ```builder-method
 name: size
-description: 'Sets the size of the tick marks. To show no tick marks, set the size to 0.'
+description: 'Sets the size of the inner and outer tick marks. To show no tick marks, set the size to 0.'
 params:
   - name: value
     type: 'number | null'
     description:
       - The size of the ticks, in px.
       - 'If not called or called with `null`, the default size is the D3 default size.'
+      - 'If specified, this value will override any values set by `sizeInner` or `sizeOuter`.'
+```
+
+```builder-method
+name: sizeInner
+description: Determines the length of the inner tick marks.
+description:
+  - 'The length of the inner tick marks in pixels, or `null` to unset the value.'
+  - 'If not called or called with `null`, the default size is the D3 default size.'
 ```
 
 ```builder-method

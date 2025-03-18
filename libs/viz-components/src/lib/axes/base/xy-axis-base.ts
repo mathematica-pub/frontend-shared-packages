@@ -61,14 +61,26 @@ export abstract class XyAxis<
   setAxisFromScaleAndConfig(): void {
     this.axis = this.axisFunction(this.scale);
 
-    const baselineTranslate = this.getBaselineTranslate();
-    if (this.config.ticks.sizeOuter !== undefined || baselineTranslate) {
-      this.axis.tickSizeOuter(
-        baselineTranslate ? 0 : this.config.ticks.sizeOuter
-      );
-    }
+    this.setTickSize();
     if (this.config.ticks.format) {
       this.setTicks(this.config.ticks.format);
+    }
+  }
+
+  setTickSize(): void {
+    if (this.config.ticks.size !== undefined) {
+      this.axis.tickSize(this.config.ticks.size);
+    } else {
+      if (this.config.ticks.sizeInner !== undefined) {
+        this.axis.tickSizeInner(this.config.ticks.sizeInner);
+      }
+      if (this.config.ticks.sizeOuter !== undefined) {
+        this.axis.tickSizeOuter(this.config.ticks.sizeOuter);
+      }
+    }
+    const baselineTranslate = this.getBaselineTranslate();
+    if (baselineTranslate) {
+      this.axis.tickSizeOuter(0);
     }
   }
 
@@ -98,7 +110,6 @@ export abstract class XyAxis<
 
     this.processDomain();
     this.processTickLabels();
-    this.processTickMarks();
     if (this.config.label) {
       this.createLabel();
     }
@@ -182,11 +193,19 @@ export abstract class XyAxis<
           .attr('alignment-baseline', 'start')
       );
     }
-  }
 
-  processTickMarks(): void {
-    if (this.config.ticks.size === 0) {
-      this.axisGroup.call((g) => g.selectAll('.tick line').remove());
+    if (
+      this.config.ticks.labelsStroke ||
+      this.config.ticks.labelsStrokeOpacity ||
+      this.config.ticks.labelsStrokeWidth
+    ) {
+      this.axisGroup.call((g) =>
+        g
+          .selectAll('.tick text')
+          .attr('stroke', this.config.ticks.labelsStroke)
+          .attr('stroke-opacity', this.config.ticks.labelsStrokeOpacity)
+          .attr('stroke-width', this.config.ticks.labelsStrokeWidth)
+      );
     }
   }
 

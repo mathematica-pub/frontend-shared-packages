@@ -154,13 +154,32 @@ export class TicksBuilder<Tick> {
   }
 
   /**
-   * OPTIONAL. Sets the size of the tick marks. To show no tick marks, set the size to 0.
+   * OPTIONAL. Sets the size of inner and outer tick marks. To show no tick marks, set the size to 0.
    *
    * @param value - The size of the ticks, in px.
    *
    * If not called or called with `null`, the default size is the D3 default size.
+   *
+   * If specified, this value will override any values set by `sizeInner` or `sizeOuter`.
    */
   size(value: number | null): this {
+    if (value === null) {
+      this._size = undefined;
+      return this;
+    }
+    this._size = value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Determines the length of the inner ticks drawn by D3. Does not apply to the outermost ticks.
+   *
+   * @param value - The length of the inner ticks in pixels, or `null` to unset the value.
+   *
+   * If not called or called with `null`, the default value is the D3 default size.
+   *
+   */
+  sizeInner(value: number | null): this {
     if (value === null) {
       this._size = undefined;
       return this;
@@ -213,7 +232,7 @@ export class TicksBuilder<Tick> {
       labelsStrokeOpacity: this._labelsStrokeOpacity,
       labelsStrokeWidth: this._labelsStrokeWidth,
       rotate: this._rotate,
-      size: this._size,
+      sizeInner: this._size,
       sizeOuter: this._sizeOuter,
       wrap: this.wrapBuilder?._build(),
     });
@@ -291,7 +310,7 @@ export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
       labelsStrokeWidth: this._labelsStrokeWidth,
       count: this._count,
       rotate: this._rotate,
-      size: this._size,
+      sizeInner: this._size,
       sizeOuter: this._sizeOuter,
       spacing: this._spacing,
       values: this._values,
