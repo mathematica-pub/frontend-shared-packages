@@ -25,6 +25,7 @@ export class IcaStackedBarsComponent
   headerGroup: Selection<SVGGElement, unknown, null, undefined>;
   rangeGroup: Selection<SVGGElement, unknown, null, undefined>;
   percentileGroup: Selection<SVGGElement, unknown, null, undefined>;
+  xLabel: Selection<SVGTextElement, unknown, null, undefined>;
   labelWidth = 60;
   sizePadding = 3;
   headerOffset = -50;
@@ -41,6 +42,7 @@ export class IcaStackedBarsComponent
     this.createHeaderGroup();
     this.createPlanHeaderGroup();
     this.createRangeGroup();
+    this.createXLabel();
     super.ngOnInit();
   }
 
@@ -59,6 +61,7 @@ export class IcaStackedBarsComponent
     this.updateYLabels();
     this.updateSizeTitle();
     this.updateSizeLabels();
+    this.updateXLabel();
   }
 
   createSizeGroup(): void {
@@ -116,6 +119,13 @@ export class IcaStackedBarsComponent
       .attr('dx', this.rangeOffset)
       .attr('y', '-0.5em')
       .text('Range');
+  }
+
+  createXLabel(): void {
+    this.xLabel = select(this.chart.svgRef.nativeElement)
+      .append('text')
+      .attr('class', 'x-label')
+      .attr('x', this.chart.width - 40);
   }
 
   updatePercentiles(): void {
@@ -333,6 +343,16 @@ export class IcaStackedBarsComponent
     const y2 = this.getY2(d, reverseData);
     const average = (y1 + y2) / 2;
     return average;
+  }
+
+  updateXLabel(): void {
+    this.xLabel
+      .text(
+        this.config.data[0].units === 'Percentage'
+          ? null
+          : this.config.data[0].units
+      )
+      .attr('y', this.chart.height + 40);
   }
 
   override getStackElementY(datum: StackDatum): number {

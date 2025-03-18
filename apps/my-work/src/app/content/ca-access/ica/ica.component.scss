@@ -114,7 +114,8 @@ $axisFontSize: 16px;
 .direction-label,
 .size-title,
 .percentile-label,
-.plan-header {
+.plan-header,
+.x-label {
   font-size: $axisFontSize;
 }
 
@@ -160,4 +161,8 @@ $axisFontSize: 16px;
   stroke: color.$comparison;
   stroke-width: 2;
   stroke-dasharray: 8 4;
+}
+
+.x-label {
+  text-anchor: end;
 }
