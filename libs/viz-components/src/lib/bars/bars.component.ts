@@ -85,6 +85,7 @@ type BarsSvgElement = 'g' | 'bar' | 'label' | 'background';
     '[class]': 'config.marksClass',
     '[style.mixBlendMode]': 'config.mixBlendMode',
   },
+  standalone: false,
 })
 export class BarsComponent<
   Datum,

@@ -16,7 +16,6 @@ export interface EnergyIntensityDatum {
 
 @Component({
   selector: 'app-energy-intensity',
-  standalone: true,
   imports: [CommonModule, ExportContentComponent, EnergyIntensityBarComponent],
   templateUrl: './energy-intensity.component.html',
   styleUrls: ['./energy-intensity.component.scss'],

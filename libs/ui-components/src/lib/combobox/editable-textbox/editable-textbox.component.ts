@@ -28,6 +28,7 @@ import { TextboxComponent } from '../textbox/textbox.component';
   host: {
     class: 'hsi-ui-editable-textbox',
   },
+  standalone: false,
 })
 export class EditableTextboxComponent
   extends TextboxComponent

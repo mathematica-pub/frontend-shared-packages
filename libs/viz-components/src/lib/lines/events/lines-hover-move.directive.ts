@@ -10,6 +10,7 @@ import { LinesEventOutput } from './lines-event-output';
 
 @Directive({
   selector: '[vicLinesHoverMoveActions]',
+  standalone: false,
 })
 export class LinesHoverMoveDirective<
   Datum,

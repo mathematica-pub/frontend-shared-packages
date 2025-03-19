@@ -24,6 +24,7 @@ import { ComboboxService, FocusTextbox } from './combobox.service';
   host: {
     class: 'hsi-ui-combobox',
   },
+  standalone: false,
 })
 export class ComboboxComponent implements OnInit {
   @ContentChild(ComboboxLabelComponent) labelComponent: ComboboxLabelComponent;

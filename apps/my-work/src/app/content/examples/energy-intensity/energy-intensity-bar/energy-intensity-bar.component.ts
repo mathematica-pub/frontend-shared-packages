@@ -26,7 +26,6 @@ import { EnergyIntensityDatum } from '../energy-intensity.component';
 
 @Component({
   selector: 'app-energy-intensity-bar',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,

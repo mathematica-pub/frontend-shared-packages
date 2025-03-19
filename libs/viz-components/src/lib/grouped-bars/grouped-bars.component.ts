@@ -24,6 +24,7 @@ import { GroupedBarsConfig } from './config/grouped-bars-config';
     '[class]': 'config.marksClass',
     '[style.mixBlendMode]': 'config.mixBlendMode',
   },
+  standalone: false,
 })
 export class GroupedBarsComponent<
   Datum,

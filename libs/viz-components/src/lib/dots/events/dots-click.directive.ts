@@ -23,6 +23,7 @@ import { DotsInputEventDirective } from './dots-input.directive';
 
 @Directive({
   selector: '[vicDotsClickActions]',
+  standalone: false,
 })
 export class DotsClickDirective<
   Datum,

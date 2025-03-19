@@ -10,6 +10,7 @@ let nextUniqueId = 0;
   host: {
     class: 'hsi-ui-listbox-label',
   },
+  standalone: false,
 })
 export class ListboxLabelComponent {
   @ViewChild('label') labelContent: TemplateRef<unknown>;

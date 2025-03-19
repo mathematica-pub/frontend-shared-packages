@@ -26,6 +26,7 @@ const XOrdinalAxis = xAxisMixin(ordinalAxisMixin(XyAxis));
     '[attr.mix-blend-mode]': 'config.mixBlendMode',
     '[attr.transform]': 'translate',
   },
+  standalone: false,
 })
 export class XOrdinalAxisComponent<
   TickValue extends DataValue,

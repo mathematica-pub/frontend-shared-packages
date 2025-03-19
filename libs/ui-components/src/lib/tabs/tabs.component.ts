@@ -18,7 +18,6 @@ import { TabsService } from './tabs.service';
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.scss'],
   providers: [TabsService],
-  standalone: true,
   imports: [CommonModule],
 })
 export class TabsComponent<T> implements AfterContentInit {

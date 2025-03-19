@@ -24,6 +24,7 @@ let nextUniqueId = 0;
   selector: 'hsi-ui-listbox-option',
   templateUrl: './listbox-option.component.html',
   styleUrls: ['./listbox-option.component.scss'],
+  standalone: false,
 })
 export class ListboxOptionComponent implements OnChanges {
   @ViewChild('label') label: ElementRef<HTMLDivElement>;

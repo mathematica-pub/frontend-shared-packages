@@ -51,6 +51,7 @@ type StackedAreaSvgElements = 'area';
   host: {
     '[class]': 'config.marksClass',
   },
+  standalone: false,
 })
 export class StackedAreaComponent<
   Datum,

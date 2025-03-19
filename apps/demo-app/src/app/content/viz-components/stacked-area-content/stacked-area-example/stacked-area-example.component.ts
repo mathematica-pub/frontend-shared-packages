@@ -36,7 +36,6 @@ interface ViewModel {
 
 @Component({
   selector: 'app-stacked-area-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,

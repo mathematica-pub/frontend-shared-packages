@@ -624,6 +624,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           const size = parseFloat($bar.attr(barAttr));
           sizes.push(size);
         });
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         expect(sizes.every((size) => size === sizes[0])).to.be.true;
       });
     });

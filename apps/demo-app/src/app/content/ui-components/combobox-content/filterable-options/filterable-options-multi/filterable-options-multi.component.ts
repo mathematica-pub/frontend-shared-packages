@@ -6,7 +6,6 @@ import { FilterableOptionsMulti } from '../filterable-options-multi';
 
 @Component({
   selector: 'app-filterable-options-multi-select-combobox',
-  standalone: true,
   imports: [CommonModule, HsiUiComboboxModule],
   templateUrl: './filterable-options-multi.component.html',
   styleUrl: './filterable-options-multi.component.scss',

@@ -11,6 +11,7 @@ import { StackedAreaEventOutput } from './stacked-area-event-output';
 
 @Directive({
   selector: '[vicStackedAreaHoverMoveActions]',
+  standalone: false,
 })
 export class StackedAreaHoverMoveDirective<
   Datum,

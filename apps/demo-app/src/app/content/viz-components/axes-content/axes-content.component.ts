@@ -21,7 +21,6 @@ interface Axes {
 
 @Component({
   selector: 'app-axes-content',
-  standalone: true,
   imports: [
     CommonModule,
     ContentContainerComponent,

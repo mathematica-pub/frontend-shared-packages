@@ -53,10 +53,10 @@ export type SelectedCountLabel = {
     ListboxScrollService,
     ActiveIndexService,
   ],
-  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
     class: 'hsi-ui-listbox-component',
   },
+  standalone: false,
 })
 export class ListboxComponent
   implements OnChanges, AfterContentInit, AfterViewInit

@@ -32,6 +32,7 @@ import { SelectedCountLabel } from '../listbox/listbox.component';
   host: {
     class: 'hsi-ui-textbox',
   },
+  standalone: false,
 })
 export class TextboxComponent implements OnInit, AfterViewInit {
   @Input() ariaLabel: string;

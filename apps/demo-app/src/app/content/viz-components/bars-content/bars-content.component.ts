@@ -12,7 +12,6 @@ import { BarsSimpleStatesExampleComponent } from './bars-simple-states-example/b
 
 @Component({
   selector: 'app-bars-content',
-  standalone: true,
   imports: [
     CommonModule,
     SinglePanelExampleDisplayComponent,

@@ -25,5 +25,6 @@ const YQuantitativeAxis = yAxisMixin(quantitativeAxisMixin(XyAxis));
     '[attr.mix-blend-mode]': 'config.mixBlendMode',
     '[attr.transform]': 'translate',
   },
+  standalone: false,
 })
 export class YQuantitativeAxisComponent extends YQuantitativeAxis {}

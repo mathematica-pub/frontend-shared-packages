@@ -67,7 +67,6 @@ interface ViewModel {
 
 @Component({
   selector: 'app-geographies-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicMapChartModule,

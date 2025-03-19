@@ -67,6 +67,7 @@ export interface ChartResizing {
   host: {
     class: 'vic-chart',
   },
+  standalone: false,
 })
 export class ChartComponent implements Chart, OnInit, OnChanges {
   @Input() config: ChartConfig = new VicChartConfigBuilder().getConfig();

@@ -12,6 +12,7 @@ import { BarsEventOutput } from './bars-event-output';
 
 @Directive({
   selector: '[vicBarsHoverMoveActions]',
+  standalone: false,
 })
 export class BarsHoverMoveDirective<
   Datum,

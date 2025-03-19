@@ -36,7 +36,6 @@ interface ViewModel {
 
 @Component({
   selector: 'app-dots-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,

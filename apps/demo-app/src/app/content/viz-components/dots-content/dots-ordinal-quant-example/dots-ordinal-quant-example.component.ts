@@ -31,7 +31,6 @@ interface ViewModel {
 
 @Component({
   selector: 'app-dots-ordinal-quant-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,

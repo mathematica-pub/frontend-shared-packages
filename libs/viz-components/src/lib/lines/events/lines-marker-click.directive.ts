@@ -27,6 +27,7 @@ import { LinesInputEventDirective } from './lines-input-event.directive';
  */
 @Directive({
   selector: '[vicLinesMarkerClickActions]',
+  standalone: false,
 })
 export class LinesMarkerClickDirective<
   Datum,

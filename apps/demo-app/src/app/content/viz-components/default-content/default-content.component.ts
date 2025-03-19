@@ -8,7 +8,6 @@ import { ContentContainerComponent } from '../../content-container/content-conta
 
 @Component({
   selector: 'app-default-content',
-  standalone: true,
   imports: [CommonModule, ContentContainerComponent],
   templateUrl: './default-content.component.html',
   styleUrls: [

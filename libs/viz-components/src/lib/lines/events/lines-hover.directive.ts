@@ -5,6 +5,7 @@ import { LINES, LinesComponent } from '../lines.component';
 
 @Directive({
   selector: '[vicLinesHoverActions]',
+  standalone: false,
 })
 export class LinesHoverDirective<
   Datum,

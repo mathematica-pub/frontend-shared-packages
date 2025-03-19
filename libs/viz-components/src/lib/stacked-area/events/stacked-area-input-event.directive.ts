@@ -16,6 +16,7 @@ import { STACKED_AREA, StackedAreaComponent } from '../stacked-area.component';
 
 @Directive({
   selector: '[vicStackedAreaInputActions]',
+  standalone: false,
 })
 export class StackedAreaInputEventDirective<
   Datum,

@@ -17,6 +17,7 @@ type DiscontinuousAttributeDataDimensionConfig<Datum> = Exclude<
   selector: 'vic-discontinuous-legend',
   templateUrl: './discontinuous-legend.component.html',
   styleUrls: ['./discontinuous-legend.component.scss'],
+  standalone: false,
 })
 export class DiscontinuousLegendComponent<Datum> extends MapLegend<
   Datum,

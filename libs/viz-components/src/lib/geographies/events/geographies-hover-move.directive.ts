@@ -13,6 +13,7 @@ import { GeographiesEventOutput } from './geographies-event-output';
 
 @Directive({
   selector: '[vicGeographiesHoverMoveActions]',
+  standalone: false,
 })
 export class GeographiesHoverMoveDirective<
   Datum,

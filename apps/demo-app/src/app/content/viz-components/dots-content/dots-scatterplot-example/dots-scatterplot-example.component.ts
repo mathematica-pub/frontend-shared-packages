@@ -47,7 +47,6 @@ const data: Datum[] = [
 
 @Component({
   selector: 'app-dots-scatterplot-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,

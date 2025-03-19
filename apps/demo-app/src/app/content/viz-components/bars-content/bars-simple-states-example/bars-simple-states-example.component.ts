@@ -40,7 +40,6 @@ interface ViewModel {
 
 @Component({
   selector: 'app-bars-simple-states-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,

@@ -29,6 +29,7 @@ import { HsiUiTableConfig } from './table.config';
   styleUrls: ['./table.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TableComponent<Datum> implements OnInit {
   @Input() config$: Observable<HsiUiTableConfig<Datum>>;

@@ -25,7 +25,6 @@ export interface HsiUiDirectorySelection {
 
 @Component({
   selector: 'hsi-ui-directory',
-  standalone: true,
   imports: [CommonModule, MatIconModule],
   templateUrl: './directory.component.html',
   styleUrls: ['./directory.component.scss'],

@@ -34,6 +34,7 @@ import { CHART } from '../chart/chart.token';
   host: {
     class: 'vic-map-chart',
   },
+  standalone: false,
 })
 export class MapChartComponent<Datum> extends ChartComponent implements Chart {
   private attributeProperties: BehaviorSubject<{

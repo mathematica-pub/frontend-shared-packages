@@ -30,7 +30,6 @@ export interface MetroUnemploymentDatum {
 
 @Component({
   selector: 'app-quick-start-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,

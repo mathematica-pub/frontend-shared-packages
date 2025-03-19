@@ -9,6 +9,7 @@ import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
   host: {
     class: 'vic-xy-background',
   },
+  standalone: false,
 })
 export class XyBackgroundComponent {
   @Input() color = 'whitesmoke';

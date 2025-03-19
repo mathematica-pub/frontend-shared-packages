@@ -40,7 +40,6 @@ interface ViewModel {
 
 @Component({
   selector: 'app-stacked-bars-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,

@@ -21,6 +21,7 @@ import { LinesInputEventDirective } from './lines-input-event.directive';
 
 @Directive({
   selector: '[vicLinesChartClickActions]',
+  standalone: false,
 })
 export class LinesClickDirective<
   Datum,

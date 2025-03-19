@@ -49,6 +49,7 @@ export interface XyChartScales {
   host: {
     class: 'vic-xy-chart',
   },
+  standalone: false,
 })
 export class XyChartComponent extends ChartComponent implements Chart, OnInit {
   private scales: BehaviorSubject<XyChartScales> = new BehaviorSubject(null);

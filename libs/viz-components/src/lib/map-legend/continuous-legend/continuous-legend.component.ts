@@ -11,6 +11,7 @@ import { MapLegend } from '../map-legend-base';
   selector: 'vic-continuous-legend',
   templateUrl: './continuous-legend.component.html',
   styleUrls: ['./continuous-legend.component.scss'],
+  standalone: false,
 })
 export class ContinuousLegendComponent<Datum>
   extends MapLegend<Datum, NoBinsAttributeDataDimension<Datum>>

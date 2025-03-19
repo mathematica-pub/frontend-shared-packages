@@ -58,7 +58,6 @@ const includeFiles = ['line-input-actions.ts'];
 
 @Component({
   selector: 'app-lines-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,

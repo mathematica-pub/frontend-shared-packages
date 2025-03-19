@@ -24,6 +24,7 @@ import { BarsInputEventDirective } from './bars-input-event.directive';
 
 @Directive({
   selector: '[vicBarsClickActions]',
+  standalone: false,
 })
 export class BarsClickDirective<
   Datum,

@@ -7,7 +7,6 @@ import { TableExampleComponent } from './table-example/table-example.component';
 
 @Component({
   selector: 'app-table-content',
-  standalone: true,
   imports: [
     CommonModule,
     SinglePanelExampleDisplayComponent,

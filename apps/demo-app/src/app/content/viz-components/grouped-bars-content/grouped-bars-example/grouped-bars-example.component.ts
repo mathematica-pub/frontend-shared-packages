@@ -30,7 +30,6 @@ interface ViewModel {
 
 @Component({
   selector: 'app-grouped-bars-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,

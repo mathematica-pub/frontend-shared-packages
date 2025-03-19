@@ -16,6 +16,7 @@ import { ListboxOptionComponent } from '../listbox-option/listbox-option.compone
   host: {
     class: 'hsi-ui-listbox-group',
   },
+  standalone: false,
 })
 export class ListboxGroupComponent implements AfterContentInit {
   @ContentChild(ListboxLabelComponent)

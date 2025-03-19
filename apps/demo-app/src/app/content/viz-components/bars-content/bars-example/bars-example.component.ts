@@ -53,7 +53,6 @@ interface LayoutProperties {
 }
 @Component({
   selector: 'app-bars-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,

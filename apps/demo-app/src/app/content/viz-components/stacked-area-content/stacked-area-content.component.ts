@@ -8,7 +8,6 @@ import { StackedAreaExampleComponent } from './stacked-area-example/stacked-area
 
 @Component({
   selector: 'app-stacked-area-content',
-  standalone: true,
   imports: [
     CommonModule,
     SinglePanelExampleDisplayComponent,

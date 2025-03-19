@@ -8,7 +8,6 @@ import { StackedBarsExampleComponent } from './stacked-bars-example/stacked-bars
 
 @Component({
   selector: 'app-stacked-bars-content',
-  standalone: true,
   imports: [
     CommonModule,
     SinglePanelExampleDisplayComponent,

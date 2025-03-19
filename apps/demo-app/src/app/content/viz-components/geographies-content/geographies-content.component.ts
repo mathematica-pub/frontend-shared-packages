@@ -7,7 +7,6 @@ import { GeographiesExampleComponent } from './geographies-example/geographies-e
 
 @Component({
   selector: 'app-geographies-content',
-  standalone: true,
   imports: [
     CommonModule,
     SinglePanelExampleDisplayComponent,

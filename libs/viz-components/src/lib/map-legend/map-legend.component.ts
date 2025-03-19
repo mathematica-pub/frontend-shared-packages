@@ -21,6 +21,7 @@ export enum VicLegendType {
   selector: 'vic-map-legend',
   templateUrl: './map-legend.component.html',
   styleUrls: ['./map-legend.component.scss'],
+  standalone: false,
 })
 export class MapLegendComponent<Datum> implements OnInit {
   @Input() width: number;
