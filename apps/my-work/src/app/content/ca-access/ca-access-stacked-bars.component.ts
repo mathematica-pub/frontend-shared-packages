@@ -135,8 +135,8 @@ export class CaAccessStackedBarsComponent
 
   setCompValues(): void {
     this.compVal = this.config.data.find(
-      (category) => category.compVal > 0
-    ).compVal;
+      (category) => category.compVal !== null
+    )?.compVal;
     this.compPosition = this.compVal / this.scales.x.domain()[1];
   }
 
@@ -198,7 +198,7 @@ export class CaAccessStackedBarsComponent
   updateComparison(): void {
     const comparisonGroup = select(this.chart.svgRef.nativeElement)
       .selectAll('.comparison')
-      .data([this.compVal].filter((d) => d !== null))
+      .data([this.compVal].filter((d) => d !== null && d !== undefined))
       .join('g')
       .attr('class', 'comparison')
       .attr('transform', `translate(${this.scales.x(this.compVal)}, 0)`);
@@ -218,7 +218,8 @@ export class CaAccessStackedBarsComponent
       .attr('dx', this.compIsBig ? '-0.4em' : '0.4em')
       .attr('text-anchor', this.compIsBig ? 'end' : null)
       .text(
-        this.config.data.find((category) => category.compVal > 0).compValDesc
+        this.config.data.find((category) => category.compVal !== null)
+          ?.compValDesc
       );
   }
 
