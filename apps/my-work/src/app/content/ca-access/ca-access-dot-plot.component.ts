@@ -139,7 +139,10 @@ export class CaAccessDotPlotComponent implements OnChanges {
       const barMax = max(this.rollupData, (d) => this.getBarValue(d));
       const goalMax = max(this.rollupData, (d) => this.getGoalValue(d));
       this.trueMax = max([dotMax, barMax, goalMax]) * 1.1;
-      if (this.rollupData[0].units === 'Percentage') {
+      if (
+        this.rollupData.find((category) => category.units !== null).units ===
+        'Percentage'
+      ) {
         this.trueMax = min([this.trueMax, 1]);
       }
 
@@ -188,7 +191,9 @@ export class CaAccessDotPlotComponent implements OnChanges {
   }
 
   getTickFormat(): string {
-    const units = this.rollupData[0].units;
+    const units = this.rollupData.find(
+      (category) => category.units !== null
+    ).units;
     if (units === 'Percentage') {
       if (this.trueMax < 0.1) {
         return '.1%';
