@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 import {
   VicBarsConfigBuilder,
   VicBarsModule,
@@ -37,7 +37,21 @@ import { CsaStackedBarsComponent } from './csa-stacked-bars/csa-stacked-bars.com
   templateUrl: './csa-dot-plot.component.html',
   styleUrl: './csa-dot-plot.component.scss',
 })
-export class CsaDotPlotComponent extends CaAccessDotPlotComponent {
+export class CsaDotPlotComponent
+  extends CaAccessDotPlotComponent
+  implements OnChanges
+{
+  categories = ['Rural', 'Small', 'Medium', 'Large', 'Other'];
+
+  override ngOnChanges(): void {
+    if (this.data[0]) {
+      console.log('this.data after changes', this.data);
+      this.setData();
+      this.injectMissingCategories();
+      this.setProperties();
+    }
+  }
+
   override getCurrentRollup(x: CsaDatum, plan: CsaDatum): boolean {
     return x.size === plan.size;
   }
@@ -55,11 +69,44 @@ export class CsaDotPlotComponent extends CaAccessDotPlotComponent {
   }
 
   override getSortOrder(a: CsaDatum, b: CsaDatum): number {
-    const order = ['Rural', 'Small', 'Medium', 'Large', 'Other'];
-    return order.indexOf(a.size) - order.indexOf(b.size);
+    return this.categories.indexOf(a.size) - this.categories.indexOf(b.size);
   }
 
   override getYDimension(plan: CsaDatum): string {
     return plan.size;
+  }
+
+  injectMissingCategories(): void {
+    const categories = structuredClone(this.categories);
+    categories.pop();
+    categories.forEach((strat) => {
+      const categoryData = this.rollupData.filter(
+        (category) => (category as CsaDatum).size === strat
+      );
+
+      if (categoryData.length === 0) {
+        const emptyCategory = {
+          compVal: null,
+          compValDesc: '',
+          delivSys: null,
+          directionality: null,
+          measureCode: null,
+          pctBelowComp: null,
+          planValue: null,
+          plans: [],
+          series: 'percentile',
+          stratVal: null,
+          units: null,
+          value: null,
+          size: strat,
+          percentile25: null,
+          percentile75: null,
+        } as CsaDatum;
+        const invisibleCategory = structuredClone(emptyCategory);
+        invisibleCategory.series = 'invisible';
+
+        this.rollupData.push(...[emptyCategory, invisibleCategory]);
+      }
+    });
   }
 }

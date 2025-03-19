@@ -291,30 +291,34 @@ export class CaAccessStackedBarsComponent
   }
 
   getDirection(): string {
-    return this.config.data[0].directionality === 'Higher is better'
+    return this.config.data.find((category) => category.directionality !== null)
+      .directionality === 'Higher is better'
       ? 'below'
       : 'above';
   }
 
   updateDirectionLabel(): void {
     this.directionLabel
-      .text(this.config.data[0].directionality)
+      .text(
+        this.config.data.find((category) => category.directionality !== null)
+          .directionality
+      )
       .attr('y', this.chart.height + 40);
   }
 
   updateXLabel(): void {
     this.xLabel
-      .text(
-        this.config.data[0].units === 'Percentage'
-          ? null
-          : this.config.data[0].units
-      )
+      .text(() => {
+        const units = this.config.data.find(
+          (category) => category.units !== null
+        ).units;
+        return units === 'Percentage' ? null : units;
+      })
       .attr('y', this.chart.height + 40);
   }
 
   updatePlanHeader(): void {
     this.headerGroup.select('.plan-header').attr('transform', () => {
-      // const x = this.compPosition < 0.15 ? this.chart.width - 80 : 0;
       return `translate(${this.planLabelPosition}, 0)`;
     });
   }
