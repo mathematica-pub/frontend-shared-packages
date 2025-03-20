@@ -75,7 +75,7 @@ export class TicksBuilder<Tick> {
   }
 
   /**
-   * OPTIONAL. If true, tick labels will be removed.
+   * OPTIONAL. If false, tick labels will be removed.
    *
    * @param value - `true` to retain all tick labels, `false` to remove all tick labels.
    *
