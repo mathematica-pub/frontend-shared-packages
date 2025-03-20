@@ -51,7 +51,7 @@ export class CsaRaceDotPlotComponent extends CaAccessDotPlotComponent {
   }
 
   override getGoalValue(): number {
-    return (this.data[0] as CsaRaceDatum).goal;
+    return (this.data[0] as CsaRaceDatum).compVal;
   }
 
   override getSortOrder(a: CsaRaceDatum, b: CsaRaceDatum): number {

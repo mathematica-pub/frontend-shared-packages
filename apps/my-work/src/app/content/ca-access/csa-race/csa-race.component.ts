@@ -57,7 +57,8 @@ export class CsaRaceComponent extends CaAccessChartComponent {
           planValue: x.Value && !isNaN(x.Value) ? +x.Value : null,
           percentile25: x.CSA_25 && !isNaN(x.CSA_25) ? +x.CSA_25 : null,
           percentile75: x.CSA_75 && !isNaN(x.CSA_75) ? +x.CSA_75 : null,
-          compVal: x.goal && !isNaN(x.goal) ? +x.goal : null,
+          compVal:
+            x.BDA_CompVal && !isNaN(x.BDA_CompVal) ? +x.BDA_CompVal : null,
           compValDesc: 'goal',
           directionality: x.Directionality,
           pctBelowComp:

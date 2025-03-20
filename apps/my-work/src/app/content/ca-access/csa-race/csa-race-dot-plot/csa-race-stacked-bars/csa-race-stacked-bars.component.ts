@@ -24,7 +24,7 @@ export class CsaRaceStackedBarsComponent extends CaAccessStackedBarsComponent {
   }
 
   override setCompValues(): void {
-    this.compVal = this.config.data[0].goal;
+    this.compVal = this.config.data[0].compVal;
     this.compIsBig = this.scales.x(this.compVal) > this.chart.width / 2;
     this.compPosition = this.compVal / this.scales.x.domain()[1];
   }
