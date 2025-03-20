@@ -14,6 +14,11 @@ export class TableColumn<Datum> {
    * */
   readonly id: string;
   /**
+   * The unique key of the column. Used for sorting and accessing the column data.
+   *
+   */
+  readonly key: string;
+  /**
    * The label of the column. Used in the table header.
    * This field is required when using the `single-sort-header` component.
    */

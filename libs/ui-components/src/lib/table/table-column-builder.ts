@@ -17,6 +17,7 @@ const DEFAULT = {
  */
 export class TableColumnBuilder<Datum> {
   private _id: string;
+  private _key: string;
   private _label: string;
   private _getSortValue: (x: Datum) => TableValue;
   private _getFormattedValue: (x: Datum) => string;
@@ -41,6 +42,14 @@ export class TableColumnBuilder<Datum> {
    */
   label(label: string): this {
     this._label = label;
+    return this;
+  }
+
+  /**
+   * REQUIRED. A string to use as the key of the table column.
+   */
+  key(key: string): this {
+    this._key = key;
     return this;
   }
 
@@ -148,8 +157,8 @@ export class TableColumnBuilder<Datum> {
   }
 
   protected validateTableColumn(columnName: string): void {
-    if (!this._id) {
-      throw new Error(`ColumnBuilder: ${columnName}. ID is required.`);
+    if (!this._id || !this._key) {
+      throw new Error(`ColumnBuilder: ${columnName}. ID and key are required.`);
     }
     if (
       this._sortable &&

@@ -13,6 +13,11 @@ import {
 import { of } from 'rxjs';
 
 enum ColumnNames {
+  fruitName = 'fruit name',
+  color = 'color',
+}
+
+enum FruitInfo {
   fruit = 'fruit',
   color = 'color',
 }
@@ -46,7 +51,8 @@ export class TableExampleComponent implements OnInit {
       new TableColumnsBuilder<{ fruit: string; color: string }>()
         .addColumn((column) =>
           column
-            .label(ColumnNames.fruit)
+            .label(ColumnNames.fruitName)
+            .key(FruitInfo.fruit)
             .ascendingSortFunction((a, b) => a.fruit.localeCompare(b.fruit))
             .sortOrder(1)
             .sortable(true)
@@ -55,6 +61,7 @@ export class TableExampleComponent implements OnInit {
         )
         .addColumn((column) =>
           column
+            .key(FruitInfo.color)
             .label(ColumnNames.color)
             .sortable(true)
             .ascendingSortFunction((a, b) => a.color.localeCompare(b.color))
