@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 import {
   VicBarsConfigBuilder,
   VicBarsModule,
@@ -37,7 +37,21 @@ import { CsaRaceStackedBarsComponent } from './csa-race-stacked-bars/csa-race-st
   templateUrl: './csa-race-dot-plot.component.html',
   styleUrl: './csa-race-dot-plot.component.scss',
 })
-export class CsaRaceDotPlotComponent extends CaAccessDotPlotComponent {
+export class CsaRaceDotPlotComponent
+  extends CaAccessDotPlotComponent
+  implements OnChanges
+{
+  categories = ['Rural', 'Small', 'Medium', 'Large', 'Other'];
+
+  override ngOnChanges(): void {
+    if (this.data[0]) {
+      console.log('this.data after changes', this.data);
+      this.setData();
+      this.injectMissingCategories();
+      this.setProperties();
+    }
+  }
+
   override getCurrentRollup(x: CsaRaceDatum, plan: CsaRaceDatum): boolean {
     return x.size === plan.size;
   }
@@ -51,7 +65,9 @@ export class CsaRaceDotPlotComponent extends CaAccessDotPlotComponent {
   }
 
   override getGoalValue(): number {
-    return (this.data[0] as CsaRaceDatum).compVal;
+    return (
+      this.data.find((category) => category.compVal !== null) as CsaRaceDatum
+    ).compVal;
   }
 
   override getSortOrder(a: CsaRaceDatum, b: CsaRaceDatum): number {
@@ -61,5 +77,39 @@ export class CsaRaceDotPlotComponent extends CaAccessDotPlotComponent {
 
   override getYDimension(plan: CsaRaceDatum): string {
     return plan.size;
+  }
+
+  injectMissingCategories(): void {
+    const categories = structuredClone(this.categories);
+    categories.pop();
+    categories.forEach((strat) => {
+      const categoryData = this.rollupData.filter(
+        (category) => (category as CsaRaceDatum).size === strat
+      );
+
+      if (categoryData.length === 0) {
+        const emptyCategory = {
+          compVal: null,
+          compValDesc: '',
+          delivSys: null,
+          directionality: null,
+          measureCode: null,
+          pctBelowComp: null,
+          planValue: null,
+          plans: [],
+          series: 'percentile',
+          stratVal: null,
+          units: null,
+          value: null,
+          size: strat,
+          percentile25: null,
+          percentile75: null,
+        } as CsaRaceDatum;
+        const invisibleCategory = structuredClone(emptyCategory);
+        invisibleCategory.series = 'invisible';
+
+        this.rollupData.push(...[emptyCategory, invisibleCategory]);
+      }
+    });
   }
 }
