@@ -235,10 +235,6 @@ The following methods can be called on `TableColumnsBuilder` to create a valid t
 
 Icons of the user's choice can also be included like so:
 
-```custom-angular
-custom sort icon table
-```
-
 In the `th` element:
 
 ```html
@@ -255,4 +251,64 @@ In the `th` element:
   >
   {{ column.label }}</th
 >
+```
+
+Example CSS code for styling icons:
+
+```scss
+$icon-width: 0.9rem;
+$icon-left-margin: 0.2rem;
+$icon-right-margin: 0.4rem;
+
+.header-cell-sort {
+  display: flex;
+  align-items: flex-end;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.material-symbols-outlined {
+  display: flex;
+  justify-content: center;
+  width: $icon-width;
+  height: 1.2rem;
+  font-size: 1.25rem;
+  margin-left: $icon-left-margin;
+  margin-right: $icon-right-margin;
+  opacity: 0.25;
+  transition: all 150ms ease-in-out;
+
+  &:hover {
+    opacity: 0.75;
+  }
+
+  &.actively-sorted {
+    opacity: 1;
+  }
+}
+
+.desc {
+  transform: rotate(180deg);
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+
+  .header-cell-sort {
+    justify-content: flex-end;
+  }
+
+  &.sorted-cell {
+    padding-right: $icon-left-margin + $icon-width + $icon-right-margin;
+  }
+}
+
+.center {
+  text-align: center;
+}
 ```
