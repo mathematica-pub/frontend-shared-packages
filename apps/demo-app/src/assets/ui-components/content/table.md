@@ -113,14 +113,21 @@ export class TableExampleComponent implements OnInit {
   <ng-container [cdkColumnDef]="column.id">
     @if (column.sortable) {
     <th
-      hsi-ui-single-sort-header
       scope="col"
       cdk-header-cell
       *cdkHeaderCellDef="let element"
-      [column]="column"
-      [sortIcon]="sortIcon"
       (click)="dataSource.sort(column)"
     >
+      <span
+        [ngClass]="[
+                'material-sort-icon',
+                column.sortDirection,
+                column.activelySorted ? 'actively-sorted' : '',
+                'material-symbols-outlined',
+              ]"
+        [attr.aria-hidden]="true"
+        >{{ sortIcon }}</span
+      >
       {{ column.label }}</th
     >
     } @else {
@@ -134,11 +141,6 @@ export class TableExampleComponent implements OnInit {
 </table>
 }
 ```
-
-In addition to the aforementioned components, the table can be composed of the following optional
-components, whose use is described in the sections below:
-
-- `single-sort-header`
 
 ## Features
 
@@ -227,35 +229,6 @@ The following methods can be called on `TableColumnsBuilder` to create a valid t
 - `sortable(sortable: boolean)` - sets whether or not this column can be sorted
 - `sortOrder(sortOrder: number)` - sets the order in which this column is to be sorted by in the
   case of tiebreaks
-
-## `SingleSortHeader` Component
-
-The `SingleSortHeader` components provides a standard styling for sortable column headers using
-Material Symbol icons.
-
-This component requires the following:
-
-- `sortIcon` - the name of the Material Symbols icon to be used
-- `column` - the table column this header will be representing
-
-To use this component in HTML:
-
-```html
-<table>
-  ...
-  <th
-    hsi-ui-single-sort-header
-    scope="col"
-    cdk-header-cell
-    *cdkHeaderCellDef="let element"
-    [column]="column"
-    [sortIcon]="sortIcon"
-    ...
-  >
-  </th>
-  ...
-</table>
-```
 
 ## Customizing with icons
 
