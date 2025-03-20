@@ -32,6 +32,7 @@ export class TicksBuilder<Tick> {
   protected _labelsStrokeOpacity: number;
   protected _labelsStrokeWidth: number;
   protected _size: number;
+  protected _sizeInner: number;
   protected _sizeOuter: number;
   protected wrapBuilder: TickWrapBuilder;
 
@@ -181,10 +182,10 @@ export class TicksBuilder<Tick> {
    */
   sizeInner(value: number | null): this {
     if (value === null) {
-      this._size = undefined;
+      this._sizeInner = undefined;
       return this;
     }
-    this._size = value;
+    this._sizeInner = value;
     return this;
   }
 
@@ -232,7 +233,8 @@ export class TicksBuilder<Tick> {
       labelsStrokeOpacity: this._labelsStrokeOpacity,
       labelsStrokeWidth: this._labelsStrokeWidth,
       rotate: this._rotate,
-      sizeInner: this._size,
+      size: this._size,
+      sizeInner: this._sizeInner,
       sizeOuter: this._sizeOuter,
       wrap: this.wrapBuilder?._build(),
     });
@@ -310,7 +312,8 @@ export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
       labelsStrokeWidth: this._labelsStrokeWidth,
       count: this._count,
       rotate: this._rotate,
-      sizeInner: this._size,
+      size: this._size,
+      sizeInner: this._sizeInner,
       sizeOuter: this._sizeOuter,
       spacing: this._spacing,
       values: this._values,

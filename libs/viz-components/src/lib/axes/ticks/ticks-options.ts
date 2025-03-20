@@ -9,6 +9,7 @@ export interface TicksOptions<Tick> {
   labelsStrokeOpacity: number;
   labelsStrokeWidth: number;
   rotate: number;
+  size: number;
   sizeInner: number;
   sizeOuter: number;
   wrap: TickWrap;
