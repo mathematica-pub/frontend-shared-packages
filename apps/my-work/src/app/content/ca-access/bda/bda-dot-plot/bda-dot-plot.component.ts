@@ -114,30 +114,31 @@ export class BdaDotPlotComponent
         );
 
         if (categoryData.length === 0) {
-          const stratText = (this.rollupData as BdaDatum[]).find((category) =>
-            category.strat.toLowerCase().includes(strat)
-          ).strat;
+          const matchingStrat = (this.rollupData as BdaDatum[]).find(
+            (category) => category.strat.toLowerCase().includes(strat)
+          );
+          if (matchingStrat) {
+            const emptyCategory = {
+              compVal: null,
+              compValDesc: null,
+              delivSys: null,
+              directionality: null,
+              goal: null,
+              measureCode: null,
+              pctBelowComp: null,
+              planValue: null,
+              plans: [],
+              series: 'percentile',
+              strat: matchingStrat.strat,
+              stratVal: stratVal,
+              units: null,
+              value: null,
+            } as BdaDatum;
+            const invisibleCategory = structuredClone(emptyCategory);
+            invisibleCategory.series = 'invisible';
 
-          const emptyCategory = {
-            compVal: null,
-            compValDesc: null,
-            delivSys: null,
-            directionality: null,
-            goal: null,
-            measureCode: null,
-            pctBelowComp: null,
-            planValue: null,
-            plans: [],
-            series: 'percentile',
-            strat: stratText,
-            stratVal: stratVal,
-            units: null,
-            value: null,
-          } as BdaDatum;
-          const invisibleCategory = structuredClone(emptyCategory);
-          invisibleCategory.series = 'invisible';
-
-          this.rollupData.push(...[emptyCategory, invisibleCategory]);
+            this.rollupData.push(...[emptyCategory, invisibleCategory]);
+          }
         }
       });
     });
