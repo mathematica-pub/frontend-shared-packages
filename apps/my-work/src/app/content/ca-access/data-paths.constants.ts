@@ -22,19 +22,35 @@ const path = {
     csa: `${folder}Statistical_Results_081924.csv`,
   },
   old082824: {
-    bda: `${folder}BDA_Results_v2 old charts.csv`,
+    bda: `${folder}BDA_Results_v2_082624.csv`,
     csa: `${folder}Statistical_Results_082824.csv`,
   },
   old091924: {
-    bda: `${folder}BDA_Results_v2 old charts.csv`,
+    bda: `${folder}BDA_Results_v2_091724.csv`,
     csa: `${folder}Statistical_Results_091924.csv`,
   },
+  old101124: {
+    bda: `${folder}BDA_Results_v2_091724.csv`,
+    csa: `${folder}Statistical_Results_101124.csv`,
+  },
+  old101624: {
+    bda: `${folder}BDA_Results_v2_091724.csv`,
+    csa: `${folder}Statistical_Results_101624.csv`,
+  },
+  old101624b: {
+    bda: `${folder}BDA_Results_v2_091724.csv`,
+    csa: `${folder}Statistical_Results_101624b.csv`,
+  },
   old102924: {
-    bda: `${folder}BDA_Results_v2 old charts.csv`,
+    bda: `${folder}BDA_Results_v2_102924.csv`,
     csa: `${folder}Statistical_Results_102924.csv`,
   },
-  old021124: {
-    bda: `${folder}BDA_Results_v2 old charts.csv`,
+  old110424: {
+    bda: `${folder}BDA_Results_v2_110424.csv`,
+    csa: `${folder}Statistical_Results_102924.csv`,
+  },
+  old021125: {
+    bda: `${folder}BDA_Results_v2_110424.csv`,
     csa: `${folder}Statistical_Results_021124.csv`,
   },
   mock: {
