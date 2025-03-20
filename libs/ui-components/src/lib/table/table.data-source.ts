@@ -18,14 +18,20 @@ export class HsiUiTableDataSource<Datum> extends DataSource<Datum> {
   private sortColId = new BehaviorSubject<string>(null);
   private sortColId$ = this.sortColId.asObservable();
 
+  columns$: Observable<TableColumn<Datum>[]>;
+  columnIds$: Observable<string[]>;
+
   // TODO: plan sort column directive
   constructor(
-    private inputData$: Observable<Datum[]>,
-    private columns$: Observable<TableColumn<Datum>[]>
+    inputData$: Observable<Datum[]>,
+    inputColumns$: Observable<TableColumn<Datum>[]>
   ) {
     super();
-
-    const config$ = combineLatest([this.inputData$, this.columns$]).pipe(
+    this.columns$ = inputColumns$.pipe(shareReplay(1));
+    this.columnIds$ = this.columns$.pipe(
+      map((columns) => columns.map((x) => x.id))
+    );
+    const config$ = combineLatest([inputData$, this.columns$]).pipe(
       withLatestFrom(this.sortColId$),
       map(([[data, cols], sortId]) => () => {
         const columns = this.getColumnsWithNewSortApplied(sortId, cols, false);

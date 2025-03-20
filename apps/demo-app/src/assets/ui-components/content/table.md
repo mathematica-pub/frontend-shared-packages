@@ -219,7 +219,8 @@ The following methods can be called on `TableColumnsBuilder` to create a valid t
 #### Optional Methods
 
 - `label(label: string)` - sets the label of the table column
-- `getSortValue(getSortValue: (x: Datum) => TableValue)` - sets the
+- `getSortValue(getSortValue: (x: Datum) => TableValue)` - sets the function that extracts the value
+  to be sorted on from the datum
 - `getFormattedValue(getFormattedValue: (x: Datum) => string)` - sets the function that extracts the
   value to be sorted on for this column
 - `ascendingSortFunction((a: Datum, b: Datum) => number)` - sets the function by which to sort the

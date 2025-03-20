@@ -2,18 +2,15 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   Input,
   OnInit,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   HsiUiTableDataSource,
-  TableColumn,
   TableColumnsBuilder,
   TableModule,
 } from '@hsi/ui-components';
-import { distinctUntilChanged, map, Observable, of, shareReplay } from 'rxjs';
+import { of } from 'rxjs';
 
 enum ColumnNames {
   fruit = 'fruit',
@@ -30,20 +27,14 @@ enum ColumnNames {
 })
 export class TableExampleComponent implements OnInit {
   @Input() sortIcon: string = 'arrow_upward';
-  data$: Observable<{ fruit: string; color: string }[]>;
-  columns$: Observable<TableColumn<{ fruit: string; color: string }>[]>;
   dataSource: HsiUiTableDataSource<{ fruit: string; color: string }>;
-  tableHeaders$: Observable<string[]>;
-  constructor(private destroyRef: DestroyRef) {}
 
   ngOnInit(): void {
     this.setTableData();
-    this.setDataSource();
-    this.setTableHeaders();
   }
 
   setTableData() {
-    this.data$ = of([
+    const initData$ = of([
       { fruit: 'lemon', color: 'yellow' },
       { fruit: 'mango', color: 'orange' },
       { fruit: 'avocado', color: 'green' },
@@ -51,7 +42,7 @@ export class TableExampleComponent implements OnInit {
       { fruit: 'orange', color: 'orange' },
       { fruit: 'banana', color: 'yellow' },
     ]);
-    this.columns$ = of(
+    const initColumns$ = of(
       new TableColumnsBuilder<{ fruit: string; color: string }>()
         .addColumn((column) =>
           column
@@ -71,18 +62,6 @@ export class TableExampleComponent implements OnInit {
         )
         .getConfig()
     );
-  }
-  setDataSource() {
-    this.dataSource = new HsiUiTableDataSource(this.data$, this.columns$);
-  }
-  setTableHeaders(): void {
-    this.tableHeaders$ = this.columns$.pipe(
-      map((columns) => columns.map((x) => x.id)),
-      distinctUntilChanged(
-        (a, b) => a.length === b.length && a.every((v, i) => v === b[i])
-      ),
-      takeUntilDestroyed(this.destroyRef),
-      shareReplay(1)
-    );
+    this.dataSource = new HsiUiTableDataSource(initData$, initColumns$);
   }
 }

@@ -1,4 +1,4 @@
-@if (columns$ | async; as columns) {
+@if (dataSource.columns$ | async; as columns) {
   <table cdk-table [dataSource]="dataSource" class="table-container">
     @for (column of columns; track column.id) {
       <ng-container [cdkColumnDef]="column.id">
@@ -31,7 +31,10 @@
         </td>
       </ng-container>
     }
-    <tr cdk-header-row *cdkHeaderRowDef="tableHeaders$ | async"></tr>
-    <tr cdk-row *cdkRowDef="let row; columns: tableHeaders$ | async"></tr>
+    <tr cdk-header-row *cdkHeaderRowDef="dataSource.columnIds$ | async"></tr>
+    <tr
+      cdk-row
+      *cdkRowDef="let row; columns: dataSource.columnIds$ | async"
+    ></tr>
   </table>
 }
