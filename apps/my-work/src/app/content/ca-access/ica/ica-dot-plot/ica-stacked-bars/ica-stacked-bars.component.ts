@@ -191,12 +191,6 @@ export class IcaStackedBarsComponent
       .attr('class', 'plan');
   }
 
-  getDirection(): string {
-    return this.config.data[0].directionality === 'Higher is better'
-      ? 'below'
-      : 'above';
-  }
-
   updateDirectionLabel(): void {
     this.directionLabel
       .text(this.config.data[0].directionality)
