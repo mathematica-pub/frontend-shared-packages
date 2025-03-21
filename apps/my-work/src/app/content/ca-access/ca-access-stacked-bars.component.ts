@@ -291,8 +291,10 @@ export class CaAccessStackedBarsComponent
   }
 
   getDirection(): string {
-    return this.config.data.find((category) => category.directionality !== null)
-      .directionality === 'Higher is better'
+    return this.config.data
+      .find((category) => category.directionality !== null)
+      .directionality.toLowerCase()
+      .includes('higher')
       ? 'below'
       : 'above';
   }
