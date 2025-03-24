@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { DataValue } from '../../core';
 import { XyAxis } from '../base/xy-axis-base';
 import { quantitativeAxisMixin } from '../quantitative/quantitative-axis';
 import { yAxisMixin } from '../y/y-axis';
@@ -27,4 +28,6 @@ const YQuantitativeAxis = yAxisMixin(quantitativeAxisMixin(XyAxis));
   },
   standalone: false,
 })
-export class YQuantitativeAxisComponent extends YQuantitativeAxis {}
+export class YQuantitativeAxisComponent<
+  TickValue extends DataValue,
+> extends YQuantitativeAxis<TickValue> {}
