@@ -27,7 +27,7 @@
           </th>
         }
         <td cdk-cell *cdkCellDef="let element">
-          {{ column.getFormattedValue(element) }}
+          {{ element | getValueByKey: column.key }}
         </td>
       </ng-container>
     }

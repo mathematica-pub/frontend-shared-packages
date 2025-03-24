@@ -20,7 +20,6 @@ export class TableColumnBuilder<Datum> {
   private _key: string;
   private _label: string;
   private _getSortValue: (x: Datum) => TableValue;
-  private _getFormattedValue: (x: Datum) => string;
   private _ascendingSortFunction: (a: Datum, b: Datum) => number;
   private _sortDirection: SortDirectionType;
   private _sortable: boolean;
@@ -48,14 +47,13 @@ export class TableColumnBuilder<Datum> {
   /**
    * REQUIRED. A string to use as the key of the table column.
    */
-  key(key: string): this {
+  displayKey(key: string): this {
     this._key = key;
     return this;
   }
 
   /**
    * OPTIONAL. A function to extract the value to be sorted on from the datum.
-   * If not provided, the formatted value will be used for sorting.
    *
    * To unset, call with `null`.
    */
@@ -71,24 +69,8 @@ export class TableColumnBuilder<Datum> {
   }
 
   /**
-   * OPTIONAL. A function to format the value for display in the table.
-   *
-   * To unset, call with `null`.
-   */
-  getFormattedValue(getFormattedValue: null): this;
-  getFormattedValue(getFormattedValue: (x: Datum) => string): this;
-  getFormattedValue(getFormattedValue: (x: Datum) => string | null): this {
-    if (getFormattedValue === null) {
-      this._getFormattedValue = undefined;
-      return this;
-    }
-    this._getFormattedValue = getFormattedValue;
-    return this;
-  }
-
-  /**
    * OPTIONAL. A function to determine the sort order of the column.
-   * If not provided, sort with use d3.ascending on the getSortValue or getFormattedValue.
+   * If not provided, sort with use d3.ascending on the getSortValue.
    *
    * To unset, call with `null`.
    */
@@ -147,8 +129,8 @@ export class TableColumnBuilder<Datum> {
     return new TableColumn({
       id: this._id,
       label: this._label,
+      key: this._key,
       getSortValue: this._getSortValue,
-      getFormattedValue: this._getFormattedValue,
       ascendingSortFunction: this._ascendingSortFunction,
       sortDirection: this._sortDirection,
       sortable: this._sortable,
@@ -162,14 +144,10 @@ export class TableColumnBuilder<Datum> {
     }
     if (
       this._sortable &&
-      !(
-        this._ascendingSortFunction ||
-        this._getSortValue ||
-        this._getFormattedValue
-      )
+      !(this._ascendingSortFunction || this._getSortValue)
     ) {
       throw new Error(
-        `ColumnBuilder: ${columnName}. Sortable columns must have at least one of the following fields: ascendingSortFunction, getSortValue or getFormattedValue.`
+        `ColumnBuilder: ${columnName}. Sortable columns must have at least one of the following fields: ascendingSortFunction or getSortValue.`
       );
     }
   }

@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { GetValueByKeyPipe } from '@hsi/app-dev-kit';
 import {
   HsiUiTableDataSource,
   TableColumnsBuilder,
@@ -21,11 +22,10 @@ enum FruitInfo {
   fruit = 'fruit',
   color = 'color',
 }
-
 @Component({
   selector: 'app-table-example',
   standalone: true,
-  imports: [CommonModule, TableModule],
+  imports: [CommonModule, TableModule, GetValueByKeyPipe],
   templateUrl: './table-example.component.html',
   styleUrls: ['../../../examples.scss', './table-example.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,23 +49,22 @@ export class TableExampleComponent implements OnInit {
     ]);
     const initColumns$ = of(
       new TableColumnsBuilder<{ fruit: string; color: string }>()
-        .addColumn((column) =>
-          column
-            .label(ColumnNames.fruitName)
-            .key(FruitInfo.fruit)
-            .ascendingSortFunction((a, b) => a.fruit.localeCompare(b.fruit))
-            .sortOrder(1)
-            .sortable(true)
-            .sortDirection('asc') // initial sort direction
-            .getFormattedValue((x) => x.fruit)
+        .addColumn(
+          (column) =>
+            column
+              .label(ColumnNames.fruitName)
+              .displayKey(FruitInfo.fruit)
+              .ascendingSortFunction((a, b) => a.fruit.localeCompare(b.fruit))
+              .sortOrder(1)
+              .sortable(true)
+              .sortDirection('asc') // initial sort direction
         )
         .addColumn((column) =>
           column
-            .key(FruitInfo.color)
+            .displayKey(FruitInfo.color)
             .label(ColumnNames.color)
             .sortable(true)
             .ascendingSortFunction((a, b) => a.color.localeCompare(b.color))
-            .getFormattedValue((x) => x.color)
         )
         .getConfig()
     );

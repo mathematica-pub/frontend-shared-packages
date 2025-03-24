@@ -29,10 +29,6 @@ export class TableColumn<Datum> {
    */
   getSortValue: (x: Datum) => TableValue;
   /**
-   * Function to format the value for display in the table.
-   */
-  getFormattedValue: (x: Datum) => string;
-  /**
    * Function to determine the sort order of the column.
    * If not provided, sort with use d3.ascending on the getSortValue or getFormattedValue.
    */
@@ -66,7 +62,7 @@ export class TableColumn<Datum> {
   }
 
   defaultSort(a: Datum, b: Datum): number {
-    const accessor = this.getSortValue || this.getFormattedValue;
+    const accessor = this.getSortValue;
     return ascending(accessor(a), accessor(b));
   }
 }

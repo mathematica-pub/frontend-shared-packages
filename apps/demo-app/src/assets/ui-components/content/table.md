@@ -73,21 +73,20 @@ export class TableExampleComponent implements OnInit {
     ]);
     this.columns$ = of(
       new TableColumnsBuilder<{ fruit: string; color: string }>()
-        .addColumn((column) =>
-          column
-            .label(ColumnNames.fruit)
-            .ascendingSortFunction((a, b) => a.fruit.localeCompare(b.fruit))
-            .sortOrder(1)
-            .sortable(true)
-            .sortDirection('asc') // initial sort direction
-            .getFormattedValue((x) => x.fruit)
+        .addColumn(
+          (column) =>
+            column
+              .label(ColumnNames.fruit)
+              .ascendingSortFunction((a, b) => a.fruit.localeCompare(b.fruit))
+              .sortOrder(1)
+              .sortable(true)
+              .sortDirection('asc') // initial sort direction
         )
         .addColumn((column) =>
           column
             .label(ColumnNames.color)
             .sortable(true)
             .ascendingSortFunction((a, b) => a.color.localeCompare(b.color))
-            .getFormattedValue((x) => x.color)
         )
         .getConfig()
     );
@@ -183,12 +182,10 @@ columns$: Observable<TableColumn<Datum>[];> = of(
         .addColumn((column) =>
           column
             .label(ColumnNames.fruit)
-            .getFormattedValue((x) => x.fruit)
         )
         .addColumn((column) =>
           column
             .label(ColumnNames.color)
-            .getFormattedValue((x) => x.color)
         )
         .getConfig());
 ...
@@ -221,8 +218,6 @@ The following methods can be called on `TableColumnsBuilder` to create a valid t
 - `label(label: string)` - sets the label of the table column
 - `getSortValue(getSortValue: (x: Datum) => TableValue)` - sets the function that extracts the value
   to be sorted on from the datum
-- `getFormattedValue(getFormattedValue: (x: Datum) => string)` - sets the function that extracts the
-  value to be sorted on for this column
 - `ascendingSortFunction((a: Datum, b: Datum) => number)` - sets the function by which to sort the
   values in this column
 - `sortDirection(sortDirection: SortDirectionType)` - sets the starting direction by which to sort

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 /**
- * @internal
+ * Retrieves the key in the object.
  */
 @Pipe({
   name: 'getValueByKey',
