@@ -25,58 +25,90 @@ simple table
 
 ```ts
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DestroyRef, Input, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  HsiUiTableDataSource,
-  TableColumn,
-  TableColumnsBuilder,
-  TableModule,
-} from '@hsi/ui-components';
-import { distinctUntilChanged, map, Observable, of, shareReplay } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { GetValueByKeyPipe } from '@hsi/app-dev-kit';
+import { HsiUiTableDataSource, TableColumnsBuilder, TableModule } from '@hsi/ui-components';
+import { of } from 'rxjs';
 
 enum ColumnNames {
+  fruit = 'Fruit',
+  colorName = 'Color',
+  inventory = 'Inventory',
+  price = 'Sell price',
+}
+
+enum FruitInfo {
   fruit = 'fruit',
-  color = 'color',
+  colorName = 'color',
+  inventory = 'metrics.inventory',
+  price = 'metrics.price',
+}
+
+class FruitType {
+  fruit: string;
+  color: string;
+  metrics: {
+    inventory: number;
+    price: number;
+  };
 }
 
 @Component({
   selector: 'app-table-example',
   standalone: true,
-  imports: [CommonModule, TableModule],
+  imports: [CommonModule, TableModule, GetValueByKeyPipe],
   templateUrl: './table-example.component.html',
   styleUrls: ['../../../examples.scss', './table-example.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableExampleComponent implements OnInit {
   @Input() sortIcon: string = 'arrow_upward';
-  data$: Observable<{ fruit: string; color: string }[]>;
-  columns$: Observable<TableColumn<{ fruit: string; color: string }>[]>;
-  dataSource: HsiUiTableDataSource<{ fruit: string; color: string }>;
-  tableHeaders$: Observable<string[]>;
-  constructor(private destroyRef: DestroyRef) {}
+  dataSource: HsiUiTableDataSource<FruitType>;
 
   ngOnInit(): void {
     this.setTableData();
-    this.setDataSource();
-    this.setTableHeaders();
   }
 
   setTableData() {
-    this.data$ = of([
-      { fruit: 'lemon', color: 'yellow' },
-      { fruit: 'mango', color: 'orange' },
-      { fruit: 'avocado', color: 'green' },
-      { fruit: 'apple', color: 'red' },
-      { fruit: 'orange', color: 'orange' },
-      { fruit: 'banana', color: 'yellow' },
+    const initData$ = of([
+      {
+        fruit: 'lemon',
+        color: 'yellow',
+        metrics: { inventory: 10, price: 1.2 },
+      },
+      {
+        fruit: 'mango',
+        color: 'orange',
+        metrics: { inventory: 5, price: 2.5 },
+      },
+      {
+        fruit: 'avocado',
+        color: 'green',
+        metrics: { inventory: 20, price: 3.0 },
+      },
+      {
+        fruit: 'apple',
+        color: 'red',
+        metrics: { inventory: 15, price: 1.5 },
+      },
+      {
+        fruit: 'orange',
+        color: 'orange',
+        metrics: { inventory: 20, price: 1.8 },
+      },
+      {
+        fruit: 'banana',
+        color: 'yellow',
+        metrics: { inventory: 5, price: 1.0 },
+      },
     ]);
-    this.columns$ = of(
-      new TableColumnsBuilder<{ fruit: string; color: string }>()
+    const initColumns$ = of(
+      new TableColumnsBuilder<FruitType>()
         .addColumn(
           (column) =>
             column
               .label(ColumnNames.fruit)
+              .displayKey(FruitInfo.fruit)
               .ascendingSortFunction((a, b) => a.fruit.localeCompare(b.fruit))
               .sortOrder(1)
               .sortable(true)
@@ -84,29 +116,27 @@ export class TableExampleComponent implements OnInit {
         )
         .addColumn((column) =>
           column
-            .label(ColumnNames.color)
+            .displayKey(FruitInfo.colorName)
+            .label(ColumnNames.colorName)
             .sortable(true)
             .ascendingSortFunction((a, b) => a.color.localeCompare(b.color))
         )
+        .addColumn((column) =>
+          column
+            .displayKey(FruitInfo.inventory)
+            .label(ColumnNames.inventory)
+            .sortable(true)
+            .getSortValue((x) => x.metrics.inventory)
+        )
         .getConfig()
     );
-  }
-  setDataSource() {
-    this.dataSource = new HsiUiTableDataSource(this.data$, this.columns$);
-  }
-  setTableHeaders(): void {
-    this.tableHeaders$ = this.columns$.pipe(
-      map((columns) => columns.map((x) => x.id)),
-      distinctUntilChanged((a, b) => a.length === b.length && a.every((v, i) => v === b[i])),
-      takeUntilDestroyed(this.destroyRef),
-      shareReplay(1)
-    );
+    this.dataSource = new HsiUiTableDataSource(initData$, initColumns$);
   }
 }
 ```
 
 ```html
-@if (columns$ | async; as columns) {
+@if (dataSource.columns$ | async; as columns) {
 <table cdk-table [dataSource]="dataSource" class="table-container">
   @for (column of columns; track column.id) {
   <ng-container [cdkColumnDef]="column.id">
@@ -132,11 +162,11 @@ export class TableExampleComponent implements OnInit {
     } @else {
     <th cdk-header-cell *cdkHeaderCellDef="let element"> {{ column.label }} </th>
     }
-    <td cdk-cell *cdkCellDef="let element"> {{ column.getFormattedValue(element) }} </td>
+    <td cdk-cell *cdkCellDef="let element"> {{ element | getValueByKey: column.key }} </td>
   </ng-container>
   }
-  <tr cdk-header-row *cdkHeaderRowDef="tableHeaders$ | async"></tr>
-  <tr cdk-row *cdkRowDef="let row; columns: tableHeaders$ | async"></tr>
+  <tr cdk-header-row *cdkHeaderRowDef="dataSource.columnIds$ | async"></tr>
+  <tr cdk-row *cdkRowDef="let row; columns: dataSource.columnIds$ | async"></tr>
 </table>
 }
 ```
@@ -192,16 +222,25 @@ columns$: Observable<TableColumn<Datum>[];> = of(
 this.dataSource = new HsiUiTableDataSource(this.data$, this.columns$);
 ```
 
-### Required Methods
+### Handling tiebreaks
+
+Tiebreaks can be handled through setting a `sortOrder` on the `TableColumn` objects. When data in
+cells of the column currently being sorted are of the same sort value, cell data from the inactive
+columns are then compared to determine an ordering of the rows.
+
+### `TableColumnsBuilder` Methods
+
+#### Required Methods
 
 There are no required methods for `TableColumnsBuilder`.
 
-### Optional Methods
+#### Optional Methods
 
 The `TableColumm` class contains data that states whether or not the column is sortable, and, if so,
 how to sort the column.
 
-The following methods can be called on `TableColumnsBuilder` to create a valid table columns object.
+The following methods can be called on `TableColumnsBuilder` to create a list of validated
+`TableColumn`s.
 
 - `addColumn((column: TableColumnBuilder) => TableColumnBuilder)` - adds a column to this builder's
   list of table columns
@@ -212,6 +251,40 @@ The following methods can be called on `TableColumnsBuilder` to create a valid t
 #### Required Methods
 
 - `id(id: string)` - sets the id of the table column
+- `displayKey(key: string)` - sets the key of the table column. This is used for accessing the data
+  within the given `Datum`. A key should be formatted like a path to the desired data in the object.
+  See how the `metrics.cost` subkey is set in the example below.
+
+  ```ts
+  // Datum
+  fruits = [{
+    fruit: 'apple',
+    color: 'green',
+    metrics: {
+      cost: 21,
+      quantity: 2
+    },
+    ...
+  }]
+
+  // Builder
+  builder = new TableColumnsBuilder<{
+  fruit: string;
+  color: string;
+  metrics: {
+    inventory: number;
+    price: number;
+  }
+  }>()
+  ...
+        .addColumn(
+          (column) =>
+            column
+              .label('Cost')
+              .displayKey('metrics.cost')
+        )
+        ...
+  ```
 
 #### Optional Methods
 
@@ -225,6 +298,36 @@ The following methods can be called on `TableColumnsBuilder` to create a valid t
 - `sortable(sortable: boolean)` - sets whether or not this column can be sorted
 - `sortOrder(sortOrder: number)` - sets the order in which this column is to be sorted by in the
   case of tiebreaks
+
+### Accessing data values using `GetValueByKeyPipe`
+
+In order to access data from the `Datum` objects in HTML, import the `GetValueByKeyPipe` from the
+`AppDevKitModule`.
+
+```ts
+import { GetValueByKeyPipe } from '@hsi/app-dev-kit';
+...
+@Component({
+  selector: 'app-table-example',
+  standalone: true,
+  imports: [CommonModule, TableModule, GetValueByKeyPipe],
+  templateUrl: './table-example.component.html',
+  styleUrls: ['../../../examples.scss', './table-example.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+...
+```
+
+The appropriate display key should then be passed to the pipe in the HTML table implementation like
+so:
+
+```html
+<table cdk-table [dataSource]="dataSource" class="table-container">
+  ...
+  <td cdk-cell *cdkCellDef="let element"> {{ element | getValueByKey: column.key }} </td>
+  ...
+</table>
+```
 
 ## Customizing with icons
 
