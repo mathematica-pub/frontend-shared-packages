@@ -69,27 +69,29 @@ export class IcaComponent implements OnInit {
     const data$ = this.dataService.getDataFile(this.dataPath).pipe(
       filter((data) => data.length > 0),
       map((data) => {
-        const transformed: IcaDatum[] = data.map((x: any) => {
-          let county = x.County === 'NULL' ? x.MCP_RepUnit : x.County;
-          county =
-            county === 'Riverside/San Bernardino' ? 'Riverside/SB' : county;
-          const obj: IcaDatum = {
-            series: 'percentile',
-            size: x.County_Size,
-            county: county,
-            measureCode: x.Measure_Code,
-            stratVal: x.StratVal,
-            delivSys: x.DelivSys,
-            units: x.Units,
-            value: null,
-            planValue: x.Value && !isNaN(x.Value) ? +x.Value : null,
-            ica_25: x.ICA_25 && !isNaN(x.ICA_25) ? +x.ICA_25 : null,
-            ica_75: x.ICA_75 && !isNaN(x.ICA_75) ? +x.ICA_75 : null,
-            directionality: x.Directionality,
-            plans: [],
-          };
-          return obj;
-        });
+        const transformed: IcaDatum[] = data
+          .filter((x: any) => this.getBreakoutPlans(x))
+          .map((x: any) => {
+            let county = x.County === 'NULL' ? x.MCP_RepUnit : x.County;
+            county =
+              county === 'Riverside/San Bernardino' ? 'Riverside/SB' : county;
+            const obj: IcaDatum = {
+              series: 'percentile',
+              size: x.County_Size,
+              county: county,
+              measureCode: x.Measure_Code,
+              stratVal: this.getStratVal(x),
+              delivSys: x.DelivSys,
+              units: x.Units,
+              value: null,
+              planValue: x.Value && !isNaN(x.Value) ? +x.Value : null,
+              ica_25: x.ICA_25 && !isNaN(x.ICA_25) ? +x.ICA_25 : null,
+              ica_75: x.ICA_75 && !isNaN(x.ICA_75) ? +x.ICA_75 : null,
+              directionality: x.Directionality,
+              plans: [],
+            };
+            return obj;
+          });
         return transformed;
       })
     );
@@ -103,6 +105,15 @@ export class IcaComponent implements OnInit {
         return data;
       })
     );
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getBreakoutPlans(x: any): boolean {
+    return true;
+  }
+
+  getStratVal(x: any): string {
+    return x.StratVal;
   }
 
   setOptions(data: IcaDatum[]): void {
