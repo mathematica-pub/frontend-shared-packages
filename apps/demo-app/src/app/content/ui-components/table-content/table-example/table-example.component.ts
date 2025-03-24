@@ -14,14 +14,28 @@ import {
 import { of } from 'rxjs';
 
 enum ColumnNames {
-  fruitName = 'fruit name',
-  color = 'color',
+  fruit = 'Fruit',
+  colorName = 'Color',
+  inventory = 'Inventory',
+  price = 'Sell price',
 }
 
 enum FruitInfo {
   fruit = 'fruit',
-  color = 'color',
+  colorName = 'color',
+  inventory = 'metrics.inventory',
+  price = 'metrics.price',
 }
+
+class FruitType {
+  fruit: string;
+  color: string;
+  metrics: {
+    inventory: number;
+    price: number;
+  };
+}
+
 @Component({
   selector: 'app-table-example',
   standalone: true,
@@ -32,7 +46,7 @@ enum FruitInfo {
 })
 export class TableExampleComponent implements OnInit {
   @Input() sortIcon: string = 'arrow_upward';
-  dataSource: HsiUiTableDataSource<{ fruit: string; color: string }>;
+  dataSource: HsiUiTableDataSource<FruitType>;
 
   ngOnInit(): void {
     this.setTableData();
@@ -40,19 +54,43 @@ export class TableExampleComponent implements OnInit {
 
   setTableData() {
     const initData$ = of([
-      { fruit: 'lemon', color: 'yellow' },
-      { fruit: 'mango', color: 'orange' },
-      { fruit: 'avocado', color: 'green' },
-      { fruit: 'apple', color: 'red' },
-      { fruit: 'orange', color: 'orange' },
-      { fruit: 'banana', color: 'yellow' },
+      {
+        fruit: 'lemon',
+        color: 'yellow',
+        metrics: { inventory: 10, price: 1.2 },
+      },
+      {
+        fruit: 'mango',
+        color: 'orange',
+        metrics: { inventory: 5, price: 2.5 },
+      },
+      {
+        fruit: 'avocado',
+        color: 'green',
+        metrics: { inventory: 20, price: 3.0 },
+      },
+      {
+        fruit: 'apple',
+        color: 'red',
+        metrics: { inventory: 15, price: 1.5 },
+      },
+      {
+        fruit: 'orange',
+        color: 'orange',
+        metrics: { inventory: 20, price: 1.8 },
+      },
+      {
+        fruit: 'banana',
+        color: 'yellow',
+        metrics: { inventory: 5, price: 1.0 },
+      },
     ]);
     const initColumns$ = of(
-      new TableColumnsBuilder<{ fruit: string; color: string }>()
+      new TableColumnsBuilder<FruitType>()
         .addColumn(
           (column) =>
             column
-              .label(ColumnNames.fruitName)
+              .label(ColumnNames.fruit)
               .displayKey(FruitInfo.fruit)
               .ascendingSortFunction((a, b) => a.fruit.localeCompare(b.fruit))
               .sortOrder(1)
@@ -61,10 +99,17 @@ export class TableExampleComponent implements OnInit {
         )
         .addColumn((column) =>
           column
-            .displayKey(FruitInfo.color)
-            .label(ColumnNames.color)
+            .displayKey(FruitInfo.colorName)
+            .label(ColumnNames.colorName)
             .sortable(true)
             .ascendingSortFunction((a, b) => a.color.localeCompare(b.color))
+        )
+        .addColumn((column) =>
+          column
+            .displayKey(FruitInfo.inventory)
+            .label(ColumnNames.inventory)
+            .sortable(true)
+            .getSortValue((x) => x.metrics.inventory)
         )
         .getConfig()
     );
