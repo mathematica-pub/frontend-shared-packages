@@ -23,6 +23,8 @@ y) and data type for the dimension (ordinal and quantitative):
 Each builder requires one generic type, which should be the type of the tick value, for example,
 `string`, `number`, or `Date`.
 
+**Required imports from @hsi/viz-components**
+
 ```ts
 import { VicXQuantitativeAxisConfigBuilder } from '@hsi/viz-components';
 ...

@@ -1,5 +1,5 @@
 export interface TickWrapOptions {
-  wrapWidth:
+  width:
     | 'bandwidth'
     | number
     | ((chartWidth: number, numOfTicks: number) => number);

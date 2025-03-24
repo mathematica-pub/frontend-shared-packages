@@ -120,7 +120,7 @@ export abstract class XyAxis<
     if (this.config.ticks.fontSize) {
       this.setTickFontSize(tickText);
     }
-    if (this.config.ticks.wrap) {
+    if (this.config.ticks.wrap && this.config.ticks.wrap.width !== undefined) {
       this.wrapAxisTickText(tickText);
     }
   }
@@ -133,21 +133,21 @@ export abstract class XyAxis<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   wrapAxisTickText(tickTextSelection: any): void {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { wrapWidth, ...properties } = this.config.ticks.wrap;
+    const { width, ...properties } = this.config.ticks.wrap;
 
-    let width: number;
-    if (this.config.ticks.wrap.wrapWidth === 'bandwidth') {
-      width = this.scale.bandwidth();
-    } else if (typeof this.config.ticks.wrap.wrapWidth === 'function') {
+    let wrapWidth: number;
+    if (this.config.ticks.wrap.width === 'bandwidth') {
+      wrapWidth = this.scale.bandwidth();
+    } else if (typeof this.config.ticks.wrap.width === 'function') {
       const chartWidth = this.scale.range()[1] - this.scale.range()[0];
       const numOfTicks = select(this.elRef.nativeElement)
         .selectAll('.tick')
         .size();
-      width = this.config.ticks.wrap.wrapWidth(chartWidth, numOfTicks);
+      wrapWidth = this.config.ticks.wrap.width(chartWidth, numOfTicks);
     } else {
-      width = this.config.ticks.wrap.wrapWidth;
+      wrapWidth = this.config.ticks.wrap.width;
     }
-    const wrap = new SvgTextWrap({ ...properties, width });
+    const wrap = new SvgTextWrap({ ...properties, width: wrapWidth });
     wrap.wrap(tickTextSelection);
   }
 

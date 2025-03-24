@@ -14,6 +14,10 @@ to multiple lines using the `wrap` method.
 small axis labels examples
 ```
 
+## Configuration
+
+**Examples of configuration for `label`**
+
 ```ts
 // x-axis label with default settings
 this.xQuantitativeAxis.label((label) => label.text('wind speed (mph)')).getConfig();
@@ -38,8 +42,6 @@ this.yQuantitativeAxis
   )
   .getConfig();
 ```
-
-## Configuration
 
 ### Required Methods
 

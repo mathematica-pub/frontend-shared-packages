@@ -13,6 +13,10 @@ lines or style them, respectively.
 small axis grid examples
 ```
 
+## Configuration
+
+**Examples of configuration for `grid`**
+
 ```ts
 // grid with default settings
 this.xQuantitativeAxis.grid().getConfig();
@@ -24,14 +28,13 @@ this.xQuantitativeAxis
     grid.filter((i) => i % 2 !== 0).stroke((stroke) => stroke.dasharray('5').color('blue'))
   )
   .getConfig();
+
 this.yQuantitativeAxis
   .grid((grid) =>
     grid.filter((i) => i % 2 !== 0).stroke((stroke) => stroke.dasharray('5').color('red'))
   )
   .getConfig();
 ```
-
-## Configuration
 
 ### Required Methods
 

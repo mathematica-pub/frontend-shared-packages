@@ -28,6 +28,7 @@ import {
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
+import { cloneDeep } from 'lodash-es';
 import {
   LocationCategoryDatum,
   statesElectionData,
@@ -84,6 +85,7 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
   @Input() useLabels = false;
   @Input() useBackgrounds = false;
   @Input() usePosNegData = false;
+  @Input() useLongLabelsAndWrap = false;
   vm: ViewModel;
 
   constructor(
@@ -96,6 +98,7 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('ngOnInit', 'useLongLabelsAndWrap', this.useLongLabelsAndWrap);
     this.getViewModel();
   }
 
@@ -111,13 +114,18 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
       .margin(this.margin)
       .height(this.height)
       .width(this.width)
-      .resize({ height: false })
+      .resize({ height: false, width: !this.useLongLabelsAndWrap })
       .getConfig();
 
     if (this.orientation === 'horizontal') {
-      ordinalAxisConfig = this.yOrdinalAxis
-        .ticks((ticks) => ticks.size(0))
-        .getConfig();
+      this.yOrdinalAxis.ticks((ticks) => ticks.size(0));
+      if (this.useLongLabelsAndWrap) {
+        this.yOrdinalAxis.ticks((ticks) =>
+          ticks.wrap((wrap) => wrap.width(120))
+        );
+      }
+      ordinalAxisConfig = this.yOrdinalAxis.getConfig();
+
       quantitativeAxisConfig = this.xQuantitativeAxis
         .ticks((ticks) =>
           ticks.format(this.usePosNegData ? '.1%' : '.0%').count(5)
@@ -127,11 +135,17 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
         )
         .getConfig();
     } else {
-      ordinalAxisConfig = this.xOrdinalAxis
-        .ticks((ticks) =>
-          ticks.size(0).format((state) => this.getStateAbbreviation(state))
-        )
-        .getConfig();
+      this.xOrdinalAxis.ticks((ticks) => ticks.size(0));
+      if (!this.useLongLabelsAndWrap) {
+        this.xOrdinalAxis.ticks((ticks) =>
+          ticks.format((state) => this.getStateAbbreviation(state))
+        );
+      } else {
+        this.xOrdinalAxis.ticks((ticks) =>
+          ticks.wrap((wrap) => wrap.width(100))
+        );
+      }
+      ordinalAxisConfig = this.xOrdinalAxis.getConfig();
       quantitativeAxisConfig = this.yQuantitativeAxis
         .ticks((ticks) =>
           ticks.format(this.usePosNegData ? '.1%' : '.0%').count(5)
@@ -145,6 +159,27 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
       : statesElectionData.filter((d) => d.category === 'D');
 
     chartData = chartData.slice().sort((a, b) => b.value - a.value);
+
+    chartData = this.useLongLabelsAndWrap
+      ? cloneDeep(chartData).map((d) => {
+          if (d.location === 'Nevada') {
+            d.location = 'Nevada, a state in the Mountain West';
+          } else if (d.location === 'Wisconsin') {
+            d.location = 'Wisconsin, a state in the Midwest';
+          } else if (d.location === 'North Carolina') {
+            d.location = 'North Carolina, a state in the South';
+          } else if (d.location === 'Georgia') {
+            d.location = 'Georgia, a state in the South';
+          } else if (d.location === 'Pennsylvania') {
+            d.location = 'Pennsylvania, a state in the Mid-Atlantic';
+          } else if (d.location === 'Michigan') {
+            d.location = 'Michigan, a state in the Midwest';
+          } else if (d.location === 'Arizona') {
+            d.location = 'Arizona, a state in the Southwest';
+          }
+          return d;
+        })
+      : cloneDeep(chartData);
 
     const dataConfig = this.bars
       .data(chartData)
@@ -179,6 +214,7 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
       .color((color) => color.range(['royalblue']))
       .getConfig();
 
+    console.log('chartData', chartData);
     this.vm = {
       chartConfig,
       dataConfig,

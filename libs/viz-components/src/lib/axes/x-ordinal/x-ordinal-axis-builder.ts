@@ -68,7 +68,7 @@ export class VicXOrdinalAxisConfigBuilder<
       marksClass: 'vic-axis-x-ordinal',
       mixBlendMode: this._mixBlendMode,
       side: this._side,
-      ticks: this.ticksBuilder._build(),
+      ticks: this.ticksBuilder._build('x'),
     });
   }
 }

@@ -2,13 +2,11 @@ import { TickWrap } from './tick-wrap';
 
 const DEFAULT = {
   _wrapWidth: 'bandwidth',
-  _maintainXPosition: false,
-  _maintainYPosition: false,
   _lineHeight: 1.1,
 };
 
 export class TickWrapBuilder {
-  _wrapWidth:
+  _width:
     | 'bandwidth'
     | number
     | ((chartWidth: number, numOfTicks: number) => number);
@@ -21,24 +19,16 @@ export class TickWrapBuilder {
   }
 
   /**
-   * OPTIONAL. Sets the width to wrap the text to. Can be a number, a function that takes the chart width and number of ticks, or 'bandwidth'.
+   * OPTIONAL. Sets the line-height property of the tick labels. Adjusting the line-height can useful when wrapping labels, particularly on a y-axis.
    *
-   * If 'bandwidth', the width will be the bandwidth of the scale.
-   *
-   * @default 'bandwidth'
+   * @param value - The line-height of the tick labels, as a multiplier of the font size. For example, 1.1 is 110% of the font size, 1.5 is 150% of the font size, etc.
    */
-  wrapWidth(wrapWidth: 'bandwidth'): this;
-  wrapWidth(wrapWidth: number): this;
-  wrapWidth(
-    wrapWidth: (chartWidth: number, numOfTicks: number) => number
-  ): this;
-  wrapWidth(
-    wrapWidth:
-      | 'bandwidth'
-      | number
-      | ((chartWidth: number, numOfTicks: number) => number)
-  ) {
-    this._wrapWidth = wrapWidth;
+  lineHeight(value: number | null) {
+    if (value === null) {
+      this._lineHeight = undefined;
+      return this;
+    }
+    this._lineHeight = value;
     return this;
   }
 
@@ -67,24 +57,56 @@ export class TickWrapBuilder {
   }
 
   /**
-   * OPTIONAL. Sets the line height of the text.
+   * OPTIONAL. Sets the width to wrap the text to. Can be a number, a function that takes the chart width and number of ticks, or 'bandwidth'.
    *
-   * @default 1.1
+   * If 'bandwidth', the width will be the bandwidth of the scale.
+   *
+   * @default 'bandwidth'
    */
-  lineHeight(lineHeight: number) {
-    this._lineHeight = lineHeight;
+  width(width: 'bandwidth'): this;
+  width(width: number): this;
+  width(width: (chartWidth: number, numOfTicks: number) => number): this;
+  width(width: null): this;
+  width(
+    width:
+      | 'bandwidth'
+      | number
+      | ((chartWidth: number, numOfTicks: number) => number)
+      | null
+  ) {
+    if (width === null) {
+      this._width = undefined;
+      return this;
+    }
+    this._width = width;
     return this;
   }
 
   /**
    * @internal Not meant to be called by consumers of the library.
    */
-  _build(): TickWrap {
+  _build(dimension: 'x' | 'y'): TickWrap {
+    this.validate(dimension);
     return new TickWrap({
-      wrapWidth: this._wrapWidth,
+      width: this._width,
       maintainXPosition: this._maintainXPosition,
       maintainYPosition: this._maintainYPosition,
       lineHeight: this._lineHeight,
     });
+  }
+
+  private validate(dimension: 'x' | 'y'): void {
+    this._maintainXPosition =
+      this._maintainXPosition === undefined
+        ? dimension === 'y'
+          ? true
+          : false
+        : this._maintainXPosition;
+    this._maintainYPosition =
+      this._maintainYPosition === undefined
+        ? dimension === 'x'
+          ? false
+          : true
+        : this._maintainYPosition;
   }
 }

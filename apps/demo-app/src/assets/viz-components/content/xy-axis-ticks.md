@@ -5,7 +5,19 @@
 Users can use the `ticks` method on an x- or y-axis builder to specify properties for the ticks of
 that axis. Ticks are the small lines that are drawn along the axis, and the associated labels.
 
+If the `ticks` method is never called, the default settings will be applied.
+
 ## Configuration
+
+**Examples of configuration for `ticks`**
+
+```ts
+// example: to specify that the x-axis should have ~10 ticks, tick labels formatted as floating point numbers with one decimal place, and not show any tick marks.
+this.xQuantitativeAxis.ticks((ticks) => ticks.format('.1f').size(0).count(10)).getConfig();
+
+// example: to specify the exact tick values to show on the y-axis.
+this.yQuantitativeAxis.ticks((ticks) => ticks.values([0, 10, 20, 30]).getConfig();
+```
 
 ### Required Methods
 
@@ -108,9 +120,12 @@ params:
 ```builder-method
 name: sizeInner
 description: Determines the length of the inner tick marks.
-description:
-  - 'The length of the inner tick marks in pixels, or `null` to unset the value.'
-  - 'If not called or called with `null`, the default size is the D3 default size.'
+params:
+  - name: value
+    type: 'number | null'
+    description:
+      - 'The length of the inner tick marks in pixels, or `null` to unset the value.'
+      - 'If not called or called with `null`, the default size is the D3 default size.'
 ```
 
 ```builder-method

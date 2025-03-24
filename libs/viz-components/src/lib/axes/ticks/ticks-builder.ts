@@ -47,12 +47,12 @@ export class TicksBuilder<Tick> {
    *
    * If not called, the default font size is D3's default, which is 10px.
    */
-  fontSize(fontSize: number | null): this {
-    if (fontSize === null) {
+  fontSize(value: number | null): this {
+    if (value === null) {
       this._fontSize = undefined;
       return this;
     }
-    this._fontSize = fontSize;
+    this._fontSize = value;
     return this;
   }
 
@@ -224,7 +224,7 @@ export class TicksBuilder<Tick> {
     return this;
   }
 
-  _build(): Ticks<Tick> {
+  _build(dimension: 'x' | 'y'): Ticks<Tick> {
     return new Ticks({
       fontSize: this._fontSize,
       format: this._format,
@@ -236,7 +236,7 @@ export class TicksBuilder<Tick> {
       size: this._size,
       sizeInner: this._sizeInner,
       sizeOuter: this._sizeOuter,
-      wrap: this.wrapBuilder?._build(),
+      wrap: this.wrapBuilder?._build(dimension),
     });
   }
 }
@@ -302,7 +302,7 @@ export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
     return this;
   }
 
-  override _build(): QuantitativeTicks<Tick> {
+  override _build(dimension: 'x' | 'y'): QuantitativeTicks<Tick> {
     return new QuantitativeTicks({
       fontSize: this._fontSize,
       format: this._format,
@@ -317,7 +317,7 @@ export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
       sizeOuter: this._sizeOuter,
       spacing: this._spacing,
       values: this._values,
-      wrap: this.wrapBuilder?._build(),
+      wrap: this.wrapBuilder?._build(dimension),
     });
   }
 }
