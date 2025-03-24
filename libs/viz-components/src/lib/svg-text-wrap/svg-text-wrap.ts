@@ -15,7 +15,14 @@ export class SvgTextWrap {
   wrap(textSelection: Selection<SVGTextElement, any, any, any>): void {
     textSelection.each((d, i, nodes) => {
       const text = select(nodes[i]);
-      const words = text.text().split(/\s+/).reverse();
+      const allTspans = text.selectAll<SVGTSpanElement, unknown>('tspan');
+      const words =
+        allTspans.size() > 0
+          ? Array.from(allTspans)
+              .map((tspan) => tspan.textContent.split(/\s+/))
+              .flat()
+              .reverse()
+          : text.text().split(/\s+/).reverse();
       let word;
       let line = [];
       let lineNumber = 0;
