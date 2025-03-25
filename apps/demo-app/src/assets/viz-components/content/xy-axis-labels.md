@@ -2,7 +2,7 @@
 
 ## Overview
 
-User can use the `labels` method on one of the axis builders to add and configure labels for that
+User can use the `labels` method on an x- or y-axis builder to add and configure labels for that
 axis.
 
 Axis labels are centered on their respective axes by default, with the y-axis label rotated 90
@@ -13,6 +13,10 @@ to multiple lines using the `wrap` method.
 ```custom-angular
 small axis labels examples
 ```
+
+## Configuration
+
+**Examples of configuration for `label`**
 
 ```ts
 // x-axis label with default settings
@@ -38,8 +42,6 @@ this.yQuantitativeAxis
   )
   .getConfig();
 ```
-
-## Configuration
 
 ### Required Methods
 

@@ -8,12 +8,12 @@ import {
   VicChartModule,
   VicDotsConfigBuilder,
   VicDotsModule,
-  VicOrdinalAxisConfig,
-  VicQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
@@ -25,8 +25,8 @@ import {
 interface ViewModel {
   chartConfig: ChartConfig;
   dataConfig: DotsConfig<LocationCategoryDatum>;
-  xAxisConfig: VicQuantitativeAxisConfig<number>;
-  yAxisConfig: VicOrdinalAxisConfig<number>;
+  xAxisConfig: VicXQuantitativeAxisConfig<number>;
+  yAxisConfig: VicYOrdinalAxisConfig<number>;
 }
 
 @Component({
@@ -80,14 +80,12 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
       .getConfig();
 
     const xAxisConfig = this.xQuantitativeAxis
-      .tickFormat('.0%')
-      .removeDomainLine()
-      .removeTickMarks()
-      .numTicks(5)
+      .ticks((ticks) => ticks.format('.0%').size(0).count(5))
+      .baseline((baseline) => baseline.display(false))
       .getConfig();
     const yAxisConfig = this.yOrdinalAxis
-      .removeDomainLine()
-      .removeTickMarks()
+      .ticks((ticks) => ticks.size(0))
+      .baseline((baseline) => baseline.display(false))
       .getConfig();
 
     const dataConfig = this.dots

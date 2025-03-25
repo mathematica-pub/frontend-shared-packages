@@ -2,7 +2,8 @@
 
 ## Overview
 
-Users can use the `grid` method to draw grid lines oriented perpendicular to a particular axis.
+Users can use the `grid` method on an x- or y-axis builder to draw grid lines oriented perpendicular
+to that axis.
 
 By default, one grid line is drawn for each axis tick. However, axis grids can be customized by
 using the `filter` and `stroke` methods. These methods allow the user to conditionally hide grid
@@ -11,6 +12,10 @@ lines or style them, respectively.
 ```custom-angular
 small axis grid examples
 ```
+
+## Configuration
+
+**Examples of configuration for `grid`**
 
 ```ts
 // grid with default settings
@@ -23,6 +28,7 @@ this.xQuantitativeAxis
     grid.filter((i) => i % 2 !== 0).stroke((stroke) => stroke.dasharray('5').color('blue'))
   )
   .getConfig();
+
 this.yQuantitativeAxis
   .grid((grid) =>
     grid.filter((i) => i % 2 !== 0).stroke((stroke) => stroke.dasharray('5').color('red'))
@@ -30,11 +36,9 @@ this.yQuantitativeAxis
   .getConfig();
 ```
 
-## Configuration
-
 ### Required Methods
 
-There are no required methods for axis grids.
+There are no required methods.
 
 ### Optional Methods
 
