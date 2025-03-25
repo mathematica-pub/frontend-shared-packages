@@ -4,7 +4,7 @@ import { XyAxis } from '../base/xy-axis-base';
 import { ordinalAxisMixin } from '../ordinal/ordinal-axis';
 import { xAxisMixin } from '../x/x-axis';
 
-const XOrdinalAxis = xAxisMixin(ordinalAxisMixin(XyAxis));
+const XOrdinalAxis = xAxisMixin(ordinalAxisMixin(XyAxis<DataValue>));
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -28,6 +28,4 @@ const XOrdinalAxis = xAxisMixin(ordinalAxisMixin(XyAxis));
   },
   standalone: false,
 })
-export class XOrdinalAxisComponent<
-  TickValue extends DataValue,
-> extends XOrdinalAxis<TickValue> {}
+export class XOrdinalAxisComponent extends XOrdinalAxis {}

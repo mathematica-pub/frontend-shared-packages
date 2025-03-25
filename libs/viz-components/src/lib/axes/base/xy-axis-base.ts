@@ -1,8 +1,7 @@
 import { Directive, ElementRef, inject } from '@angular/core';
 import { select, Selection } from 'd3';
-import { Observable } from 'rxjs';
 import { GenericScale } from '../../core';
-import { DataValue } from '../../core/types/values';
+import { ContinuousValue, DataValue } from '../../core/types/values';
 import { XyAuxMarks } from '../../marks';
 import { SvgTextWrap } from '../../svg-text-wrap/svg-text-wrap';
 import { XyAxisConfig } from './config/xy-axis-config';
@@ -19,10 +18,9 @@ type AxisSvgElements = 'gridGroup' | 'gridLine' | 'label' | 'axisGroup';
  * A base directive for all axes.
  */
 @Directive()
-export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
-  unknown,
-  XyAxisConfig<TickValue>
-> {
+export abstract class XyAxis<
+  TickValue extends DataValue | ContinuousValue,
+> extends XyAuxMarks<unknown, XyAxisConfig<TickValue>> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axis: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -35,7 +33,6 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   scale: any;
   elRef = inject<ElementRef<SVGGElement>>(ElementRef);
 
-  abstract getScale(): Observable<XyAxisScale>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract setAxisFunction(): any;
   abstract setTranslate(): void;

@@ -1,10 +1,12 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { DataValue } from '../../core';
+import { ContinuousValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
 import { quantitativeAxisMixin } from '../quantitative/quantitative-axis';
 import { yAxisMixin } from '../y/y-axis';
 
-const YQuantitativeAxis = yAxisMixin(quantitativeAxisMixin(XyAxis));
+const YQuantitativeAxis = yAxisMixin(
+  quantitativeAxisMixin(XyAxis<ContinuousValue>)
+);
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -28,6 +30,4 @@ const YQuantitativeAxis = yAxisMixin(quantitativeAxisMixin(XyAxis));
   },
   standalone: false,
 })
-export class YQuantitativeAxisComponent<
-  TickValue extends DataValue,
-> extends YQuantitativeAxis<TickValue> {}
+export class YQuantitativeAxisComponent extends YQuantitativeAxis {}
