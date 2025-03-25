@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { BarsConfig } from 'libs/viz-components/src/lib/bars/config/bars-config';
@@ -37,6 +38,7 @@ type Datum = { state: string; value: number };
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestXQuantitativeDomainComponent implements AfterViewInit {
   @Input() barsConfig: BarsConfig<Datum, string>;

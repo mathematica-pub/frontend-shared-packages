@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input } from '@angular/core';
 import {
@@ -153,6 +154,7 @@ const barLabelColorMatchesExpectedRgb = (
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestVerticalBarsWithLabelsComponent {
   @Input() barsConfig: BarsConfig<Datum, string>;
@@ -487,6 +489,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestHorizontalBarsWithLabelsComponent {
   @Input() barsConfig: BarsConfig<Datum, string>;

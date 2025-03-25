@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input, OnInit } from '@angular/core';
 import { extent } from 'd3';
@@ -35,6 +36,7 @@ const tickTextSelector = '.vic-axis-x-quantitative .tick text';
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
   providers: [VicChartConfigBuilder],
 })
 class TestXQuantitativeAxisComponent implements OnInit {

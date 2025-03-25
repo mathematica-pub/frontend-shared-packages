@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import { schemeTableau10 } from 'd3';
 import {
@@ -86,6 +87,7 @@ const barSelector = '.vic-bars-bar';
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;

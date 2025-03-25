@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
@@ -53,6 +54,7 @@ const data = ContinentPopulationNumYearData;
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestAxisLabelsComponent<Datum> {
   @Input() linesConfig: LinesConfig<Datum>;

@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
@@ -81,6 +82,7 @@ const labelSelector = '.vic-quantitative-rules-label';
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestQuantitativeRulesHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
@@ -161,6 +163,7 @@ const mountHorizontalBarsComponent = (
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestVerticalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
@@ -252,6 +255,7 @@ const linesNumericData = ContinentPopulationNumYearData;
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestLinesComponent<
   Datum,

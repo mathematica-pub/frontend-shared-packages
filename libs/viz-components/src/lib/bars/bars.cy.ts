@@ -209,6 +209,7 @@ const mountHorizontalBarsComponent = (
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestVerticalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;

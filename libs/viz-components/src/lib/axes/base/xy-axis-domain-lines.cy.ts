@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { BarsConfig, VicBarsConfigBuilder, VicBarsModule } from '../../bars';
@@ -57,6 +58,7 @@ const data = ContinentPopulationNumYearData;
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestZeroAxisLinesComponent<Datum> {
   @Input() linesConfig: LinesConfig<Datum>;
@@ -183,6 +185,7 @@ describe('Domain lines positioning, two quant dimensions', () => {
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestZeroAxisHorizontalBarsComponent<Datum> {
   @Input() barsConfig: BarsConfig<Datum, string>;
@@ -315,6 +318,7 @@ describe('Domain lines positioning, one quant, one ordinal dimension - horizonta
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestZeroAxisVerticalBarsComponent<Datum> {
   @Input() barsConfig: BarsConfig<Datum, string>;
