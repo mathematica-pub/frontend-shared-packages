@@ -123,5 +123,5 @@ params:
     type: '((ticks: TicksBuilder) => void) | null'
     description:
       - 'A function that specifies properties for the ticks, or `null` to unset the ticks.'
-      - 'If called with no argument, the default values of the ticks will be used.'
+      - 'If not called or called with `null`, the default values of the ticks will be used.'
 ```
