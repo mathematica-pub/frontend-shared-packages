@@ -3,19 +3,20 @@ import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
 import { XyAxisConfig } from '../base/config/xy-axis-config';
 import { XyAxisBaseOptions } from '../base/config/xy-axis-options';
+import { Ticks } from '../ticks/ticks';
+import { TicksOptions } from '../ticks/ticks-options';
 
-export type VicOrdinalAxisOptions<TickValue extends DataValue> =
-  XyAxisBaseOptions<TickValue>;
+export interface VicOrdinalAxisOptions<Tick extends DataValue>
+  extends XyAxisBaseOptions {
+  ticks: TicksOptions<Tick>;
+}
 
 export function mixinOrdinalAxisConfig<
-  TickValue extends DataValue,
-  T extends AbstractConstructor<XyAxisConfig<TickValue>>,
+  Tick extends DataValue,
+  T extends AbstractConstructor<XyAxisConfig<Tick, Ticks<Tick>>>,
 >(Base: T) {
   @Directive()
-  abstract class Mixin
-    extends Base
-    implements VicOrdinalAxisOptions<TickValue>
-  {
+  abstract class Mixin extends Base implements VicOrdinalAxisOptions<Tick> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(...args: any[]) {
       super(...args);
@@ -25,6 +26,6 @@ export function mixinOrdinalAxisConfig<
   return Mixin;
 }
 
-export class VicOrdinalAxisConfig<
-  TickValue extends DataValue,
-> extends mixinOrdinalAxisConfig(XyAxisConfig)<TickValue> {}
+export abstract class VicOrdinalAxisConfig<
+  Tick extends DataValue,
+> extends mixinOrdinalAxisConfig(XyAxisConfig)<Tick, Ticks<Tick>> {}

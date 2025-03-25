@@ -11,20 +11,20 @@ import {
   VicLinesConfigBuilder,
   VicLinesModule,
   VicQuantitativeRulesModule,
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyChartModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from '../../public-api';
-import { VicOrdinalAxisConfig } from '../axes/ordinal/ordinal-axis-config';
-import { VicQuantitativeAxisConfig } from '../axes/quantitative/quantitative-axis-config';
-import { XQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
-import { YQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
+import { VicXQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
+import { VicYQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
 import { BarsConfig } from '../bars/config/bars-config';
 import { LinesConfig } from '../lines/config/lines-config';
 import {
@@ -87,8 +87,8 @@ const labelSelector = '.vic-quantitative-rules-label';
 class TestQuantitativeRulesHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
   @Input() rulesConfig: QuantitativeRulesConfig<number>;
-  @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
+  @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .height(barsChartHeight)
     .width(barsChartWidth)
@@ -101,7 +101,7 @@ const mountHorizontalBarsComponent = (
   rulesConfig: QuantitativeRulesConfig<number>
 ): void => {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder()
-    .tickFormat(',.0f')
+    .ticks((ticks) => ticks.format(',.0f'))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
   const barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
@@ -168,9 +168,9 @@ const mountHorizontalBarsComponent = (
 class TestVerticalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
   @Input() rulesConfig: QuantitativeRulesConfig<number>;
-  @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
+  @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .height(barsChartHeight)
     .width(barsChartWidth)
@@ -184,7 +184,7 @@ const mountVerticalBarsComponent = (
 ): void => {
   const xAxisConfig = new VicXOrdinalAxisConfigBuilder().getConfig();
   const yAxisConfig = new VicYQuantitativeAxisConfigBuilder()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
   const barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
     .data(countryFactsData)
@@ -264,8 +264,8 @@ class TestLinesComponent<
 > {
   @Input() linesConfig: LinesConfig<Datum>;
   @Input() rulesConfig: QuantitativeRulesConfig<RuleDatum>;
-  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
-  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<QuantAxisType>;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<QuantAxisType>;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .height(linesChartHeight)
     .width(linesChartWidth)
@@ -287,7 +287,7 @@ function mountDateLinesComponent<RuleDatum extends number | Date>(
   rulesConfig: QuantitativeRulesConfig<RuleDatum>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<Date>()
-    .tickFormat('%Y')
+    .ticks((ticks) => ticks.format('%Y'))
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
@@ -323,7 +323,7 @@ function mountNumberLinesComponent(
   rulesConfig: QuantitativeRulesConfig<number>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();

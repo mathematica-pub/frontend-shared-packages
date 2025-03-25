@@ -1,20 +1,21 @@
 import { Directive, Input } from '@angular/core';
 import { AxisTimeInterval, format, timeFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { DataValue } from '../../core/types/values';
+import { ContinuousValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
+import { QuantitativeTicks } from '../ticks/ticks';
 import { VicQuantitativeAxisConfig as QuantitativeAxisConfig } from './quantitative-axis-config';
 
 export function quantitativeAxisMixin<
-  TickValue extends DataValue,
-  T extends AbstractConstructor<XyAxis<TickValue>>,
+  Tick extends ContinuousValue,
+  T extends AbstractConstructor<XyAxis<Tick, QuantitativeTicks<Tick>>>,
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base {
-    @Input() override config: QuantitativeAxisConfig<TickValue>;
+    @Input() override config: QuantitativeAxisConfig<Tick>;
 
-    setTicks(tickFormat: string | ((value: TickValue) => string)): void {
-      if (this.config.tickValues) {
+    setTicks(tickFormat: string | ((value: Tick) => string)): void {
+      if (this.config.ticks.values) {
         this.setSpecifiedTickValues(tickFormat);
       } else {
         this.setUnspecifiedTickValues(tickFormat);
@@ -22,7 +23,7 @@ export function quantitativeAxisMixin<
     }
 
     setSpecifiedTickValues(
-      tickFormat: string | ((value: TickValue) => string)
+      tickFormat: string | ((value: Tick) => string)
     ): void {
       const validTickValues = this.getValidTickValues();
       this.axis.tickValues(validTickValues);
@@ -34,10 +35,10 @@ export function quantitativeAxisMixin<
       });
     }
 
-    getValidTickValues(): TickValue[] {
+    getValidTickValues(): Tick[] {
       const domain = this.scale.domain();
       const validValues = [];
-      this.config.tickValues.forEach((value) => {
+      this.config.ticks.values.forEach((value) => {
         if (domain[0] <= value && value <= domain[1]) {
           validValues.push(value);
         }
@@ -46,7 +47,7 @@ export function quantitativeAxisMixin<
     }
 
     setUnspecifiedTickValues(
-      tickFormat: string | ((value: TickValue) => string)
+      tickFormat: string | ((value: Tick) => string)
     ): void {
       const validNumTicks = this.getValidNumTicks(tickFormat);
       this.axis.ticks(validNumTicks);
@@ -59,7 +60,7 @@ export function quantitativeAxisMixin<
     }
 
     getValidNumTicks(
-      tickFormat: string | ((value: TickValue) => string)
+      tickFormat: string | ((value: Tick) => string)
     ): number | AxisTimeInterval {
       let numValidTicks = this.getNumTicks();
       if (typeof tickFormat === 'string' && typeof numValidTicks === 'number') {
@@ -79,8 +80,8 @@ export function quantitativeAxisMixin<
 
     getNumTicks(): number | AxisTimeInterval {
       return (
-        this.config.numTicks ||
-        this.config.getSuggestedNumTicksFromChartDimension({
+        this.config.ticks.count ||
+        this.config.getNumTicksBySpacing(this.config.ticks.spacing, {
           height: this.chart.config.height,
           width: this.chart.config.width,
         })

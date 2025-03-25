@@ -6,13 +6,15 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
 import {
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
 } from '../axes';
-import { VicOrdinalAxisConfig } from '../axes/ordinal/ordinal-axis-config';
-import { VicQuantitativeAxisConfig } from '../axes/quantitative/quantitative-axis-config';
 import { VicXOrdinalAxisModule } from '../axes/x-ordinal/x-ordinal-axis.module';
 import { VicXQuantitativeAxisModule } from '../axes/x-quantitative/x-quantitative-axis.module';
 import { VicYOrdinalAxisModule } from '../axes/y-ordinal/y-ordinal-axis.module';
@@ -105,8 +107,8 @@ const labelSelector = '.vic-bars-label';
 })
 class TestHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
-  @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
+  @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
@@ -153,7 +155,7 @@ const mountHorizontalBarsComponent = (
   barsConfig: BarsConfig<CountryFactsDatum, string>
 ): void => {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder()
-    .tickFormat(',.0f')
+    .ticks((ticks) => ticks.format(',.0f'))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
   const declarations = [TestHorizontalBarsComponent];
@@ -213,8 +215,8 @@ const mountHorizontalBarsComponent = (
 })
 class TestVerticalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
-  @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
+  @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
@@ -262,7 +264,7 @@ const mountVerticalBarsComponent = (
 ): void => {
   const xAxisConfig = new VicXOrdinalAxisConfigBuilder().getConfig();
   const yAxisConfig = new VicYQuantitativeAxisConfigBuilder()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
 
   const declarations = [TestVerticalBarsComponent];

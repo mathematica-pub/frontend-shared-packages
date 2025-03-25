@@ -8,14 +8,14 @@ import {
   VicChartModule,
   VicGroupedBarsConfigBuilder,
   VicGroupedBarsModule,
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
-  XOrdinalAxisConfig,
-  YQuantitativeAxisConfig,
 } from '@hsi/viz-components';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
@@ -24,8 +24,8 @@ import { filter, map, Observable } from 'rxjs';
 interface ViewModel {
   chartConfig: ChartConfig;
   dataConfig: GroupedBarsConfig<IndustryUnemploymentDatum, Date>;
-  xAxisConfig: XOrdinalAxisConfig<Date>;
-  yAxisConfig: YQuantitativeAxisConfig<number>;
+  xAxisConfig: VicXOrdinalAxisConfig<Date>;
+  yAxisConfig: VicYQuantitativeAxisConfig<number>;
 }
 
 @Component({
@@ -90,8 +90,12 @@ export class GroupedBarsExampleComponent implements OnInit {
         height: false,
       })
       .getConfig();
-    const xAxisConfig = this.xAxisOrdinal.tickFormat('%Y').getConfig();
-    const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').getConfig();
+    const xAxisConfig = this.xAxisOrdinal
+      .ticks((ticks) => ticks.format('%Y'))
+      .getConfig();
+    const yAxisConfig = this.yAxisQuantitative
+      .ticks((ticks) => ticks.format(',.0f'))
+      .getConfig();
     const dataConfig = this.groupedBars
       .data(filteredIndustryData)
       .vertical((bars) =>

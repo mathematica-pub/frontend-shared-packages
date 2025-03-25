@@ -9,18 +9,18 @@ import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
 import { DotsHoverMoveEmitTooltipData } from '../../public-api';
 import {
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
-  XOrdinalAxisConfig,
-  XQuantitativeAxisConfig,
-  YOrdinalAxisConfig,
-  YQuantitativeAxisConfig,
 } from '../axes';
 import {
   ChartConfig,
@@ -121,8 +121,8 @@ const dotGSelector = '.vic-dots-group';
 })
 class TestDotsQuantQuantComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
-  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
-  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<number>;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
@@ -176,8 +176,7 @@ function mountDotsXQuantYQuantComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-    .tickFormat('.0f')
-    .numTicks(5)
+    .ticks((ticks) => ticks.format('.0f').count(5))
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
@@ -216,8 +215,8 @@ function mountDotsXQuantYQuantComponent(
 })
 class TestDotsXQuantYOrdinalComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
-  @Input() yOrdinalAxisConfig: YOrdinalAxisConfig<string>;
-  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<number>;
+  @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   margin = margin;
   chartHeight = chartHeight;
   chartWidth = chartWidth;
@@ -242,8 +241,7 @@ function mountDotsXQuantYOrdinalComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-    .tickFormat('.0f')
-    .numTicks(5)
+    .ticks((ticks) => ticks.format('.0f').count(5))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder<string>().getConfig();
   const declarations = [TestDotsXQuantYOrdinalComponent<CountryFactsDatum>];
@@ -281,8 +279,8 @@ function mountDotsXQuantYOrdinalComponent(
 })
 class TestDotsXOrdinalYQuantComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
-  @Input() xOrdinalAxisConfig: XOrdinalAxisConfig<string>;
-  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
+  @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .height(chartHeight)
     .width(chartWidth)
@@ -304,8 +302,7 @@ function mountDotsXOrdinalYQuantComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
 ): void {
   const yAxisConfig = new VicYQuantitativeAxisConfigBuilder<number>()
-    .tickFormat('.0f')
-    .numTicks(5)
+    .ticks((ticks) => ticks.format('.0f').count(5))
     .getConfig();
   const xAxisConfig = new VicXOrdinalAxisConfigBuilder<string>().getConfig();
   const declarations = [TestDotsXOrdinalYQuantComponent<CountryFactsDatum>];

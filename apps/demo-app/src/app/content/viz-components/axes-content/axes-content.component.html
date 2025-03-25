@@ -52,6 +52,50 @@
           </div>
         </div>
       }
+      @case ('small axis baseline examples') {
+        <div class="small-examples-container baseline">
+          <div class="example">
+            <p class="chart-title default">With default baselines</p>
+            <app-bars-simple-states-example></app-bars-simple-states-example>
+          </div>
+          <div class="example">
+            <p class="chart-title default"
+              >With a default zero baseline when there are positive and negative
+              values</p
+            >
+            <app-bars-simple-states-example
+              [usePosNegData]="true"
+            ></app-bars-simple-states-example>
+          </div>
+        </div>
+      }
+      @case ('small axis tick wrap examples') {
+        <div class="small-examples-container tick-wrap">
+          <div class="example horizontal">
+            <p class="chart-title default">Wrapped Y axis labels (120px)</p>
+            <app-bars-simple-states-example
+              [useLongLabelsAndWrap]="true"
+              [height]="200"
+              [orientation]="'horizontal'"
+            ></app-bars-simple-states-example>
+          </div>
+          <div class="example vertical">
+            <p class="chart-title default">Wrapped X axis labels (100px)</p>
+            <app-bars-simple-states-example
+              [useLongLabelsAndWrap]="true"
+              [height]="200"
+              [width]="800"
+              [margin]="{
+                top: 0,
+                right: 0,
+                bottom: 24,
+                left: 48,
+              }"
+              [orientation]="'vertical'"
+            ></app-bars-simple-states-example>
+          </div>
+        </div>
+      }
     }
   </ng-template>
 </app-content-container>
