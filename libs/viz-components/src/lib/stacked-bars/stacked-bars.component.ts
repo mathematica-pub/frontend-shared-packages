@@ -46,7 +46,6 @@ export const STACKED_BARS = new InjectionToken<
     '[class]': 'config.marksClass',
     '[style.mixBlendMode]': 'config.mixBlendMode',
   },
-  standalone: false,
 })
 export class StackedBarsComponent<
   Datum,

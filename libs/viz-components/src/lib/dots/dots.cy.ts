@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 // ***********************************************************
 // Set up Lines component -- can use with Date or numeric values for x axis
 
@@ -116,6 +117,7 @@ const dotGSelector = '.vic-dots-group';
     </ng-template>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
+  standalone: false,
 })
 class TestDotsQuantQuantComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
@@ -210,6 +212,7 @@ function mountDotsXQuantYQuantComponent(
     </vic-xy-chart>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
+  standalone: false,
 })
 class TestDotsXQuantYOrdinalComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
@@ -274,6 +277,7 @@ function mountDotsXQuantYOrdinalComponent(
     </vic-xy-chart>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
+  standalone: false,
 })
 class TestDotsXOrdinalYQuantComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;

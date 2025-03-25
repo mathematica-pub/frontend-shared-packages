@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -67,7 +68,7 @@ export interface ChartResizing {
   host: {
     class: 'vic-chart',
   },
-  standalone: false,
+  imports: [AsyncPipe],
 })
 export class ChartComponent implements Chart, OnInit, OnChanges {
   @Input() config: ChartConfig = new VicChartConfigBuilder().getConfig();

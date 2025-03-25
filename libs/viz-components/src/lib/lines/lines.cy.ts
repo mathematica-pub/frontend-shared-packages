@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import 'cypress-real-events';
 import { curveBasis, schemeTableau10 } from 'd3';
@@ -90,6 +91,7 @@ const markerSelector = '.vic-lines-marker';
     </ng-template>
   `,
   styles: ['.tooltip-text { font-size: 12px; }'],
+  standalone: false,
 })
 class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   @Input() linesConfig: LinesConfig<Datum>;

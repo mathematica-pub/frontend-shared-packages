@@ -26,7 +26,6 @@ const XQuantitativeAxis = xAxisMixin(quantitativeAxisMixin(XyAxis));
     '[attr.mix-blend-mode]': 'config.mixBlendMode',
     '[attr.transform]': 'translate',
   },
-  standalone: false,
 })
 export class XQuantitativeAxisComponent<
   TickValue extends DataValue,

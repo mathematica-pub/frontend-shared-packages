@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import 'cypress-real-events';
 import { format, max } from 'd3';
@@ -100,7 +101,7 @@ const labelSelector = '.vic-bars-label';
       <p class="y-value">{{ (tooltipData$ | async).values.y }}</p>
     </ng-template>
   `,
-  styles: [],
+  standalone: false,
 })
 class TestHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;

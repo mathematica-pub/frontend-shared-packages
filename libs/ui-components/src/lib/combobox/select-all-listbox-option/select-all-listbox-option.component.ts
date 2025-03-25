@@ -31,7 +31,6 @@ import { ListboxComponent } from '../listbox/listbox.component';
       useExisting: forwardRef(() => SelectAllListboxOptionComponent),
     },
   ],
-  standalone: false,
 })
 export class SelectAllListboxOptionComponent
   extends ListboxOptionComponent

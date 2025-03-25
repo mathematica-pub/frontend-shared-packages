@@ -16,7 +16,6 @@ import { BARS, BarsComponent } from '../bars.component';
 
 @Directive({
   selector: '[vicBarsInputEventActions]',
-  standalone: false,
 })
 export class BarsInputEventDirective<
   Datum,

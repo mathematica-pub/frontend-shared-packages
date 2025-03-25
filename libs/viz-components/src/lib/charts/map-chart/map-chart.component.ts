@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, NgZone } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { VicAttributeDataDimensionConfig } from '../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types';
@@ -34,7 +35,7 @@ import { CHART } from '../chart/chart.token';
   host: {
     class: 'vic-map-chart',
   },
-  standalone: false,
+  imports: [AsyncPipe],
 })
 export class MapChartComponent<Datum> extends ChartComponent implements Chart {
   private attributeProperties: BehaviorSubject<{

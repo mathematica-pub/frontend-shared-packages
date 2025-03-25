@@ -15,7 +15,6 @@ import { DOTS, DotsComponent } from '../dots.component';
 
 @Directive({
   selector: '[vicDotsInputEventActions]',
-  standalone: false,
 })
 export class DotsInputEventDirective<
   Datum,

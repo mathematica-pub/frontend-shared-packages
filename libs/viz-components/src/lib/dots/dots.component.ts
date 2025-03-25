@@ -79,7 +79,6 @@ type DotsSvgElement = 'g' | 'dot';
     '[class]': 'config.marksClass',
     '[style.mixed-blend-mode]': 'config.mixBlendMode',
   },
-  standalone: false,
 })
 export class DotsComponent<Datum> extends VicXyPrimaryMarks<
   Datum,

@@ -3,8 +3,7 @@ import { NgModule } from '@angular/core';
 import { GroupedBarsComponent } from './grouped-bars.component';
 
 @NgModule({
-  declarations: [GroupedBarsComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, GroupedBarsComponent],
   exports: [GroupedBarsComponent],
 })
 export class VicGroupedBarsModule {}

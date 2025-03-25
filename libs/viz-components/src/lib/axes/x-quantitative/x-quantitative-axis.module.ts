@@ -3,8 +3,7 @@ import { NgModule } from '@angular/core';
 import { XQuantitativeAxisComponent } from './x-quantitative-axis.component';
 
 @NgModule({
-  declarations: [XQuantitativeAxisComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, XQuantitativeAxisComponent],
   exports: [XQuantitativeAxisComponent],
 })
 export class VicXQuantitativeAxisModule {}

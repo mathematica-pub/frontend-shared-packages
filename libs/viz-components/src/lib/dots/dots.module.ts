@@ -7,14 +7,14 @@ import { DotsHoverDirective } from './events/dots-hover.directive';
 import { DotsInputEventDirective } from './events/dots-input.directive';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
     DotsComponent,
     DotsClickDirective,
     DotsHoverDirective,
     DotsHoverMoveDirective,
     DotsInputEventDirective,
   ],
-  imports: [CommonModule],
   exports: [
     DotsComponent,
     DotsClickDirective,
