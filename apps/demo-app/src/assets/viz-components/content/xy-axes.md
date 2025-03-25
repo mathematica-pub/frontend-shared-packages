@@ -114,3 +114,14 @@ params:
       - 'If the axis is a Y axis, the valid values are `left` and `right`, and the default value is `left`.'
       - 'If not called, the default value is used.'
 ```
+
+```builder-method
+name: ticks
+description: Specifies the configuration for the axis ticks.
+params:
+  - name: ticks
+    type: '((ticks: TicksBuilder) => void) | null'
+    description:
+      - 'A function that specifies properties for the ticks, or `null` to unset the ticks.'
+      - 'If called with no argument, the default values of the ticks will be used.'
+```
