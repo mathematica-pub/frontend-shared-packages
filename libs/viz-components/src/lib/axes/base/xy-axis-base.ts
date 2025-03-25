@@ -35,6 +35,8 @@ export abstract class XyAxis<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
   elRef = inject<ElementRef<SVGGElement>>(ElementRef);
+  // used to ensure that a zero axis does not transition in position from baseline on first draw
+  isFirstDraw = true;
 
   abstract getScale(): Observable<XyAxisScale>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -91,6 +93,7 @@ export abstract class XyAxis<
     this.setAxisFromScaleAndConfig();
     this.drawAxis();
     this.drawGrid();
+    this.isFirstDraw = false;
   }
 
   drawAxis(): void {
@@ -107,8 +110,8 @@ export abstract class XyAxis<
       .on('end', () => {
         this.processTicks();
       });
-
     this.processDomain();
+
     this.processTickLabels();
     if (this.config.label) {
       this.createLabel();
@@ -263,7 +266,9 @@ export abstract class XyAxis<
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getTransition(selection: any): any {
-    const transitionDuration = this.getTransitionDuration();
+    const transitionDuration = this.isFirstDraw
+      ? 0
+      : this.getTransitionDuration();
     return selection.transition().duration(transitionDuration);
   }
 }
