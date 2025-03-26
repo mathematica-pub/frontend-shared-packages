@@ -12,7 +12,7 @@ describe('StackedAreaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StackedAreaComponent],
+      imports: [StackedAreaComponent],
       providers: [XyChartComponent],
     }).compileComponents();
   });

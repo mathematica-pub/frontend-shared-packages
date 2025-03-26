@@ -1,4 +1,7 @@
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import {
   AdkDocumentationConfigParser,
@@ -11,11 +14,12 @@ import { ContentParser } from './core/services/content-parser.service';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, HttpClientModule],
+      imports: [AppComponent],
       providers: [
         AdkDocumentationContentService,
         AdkDocumentationConfigParser,
         { provide: AdkMarkdownParser, useClass: ContentParser },
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
   });
