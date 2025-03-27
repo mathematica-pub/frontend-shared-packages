@@ -1,10 +1,12 @@
-import { SvgTextWrap } from '../../svg-text-wrap/svg-text-wrap';
 import { TickWrapOptions } from './tick-wrap-options';
 
 /**
  * A config that specifies how axis tick labels should wrap.
  */
-export class TickWrap extends SvgTextWrap {
+export class TickWrap {
+  maintainXPosition: boolean;
+  maintainYPosition: boolean;
+  lineHeight: number;
   /**
    * The max-width for the tick labels.
    *
@@ -16,14 +18,12 @@ export class TickWrap extends SvgTextWrap {
    * If value is a function with chart width and number of ticks as arguments,
    *  tick labels will wrap at the returned value, in px.
    */
-  wrapWidth:
+  width:
     | 'bandwidth'
     | number
     | ((chartWidth: number, numOfTicks: number) => number);
-  override width: null;
 
   constructor(options: TickWrapOptions) {
-    super({ width: null, ...options });
     Object.assign(this, options);
   }
 }

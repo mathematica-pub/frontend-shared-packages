@@ -13,13 +13,14 @@ import {
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicQuantitativeAxisConfig,
   VicStackedAreaConfigBuilder,
   VicStackedAreaModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
@@ -30,8 +31,8 @@ import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 interface ViewModel {
   chartConfig: ChartConfig;
   dataConfig: StackedAreaConfig<IndustryUnemploymentDatum, string>;
-  xAxisConfig: VicQuantitativeAxisConfig<Date>;
-  yAxisConfig: VicQuantitativeAxisConfig<number>;
+  xAxisConfig: VicXQuantitativeAxisConfig<Date>;
+  yAxisConfig: VicYQuantitativeAxisConfig<number>;
 }
 
 @Component({
@@ -61,7 +62,7 @@ export class StackedAreaExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,
-    right: 0,
+    right: 12,
     bottom: 36,
     left: 64,
   };
@@ -100,8 +101,12 @@ export class StackedAreaExampleComponent implements OnInit {
 
   getViewModel(data: IndustryUnemploymentDatum[]): ViewModel {
     const chartConfig = this.chart.margin(this.margin).getConfig();
-    const xAxisConfig = this.xAxisQuantitative.tickFormat('%Y').getConfig();
-    const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').getConfig();
+    const xAxisConfig = this.xAxisQuantitative
+      .ticks((ticks) => ticks.format('%Y'))
+      .getConfig();
+    const yAxisConfig = this.yAxisQuantitative
+      .ticks((ticks) => ticks.format(',.0f'))
+      .getConfig();
     const dataConfig = this.stackedArea
       .data(data)
       .xDate((dimension) => dimension.valueAccessor((d) => d.date))

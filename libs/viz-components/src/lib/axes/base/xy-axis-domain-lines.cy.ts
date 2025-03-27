@@ -1,7 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { BarsConfig, VicBarsConfigBuilder, VicBarsModule } from '../../bars';
-import { VicChartModule, VicXyChartModule } from '../../charts';
+import {
+  VicChartConfigBuilder,
+  VicChartModule,
+  VicXyChartModule,
+} from '../../charts';
 import {
   LinesConfig,
   VicLinesConfigBuilder,
@@ -13,19 +17,19 @@ import {
 } from '../../testing/data/continent-population-year-data';
 import { VicXyBackgroundModule } from '../../xy-background';
 import { VicXOrdinalAxisConfigBuilder } from '../x-ordinal/x-ordinal-axis-builder';
-import { XOrdinalAxisConfig } from '../x-ordinal/x-ordinal-axis-config';
+import { VicXOrdinalAxisConfig } from '../x-ordinal/x-ordinal-axis-config';
 import { VicXOrdinalAxisModule } from '../x-ordinal/x-ordinal-axis.module';
 import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
-import { XQuantitativeAxisConfig } from '../x-quantitative/x-quantitative-axis-config';
+import { VicXQuantitativeAxisConfig } from '../x-quantitative/x-quantitative-axis-config';
 import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';
 import { VicYOrdinalAxisConfigBuilder } from '../y-ordinal/y-ordinal-axis-builder';
-import { YOrdinalAxisConfig } from '../y-ordinal/y-ordinal-axis-config';
+import { VicYOrdinalAxisConfig } from '../y-ordinal/y-ordinal-axis-config';
 import { VicYOrdinalAxisModule } from '../y-ordinal/y-ordinal-axis.module';
 import { VicYQuantitativeAxisConfigBuilder } from '../y-quantitative-axis/y-quantitative-axis-builder';
-import { YQuantitativeAxisConfig } from '../y-quantitative-axis/y-quantitative-axis-config';
+import { VicYQuantitativeAxisConfig } from '../y-quantitative-axis/y-quantitative-axis-config';
 import { VicYQuantitativeAxisModule } from '../y-quantitative-axis/y-quantitative-axis.module';
 
-const axisTickTextWaitTime = 1000;
+const axisTickTextWaitTime = 2000;
 
 const margin = { top: 60, right: 20, bottom: 40, left: 80 };
 const chartHeight = 400;
@@ -35,13 +39,7 @@ const data = ContinentPopulationNumYearData;
 @Component({
   selector: 'vic-test-zero-axis-lines',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-      [transitionDuration]="0"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
         <svg:g
@@ -60,11 +58,13 @@ const data = ContinentPopulationNumYearData;
 })
 class TestZeroAxisLinesComponent<Datum> {
   @Input() linesConfig: LinesConfig<Datum>;
-  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
-  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<number>;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
+  chartConfig = new VicChartConfigBuilder()
+    .margin(margin)
+    .height(chartHeight)
+    .width(chartWidth)
+    .getConfig();
 }
 
 const linesImports = [
@@ -78,8 +78,8 @@ const linesImports = [
 
 function mountZeroAxisLinesComponent(
   data: ContinentPopulationNumYearDatum[],
-  xAxisConfig: XQuantitativeAxisConfig<number>,
-  yAxisConfig: YQuantitativeAxisConfig<number>
+  xAxisConfig: VicXQuantitativeAxisConfig<number>,
+  yAxisConfig: VicYQuantitativeAxisConfig<number>
 ): void {
   const linesConfig =
     new VicLinesConfigBuilder<ContinentPopulationNumYearDatum>()
@@ -110,14 +110,14 @@ function mountZeroAxisLinesComponent(
 // Test the positioning of the domain lines on the x and y axes - line chart
 // ***********************************************************
 describe('Domain lines positioning, two quant dimensions', () => {
-  let xAxisConfig: XQuantitativeAxisConfig<number>;
-  let yAxisConfig: YQuantitativeAxisConfig<number>;
+  let xAxisConfig: VicXQuantitativeAxisConfig<number>;
+  let yAxisConfig: VicYQuantitativeAxisConfig<number>;
   beforeEach(() => {
     xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-      .tickFormat('.0f')
+      .ticks((ticks) => ticks.format('.0f'))
       .getConfig();
     yAxisConfig = new VicYQuantitativeAxisConfigBuilder<number>()
-      .tickFormat('.2s')
+      .ticks((ticks) => ticks.format('.2s'))
       .getConfig();
   });
   it('should have visible x and y domains at the edges of the charts when data is all positive', () => {
@@ -164,13 +164,7 @@ describe('Domain lines positioning, two quant dimensions', () => {
 @Component({
   selector: 'vic-test-zero-axis-horizontal-bars',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-      [transitionDuration]="0"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
         <svg:g vic-primary-marks-bars [config]="barsConfig"></svg:g>
@@ -186,11 +180,13 @@ describe('Domain lines positioning, two quant dimensions', () => {
 })
 class TestZeroAxisHorizontalBarsComponent<Datum> {
   @Input() barsConfig: BarsConfig<Datum, string>;
-  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<number>;
-  @Input() yOrdinalAxisConfig: YOrdinalAxisConfig<string>;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
+  @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
+  chartConfig = new VicChartConfigBuilder()
+    .margin(margin)
+    .height(chartHeight)
+    .width(chartWidth)
+    .getConfig();
 }
 
 const horizontalBarsImports = [
@@ -204,8 +200,8 @@ const horizontalBarsImports = [
 
 function mountZeroAxisHorizontalBarsComponent(
   data: ContinentPopulationNumYearDatum[],
-  xQuantitativeAxisConfig: XQuantitativeAxisConfig<number>,
-  yOrdinalAxisConfig: YOrdinalAxisConfig<string>
+  xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>,
+  yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>
 ): void {
   const barsConfig = new VicBarsConfigBuilder<
     ContinentPopulationNumYearDatum,
@@ -239,13 +235,12 @@ function mountZeroAxisHorizontalBarsComponent(
 // Test the positioning of the domain lines on the x and y axes - bar chart - horizontal
 // ***********************************************************
 describe('Domain lines positioning, one quant, one ordinal dimension - horizontal bar chart', () => {
-  let xAxisConfig: XQuantitativeAxisConfig<number>;
-  let yAxisConfig: YOrdinalAxisConfig<string>;
+  let xAxisConfig: VicXQuantitativeAxisConfig<number>;
+  let yAxisConfig: VicYOrdinalAxisConfig<string>;
   let dataForYear = data.filter((d) => d.year === 2024);
   beforeEach(() => {
     xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-      .tickFormat('.0f')
-      .numTicks(5)
+      .ticks((ticks) => ticks.format('.0f').count(5))
       .getConfig();
     yAxisConfig = new VicYOrdinalAxisConfigBuilder<string>().getConfig();
   });
@@ -296,13 +291,7 @@ describe('Domain lines positioning, one quant, one ordinal dimension - horizonta
 @Component({
   selector: 'vic-test-zero-axis-vertical-bars',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-      [transitionDuration]="0"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
         <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
@@ -318,11 +307,13 @@ describe('Domain lines positioning, one quant, one ordinal dimension - horizonta
 })
 class TestZeroAxisVerticalBarsComponent<Datum> {
   @Input() barsConfig: BarsConfig<Datum, string>;
-  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
-  @Input() xOrdinalAxisConfig: XOrdinalAxisConfig<string>;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
+  chartConfig = new VicChartConfigBuilder()
+    .margin(margin)
+    .height(chartHeight)
+    .width(chartWidth)
+    .getConfig();
 }
 
 const verticalBarsImports = [
@@ -336,8 +327,8 @@ const verticalBarsImports = [
 
 function mountZeroAxisVerticalBarsComponent(
   data: ContinentPopulationNumYearDatum[],
-  xOrdinalAxisConfig: XOrdinalAxisConfig<string>,
-  yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>
+  xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>,
+  yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>
 ): void {
   const barsConfig = new VicBarsConfigBuilder<
     ContinentPopulationNumYearDatum,
@@ -368,14 +359,13 @@ function mountZeroAxisVerticalBarsComponent(
 // Test the positioning of the domain lines on the x and y axes - bar chart - vertical
 // ***********************************************************
 describe('Domain lines positioning, one quant, one ordinal dimension - vertical bar chart', () => {
-  let xAxisConfig: XOrdinalAxisConfig<string>;
-  let yAxisConfig: YQuantitativeAxisConfig<number>;
+  let xAxisConfig: VicXOrdinalAxisConfig<string>;
+  let yAxisConfig: VicYQuantitativeAxisConfig<number>;
   let dataForYear = data.filter((d) => d.year === 2024);
   beforeEach(() => {
     xAxisConfig = new VicXOrdinalAxisConfigBuilder<string>().getConfig();
     yAxisConfig = new VicYQuantitativeAxisConfigBuilder<number>()
-      .numTicks(5)
-      .tickFormat('.0f')
+      .ticks((ticks) => ticks.format('.0f').count(5))
       .getConfig();
   });
   it('should have visible y domain at left of chart and a x domain in the middle of the chart when data is pos and neg - vertical bar chart', () => {

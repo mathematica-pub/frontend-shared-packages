@@ -1,5 +1,5 @@
 import { SvgTextWrapBuilder } from '../../svg-text-wrap/svg-text-wrap-builder';
-import { AxisLabel } from './axis-label-config';
+import { AxisLabel } from './axis-label';
 
 const DEFAULT = {
   _offset: { x: 0, y: 0 },
