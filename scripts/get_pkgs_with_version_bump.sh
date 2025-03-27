@@ -6,7 +6,7 @@ set -x
 pkgs=("viz-components" "ui-components" "app-dev-kit")
 changed_pkgs=()
 for pkg in "${pkgs[@]}"; do
-    output=$(npx nx version $pkg --base=origin/main~1 --head=origin/main --tagPrefix=v --dryRun --verbose 2>&1)
+    output=$(npx nx version $pkg --base=origin/main~1 --head=origin/main --skipPrerelease --dryRun --verbose 2>&1)
     if ! echo "$output" | grep -q "Nothing changed since last release."; then
         changed_pkgs+=("$pkg")
     fi
