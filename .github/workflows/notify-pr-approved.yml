@@ -1,8 +1,9 @@
 name: Notify open review
 
 on:
-  pull_request_review:
-    types: [submitted]
+  push:
+    branches:
+      - '*'
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
