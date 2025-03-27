@@ -7,14 +7,14 @@ import { GeographiesInputEventDirective } from './events/geographies-input-event
 import { GeographiesComponent } from './geographies.component';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
     GeographiesComponent,
     GeographiesHoverMoveDirective,
     GeographiesHoverDirective,
     GeographiesInputEventDirective,
     GeographiesClickDirective,
   ],
-  imports: [CommonModule],
   exports: [
     GeographiesComponent,
     GeographiesHoverMoveDirective,

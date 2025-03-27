@@ -1,29 +1,30 @@
+import { DataValue } from '../../../core/types/values';
 import { MarksConfig } from '../../../marks/config/marks-config';
-import { AxisLabel } from '../../axis-label/axis-label-config';
+import { AxisBaseline } from '../../baseline/axis-baseline';
 import { Grid } from '../../grid/grid-config';
-import { TickWrap } from '../../tick-wrap/tick-wrap';
+import { AxisLabel } from '../../label/axis-label';
+import { Ticks } from '../../ticks/ticks';
 import { XyAxisBaseOptions } from './xy-axis-options';
 
-export abstract class XyAxisConfig<TickValue>
+export abstract class XyAxisConfig<
+    Tick extends DataValue,
+    TicksConfig extends Ticks<Tick>,
+  >
   extends MarksConfig
-  implements XyAxisBaseOptions<TickValue>
+  implements XyAxisBaseOptions
 {
+  baseline: AxisBaseline;
   grid: Grid;
   label: AxisLabel;
-  removeDomainLine: boolean;
-  removeTickLabels: boolean;
-  removeTickMarks: boolean;
-  rotateTickLabels: number;
-  tickFormat: string | ((value: TickValue) => string);
-  tickLabelFontSize: number;
-  tickSizeOuter: number;
-  wrap: TickWrap;
-  zeroAxis: { strokeDasharray: string | null; useZeroAxis: boolean };
+  ticks: TicksConfig;
 
-  abstract getSuggestedNumTicksFromChartDimension(dimensions: {
-    height: number;
-    width: number;
-  }): number;
+  abstract getNumTicksBySpacing(
+    spacing: number,
+    dimensions: {
+      height: number;
+      width: number;
+    }
+  ): number;
 
   getValidatedNumTicks(numTicks: number): number {
     if (numTicks < 1) {

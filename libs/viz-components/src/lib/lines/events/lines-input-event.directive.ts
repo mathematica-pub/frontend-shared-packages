@@ -15,7 +15,6 @@ import { LINES, LinesComponent } from '../lines.component';
 
 @Directive({
   selector: '[vicLinesInputActions]',
-  standalone: false,
 })
 export class LinesInputEventDirective<
   Datum,

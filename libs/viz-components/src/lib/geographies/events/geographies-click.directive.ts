@@ -26,7 +26,6 @@ import { GeographiesInputEventDirective } from './geographies-input-event.direct
 
 @Directive({
   selector: '[vicGeographiesClickActions]',
-  standalone: false,
 })
 export class GeographiesClickDirective<
   Datum,

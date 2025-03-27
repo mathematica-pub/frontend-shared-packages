@@ -30,7 +30,6 @@ import { StackedBarsInputEventDirective } from './stacked-bars-input-event.direc
 
 @Directive({
   selector: '[vicStackedBarsClickActions]',
-  standalone: false,
 })
 export class StackedBarsClickDirective<
   Datum,

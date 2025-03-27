@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -56,7 +57,7 @@ export type SelectedCountLabel = {
   host: {
     class: 'hsi-ui-listbox-component',
   },
-  standalone: false,
+  imports: [CommonModule],
 })
 export class ListboxComponent
   implements OnChanges, AfterContentInit, AfterViewInit

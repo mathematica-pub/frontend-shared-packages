@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -44,6 +45,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxSingleTestComponent extends ComboboxBaseTestComponent {}
 
@@ -154,6 +156,7 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxSingleSelectDisabledOptionsComponent extends ComboboxBaseTestComponent {}
 
@@ -213,6 +216,7 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxSelectFromOutsideSingleTestComponent extends ComboboxBaseTestComponent {}
 
@@ -282,6 +286,7 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxGroupedSingleTestComponent {
   optionsGroup1 = [
@@ -357,6 +362,7 @@ describe('ComboboxGroupedSingleTestComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class NgFormListboxSingleTestComponent {
   options = [

@@ -8,7 +8,8 @@ import { LinesMarkerClickDirective } from './events/lines-marker-click.directive
 import { LinesComponent } from './lines.component';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
     LinesComponent,
     LinesMarkerClickDirective,
     LinesClickDirective,
@@ -16,7 +17,6 @@ import { LinesComponent } from './lines.component';
     LinesInputEventDirective,
     LinesHoverDirective,
   ],
-  imports: [CommonModule],
   exports: [
     LinesComponent,
     LinesMarkerClickDirective,

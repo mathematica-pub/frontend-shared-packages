@@ -4,8 +4,7 @@ import { ResizeChartHeightPipe } from '../../core/pipes/resize-chart-height.pipe
 import { ChartComponent } from './chart.component';
 
 @NgModule({
-  declarations: [ChartComponent],
-  imports: [CommonModule, ResizeChartHeightPipe],
+  imports: [CommonModule, ResizeChartHeightPipe, ChartComponent],
   exports: [ChartComponent],
 })
 export class VicChartModule {}

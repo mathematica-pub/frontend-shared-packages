@@ -5,12 +5,12 @@ import { StackedAreaInputEventDirective } from './events/stacked-area-input-even
 import { StackedAreaComponent } from './stacked-area.component';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
     StackedAreaComponent,
     StackedAreaHoverMoveDirective,
     StackedAreaInputEventDirective,
   ],
-  imports: [CommonModule],
   exports: [
     StackedAreaComponent,
     StackedAreaHoverMoveDirective,

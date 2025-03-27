@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 
@@ -9,7 +10,7 @@ import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
   host: {
     class: 'vic-xy-background',
   },
-  standalone: false,
+  imports: [AsyncPipe],
 })
 export class XyBackgroundComponent {
   @Input() color = 'whitesmoke';

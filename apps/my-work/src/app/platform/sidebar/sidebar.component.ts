@@ -16,7 +16,7 @@ import { Section } from '../../core/services/router-state/state';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, RouterModule, HsiUiDirectoryComponent, TitleCasePipe],
+  imports: [CommonModule, RouterModule, HsiUiDirectoryComponent],
   providers: [TitleCasePipe],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],

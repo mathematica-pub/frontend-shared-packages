@@ -12,7 +12,7 @@ describe('DiscontinuousLegendComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DiscontinuousLegendComponent],
+      imports: [DiscontinuousLegendComponent],
     }).compileComponents();
   });
 

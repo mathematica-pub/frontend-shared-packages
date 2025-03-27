@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { DataValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
 import { ordinalAxisMixin } from '../ordinal/ordinal-axis';
+import { Ticks } from '../ticks/ticks';
 import { yAxisMixin } from '../y/y-axis';
 
 const YOrdinalAxis = yAxisMixin(ordinalAxisMixin(XyAxis));
@@ -26,8 +27,8 @@ const YOrdinalAxis = yAxisMixin(ordinalAxisMixin(XyAxis));
     '[attr.mix-blend-mode]': 'config.mixBlendMode',
     '[attr.transform]': 'translate',
   },
-  standalone: false,
 })
-export class YOrdinalAxisComponent<
-  TickValue extends DataValue,
-> extends YOrdinalAxis<TickValue> {}
+export class YOrdinalAxisComponent<Tick extends DataValue> extends YOrdinalAxis<
+  Tick,
+  Ticks<Tick>
+> {}

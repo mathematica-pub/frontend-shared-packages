@@ -52,13 +52,13 @@ describe('the XAxis mixin', () => {
     it('returns the correct value for the top side', () => {
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .side('top')
-        .getConfig();
+        .getConfig() as any;
       expect(abstractClass.getTranslateDistance()).toBe(20);
     });
     it('returns the correct value for the bottom side', () => {
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .side('bottom')
-        .getConfig();
+        .getConfig() as any;
       expect(abstractClass.getTranslateDistance()).toBe(100);
     });
   });
@@ -74,7 +74,7 @@ describe('the XAxis mixin', () => {
     it('sets the axis function to the correct value if side is top', () => {
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .side('top')
-        .getConfig();
+        .getConfig() as any;
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisTop);
     });
@@ -82,7 +82,7 @@ describe('the XAxis mixin', () => {
     it('sets the axis function to the correct value if side is bottom', () => {
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .side('bottom')
-        .getConfig();
+        .getConfig() as any;
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisBottom);
     });

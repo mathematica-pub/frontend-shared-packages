@@ -9,7 +9,7 @@ describe('GroupedBarsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GroupedBarsComponent],
+      imports: [GroupedBarsComponent],
       providers: [XyChartComponent],
     }).compileComponents();
   });

@@ -14,7 +14,6 @@ import { GEOGRAPHIES, GeographiesComponent } from '../geographies.component';
 
 @Directive({
   selector: '[vicGeographiesInputActions]',
-  standalone: false,
 })
 export class GeographiesInputEventDirective<
   Datum,

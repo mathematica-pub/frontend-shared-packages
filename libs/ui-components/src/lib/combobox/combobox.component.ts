@@ -1,5 +1,5 @@
 import { Platform } from '@angular/cdk/platform';
-import { DOCUMENT } from '@angular/common';
+import { AsyncPipe, DOCUMENT } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -24,7 +24,7 @@ import { ComboboxService, FocusTextbox } from './combobox.service';
   host: {
     class: 'hsi-ui-combobox',
   },
-  standalone: false,
+  imports: [AsyncPipe],
 })
 export class ComboboxComponent implements OnInit {
   @ContentChild(ComboboxLabelComponent) labelComponent: ComboboxLabelComponent;

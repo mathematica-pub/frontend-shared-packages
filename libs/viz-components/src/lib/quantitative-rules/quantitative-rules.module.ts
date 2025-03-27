@@ -3,8 +3,7 @@ import { NgModule } from '@angular/core';
 import { QuantitativeRulesComponent } from './quantitative-rules.component';
 
 @NgModule({
-  declarations: [QuantitativeRulesComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, QuantitativeRulesComponent],
   exports: [QuantitativeRulesComponent],
 })
 export class VicQuantitativeRulesModule {}

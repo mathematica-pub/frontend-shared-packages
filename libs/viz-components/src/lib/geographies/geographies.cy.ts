@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import 'cypress-real-events';
 import { ascending, extent, mean, scaleLinear } from 'd3';
@@ -96,6 +97,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
     </ng-template>
   `,
   styles: ['.tooltip-container { font-size: 12px; }'],
+  standalone: false,
 })
 class TestGeographiesComponent {
   @Input() geographiesConfig: GeographiesConfig<

@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
@@ -39,6 +40,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxSingleKeyboardTestComponent extends ComboboxBaseTestComponent {}
 
@@ -153,6 +155,7 @@ describe('keyboard navigation with a single select listbox', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxMultiKeyboardTestComponent extends ComboboxBaseTestComponent {}
 
