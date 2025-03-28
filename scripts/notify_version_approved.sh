@@ -15,7 +15,7 @@ fi
 IFS=' ' read -r -a changed_pkgs_array <<< "$changed_pkgs"
 
 for pkg in "${changed_pkgs_array[@]}"; do
-    output=$(npx nx version $pkg --base=origin/main~1 --head=origin/main --tagPrefix=v --dryRun --verbose 2>&1)
+    output=$(npx nx version $pkg --dryRun --verbose 2>&1)
     new_version=$(echo "$output" | grep -oP 'Calculated new version "\K[0-9]+\.[0-9]+\.[0-9]+(?=")')
     echo "New version of $pkg: $new_version"
     SLACK_WEBHOOK_URL=$(source ./scripts/get_slack_webhook_url.sh $pkg)
