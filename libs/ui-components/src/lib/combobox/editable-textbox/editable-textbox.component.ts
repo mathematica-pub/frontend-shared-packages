@@ -24,12 +24,12 @@ import { TextboxComponent } from '../textbox/textbox.component';
 
 @Component({
   selector: 'hsi-ui-editable-textbox',
+  imports: [CommonModule, FormsModule],
   templateUrl: './editable-textbox.component.html',
   styleUrls: ['./editable-textbox.component.scss'],
   host: {
     class: 'hsi-ui-editable-textbox',
   },
-  imports: [CommonModule, FormsModule],
 })
 export class EditableTextboxComponent
   extends TextboxComponent

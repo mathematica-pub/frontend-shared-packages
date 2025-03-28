@@ -1,6 +1,4 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComboboxLabelComponent } from './combobox-label/combobox-label.component';
 import { ComboboxComponent } from './combobox.component';
 import { EditableTextboxComponent } from './editable-textbox/editable-textbox.component';
@@ -13,9 +11,6 @@ import { TextboxComponent } from './textbox/textbox.component';
 
 @NgModule({
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
     ComboboxComponent,
     ComboboxLabelComponent,
     TextboxComponent,

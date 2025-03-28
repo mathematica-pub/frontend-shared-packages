@@ -28,12 +28,12 @@ import { SelectedCountLabel } from '../listbox/listbox.component';
 
 @Component({
   selector: 'hsi-ui-textbox',
+  imports: [CommonModule],
   styleUrls: ['./textbox.component.scss'],
   templateUrl: './textbox.component.html',
   host: {
     class: 'hsi-ui-textbox',
   },
-  imports: [CommonModule],
 })
 export class TextboxComponent implements OnInit, AfterViewInit {
   @Input() ariaLabel: string;
