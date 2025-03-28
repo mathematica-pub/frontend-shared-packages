@@ -8,7 +8,6 @@ import { ComboboxService } from '../combobox.service';
 
 @Component({
   selector: 'hsi-ui-combobox-label',
-  imports: [],
   template: `<ng-template
     ><p class="combobox-label" [id]="service.comboboxLabelId"
       ><ng-content></ng-content></p

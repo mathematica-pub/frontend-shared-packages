@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   Component,
@@ -13,7 +12,6 @@ import { ListboxOptionComponent } from '../listbox-option/listbox-option.compone
 
 @Component({
   selector: 'hsi-ui-listbox-group',
-  imports: [CommonModule],
   template: `<ng-content></ng-content>`,
   host: {
     class: 'hsi-ui-listbox-group',
