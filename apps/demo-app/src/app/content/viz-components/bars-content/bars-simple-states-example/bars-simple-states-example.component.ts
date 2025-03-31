@@ -98,7 +98,6 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('ngOnInit', 'useLongLabelsAndWrap', this.useLongLabelsAndWrap);
     this.getViewModel();
   }
 
@@ -214,7 +213,6 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
       .color((color) => color.range(['royalblue']))
       .getConfig();
 
-    console.log('chartData', chartData);
     this.vm = {
       chartConfig,
       dataConfig,
