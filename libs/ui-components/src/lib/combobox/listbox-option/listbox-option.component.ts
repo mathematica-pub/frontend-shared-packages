@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -22,6 +23,7 @@ let nextUniqueId = 0;
 
 @Component({
   selector: 'hsi-ui-listbox-option',
+  imports: [CommonModule],
   templateUrl: './listbox-option.component.html',
   styleUrls: ['./listbox-option.component.scss'],
 })

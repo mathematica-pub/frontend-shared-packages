@@ -47,17 +47,17 @@ export type SelectedCountLabel = {
 
 @Component({
   selector: 'hsi-ui-listbox',
-  templateUrl: './listbox.component.html',
-  styleUrls: ['./listbox.component.scss'],
+  imports: [CommonModule],
   providers: [
     ListboxFilteringService,
     ListboxScrollService,
     ActiveIndexService,
   ],
+  templateUrl: './listbox.component.html',
+  styleUrls: ['./listbox.component.scss'],
   host: {
     class: 'hsi-ui-listbox-component',
   },
-  imports: [CommonModule],
 })
 export class ListboxComponent
   implements OnChanges, AfterContentInit, AfterViewInit

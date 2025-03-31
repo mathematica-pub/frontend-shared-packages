@@ -15,10 +15,10 @@ import { TabsService } from './tabs.service';
 
 @Component({
   selector: 'hsi-ui-tabs',
+  imports: [CommonModule],
+  providers: [TabsService],
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.scss'],
-  providers: [TabsService],
-  imports: [CommonModule],
 })
 export class TabsComponent<T> implements AfterContentInit {
   @ContentChildren(TabItemComponent) tabs: QueryList<TabItemComponent<T>>;
