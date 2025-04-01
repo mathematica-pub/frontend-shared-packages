@@ -1,19 +1,11 @@
 import { MarksOptions } from '../../../marks';
-import { AxisLabelOptions } from '../../axis-label/axis-label-options';
+import { AxisBaselineOptions } from '../../baseline/axis-baseline-options';
 import { Grid } from '../../grid/grid-config';
-import { TickWrap } from '../../tick-wrap/tick-wrap';
+import { AxisLabelOptions } from '../../label/axis-label-options';
 
-export interface XyAxisBaseOptions<TickValue> extends MarksOptions {
+export interface XyAxisBaseOptions extends MarksOptions {
+  baseline: AxisBaselineOptions;
   grid: Grid;
   label: AxisLabelOptions;
   marksClass: string;
-  removeDomainLine: boolean;
-  removeTickLabels: boolean;
-  removeTickMarks: boolean;
-  rotateTickLabels: number;
-  tickFormat: string | ((value: TickValue) => string);
-  tickLabelFontSize: number;
-  tickSizeOuter: number;
-  wrap: TickWrap;
-  zeroAxis: { strokeDasharray: string | null; useZeroAxis: boolean };
 }

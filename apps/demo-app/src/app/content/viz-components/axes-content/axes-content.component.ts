@@ -6,8 +6,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  VicQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
 } from '@hsi/viz-components';
 import { ContentContainerComponent } from '../../content-container/content-container.component';
@@ -15,8 +16,8 @@ import { BarsSimpleStatesExampleComponent } from '../bars-content/bars-simple-st
 import { DotsScatterplotExampleComponent } from '../dots-content/dots-scatterplot-example/dots-scatterplot-example.component';
 
 interface Axes {
-  x: VicQuantitativeAxisConfig<number>;
-  y: VicQuantitativeAxisConfig<number>;
+  x: VicXQuantitativeAxisConfig<number>;
+  y: VicYQuantitativeAxisConfig<number>;
 }
 
 @Component({
@@ -51,18 +52,18 @@ export class AxesContentComponent implements OnInit {
   ngOnInit(): void {
     this.defaultAxes = {
       x: this.xQuantitativeAxis
-        .tickFormat('.0f')
+        .ticks((ticks) => ticks.format('.0f'))
         .label((label) => label.text('wind speed (mph)'))
         .getConfig(),
       y: this.yQuantitativeAxis
-        .tickFormat('.0f')
+        .ticks((ticks) => ticks.format('.0f'))
         .label((label) => label.text('precipitation (in)'))
         .getConfig(),
     };
 
     this.customLabelAxes = {
       x: this.xQuantitativeAxis
-        .tickFormat('.0f')
+        .ticks((ticks) => ticks.format('.0f'))
         .label((label) =>
           label
             .text('wind speed (mph)')
@@ -71,7 +72,7 @@ export class AxesContentComponent implements OnInit {
         )
         .getConfig(),
       y: this.yQuantitativeAxis
-        .tickFormat('.0f')
+        .ticks((ticks) => ticks.format('.0f'))
         .label((label) =>
           label
             .text('precipitation (in)')
@@ -86,19 +87,19 @@ export class AxesContentComponent implements OnInit {
     this.defaultGridAxes = {
       x: this.xQuantitativeAxis
         .label(null)
-        .tickFormat('.0f')
+        .ticks((ticks) => ticks.format('.0f'))
         .grid()
         .getConfig(),
       y: this.yQuantitativeAxis
         .label(null)
-        .tickFormat('.0f')
+        .ticks((ticks) => ticks.format('.0f'))
         .grid()
         .getConfig(),
     };
 
     this.customGridAxes = {
       x: this.xQuantitativeAxis
-        .tickFormat('.0f')
+        .ticks((ticks) => ticks.format('.0f'))
         .label(null)
         .grid((grid) =>
           grid
@@ -107,7 +108,7 @@ export class AxesContentComponent implements OnInit {
         )
         .getConfig(),
       y: this.yQuantitativeAxis
-        .tickFormat('.0f')
+        .ticks((ticks) => ticks.format('.0f'))
         .label(null)
         .grid((grid) =>
           grid
