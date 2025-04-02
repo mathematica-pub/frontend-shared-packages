@@ -13,15 +13,11 @@ import {
   VicQuantitativeRulesModule,
   VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '../../public-api';
 import { VicXQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
 import { VicYQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
@@ -119,9 +115,7 @@ const mountHorizontalBarsComponent = (
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicQuantitativeRulesModule,
   ];
 
@@ -202,9 +196,7 @@ const mountVerticalBarsComponent = (
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXOrdinalAxisModule,
-    VicYQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicQuantitativeRulesModule,
   ];
 
@@ -277,9 +269,7 @@ class TestLinesComponent<
 const lineImports = [
   VicChartModule,
   VicLinesModule,
-  VicXQuantitativeAxisModule,
-  VicYQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicQuantitativeRulesModule,
 ];
 

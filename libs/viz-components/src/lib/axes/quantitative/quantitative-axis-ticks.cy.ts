@@ -8,12 +8,11 @@ import { VicBarsModule } from '../../bars/bars.module';
 import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
 import { BarsOptions } from '../../bars/config/bars-options';
 import { ChartConfig, VicChartConfigBuilder } from '../../charts';
-import { VicChartModule } from '../../charts/chart/chart.module';
-import { VicXyChartModule } from '../../charts/xy-chart/xy-chart.module';
+import { VicChartModule } from '../../charts/chart.module';
 import { VicXyBackgroundModule } from '../../xy-background';
 import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
 import { VicXQuantitativeAxisConfig } from '../x-quantitative/x-quantitative-axis-config';
-import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';
+import { VicXyAxisModule } from '../xy-axis.module';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).
@@ -62,8 +61,7 @@ describe('it correctly sets ticks', () => {
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicXyBackgroundModule,
   ];
   beforeEach(() => {
@@ -162,8 +160,7 @@ describe('integer formatted ticks', () => {
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicXyBackgroundModule,
   ];
   beforeEach(() => {
@@ -330,8 +327,7 @@ describe('float formatted ticks', () => {
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicXyBackgroundModule,
   ];
   beforeEach(() => {
@@ -511,8 +507,7 @@ describe('percent formatted ticks', () => {
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicXyBackgroundModule,
   ];
   beforeEach(() => {
@@ -677,8 +672,7 @@ describe('grid lines', () => {
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicXyBackgroundModule,
   ];
   beforeEach(() => {

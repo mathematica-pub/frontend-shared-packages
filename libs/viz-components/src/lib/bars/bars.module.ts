@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { BarsComponent } from './bars.component';
 import { BarsClickDirective } from './events/bars-click.directive';
@@ -8,7 +7,6 @@ import { BarsInputEventDirective } from './events/bars-input-event.directive';
 
 @NgModule({
   imports: [
-    CommonModule,
     BarsComponent,
     BarsClickDirective,
     BarsHoverDirective,

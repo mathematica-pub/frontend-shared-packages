@@ -10,12 +10,11 @@ import {
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
 import { VicXQuantitativeAxisConfigBuilder } from '../../../../axes/x-quantitative/x-quantitative-axis-builder';
-import { VicXQuantitativeAxisModule } from '../../../../axes/x-quantitative/x-quantitative-axis.module';
+import { VicXyAxisModule } from '../../../../axes/xy-axis.module';
 import { BarsComponent } from '../../../../bars/bars.component';
 import { VicBarsModule } from '../../../../bars/bars.module';
 import { VicBarsConfigBuilder } from '../../../../bars/config/bars-builder';
-import { VicChartModule } from '../../../../charts/chart/chart.module';
-import { VicXyChartModule } from '../../../../charts/xy-chart/xy-chart.module';
+import { VicChartModule } from '../../../../charts/chart.module';
 import { expectDomain } from './domain-test-utility';
 import { PercentOverDomainPadding } from './percent-over/percent-over';
 import { PixelDomainPadding } from './pixel/pixel';
@@ -101,8 +100,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
@@ -252,8 +250,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
@@ -403,8 +400,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
@@ -572,8 +568,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
@@ -721,8 +716,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
@@ -899,8 +893,7 @@ describe('it correctly sets quantitative domain - all values are positive and le
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()

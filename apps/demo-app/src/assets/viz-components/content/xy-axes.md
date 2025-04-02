@@ -32,8 +32,7 @@ import { VicXQuantitativeAxisConfigBuilder } from '@hsi/viz-components';
   ...
   imports: [
     VicChartModule,
-    VicXyChartModule,
-    VicXQuantitativeAxisModule
+    VicXyAxisModule,
     ...
   ],
   ...

@@ -10,18 +10,14 @@ import {
   VicXOrdinalAxisConfigBuilder,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
+  VicXyAxisModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
 } from '../axes';
-import { VicXOrdinalAxisModule } from '../axes/x-ordinal/x-ordinal-axis.module';
-import { VicXQuantitativeAxisModule } from '../axes/x-quantitative/x-quantitative-axis.module';
-import { VicYOrdinalAxisModule } from '../axes/y-ordinal/y-ordinal-axis.module';
-import { VicYQuantitativeAxisModule } from '../axes/y-quantitative-axis/y-quantitative-axis.module';
 import { ChartConfig, VicChartConfigBuilder } from '../charts';
-import { VicChartModule } from '../charts/chart/chart.module';
-import { VicXyChartModule } from '../charts/xy-chart/xy-chart.module';
+import { VicChartModule } from '../charts/chart.module';
 import { EventAction, HoverMoveAction } from '../events/action';
 import {
   countryFactsData,
@@ -162,9 +158,7 @@ const mountHorizontalBarsComponent = (
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
   ];
 
@@ -271,9 +265,7 @@ const mountVerticalBarsComponent = (
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXOrdinalAxisModule,
-    VicYQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
   ];
 

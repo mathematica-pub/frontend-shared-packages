@@ -15,11 +15,9 @@ import {
   VicChartModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 
 export interface MetroUnemploymentDatum {
@@ -30,14 +28,7 @@ export interface MetroUnemploymentDatum {
 
 @Component({
   selector: 'app-quick-start-example',
-  imports: [
-    CommonModule,
-    VicChartModule,
-    VicXyChartModule,
-    VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-  ],
+  imports: [CommonModule, VicChartModule, VicBarsModule, VicXyAxisModule],
   providers: [
     VicChartConfigBuilder,
     VicBarsConfigBuilder,

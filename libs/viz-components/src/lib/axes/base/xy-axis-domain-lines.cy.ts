@@ -2,11 +2,7 @@
 import { Component, Input } from '@angular/core';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { BarsConfig, VicBarsConfigBuilder, VicBarsModule } from '../../bars';
-import {
-  VicChartConfigBuilder,
-  VicChartModule,
-  VicXyChartModule,
-} from '../../charts';
+import { VicChartConfigBuilder, VicChartModule } from '../../charts';
 import {
   LinesConfig,
   VicLinesConfigBuilder,
@@ -19,16 +15,13 @@ import {
 import { VicXyBackgroundModule } from '../../xy-background';
 import { VicXOrdinalAxisConfigBuilder } from '../x-ordinal/x-ordinal-axis-builder';
 import { VicXOrdinalAxisConfig } from '../x-ordinal/x-ordinal-axis-config';
-import { VicXOrdinalAxisModule } from '../x-ordinal/x-ordinal-axis.module';
 import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
 import { VicXQuantitativeAxisConfig } from '../x-quantitative/x-quantitative-axis-config';
-import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';
+import { VicXyAxisModule } from '../xy-axis.module';
 import { VicYOrdinalAxisConfigBuilder } from '../y-ordinal/y-ordinal-axis-builder';
 import { VicYOrdinalAxisConfig } from '../y-ordinal/y-ordinal-axis-config';
-import { VicYOrdinalAxisModule } from '../y-ordinal/y-ordinal-axis.module';
 import { VicYQuantitativeAxisConfigBuilder } from '../y-quantitative-axis/y-quantitative-axis-builder';
 import { VicYQuantitativeAxisConfig } from '../y-quantitative-axis/y-quantitative-axis-config';
-import { VicYQuantitativeAxisModule } from '../y-quantitative-axis/y-quantitative-axis.module';
 
 const axisTickTextWaitTime = 2000;
 
@@ -72,10 +65,8 @@ class TestZeroAxisLinesComponent<Datum> {
 const linesImports = [
   VicChartModule,
   VicLinesModule,
-  VicXQuantitativeAxisModule,
-  VicYQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
 ];
 
 function mountZeroAxisLinesComponent(
@@ -195,10 +186,8 @@ class TestZeroAxisHorizontalBarsComponent<Datum> {
 const horizontalBarsImports = [
   VicChartModule,
   VicBarsModule,
-  VicXQuantitativeAxisModule,
-  VicYOrdinalAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
 ];
 
 function mountZeroAxisHorizontalBarsComponent(
@@ -323,10 +312,8 @@ class TestZeroAxisVerticalBarsComponent<Datum> {
 const verticalBarsImports = [
   VicChartModule,
   VicBarsModule,
-  VicYQuantitativeAxisModule,
-  VicXOrdinalAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
 ];
 
 function mountZeroAxisVerticalBarsComponent(
