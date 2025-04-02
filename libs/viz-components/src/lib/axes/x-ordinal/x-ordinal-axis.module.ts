@@ -3,8 +3,7 @@ import { NgModule } from '@angular/core';
 import { XOrdinalAxisComponent } from './x-ordinal-axis.component';
 
 @NgModule({
-  declarations: [XOrdinalAxisComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, XOrdinalAxisComponent],
   exports: [XOrdinalAxisComponent],
 })
 export class VicXOrdinalAxisModule {}

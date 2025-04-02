@@ -16,7 +16,6 @@ import { STACKED_BARS, StackedBarsComponent } from '../stacked-bars.component';
 
 @Directive({
   selector: '[vicStackedBarsInputEventActions]',
-  standalone: false,
 })
 export class StackedBarsInputEventDirective<
   Datum,

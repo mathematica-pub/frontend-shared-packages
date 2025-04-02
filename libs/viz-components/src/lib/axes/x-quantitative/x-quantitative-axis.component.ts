@@ -1,12 +1,20 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { ContinuousValue } from '../../core/types/values';
+import { ContinuousValue } from '../../core';
+import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../base/xy-axis-base';
 import { quantitativeAxisMixin } from '../quantitative/quantitative-axis';
+import { QuantitativeTicks, Ticks } from '../ticks/ticks';
 import { xAxisMixin } from '../x/x-axis';
 
-const XQuantitativeAxis = xAxisMixin(
-  quantitativeAxisMixin(XyAxis<ContinuousValue>)
-);
+type XyAxisType<T extends ContinuousValue> = AbstractConstructor<
+  XyAxis<T, QuantitativeTicks<T>>
+>;
+
+const XQuantitativeAxis = xAxisMixin<
+  ContinuousValue,
+  Ticks<ContinuousValue>,
+  XyAxisType<ContinuousValue>
+>(quantitativeAxisMixin<ContinuousValue, XyAxisType<ContinuousValue>>(XyAxis));
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -28,6 +36,5 @@ const XQuantitativeAxis = xAxisMixin(
     '[attr.mix-blend-mode]': 'config.mixBlendMode',
     '[attr.transform]': 'translate',
   },
-  standalone: false,
 })
 export class XQuantitativeAxisComponent extends XQuantitativeAxis {}

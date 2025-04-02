@@ -18,8 +18,7 @@
           {
             "endOfLine": "auto"
           }
-        ],
-        "@angular-eslint/prefer-standalone": "off"
+        ]
       }
     },
     {

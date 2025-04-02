@@ -1,4 +1,5 @@
 import { Platform } from '@angular/cdk/platform';
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -27,12 +28,12 @@ import { SelectedCountLabel } from '../listbox/listbox.component';
 
 @Component({
   selector: 'hsi-ui-textbox',
+  imports: [CommonModule],
   styleUrls: ['./textbox.component.scss'],
   templateUrl: './textbox.component.html',
   host: {
     class: 'hsi-ui-textbox',
   },
-  standalone: false,
 })
 export class TextboxComponent implements OnInit, AfterViewInit {
   @Input() ariaLabel: string;

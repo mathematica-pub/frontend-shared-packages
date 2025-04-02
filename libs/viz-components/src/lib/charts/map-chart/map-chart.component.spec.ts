@@ -8,7 +8,7 @@ describe('MapChartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MapChartComponent],
+      imports: [MapChartComponent],
     }).compileComponents();
   });
 

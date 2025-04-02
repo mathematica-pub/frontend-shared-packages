@@ -5,12 +5,12 @@ import { DiscontinuousLegendComponent } from './discontinuous-legend/discontinuo
 import { MapLegendComponent } from './map-legend.component';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
     MapLegendComponent,
     DiscontinuousLegendComponent,
     ContinuousLegendComponent,
   ],
-  imports: [CommonModule],
   exports: [MapLegendComponent],
 })
 export class VicMapLegendModule {}

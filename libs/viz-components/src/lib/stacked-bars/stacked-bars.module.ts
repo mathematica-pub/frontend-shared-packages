@@ -7,14 +7,14 @@ import { StackedBarsInputEventDirective } from './events/stacked-bars-input-even
 import { StackedBarsComponent } from './stacked-bars.component';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
     StackedBarsComponent,
     StackedBarsHoverMoveDirective,
     StackedBarsHoverDirective,
     StackedBarsClickDirective,
     StackedBarsInputEventDirective,
   ],
-  imports: [CommonModule],
   exports: [
     StackedBarsComponent,
     StackedBarsHoverMoveDirective,

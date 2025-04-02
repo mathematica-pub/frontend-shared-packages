@@ -45,5 +45,8 @@ viz-components:
     aux-marks:
       xy-axes:
         axes: xy-axes.md
+        baseline: xy-axis-baseline.md
         grid: xy-axis-grid.md
         labels: xy-axis-labels.md
+        ticks: xy-axis-ticks.md
+        tick-wrap: xy-axis-tick-wrap.md

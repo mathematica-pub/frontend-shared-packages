@@ -67,7 +67,6 @@ type LinesSvgElements = 'g' | 'line' | 'area' | 'marker' | 'label';
     '[style.mix-blend-mode]': 'config.mixBlendMode',
     fill: 'none',
   },
-  standalone: false,
 })
 export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   Datum,

@@ -24,7 +24,6 @@ export type GeographiesHoverOutput<Datum> = GeographiesTooltipDatum<Datum> &
 
 @Directive({
   selector: '[vicGeographiesHoverActions]',
-  standalone: false,
 })
 export class GeographiesHoverDirective<
   Datum,

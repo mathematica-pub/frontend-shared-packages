@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import { color } from 'd3';
 import {
@@ -60,6 +61,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
     </vic-map-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestGeographiesComponent {
   @Input() geographiesConfig: GeographiesConfig<

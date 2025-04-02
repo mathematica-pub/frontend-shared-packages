@@ -22,7 +22,6 @@ type RulesSvgElements = 'g' | 'rule' | 'label';
   host: {
     '[class]': 'config.marksClass',
   },
-  standalone: false,
 })
 export class QuantitativeRulesComponent<
   Datum extends number | Date,

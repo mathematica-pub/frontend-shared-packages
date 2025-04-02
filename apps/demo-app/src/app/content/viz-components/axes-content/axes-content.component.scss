@@ -30,6 +30,20 @@
         opacity: 0.3;
       }
     }
+
+    &.tick-wrap {
+      .example .vic-xy-chart {
+        display: block;
+      }
+
+      .example.horizontal .vic-xy-chart {
+        margin-left: grid(12);
+      }
+
+      .example.vertical .vic-xy-chart {
+        margin-left: grid(4);
+      }
+    }
   }
 
   .two-quant {

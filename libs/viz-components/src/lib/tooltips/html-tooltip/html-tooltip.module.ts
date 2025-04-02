@@ -4,8 +4,7 @@ import { NgModule } from '@angular/core';
 import { HtmlTooltipDirective } from './html-tooltip.directive';
 
 @NgModule({
-  declarations: [HtmlTooltipDirective],
-  imports: [CommonModule, OverlayModule],
+  imports: [CommonModule, OverlayModule, HtmlTooltipDirective],
   exports: [HtmlTooltipDirective],
 })
 export class VicHtmlTooltipModule {}

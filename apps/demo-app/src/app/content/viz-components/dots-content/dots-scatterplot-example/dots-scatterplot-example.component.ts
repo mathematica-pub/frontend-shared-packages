@@ -13,11 +13,12 @@ import {
   VicChartModule,
   VicDotsConfigBuilder,
   VicDotsModule,
-  VicQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
@@ -32,8 +33,8 @@ interface Datum {
 interface ViewModel {
   chartConfig: ChartConfig;
   dataConfig: DotsConfig<Datum>;
-  xAxisConfig: VicQuantitativeAxisConfig<number>;
-  yAxisConfig: VicQuantitativeAxisConfig<number>;
+  xAxisConfig: VicXQuantitativeAxisConfig<number>;
+  yAxisConfig: VicYQuantitativeAxisConfig<number>;
 }
 
 const data: Datum[] = [
@@ -67,8 +68,8 @@ const data: Datum[] = [
   ],
 })
 export class DotsScatterplotExampleComponent implements OnInit {
-  @Input() xAxisConfig: VicQuantitativeAxisConfig<number>;
-  @Input() yAxisConfig: VicQuantitativeAxisConfig<number>;
+  @Input() xAxisConfig: VicXQuantitativeAxisConfig<number>;
+  @Input() yAxisConfig: VicYQuantitativeAxisConfig<number>;
   vm: ViewModel;
   margin: ElementSpacing = {
     top: 0,
@@ -96,17 +97,21 @@ export class DotsScatterplotExampleComponent implements OnInit {
       .resize({ height: false })
       .getConfig();
 
-    let xAxisConfig: VicQuantitativeAxisConfig<number>;
-    let yAxisConfig: VicQuantitativeAxisConfig<number>;
+    let xAxisConfig: VicXQuantitativeAxisConfig<number>;
+    let yAxisConfig: VicYQuantitativeAxisConfig<number>;
     if (this.xAxisConfig) {
       xAxisConfig = this.xAxisConfig;
     } else {
-      xAxisConfig = this.xQuantitativeAxis.tickFormat('.0f').getConfig();
+      xAxisConfig = this.xQuantitativeAxis
+        .ticks((ticks) => ticks.format('.0f'))
+        .getConfig();
     }
     if (this.yAxisConfig) {
       yAxisConfig = this.yAxisConfig;
     } else {
-      yAxisConfig = this.yQuantitativeAxis.tickFormat('.0f').getConfig();
+      yAxisConfig = this.yQuantitativeAxis
+        .ticks((ticks) => ticks.format('.0f'))
+        .getConfig();
     }
 
     const dataConfig = this.dots

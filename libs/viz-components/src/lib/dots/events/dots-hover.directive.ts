@@ -11,7 +11,6 @@ import { DotsEventOutput } from './dots-event-output';
 
 @Directive({
   selector: '[vicDotsHoverActions]',
-  standalone: false,
 })
 export class DotsHoverDirective<
   Datum,

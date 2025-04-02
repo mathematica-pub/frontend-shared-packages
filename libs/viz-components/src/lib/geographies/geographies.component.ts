@@ -50,7 +50,6 @@ export type GeographiesSvgElement = 'layer' | 'g' | 'feature' | 'label';
     '[class]': 'config.marksClass',
     '[style.mixed-blend-mode]': 'config.blendMode',
   },
-  standalone: false,
 })
 export class GeographiesComponent<
   Datum,

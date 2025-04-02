@@ -16,7 +16,6 @@ import {
 
 @Directive({
   selector: '[vicStackedBarsHoverMoveActions]',
-  standalone: false,
 })
 export class StackedBarsHoverMoveDirective<
   Datum,

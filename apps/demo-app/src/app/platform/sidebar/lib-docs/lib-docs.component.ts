@@ -30,7 +30,7 @@ type ContentDocs = {
 
 @Component({
   selector: 'app-lib-docs',
-  imports: [CommonModule, RouterModule, HsiUiDirectoryComponent, TitleCasePipe],
+  imports: [CommonModule, RouterModule, HsiUiDirectoryComponent],
   providers: [TitleCasePipe],
   templateUrl: './lib-docs.component.html',
   styleUrls: ['./lib-docs.component.scss'],

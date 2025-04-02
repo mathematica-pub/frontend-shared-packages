@@ -18,14 +18,14 @@ import {
   VicHtmlTooltipModule,
   VicStackedBarsConfigBuilder,
   VicStackedBarsModule,
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
-  XOrdinalAxisConfig,
-  YQuantitativeAxisConfig,
 } from '@hsi/viz-components';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
@@ -34,8 +34,8 @@ import { BehaviorSubject, Observable, Subject, filter, map } from 'rxjs';
 interface ViewModel {
   chartConfig: ChartConfig;
   dataConfig: StackedBarsConfig<IndustryUnemploymentDatum, Date>;
-  xAxisConfig: XOrdinalAxisConfig<Date>;
-  yAxisConfig: YQuantitativeAxisConfig<number>;
+  xAxisConfig: VicXOrdinalAxisConfig<Date>;
+  yAxisConfig: VicYQuantitativeAxisConfig<number>;
 }
 
 @Component({
@@ -119,8 +119,12 @@ export class StackedBarsExampleComponent implements OnInit {
         left: 64,
       })
       .getConfig();
-    const xAxisConfig = this.xAxisOrdinal.tickFormat('%Y').getConfig();
-    const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').getConfig();
+    const xAxisConfig = this.xAxisOrdinal
+      .ticks((ticks) => ticks.format('%Y'))
+      .getConfig();
+    const yAxisConfig = this.yAxisQuantitative
+      .ticks((ticks) => ticks.format(',.0f'))
+      .getConfig();
     const dataConfig = this.stackedBars
       .data(yearlyData)
       .vertical((bars) =>

@@ -7,14 +7,14 @@ import { BarsHoverDirective } from './events/bars-hover.directive';
 import { BarsInputEventDirective } from './events/bars-input-event.directive';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
     BarsComponent,
+    BarsClickDirective,
     BarsHoverDirective,
     BarsHoverMoveDirective,
     BarsInputEventDirective,
-    BarsClickDirective,
   ],
-  imports: [CommonModule],
   exports: [
     BarsComponent,
     BarsHoverDirective,

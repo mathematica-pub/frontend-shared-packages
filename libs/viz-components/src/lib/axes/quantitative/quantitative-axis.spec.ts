@@ -34,7 +34,7 @@ describe('the QuantitativeAxis mixin', () => {
     describe('if tickValues exists on config', () => {
       it('calls setSpecifiedTickValues once with the correct value', () => {
         abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
-          .tickValues([1, 2, 3])
+          .ticks((t) => t.values([1, 2, 3]))
           .getConfig();
         (abstractClass as any).setTicks('.0f');
         expect(
@@ -93,13 +93,13 @@ describe('the QuantitativeAxis mixin', () => {
     });
     it('returns the original tickValues if all values are within the scale domain', () => {
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
-        .tickValues([0, 2, 4, 5])
+        .ticks((t) => t.values([0, 2, 4, 5]))
         .getConfig();
       expect((abstractClass as any).getValidTickValues()).toEqual([0, 2, 4, 5]);
     });
     it('returns only values that are within the scale domain', () => {
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
-        .tickValues([-1, 0, 1, 2, 3, 4, 5, 6])
+        .ticks((t) => t.values([-1, 0, 1, 2, 3, 4, 5, 6]))
         .getConfig();
       expect((abstractClass as any).getValidTickValues()).toEqual([
         0, 1, 2, 3, 4, 5,
@@ -149,7 +149,7 @@ describe('the QuantitativeAxis mixin', () => {
         'getValidNumTicksForStringFormatter'
       ).and.returnValue(10);
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
-        .numTicks(1)
+        .ticks((t) => t.count(1))
         .getConfig();
     });
 
@@ -208,17 +208,14 @@ describe('the QuantitativeAxis mixin', () => {
     });
     it('returns the value from config.numTicks if it exists', () => {
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
-        .numTicks(17)
+        .ticks((t) => t.count(17))
         .getConfig();
       expect((abstractClass as any).getNumTicks()).toEqual(17);
     });
     it('returns the result from getSuggestedNumTicksFromChartDimension if config.numTicks does not exist', () => {
       abstractClass.config =
         new VicXQuantitativeAxisConfigBuilder().getConfig();
-      spyOn(
-        abstractClass.config,
-        'getSuggestedNumTicksFromChartDimension'
-      ).and.returnValue(22);
+      spyOn(abstractClass.config, 'getNumTicksBySpacing').and.returnValue(22);
       expect((abstractClass as any).getNumTicks()).toEqual(22);
     });
   });

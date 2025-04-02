@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -58,6 +59,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxSimpleMultiSelectTestComponent extends ComboboxBaseTestComponent {}
 
@@ -152,6 +154,7 @@ describe('Default multi-select combobox', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxExternalLabelChangeTestComponent {
   options = [
@@ -325,6 +328,7 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxMultiSelectDisabledOptionsComponent extends ComboboxBaseTestComponent {
   selected = new BehaviorSubject<string[]>([]);
@@ -411,6 +415,7 @@ describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class NgFormListboxMultiTestComponent implements OnInit {
   options = [

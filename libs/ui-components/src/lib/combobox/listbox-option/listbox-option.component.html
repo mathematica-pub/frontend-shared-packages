@@ -1,11 +1,10 @@
 <ng-template #option>
   <div class="hsi-ui-listbox-option-container">
-    <ng-container *ngIf="isSelected()">
+    @if (isSelected()) {
       <ng-container *ngTemplateOutlet="selectedIcon"></ng-container>
-    </ng-container>
-    <ng-container *ngIf="!isSelected()">
+    } @else {
       <ng-container *ngTemplateOutlet="unselectedIcon"></ng-container>
-    </ng-container>
+    }
     <div
       #label
       class="hsi-ui-listbox-option-label"
