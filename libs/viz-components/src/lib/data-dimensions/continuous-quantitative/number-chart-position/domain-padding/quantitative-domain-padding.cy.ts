@@ -97,11 +97,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   let barsConfig: BarsConfig<Datum, string>;
   let axisConfig: VicXQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeDomainComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-  ];
+  const imports = [VicChartModule, VicBarsModule, VicXyAxisModule];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
       .data([
@@ -247,11 +243,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   let barsConfig: BarsConfig<Datum, string>;
   let axisConfig: VicXQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeDomainComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-  ];
+  const imports = [VicChartModule, VicBarsModule, VicXyAxisModule];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
       .data([
@@ -397,11 +389,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   let barsConfig: BarsConfig<Datum, string>;
   let axisConfig: VicXQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeDomainComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-  ];
+  const imports = [VicChartModule, VicBarsModule, VicXyAxisModule];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
       .data([
@@ -565,11 +553,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   let barsConfig: BarsConfig<Datum, string>;
   let axisConfig: VicXQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeDomainComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-  ];
+  const imports = [VicChartModule, VicBarsModule, VicXyAxisModule];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
       .data([
@@ -713,11 +697,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
   let barsConfig: BarsConfig<Datum, string>;
   let axisConfig: VicXQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeDomainComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-  ];
+  const imports = [VicChartModule, VicBarsModule, VicXyAxisModule];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
       .data([
@@ -890,11 +870,7 @@ describe('it correctly sets quantitative domain - all values are positive and le
   let barsConfig: BarsConfig<Datum, string>;
   let axisConfig: VicXQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeDomainComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-  ];
+  const imports = [VicChartModule, VicBarsModule, VicXyAxisModule];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
       .data([
