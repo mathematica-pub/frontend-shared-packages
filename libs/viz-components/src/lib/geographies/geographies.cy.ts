@@ -17,10 +17,10 @@ import {
   GeographiesHoverDirective,
   GeographiesHoverEmitTooltipData,
   VicChartConfigBuilder,
+  VicChartModule,
   VicGeographiesConfigBuilder,
   VicGeographiesModule,
   VicHtmlTooltipModule,
-  VicMapChartModule,
 } from '../../public-api';
 import { EventAction } from '../events/action';
 import {
@@ -158,11 +158,7 @@ const mountGeographiesComponent = (
   >
 ): void => {
   const declarations = [TestGeographiesComponent];
-  const imports = [
-    VicMapChartModule,
-    VicGeographiesModule,
-    VicHtmlTooltipModule,
-  ];
+  const imports = [VicChartModule, VicGeographiesModule, VicHtmlTooltipModule];
 
   cy.mount(TestGeographiesComponent, {
     declarations,

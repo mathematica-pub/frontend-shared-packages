@@ -15,12 +15,10 @@ import {
   VicDotsModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 
 interface Datum {
@@ -52,10 +50,8 @@ const data: Datum[] = [
     CommonModule,
     VicChartModule,
     VicDotsModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicXQuantitativeAxisModule,
-    VicYQuantitativeAxisModule,
+    VicXyAxisModule,
   ],
   templateUrl: './dots-scatterplot-example.component.html',
   styleUrl: './dots-scatterplot-example.component.scss',

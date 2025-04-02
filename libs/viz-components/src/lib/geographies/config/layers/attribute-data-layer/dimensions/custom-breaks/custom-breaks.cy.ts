@@ -13,9 +13,9 @@ import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
   ChartConfig,
   VicChartConfigBuilder,
+  VicChartModule,
   VicGeographiesConfigBuilder,
   VicGeographiesModule,
-  VicMapChartModule,
 } from '../../../../../../../public-api';
 import {
   StateIncomePopulationYearDatum,
@@ -82,7 +82,7 @@ const mountGeographiesComponent = (
   >
 ): void => {
   const declarations = [TestGeographiesComponent];
-  const imports = [VicMapChartModule, VicGeographiesModule];
+  const imports = [VicChartModule, VicGeographiesModule];
 
   cy.mount(TestGeographiesComponent, {
     declarations,

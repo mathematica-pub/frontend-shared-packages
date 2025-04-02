@@ -8,11 +8,9 @@ import {
   VicChartModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
 } from 'libs/viz-components/src/public-api';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { VicBarsConfigBuilder } from '../../../bars/config/bars-builder';
@@ -111,13 +109,7 @@ const mountHorizontalBarsComponent = (
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
   const declarations = [TestHorizontalBarsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    VicXyChartModule,
-  ];
+  const imports = [VicChartModule, VicBarsModule, VicXyAxisModule];
 
   cy.mount(TestHorizontalBarsComponent, {
     declarations,

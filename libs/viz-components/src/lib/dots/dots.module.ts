@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { DotsComponent } from './dots.component';
 import { DotsClickDirective } from './events/dots-click.directive';
@@ -8,7 +7,6 @@ import { DotsInputEventDirective } from './events/dots-input.directive';
 
 @NgModule({
   imports: [
-    CommonModule,
     DotsComponent,
     DotsClickDirective,
     DotsHoverDirective,

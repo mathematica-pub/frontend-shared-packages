@@ -17,12 +17,10 @@ import {
   VicHtmlTooltipModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 import { WeatherDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
@@ -41,10 +39,8 @@ interface ViewModel {
     CommonModule,
     VicChartModule,
     VicDotsModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicXQuantitativeAxisModule,
-    VicYQuantitativeAxisModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
   ],
   templateUrl: './dots-example.component.html',

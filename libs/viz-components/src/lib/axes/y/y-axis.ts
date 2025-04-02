@@ -1,7 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { axisLeft, axisRight } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { DataValue } from '../../core/types/values';
+import { ContinuousValue, DataValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
 import { Ticks } from '../ticks/ticks';
 import { YAxisConfig } from './y-axis-config';
@@ -12,7 +12,7 @@ import { YAxisConfig } from './y-axis-config';
  * For internal library use only.
  */
 export function yAxisMixin<
-  Tick extends DataValue,
+  Tick extends DataValue | ContinuousValue,
   TicksConfig extends Ticks<Tick>,
   T extends AbstractConstructor<XyAxis<Tick, TicksConfig>>,
 >(Base: T) {

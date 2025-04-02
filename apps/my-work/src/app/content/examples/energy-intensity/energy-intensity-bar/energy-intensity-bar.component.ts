@@ -15,12 +15,10 @@ import {
   VicChartModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 import { EnergyIntensityDatum } from '../energy-intensity.component';
 
@@ -30,10 +28,8 @@ import { EnergyIntensityDatum } from '../energy-intensity.component';
     CommonModule,
     VicChartModule,
     VicBarsModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
+    VicXyAxisModule,
   ],
   providers: [
     VicChartConfigBuilder,

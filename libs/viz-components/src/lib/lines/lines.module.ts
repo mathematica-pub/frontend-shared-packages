@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { LinesClickDirective } from './events/lines-click.directive';
 import { LinesHoverMoveDirective } from './events/lines-hover-move.directive';
@@ -9,7 +8,6 @@ import { LinesComponent } from './lines.component';
 
 @NgModule({
   imports: [
-    CommonModule,
     LinesComponent,
     LinesMarkerClickDirective,
     LinesClickDirective,

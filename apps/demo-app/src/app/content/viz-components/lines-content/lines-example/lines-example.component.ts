@@ -36,12 +36,10 @@ import {
   VicLinesModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 import { MetroUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
@@ -63,10 +61,8 @@ const includeFiles = ['line-input-actions.ts'];
     CommonModule,
     VicChartModule,
     VicLinesModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicYQuantitativeAxisModule,
-    VicXQuantitativeAxisModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
     MatButtonToggleModule,
   ],

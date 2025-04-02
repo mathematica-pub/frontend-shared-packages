@@ -9,7 +9,6 @@ import {
   ChartConfig,
   VicChartConfigBuilder,
   VicChartModule,
-  VicXyChartModule,
 } from '../../charts';
 import {
   LinesConfig,
@@ -22,9 +21,8 @@ import {
 } from '../../testing/data/continent-population-year-data';
 import { VicXyBackgroundModule } from '../../xy-background';
 import { VicXQuantitativeAxisConfig } from '../x-quantitative/x-quantitative-axis-config';
-import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';
+import { VicXyAxisModule } from '../xy-axis.module';
 import { VicYQuantitativeAxisConfig } from '../y-quantitative-axis/y-quantitative-axis-config';
-import { VicYQuantitativeAxisModule } from '../y-quantitative-axis/y-quantitative-axis.module';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).
@@ -71,10 +69,8 @@ class TestAxisLabelsComponent<Datum> {
 const imports = [
   VicChartModule,
   VicLinesModule,
-  VicXQuantitativeAxisModule,
-  VicYQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
 ];
 
 function mountAxisLabelsComponent(

@@ -11,23 +11,15 @@ import { DotsHoverMoveEmitTooltipData } from '../../public-api';
 import {
   VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '../axes';
-import {
-  ChartConfig,
-  VicChartConfigBuilder,
-  VicChartModule,
-  VicXyChartModule,
-} from '../charts';
+import { ChartConfig, VicChartConfigBuilder, VicChartModule } from '../charts';
 import { HoverMoveAction } from '../events';
 import {
   countryFactsData,
@@ -166,9 +158,7 @@ class TestDotsQuantQuantComponent<Datum> {
 const quantQuantImports = [
   VicChartModule,
   VicDotsModule,
-  VicXQuantitativeAxisModule,
-  VicYQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicHtmlTooltipModule,
 ];
 
@@ -231,9 +221,7 @@ class TestDotsXQuantYOrdinalComponent<Datum> {
 const quantOrdinalImports = [
   VicChartModule,
   VicDotsModule,
-  VicXQuantitativeAxisModule,
-  VicYOrdinalAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicHtmlTooltipModule,
 ];
 
@@ -292,9 +280,7 @@ class TestDotsXOrdinalYQuantComponent<Datum> {
 const ordinalQuantImports = [
   VicChartModule,
   VicDotsModule,
-  VicYQuantitativeAxisModule,
-  VicXOrdinalAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicHtmlTooltipModule,
 ];
 

@@ -13,10 +13,8 @@ import {
   VicLinesConfigBuilder,
   VicLinesModule,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from 'libs/viz-components/src/public-api';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
@@ -145,9 +143,7 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
 const imports = [
   VicChartModule,
   VicLinesModule,
-  VicXQuantitativeAxisModule,
-  VicYQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicHtmlTooltipModule,
 ];
 
