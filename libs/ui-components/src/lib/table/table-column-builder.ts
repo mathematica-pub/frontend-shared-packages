@@ -30,14 +30,18 @@ export class TableColumnBuilder<Datum> {
   }
 
   /**
-   * REQUIRED. A string to use as the id of the table column.
+   * REQUIRED. Determines the id of the table column.
+   *
+   * @param id A string to use as the id of the table column.
    */
   id(id: string): this {
     this._id = id;
     return this;
   }
   /**
-   * OPTIONAL. A string to use as the label of the table column.
+   * OPTIONAL. Determines the label of the table column.
+   *
+   * @param label A string to use as the label of the table column.
    */
   label(label: string): this {
     this._label = label;
@@ -45,7 +49,11 @@ export class TableColumnBuilder<Datum> {
   }
 
   /**
-   * REQUIRED. A string to use as the key of the table column.
+   * REQUIRED. Determines the property key in the datum that
+   * is to be displayed in this table column.
+   *
+   * @param key A string to use as the display key of the table column. Nested object data
+   * can be accessed using dot notation (e.g. `user.name`).
    */
   displayKey(key: string): this {
     this._key = key;
@@ -53,9 +61,11 @@ export class TableColumnBuilder<Datum> {
   }
 
   /**
-   * OPTIONAL. A function to extract the value to be sorted on from the datum.
+   * OPTIONAL. Specifies how to extract the datum property to be sorted
+   * on for cells in this table column.
    *
-   * To unset, call with `null`.
+   * @param getSortValue A function to extract the datum property to be
+   * sorted on for cells in this table column, or `null` to not set this property.
    */
   getSortValue(getSortValue: null): this;
   getSortValue(getSortValue: (x: Datum) => TableValue): this;
@@ -69,10 +79,11 @@ export class TableColumnBuilder<Datum> {
   }
 
   /**
-   * OPTIONAL. A function to determine the sort order of the column.
-   * If not provided, sort with use d3.ascending on the getSortValue.
+   * OPTIONAL. Specifies how datum are to be sorted in ascending order for this table column.
+   * If not provided, this column will use `d3.ascending` on the getSortValue.
    *
-   * To unset, call with `null`.
+   * @param ascendingSortFunction A function to sort datum in ascending order for this table column,
+   * or `null` to not set this property.
    */
   ascendingSortFunction(ascendingSortFunction: null): this;
   ascendingSortFunction(
@@ -90,8 +101,9 @@ export class TableColumnBuilder<Datum> {
   }
 
   /**
-   * OPTIONAL. The direction to start sorting this column in.
+   * OPTIONAL. Determines the direction to start sorting this column in.
    *
+   * @param sortDirection A SortDirectionType to use as the sort direction of the table column.
    * @default SortDirection.asc
    */
   sortDirection(sortDirection: SortDirectionType): this {
@@ -100,8 +112,9 @@ export class TableColumnBuilder<Datum> {
   }
 
   /**
-   * OPTIONAL. A boolean to determine whether the column is sortable.
+   * OPTIONAL. Determines whether the column is sortable.
    *
+   * @param sortable A boolean to use as the sortable property of the table column.
    * @default false
    */
   sortable(sortable: boolean): this {
@@ -110,8 +123,9 @@ export class TableColumnBuilder<Datum> {
   }
 
   /**
-   * OPTIONAL. A number representing the sort order of the column.
+   * OPTIONAL. Determines the sort order of the table column.
    *
+   * @param sortOrder A number to use as the sort order of the table column.
    * @default Number.MAX_SAFE_INTEGER
    */
   sortOrder(sortOrder: number): this {
@@ -138,6 +152,11 @@ export class TableColumnBuilder<Datum> {
     });
   }
 
+  /**
+   * Validates the table column properties before initializing the TableColumn instance.
+   *
+   * @param columnName A user-intelligible name for the column being built. Used for error messages. Should be title cased.
+   */
   protected validateTableColumn(columnName: string): void {
     if (!this._id || !this._key) {
       throw new Error(`ColumnBuilder: ${columnName}. ID and key are required.`);
