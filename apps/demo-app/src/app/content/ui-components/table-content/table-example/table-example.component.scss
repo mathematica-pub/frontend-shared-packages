@@ -8,6 +8,7 @@ $icon-right-margin: 0.4rem;
 .header-cell-sort {
   display: flex;
   align-items: flex-end;
+  justify-content: flex-end;
   &:hover {
     cursor: pointer;
   }
@@ -37,29 +38,16 @@ $icon-right-margin: 0.4rem;
   transform: rotate(180deg);
 }
 
-.left {
-  text-align: left;
-}
-
-.right {
+.table-cell {
   text-align: right;
-
-  .header-cell-sort {
-    justify-content: flex-end;
-  }
 
   &.sorted-cell {
     padding-right: $icon-left-margin + $icon-width + $icon-right-margin;
   }
 }
 
-.center {
-  text-align: center;
-}
-
 .table-container {
   border-spacing: 0;
-
   td:last-child {
     &.left {
       padding-right: 0;
