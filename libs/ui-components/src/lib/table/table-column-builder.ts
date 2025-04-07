@@ -104,7 +104,7 @@ export class TableColumnBuilder<Datum> {
    * OPTIONAL. Determines the direction to start sorting the column in.
    *
    * @param sortDirection A SortDirectionType to use as the sort direction of the table column.
-   * @default SortDirection.asc
+   * If not called, the default value is `SortDirection.asc`.
    */
   sortDirection(sortDirection: SortDirectionType): this {
     this._sortDirection = sortDirection;
@@ -115,7 +115,7 @@ export class TableColumnBuilder<Datum> {
    * OPTIONAL. Determines whether the column is sortable.
    *
    * @param sortable A boolean to use as the sortable property of the table column.
-   * @default false
+   * If not called, the default value is `false`.
    */
   sortable(sortable: boolean): this {
     this._sortable = sortable;
@@ -126,7 +126,8 @@ export class TableColumnBuilder<Datum> {
    * OPTIONAL. Determines the sort order of the table column.
    *
    * @param sortOrder A number to use as the sort order of the table column.
-   * @default Number.MAX_SAFE_INTEGER
+   *
+   * If not called, the default value is `Number.MAX_SAFE_INTEGER`.
    */
   sortOrder(sortOrder: number): this {
     this._sortOrder = sortOrder;
