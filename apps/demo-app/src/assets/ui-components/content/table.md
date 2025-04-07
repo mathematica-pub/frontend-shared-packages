@@ -147,22 +147,26 @@ export class TableExampleComponent implements OnInit {
       *cdkHeaderCellDef="let element"
       (click)="dataSource.sort(column)"
     >
-      <span
-        [ngClass]="[
-                'material-sort-icon',
-                column.sortDirection,
-                column.activelySorted ? 'actively-sorted' : '',
-                'material-symbols-outlined',
-              ]"
-        [attr.aria-hidden]="true"
-        >{{ sortIcon }}</span
-      >
-      {{ column.label }}</th
+      <div class="header-cell-sort">
+        {{ column.label }}
+        <span
+          [ngClass]="[
+                  'material-sort-icon',
+                  column.sortDirection,
+                  column.activelySorted ? 'actively-sorted' : '',
+                  'material-symbols-outlined',
+                ]"
+          [attr.aria-hidden]="true"
+          >{{ sortIcon }}</span
+        >
+      </div></th
     >
     } @else {
     <th cdk-header-cell *cdkHeaderCellDef="let element"> {{ column.label }} </th>
     }
-    <td cdk-cell *cdkCellDef="let element"> {{ element | getValueByKey: column.key }} </td>
+    <td class="table-cell" [class.sorted-cell]="column.sortable" cdk-cell *cdkCellDef="let element">
+      {{ element | getValueByKey: column.key }}
+    </td>
   </ng-container>
   }
   <tr cdk-header-row *cdkHeaderRowDef="dataSource.columnIds$ | async"></tr>
@@ -242,62 +246,139 @@ how to sort the column.
 The following methods can be called on `TableColumnsBuilder` to create a list of validated
 `TableColumn`s.
 
-- `addColumn((column: TableColumnBuilder) => TableColumnBuilder)` - adds a column to this builder's
-  list of table columns
-- `getConfig()` - builds the list of table columns
+```builder-method
+name: addColumn
+description: 'Specifies a new column to be added to the end of the list of columns.'
+params:
+  - name: applyToColumn
+    type: '(column: TableColumnBuilder<Datum>) => TableColumnBuilder<Datum>'
+    description:
+      - 'Table column configuration for the column to be added, with all desired builder methods applied. See required methods below in the `TableColumnBuilder` section.'
+```
+
+```builder-method
+name: getConfig
+description: 'Validates and builds the configuration object for the table columns that can be passed to `HsiUiTableDataSource`.'
+params:
+- ''
+```
 
 ### `TableColumnBuilder` Methods
 
 #### Required Methods
 
-- `id(id: string)` - sets the id of the table column
-- `displayKey(key: string)` - sets the key of the table column. This is used for accessing the data
-  within the given `Datum`. A key should be formatted like a path to the desired data in the object.
-  See how the `metrics.cost` subkey is set in the example below.
+```builder-method
+name: id
+description: 'Sets the id of the table column.'
+params:
+  - name: id
+    type: string
+    description:
+      - 'The assigned id of the table column.'
+```
 
-  ```ts
-  // Datum
-  fruits = [{
-    fruit: 'apple',
-    color: 'green',
-    metrics: {
-      cost: 21,
-      quantity: 2
-    },
-    ...
-  }]
+```builder-method
+name: displayKey
+description: 'Sets the property key in the datum that is to be displayed in the table column. See the `metrics.cost` display key is set in the example below.'
+params:
+  - name: key
+    type: string
+    description:
+      - 'The display key of the table column. Nested object data can be accessed using dot notation (e.g. `metrics.cost`, `metrics.inventory`).'
+```
 
-  // Builder
-  builder = new TableColumnsBuilder<{
-  fruit: string;
-  color: string;
+```ts
+// Datum
+fruits = [{
+  fruit: 'apple',
+  color: 'green',
   metrics: {
-    inventory: number;
-    price: number;
-  }
-  }>()
+    cost: 21,
+    quantity: 2
+  },
   ...
-        .addColumn(
-          (column) =>
-            column
-              .label('Cost')
-              .displayKey('metrics.cost')
-        )
-        ...
-  ```
+}]
+
+// Builder
+builder = new TableColumnsBuilder<{
+fruit: string;
+color: string;
+metrics: {
+  inventory: number;
+  price: number;
+}
+}>()
+...
+      .addColumn(
+        (column) =>
+          column
+            .label('Cost')
+            .displayKey('metrics.cost')
+      )
+      ...
+```
 
 #### Optional Methods
 
-- `label(label: string)` - sets the label of the table column
-- `getSortValue(getSortValue: (x: Datum) => TableValue)` - sets the function that extracts the value
-  to be sorted on from the datum
-- `ascendingSortFunction((a: Datum, b: Datum) => number)` - sets the function by which to sort the
-  values in this column
-- `sortDirection(sortDirection: SortDirectionType)` - sets the starting direction by which to sort
-  this column
-- `sortable(sortable: boolean)` - sets whether or not this column can be sorted
-- `sortOrder(sortOrder: number)` - sets the order in which this column is to be sorted by in the
-  case of tiebreaks
+```builder-method
+name: label
+description: 'Sets the label of the table column. Useful for storing the desired header text for the column.'
+params:
+  - name: label
+    type: string
+    description:
+      - 'The label to be used by the table column'
+```
+
+```builder-method
+name: getSortValue
+description: 'Specifies how to extract the datum property to be sorted on for cells in the table column.'
+params:
+  - name: getSortValue
+    type: '(x: Datum) => TableValue | null'
+    description:
+      - 'A function to extract the datum property to be sorted on for cells in the table column, or `null` to not set this property.'
+```
+
+```builder-method
+name: ascendingSortFunction
+description: 'Specifies how datum are to be sorted in ascending order for the table column. If not provided, the column will use `d3.ascending` on the getSortValue output.'
+params:
+  - name: ascendingSortFunction
+    type: '(a: Datum, b: Datum) => number | null'
+    description:
+      - 'The function that sorts datum in ascending order for the table column.'
+```
+
+```builder-method
+name: sortDirection
+description: Sets the direction the table column is sorted in.
+params:
+  - name: sortDirection
+    type: SortDirectionType
+    description:
+      - 'The sort direction of the table column.'
+```
+
+```builder-method
+name: sortable
+description: 'Sets whether or not the table column can be sorted.'
+params:
+  - name: sortable
+    type: boolean
+    description:
+      - 'Whether the column can be sorted.'
+```
+
+```builder-method
+name: sortOrder
+description: 'Sets the order in which the table column is to be sorted by in the case of tiebreaks'
+params:
+  - name: sortOrder
+    type: number
+    description:
+      - 'The sort order of the table column.'
+```
 
 ### Accessing data values using `GetValueByKeyPipe`
 
@@ -351,9 +432,12 @@ In the `th` element:
 >
 ```
 
-Example CSS code for styling icons:
+Example CSS code for styling icons in a table:
 
 ```scss
+@use 'vars' as *;
+@use 'functions' as *;
+@use 'colors';
 $icon-width: 0.9rem;
 $icon-left-margin: 0.2rem;
 $icon-right-margin: 0.4rem;
@@ -361,6 +445,7 @@ $icon-right-margin: 0.4rem;
 .header-cell-sort {
   display: flex;
   align-items: flex-end;
+  justify-content: flex-end;
   &:hover {
     cursor: pointer;
   }
@@ -390,23 +475,33 @@ $icon-right-margin: 0.4rem;
   transform: rotate(180deg);
 }
 
-.left {
-  text-align: left;
-}
-
-.right {
+.table-cell {
   text-align: right;
-
-  .header-cell-sort {
-    justify-content: flex-end;
-  }
 
   &.sorted-cell {
     padding-right: $icon-left-margin + $icon-width + $icon-right-margin;
   }
 }
 
-.center {
-  text-align: center;
+.table-container {
+  border-spacing: 0;
+  td:last-child {
+    &.left {
+      padding-right: 0;
+    }
+  }
+
+  th:last-child {
+    &.left {
+      padding-right: 0;
+    }
+  }
+
+  th {
+    vertical-align: bottom;
+    &.sorted-header {
+      padding-right: 0;
+    }
+  }
 }
 ```

@@ -50,7 +50,7 @@ export class TableColumnBuilder<Datum> {
 
   /**
    * REQUIRED. Determines the property key in the datum that
-   * is to be displayed in this table column.
+   * is to be displayed in the table column.
    *
    * @param key A string to use as the display key of the table column. Nested object data
    * can be accessed using dot notation (e.g. `user.name`).
@@ -62,10 +62,10 @@ export class TableColumnBuilder<Datum> {
 
   /**
    * OPTIONAL. Specifies how to extract the datum property to be sorted
-   * on for cells in this table column.
+   * on for cells in the table column.
    *
    * @param getSortValue A function to extract the datum property to be
-   * sorted on for cells in this table column, or `null` to not set this property.
+   * sorted on for cells in the table column, or `null` to not set this property.
    */
   getSortValue(getSortValue: null): this;
   getSortValue(getSortValue: (x: Datum) => TableValue): this;
@@ -79,10 +79,10 @@ export class TableColumnBuilder<Datum> {
   }
 
   /**
-   * OPTIONAL. Specifies how datum are to be sorted in ascending order for this table column.
-   * If not provided, this column will use `d3.ascending` on the getSortValue.
+   * OPTIONAL. Specifies how datum are to be sorted in ascending order for the table column.
+   * If not provided, the column will use `d3.ascending` on the getSortValue output.
    *
-   * @param ascendingSortFunction A function to sort datum in ascending order for this table column,
+   * @param ascendingSortFunction A function to sort datum in ascending order for the table column,
    * or `null` to not set this property.
    */
   ascendingSortFunction(ascendingSortFunction: null): this;
@@ -101,7 +101,7 @@ export class TableColumnBuilder<Datum> {
   }
 
   /**
-   * OPTIONAL. Determines the direction to start sorting this column in.
+   * OPTIONAL. Determines the direction to start sorting the column in.
    *
    * @param sortDirection A SortDirectionType to use as the sort direction of the table column.
    * @default SortDirection.asc

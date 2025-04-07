@@ -22,7 +22,7 @@ export class TableColumnsBuilder<Datum> {
   }
 
   /**
-   * REQUIRED. Validates and builds the configuration object for the table columns that can be passed to HsiUiTableDataSource.
+   * REQUIRED. Validates and builds the configuration object for the table columns that can be passed to `HsiUiTableDataSource`.
    *
    * The user must call this at the end of the chain of methods to build the configuration object.
    */
