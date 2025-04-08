@@ -91,6 +91,7 @@ export class TableExampleComponent implements OnInit {
           (column) =>
             column
               .label(ColumnNames.fruit)
+              .cssClass('left')
               .displayKey(FruitInfo.fruit)
               .ascendingSortFunction((a, b) => a.fruit.localeCompare(b.fruit))
               .sortOrder(1)
@@ -101,6 +102,7 @@ export class TableExampleComponent implements OnInit {
           column
             .displayKey(FruitInfo.colorName)
             .label(ColumnNames.colorName)
+            .cssClass('left')
             .sortable(true)
             .ascendingSortFunction((a, b) => a.color.localeCompare(b.color))
         )
@@ -108,6 +110,7 @@ export class TableExampleComponent implements OnInit {
           column
             .displayKey(FruitInfo.inventory)
             .label(ColumnNames.inventory)
+            .cssClass('right')
             .sortable(true)
             .getSortValue((x) => x.metrics.inventory)
         )

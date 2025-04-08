@@ -10,12 +10,16 @@ export type TableValue = string | number | boolean | Date;
 
 export class TableColumn<Datum> {
   /**
+   * The CSS class of the column.
+   * @default ''
+   */
+  cssClass: string = '';
+  /**
    * The unique id of the column.
    * */
   readonly id: string;
   /**
    * The unique key of the column. Used for sorting and accessing the column data.
-   *
    */
   readonly key: string;
   /**
