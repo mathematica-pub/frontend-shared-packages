@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { TabBodyComponent } from './tab-body.component';
 import { TabContentDirective } from './tab-content.directive';
@@ -9,7 +8,6 @@ import { TabsComponent } from './tabs.component';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
     TabsComponent,
     TabLabelComponent,
     TabItemComponent,

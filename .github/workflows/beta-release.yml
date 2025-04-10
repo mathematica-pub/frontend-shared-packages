@@ -67,7 +67,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_REGION: us-east-1
-        run: npx nx version $REFERENCED_PACKAGE --releaseAs=prerelease --preid=beta
+        run: npx nx beta-version $REFERENCED_PACKAGE
 
       - name: Extract version from tag
         run: |

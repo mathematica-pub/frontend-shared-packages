@@ -51,7 +51,6 @@ import { HsiUiComboboxModule } from '@hsi/ui-components';
 
 @Component({
   selector: 'app-my-combobox',
-  standalone: true,
   imports: [CommonModule, HsiUiComboboxModule],
   templateUrl: './my-combobox.component.html',
   styleUrl: './my-combobox.component.scss',

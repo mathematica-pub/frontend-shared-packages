@@ -56,13 +56,12 @@ For just the bar chart, you will need to do the following.
 1. Add modules. These will import required components.
 
    ```ts
-   import { VicChartModule, VicXyChartModule, VicBarsModule } from '@hsi/viz-components';
+   import { VicChartModule, VicBarsModule } from '@hsi/viz-components';
    ...
    @Component ({
      ...
      imports: [
        VicChartModule,
-       VicXyChartModule,
        VicBarsModule,
      ],
    })

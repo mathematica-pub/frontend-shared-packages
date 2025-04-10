@@ -11,7 +11,7 @@ describe('QuantitativeRulesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [QuantitativeRulesComponent],
+      imports: [QuantitativeRulesComponent],
       providers: [XyChartComponent],
     }).compileComponents();
   });

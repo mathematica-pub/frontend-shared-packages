@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import 'cypress-real-events';
 import { format, max } from 'd3';
@@ -9,18 +10,14 @@ import {
   VicXOrdinalAxisConfigBuilder,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
+  VicXyAxisModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
 } from '../axes';
-import { VicXOrdinalAxisModule } from '../axes/x-ordinal/x-ordinal-axis.module';
-import { VicXQuantitativeAxisModule } from '../axes/x-quantitative/x-quantitative-axis.module';
-import { VicYOrdinalAxisModule } from '../axes/y-ordinal/y-ordinal-axis.module';
-import { VicYQuantitativeAxisModule } from '../axes/y-quantitative-axis/y-quantitative-axis.module';
 import { ChartConfig, VicChartConfigBuilder } from '../charts';
-import { VicChartModule } from '../charts/chart/chart.module';
-import { VicXyChartModule } from '../charts/xy-chart/xy-chart.module';
+import { VicChartModule } from '../charts/chart.module';
 import { EventAction, HoverMoveAction } from '../events/action';
 import {
   countryFactsData,
@@ -102,7 +99,7 @@ const labelSelector = '.vic-bars-label';
       <p class="y-value">{{ (tooltipData$ | async).values.y }}</p>
     </ng-template>
   `,
-  styles: [],
+  standalone: false,
 })
 class TestHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
@@ -161,9 +158,7 @@ const mountHorizontalBarsComponent = (
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
   ];
 
@@ -210,6 +205,7 @@ const mountHorizontalBarsComponent = (
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestVerticalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
@@ -269,9 +265,7 @@ const mountVerticalBarsComponent = (
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXOrdinalAxisModule,
-    VicYQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
   ];
 
@@ -626,6 +620,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           const size = parseFloat($bar.attr(barAttr));
           sizes.push(size);
         });
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         expect(sizes.every((size) => size === sizes[0])).to.be.true;
       });
     });

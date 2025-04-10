@@ -7,7 +7,6 @@ import { FilterableOptionsMulti } from '../filterable-options-multi';
 
 @Component({
   selector: 'app-filterable-options-multi-select-form-control-combobox',
-  standalone: true,
   imports: [CommonModule, HsiUiComboboxModule],
   templateUrl: './filterable-options-multi-form-control.component.html',
   styleUrl: './filterable-options-multi-form-control.component.scss',

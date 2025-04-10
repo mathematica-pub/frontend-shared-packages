@@ -23,14 +23,14 @@ describe('AssetsService', () => {
     service = TestBed.inject(AdkAssetsService);
   });
 
-  describe('setAssetsPath', () => {
+  describe('setAssetsPath()', () => {
     it('should set the assets path', () => {
       service.setAssetsPath('test/');
       expect(service['assetsPath']).toBe('test/');
     });
   });
 
-  describe('getAsset', () => {
+  describe('getAsset()', () => {
     beforeEach(() => {
       spyOn(service as any, 'fetchAsset').and.returnValue(of('asset text'));
     });

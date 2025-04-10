@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -49,6 +50,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxDynamicLabelTestComponent extends ComboboxBaseTestComponent {}
 
@@ -98,6 +100,7 @@ describe('Single-select combobox with a default (dynamic) label', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxNoBoxLabelTestComponent extends ComboboxBaseTestComponent {}
 
@@ -154,6 +157,7 @@ describe('Single-select combobox with a default label / no boxLabel', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxDynamicLabelMultiTestComponent extends ComboboxBaseTestComponent {}
 
@@ -211,6 +215,7 @@ describe('Multi-select combobox with a default (dynamic) label', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxStaticLabelTestComponent extends ComboboxBaseTestComponent {}
 
@@ -269,6 +274,7 @@ describe('Textbox with a static label', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboCountLabelMultiTestComponent extends ComboboxBaseTestComponent {}
 
@@ -342,6 +348,7 @@ describe('Multi-select combobox with a show selected count label', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxGroupedMultiTestComponent {
   options1 = [
@@ -419,6 +426,7 @@ describe('Grouped multi-select combobox with a show selected count label', () =>
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboCustomLabelMultiTestComponent extends ComboboxBaseTestComponent {
   customLabel = (options: ListboxOptionComponent[]) => {
@@ -505,6 +513,7 @@ describe('Multi-select combobox with a custom label', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboInitialSelectionsMultiTestComponent extends ComboboxBaseTestComponent {}
 
@@ -570,6 +579,7 @@ describe('Multi-select combobox with a dynamic label and initial selections', ()
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboInitialSelectionsCountMultiTestComponent extends ComboboxBaseTestComponent {}
 

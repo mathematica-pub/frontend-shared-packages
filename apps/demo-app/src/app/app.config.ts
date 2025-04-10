@@ -1,5 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
-import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+} from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
   provideRouter,
@@ -30,16 +34,14 @@ export const appConfig: ApplicationConfig = {
     { provide: AdkMarkdownParser, useClass: ContentParser },
     AdkDocumentationContentService,
     AdkDocumentationConfigParser,
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      useFactory: (config: ContentConfigService) => {
+    provideAppInitializer(() => {
+      const initializerFn = ((config: ContentConfigService) => {
         return () => {
           config.initConfig();
         };
-      },
-      deps: [ContentConfigService],
-    },
+      })(inject(ContentConfigService));
+      return initializerFn();
+    }),
     {
       provide: RouteReuseStrategy,
       useClass: CustomRouteReuseStrategy,

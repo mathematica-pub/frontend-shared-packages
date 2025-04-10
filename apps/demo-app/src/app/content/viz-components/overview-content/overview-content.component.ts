@@ -11,7 +11,6 @@ import {
 
 @Component({
   selector: 'app-overview-content',
-  standalone: true,
   imports: [
     CommonModule,
     ContentContainerComponent,
