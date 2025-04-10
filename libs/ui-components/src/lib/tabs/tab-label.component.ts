@@ -13,7 +13,6 @@ let nextUniqueId = 0;
   template: `<ng-template
     ><div #label class="tab-label" [id]="id"><ng-content></ng-content></div
   ></ng-template>`,
-  standalone: true,
 })
 export class TabLabelComponent {
   @Input() value: string;

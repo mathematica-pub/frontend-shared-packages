@@ -15,18 +15,14 @@ import {
   VicChartModule,
   VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 import { cloneDeep } from 'lodash-es';
 import {
@@ -48,17 +44,12 @@ interface ViewModel {
 
 @Component({
   selector: 'app-bars-simple-states-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
     VicBarsModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicXQuantitativeAxisModule,
-    VicYQuantitativeAxisModule,
-    VicXOrdinalAxisModule,
-    VicYOrdinalAxisModule,
+    VicXyAxisModule,
   ],
   templateUrl: './bars-simple-states-example.component.html',
   styleUrl: './bars-simple-states-example.component.scss',

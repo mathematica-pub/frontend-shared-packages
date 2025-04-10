@@ -25,13 +25,12 @@ will be passed to the component.
 **Required imports from @hsi/viz-components**
 
 ```ts
-import { VicChartModule, VicXyChartModuke, VicDotsConfigBuilder, VicDotsModule } from '@hsi/viz-components';
+import { VicChartModule, VicDotsConfigBuilder, VicDotsModule } from '@hsi/viz-components';
 ...
 @Component({
   ...
   imports: [
     VicChartModule,
-    VicXyChartModule,
     VicDotsModule
     ...
   ],

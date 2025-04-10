@@ -22,13 +22,12 @@ ordinal dimension, which could be a `string`, `number`, or `Date`, though is mos
 **Required imports from @hsi/viz-components**
 
 ```ts
-import { VicBarsConfigBuilder, VicBarsModule, VicChartModule, VicXyChartModule } from '@hsi/viz-components';
+import { VicBarsConfigBuilder, VicBarsModule, VicChartModule } from '@hsi/viz-components';
 ...
 @Component({
   ...
   imports: [
     VicChartModule,
-    VicXyChartModule,
     VicBarsModule
     ...
   ],

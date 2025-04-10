@@ -8,7 +8,7 @@ describe('ContinuousLegendComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ContinuousLegendComponent],
+      imports: [ContinuousLegendComponent],
     }).compileComponents();
   });
 

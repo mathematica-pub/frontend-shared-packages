@@ -9,7 +9,7 @@ describe('StackedBarsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StackedBarsComponent],
+      imports: [StackedBarsComponent],
       providers: [XyChartComponent],
     }).compileComponents();
   });

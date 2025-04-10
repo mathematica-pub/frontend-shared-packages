@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import { geoMercator } from 'd3';
 import {
@@ -16,9 +17,9 @@ import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
   ChartConfig,
   VicChartConfigBuilder,
+  VicChartModule,
   VicGeographiesConfigBuilder,
   VicGeographiesModule,
-  VicMapChartModule,
 } from '../../../../../../../public-api';
 import { GeographiesConfig } from '../../../../geographies-config';
 
@@ -59,6 +60,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
     </vic-map-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestGeographiesComponent {
   @Input() geographiesConfig: GeographiesConfig<
@@ -80,7 +82,7 @@ const mountGeographiesComponent = (
   >
 ): void => {
   const declarations = [TestGeographiesComponent];
-  const imports = [VicMapChartModule, VicGeographiesModule];
+  const imports = [VicChartModule, VicGeographiesModule];
 
   cy.mount(TestGeographiesComponent, {
     declarations,

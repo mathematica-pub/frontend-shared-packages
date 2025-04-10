@@ -25,6 +25,6 @@ describe('the OrdinalAxis mixin', () => {
   });
 
   it('should be created', () => {
-    expect(abstractClass).toBeTruthy;
+    expect(abstractClass).toBeTruthy();
   });
 });

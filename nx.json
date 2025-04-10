@@ -53,5 +53,6 @@
       "!{projectRoot}/**/*.cy.[jt]s?(x)",
       "!{projectRoot}/cypress.config.[jt]s"
     ]
-  }
+  },
+  "useLegacyCache": true
 }

@@ -12,7 +12,6 @@ import { DotsScatterplotExampleComponent } from './dots-scatterplot-example/dots
 
 @Component({
   selector: 'app-dots-content',
-  standalone: true,
   imports: [
     CommonModule,
     SinglePanelExampleDisplayComponent,

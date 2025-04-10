@@ -12,7 +12,7 @@ describe('LinesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [LinesComponent],
+      imports: [LinesComponent],
       providers: [XyChartComponent],
     }).compileComponents();
   });

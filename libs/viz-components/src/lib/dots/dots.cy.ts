@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 // ***********************************************************
 // Set up Lines component -- can use with Date or numeric values for x axis
 
@@ -10,23 +11,15 @@ import { DotsHoverMoveEmitTooltipData } from '../../public-api';
 import {
   VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '../axes';
-import {
-  ChartConfig,
-  VicChartConfigBuilder,
-  VicChartModule,
-  VicXyChartModule,
-} from '../charts';
+import { ChartConfig, VicChartConfigBuilder, VicChartModule } from '../charts';
 import { HoverMoveAction } from '../events';
 import {
   countryFactsData,
@@ -116,6 +109,7 @@ const dotGSelector = '.vic-dots-group';
     </ng-template>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
+  standalone: false,
 })
 class TestDotsQuantQuantComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
@@ -164,9 +158,7 @@ class TestDotsQuantQuantComponent<Datum> {
 const quantQuantImports = [
   VicChartModule,
   VicDotsModule,
-  VicXQuantitativeAxisModule,
-  VicYQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicHtmlTooltipModule,
 ];
 
@@ -209,6 +201,7 @@ function mountDotsXQuantYQuantComponent(
     </vic-xy-chart>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
+  standalone: false,
 })
 class TestDotsXQuantYOrdinalComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
@@ -228,9 +221,7 @@ class TestDotsXQuantYOrdinalComponent<Datum> {
 const quantOrdinalImports = [
   VicChartModule,
   VicDotsModule,
-  VicXQuantitativeAxisModule,
-  VicYOrdinalAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicHtmlTooltipModule,
 ];
 
@@ -272,6 +263,7 @@ function mountDotsXQuantYOrdinalComponent(
     </vic-xy-chart>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
+  standalone: false,
 })
 class TestDotsXOrdinalYQuantComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
@@ -288,9 +280,7 @@ class TestDotsXOrdinalYQuantComponent<Datum> {
 const ordinalQuantImports = [
   VicChartModule,
   VicDotsModule,
-  VicYQuantitativeAxisModule,
-  VicXOrdinalAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicHtmlTooltipModule,
 ];
 

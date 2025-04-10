@@ -11,7 +11,6 @@ import { AdkDocumentationNavigationSiblings } from '../documentation-config-pars
 
 @Component({
   selector: 'hsi-adk-navigation-siblings',
-  standalone: true,
   imports: [CommonModule],
   providers: [TitleCasePipe],
   templateUrl: './navigation-siblings.component.html',

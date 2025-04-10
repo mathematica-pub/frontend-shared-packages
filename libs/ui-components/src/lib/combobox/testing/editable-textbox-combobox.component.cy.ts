@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -65,6 +66,7 @@ interface ViewModel<ListboxSelection> {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class EditableTextboxTestComponent
   extends ComboboxBaseTestComponent
@@ -184,6 +186,7 @@ class EditableTextboxTestComponent
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class EditableTextboxFormControlTestComponent
   extends ComboboxBaseTestComponent

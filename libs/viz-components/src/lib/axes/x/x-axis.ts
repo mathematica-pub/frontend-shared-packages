@@ -1,13 +1,13 @@
 import { Directive, Input } from '@angular/core';
 import { axisBottom, axisTop } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { DataValue } from '../../core/types/values';
+import { ContinuousValue, DataValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
 import { Ticks } from '../ticks/ticks';
 import { XAxisConfig } from './x-axis-config';
 
 export function xAxisMixin<
-  Tick extends DataValue,
+  Tick extends DataValue | ContinuousValue,
   TicksConfig extends Ticks<Tick>,
   T extends AbstractConstructor<XyAxis<Tick, TicksConfig>>,
 >(Base: T) {
