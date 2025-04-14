@@ -1,0 +1,9 @@
+@if (vm$ | async; as vm) {
+  <vic-xy-chart [config]="vm.chartConfig" #tooltipOrigin>
+    <ng-container svg-elements>
+      <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
+      <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig"></svg:g>
+      <svg:g vic-primary-marks-lines [config]="vm.dataConfig"></svg:g>
+    </ng-container>
+  </vic-xy-chart>
+}
