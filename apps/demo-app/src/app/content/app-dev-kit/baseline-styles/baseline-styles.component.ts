@@ -8,7 +8,6 @@ import { ContentContainerComponent } from '../../content-container/content-conta
 
 @Component({
   selector: 'app-baseline-styles',
-  standalone: true,
   imports: [CommonModule, ContentContainerComponent],
   templateUrl: './baseline-styles.component.html',
   styleUrl: './baseline-styles.component.scss',

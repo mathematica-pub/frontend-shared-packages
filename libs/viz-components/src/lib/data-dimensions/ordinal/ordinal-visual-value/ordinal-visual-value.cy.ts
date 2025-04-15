@@ -1,17 +1,18 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import { schemeTableau10 } from 'd3';
 import {
+  ChartConfig,
   VicBarsModule,
+  VicChartConfigBuilder,
   VicChartModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
 } from 'libs/viz-components/src/public-api';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { VicOrdinalAxisConfig } from '../../../axes/ordinal/ordinal-axis-config';
-import { VicQuantitativeAxisConfig } from '../../../axes/quantitative/quantitative-axis-config';
 import { VicBarsConfigBuilder } from '../../../bars/config/bars-builder';
 import { BarsConfig } from '../../../bars/config/bars-config';
 import {
@@ -50,12 +51,7 @@ const barSelector = '.vic-bars-bar';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-horizontal-bar',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-defs>
         <svg:pattern
           [id]="dotsPatternMagenta"
@@ -89,33 +85,31 @@ const barSelector = '.vic-bars-bar';
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
-  @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  margin = horizontalMargin;
+  @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   dotsPatternMagenta = dotsPatternMagenta;
   dotsPatternTeal = dotsPatternTeal;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(chartHeight)
+    .width(chartWidth)
+    .margin(horizontalMargin)
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 }
 
 const mountHorizontalBarsComponent = (
   barsConfig: BarsConfig<CountryFactsDatum, string>
 ): void => {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
   const declarations = [TestHorizontalBarsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    VicXyChartModule,
-  ];
+  const imports = [VicChartModule, VicBarsModule, VicXyAxisModule];
 
   cy.mount(TestHorizontalBarsComponent, {
     declarations,

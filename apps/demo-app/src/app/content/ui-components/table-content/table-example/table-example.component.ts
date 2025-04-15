@@ -5,7 +5,6 @@ import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-table-example',
-  standalone: true,
   imports: [CommonModule, TableModule],
   templateUrl: './table-example.component.html',
   styleUrl: './table-example.component.scss',

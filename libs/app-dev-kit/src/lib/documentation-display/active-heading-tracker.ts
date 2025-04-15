@@ -30,7 +30,9 @@ export class AdkActiveHeadingTracker {
           ) as HTMLHeadingElement[];
           const activeHeading = this.findActiveHeading(headings);
           this.ngZone.run(() => {
-            this.activeHeadingId.next(activeHeading.id);
+            if (activeHeading) {
+              this.activeHeadingId.next(activeHeading.id);
+            }
           });
         });
     });

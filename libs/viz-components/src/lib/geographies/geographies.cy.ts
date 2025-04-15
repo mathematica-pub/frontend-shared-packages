@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import 'cypress-real-events';
 import { ascending, extent, mean, scaleLinear } from 'd3';
@@ -12,12 +13,14 @@ import { BehaviorSubject } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
+  ChartConfig,
   GeographiesHoverDirective,
   GeographiesHoverEmitTooltipData,
+  VicChartConfigBuilder,
+  VicChartModule,
   VicGeographiesConfigBuilder,
   VicGeographiesModule,
   VicHtmlTooltipModule,
-  VicMapChartModule,
 } from '../../public-api';
 import { EventAction } from '../events/action';
 import {
@@ -62,11 +65,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-geographies',
   template: `
-    <vic-map-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-    >
+    <vic-map-chart [config]="chartConfig">
       <svg:g
         vic-primary-marks-geographies
         svg-elements
@@ -98,15 +97,13 @@ type TestUsMapTopology = Topology<TestMapObjects>;
     </ng-template>
   `,
   styles: ['.tooltip-container { font-size: 12px; }'],
+  standalone: false,
 })
 class TestGeographiesComponent {
   @Input() geographiesConfig: GeographiesConfig<
     StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
@@ -121,6 +118,12 @@ class TestGeographiesComponent {
       TestMapGeometryProperties
     >(),
   ];
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .margin(margin)
+    .width(chartWidth)
+    .height(chartHeight)
+    .resize({ useViewbox: false })
+    .getConfig();
 
   updateTooltipForNewOutput(
     data: GeographiesEventOutput<StateIncomeDatum>
@@ -155,11 +158,7 @@ const mountGeographiesComponent = (
   >
 ): void => {
   const declarations = [TestGeographiesComponent];
-  const imports = [
-    VicMapChartModule,
-    VicGeographiesModule,
-    VicHtmlTooltipModule,
-  ];
+  const imports = [VicChartModule, VicGeographiesModule, VicHtmlTooltipModule];
 
   cy.mount(TestGeographiesComponent, {
     declarations,

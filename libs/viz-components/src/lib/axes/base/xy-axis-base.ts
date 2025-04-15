@@ -1,10 +1,10 @@
 import { Directive, ElementRef, inject } from '@angular/core';
 import { select, Selection } from 'd3';
-import { Observable } from 'rxjs';
 import { GenericScale } from '../../core';
-import { DataValue } from '../../core/types/values';
+import { ContinuousValue, DataValue } from '../../core/types/values';
 import { XyAuxMarks } from '../../marks';
 import { SvgTextWrap } from '../../svg-text-wrap/svg-text-wrap';
+import { Ticks } from '../ticks/ticks';
 import { XyAxisConfig } from './config/xy-axis-config';
 
 export type XyAxisScale = {
@@ -19,10 +19,10 @@ type AxisSvgElements = 'gridGroup' | 'gridLine' | 'label' | 'axisGroup';
  * A base directive for all axes.
  */
 @Directive()
-export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
-  unknown,
-  XyAxisConfig<TickValue>
-> {
+export abstract class XyAxis<
+  Tick extends DataValue | ContinuousValue,
+  TicksConfig extends Ticks<Tick>,
+> extends XyAuxMarks<unknown, XyAxisConfig<Tick, TicksConfig>> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axis: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,14 +34,16 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
   elRef = inject<ElementRef<SVGGElement>>(ElementRef);
+  // used to ensure that a zero axis does not transition in position from baseline on first draw
+  isFirstDraw = true;
 
-  abstract getScale(): Observable<XyAxisScale>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract setAxisFunction(): any;
   abstract setTranslate(): void;
-  abstract setTicks(tickFormat: string | ((value: TickValue) => string)): void;
+  abstract setTicks(tickFormat: string | ((value: Tick) => string)): void;
   abstract setScale(): void;
   abstract createLabel(): void;
+  abstract getBaselineTranslate(): string | null;
 
   get class(): Record<AxisSvgElements, string> {
     return {
@@ -58,11 +60,27 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
 
   setAxisFromScaleAndConfig(): void {
     this.axis = this.axisFunction(this.scale);
-    if (this.config.tickSizeOuter !== undefined) {
-      this.axis.tickSizeOuter(this.config.tickSizeOuter);
+
+    this.setTickSize();
+    if (this.config.ticks.format) {
+      this.setTicks(this.config.ticks.format);
     }
-    if (this.config.tickFormat) {
-      this.setTicks(this.config.tickFormat);
+  }
+
+  setTickSize(): void {
+    if (this.config.ticks.size !== undefined) {
+      this.axis.tickSize(this.config.ticks.size);
+    } else {
+      if (this.config.ticks.sizeInner !== undefined) {
+        this.axis.tickSizeInner(this.config.ticks.sizeInner);
+      }
+      if (this.config.ticks.sizeOuter !== undefined) {
+        this.axis.tickSizeOuter(this.config.ticks.sizeOuter);
+      }
+    }
+    const baselineTranslate = this.getBaselineTranslate();
+    if (baselineTranslate) {
+      this.axis.tickSizeOuter(0);
     }
   }
 
@@ -73,7 +91,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
     this.setAxisFromScaleAndConfig();
     this.drawAxis();
     this.drawGrid();
-    this.postProcessAxisFeatures();
+    this.isFirstDraw = false;
   }
 
   drawAxis(): void {
@@ -88,62 +106,117 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
       .transition(this.getTransition(this.axisGroup))
       .call(this.axis)
       .on('end', () => {
-        this.styleTicks();
+        this.processTicks();
       });
+    this.processDomain();
+
+    this.processTickLabels();
+    if (this.config.label) {
+      this.createLabel();
+    }
   }
 
-  styleTicks(): void {
+  processTicks(): void {
     const tickText = select(this.elRef.nativeElement).selectAll('.tick text');
-    if (this.config.tickLabelFontSize) {
+    if (this.config.ticks.fontSize) {
       this.setTickFontSize(tickText);
     }
-    if (this.config.wrap) {
+    if (this.config.ticks.wrap && this.config.ticks.wrap.width !== undefined) {
       this.wrapAxisTickText(tickText);
     }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setTickFontSize(tickTextSelection: any): void {
-    tickTextSelection.attr('font-size', this.config.tickLabelFontSize);
+    tickTextSelection.attr('font-size', this.config.ticks.fontSize);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   wrapAxisTickText(tickTextSelection: any): void {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { wrapWidth, ...properties } = this.config.wrap;
+    const { width, ...properties } = this.config.ticks.wrap;
 
-    let width: number;
-    if (this.config.wrap.wrapWidth === 'bandwidth') {
-      width = this.scale.bandwidth();
-    } else if (typeof this.config.wrap.wrapWidth === 'function') {
+    let wrapWidth: number;
+    if (this.config.ticks.wrap.width === 'bandwidth') {
+      wrapWidth = this.scale.bandwidth();
+    } else if (typeof this.config.ticks.wrap.width === 'function') {
       const chartWidth = this.scale.range()[1] - this.scale.range()[0];
       const numOfTicks = select(this.elRef.nativeElement)
         .selectAll('.tick')
         .size();
-      width = this.config.wrap.wrapWidth(chartWidth, numOfTicks);
+      wrapWidth = this.config.ticks.wrap.width(chartWidth, numOfTicks);
     } else {
-      width = this.config.wrap.wrapWidth;
+      wrapWidth = this.config.ticks.wrap.width;
     }
-    const wrap = new SvgTextWrap({ ...properties, width });
+    const wrap = new SvgTextWrap({ ...properties, width: wrapWidth });
     wrap.wrap(tickTextSelection);
   }
 
-  postProcessAxisFeatures(): void {
-    if (this.config.removeDomainLine) {
-      this.axisGroup.call((g) => g.select('.domain').remove());
+  processDomain(): void {
+    const zeroAxisTranslate = this.getBaselineTranslate();
+
+    if (
+      this.config.baseline.zeroBaseline.display &&
+      zeroAxisTranslate !== null
+    ) {
+      this.axisGroup.call((g) =>
+        g
+          .select('.domain')
+          .transition(this.getTransition(this.axisGroup))
+          .attr('transform', zeroAxisTranslate)
+          .attr('class', 'domain baseline zero-axis-baseline')
+          .attr('stroke-dasharray', this.config.baseline.zeroBaseline.dasharray)
+      );
     }
 
-    if (this.config.removeTickLabels) {
+    if (zeroAxisTranslate === null) {
+      this.axisGroup.call((g) =>
+        g.select('.domain').attr('class', 'domain baseline')
+      );
+    }
+
+    if (!this.config.baseline.display && zeroAxisTranslate === null) {
+      this.axisGroup.call((g) => g.select('.domain').remove());
+    }
+  }
+
+  processTickLabels(): void {
+    if (this.config.ticks.labelsDisplay === false) {
       this.axisGroup.call((g) => g.selectAll('.tick text').remove());
     }
 
-    if (this.config.removeTickMarks) {
-      this.axisGroup.call((g) => g.selectAll('.tick line').remove());
+    if (this.config.ticks.rotate) {
+      this.axisGroup.call((g) =>
+        g
+          .selectAll('.tick text')
+          .style('transform', `rotate(-${this.config.ticks.rotate}deg)`)
+          .attr('text-anchor', 'end')
+          .attr('alignment-baseline', 'start')
+      );
     }
 
-    if (this.config.label) {
-      this.createLabel();
+    if (
+      this.config.ticks.labelsStroke ||
+      this.config.ticks.labelsStrokeOpacity ||
+      this.config.ticks.labelsStrokeWidth
+    ) {
+      this.axisGroup.call((g) =>
+        g
+          .selectAll('.tick text')
+          .attr('stroke', this.config.ticks.labelsStroke)
+          .attr('stroke-opacity', this.config.ticks.labelsStrokeOpacity)
+          .attr('stroke-width', this.config.ticks.labelsStrokeWidth)
+      );
     }
+  }
+
+  otherAxisHasPosAndNegValues(dimension: 'x' | 'y'): boolean {
+    const otherDimension = dimension === 'x' ? 'y' : 'x';
+    const domain = this.scales[otherDimension].domain();
+    if (domain.length > 2 || isNaN(domain[0]) || isNaN(domain[1])) {
+      return false;
+    }
+    return domain[0] < 0 && domain[1] > 0;
   }
 
   drawGrid(): void {
@@ -191,7 +264,9 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getTransition(selection: any): any {
-    const transitionDuration = this.getTransitionDuration();
+    const transitionDuration = this.isFirstDraw
+      ? 0
+      : this.getTransitionDuration();
     return selection.transition().duration(transitionDuration);
   }
 }

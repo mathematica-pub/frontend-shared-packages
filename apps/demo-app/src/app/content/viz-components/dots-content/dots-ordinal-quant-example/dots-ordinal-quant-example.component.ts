@@ -1,19 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  ChartConfig,
   DotsConfig,
   ElementSpacing,
+  VicChartConfigBuilder,
   VicChartModule,
   VicDotsConfigBuilder,
   VicDotsModule,
-  VicOrdinalAxisConfig,
-  VicQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 import {
   LocationCategoryDatum,
@@ -21,27 +21,26 @@ import {
 } from '../../data/location-category-data';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: DotsConfig<LocationCategoryDatum>;
-  xAxisConfig: VicQuantitativeAxisConfig<number>;
-  yAxisConfig: VicOrdinalAxisConfig<number>;
+  xAxisConfig: VicXQuantitativeAxisConfig<number>;
+  yAxisConfig: VicYOrdinalAxisConfig<number>;
 }
 
 @Component({
   selector: 'app-dots-ordinal-quant-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
     VicDotsModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
+    VicXyAxisModule,
   ],
   templateUrl: './dots-ordinal-quant-example.component.html',
   styleUrl: './dots-ordinal-quant-example.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    VicChartConfigBuilder,
     VicDotsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
@@ -57,6 +56,7 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
   };
 
   constructor(
+    private chart: VicChartConfigBuilder,
     private dots: VicDotsConfigBuilder<LocationCategoryDatum>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<number>
@@ -67,15 +67,20 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
   }
 
   getViewModel(): void {
+    const chartConfig = this.chart
+      .margin(this.margin)
+      .height(160)
+      .width(400)
+      .resize({ height: false })
+      .getConfig();
+
     const xAxisConfig = this.xQuantitativeAxis
-      .tickFormat('.0%')
-      .removeDomainLine()
-      .removeTickMarks()
-      .numTicks(5)
+      .ticks((ticks) => ticks.format('.0%').size(0).count(5))
+      .baseline((baseline) => baseline.display(false))
       .getConfig();
     const yAxisConfig = this.yOrdinalAxis
-      .removeDomainLine()
-      .removeTickMarks()
+      .ticks((ticks) => ticks.size(0))
+      .baseline((baseline) => baseline.display(false))
       .getConfig();
 
     const dataConfig = this.dots
@@ -95,6 +100,7 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
       .getConfig();
 
     this.vm = {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,

@@ -8,7 +8,7 @@ describe('XyChartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [XyChartComponent],
+      imports: [XyChartComponent],
     }).compileComponents();
   });
 

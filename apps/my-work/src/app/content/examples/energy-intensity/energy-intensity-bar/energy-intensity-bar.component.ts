@@ -8,33 +8,31 @@ import {
 } from '@angular/core';
 import {
   BarsConfig,
+  ChartConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
+  VicChartConfigBuilder,
   VicChartModule,
-  VicOrdinalAxisConfig,
-  VicQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 import { EnergyIntensityDatum } from '../energy-intensity.component';
 
 @Component({
   selector: 'app-energy-intensity-bar',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
     VicBarsModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
+    VicXyAxisModule,
   ],
   providers: [
+    VicChartConfigBuilder,
     VicBarsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
@@ -49,10 +47,12 @@ import { EnergyIntensityDatum } from '../energy-intensity.component';
 })
 export class EnergyIntensityBarComponent implements OnInit {
   @Input() data: EnergyIntensityDatum[];
+  followingChartConfig: ChartConfig;
   followingDataConfig: BarsConfig<EnergyIntensityDatum, string>;
+  sortedChartConfig: ChartConfig;
   sortedDataConfig: BarsConfig<EnergyIntensityDatum, string>;
-  xAxisConfig: VicQuantitativeAxisConfig<number>;
-  yAxisConfig: VicOrdinalAxisConfig<string>;
+  xAxisConfig: VicXQuantitativeAxisConfig<number>;
+  yAxisConfig: VicYOrdinalAxisConfig<string>;
   gdp = 'Energy consumption per GDP';
   perCap = 'Energy consumption per capita';
   sortVar = this.perCap;
@@ -62,6 +62,7 @@ export class EnergyIntensityBarComponent implements OnInit {
   chartHeight = 3000;
 
   constructor(
+    private chart: VicChartConfigBuilder,
     private bars: VicBarsConfigBuilder<EnergyIntensityDatum, string>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>
@@ -72,6 +73,20 @@ export class EnergyIntensityBarComponent implements OnInit {
   }
 
   setProperties(): void {
+    this.sortedChartConfig = this.chart
+      .margin({ top: 30, right: 0, bottom: 36, left: 200 })
+      .height(this.chartHeight)
+      .width(600)
+      .resize({ width: false, height: false })
+      .getConfig();
+
+    this.followingChartConfig = this.chart
+      .margin({ top: 30, right: 36, bottom: 36, left: 24 })
+      .height(this.chartHeight)
+      .width(460)
+      .resize({ width: false, height: false })
+      .getConfig();
+
     const sortedData = this.data
       .filter((x) => x.category === this.sortVar && x.value !== null)
       .slice()
@@ -132,9 +147,8 @@ export class EnergyIntensityBarComponent implements OnInit {
 
     this.yAxisConfig = this.yOrdinalAxis.getConfig();
     this.xAxisConfig = this.xQuantitativeAxis
-      .tickFormat(',.0f')
+      .ticks((ticks) => ticks.format(',.0f').count(4))
       .side('top')
-      .numTicks(4)
       .getConfig();
   }
 

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -8,7 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormsModule } from '@angular/forms';
 import { BehaviorSubject, skip } from 'rxjs';
 import {
   AutoComplete,
@@ -17,13 +18,13 @@ import {
   ListboxAction,
   OptionAction,
   TextboxAction,
-  VisualFocus,
 } from '../combobox.service';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 import { TextboxComponent } from '../textbox/textbox.component';
 
 @Component({
   selector: 'hsi-ui-editable-textbox',
+  imports: [CommonModule, FormsModule],
   templateUrl: './editable-textbox.component.html',
   styleUrls: ['./editable-textbox.component.scss'],
   host: {
@@ -124,7 +125,7 @@ export class EditableTextboxComponent
         }
       }
     }
-    this.service.setVisualFocus(VisualFocus.textbox);
+    this.service.emitTextboxFocus();
   }
 
   protected setAutoSelectWhenInputIsEmpty(): void {
@@ -139,7 +140,7 @@ export class EditableTextboxComponent
       this.service.emitOptionAction(OptionAction.nullActiveIndex);
     } else {
       this.service.closeListbox();
-      this.service.setVisualFocus(VisualFocus.textbox);
+      this.service.emitTextboxFocus();
     }
   }
 
@@ -154,7 +155,6 @@ export class EditableTextboxComponent
       return null;
     } else if (
       event.key === Key.Enter &&
-      this.service.visualFocus === VisualFocus.textbox &&
       (this.service.shouldAutoSelectOnListboxClose
         ? !this.service.isOpen
         : true)
@@ -166,7 +166,7 @@ export class EditableTextboxComponent
         event.key === Key.LeftArrow ||
         event.key === Key.Space
       ) {
-        this.service.setVisualFocus(VisualFocus.textbox);
+        this.service.emitTextboxFocus();
         return null;
       } else {
         return this.getActionFromKeydownEventWhenOpen(event);
@@ -204,7 +204,7 @@ export class EditableTextboxComponent
       this.service.emitOptionAction(OptionAction.select);
       this.service.closeListbox();
       if (event.key !== Key.Tab) {
-        this.service.setVisualFocus(VisualFocus.textbox);
+        this.service.emitTextboxFocus();
       }
       this.service.emitOptionAction(OptionAction.nullActiveIndex);
     } else if (
@@ -214,26 +214,25 @@ export class EditableTextboxComponent
     ) {
       event.stopPropagation();
       event.preventDefault();
-      this.service.setVisualFocus(VisualFocus.listbox);
       this.service.emitOptionAction(action);
     } else if (action === ListboxAction.open) {
       event.stopPropagation();
       event.preventDefault();
       this.service.emitOptionAction(OptionAction.zeroActiveIndex);
       this.service.openListbox();
-      this.service.setVisualFocus(VisualFocus.textbox);
+      this.service.emitTextboxFocus();
     } else if (action === ListboxAction.close) {
       event.stopPropagation();
       event.preventDefault();
       this.service.closeListbox();
-      this.service.setVisualFocus(VisualFocus.textbox);
+      this.service.emitTextboxFocus();
       this.service.emitOptionAction(OptionAction.nullActiveIndex);
     } else if (
       action === TextboxAction.cursorFirst ||
       action === TextboxAction.cursorLast ||
       action === TextboxAction.addChar
     ) {
-      this.service.setVisualFocus(VisualFocus.textbox);
+      this.service.emitTextboxFocus();
       if (!this.service.isOpen) {
         this.service.openListbox();
       }

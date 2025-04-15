@@ -16,7 +16,6 @@ export const HSI_UI_TAB_CONTENT = new InjectionToken<MatTabContent>(
   providers: [
     { provide: HSI_UI_TAB_CONTENT, useExisting: TabContentDirective },
   ],
-  standalone: true,
 })
 export class TabContentDirective {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

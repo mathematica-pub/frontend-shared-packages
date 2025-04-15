@@ -1,10 +1,15 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
   VicXQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisConfigBuilder,
 } from '..';
-import { VicChartModule, VicXyChartModule } from '../../charts';
+import {
+  ChartConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
+} from '../../charts';
 import {
   LinesConfig,
   VicLinesConfigBuilder,
@@ -15,10 +20,9 @@ import {
   ContinentPopulationNumYearDatum,
 } from '../../testing/data/continent-population-year-data';
 import { VicXyBackgroundModule } from '../../xy-background';
-import { XQuantitativeAxisConfig } from '../x-quantitative/x-quantitative-axis-config';
-import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';
-import { YQuantitativeAxisConfig } from '../y-quantitative-axis/y-quantitative-axis-config';
-import { VicYQuantitativeAxisModule } from '../y-quantitative-axis/y-quantitative-axis.module';
+import { VicXQuantitativeAxisConfig } from '../x-quantitative/x-quantitative-axis-config';
+import { VicXyAxisModule } from '../xy-axis.module';
+import { VicYQuantitativeAxisConfig } from '../y-quantitative-axis/y-quantitative-axis-config';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).
@@ -32,12 +36,7 @@ const data = ContinentPopulationNumYearData;
 @Component({
   selector: 'vic-test-axis-labels',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
         <svg:g
@@ -53,28 +52,30 @@ const data = ContinentPopulationNumYearData;
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestAxisLabelsComponent<Datum> {
   @Input() linesConfig: LinesConfig<Datum>;
-  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
-  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<number>;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(chartHeight)
+    .width(chartWidth)
+    .margin(margin)
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 }
 
 const imports = [
   VicChartModule,
   VicLinesModule,
-  VicXQuantitativeAxisModule,
-  VicYQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
 ];
 
 function mountAxisLabelsComponent(
-  xAxisConfig: XQuantitativeAxisConfig<number>,
-  yAxisConfig: YQuantitativeAxisConfig<number>
+  xAxisConfig: VicXQuantitativeAxisConfig<number>,
+  yAxisConfig: VicYQuantitativeAxisConfig<number>
 ): void {
   const linesConfig =
     new VicLinesConfigBuilder<ContinentPopulationNumYearDatum>()
@@ -107,12 +108,12 @@ function mountAxisLabelsComponent(
 describe('It creates axis labels that are visible when default values are used', () => {
   beforeEach(() => {
     const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-      .tickFormat('.0f')
+      .ticks((ticks) => ticks.format('.0f'))
       .label((label) => label.text('Year'))
       .getConfig();
     const yAxisConfig = new VicYQuantitativeAxisConfigBuilder<number>()
       .label((label) => label.text('Population'))
-      .tickFormat('.2s')
+      .ticks((ticks) => ticks.format('.2s'))
       .getConfig();
     mountAxisLabelsComponent(xAxisConfig, yAxisConfig);
     cy.wait(axisTickTextWaitTime);
@@ -151,12 +152,12 @@ describe('It creates axis labels that are visible when default values are used',
 describe('It creates axis labels that correctly positioned when positions are start', () => {
   beforeEach(() => {
     const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-      .tickFormat('.0f')
+      .ticks((ticks) => ticks.format('.0f'))
       .label((label) => label.text('Year').position('start'))
       .getConfig();
     const yAxisConfig = new VicYQuantitativeAxisConfigBuilder<number>()
       .label((label) => label.text('Population').position('start'))
-      .tickFormat('.2s')
+      .ticks((ticks) => ticks.format('.2s'))
       .getConfig();
     mountAxisLabelsComponent(xAxisConfig, yAxisConfig);
     cy.wait(axisTickTextWaitTime);
@@ -182,12 +183,12 @@ describe('It creates axis labels that correctly positioned when positions are st
 describe('It creates axis labels that are correctly positioned when positions are end', () => {
   beforeEach(() => {
     const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-      .tickFormat('.0f')
+      .ticks((ticks) => ticks.format('.0f'))
       .label((label) => label.text('Year').position('end'))
       .getConfig();
     const yAxisConfig = new VicYQuantitativeAxisConfigBuilder<number>()
       .label((label) => label.text('Population').position('end'))
-      .tickFormat('.2s')
+      .ticks((ticks) => ticks.format('.2s'))
       .getConfig();
     mountAxisLabelsComponent(xAxisConfig, yAxisConfig);
     cy.wait(axisTickTextWaitTime);

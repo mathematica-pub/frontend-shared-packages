@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -28,8 +29,8 @@ import {
 } from 'rxjs';
 import {
   ComboboxService,
+  FocusTextbox,
   OptionAction,
-  VisualFocus,
 } from '../combobox.service';
 import { ListboxGroupComponent } from '../listbox-group/listbox-group.component';
 import { ListboxLabelComponent } from '../listbox-label/listbox-label.component';
@@ -46,14 +47,14 @@ export type SelectedCountLabel = {
 
 @Component({
   selector: 'hsi-ui-listbox',
-  templateUrl: './listbox.component.html',
-  styleUrls: ['./listbox.component.scss'],
+  imports: [CommonModule],
   providers: [
     ListboxFilteringService,
     ListboxScrollService,
     ActiveIndexService,
   ],
-  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
+  templateUrl: './listbox.component.html',
+  styleUrls: ['./listbox.component.scss'],
   host: {
     class: 'hsi-ui-listbox-component',
   },
@@ -151,7 +152,7 @@ export class ListboxComponent
   }
 
   setOnBlurEvent() {
-    this.service.blurEvent$
+    this.service.textboxBlur$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         withLatestFrom(
@@ -190,7 +191,7 @@ export class ListboxComponent
       )
       .subscribe(([action, activeIndex, options]) => {
         if (options.length === 0) {
-          this.service.setVisualFocus(VisualFocus.textbox);
+          this.service.emitTextboxFocus();
           return;
         }
         if (!this.actionIsTypingChar(action)) {
@@ -221,6 +222,7 @@ export class ListboxComponent
       .subscribe(([, options]) => {
         this.activeIndex.setActiveIndexToFirstSelectedOrDefault(options);
         this.resetScroll();
+        this.service.emitTextboxFocus(FocusTextbox.includeMobile);
       });
   }
 
@@ -254,7 +256,7 @@ export class ListboxComponent
     if (!this.isMultiSelect) {
       this.service.closeListbox();
     }
-    this.service.setVisualFocus(VisualFocus.textbox);
+    this.service.emitTextboxFocus();
   }
 
   handleOptionSelect(
@@ -286,7 +288,7 @@ export class ListboxComponent
     options: ListboxOptionComponent[]
   ): void {
     if (!option || option.isDisabled()) {
-      this.service.setVisualFocus(VisualFocus.textbox);
+      this.service.emitTextboxFocus();
       return;
     }
     if (this.isMultiSelect) {

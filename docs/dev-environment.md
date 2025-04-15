@@ -29,12 +29,6 @@ The beta release process is as follows:
 3. An automated comment should be left on your PR. This will either indicate success and provide
    instructions for how to install your beta release or notify you of a workflow failure.
 
-> NOTE: Once you've beta released once from a particular PR, you don't need to add additional
-> `fix:`, `feat:`, `perf:` or `BREAKING CHANGE:` commits if you want to beta release again. The
-> system should automatically increment the beta release version for you and provide you with the
-> version number. E.g. you can release `@hsi/viz-components@1.0.1-beta.0` and then comment again
-> immediately to release `@hsi/viz-components@1.0.1-beta.1`.
-
 ## Running applications (e.g. demo-app, my-work) with deployed libraries
 
 To run all apps with the lastest version of all `libs` deployed to codeartifact, set your aws

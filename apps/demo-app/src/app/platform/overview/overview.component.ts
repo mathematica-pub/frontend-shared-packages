@@ -18,7 +18,6 @@ import { RouterStateService } from '../../core/services/router-state/router-stat
 
 @Component({
   selector: 'app-overview',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],

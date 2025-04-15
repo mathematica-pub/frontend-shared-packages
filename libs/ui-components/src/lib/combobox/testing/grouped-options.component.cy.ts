@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input, signal, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -53,6 +54,7 @@ import { scss } from './combobox-testing.constants';
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxGroupedTestComponent {
   @Input() isMulti = false;
@@ -193,6 +195,7 @@ describe('Multi-select grouped combobox with a default (dynamic) label', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxGroupedCountLabelTestComponent {
   options1 = [
@@ -282,6 +285,7 @@ describe('Multi-select grouped combobox with external selections', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxGroupedExternalSelectionsTestComponent {
   options1 = [
@@ -391,6 +395,7 @@ describe('Multi-select grouped combobox with external selections', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxGroupedDynamicOptionsTestComponent {
   optionsABC = [

@@ -1,45 +1,44 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  ChartConfig,
   ElementSpacing,
   GroupedBarsConfig,
+  VicChartConfigBuilder,
   VicChartModule,
   VicGroupedBarsConfigBuilder,
   VicGroupedBarsModule,
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
-  XOrdinalAxisConfig,
-  YQuantitativeAxisConfig,
 } from '@hsi/viz-components';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { filter, map, Observable } from 'rxjs';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: GroupedBarsConfig<IndustryUnemploymentDatum, Date>;
-  xAxisConfig: XOrdinalAxisConfig<Date>;
-  yAxisConfig: YQuantitativeAxisConfig<number>;
+  xAxisConfig: VicXOrdinalAxisConfig<Date>;
+  yAxisConfig: VicYQuantitativeAxisConfig<number>;
 }
 
 @Component({
   selector: 'app-grouped-bars-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
     VicGroupedBarsModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicYQuantitativeAxisModule,
-    VicXOrdinalAxisModule,
+    VicXyAxisModule,
   ],
   templateUrl: './grouped-bars-example.component.html',
   styleUrl: './grouped-bars-example.component.scss',
   providers: [
+    VicChartConfigBuilder,
     VicGroupedBarsConfigBuilder,
     VicXOrdinalAxisConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
@@ -58,6 +57,7 @@ export class GroupedBarsExampleComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
+    private chart: VicChartConfigBuilder,
     private groupedBars: VicGroupedBarsConfigBuilder<
       IndustryUnemploymentDatum,
       Date
@@ -80,8 +80,18 @@ export class GroupedBarsExampleComponent implements OnInit {
     const filteredIndustryData = yearlyData.filter(
       (d) => d.industry === 'Government' || d.industry === 'Finance'
     );
-    const xAxisConfig = this.xAxisOrdinal.tickFormat('%Y').getConfig();
-    const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').getConfig();
+    const chartConfig = this.chart
+      .margin(this.margin)
+      .resize({
+        height: false,
+      })
+      .getConfig();
+    const xAxisConfig = this.xAxisOrdinal
+      .ticks((ticks) => ticks.format('%Y'))
+      .getConfig();
+    const yAxisConfig = this.yAxisQuantitative
+      .ticks((ticks) => ticks.format(',.0f'))
+      .getConfig();
     const dataConfig = this.groupedBars
       .data(filteredIndustryData)
       .vertical((bars) =>
@@ -93,6 +103,7 @@ export class GroupedBarsExampleComponent implements OnInit {
       .getConfig();
 
     return {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,

@@ -3,11 +3,12 @@ import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { XyChartComponent } from '@hsi/viz-components';
 import { XyAxisStub } from '../../testing/stubs/xy-axis.stub';
+import { Ticks } from '../ticks/ticks';
 import { VicXOrdinalAxisConfigBuilder } from '../x-ordinal/x-ordinal-axis-builder';
 import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
 
 describe('the XyAxis abstract class', () => {
-  let abstractClass: XyAxisStub<number>;
+  let abstractClass: XyAxisStub<number, Ticks<number>>;
   const mockElementRef = {
     nativeElement: {
       querySelector: jasmine.createSpy('querySelector'),
@@ -52,7 +53,7 @@ describe('the XyAxis abstract class', () => {
     });
     it('calls tickSizeOuter once with the correct value if tickSizeOuter is defined', () => {
       abstractClass.config = new VicXOrdinalAxisConfigBuilder()
-        .tickSizeOuter(3)
+        .ticks((t) => t.sizeOuter(3))
         .getConfig();
       abstractClass.setAxisFromScaleAndConfig();
       expect(tickSizeOuterSpy).toHaveBeenCalledOnceWith(3);
@@ -66,7 +67,7 @@ describe('the XyAxis abstract class', () => {
     });
     it('calls setTicks once with tickFormat if tickFormat is truthy', () => {
       abstractClass.config = new VicXOrdinalAxisConfigBuilder()
-        .tickFormat('.1f')
+        .ticks((t) => t.format('.1f'))
         .getConfig();
       abstractClass.setAxisFromScaleAndConfig();
       expect(abstractClass.setTicks).toHaveBeenCalledOnceWith('.1f');
@@ -86,8 +87,9 @@ describe('the XyAxis abstract class', () => {
       spyOn(abstractClass, 'setAxisFromScaleAndConfig');
       spyOn(abstractClass, 'drawAxis');
       spyOn(abstractClass, 'drawGrid');
-      spyOn(abstractClass, 'postProcessAxisFeatures');
-      spyOn(abstractClass, 'getTransitionDuration').and.returnValue(200);
+      abstractClass.config = {
+        grid: true,
+      } as any;
     });
     it('calls setAxisFunction once', () => {
       abstractClass.initFromConfig();
@@ -105,13 +107,13 @@ describe('the XyAxis abstract class', () => {
       abstractClass.drawMarks();
       expect(abstractClass.setAxisFromScaleAndConfig).toHaveBeenCalledTimes(1);
     });
-    it('calls drawAxis once with the correct value', () => {
+    it('calls drawAxis once', () => {
       abstractClass.drawMarks();
       expect(abstractClass.drawAxis).toHaveBeenCalledTimes(1);
     });
-    it('calls postProcessAxisFeatures once', () => {
+    it('calls drawGrid once', () => {
       abstractClass.drawMarks();
-      expect(abstractClass.postProcessAxisFeatures).toHaveBeenCalledTimes(1);
+      expect(abstractClass.drawGrid).toHaveBeenCalledTimes(1);
     });
   });
 });

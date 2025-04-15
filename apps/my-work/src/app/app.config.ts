@@ -1,6 +1,10 @@
 import { TitleCasePipe } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
-import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+} from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { APP_ROUTES } from './app.routes';
 import { DirectoryConfigsService } from './core/services/directory-config.service';
@@ -15,15 +19,13 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'top',
       })
     ),
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      useFactory: (config: DirectoryConfigsService) => {
+    provideAppInitializer(() => {
+      const initializerFn = ((config: DirectoryConfigsService) => {
         return () => {
           config.initConfigs();
         };
-      },
-      deps: [DirectoryConfigsService],
-    },
+      })(inject(DirectoryConfigsService));
+      return initializerFn();
+    }),
   ],
 };

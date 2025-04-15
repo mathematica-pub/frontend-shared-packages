@@ -11,6 +11,7 @@ import {
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
 import {
+  ChartConfig,
   ElementSpacing,
   EventAction,
   HoverMoveAction,
@@ -22,6 +23,7 @@ import {
   LinesHoverMoveDefaultStyles,
   LinesHoverMoveDirective,
   LinesHoverMoveEmitTooltipData,
+  VicChartConfigBuilder,
   VicChartModule,
   VicColumnConfig,
   VicDataExport,
@@ -32,13 +34,12 @@ import {
   VicJpegImageConfig,
   VicLinesConfigBuilder,
   VicLinesModule,
-  VicQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 import { MetroUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
@@ -46,30 +47,29 @@ import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { HighlightLineForLabel } from './line-input-actions';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: LinesConfig<MetroUnemploymentDatum>;
-  xAxisConfig: VicQuantitativeAxisConfig<Date>;
-  yAxisConfig: VicQuantitativeAxisConfig<number>;
+  xAxisConfig: VicXQuantitativeAxisConfig<Date>;
+  yAxisConfig: VicYQuantitativeAxisConfig<number>;
   labels: string[];
 }
 const includeFiles = ['line-input-actions.ts'];
 
 @Component({
   selector: 'app-lines-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
     VicLinesModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicYQuantitativeAxisModule,
-    VicXQuantitativeAxisModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
     MatButtonToggleModule,
   ],
   templateUrl: './lines-example.component.html',
   styleUrls: ['./lines-example.component.scss'],
   providers: [
+    VicChartConfigBuilder,
     VicLinesConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
@@ -116,7 +116,8 @@ export class LinesExampleComponent implements OnInit {
   constructor(
     private dataService: DataService,
     public downloadService: VicDataExport,
-    public lines: VicLinesConfigBuilder<MetroUnemploymentDatum>,
+    private chart: VicChartConfigBuilder,
+    private lines: VicLinesConfigBuilder<MetroUnemploymentDatum>,
     private xAxisQuantitative: VicXQuantitativeAxisConfigBuilder<Date>,
     private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
     private tooltip: VicHtmlTooltipConfigBuilder
@@ -134,8 +135,9 @@ export class LinesExampleComponent implements OnInit {
   }
 
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
+    const chartConfig = this.chart.margin(this.margin).getConfig();
     const xAxisConfig = this.xAxisQuantitative
-      .tickFormat('%Y')
+      .ticks((ticks) => ticks.format('%Y'))
       .label((label) => label.position('middle').text('Year'))
       .getConfig();
     const yAxisConfig = this.yAxisQuantitative
@@ -144,10 +146,9 @@ export class LinesExampleComponent implements OnInit {
           .position('start')
           .text('Percent Unemployment (US Bureau of Labor Statistics)')
           .anchor('start')
-          .wrap((wrap) => wrap.width(110).maintainXPosition(true))
           .offset({ x: 8, y: 12 })
       )
-      .tickFormat('.0%')
+      .ticks((ticks) => ticks.format('.0%'))
       .getConfig();
     const dataConfig = this.lines
       .data(data)
@@ -167,10 +168,15 @@ export class LinesExampleComponent implements OnInit {
           .growByOnHover(3)
           .display((d) => d.division.includes('Bethesda-Rockville'))
       )
+      .areaFills((fills) =>
+        fills.display((category) => category.includes('Bethesda-Rockville'))
+      )
       .getConfig();
 
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
+
     return {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,

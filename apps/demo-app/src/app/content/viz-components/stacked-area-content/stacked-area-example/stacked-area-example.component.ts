@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
+  ChartConfig,
   ElementSpacing,
   HoverMoveAction,
   HtmlTooltipConfig,
@@ -8,45 +9,44 @@ import {
   StackedAreaEventOutput,
   StackedAreaHoverMoveDirective,
   StackedAreaHoverMoveEmitTooltipData,
+  VicChartConfigBuilder,
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicQuantitativeAxisConfig,
   VicStackedAreaConfigBuilder,
   VicStackedAreaModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: StackedAreaConfig<IndustryUnemploymentDatum, string>;
-  xAxisConfig: VicQuantitativeAxisConfig<Date>;
-  yAxisConfig: VicQuantitativeAxisConfig<number>;
+  xAxisConfig: VicXQuantitativeAxisConfig<Date>;
+  yAxisConfig: VicYQuantitativeAxisConfig<number>;
 }
 
 @Component({
   selector: 'app-stacked-area-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
-    VicXyChartModule,
     VicStackedAreaModule,
     VicXyBackgroundModule,
-    VicXQuantitativeAxisModule,
-    VicYQuantitativeAxisModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
   ],
   templateUrl: './stacked-area-example.component.html',
   styleUrls: ['./stacked-area-example.component.scss'],
   providers: [
+    VicChartConfigBuilder,
     VicStackedAreaConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
@@ -57,7 +57,7 @@ export class StackedAreaExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,
-    right: 0,
+    right: 12,
     bottom: 36,
     left: 64,
   };
@@ -77,6 +77,7 @@ export class StackedAreaExampleComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
+    private chart: VicChartConfigBuilder,
     private stackedArea: VicStackedAreaConfigBuilder<
       IndustryUnemploymentDatum,
       string
@@ -94,8 +95,13 @@ export class StackedAreaExampleComponent implements OnInit {
   }
 
   getViewModel(data: IndustryUnemploymentDatum[]): ViewModel {
-    const xAxisConfig = this.xAxisQuantitative.tickFormat('%Y').getConfig();
-    const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').getConfig();
+    const chartConfig = this.chart.margin(this.margin).getConfig();
+    const xAxisConfig = this.xAxisQuantitative
+      .ticks((ticks) => ticks.format('%Y'))
+      .getConfig();
+    const yAxisConfig = this.yAxisQuantitative
+      .ticks((ticks) => ticks.format(',.0f'))
+      .getConfig();
     const dataConfig = this.stackedArea
       .data(data)
       .xDate((dimension) => dimension.valueAccessor((d) => d.date))
@@ -103,6 +109,7 @@ export class StackedAreaExampleComponent implements OnInit {
       .color((dimension) => dimension.valueAccessor((d) => d.industry))
       .getConfig();
     return {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,

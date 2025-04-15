@@ -29,8 +29,7 @@ export class GeographiesAttributeDataLayer<
     TGeometry extends Geometry = MultiPolygon | Polygon,
   >
   extends GeographiesLayer<Datum, TProperties, TGeometry>
-  implements
-    GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
+  implements GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
 {
   readonly attributeDimension:
     | CategoricalBinsAttributeDataDimension<Datum>

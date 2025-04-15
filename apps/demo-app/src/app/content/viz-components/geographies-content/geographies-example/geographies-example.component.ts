@@ -7,6 +7,7 @@ import {
 import { MatSelectModule } from '@angular/material/select';
 import {
   BinStrategy,
+  ChartConfig,
   ElementSpacing,
   EventAction,
   GeographiesAttributeDataLayerBuilder,
@@ -20,11 +21,12 @@ import {
   GeographiesHoverEmitTooltipData,
   GeographiesLabelsBuilder,
   HtmlTooltipConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
   VicGeographiesConfigBuilder,
   VicGeographiesModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicMapChartModule,
   VicMapLegendModule,
   valueFormat,
 } from '@hsi/viz-components';
@@ -58,12 +60,16 @@ const smallSquareStates = [
   'VT',
 ];
 
+interface ViewModel {
+  chartConfig: ChartConfig;
+  geographiesConfig: GeographiesConfig<StateIncomeDatum, MapGeometryProperties>;
+}
+
 @Component({
   selector: 'app-geographies-example',
-  standalone: true,
   imports: [
     CommonModule,
-    VicMapChartModule,
+    VicChartModule,
     VicGeographiesModule,
     VicMapLegendModule,
     MatSelectModule,
@@ -72,12 +78,14 @@ const smallSquareStates = [
   ],
   templateUrl: './geographies-example.component.html',
   styleUrls: ['./geographies-example.component.scss'],
-  providers: [VicGeographiesConfigBuilder, VicHtmlTooltipConfigBuilder],
+  providers: [
+    VicChartConfigBuilder,
+    VicGeographiesConfigBuilder,
+    VicHtmlTooltipConfigBuilder,
+  ],
 })
 export class GeographiesExampleComponent implements OnInit {
-  primaryMarksConfig$: Observable<
-    GeographiesConfig<StateIncomeDatum, MapGeometryProperties>
-  >;
+  vm$: Observable<ViewModel>;
   width = 700;
   height = 400;
   margin: ElementSpacing = { top: 16, right: 40, bottom: 0, left: 40 };
@@ -128,6 +136,7 @@ export class GeographiesExampleComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private basemap: BasemapService,
+    private chart: VicChartConfigBuilder,
     private geographies: VicGeographiesConfigBuilder<
       StateIncomeDatum,
       MapGeometryProperties
@@ -145,13 +154,21 @@ export class GeographiesExampleComponent implements OnInit {
       )
     );
 
-    this.primaryMarksConfig$ = combineLatest([
-      this.attributeDataBinType$,
-      filteredData$,
-    ]).pipe(
-      map(([, data]) => this.getPrimaryMarksConfig(data)),
+    this.vm$ = combineLatest([this.attributeDataBinType$, filteredData$]).pipe(
+      map(([, data]) => ({
+        chartConfig: this.getChartConfig(),
+        geographiesConfig: this.getPrimaryMarksConfig(data),
+      })),
       shareReplay(1)
     );
+  }
+
+  getChartConfig(): ChartConfig {
+    return this.chart
+      .margin(this.margin)
+      .height(this.height)
+      .width(this.width)
+      .getConfig();
   }
 
   getPrimaryMarksConfig(

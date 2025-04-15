@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import { geoMercator } from 'd3';
 import {
@@ -11,9 +12,11 @@ import { range } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
+  ChartConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
   VicGeographiesConfigBuilder,
   VicGeographiesModule,
-  VicMapChartModule,
 } from '../../../../../../../public-api';
 import {
   StateIncomePopulationYearDatum,
@@ -47,11 +50,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-geographies',
   template: `
-    <vic-map-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-    >
+    <vic-map-chart [config]="chartConfig">
       <svg:g
         vic-primary-marks-geographies
         svg-elements
@@ -62,15 +61,19 @@ type TestUsMapTopology = Topology<TestMapObjects>;
     </vic-map-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestGeographiesComponent {
   @Input() geographiesConfig: GeographiesConfig<
     StateIncomePopulationYearDatum,
     TestMapGeometryProperties
   >;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .margin(margin)
+    .width(chartWidth)
+    .height(chartHeight)
+    .resize({ useViewbox: false })
+    .getConfig();
 }
 
 const mountGeographiesComponent = (
@@ -80,7 +83,7 @@ const mountGeographiesComponent = (
   >
 ): void => {
   const declarations = [TestGeographiesComponent];
-  const imports = [VicMapChartModule, VicGeographiesModule];
+  const imports = [VicChartModule, VicGeographiesModule];
 
   cy.mount(TestGeographiesComponent, {
     declarations,

@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import 'cypress-real-events';
 import { format, max } from 'd3';
@@ -5,19 +6,18 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
 import {
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
+  VicXyAxisModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
 } from '../axes';
-import { VicOrdinalAxisConfig } from '../axes/ordinal/ordinal-axis-config';
-import { VicQuantitativeAxisConfig } from '../axes/quantitative/quantitative-axis-config';
-import { VicXOrdinalAxisModule } from '../axes/x-ordinal/x-ordinal-axis.module';
-import { VicXQuantitativeAxisModule } from '../axes/x-quantitative/x-quantitative-axis.module';
-import { VicYOrdinalAxisModule } from '../axes/y-ordinal/y-ordinal-axis.module';
-import { VicYQuantitativeAxisModule } from '../axes/y-quantitative-axis/y-quantitative-axis.module';
-import { VicChartModule } from '../charts/chart/chart.module';
-import { VicXyChartModule } from '../charts/xy-chart/xy-chart.module';
+import { ChartConfig, VicChartConfigBuilder } from '../charts';
+import { VicChartModule } from '../charts/chart.module';
 import { EventAction, HoverMoveAction } from '../events/action';
 import {
   countryFactsData,
@@ -73,12 +73,7 @@ const labelSelector = '.vic-bars-label';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-horizontal-bar',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -104,15 +99,12 @@ const labelSelector = '.vic-bars-label';
       <p class="y-value">{{ (tooltipData$ | async).values.y }}</p>
     </ng-template>
   `,
-  styles: [],
+  standalone: false,
 })
 class TestHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
-  @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  margin = horizontalMargin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
@@ -122,6 +114,13 @@ class TestHorizontalBarsComponent {
   hoverAndMoveActions: HoverMoveAction<
     BarsHoverMoveDirective<CountryFactsDatum, string>
   >[] = [new BarsHoverMoveEmitTooltipData()];
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .margin(horizontalMargin)
+    .height(chartHeight)
+    .width(chartWidth)
+    .transitionDuration(0)
+    .resize({ useViewbox: false })
+    .getConfig();
 
   updateTooltipForNewOutput(
     data: BarsEventOutput<CountryFactsDatum, string>
@@ -152,16 +151,14 @@ const mountHorizontalBarsComponent = (
   barsConfig: BarsConfig<CountryFactsDatum, string>
 ): void => {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder()
-    .tickFormat(',.0f')
+    .ticks((ticks) => ticks.format(',.0f'))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
   const declarations = [TestHorizontalBarsComponent];
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
   ];
 
@@ -183,12 +180,7 @@ const mountHorizontalBarsComponent = (
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-vertical-bar',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
         <svg:g
@@ -207,21 +199,18 @@ const mountHorizontalBarsComponent = (
           ></vic-html-tooltip>
         </svg:g>
       </ng-container>
+      <ng-template #htmlTooltip>
+        <p>{{ (tooltipData$ | async).values.y }}</p>
+      </ng-template>
     </vic-xy-chart>
-
-    <ng-template #htmlTooltip>
-      <p>{{ (tooltipData$ | async).values.y }}</p>
-    </ng-template>
   `,
   styles: [],
+  standalone: false,
 })
 class TestVerticalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
-  @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  margin = verticalMargin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
@@ -231,6 +220,13 @@ class TestVerticalBarsComponent {
   hoverActions: EventAction<BarsHoverDirective<CountryFactsDatum, string>>[] = [
     new BarsHoverEmitTooltipData(),
   ];
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .margin(verticalMargin)
+    .height(chartHeight)
+    .width(chartWidth)
+    .transitionDuration(0)
+    .resize({ useViewbox: false })
+    .getConfig();
 
   updateTooltipForNewOutput(
     data: BarsEventOutput<CountryFactsDatum, string>
@@ -262,16 +258,14 @@ const mountVerticalBarsComponent = (
 ): void => {
   const xAxisConfig = new VicXOrdinalAxisConfigBuilder().getConfig();
   const yAxisConfig = new VicYQuantitativeAxisConfigBuilder()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
 
   const declarations = [TestVerticalBarsComponent];
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXOrdinalAxisModule,
-    VicYQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
   ];
 
@@ -552,8 +546,8 @@ describe('it creates the correct bars in the correct order for the data', () => 
             const size = parseFloat($bar.attr(barAttr));
             const axisSelector =
               orientation === 'horizontal'
-                ? '.vic-axis-y-ordinal'
-                : '.vic-axis-x-ordinal';
+                ? '.vic-axis-x-quantitative'
+                : '.vic-axis-y-quantitative';
             cy.get<SVGPathElement>(`${axisSelector} .domain`).then((domain) => {
               const domainRect = domain[0].getBBox();
               expect(size).to.be.above(domainRect[barAttr]);
@@ -626,6 +620,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           const size = parseFloat($bar.attr(barAttr));
           sizes.push(size);
         });
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         expect(sizes.every((size) => size === sizes[0])).to.be.true;
       });
     });

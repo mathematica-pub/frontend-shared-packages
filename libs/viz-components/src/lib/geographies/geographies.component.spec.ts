@@ -14,7 +14,7 @@ describe('GeographiesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [GeographiesComponent],
+      imports: [GeographiesComponent],
       providers: [MapChartComponent],
     }).compileComponents();
 
@@ -132,7 +132,7 @@ describe('GeographiesComponent', () => {
     beforeEach(() => {
       spyOn(component, 'drawMap');
       spyOn(component, 'updateGeographyElements');
-      component.chart = {
+      component.chart.config = {
         transitionDuration: 200,
       } as any;
     });

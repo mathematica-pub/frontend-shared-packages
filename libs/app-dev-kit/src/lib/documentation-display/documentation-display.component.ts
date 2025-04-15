@@ -30,7 +30,6 @@ import { NavigationSiblingsComponent } from './navigation-siblings/navigation-si
 
 @Component({
   selector: 'hsi-adk-documentation-display',
-  standalone: true,
   imports: [
     CommonModule,
     AdkDocumentIndexComponent,

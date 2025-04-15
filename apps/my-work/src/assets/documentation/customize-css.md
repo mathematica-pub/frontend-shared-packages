@@ -31,7 +31,6 @@ these styles, and then include that stylesheet in the `stylesUrl` array in each 
 ```ts
 @Component({
   selector: 'app-my-project-line-chart',
-  standalone: true,
   imports: [
     CommonModule,
   ],

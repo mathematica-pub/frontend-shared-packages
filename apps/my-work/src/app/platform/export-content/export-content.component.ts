@@ -20,7 +20,6 @@ type FileType = 'jpeg' | 'png' | 'svg';
 
 @Component({
   selector: 'app-export-content',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './export-content.component.html',
   styleUrls: ['./export-content.component.scss'],

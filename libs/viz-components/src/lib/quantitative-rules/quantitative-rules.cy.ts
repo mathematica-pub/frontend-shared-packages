@@ -1,27 +1,26 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
+  ChartConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
+  VicChartConfigBuilder,
   VicChartModule,
   VicLinesConfigBuilder,
   VicLinesModule,
   VicQuantitativeRulesModule,
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '../../public-api';
-import { VicOrdinalAxisConfig } from '../axes/ordinal/ordinal-axis-config';
-import { VicQuantitativeAxisConfig } from '../axes/quantitative/quantitative-axis-config';
-import { XQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
-import { YQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
+import { VicXQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
+import { VicYQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
 import { BarsConfig } from '../bars/config/bars-config';
 import { LinesConfig } from '../lines/config/lines-config';
 import {
@@ -62,12 +61,7 @@ const labelSelector = '.vic-quantitative-rules-label';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-quantitative-rules-horizontal-bar',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -84,22 +78,26 @@ const labelSelector = '.vic-quantitative-rules-label';
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestQuantitativeRulesHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
   @Input() rulesConfig: QuantitativeRulesConfig<number>;
-  @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  margin = barsHorizontalMargin;
-  chartHeight = barsChartHeight;
-  chartWidth = barsChartWidth;
+  @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(barsChartHeight)
+    .width(barsChartWidth)
+    .margin(barsHorizontalMargin)
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 }
 
 const mountHorizontalBarsComponent = (
   rulesConfig: QuantitativeRulesConfig<number>
 ): void => {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder()
-    .tickFormat(',.0f')
+    .ticks((ticks) => ticks.format(',.0f'))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
   const barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
@@ -117,9 +115,7 @@ const mountHorizontalBarsComponent = (
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicQuantitativeRulesModule,
   ];
 
@@ -143,12 +139,7 @@ const mountHorizontalBarsComponent = (
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-quantitative-rules-vertical-bar',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
         <svg:g
@@ -166,15 +157,20 @@ const mountHorizontalBarsComponent = (
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestVerticalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
   @Input() rulesConfig: QuantitativeRulesConfig<number>;
-  @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  margin = barsVerticalMargin;
-  chartHeight = barsChartHeight;
-  chartWidth = barsChartWidth;
+  @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(barsChartHeight)
+    .width(barsChartWidth)
+    .margin(barsVerticalMargin)
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 }
 
 const mountVerticalBarsComponent = (
@@ -182,7 +178,7 @@ const mountVerticalBarsComponent = (
 ): void => {
   const xAxisConfig = new VicXOrdinalAxisConfigBuilder().getConfig();
   const yAxisConfig = new VicYQuantitativeAxisConfigBuilder()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
   const barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
     .data(countryFactsData)
@@ -200,9 +196,7 @@ const mountVerticalBarsComponent = (
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXOrdinalAxisModule,
-    VicYQuantitativeAxisModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicQuantitativeRulesModule,
   ];
 
@@ -232,12 +226,7 @@ const linesNumericData = ContinentPopulationNumYearData;
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-lines',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -258,6 +247,7 @@ const linesNumericData = ContinentPopulationNumYearData;
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestLinesComponent<
   Datum,
@@ -266,19 +256,20 @@ class TestLinesComponent<
 > {
   @Input() linesConfig: LinesConfig<Datum>;
   @Input() rulesConfig: QuantitativeRulesConfig<RuleDatum>;
-  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
-  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<QuantAxisType>;
-  margin = linesMargin;
-  chartHeight = linesChartHeight;
-  chartWidth = linesChartWidth;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<QuantAxisType>;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .height(linesChartHeight)
+    .width(linesChartWidth)
+    .margin(linesMargin)
+    .resize({ height: false, useViewbox: false })
+    .getConfig();
 }
 
 const lineImports = [
   VicChartModule,
   VicLinesModule,
-  VicXQuantitativeAxisModule,
-  VicYQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicQuantitativeRulesModule,
 ];
 
@@ -286,7 +277,7 @@ function mountDateLinesComponent<RuleDatum extends number | Date>(
   rulesConfig: QuantitativeRulesConfig<RuleDatum>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<Date>()
-    .tickFormat('%Y')
+    .ticks((ticks) => ticks.format('%Y'))
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
@@ -322,7 +313,7 @@ function mountNumberLinesComponent(
   rulesConfig: QuantitativeRulesConfig<number>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
