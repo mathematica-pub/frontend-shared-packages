@@ -11,12 +11,10 @@ import {
   VicLinesModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 import { filter, map, Observable } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
@@ -40,10 +38,8 @@ class MonthValue {
     CommonModule,
     VicChartModule,
     VicLinesModule,
-    VicXyChartModule,
+    VicXyAxisModule,
     VicXyBackgroundModule,
-    VicYQuantitativeAxisModule,
-    VicXQuantitativeAxisModule,
     VicHtmlTooltipModule,
   ],
   providers: [
@@ -68,11 +64,8 @@ export class StaffingChartComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log("here");
-    this.vm$ = this.dataService.getDataFile(
-      'content/data/data.json'
-    )
-    .pipe(
+    console.log('here');
+    this.vm$ = this.dataService.getDataFile('content/data/data.json').pipe(
       filter((x) => !!x),
       map((x) => this.getViewModel(x))
     );
