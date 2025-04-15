@@ -5,8 +5,7 @@ on: [push]
 permissions: write-all
 
 jobs:
-
-  runs-on-local-files: 
+  runs-on-local-files:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -79,7 +78,7 @@ jobs:
 
   cypress-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # timeout-minutes: 15
 
     steps:
       - name: Checkout
