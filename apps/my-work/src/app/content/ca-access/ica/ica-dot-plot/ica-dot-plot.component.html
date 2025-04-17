@@ -1,12 +1,7 @@
 @if (rollupData.length === 0) {
   <p>The current selections are not a valid combination.</p>
 } @else {
-  <vic-xy-chart
-    [margin]="{ top: 0, right: 40, bottom: 0, left: 0 }"
-    [height]="chartHeight"
-    [width]="660"
-    [scaleChartWithContainerWidth]="{ width: false, height: false }"
-  >
+  <vic-xy-chart [config]="chartConfig">
     <ng-container svg-elements>
       <svg:g vic-x-quantitative-axis [config]="xAxisConfig"></svg:g>
       <svg:g vic-y-ordinal-axis [config]="yAxisConfig"></svg:g>

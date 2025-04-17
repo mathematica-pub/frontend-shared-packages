@@ -3,13 +3,12 @@ import { Component, OnChanges } from '@angular/core';
 import {
   VicBarsConfigBuilder,
   VicBarsModule,
+  VicChartModule,
   VicStackedBarsConfigBuilder,
   VicStackedBarsModule,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 import { min } from 'd3';
 import { CaAccessDotPlotComponent } from '../../ca-access-dot-plot.component';
@@ -21,11 +20,10 @@ import { CsaRaceStackedBarsComponent } from './csa-race-stacked-bars/csa-race-st
   standalone: true,
   imports: [
     CommonModule,
-    VicXyChartModule,
+    VicChartModule,
     VicBarsModule,
     VicStackedBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
+    VicXyAxisModule,
     CsaRaceStackedBarsComponent,
   ],
   providers: [

@@ -27,7 +27,7 @@ export class CsaRaceStackedBarsComponent extends CaAccessStackedBarsComponent {
     this.compVal = this.config.data.find(
       (category) => category.compVal !== null
     ).compVal;
-    this.compIsBig = this.scales.x(this.compVal) > this.chart.width / 2;
+    this.compIsBig = this.scales.x(this.compVal) > this.chart.config.width / 2;
     this.compPosition = this.compVal / this.scales.x.domain()[1];
   }
 

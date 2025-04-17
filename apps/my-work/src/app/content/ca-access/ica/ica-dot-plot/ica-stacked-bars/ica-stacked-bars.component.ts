@@ -50,7 +50,7 @@ export class IcaStackedBarsComponent
     const transitionDuration = this.getTransitionDuration();
     this.drawBars(transitionDuration);
     if (this.config.labels) {
-      this.drawBarLabels(transitionDuration);
+      this.drawLabels(transitionDuration);
     }
     this.updateBarElements();
     this.updatePercentiles();
@@ -125,7 +125,7 @@ export class IcaStackedBarsComponent
     this.xLabel = select(this.chart.svgRef.nativeElement)
       .append('text')
       .attr('class', 'x-label')
-      .attr('x', this.chart.width - 40);
+      .attr('x', this.chart.config.width - 40);
   }
 
   updatePercentiles(): void {
@@ -150,7 +150,7 @@ export class IcaStackedBarsComponent
       .text((d) => d)
       .attr('x1', (d) => this.scales.x(d))
       .attr('x2', (d) => this.scales.x(d))
-      .attr('y2', this.chart.height);
+      .attr('y2', this.chart.config.height);
   }
 
   getPercentileX(percentile: number, i: number): number {
@@ -194,17 +194,7 @@ export class IcaStackedBarsComponent
   updateDirectionLabel(): void {
     this.directionLabel
       .text(this.config.data[0].directionality)
-      .attr('y', this.chart.height + 40)
-      .attr(
-        'x',
-        this.config.data[0].directionality.includes('Higher')
-          ? this.chart.width
-          : 0
-      )
-      .attr(
-        'text-anchor',
-        this.config.data[0].directionality.includes('Higher') ? 'end' : 'start'
-      );
+      .attr('y', this.chart.config.height + 40);
   }
 
   updatePlanHeader(): void {
@@ -212,25 +202,28 @@ export class IcaStackedBarsComponent
       const isIca25Low = this.scales.x(this.config.data[0].ica_25) < 100;
       let x = 0;
       if (isIca25Low) {
-        x = this.chart.width - 160;
+        x = this.chart.config.width - 160;
         const isIca75High =
-          this.scales.x(this.config.data[0].ica_75) > this.chart.width * 0.7;
-        if (isIca75High) x = this.chart.width * 0.4;
+          this.scales.x(this.config.data[0].ica_75) >
+          this.chart.config.width * 0.7;
+        if (isIca75High) x = this.chart.config.width * 0.4;
       } else {
-        if (this.isIca75VeryHigh()) x = this.chart.width * 0.4;
+        if (this.isIca75VeryHigh()) x = this.chart.config.width * 0.4;
       }
       return `translate(${x}, 0)`;
     });
   }
 
   isIca75VeryHigh(): boolean {
-    return this.scales.x(this.config.data[0].ica_75) > this.chart.width - 100;
+    return (
+      this.scales.x(this.config.data[0].ica_75) > this.chart.config.width - 100
+    );
   }
 
   updateRange(): void {
     const data = this.config.data.filter((d) => d.series !== 'invisible');
     const maxValue = max(data.map((d) => d.value));
-    const x = this.isIca75VeryHigh() ? 5 : this.chart.width;
+    const x = this.isIca75VeryHigh() ? 5 : this.chart.config.width;
     this.rangeGroup.attr('transform', `translate(${x}, 0)`);
     this.rangeGroup
       .selectAll('.range-label')
@@ -257,7 +250,7 @@ export class IcaStackedBarsComponent
 
   updateSizeTitle(): void {
     const x = -this.labelWidth - 120;
-    const y = this.chart.height / 2;
+    const y = this.chart.config.height / 2;
     const data = this.getSizeLabelData();
     this.sizeGroup
       .selectAll('.size-title')
@@ -346,7 +339,7 @@ export class IcaStackedBarsComponent
           ? null
           : this.config.data[0].units
       )
-      .attr('y', this.chart.height + 40);
+      .attr('y', this.chart.config.height + 40);
   }
 
   override getStackElementY(datum: StackDatum): number {

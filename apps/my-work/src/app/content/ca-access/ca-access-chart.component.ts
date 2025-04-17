@@ -7,10 +7,8 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { DataService } from 'apps/my-work/src/app/core/services/data.service';
-import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { ascending } from 'd3';
 import { combineLatest, debounceTime, filter, map, Observable } from 'rxjs';
-import { CaAccessDotPlotComponent } from './ca-access-dot-plot.component';
 import { CaDatum } from './ca-access-stacked-bars.component';
 
 interface SelectionForm {
@@ -26,12 +24,7 @@ interface Option {
 @Component({
   selector: 'app-ca-access-chart',
   standalone: true,
-  imports: [
-    CommonModule,
-    ExportContentComponent,
-    CaAccessDotPlotComponent,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: 'ca-access-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

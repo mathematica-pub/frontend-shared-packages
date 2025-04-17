@@ -67,7 +67,7 @@ export class CaAccessStackedBarsComponent
     const transitionDuration = this.getTransitionDuration();
     this.drawBars(transitionDuration);
     if (this.config.labels) {
-      this.drawBarLabels(transitionDuration);
+      this.drawLabels(transitionDuration);
     }
     this.setCompValues();
     this.setLabelPositions();
@@ -96,7 +96,7 @@ export class CaAccessStackedBarsComponent
     this.xLabel = select(this.chart.svgRef.nativeElement)
       .append('text')
       .attr('class', 'x-label')
-      .attr('x', this.chart.width);
+      .attr('x', this.chart.config.width);
   }
 
   createHeaderGroup(): void {
@@ -143,15 +143,15 @@ export class CaAccessStackedBarsComponent
   setLabelPositions(): void {
     const breakpoint = 0.7;
     this.compIsBig =
-      this.scales.x(this.compVal) > this.chart.width * breakpoint;
-    const planEnd = this.chart.width - 80;
+      this.scales.x(this.compVal) > this.chart.config.width * breakpoint;
+    const planEnd = this.chart.config.width - 80;
     const percentileFront = 100;
     if (this.compPosition < 0.15) {
       this.planLabelPosition = planEnd;
-      this.percentileLabelPosition = this.chart.width - 320;
+      this.percentileLabelPosition = this.chart.config.width - 320;
     } else if (this.compPosition < 0.35) {
       this.planLabelPosition = 0;
-      this.percentileLabelPosition = this.chart.width - 220;
+      this.percentileLabelPosition = this.chart.config.width - 220;
     } else if (this.compPosition < 0.55) {
       this.planLabelPosition = planEnd;
       this.percentileLabelPosition = 0;
@@ -207,7 +207,7 @@ export class CaAccessStackedBarsComponent
       .selectAll('line')
       .data((d) => [d])
       .join('line')
-      .attr('y1', this.chart.height)
+      .attr('y1', this.chart.config.height)
       .attr('y2', this.headerOffset - 16);
 
     comparisonGroup
@@ -305,7 +305,7 @@ export class CaAccessStackedBarsComponent
         this.config.data.find((category) => category.directionality !== null)
           .directionality
       )
-      .attr('y', this.chart.height + 40);
+      .attr('y', this.chart.config.height + 40);
   }
 
   updateXLabel(): void {
@@ -316,7 +316,7 @@ export class CaAccessStackedBarsComponent
         ).units;
         return units === 'Percentage' ? null : units;
       })
-      .attr('y', this.chart.height + 40);
+      .attr('y', this.chart.config.height + 40);
   }
 
   updatePlanHeader(): void {

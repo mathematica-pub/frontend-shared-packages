@@ -5,40 +5,34 @@ import {
   Component,
   Input,
   OnChanges,
+  OnInit,
 } from '@angular/core';
 import {
+  ChartConfig,
   StackedBarsConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
-  VicOrdinalAxisConfig,
-  VicQuantitativeAxisConfig,
+  VicChartModule,
   VicStackedBarsConfigBuilder,
   VicStackedBarsModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 import { max, min } from 'd3';
-import { BdaStackedBarsComponent } from './bda/bda-dot-plot/bda-stacked-bars/bda-stacked-bars.component';
 import { CaDatum } from './ca-access-stacked-bars.component';
-import { CsaRaceStackedBarsComponent } from './csa-race/csa-race-dot-plot/csa-race-stacked-bars/csa-race-stacked-bars.component';
-import { CsaStackedBarsComponent } from './csa/csa-dot-plot/csa-stacked-bars/csa-stacked-bars.component';
 
 @Component({
   selector: 'app-ca-access-dot-plot',
   standalone: true,
   imports: [
     CommonModule,
-    VicXyChartModule,
+    VicChartModule,
     VicBarsModule,
     VicStackedBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    BdaStackedBarsComponent,
-    CsaStackedBarsComponent,
-    CsaRaceStackedBarsComponent,
+    VicXyAxisModule,
   ],
   providers: [
     VicBarsConfigBuilder,
@@ -49,14 +43,14 @@ import { CsaStackedBarsComponent } from './csa/csa-dot-plot/csa-stacked-bars/csa
   templateUrl: 'ca-access-dot-plot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CaAccessDotPlotComponent implements OnChanges {
+export class CaAccessDotPlotComponent implements OnChanges, OnInit {
   @Input() data: CaDatum[];
+  chartConfig: ChartConfig;
   rollupData: CaDatum[] = [];
   rollupDataConfig: StackedBarsConfig<any, string>;
-  xAxisConfig: VicQuantitativeAxisConfig<number>;
-  yAxisConfig: VicOrdinalAxisConfig<string>;
+  xAxisConfig: VicXQuantitativeAxisConfig<number>;
+  yAxisConfig: VicYOrdinalAxisConfig<string>;
   trueMax: number;
-  chartHeight: number;
   labelWidth = Infinity;
   bandwidth = 15;
 
@@ -65,6 +59,26 @@ export class CaAccessDotPlotComponent implements OnChanges {
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>
   ) {}
+
+  ngOnInit(): void {
+    this.chartConfig = {
+      margin: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+      },
+      height: null,
+      width: 700,
+      aspectRatio: 1,
+      resize: {
+        width: false,
+        height: false,
+        useViewbox: false,
+      },
+      transitionDuration: 0,
+    };
+  }
 
   ngOnChanges(): void {
     if (this.data[0]) {
@@ -133,7 +147,7 @@ export class CaAccessDotPlotComponent implements OnChanges {
 
   setProperties(): void {
     if (this.rollupData.length > 0) {
-      this.chartHeight = this.rollupData.length * this.bandwidth * 2;
+      this.chartConfig.height = this.rollupData.length * this.bandwidth * 2;
 
       const dotMax = max(this.rollupData.map((d) => max(d.plans)));
       const barMax = max(this.rollupData, (d) => this.getBarValue(d));
@@ -175,16 +189,18 @@ export class CaAccessDotPlotComponent implements OnChanges {
         .getConfig();
 
       this.yAxisConfig = this.yOrdinalAxis
-        .tickSizeOuter(0)
-        .wrapTickText((wrap) =>
-          wrap.wrapWidth(this.labelWidth).maintainYPosition(true)
+        .ticks((ticks) =>
+          ticks
+            .sizeOuter(0)
+            .wrap((wrap) => wrap.width(this.labelWidth).maintainYPosition(true))
         )
+        .baseline((baseline) => baseline.display())
         .grid((grid) => grid.filter(() => true))
         .getConfig();
       this.xAxisConfig = this.xQuantitativeAxis
-        .tickFormat(this.getTickFormat())
-        .numTicks(5)
-        .tickSizeOuter(0)
+        .ticks((ticks) =>
+          ticks.format(this.getTickFormat()).count(5).sizeOuter(0)
+        )
         .grid()
         .getConfig();
     }

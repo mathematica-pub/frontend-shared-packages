@@ -4,20 +4,21 @@ import {
   Component,
   Input,
   OnChanges,
+  OnInit,
 } from '@angular/core';
 import {
+  ChartConfig,
   StackedBarsConfig,
   VicBarsConfigBuilder,
-  VicBarsModule,
-  VicOrdinalAxisConfig,
-  VicQuantitativeAxisConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
   VicStackedBarsConfigBuilder,
   VicStackedBarsModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 import { descending, extent, max, min } from 'd3';
 import { IcaStackedBarsComponent } from './ica-stacked-bars/ica-stacked-bars.component';
@@ -43,11 +44,9 @@ export interface IcaDatum {
   standalone: true,
   imports: [
     CommonModule,
-    VicXyChartModule,
-    VicBarsModule,
+    VicChartModule,
     VicStackedBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
+    VicXyAxisModule,
     IcaStackedBarsComponent,
   ],
   providers: [
@@ -55,17 +54,19 @@ export interface IcaDatum {
     VicStackedBarsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
+    VicChartConfigBuilder,
   ],
   templateUrl: './ica-dot-plot.component.html',
   styleUrl: './ica-dot-plot.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IcaDotPlotComponent implements OnChanges {
+export class IcaDotPlotComponent implements OnInit, OnChanges {
   @Input() data: IcaDatum[];
+  chartConfig: ChartConfig;
   rollupData: IcaDatum[] = [];
   rollupDataConfig: StackedBarsConfig<IcaDatum, string>;
-  xAxisConfig: VicQuantitativeAxisConfig<number>;
-  yAxisConfig: VicOrdinalAxisConfig<string>;
+  xAxisConfig: VicXQuantitativeAxisConfig<number>;
+  yAxisConfig: VicYOrdinalAxisConfig<string>;
   trueMax: number;
   chartHeight: number;
 
@@ -74,6 +75,26 @@ export class IcaDotPlotComponent implements OnChanges {
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>
   ) {}
+
+  ngOnInit(): void {
+    this.chartConfig = {
+      margin: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+      },
+      height: null,
+      width: 660,
+      aspectRatio: 1,
+      resize: {
+        width: false,
+        height: false,
+        useViewbox: false,
+      },
+      transitionDuration: 0,
+    };
+  }
 
   ngOnChanges(): void {
     if (this.data[0]) {
@@ -124,7 +145,7 @@ export class IcaDotPlotComponent implements OnChanges {
     this.rollupData = this.rollupData.filter((d) => d.plans.length > 1);
 
     if (this.rollupData.length > 0) {
-      this.chartHeight = this.rollupData.length * 15;
+      this.chartConfig.height = this.rollupData.length * 15;
 
       this.trueMax = max(this.rollupData.map((d) => max(d.plans)));
       if (this.trueMax < 1 && this.trueMax > 0.8) this.trueMax = 1;
@@ -155,17 +176,17 @@ export class IcaDotPlotComponent implements OnChanges {
         )
         .color((dimension) => dimension.valueAccessor((d) => d.series))
         .stackOrder(() => [1, 0])
-        // .stackOffset(() => 100)
         .getConfig();
 
       this.yAxisConfig = this.yOrdinalAxis
-        .tickSizeOuter(0)
+        .ticks((ticks) => ticks.sizeOuter(0))
         .grid((grid) => grid.filter(() => true))
+        .baseline((baseline) => baseline.display())
         .getConfig();
       this.xAxisConfig = this.xQuantitativeAxis
-        .tickFormat(this.getTickFormat())
-        .numTicks(5)
-        .tickSizeOuter(0)
+        .ticks((ticks) =>
+          ticks.format(this.getTickFormat()).count(5).sizeOuter(0)
+        )
         .grid()
         .getConfig();
     }

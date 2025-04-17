@@ -3,13 +3,12 @@ import { Component, OnChanges } from '@angular/core';
 import {
   VicBarsConfigBuilder,
   VicBarsModule,
+  VicChartModule,
   VicStackedBarsConfigBuilder,
   VicStackedBarsModule,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 import { CaAccessDotPlotComponent } from '../../ca-access-dot-plot.component';
 import { BdaDatum } from '../bda.component';
@@ -20,11 +19,10 @@ import { BdaStackedBarsComponent } from './bda-stacked-bars/bda-stacked-bars.com
   standalone: true,
   imports: [
     CommonModule,
-    VicXyChartModule,
+    VicChartModule,
     VicBarsModule,
     VicStackedBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
+    VicXyAxisModule,
     BdaStackedBarsComponent,
   ],
   providers: [
@@ -67,7 +65,7 @@ export class BdaDotPlotComponent
       this.setData();
       this.injectMissingCategories();
       this.setProperties();
-      this.chartHeight = this.rollupData.length * this.bandwidth;
+      this.chartConfig.height = this.rollupData.length * this.bandwidth;
     }
   }
 
