@@ -18,8 +18,8 @@
 
 .sidebar {
   display: block;
-  width: 300px;
-  min-width: 300px;
+  width: $sidebar-width;
+  min-width: $sidebar-width;
   flex-shrink: 0;
   height: 100vh;
   position: sticky;
@@ -31,4 +31,7 @@
   flex-grow: 1;
   flex-shrink: 1;
   padding: hsi-adk.grid(8);
+  overflow: auto;
+  display: flex;
+  max-height: 100vh;
 }
