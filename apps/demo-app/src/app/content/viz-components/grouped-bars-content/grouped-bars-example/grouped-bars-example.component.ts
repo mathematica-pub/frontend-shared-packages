@@ -8,14 +8,12 @@ import {
   VicChartModule,
   VicGroupedBarsConfigBuilder,
   VicGroupedBarsModule,
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
-  XOrdinalAxisConfig,
-  YQuantitativeAxisConfig,
 } from '@hsi/viz-components';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
@@ -24,21 +22,18 @@ import { filter, map, Observable } from 'rxjs';
 interface ViewModel {
   chartConfig: ChartConfig;
   dataConfig: GroupedBarsConfig<IndustryUnemploymentDatum, Date>;
-  xAxisConfig: XOrdinalAxisConfig<Date>;
-  yAxisConfig: YQuantitativeAxisConfig<number>;
+  xAxisConfig: VicXOrdinalAxisConfig<Date>;
+  yAxisConfig: VicYQuantitativeAxisConfig<number>;
 }
 
 @Component({
   selector: 'app-grouped-bars-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
     VicGroupedBarsModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicYQuantitativeAxisModule,
-    VicXOrdinalAxisModule,
+    VicXyAxisModule,
   ],
   templateUrl: './grouped-bars-example.component.html',
   styleUrl: './grouped-bars-example.component.scss',
@@ -91,8 +86,12 @@ export class GroupedBarsExampleComponent implements OnInit {
         height: false,
       })
       .getConfig();
-    const xAxisConfig = this.xAxisOrdinal.tickFormat('%Y').getConfig();
-    const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').getConfig();
+    const xAxisConfig = this.xAxisOrdinal
+      .ticks((ticks) => ticks.format('%Y'))
+      .getConfig();
+    const yAxisConfig = this.yAxisQuantitative
+      .ticks((ticks) => ticks.format(',.0f'))
+      .getConfig();
     const dataConfig = this.groupedBars
       .data(filteredIndustryData)
       .vertical((bars) =>

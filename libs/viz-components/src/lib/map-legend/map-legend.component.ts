@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -10,6 +11,8 @@ import {
 import { MapChartComponent } from '../charts/map-chart/map-chart.component';
 import { Orientation, Side } from '../core/types/layout';
 import { BinStrategy } from '../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-enums';
+import { ContinuousLegendComponent } from './continuous-legend/continuous-legend.component';
+import { DiscontinuousLegendComponent } from './discontinuous-legend/discontinuous-legend.component';
 
 export enum VicLegendType {
   categorical = 'categorical',
@@ -21,6 +24,11 @@ export enum VicLegendType {
   selector: 'vic-map-legend',
   templateUrl: './map-legend.component.html',
   styleUrls: ['./map-legend.component.scss'],
+  imports: [
+    CommonModule,
+    ContinuousLegendComponent,
+    DiscontinuousLegendComponent,
+  ],
 })
 export class MapLegendComponent<Datum> implements OnInit {
   @Input() width: number;

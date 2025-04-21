@@ -22,7 +22,6 @@ import { ContentSection } from '../../core/services/content-parser.service';
 
 @Component({
   selector: 'app-content-container',
-  standalone: true,
   imports: [CommonModule, AdkDocumentIndexComponent],
   templateUrl: './content-container.component.html',
   styleUrl: './content-container.component.scss',

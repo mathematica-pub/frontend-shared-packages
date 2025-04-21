@@ -36,8 +36,7 @@
     <vic-xy-chart [config]="vm.chartConfig" #tooltipOrigin>
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
-        <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
-        <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig"></svg:g>
+
         @if ((tooltipEvent$ | async) === 'hover') {
           <svg:g
             vic-primary-marks-lines
@@ -77,6 +76,8 @@
             ></vic-html-tooltip>
           </svg:g>
         }
+        <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
+        <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig"></svg:g>
       </ng-container>
     </vic-xy-chart>
   </div>

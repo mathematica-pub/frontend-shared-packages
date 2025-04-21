@@ -22,11 +22,11 @@ import {
   GeographiesLabelsBuilder,
   HtmlTooltipConfig,
   VicChartConfigBuilder,
+  VicChartModule,
   VicGeographiesConfigBuilder,
   VicGeographiesModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicMapChartModule,
   VicMapLegendModule,
   valueFormat,
 } from '@hsi/viz-components';
@@ -67,10 +67,9 @@ interface ViewModel {
 
 @Component({
   selector: 'app-geographies-example',
-  standalone: true,
   imports: [
     CommonModule,
-    VicMapChartModule,
+    VicChartModule,
     VicGeographiesModule,
     VicMapLegendModule,
     MatSelectModule,

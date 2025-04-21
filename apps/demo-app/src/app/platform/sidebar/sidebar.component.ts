@@ -7,7 +7,6 @@ import { LibDocsComponent } from './lib-docs/lib-docs.component';
 
 @Component({
   selector: 'app-sidebar',
-  standalone: true,
   imports: [CommonModule, RouterModule, LibDocsComponent],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],

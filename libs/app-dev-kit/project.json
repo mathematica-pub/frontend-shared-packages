@@ -74,6 +74,19 @@
         "postTargets": ["build-release", "publish", "github-release"],
         "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
       }
+    },
+    "beta-version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "skipCommit": true,
+        "skipRootChangelog": true,
+        "releaseAs": "prerelease",
+        "tagPrefix": "beta/{projectName}@",
+        "preid": "beta",
+        "postTargets": ["build-release", "publish", "github-release"],
+        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
+      }
     }
   }
 }

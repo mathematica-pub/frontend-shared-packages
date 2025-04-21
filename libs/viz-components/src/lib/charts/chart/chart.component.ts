@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -73,6 +74,7 @@ export interface ChartScales {
   host: {
     class: 'vic-chart',
   },
+  imports: [CommonModule],
 })
 export class ChartComponent<Scales extends ChartScales = ChartScales>
   implements Chart, OnInit, OnChanges

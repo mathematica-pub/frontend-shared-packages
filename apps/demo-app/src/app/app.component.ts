@@ -10,7 +10,6 @@ import { SidebarComponent } from './platform/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [RouterOutlet, SidebarComponent, AsyncPipe],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],

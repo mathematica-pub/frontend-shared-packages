@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import 'cypress-real-events';
 import { curveBasis, schemeTableau10 } from 'd3';
@@ -12,16 +13,14 @@ import {
   VicLinesConfigBuilder,
   VicLinesModule,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from 'libs/viz-components/src/public-api';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
-import { XQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
-import { YQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
+import { VicXQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
+import { VicYQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
 import { HoverMoveAction } from '../events/action';
 import {
   continentPopulationDateYearData,
@@ -90,11 +89,12 @@ const markerSelector = '.vic-lines-marker';
     </ng-template>
   `,
   styles: ['.tooltip-text { font-size: 12px; }'],
+  standalone: false,
 })
 class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   @Input() linesConfig: LinesConfig<Datum>;
-  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
-  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<QuantAxisType>;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<QuantAxisType>;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
@@ -143,9 +143,7 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
 const imports = [
   VicChartModule,
   VicLinesModule,
-  VicXQuantitativeAxisModule,
-  VicYQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
   VicHtmlTooltipModule,
 ];
 
@@ -153,7 +151,7 @@ function mountDateLinesComponent(
   linesConfig: LinesConfig<ContinentPopulationDateYearDatum>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<Date>()
-    .tickFormat('%Y')
+    .ticks((ticks) => ticks.format('%Y'))
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
@@ -175,7 +173,7 @@ function mountNumberLinesComponent(
   linesConfig: LinesConfig<ContinentPopulationNumYearDatum>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();

@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -58,6 +59,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxSelectAllMultiSelectTestComponent extends ComboboxBaseTestComponent {
   @Input() dynamicLabel = false;
@@ -161,6 +163,7 @@ describe('ComboboxSelectAllMultiComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxExternalSelectedTestComponent {
   @Input() dynamicLabel = false;
@@ -312,6 +315,7 @@ describe('ComboboxExternalSelectedTestComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  standalone: false,
 })
 class ComboboxExternalDisableTestComponent {
   @Input() dynamicLabel = false;

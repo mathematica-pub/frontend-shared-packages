@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input } from '@angular/core';
 import {
@@ -5,19 +6,17 @@ import {
   VicBarsModule,
   VicChartConfigBuilder,
   VicChartModule,
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from 'libs/viz-components/src/public-api';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { VicOrdinalAxisConfig } from '../../../axes/ordinal/ordinal-axis-config';
-import { VicQuantitativeAxisConfig } from '../../../axes/quantitative/quantitative-axis-config';
 import { VicBarsConfigBuilder } from '../bars-builder';
 import { BarsConfig } from '../bars-config';
 
@@ -153,11 +152,12 @@ const barLabelColorMatchesExpectedRgb = (
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestVerticalBarsWithLabelsComponent {
   @Input() barsConfig: BarsConfig<Datum, string>;
-  @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
+  @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .height(400)
     .margin({ top: 20, right: 20, bottom: 0, left: 40 })
@@ -170,17 +170,11 @@ const mountVerticalBarsComponent = (
 ): void => {
   const xAxisConfig = new VicXOrdinalAxisConfigBuilder().getConfig();
   const yAxisConfig = new VicYQuantitativeAxisConfigBuilder()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
 
   const declarations = [TestVerticalBarsWithLabelsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXOrdinalAxisModule,
-    VicYQuantitativeAxisModule,
-    VicXyChartModule,
-  ];
+  const imports = [VicChartModule, VicBarsModule, VicXyAxisModule];
 
   cy.mount(TestVerticalBarsWithLabelsComponent, {
     declarations,
@@ -487,11 +481,12 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     </vic-xy-chart>
   `,
   styles: [],
+  standalone: false,
 })
 class TestHorizontalBarsWithLabelsComponent {
   @Input() barsConfig: BarsConfig<Datum, string>;
-  @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
+  @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .height(200)
     .margin({ top: 20, right: 20, bottom: 20, left: 60 })
@@ -503,18 +498,12 @@ const mountHorizontalBarsComponent = (
   barsConfig: BarsConfig<Datum, string>
 ): void => {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
 
   const declarations = [TestHorizontalBarsWithLabelsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    VicXyChartModule,
-  ];
+  const imports = [VicChartModule, VicBarsModule, VicXyAxisModule];
 
   cy.mount(TestHorizontalBarsWithLabelsComponent, {
     declarations,

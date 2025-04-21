@@ -77,6 +77,13 @@ const routes = [
               ).then((m) => m.AxesContentComponent),
           },
           {
+            path: 'baseline',
+            loadComponent: () =>
+              import(
+                '../viz-components/axes-content/axes-content.component'
+              ).then((m) => m.AxesContentComponent),
+          },
+          {
             path: 'grid',
             loadComponent: () =>
               import(
@@ -85,6 +92,13 @@ const routes = [
           },
           {
             path: 'labels',
+            loadComponent: () =>
+              import(
+                '../viz-components/axes-content/axes-content.component'
+              ).then((m) => m.AxesContentComponent),
+          },
+          {
+            path: 'tick-wrap',
             loadComponent: () =>
               import(
                 '../viz-components/axes-content/axes-content.component'

@@ -1,8 +1,9 @@
 import { Directive, Input } from '@angular/core';
 import { axisLeft, axisRight } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { DataValue } from '../../core/types/values';
+import { ContinuousValue, DataValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
+import { Ticks } from '../ticks/ticks';
 import { YAxisConfig } from './y-axis-config';
 
 /**
@@ -11,12 +12,13 @@ import { YAxisConfig } from './y-axis-config';
  * For internal library use only.
  */
 export function yAxisMixin<
-  TickValue extends DataValue,
-  T extends AbstractConstructor<XyAxis<TickValue>>,
+  Tick extends DataValue | ContinuousValue,
+  TicksConfig extends Ticks<Tick>,
+  T extends AbstractConstructor<XyAxis<Tick, TicksConfig>>,
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base {
-    @Input() override config: YAxisConfig<TickValue>;
+    @Input() override config: YAxisConfig<Tick, TicksConfig>;
     translate: string;
 
     setAxisFunction(): void {
@@ -43,7 +45,7 @@ export function yAxisMixin<
       return range[1];
     }
 
-    getDomainTranslate(): string | null {
+    getBaselineTranslate(): string | null {
       if (this.otherAxisHasPosAndNegValues('y')) {
         const rangeIndexForSide = this.config.side === 'left' ? 0 : 1;
         const translateDistance =

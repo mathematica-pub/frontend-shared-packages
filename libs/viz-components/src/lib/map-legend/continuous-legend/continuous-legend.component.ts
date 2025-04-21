@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnChanges, ViewChild } from '@angular/core';
 import { scaleLinear } from 'd3';
 import { Orientation } from '../../core/types/layout';
@@ -11,6 +12,7 @@ import { MapLegend } from '../map-legend-base';
   selector: 'vic-continuous-legend',
   templateUrl: './continuous-legend.component.html',
   styleUrls: ['./continuous-legend.component.scss'],
+  imports: [CommonModule],
 })
 export class ContinuousLegendComponent<Datum>
   extends MapLegend<Datum, NoBinsAttributeDataDimension<Datum>>

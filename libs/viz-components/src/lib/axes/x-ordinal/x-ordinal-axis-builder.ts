@@ -1,24 +1,31 @@
 import { Injectable } from '@angular/core';
 import { DataValue } from '../../core/types/values';
 import { XyAxisBaseBuilder } from '../base/config/xy-axis-builder';
-import { XOrdinalAxisConfig } from './x-ordinal-axis-config';
+import { TicksBuilder } from '../ticks/ticks-builder';
+import { VicXOrdinalAxisConfig } from './x-ordinal-axis-config';
 
 const DEFAULT = {
   _side: 'bottom',
-  _tickSizeOuter: 0,
-  _removeDomainLine: true,
-  _zeroAxis: { strokeDasharray: '2', useZeroAxis: true },
+  _baseline: {
+    display: false,
+  },
+};
+
+const TICK_DEFAULT = {
+  _sizeOuter: 0,
 };
 
 @Injectable()
 export class VicXOrdinalAxisConfigBuilder<
-  TickValue extends DataValue,
-> extends XyAxisBaseBuilder<TickValue> {
+  Tick extends DataValue,
+> extends XyAxisBaseBuilder {
   private _side: 'top' | 'bottom';
+  private ticksBuilder: TicksBuilder<Tick>;
 
   constructor() {
     super();
     Object.assign(this, DEFAULT);
+    this.ticksBuilder = this.getTicksBuilder();
   }
 
   /**
@@ -33,22 +40,35 @@ export class VicXOrdinalAxisConfigBuilder<
     return this;
   }
 
-  getConfig(): XOrdinalAxisConfig<TickValue> {
-    return new XOrdinalAxisConfig<TickValue>({
+  /**
+   * OPTIONAL. Specifies properties for axis ticks.
+   *
+   * @param ticks - A function that specifies properties for axis ticks.
+   */
+  ticks(ticks: (ticks: TicksBuilder<Tick>) => void): this;
+  ticks(ticks: null): this;
+  ticks(ticks: ((ticks: TicksBuilder<Tick>) => void) | null): this {
+    this.ticksBuilder = this.getTicksBuilder();
+    if (ticks === null) {
+      return this;
+    }
+    ticks?.(this.ticksBuilder);
+    return this;
+  }
+
+  private getTicksBuilder(): TicksBuilder<Tick> {
+    return new TicksBuilder<Tick>(TICK_DEFAULT);
+  }
+
+  getConfig(): VicXOrdinalAxisConfig<Tick> {
+    return new VicXOrdinalAxisConfig<Tick>({
+      baseline: this.baselineBuilder?._build('ordinal'),
       grid: this.gridBuilder?._build('x'),
       label: this.labelBuilder?._build('x'),
       marksClass: 'vic-axis-x-ordinal',
       mixBlendMode: this._mixBlendMode,
-      removeDomainLine: this._removeDomainLine,
-      removeTickLabels: this._removeTickLabels,
-      removeTickMarks: this._removeTickMarks,
-      rotateTickLabels: this._rotateTickLabels,
       side: this._side,
-      tickFormat: this._tickFormat,
-      tickLabelFontSize: this._tickLabelFontSize,
-      tickSizeOuter: this._tickSizeOuter,
-      wrap: this.tickWrapBuilder?._build(),
-      zeroAxis: this._zeroAxis,
+      ticks: this.ticksBuilder._build('x'),
     });
   }
 }

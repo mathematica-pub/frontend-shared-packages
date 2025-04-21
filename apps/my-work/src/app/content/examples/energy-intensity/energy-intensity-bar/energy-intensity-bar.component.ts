@@ -13,28 +13,23 @@ import {
   VicBarsModule,
   VicChartConfigBuilder,
   VicChartModule,
-  VicOrdinalAxisConfig,
-  VicQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 import { EnergyIntensityDatum } from '../energy-intensity.component';
 
 @Component({
   selector: 'app-energy-intensity-bar',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
     VicBarsModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
+    VicXyAxisModule,
   ],
   providers: [
     VicChartConfigBuilder,
@@ -56,8 +51,8 @@ export class EnergyIntensityBarComponent implements OnInit {
   followingDataConfig: BarsConfig<EnergyIntensityDatum, string>;
   sortedChartConfig: ChartConfig;
   sortedDataConfig: BarsConfig<EnergyIntensityDatum, string>;
-  xAxisConfig: VicQuantitativeAxisConfig<number>;
-  yAxisConfig: VicOrdinalAxisConfig<string>;
+  xAxisConfig: VicXQuantitativeAxisConfig<number>;
+  yAxisConfig: VicYOrdinalAxisConfig<string>;
   gdp = 'Energy consumption per GDP';
   perCap = 'Energy consumption per capita';
   sortVar = this.perCap;
@@ -152,9 +147,8 @@ export class EnergyIntensityBarComponent implements OnInit {
 
     this.yAxisConfig = this.yOrdinalAxis.getConfig();
     this.xAxisConfig = this.xQuantitativeAxis
-      .tickFormat(',.0f')
+      .ticks((ticks) => ticks.format(',.0f').count(4))
       .side('top')
-      .numTicks(4)
       .getConfig();
   }
 

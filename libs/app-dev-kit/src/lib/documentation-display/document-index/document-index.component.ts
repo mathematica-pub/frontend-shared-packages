@@ -11,7 +11,6 @@ import { AdkHtmlHeader } from '../documentation-content-service';
 
 @Component({
   selector: 'hsi-adk-document-index',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './document-index.component.html',
   styleUrls: ['./document-index.component.scss'],

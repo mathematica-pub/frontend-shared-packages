@@ -11,7 +11,6 @@ import { MinimalImplementationComboboxComponent } from './minimal-implementation
 
 @Component({
   selector: 'app-combobox-content',
-  standalone: true,
   imports: [
     CommonModule,
     ContentContainerComponent,

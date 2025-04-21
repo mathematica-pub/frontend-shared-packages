@@ -57,7 +57,7 @@ describe('BarsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [BarsComponent],
+      imports: [BarsComponent],
       providers: [XyChartComponent],
     }).compileComponents();
   });

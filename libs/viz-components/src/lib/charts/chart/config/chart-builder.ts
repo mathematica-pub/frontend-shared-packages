@@ -3,6 +3,18 @@ import { ElementSpacing } from '../../../core/types/layout';
 import { ChartResizing } from '../chart.component';
 import { ChartConfig } from './chart-config';
 
+const SCALES_DEFAULT = {
+  height: 600,
+  width: 800,
+};
+
+// use smaller values for viewbox so that the labels don't get so small
+// downside to this is that this is the max chart size, even when in a flex container
+const VIEWBOX_DEFAULT = {
+  height: 450,
+  width: 600,
+};
+
 const DEFAULT = {
   _height: 600,
   _margin: { top: 36, right: 36, bottom: 36, left: 36 },
@@ -36,7 +48,7 @@ export class VicChartConfigBuilder {
    */
   height(value: number | null): this {
     if (value === null) {
-      value = DEFAULT._height;
+      value = undefined;
       return this;
     }
     this._height = value;
@@ -73,7 +85,7 @@ export class VicChartConfigBuilder {
    *
    * If `useViewbox` is false, the chart will resize by changing the width and height attributes of the svg element, recalculating scales and re-rendering the chart. This is a less performant way to resize the chart but may be necessary in some cases, particularly when the chart contains elements like text that should not be resized.
    *
-   * If `useViewbox` is false, width and height can be used to determine which dimensionss will resize when the chart's container changes width. If both are true, the chart will resize in both dimensions. If only one is true, the chart will resize in that dimension only.
+   * If `useViewbox` is false, width and height can be used to determine which dimensions will resize when the chart's container changes width. If both are true, the chart will resize in both dimensions. If only one is true, the chart will resize in that dimension only.
    *
    * Note that the chart does not respond to changes in container height.
    */
@@ -116,7 +128,7 @@ export class VicChartConfigBuilder {
    */
   width(value: number | null): this {
     if (value === null) {
-      value = DEFAULT._width;
+      value = undefined;
       return this;
     }
     this._width = value;
@@ -124,6 +136,7 @@ export class VicChartConfigBuilder {
   }
 
   getConfig(): ChartConfig {
+    this.validateBuilder();
     return new ChartConfig({
       aspectRatio: this._width / this._height,
       height: this._height,
@@ -132,5 +145,18 @@ export class VicChartConfigBuilder {
       transitionDuration: this._transitionDuration,
       width: this._width,
     });
+  }
+
+  private validateBuilder(): void {
+    if (this._height === undefined) {
+      this._height = this._resize.useViewbox
+        ? VIEWBOX_DEFAULT.height
+        : SCALES_DEFAULT.height;
+    }
+    if (this._width === undefined) {
+      this._width = this._resize.useViewbox
+        ? VIEWBOX_DEFAULT.width
+        : SCALES_DEFAULT.width;
+    }
   }
 }

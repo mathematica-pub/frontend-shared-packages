@@ -13,13 +13,11 @@ import {
   VicBarsModule,
   VicChartConfigBuilder,
   VicChartModule,
-  VicOrdinalAxisConfig,
-  VicQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 
 export interface MetroUnemploymentDatum {
@@ -30,15 +28,7 @@ export interface MetroUnemploymentDatum {
 
 @Component({
   selector: 'app-quick-start-example',
-  standalone: true,
-  imports: [
-    CommonModule,
-    VicChartModule,
-    VicXyChartModule,
-    VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-  ],
+  imports: [CommonModule, VicChartModule, VicBarsModule, VicXyAxisModule],
   providers: [
     VicChartConfigBuilder,
     VicBarsConfigBuilder,
@@ -54,8 +44,8 @@ export class QuickStartExampleComponent implements OnInit {
   @Input() data: MetroUnemploymentDatum[];
   chartConfig: ChartConfig;
   barsConfig: BarsConfig<MetroUnemploymentDatum, string>;
-  xAxisConfig: VicQuantitativeAxisConfig<number>;
-  yAxisConfig: VicOrdinalAxisConfig<string>;
+  xAxisConfig: VicXQuantitativeAxisConfig<number>;
+  yAxisConfig: VicYOrdinalAxisConfig<string>;
 
   constructor(
     private chart: VicChartConfigBuilder,
@@ -80,8 +70,10 @@ export class QuickStartExampleComponent implements OnInit {
 
     this.xAxisConfig = this.xQuantitativeAxis.getConfig();
     this.yAxisConfig = this.yOrdinalAxis
-      .wrapTickText((wrap) =>
-        wrap.wrapWidth(140).maintainYPosition(true).maintainXPosition(true)
+      .ticks((ticks) =>
+        ticks.wrap((wrap) =>
+          wrap.width(140).maintainYPosition(true).maintainXPosition(true)
+        )
       )
       .getConfig();
   }

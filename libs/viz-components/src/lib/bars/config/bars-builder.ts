@@ -143,16 +143,19 @@ export class VicBarsConfigBuilder<
    * If not called, no background bars will be created.
    */
   backgrounds(backgrounds: (backgrounds: BarsBackgroundsBuilder) => void): this;
+  backgrounds(): this;
   backgrounds(backgrounds: null): this;
   backgrounds(
-    backgrounds: ((backgrounds: BarsBackgroundsBuilder) => void) | null
+    backgrounds: ((backgrounds: BarsBackgroundsBuilder) => void) | null | void
   ): this {
     if (backgrounds === null) {
       this.backgroundsBuilder = undefined;
       return this;
     }
     this.backgroundsBuilder = new BarsBackgroundsBuilder();
-    backgrounds?.(this.backgroundsBuilder);
+    if (backgrounds) {
+      backgrounds?.(this.backgroundsBuilder);
+    }
     return this;
   }
 
