@@ -64,7 +64,7 @@ export class VicYOrdinalAxisConfigBuilder<
   getConfig(): VicYOrdinalAxisConfig<Tick> {
     return new VicYOrdinalAxisConfig({
       baseline: this.baselineBuilder._build('ordinal'),
-      grid: this.gridBuilder?._build('y'),
+      grid: this.gridBuilder?._build('y', 'ordinal'),
       label: this.labelBuilder?._build('y'),
       marksClass: 'vic-axis-y-ordinal',
       mixBlendMode: this._mixBlendMode,
