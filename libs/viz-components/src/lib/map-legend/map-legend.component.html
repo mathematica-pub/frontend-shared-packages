@@ -1,6 +1,6 @@
 <ng-content select="[title]"></ng-content>
 <ng-container *ngIf="chart.attributeProperties$ | async as attributeProperties">
-  <vic-continuous-legend
+  <vic-cont-legend
     *ngIf="attributeProperties.config.binType === VicValuesBin.none"
     [width]="width"
     [height]="height"
@@ -9,7 +9,7 @@
     [config]="attributeProperties.config"
     [outlineColor]="outlineColor"
     [orientation]="orientation"
-  ></vic-continuous-legend>
+  ></vic-cont-legend>
   <vic-discontinuous-legend
     *ngIf="attributeProperties.config.binType !== VicValuesBin.none"
     [width]="width"

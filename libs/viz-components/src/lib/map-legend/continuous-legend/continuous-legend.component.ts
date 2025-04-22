@@ -8,7 +8,7 @@ import { MapLegend } from '../map-legend-base';
  * @internal
  */
 @Component({
-  selector: 'vic-continuous-legend',
+  selector: 'vic-cont-legend',
   templateUrl: './continuous-legend.component.html',
   styleUrls: ['./continuous-legend.component.scss'],
 })
