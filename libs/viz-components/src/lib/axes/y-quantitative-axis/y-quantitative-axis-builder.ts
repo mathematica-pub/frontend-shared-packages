@@ -62,7 +62,7 @@ export class VicYQuantitativeAxisConfigBuilder<
   getConfig(): VicYQuantitativeAxisConfig<Tick> {
     return new VicYQuantitativeAxisConfig<Tick>({
       baseline: this.baselineBuilder._build('quantitative'),
-      grid: this.gridBuilder?._build('y'),
+      grid: this.gridBuilder?._build('y', 'quantitative'),
       label: this.labelBuilder?._build('y'),
       marksClass: 'vic-axis-y-quantitative',
       mixBlendMode: this._mixBlendMode,
