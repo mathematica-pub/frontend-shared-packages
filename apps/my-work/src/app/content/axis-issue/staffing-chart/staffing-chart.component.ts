@@ -16,6 +16,7 @@ import {
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
 } from '@hsi/viz-components';
+import { extent, timeMonth } from 'd3';
 import { filter, map, Observable } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
 
@@ -82,8 +83,11 @@ export class StaffingChartComponent implements OnInit {
       })
       .getConfig();
 
+    const [timeMin, timeMax] = extent(data, (d) => d.month);
     const xAxisConfig = this.xAxisQuantitative
-      .ticks((ticks) => ticks.format('%b').size(0))
+      .ticks((ticks) =>
+        ticks.format('%b').size(0).values(timeMonth.range(timeMin, timeMax))
+      )
       .baseline((baseline) => baseline.display(false))
       .getConfig();
 
