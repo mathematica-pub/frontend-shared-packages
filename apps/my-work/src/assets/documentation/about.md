@@ -191,7 +191,6 @@ entry name, you should your component appear in the main space of the app.
    ```ts
    @Component({
    selector: 'app-nov-report-charts',
-   standalone: true,
    imports: [CommonModule, ExportContentComponent]
    ```
 

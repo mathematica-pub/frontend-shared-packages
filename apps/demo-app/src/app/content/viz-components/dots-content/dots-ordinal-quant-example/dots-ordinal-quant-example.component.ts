@@ -10,12 +10,10 @@ import {
   VicDotsModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 import {
   LocationCategoryDatum,
@@ -31,15 +29,12 @@ interface ViewModel {
 
 @Component({
   selector: 'app-dots-ordinal-quant-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
     VicDotsModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
+    VicXyAxisModule,
   ],
   templateUrl: './dots-ordinal-quant-example.component.html',
   styleUrl: './dots-ordinal-quant-example.component.scss',

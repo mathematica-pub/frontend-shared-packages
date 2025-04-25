@@ -1,8 +1,7 @@
 import { Directive, ElementRef, inject } from '@angular/core';
 import { select, Selection } from 'd3';
-import { Observable } from 'rxjs';
 import { GenericScale } from '../../core';
-import { DataValue } from '../../core/types/values';
+import { ContinuousValue, DataValue } from '../../core/types/values';
 import { XyAuxMarks } from '../../marks';
 import { SvgTextWrap } from '../../svg-text-wrap/svg-text-wrap';
 import { Ticks } from '../ticks/ticks';
@@ -21,7 +20,7 @@ type AxisSvgElements = 'gridGroup' | 'gridLine' | 'label' | 'axisGroup';
  */
 @Directive()
 export abstract class XyAxis<
-  Tick extends DataValue,
+  Tick extends DataValue | ContinuousValue,
   TicksConfig extends Ticks<Tick>,
 > extends XyAuxMarks<unknown, XyAxisConfig<Tick, TicksConfig>> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,7 +37,6 @@ export abstract class XyAxis<
   // used to ensure that a zero axis does not transition in position from baseline on first draw
   isFirstDraw = true;
 
-  abstract getScale(): Observable<XyAxisScale>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract setAxisFunction(): any;
   abstract setTranslate(): void;

@@ -10,12 +10,10 @@ import {
   VicGroupedBarsModule,
   VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
@@ -30,15 +28,12 @@ interface ViewModel {
 
 @Component({
   selector: 'app-grouped-bars-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
     VicGroupedBarsModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicYQuantitativeAxisModule,
-    VicXOrdinalAxisModule,
+    VicXyAxisModule,
   ],
   templateUrl: './grouped-bars-example.component.html',
   styleUrl: './grouped-bars-example.component.scss',

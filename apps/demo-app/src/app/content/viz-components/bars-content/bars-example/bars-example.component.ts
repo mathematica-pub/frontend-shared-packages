@@ -19,18 +19,14 @@ import {
   VicHtmlTooltipModule,
   VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 import { MetroUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
@@ -59,17 +55,12 @@ interface LayoutProperties {
 }
 @Component({
   selector: 'app-bars-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
     VicBarsModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicXOrdinalAxisModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    VicYQuantitativeAxisModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
     MatButtonModule,
     MatButtonToggleModule,

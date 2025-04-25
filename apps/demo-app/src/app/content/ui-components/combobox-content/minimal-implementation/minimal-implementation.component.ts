@@ -9,7 +9,6 @@ import {
 
 @Component({
   selector: 'app-minimal-implementation-combobox',
-  standalone: true,
   imports: [CommonModule, HsiUiComboboxModule, MatIconModule],
   templateUrl: './minimal-implementation.component.html',
   styleUrl: './minimal-implementation.component.scss',

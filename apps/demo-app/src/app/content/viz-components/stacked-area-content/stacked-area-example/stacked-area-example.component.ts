@@ -17,12 +17,10 @@ import {
   VicStackedAreaModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
@@ -37,15 +35,12 @@ interface ViewModel {
 
 @Component({
   selector: 'app-stacked-area-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
-    VicXyChartModule,
     VicStackedAreaModule,
     VicXyBackgroundModule,
-    VicXQuantitativeAxisModule,
-    VicYQuantitativeAxisModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
   ],
   templateUrl: './stacked-area-example.component.html',

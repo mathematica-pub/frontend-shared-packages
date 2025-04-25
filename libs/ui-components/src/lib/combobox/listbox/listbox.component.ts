@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -46,14 +47,14 @@ export type SelectedCountLabel = {
 
 @Component({
   selector: 'hsi-ui-listbox',
-  templateUrl: './listbox.component.html',
-  styleUrls: ['./listbox.component.scss'],
+  imports: [CommonModule],
   providers: [
     ListboxFilteringService,
     ListboxScrollService,
     ActiveIndexService,
   ],
-  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
+  templateUrl: './listbox.component.html',
+  styleUrls: ['./listbox.component.scss'],
   host: {
     class: 'hsi-ui-listbox-component',
   },

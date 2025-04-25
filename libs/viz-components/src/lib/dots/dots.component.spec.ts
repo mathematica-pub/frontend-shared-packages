@@ -50,7 +50,7 @@ describe('DotsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [DotsComponent],
+      imports: [DotsComponent],
       providers: [XyChartComponent],
     }).compileComponents();
   });

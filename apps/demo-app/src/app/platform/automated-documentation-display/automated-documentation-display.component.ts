@@ -25,7 +25,6 @@ import { AutomatedDocumentationParser } from './automated-documentation-parser.s
 
 @Component({
   selector: 'app-automated-documentation-display',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './automated-documentation-display.component.html',
   styleUrls: [

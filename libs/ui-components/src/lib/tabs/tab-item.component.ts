@@ -6,7 +6,6 @@ import { TabsService } from './tabs.service';
 @Component({
   selector: 'hsi-ui-tab-item',
   template: '<ng-content></ng-content>',
-  standalone: true,
 })
 export class TabItemComponent<T> implements OnChanges {
   @Input() isActive = false;

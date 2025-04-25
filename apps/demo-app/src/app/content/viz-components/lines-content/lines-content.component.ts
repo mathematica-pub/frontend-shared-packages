@@ -6,7 +6,6 @@ import { LinesExampleComponent } from './lines-example/lines-example.component';
 
 @Component({
   selector: 'app-lines-content',
-  standalone: true,
   imports: [
     CommonModule,
     SinglePanelExampleDisplayComponent,

@@ -1,5 +1,5 @@
 import { Platform } from '@angular/cdk/platform';
-import { DOCUMENT } from '@angular/common';
+import { AsyncPipe, CommonModule, DOCUMENT } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -17,9 +17,10 @@ import { ComboboxService, FocusTextbox } from './combobox.service';
 
 @Component({
   selector: 'hsi-ui-combobox',
+  imports: [CommonModule, AsyncPipe],
+  providers: [ComboboxService],
   templateUrl: './combobox.component.html',
   styleUrls: ['./styles/styles.scss'],
-  providers: [ComboboxService],
   encapsulation: ViewEncapsulation.None,
   host: {
     class: 'hsi-ui-combobox',

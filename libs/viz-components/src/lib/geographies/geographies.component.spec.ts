@@ -14,7 +14,7 @@ describe('GeographiesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [GeographiesComponent],
+      imports: [GeographiesComponent],
       providers: [MapChartComponent],
     }).compileComponents();
 

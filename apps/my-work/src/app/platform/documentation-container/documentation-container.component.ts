@@ -17,7 +17,6 @@ import { Section } from '../../core/services/router-state/state';
 
 @Component({
   selector: 'app-documentation',
-  standalone: true,
   imports: [CommonModule, AdkDocumentationDisplayComponent],
   templateUrl: './documentation-container.component.html',
   styleUrls: ['./documentation-container.component.scss'],

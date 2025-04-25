@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { StackedBarsClickDirective } from './events/stacked-bars-click.directive';
 import { StackedBarsHoverMoveDirective } from './events/stacked-bars-hover-move.directive';
@@ -7,14 +6,13 @@ import { StackedBarsInputEventDirective } from './events/stacked-bars-input-even
 import { StackedBarsComponent } from './stacked-bars.component';
 
 @NgModule({
-  declarations: [
+  imports: [
     StackedBarsComponent,
     StackedBarsHoverMoveDirective,
     StackedBarsHoverDirective,
     StackedBarsClickDirective,
     StackedBarsInputEventDirective,
   ],
-  imports: [CommonModule],
   exports: [
     StackedBarsComponent,
     StackedBarsHoverMoveDirective,
