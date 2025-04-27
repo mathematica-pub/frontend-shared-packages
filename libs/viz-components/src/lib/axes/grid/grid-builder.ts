@@ -1,17 +1,9 @@
 import { StrokeBuilder } from '../../stroke/stroke-builder';
 import { Grid } from './grid-config';
 
-const DEFAULT = {
-  _filter: (i) => i > 0,
-};
-
 export class GridBuilder {
   private _filter: (i: number) => boolean;
   private strokeBuilder: StrokeBuilder;
-
-  constructor() {
-    Object.assign(this, DEFAULT);
-  }
 
   /**
    * OPTIONAL. Determines whether or not to display grid lines. Must specify a function
@@ -21,7 +13,7 @@ export class GridBuilder {
    */
   filter(filter: ((i: number) => boolean) | null) {
     if (filter === null) {
-      this._filter = DEFAULT._filter;
+      this._filter = undefined;
       return this;
     }
     this._filter = filter;
@@ -54,11 +46,11 @@ export class GridBuilder {
    * @internal
    * This function is for internal use only and should never be called by the user.
    */
-  _build(axis: 'x' | 'y'): Grid {
+  _build(axis: 'x' | 'y', dimension: 'quantitative' | 'ordinal'): Grid {
     this.validateBuilder();
     return new Grid({
       axis: axis,
-      filter: this._filter,
+      filter: this.getFilterForDimension(dimension),
       stroke: this.strokeBuilder._build(),
     });
   }
@@ -66,6 +58,17 @@ export class GridBuilder {
   private validateBuilder(): void {
     if (this.strokeBuilder === undefined) {
       this.initStrokeBuilder();
+    }
+  }
+
+  private getFilterForDimension(
+    dimension: 'quantitative' | 'ordinal'
+  ): (i: number) => boolean {
+    if (this._filter) return this._filter;
+    if (dimension === 'quantitative') {
+      return (i) => i > 0;
+    } else {
+      return () => true;
     }
   }
 }
