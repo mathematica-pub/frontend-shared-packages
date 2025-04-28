@@ -16,19 +16,17 @@ import {
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicOrdinalAxisConfig,
-  VicQuantitativeAxisConfig,
   VicSharedContextModule,
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 import { WeatherDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
@@ -39,8 +37,8 @@ interface ViewModel {
   chartConfigLeft: ChartConfig;
   chartConfigOther: ChartConfig;
   dataConfig: BarsConfig<WeatherDatum, Date, string>;
-  xAxisConfig: VicOrdinalAxisConfig<Date> | VicQuantitativeAxisConfig<number>;
-  yAxisConfig: VicOrdinalAxisConfig<Date> | VicQuantitativeAxisConfig<number>;
+  xAxisConfig: VicXOrdinalAxisConfig<Date> | VicXQuantitativeAxisConfig<number>;
+  yAxisConfig: VicYOrdinalAxisConfig<Date> | VicYQuantitativeAxisConfig<number>;
 }
 
 type TooltipsConfig = Record<string, HtmlTooltipConfig>;
@@ -54,12 +52,8 @@ type TooltipsData = Record<string, BarsEventOutput<WeatherDatum, string>>;
     VicChartModule,
     VicBarsModule,
     VicSharedContextModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicXOrdinalAxisModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    VicYQuantitativeAxisModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
     MatButtonModule,
     MatButtonToggleModule,
@@ -119,13 +113,11 @@ export class SmallMultiplesBarsExampleComponent implements OnInit {
 
     const xAxisConfig = this.xQuantitativeAxis
       .side('top')
-      .tickFormat('.0f')
-      .numTicks(5)
+      .ticks((ticks) => ticks.count(5).format('.0f'))
       .getConfig();
 
     const yAxisConfig = this.yOrdinalAxis
-      .removeTickMarks()
-      .tickFormat('%B %Y')
+      .ticks((ticks) => ticks.size(0).format('%B %Y'))
       .getConfig();
 
     const dataConfig = this.bars

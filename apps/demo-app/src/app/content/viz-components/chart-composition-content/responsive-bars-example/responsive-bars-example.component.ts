@@ -19,17 +19,15 @@ import {
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicOrdinalAxisConfig,
-  VicQuantitativeAxisConfig,
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 import { WeatherDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
@@ -39,8 +37,8 @@ import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 interface ViewModel {
   chartConfig: (i: number) => ChartConfig;
   dataConfig: BarsConfig<WeatherDatum, string, Date>;
-  xAxisConfig: VicOrdinalAxisConfig<Date> | VicQuantitativeAxisConfig<number>;
-  yAxisConfig: VicOrdinalAxisConfig<Date> | VicQuantitativeAxisConfig<number>;
+  xAxisConfig: VicXOrdinalAxisConfig<Date> | VicXQuantitativeAxisConfig<number>;
+  yAxisConfig: VicYOrdinalAxisConfig<Date> | VicYQuantitativeAxisConfig<number>;
 }
 
 @Component({
@@ -50,11 +48,7 @@ interface ViewModel {
     CommonModule,
     VicChartModule,
     VicBarsModule,
-    VicXyChartModule,
-    VicXOrdinalAxisModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    VicYQuantitativeAxisModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
   ],
   templateUrl: './responsive-bars-example.component.html',
@@ -115,11 +109,11 @@ export class ResponsiveBarsExampleComponent implements OnInit {
 
     const xAxisConfig = this.xQuantitativeAxis
       .side('top')
-      .tickFormat('.0f')
+      .ticks((ticks) => ticks.format('.0f'))
       .getConfig();
+
     const yAxisConfig = this.yOrdinalAxis
-      .removeTickMarks()
-      .tickFormat('%B %Y')
+      .ticks((ticks) => ticks.size(0).format('%B %Y'))
       .getConfig();
 
     const dataConfig = this.bars
