@@ -34,7 +34,7 @@ describe('StackedAreaConfig', () => {
         StackedAreaConfig.prototype as any,
         'setDimensionPropertiesFromData'
       );
-      spyOn(StackedAreaConfig.prototype as any, 'setvalueIndices');
+      spyOn(StackedAreaConfig.prototype as any, 'setValueIndices');
       spyOn(StackedAreaConfig.prototype as any, 'setSeries');
       spyOn(
         StackedAreaConfig.prototype as any,
@@ -47,8 +47,8 @@ describe('StackedAreaConfig', () => {
         (config as any).setDimensionPropertiesFromData
       ).toHaveBeenCalledTimes(1);
     });
-    it('calls setvalueIndices once', () => {
-      expect((config as any).setvalueIndices).toHaveBeenCalledTimes(1);
+    it('calls setValueIndices once', () => {
+      expect((config as any).setValueIndices).toHaveBeenCalledTimes(1);
     });
     it('calls setSeries once', () => {
       expect((config as any).setSeries).toHaveBeenCalledTimes(1);
@@ -80,14 +80,14 @@ describe('StackedAreaConfig', () => {
     });
   });
 
-  describe('setvalueIndices()', () => {
+  describe('setValueIndices()', () => {
     beforeEach(() => {
       spyOn(StackedAreaConfig.prototype as any, 'initPropertiesFromData');
     });
     it('sets valueIndices to an array of length 6', () => {
       config = createConfig();
       (config as any).setDimensionPropertiesFromData();
-      (config as any).setvalueIndices();
+      (config as any).setValueIndices();
       expect(config.valueIndices).toEqual([0, 1, 2, 3, 4, 5]);
     });
     it('sets valueIndices to an array of length 3 if categorical domain is limited by user', () => {
@@ -100,7 +100,7 @@ describe('StackedAreaConfig', () => {
         )
         .getConfig();
       (config as any).setDimensionPropertiesFromData();
-      (config as any).setvalueIndices();
+      (config as any).setValueIndices();
       expect(config.valueIndices).toEqual([0, 1, 2]);
     });
   });

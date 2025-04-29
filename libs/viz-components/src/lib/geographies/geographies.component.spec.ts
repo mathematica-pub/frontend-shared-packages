@@ -8,8 +8,8 @@ import { GeographiesComponent } from './geographies.component';
 type Datum = { value: number; state: string };
 
 describe('GeographiesComponent', () => {
-  let component: GeographiesComponent<any, any, any>;
-  let fixture: ComponentFixture<GeographiesComponent<any, any, any>>;
+  let component: GeographiesComponent<any, any, any, any>;
+  let fixture: ComponentFixture<GeographiesComponent<any, any, any, any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

@@ -6,8 +6,8 @@ import { VicLinesConfigBuilder } from './config/lines-builder';
 import { LinesComponent } from './lines.component';
 
 describe('LinesComponent', () => {
-  let component: LinesComponent<any>;
-  let fixture: ComponentFixture<LinesComponent<any>>;
+  let component: LinesComponent<any, any>;
+  let fixture: ComponentFixture<LinesComponent<any, any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

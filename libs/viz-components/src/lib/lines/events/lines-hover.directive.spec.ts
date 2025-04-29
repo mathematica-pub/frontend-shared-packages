@@ -8,7 +8,7 @@ import { LINES, LinesComponent } from '../lines.component';
 import { LinesHoverDirective } from './lines-hover.directive';
 
 describe('LinesHoverDirective', () => {
-  let directive: LinesHoverDirective<any, LinesComponent<any>>;
+  let directive: LinesHoverDirective<any, any, LinesComponent<any, any>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

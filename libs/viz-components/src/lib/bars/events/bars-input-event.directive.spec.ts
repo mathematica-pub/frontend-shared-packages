@@ -8,7 +8,8 @@ describe('BarsInputDirective', () => {
   let directive: BarsInputEventDirective<
     any,
     string,
-    BarsComponent<any, string>
+    string,
+    BarsComponent<any, string, string>
   >;
 
   beforeEach(() => {
@@ -22,7 +23,12 @@ describe('BarsInputDirective', () => {
       ],
     });
     directive = TestBed.inject(
-      BarsInputEventDirective<any, string, BarsComponent<any, string>>
+      BarsInputEventDirective<
+        any,
+        string,
+        string,
+        BarsComponent<any, string, string>
+      >
     );
   });
 

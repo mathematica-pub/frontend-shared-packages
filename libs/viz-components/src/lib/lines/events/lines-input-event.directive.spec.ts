@@ -5,7 +5,7 @@ import { LINES, LinesComponent } from '../lines.component';
 import { LinesInputEventDirective } from './lines-input-event.directive';
 
 describe('LinesInputDirective', () => {
-  let directive: LinesInputEventDirective<any, LinesComponent<any>>;
+  let directive: LinesInputEventDirective<any, any, LinesComponent<any, any>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
