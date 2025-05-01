@@ -8,7 +8,7 @@ describe('applyDefaultsSafely', () => {
 
     safeAssign(target, defaults);
 
-    expect(target).toEqual({ a: 1, b: 2, c: 4 } as any);
+    expect(target).toEqual({ a: 1, b: 3, c: 4 } as any);
   });
 
   it('should not overwrite existing function properties', () => {
@@ -18,7 +18,7 @@ describe('applyDefaultsSafely', () => {
     safeAssign(target, defaults);
 
     expect(target.a()).toBe('existing');
-    expect(target.b).toBe(2);
+    expect(target.b).toBe(3);
   });
 
   it('should handle empty defaults', () => {

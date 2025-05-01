@@ -17,14 +17,16 @@
  * @example
  * safeAssign(this, { log: 'hello' }, true);
  */
-export function safeAssign<TTarget extends object, TDefaults extends object>(
+export function safeAssign<TTarget extends object, TSource extends object>(
   target: TTarget,
-  defaults: TDefaults,
+  source: TSource,
   logConflicts: boolean = false
 ): void {
-  for (const key of Object.keys(defaults)) {
+  if (!source) return;
+
+  for (const key of Object.keys(source)) {
     const existing = (target as any)[key];
-    const incoming = (defaults as any)[key];
+    const incoming = (source as any)[key];
 
     if (typeof existing === 'function') {
       if (logConflicts) {
