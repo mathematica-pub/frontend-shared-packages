@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { InternMap, select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { FillUtilities } from '../../../../core/utilities/fill-utilities';
@@ -51,7 +52,8 @@ export class GeographiesAttributeDataLayer<
     options: GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
   ) {
     super();
-    safeAssign(this, DEFAULT, options);
+    safeAssign(this, DEFAULT);
+    safeAssign(this, options);
     if (this.attributeDimension === undefined) {
       console.error('Attribute dimension is required for data layers');
     }

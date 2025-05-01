@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import {
   ExtendedFeature,
   ExtendedFeatureCollection,

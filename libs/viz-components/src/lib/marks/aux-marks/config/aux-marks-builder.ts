@@ -1,3 +1,5 @@
+import { safeAssign } from '@hsi/app-dev-kit';
+
 const DEFAULT = {
   _class: () => '',
   _mixBlendMode: 'normal',

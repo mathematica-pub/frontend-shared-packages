@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { FillDefinition } from '../../../data-dimensions';
 import { AreaFillsOptions } from './area-fills-options';
 

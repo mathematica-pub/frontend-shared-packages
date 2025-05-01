@@ -92,7 +92,7 @@ export class StackedAreaConfig<Datum, CategoricalDomain extends DataValue>
       .offset(this.stackOffset)(Array.from(rolledUpData))
       .map((s) =>
         s.map((d) =>
-          safeAssign(d, {
+          Object.assign(d, {
             i: d.data[1].get(s.key),
           })
         )

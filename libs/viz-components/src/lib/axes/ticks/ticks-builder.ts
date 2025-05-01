@@ -38,7 +38,8 @@ export class TicksBuilder<Tick> {
   protected wrapBuilder: TickWrapBuilder;
 
   constructor(options: Partial<AxisSpecificTickBuilderOptions>) {
-    safeAssign(this, DEFAULT, options);
+    safeAssign(this, DEFAULT);
+    safeAssign(this, options);
   }
 
   /**

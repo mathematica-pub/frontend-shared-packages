@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import type * as CSSType from 'csstype';
 import {
   GeoPath,

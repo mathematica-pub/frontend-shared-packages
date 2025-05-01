@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { PointMarkers } from './point-markers';
 
 const DEFAULT = {
