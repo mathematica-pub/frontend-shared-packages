@@ -9,7 +9,7 @@ export abstract class PrimaryMarksBuilder<Datum> {
   protected _mixBlendMode: string;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

@@ -1,4 +1,5 @@
 import { ElementRef } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import { Tooltip } from '../../config/tooltip';
 import { HtmlTooltipOptions } from './html-tooltip-options';
 import {
@@ -18,6 +19,6 @@ export class HtmlTooltipConfig extends Tooltip implements HtmlTooltipOptions {
 
   constructor(options: HtmlTooltipOptions) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

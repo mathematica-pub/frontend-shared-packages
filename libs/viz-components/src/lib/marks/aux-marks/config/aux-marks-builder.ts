@@ -8,7 +8,7 @@ export abstract class VicAuxMarksBuilder<Datum> {
   protected _class: (d: Datum) => string;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

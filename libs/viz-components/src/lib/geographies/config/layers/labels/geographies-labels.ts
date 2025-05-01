@@ -33,6 +33,6 @@ export class GeographiesLabels<
   ) => string;
 
   constructor(options: GeographiesLabelsOptions<TProperties, TGeometry>) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

@@ -18,7 +18,7 @@ export class EqualFrequenciesAttributeDataDimensionBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

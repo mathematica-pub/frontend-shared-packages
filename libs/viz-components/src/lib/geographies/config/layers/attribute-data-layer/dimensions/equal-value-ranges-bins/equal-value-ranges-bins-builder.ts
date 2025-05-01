@@ -19,7 +19,7 @@ export class EqualValueRangesBinsBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

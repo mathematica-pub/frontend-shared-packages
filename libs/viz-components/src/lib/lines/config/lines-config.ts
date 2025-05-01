@@ -35,7 +35,7 @@ export class LinesConfig<Datum>
 
   constructor(options: LinesOptions<Datum>) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
     this.initPropertiesFromData();
   }
 

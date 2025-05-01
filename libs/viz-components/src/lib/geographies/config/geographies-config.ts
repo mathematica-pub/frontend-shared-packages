@@ -50,7 +50,7 @@ export class GeographiesConfig<
 
   constructor(options: GeographiesOptions<Datum, TProperties, TGeometry>) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
     this.initPropertiesFromData();
   }
 

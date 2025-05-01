@@ -14,7 +14,7 @@ export class PointMarkersBuilder<Datum> {
   private _radius: number;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

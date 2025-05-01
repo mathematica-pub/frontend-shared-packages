@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { BarsLabelsOptions } from './bars-labels-options';
 
 export class BarsLabels<Datum> implements BarsLabelsOptions<Datum> {
@@ -7,6 +8,6 @@ export class BarsLabels<Datum> implements BarsLabelsOptions<Datum> {
   offset: number;
 
   constructor(options: BarsLabels<Datum>) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

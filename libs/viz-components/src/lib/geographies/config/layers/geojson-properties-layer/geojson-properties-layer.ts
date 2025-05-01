@@ -32,7 +32,7 @@ export class GeographiesGeojsonPropertiesLayer<
     options: GeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
   ) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
     this.initPropertiesFromGeographies();
   }
 

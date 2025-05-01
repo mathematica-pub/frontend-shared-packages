@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import {
   ExtendedFeature,
   ExtendedFeatureCollection,
@@ -57,7 +58,7 @@ export class VicGeographiesConfigBuilder<
   >[] = [];
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

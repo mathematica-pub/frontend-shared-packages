@@ -22,7 +22,7 @@ export class LinesStrokeBuilder<Datum> {
   private _width: number;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

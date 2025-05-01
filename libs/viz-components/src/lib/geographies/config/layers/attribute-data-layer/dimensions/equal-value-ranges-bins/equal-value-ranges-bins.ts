@@ -25,7 +25,7 @@ export class EqualValueRangesAttributeDataDimension<
   ) {
     super('number');
     this.binType = BinStrategy.equalValueRanges;
-    Object.assign(this, options);
+    safeAssign(this, options);
     if (!this.valueAccessor) {
       console.error(
         'Value accessor is required for EqualValuesAttributeDataDimension'

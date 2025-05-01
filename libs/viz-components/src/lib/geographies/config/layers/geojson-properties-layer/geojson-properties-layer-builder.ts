@@ -25,7 +25,7 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

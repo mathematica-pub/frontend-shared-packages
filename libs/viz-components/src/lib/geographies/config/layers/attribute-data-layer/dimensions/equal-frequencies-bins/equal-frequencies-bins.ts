@@ -23,7 +23,7 @@ export class EqualFrequenciesAttributeDataDimension<
   ) {
     super('number');
     this.binType = BinStrategy.equalFrequencies;
-    Object.assign(this, options);
+    safeAssign(this, options);
     if (!this.valueAccessor) {
       console.error(
         'Value accessor is required for EqualNumObservationsAttributeDataDimension'

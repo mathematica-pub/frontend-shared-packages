@@ -1,9 +1,11 @@
+import { safeAssign } from '@hsi/app-dev-kit';
+
 export class Tooltip {
   show: boolean;
   type: 'svg' | 'html';
 
   constructor(options?: Partial<Tooltip>) {
     this.show = false;
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

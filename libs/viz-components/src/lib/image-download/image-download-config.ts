@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { VicImage } from './image-download-enums';
 import { ImageDownloadOptions } from './image-download-options';
 
@@ -17,7 +18,8 @@ export class VicJpegImageConfig implements ImageDownloadOptions {
   quality: number;
 
   constructor(options?: Partial<ImageDownloadOptions>) {
-    Object.assign(this, DEFAULT, options);
+    safeAssign(this, DEFAULT);
+    safeAssign(this, options);
     this.imageType = VicImage.jpeg;
   }
 }
@@ -32,7 +34,8 @@ export class VicPngImageConfig implements ImageDownloadOptions {
   quality: number;
 
   constructor(options?: Partial<ImageDownloadOptions>) {
-    Object.assign(this, DEFAULT, options);
+    safeAssign(this, DEFAULT);
+    safeAssign(this, options);
     this.imageType = VicImage.png;
   }
 }
@@ -47,7 +50,8 @@ export class VicSvgImageConfig implements ImageDownloadOptions {
   quality: number;
 
   constructor(options?: Partial<ImageDownloadOptions>) {
-    Object.assign(this, DEFAULT, options);
+    safeAssign(this, DEFAULT);
+    safeAssign(this, options);
     this.imageType = VicImage.svg;
   }
 }

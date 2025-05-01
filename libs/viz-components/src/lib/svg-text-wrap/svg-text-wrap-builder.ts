@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { SvgTextWrap } from './svg-text-wrap';
 
 const DEFAULT = {
@@ -13,7 +14,7 @@ export class SvgTextWrapBuilder {
   protected _lineHeight: number;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

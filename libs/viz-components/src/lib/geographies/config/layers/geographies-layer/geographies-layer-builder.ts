@@ -22,7 +22,7 @@ export abstract class GeographiesLayerBuilder<
   protected strokeBuilder: StrokeBuilder;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

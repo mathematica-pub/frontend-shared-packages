@@ -8,6 +8,6 @@ export class AreaFills<Datum> implements AreaFillsOptions<Datum> {
   readonly color: (d: Datum) => string;
 
   constructor(options: AreaFillsOptions<Datum>) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

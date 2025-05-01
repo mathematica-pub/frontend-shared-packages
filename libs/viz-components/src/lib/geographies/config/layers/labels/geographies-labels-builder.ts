@@ -55,7 +55,7 @@ export class GeographiesLabelsBuilder<
   ) => string;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
     this._position = (d, path) =>
       this.positionAtCentroid<TProperties, TGeometry>(d, path);
   }

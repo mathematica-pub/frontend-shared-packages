@@ -9,6 +9,6 @@ export class LinesStroke<Datum>
 
   constructor(options: Partial<LinesStrokeOptions<Datum>>) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

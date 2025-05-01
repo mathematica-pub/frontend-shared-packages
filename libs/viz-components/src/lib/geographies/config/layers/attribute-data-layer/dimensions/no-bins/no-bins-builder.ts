@@ -22,7 +22,7 @@ export class NoBinsAttributeDataDimensionBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

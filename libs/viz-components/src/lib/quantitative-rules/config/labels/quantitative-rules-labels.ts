@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { QuantitativeRulesLabelsOptions } from './quantitative-rules-labels-options';
 
 export class QuantitativeRulesLabels<Datum>
@@ -20,6 +21,6 @@ export class QuantitativeRulesLabels<Datum>
   textAnchor: 'start' | 'middle' | 'end';
 
   constructor(options: QuantitativeRulesLabelsOptions<Datum>) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

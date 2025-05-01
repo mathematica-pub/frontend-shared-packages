@@ -51,7 +51,7 @@ export class GeographiesAttributeDataLayer<
     options: GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
   ) {
     super();
-    Object.assign(this, DEFAULT, options);
+    safeAssign(this, DEFAULT, options);
     if (this.attributeDimension === undefined) {
       console.error('Attribute dimension is required for data layers');
     }

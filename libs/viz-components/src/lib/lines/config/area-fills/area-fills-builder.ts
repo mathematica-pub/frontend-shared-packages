@@ -15,7 +15,7 @@ export class AreaFillsBuilder<Datum> {
   private _color: (d: Datum) => string;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**
