@@ -1,4 +1,4 @@
-import { safeAssign } from "./safe-assign";
+import { safeAssign } from './safe-assign';
 
 describe('applyDefaultsSafely', () => {
   it('should apply defaults to the target object', () => {
@@ -37,4 +37,4 @@ describe('applyDefaultsSafely', () => {
 
     expect(target).toEqual({ a: 1, b: 2 });
   });
-}
+});
