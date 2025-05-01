@@ -7,6 +7,7 @@ import {
   ElementRef,
   Inject,
   NgZone,
+  OnDestroy,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
@@ -22,11 +23,9 @@ import { ComboboxService, FocusTextbox } from './combobox.service';
   templateUrl: './combobox.component.html',
   styleUrls: ['./styles/styles.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: {
-    class: 'hsi-ui-combobox',
-  },
+  host: { class: 'hsi-ui-combobox' },
 })
-export class ComboboxComponent implements OnInit {
+export class ComboboxComponent implements OnInit, OnDestroy {
   @ContentChild(ComboboxLabelComponent) labelComponent: ComboboxLabelComponent;
 
   constructor(
@@ -40,6 +39,10 @@ export class ComboboxComponent implements OnInit {
 
   ngOnInit(): void {
     this.handleOutsideClick();
+  }
+
+  ngOnDestroy(): void {
+    this.service.destroy();
   }
 
   handleOutsideClick(): void {
