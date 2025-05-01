@@ -101,11 +101,15 @@ export class ComboboxService {
   scrollWhenOpened = false;
   shouldAutoSelectOnListboxClose = false;
   activeDescendant$: Observable<string>;
-  private textboxBlur: Subject<void> = new Subject();
-  textboxBlur$ = this.textboxBlur.asObservable();
-  private projectedContentIsInDOM: BehaviorSubject<boolean> =
-    new BehaviorSubject(false);
-  projectedContentIsInDOM$ = this.projectedContentIsInDOM.asObservable();
+  allOptions: ListboxOptionComponent[];
+  allOptions$: Observable<ListboxOptionComponent[]>;
+  destroy$ = new Subject<void>();
+  groups$: Observable<ListboxGroupComponent[]>;
+  optionPropertyChanges$: Observable<ListboxOptionPropertyChange>;
+  private focusTextbox: Subject<FocusTextbox> = new Subject<FocusTextbox>();
+  focusTextbox$ = this.focusTextbox.asObservable();
+  private isKeyboardEvent = new BehaviorSubject(false);
+  isKeyboardEvent$ = this.isKeyboardEvent.asObservable();
   private _isOpen: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isOpen$ = this._isOpen.asObservable().pipe(distinctUntilChanged());
   private label: BehaviorSubject<ComboboxLabelComponent> = new BehaviorSubject(
@@ -114,19 +118,16 @@ export class ComboboxService {
   label$ = this.label.asObservable();
   private optionAction: Subject<OptionAction | string> = new Subject();
   optionAction$ = this.optionAction.asObservable();
-  private focusTextbox: Subject<FocusTextbox> = new Subject<FocusTextbox>();
-  focusTextbox$ = this.focusTextbox.asObservable();
-  private touched: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  touched$ = this.touched.asObservable();
-  allOptions$: Observable<ListboxOptionComponent[]>;
-  groups$: Observable<ListboxGroupComponent[]>;
-  optionPropertyChanges$: Observable<ListboxOptionPropertyChange>;
+  private projectedContentIsInDOM: BehaviorSubject<boolean> =
+    new BehaviorSubject(false);
+  projectedContentIsInDOM$ = this.projectedContentIsInDOM.asObservable();
   private selectedOptionsToEmit: BehaviorSubject<ListboxOptionComponent[]> =
     new BehaviorSubject([]);
   selectedOptionsToEmit$ = this.selectedOptionsToEmit.asObservable();
-  allOptions: ListboxOptionComponent[];
-  private isKeyboardEvent = new BehaviorSubject(false);
-  isKeyboardEvent$ = this.isKeyboardEvent.asObservable();
+  private textboxBlur: Subject<void> = new Subject();
+  textboxBlur$ = this.textboxBlur.asObservable();
+  private touched: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  touched$ = this.touched.asObservable();
 
   constructor(private platform: Platform) {}
 
@@ -246,5 +247,20 @@ export class ComboboxService {
 
   setIsKeyboardEvent(isKeyboardEvent: boolean): void {
     this.isKeyboardEvent.next(isKeyboardEvent);
+  }
+
+  destroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+
+    this.focusTextbox.complete();
+    this.isKeyboardEvent.complete();
+    this._isOpen.complete();
+    this.label.complete();
+    this.optionAction.complete();
+    this.projectedContentIsInDOM.complete();
+    this.selectedOptionsToEmit.complete();
+    this.textboxBlur.complete();
+    this.touched.complete();
   }
 }
