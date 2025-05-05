@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { InternSet, scaleOrdinal } from 'd3';
 import { DataValue, VisualValue } from '../../../core/types/values';
 import { DataDimension } from '../../dimension';
@@ -40,7 +41,7 @@ export class OrdinalVisualValueDimension<
     options: OrdinalVisualValueDimensionOptions<Datum, Domain, Range>
   ) {
     super('ordinal');
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 
   get calculatedDomain(): Domain[] {

@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { extent } from 'd3';
 import { BinStrategy } from '../attribute-data-bin-enums';
 import { AttributeDataDimension } from '../attribute-data/attribute-data-dimension';
@@ -14,7 +15,7 @@ export class NoBinsAttributeDataDimension<Datum> extends AttributeDataDimension<
   constructor(options: NoBinsAttributeDataDimensionOptions<Datum>) {
     super('number');
     this.binType = BinStrategy.none;
-    Object.assign(this, options);
+    safeAssign(this, options);
     if (!this.valueAccessor) {
       console.error(
         'Value accessor is required for NoBinsAttributeDataDimension'

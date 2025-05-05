@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
 import { DataValue } from '../../core/types/values';
 import { GroupedBarsConfig } from './grouped-bars-config';
@@ -25,7 +26,7 @@ export class VicGroupedBarsConfigBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

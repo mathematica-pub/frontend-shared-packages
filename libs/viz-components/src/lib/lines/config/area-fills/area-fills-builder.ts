@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { FillDefinition } from '../../../data-dimensions';
 import { AreaFills } from './area-fills';
 
@@ -15,7 +16,7 @@ export class AreaFillsBuilder<Datum> {
   private _color: (d: Datum) => string;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { ScaleContinuousNumeric } from 'd3';
 import { NumberDimension } from '../number-dimension/number-dimension';
 import { ConcreteDomainPadding } from './domain-padding/concrete-domain-padding';
@@ -34,7 +35,7 @@ export class NumberChartPositionDimension<Datum>
 
   constructor(options: NumberChartPositionDimensionOptions<Datum>) {
     super('number');
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 
   setPropertiesFromData(data: Datum[]): void {

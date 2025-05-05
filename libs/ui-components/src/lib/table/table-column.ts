@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { ascending } from 'd3';
 
 export enum SortDirection {
@@ -56,7 +57,7 @@ export class TableColumn<Datum> {
   constructor(init?: Partial<TableColumn<Datum>>) {
     this.sortDirection = SortDirection.asc;
     this.getAlignment = () => 'left';
-    Object.assign(this, init);
+    safeAssign(this, init);
     this.initialSortDirection = this.sortDirection;
     if (this.ascendingSortFunction === undefined) {
       this.ascendingSortFunction = this.defaultSort;

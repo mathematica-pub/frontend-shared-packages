@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { TickWrapOptions } from './tick-wrap-options';
 
 /**
@@ -24,6 +25,6 @@ export class TickWrap {
     | ((chartWidth: number, numOfTicks: number) => number);
 
   constructor(options: TickWrapOptions) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

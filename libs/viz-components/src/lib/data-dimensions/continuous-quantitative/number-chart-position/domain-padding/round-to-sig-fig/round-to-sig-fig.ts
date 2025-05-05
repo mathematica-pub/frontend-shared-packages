@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { ValueUtilities } from '../../../../../core/utilities/values';
 import {
   DomainPadding,
@@ -15,7 +16,7 @@ export class RoundUpToSigFigDomainPadding
 
   constructor(options: RoundUpToSigFigDomainPaddingOptions) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
     this.type = DomainPaddingType.roundUp;
   }
 

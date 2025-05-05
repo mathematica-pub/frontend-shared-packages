@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { min, range } from 'd3';
 import { DataValue } from '../../core/types/values';
 import { FillDefinition } from '../../data-dimensions';
@@ -29,7 +30,7 @@ export class BarsConfig<Datum, OrdinalDomain extends DataValue>
     options: BarsOptions<Datum, OrdinalDomain>
   ) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
     this.dimensions = dimensions;
     this.initPropertiesFromData();
   }

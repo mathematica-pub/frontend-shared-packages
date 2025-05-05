@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { DataValue } from '../../core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxisConfig } from '../base/config/xy-axis-config';
@@ -23,6 +24,6 @@ export class VicYOrdinalAxisConfig<
 > extends AbstractYOrdinalAxis {
   constructor(options: YAxisOptions & VicOrdinalAxisOptions<Tick>) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

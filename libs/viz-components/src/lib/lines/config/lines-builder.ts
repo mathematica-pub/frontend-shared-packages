@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import { CurveFactory, curveLinear } from 'd3';
 import { DateChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position-builder';
 import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder';
@@ -37,7 +38,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { TickWrap } from './tick-wrap';
 
 const DEFAULT = {
@@ -15,7 +16,7 @@ export class TickWrapBuilder {
   _lineHeight: number;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

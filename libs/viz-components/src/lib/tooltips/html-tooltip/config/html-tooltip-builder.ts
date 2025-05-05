@@ -1,5 +1,6 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { ElementRef, Injectable } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import {
   RelativeToCenterTooltipPosition,
   RelativeToTopLeftTooltipPosition,
@@ -29,7 +30,7 @@ export class VicHtmlTooltipConfigBuilder {
   private _show: boolean;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
     this.sizeBuilder = new HtmlTooltipSizeBuilder();
     this._applyEventsDisabledClass = false;
   }

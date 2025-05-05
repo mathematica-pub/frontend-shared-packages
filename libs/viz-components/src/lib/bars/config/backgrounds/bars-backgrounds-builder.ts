@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { BarsBackgrounds } from './bars-backgrounds';
 
 const DEFAULT = {
@@ -10,7 +11,7 @@ export class BarsBackgroundsBuilder {
   private _events: boolean;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

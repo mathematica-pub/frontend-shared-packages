@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import {
   CurveFactory,
   extent,
@@ -46,7 +47,7 @@ export class StackedAreaConfig<Datum, CategoricalDomain extends DataValue>
 
   constructor(options: StackedAreaOptions<Datum, CategoricalDomain>) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
     this.initPropertiesFromData();
   }
 
