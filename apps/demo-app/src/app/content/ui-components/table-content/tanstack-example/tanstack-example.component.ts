@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
   ColumnDef,
   createAngularTable,
   FlexRenderDirective,
   getCoreRowModel,
+  getSortedRowModel,
   SortingState,
 } from '@tanstack/angular-table';
-import { combineLatest, map, of } from 'rxjs';
 import { BarsSimpleStatesExampleComponent } from '../../../viz-components/bars-content/bars-simple-states-example/bars-simple-states-example.component';
 
 type Person = {
@@ -60,13 +59,15 @@ const defaultColumns: ColumnDef<Person>[] = [
     accessorKey: 'firstName',
     cell: (info) => info.getValue(),
     footer: (info) => info.column.id,
+    enableSorting: false,
   },
   {
     accessorFn: (row) => row.lastName,
     id: 'lastName',
     cell: (info) => `<i>${info.getValue<string>()}</i>`,
-    header: () => `<span>Last Name</span>`,
+    header: () => `Last Name`,
     footer: (info) => info.column.id,
+    enableSorting: false,
   },
   {
     accessorKey: 'age',
@@ -77,13 +78,13 @@ const defaultColumns: ColumnDef<Person>[] = [
   },
   {
     accessorKey: 'performance.visits',
-    header: () => `<span>Visits</span>`,
+    header: () => `Visits`,
     footer: (info) => info.column.id,
-    sortingFn: (a, b) => {
-      const aValue = a.getValue('performance.visits');
-      const bValue = b.getValue('performance.visits');
-      return aValue - bValue;
-    },
+    // sortingFn: (a, b) => {
+    //   const aValue = a.getValue('performance.visits');
+    //   const bValue = b.getValue('performance.visits');
+    //   return aValue - bValue;
+    // },
   },
   {
     accessorKey: 'performance.status',
@@ -93,7 +94,7 @@ const defaultColumns: ColumnDef<Person>[] = [
   },
   {
     accessorKey: 'performance.progress',
-    header: () => `<span>Progress</span>`,
+    header: () => `Progress`,
     footer: (info) => info.column.id,
   },
 ];
@@ -122,21 +123,22 @@ export class TanstackExampleComponent {
   ]);
 
   //Use our controlled state values to fetch data
-  readonly data$ = combineLatest({
-    data: of(defaultData),
-=    sorting: toObservable(this.sorting),
-  }).pipe(map(({ data, sorting }) => updateData(data, sorting)));
+  // readonly data$ = combineLatest({
+  //   data: of(defaultData),
+  //   sorting: toObservable(this.sorting),
+  // }).pipe(map(({ data, sorting }) => updateData(data, sorting)));
 
-  readonly data = toSignal(this.data$);
+  readonly data = signal(defaultData);
   table = createAngularTable(() => ({
     data: this.data(),
     columns: defaultColumns,
     getCoreRowModel: getCoreRowModel(),
-    initialState: {
+    getSortedRowModel: getSortedRowModel(),
+    state: {
       sorting: this.sorting(),
     },
+    debugAll: true,
     enableSorting: true,
-    manualSorting: true,
     onSortingChange: (updater) => {
       if (updater instanceof Function) {
         this.sorting.update(updater);
@@ -146,16 +148,16 @@ export class TanstackExampleComponent {
     },
   }));
 }
-function updateData(data: Person[], sorting: SortingState): Person[] {
-  if (sorting.length === 0) return data;
+// function updateData(data: Person[], sorting: SortingState): Person[] {
+//   if (sorting.length === 0) return data;
 
-  const { id, desc } = sorting[0];
-  return data.sort((a, b) => {
-    const aValue = id.split('.').reduce((obj, key) => obj[key], a);
-    const bValue = id.split('.').reduce((obj, key) => obj[key], b);
+//   const { id, desc } = sorting[0];
+//   return data.sort((a, b) => {
+//     const aValue = id.split('.').reduce((obj, key) => obj[key], a);
+//     const bValue = id.split('.').reduce((obj, key) => obj[key], b);
 
-    if (aValue < bValue) return desc ? 1 : -1;
-    if (aValue > bValue) return desc ? -1 : 1;
-    return 0;
-  });
-}
+//     if (aValue < bValue) return desc ? 1 : -1;
+//     if (aValue > bValue) return desc ? -1 : 1;
+//     return 0;
+//   });
+// }

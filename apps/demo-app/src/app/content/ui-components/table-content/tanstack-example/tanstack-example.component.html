@@ -7,16 +7,26 @@
             @if (!header.isPlaceholder) {
               @if (header.column.getCanSort()) {
                 <th>
-                  <div
-                    class="sorted"
-                    (click)="header.column.getToggleSortingHandler()"
-                    [class.sorting-asc]="header.column.getIsSorted() === 'asc'"
-                    [class.sorting-desc]="
-                      header.column.getIsSorted() === 'desc'
+                  <ng-container
+                    *flexRender="
+                      header.column.columnDef.header;
+                      props: header.getContext();
+                      let headerCell
                     "
                   >
-                    {{ header }}
-                  </div>
+                    <div
+                      class="sorted"
+                      (click)="header.column.toggleSorting()"
+                      [class.sorting-asc]="
+                        header.column.getIsSorted() === 'asc'
+                      "
+                      [class.sorting-desc]="
+                        header.column.getIsSorted() === 'desc'
+                      "
+                    >
+                      {{ headerCell }}
+                    </div>
+                  </ng-container>
                 </th>
               } @else {
                 <th>
