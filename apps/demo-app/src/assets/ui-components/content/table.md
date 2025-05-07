@@ -1,5 +1,11 @@
 # Table Component
 
+## TANSTACK EXAMPLE
+
+```custom-angular
+simple table
+```
+
 HSI UI Components provides a set of Angular components and configuration classes that can be used to
 create tables. These components can be imported via the `TableModule`.
 

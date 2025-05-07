@@ -1,0 +1,59 @@
+<div class="p-2">
+  <table>
+    <thead>
+      @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+        <tr>
+          @for (header of headerGroup.headers; track header.id) {
+            @if (!header.isPlaceholder) {
+              @if (header.column.getCanSort()) {
+                <th>
+                  <div
+                    class="sorted"
+                    (click)="header.column.getToggleSortingHandler()"
+                    [class.sorting-asc]="header.column.getIsSorted() === 'asc'"
+                    [class.sorting-desc]="
+                      header.column.getIsSorted() === 'desc'
+                    "
+                  >
+                    {{ header }}
+                  </div>
+                </th>
+              } @else {
+                <th>
+                  <ng-container
+                    *flexRender="
+                      header.column.columnDef.header;
+                      props: header.getContext();
+                      let header
+                    "
+                  >
+                    <div [innerHTML]="header"></div>
+                  </ng-container>
+                </th>
+              }
+            }
+          }
+        </tr>
+      }
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of table.getRowModel().rows">
+        <td *ngFor="let cell of row.getVisibleCells()">
+          <ng-container
+            *ngIf="cell.column.id === 'performance_progress'; else defaultCell"
+          >
+            <app-bars-simple-states-example
+              orientation="horizontal"
+              class="horizontal-example"
+              [useLabels]="true"
+              [useBackgrounds]="true"
+            ></app-bars-simple-states-example>
+          </ng-container>
+          <ng-template #defaultCell>
+            {{ cell.getValue() }}
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
