@@ -1,4 +1,5 @@
 import { Directive } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import { DataValue } from '../../core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxisConfig } from '../base/config/xy-axis-config';
@@ -24,7 +25,7 @@ export function mixinYAxisConfig<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(...args: any[]) {
       super(...args);
-      Object.assign(this, args[0]);
+      safeAssign(this, args[0]);
       this.side = this.side ?? 'left';
     }
 

@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { valueFormat } from '../core/utilities/value-format';
 import { ValueUtilities } from '../core/utilities/values';
 
@@ -7,7 +8,7 @@ export class VicColumnConfig {
   valueAccessor: (x: any) => any;
 
   constructor(options?: Partial<VicColumnConfig>) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }
 
@@ -54,7 +55,7 @@ export class VicDataExportConfig {
   columns: VicColumnConfig[] = [];
   marginBottom = 0;
   constructor(config?: Partial<VicDataExportConfig>) {
-    Object.assign(this, config);
+    safeAssign(this, config);
     if (this.includeAllKeysAsDefault && this.data) {
       this.defaultColumnList = Object.keys(this.data[0]);
     }

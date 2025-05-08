@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { schemeTableau10 } from 'd3';
 import { DataValue, VisualValue } from '../../../core/types/values';
 import { DataDimensionBuilder } from '../../dimension-builder';
@@ -19,7 +20,7 @@ export class OrdinalVisualValueDimensionBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

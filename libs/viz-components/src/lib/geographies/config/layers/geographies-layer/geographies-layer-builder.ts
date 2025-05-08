@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { Geometry } from 'geojson';
 import { StrokeBuilder } from '../../../../stroke/stroke-builder';
 import { GeographiesFeature } from '../../../geographies-feature';
@@ -22,7 +23,7 @@ export abstract class GeographiesLayerBuilder<
   protected strokeBuilder: StrokeBuilder;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

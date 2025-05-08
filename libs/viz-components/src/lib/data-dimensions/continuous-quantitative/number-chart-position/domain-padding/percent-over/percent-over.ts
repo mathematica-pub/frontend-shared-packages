@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import {
   DomainPadding,
   DomainPaddingType,
@@ -14,7 +15,7 @@ export class PercentOverDomainPadding
 
   constructor(options: PercentOverDomainPaddingOptions) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
     this.type = DomainPaddingType.percentOver;
   }
 

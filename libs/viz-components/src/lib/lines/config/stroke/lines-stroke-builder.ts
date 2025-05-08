@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { OrdinalVisualValueDimensionBuilder } from '../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
 import { LinesStroke } from './lines-stroke';
 
@@ -22,7 +23,7 @@ export class LinesStrokeBuilder<Datum> {
   private _width: number;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**
