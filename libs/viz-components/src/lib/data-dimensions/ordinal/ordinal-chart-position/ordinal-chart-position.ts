@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { InternSet, ScaleBand, scaleBand, scalePoint, ScalePoint } from 'd3';
 import { DataValue } from '../../../core/types/values';
 import { DataDimension } from '../../dimension';
@@ -52,7 +53,7 @@ export class OrdinalChartPositionDimension<Datum, Domain extends DataValue>
   ) {
     super('ordinal');
     this.scaleFn = scaleType === 'band' ? scaleBand : scalePoint;
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 
   get calculatedDomain(): Domain[] {

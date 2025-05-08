@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { AuxMarksConfig } from '../../marks';
 import { Stroke } from '../../stroke/stroke';
 import { QuantitativeRulesLabels } from './labels/quantitative-rules-labels';
@@ -15,6 +16,6 @@ export class QuantitativeRulesConfig<Datum extends number | Date>
 
   constructor(options: QuantitativeRulesOptions<Datum>) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

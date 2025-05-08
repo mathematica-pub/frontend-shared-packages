@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { ContinuousValue } from '../../core/types/values';
 import { XyAxisConfig } from '../base/config/xy-axis-config';
@@ -28,6 +29,6 @@ export class VicYQuantitativeAxisConfig<
 > extends AbstractYQuantitative {
   constructor(options: YAxisOptions & VicQuantitativeAxisOptions<Tick>) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

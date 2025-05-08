@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { DataValue } from '../../../core/types/values';
 import { OrdinalChartMultipleDimensionBuilder } from '../../../data-dimensions/ordinal/ordinal-chart-multiple/ordinal-chart-multiple-builder';
 
@@ -19,7 +20,7 @@ export abstract class PrimaryMarksBuilder<
   >;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

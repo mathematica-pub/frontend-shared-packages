@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { ScaleContinuousNumeric, scaleLinear } from 'd3';
 import { DataDimensionBuilder } from '../../dimension-builder';
 import { ConcreteDomainPadding } from './domain-padding/concrete-domain-padding';
@@ -33,7 +34,7 @@ export class NumberChartPositionDimensionBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

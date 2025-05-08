@@ -1,3 +1,5 @@
+import { safeAssign } from '@hsi/app-dev-kit';
+
 const DEFAULT = {
   _class: () => '',
   _mixBlendMode: 'normal',
@@ -8,7 +10,7 @@ export abstract class VicAuxMarksBuilder<Datum> {
   protected _class: (d: Datum) => string;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

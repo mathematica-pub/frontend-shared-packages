@@ -1,4 +1,5 @@
 import { Directive } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import { DataValue } from '../../core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxisConfig } from '../base/config/xy-axis-config';
@@ -25,7 +26,7 @@ export function mixinXAxisConfig<
     constructor(...args: any[]) {
       super(...args);
       if (args.length > 0) {
-        Object.assign(this, args[0]);
+        safeAssign(this, args[0]);
       }
     }
 

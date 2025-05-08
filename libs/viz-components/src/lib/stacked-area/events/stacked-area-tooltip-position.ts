@@ -1,4 +1,5 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
+import { safeAssign } from '@hsi/app-dev-kit';
 
 export class VicLinesTooltipPosition implements ConnectedPosition {
   originX: 'start' | 'end' | 'center';
@@ -17,7 +18,7 @@ export class VicLinesTooltipPosition implements ConnectedPosition {
     this.overlayY = 'bottom';
 
     if (position) {
-      Object.assign(this, position);
+      safeAssign(this, position);
     }
   }
 }

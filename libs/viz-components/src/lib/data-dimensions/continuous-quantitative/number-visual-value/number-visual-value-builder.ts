@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { ScaleContinuousNumeric, scaleLinear } from 'd3';
 import { VisualValue } from '../../../core';
 import { DataDimensionBuilder } from '../../dimension-builder';
@@ -24,7 +25,7 @@ export class NumberVisualValueDimensionBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

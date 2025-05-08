@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { SvgTextWrap } from '../../svg-text-wrap';
 import { AxisLabelOptions } from './axis-label-options';
 
@@ -12,6 +13,6 @@ export class AxisLabel implements AxisLabelOptions {
   wrap: SvgTextWrap;
 
   constructor(options: AxisLabelOptions) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

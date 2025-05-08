@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { ScaleTime, max, min } from 'd3';
 import { isDate } from '../../../core/utilities/type-guards';
 import { DataDimension } from '../../dimension';
@@ -43,7 +44,7 @@ export class DateChartPositionDimension<Datum>
 
   constructor(options: DateChartPositionDimensionOptions<Datum>) {
     super('date');
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 
   setPropertiesFromData(data: Datum[]): void {

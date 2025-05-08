@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { HtmlTooltipSizeOptions } from './tooltip-size-options';
 
 export class HtmlTooltipSize implements HtmlTooltipSizeOptions {
@@ -9,6 +10,6 @@ export class HtmlTooltipSize implements HtmlTooltipSizeOptions {
   maxHeight: number | string;
 
   constructor(options: HtmlTooltipSizeOptions) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

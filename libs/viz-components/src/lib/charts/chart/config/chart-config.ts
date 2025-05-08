@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { ElementSpacing } from '../../../core/types/layout';
 import { ChartResizing } from '../chart.component';
 import { ChartOptions } from './chart-options';
@@ -11,6 +12,6 @@ export class ChartConfig implements ChartOptions {
   width: number;
 
   constructor(config: ChartOptions) {
-    Object.assign(this, config);
+    safeAssign(this, config);
   }
 }

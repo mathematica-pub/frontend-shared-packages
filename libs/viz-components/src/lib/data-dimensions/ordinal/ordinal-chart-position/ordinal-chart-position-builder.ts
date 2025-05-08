@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { DataValue } from '../../../core/types/values';
 import { DataDimensionBuilder } from '../../dimension-builder';
 import { OrdinalChartPositionDimension } from './ordinal-chart-position';
@@ -20,7 +21,7 @@ export class OrdinalChartPositionDimensionBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**
