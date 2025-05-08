@@ -91,6 +91,24 @@ export class NumberVisualValueDimensionBuilder<
   }
 
   /**
+   * OPTIONAL. Allows a user to set a completely custom scale that transforms the value returned by this dimension's valueAccessor into a visual value (string or number).
+   *
+   * If not provided, a range must be provided.
+   *
+   * If provided, this will override any values provided to domain, range, and scaleFn.
+   */
+  scale(scale: null): this;
+  scale(scale: (value: number) => Range): this;
+  scale(scale: (value: number) => Range): this {
+    if (scale === null) {
+      this._scale = undefined;
+      return this;
+    }
+    this._scale = scale;
+    return this;
+  }
+
+  /**
    * OPTIONAL. This is a D3 scale function that maps values from the dimension's domain to the dimension's range.
    *
    * If the user provides a custom scale function through the `scale` method, this will be ignored.
@@ -115,24 +133,6 @@ export class NumberVisualValueDimensionBuilder<
       return this;
     }
     this._scaleFn = scaleFn;
-    return this;
-  }
-
-  /**
-   * OPTIONAL. Allows a user to set a completely custom scale that transforms the value returned by this dimension's valueAccessor into a visual value (string or number).
-   *
-   * If not provided, a range must be provided.
-   *
-   * If provided, this will override any values provided to domain, range, and scaleFn.
-   */
-  scale(scale: null): this;
-  scale(scale: (value: number) => Range): this;
-  scale(scale: (value: number) => Range): this {
-    if (scale === null) {
-      this._scale = undefined;
-      return this;
-    }
-    this._scale = scale;
     return this;
   }
 

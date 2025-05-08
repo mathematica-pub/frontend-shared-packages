@@ -56,30 +56,6 @@ export class NumberChartPositionDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets a format specifier that will be applied to the value of this dimension for display purposes.
-   */
-  formatSpecifier(formatSpecifier: string): this;
-  formatSpecifier(formatSpecifier: null): this;
-  formatSpecifier(formatSpecifier: string | null): this {
-    if (formatSpecifier === null) {
-      this._formatSpecifier = undefined;
-      return this;
-    }
-    this._formatSpecifier = formatSpecifier;
-    return this;
-  }
-
-  /**
-   * OPTIONAL. Sets a boolean that indicates whether the domain of the dimension's scale should include zero.
-   *
-   * @default true
-   */
-  includeZeroInDomain(includeZeroInDomain: boolean): this {
-    this._includeZeroInDomain = includeZeroInDomain;
-    return this;
-  }
-
-  /**
    * OPTIONAL. Adds additional space between data values and the edge of a chart by increasing the max value of the quantitative domain.
    *
    * For example, if the domain is [0, 100] and the percent is 0.1, the new domain will be [0, 110].
@@ -130,6 +106,30 @@ export class NumberChartPositionDimensionBuilder<
     this._domainPadding = new RoundUpToSigFigDomainPadding({
       sigFigures,
     });
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets a format specifier that will be applied to the value of this dimension for display purposes.
+   */
+  formatSpecifier(formatSpecifier: string): this;
+  formatSpecifier(formatSpecifier: null): this;
+  formatSpecifier(formatSpecifier: string | null): this {
+    if (formatSpecifier === null) {
+      this._formatSpecifier = undefined;
+      return this;
+    }
+    this._formatSpecifier = formatSpecifier;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets a boolean that indicates whether the domain of the dimension's scale should include zero.
+   *
+   * @default true
+   */
+  includeZeroInDomain(includeZeroInDomain: boolean): this {
+    this._includeZeroInDomain = includeZeroInDomain;
     return this;
   }
 

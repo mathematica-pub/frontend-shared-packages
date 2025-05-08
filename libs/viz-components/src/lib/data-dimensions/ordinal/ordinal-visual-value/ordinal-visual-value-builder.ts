@@ -40,7 +40,7 @@ export class OrdinalVisualValueDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets an array of visual values that will be the output from D3 scale ordinal.
+   * OPTIONAL. Sets an array of visual values that will be the output from [D3's scaleOrdinal method](https://d3js.org/d3-scale/ordinal#scaleOrdinal).
    *
    * For example, this could be an array of colors or sizes.
    *
