@@ -47,6 +47,8 @@ export class IcaStackedBarsComponent
   }
 
   override drawMarks(): void {
+    console.log('this.chart.config.height', this.chart.config.height);
+    console.log('this.scales.y.range()', this.scales.y.range());
     const transitionDuration = this.getTransitionDuration();
     this.drawBars(transitionDuration);
     if (this.config.labels) {
