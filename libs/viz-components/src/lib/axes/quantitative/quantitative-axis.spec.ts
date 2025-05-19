@@ -112,7 +112,7 @@ describe('the QuantitativeAxis mixin', () => {
     let tickFormatSpy: jasmine.Spy;
     const tickFormat = '%Y';
     beforeEach(() => {
-      spyOn(abstractClass as any, 'getValidNumTicks').and.returnValue(10);
+      spyOn(abstractClass as any, 'getSuggestedNumTicks').and.returnValue(10);
       ticksSpy = jasmine.createSpy('ticks');
       tickFormatSpy = jasmine.createSpy('tickFormat');
       abstractClass.axis = {
@@ -121,14 +121,38 @@ describe('the QuantitativeAxis mixin', () => {
       };
       (abstractClass as any).setUnspecifiedTickValues(tickFormat);
     });
-    it('calls getValidatedNumTicks once', () => {
-      expect((abstractClass as any).getValidNumTicks).toHaveBeenCalledOnceWith(
-        tickFormat
-      );
+    describe('scale is Dates', () => {
+      beforeEach(() => {
+        abstractClass.scale = {
+          domain: jasmine
+            .createSpy('domain')
+            .and.returnValue([new Date(0), new Date(5)]),
+        };
+      });
+      it('does not call getSuggestedNumTicks', () => {
+        expect(
+          (abstractClass as any).getSuggestedNumTicks
+        ).not.toHaveBeenCalled();
+      });
+      it('does not call ticks on axis', () => {
+        expect(ticksSpy).not.toHaveBeenCalled();
+      });
     });
-    it('calls ticks on axis with the correct values', () => {
-      tickFormatSpy.calls.reset();
-      expect(ticksSpy).toHaveBeenCalledOnceWith(10);
+    describe('scale is not Dates', () => {
+      beforeEach(() => {
+        abstractClass.scale = {
+          domain: jasmine.createSpy('domain').and.returnValue([0, 5]),
+        };
+      });
+      it('calls getValidatedNumTicks once', () => {
+        expect(
+          (abstractClass as any).getSuggestedNumTicks
+        ).toHaveBeenCalledOnceWith(tickFormat);
+      });
+      it('calls ticks on axis with the correct values', () => {
+        tickFormatSpy.calls.reset();
+        expect(ticksSpy).toHaveBeenCalledOnceWith(10);
+      });
     });
     it('calls tickFormat on axis with the correct values', () => {
       ticksSpy.calls.reset();
@@ -136,7 +160,7 @@ describe('the QuantitativeAxis mixin', () => {
     });
   });
 
-  describe('getValidNumTicks', () => {
+  describe('getSuggestedNumTicks', () => {
     let tickFormat: string | ((value: number | Date) => string);
     let getNumTicksSpy: jasmine.Spy;
     beforeEach(() => {
@@ -146,7 +170,7 @@ describe('the QuantitativeAxis mixin', () => {
       ).and.returnValue(8);
       spyOn(
         abstractClass as any,
-        'getValidNumTicksForStringFormatter'
+        'getSuggestedNumTicksForStringFormatter'
       ).and.returnValue(10);
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .ticks((t) => t.count(1))
@@ -155,14 +179,16 @@ describe('the QuantitativeAxis mixin', () => {
 
     it('calls getNumTicks once', () => {
       tickFormat = ',.0f';
-      (abstractClass as any).getValidNumTicks(tickFormat);
+      (abstractClass as any).getSuggestedNumTicks(tickFormat);
       expect((abstractClass as any).getNumTicks).toHaveBeenCalledTimes(1);
     });
 
     describe('if tickFormat is a string but has no period in it', () => {
       it('returns the result from getNumTicks', () => {
         tickFormat = '%Y';
-        expect((abstractClass as any).getValidNumTicks(tickFormat)).toEqual(8);
+        expect((abstractClass as any).getSuggestedNumTicks(tickFormat)).toEqual(
+          8
+        );
       });
     });
 
@@ -170,21 +196,25 @@ describe('the QuantitativeAxis mixin', () => {
       beforeEach(() => {
         tickFormat = ',.0f';
       });
-      it('calls getValidNumTicksStringFormatter once with the correct values', () => {
-        (abstractClass as any).getValidNumTicks(tickFormat);
+      it('calls getSuggestedNumTicksStringFormatter once with the correct values', () => {
+        (abstractClass as any).getSuggestedNumTicks(tickFormat);
         expect(
-          (abstractClass as any).getValidNumTicksForStringFormatter
+          (abstractClass as any).getSuggestedNumTicksForStringFormatter
         ).toHaveBeenCalledOnceWith(8, tickFormat);
       });
-      it('returns the result from getValidNumTicksStringFormatter', () => {
-        expect((abstractClass as any).getValidNumTicks(tickFormat)).toEqual(10);
+      it('returns the result from getSuggestedNumTicksStringFormatter', () => {
+        expect((abstractClass as any).getSuggestedNumTicks(tickFormat)).toEqual(
+          10
+        );
       });
     });
 
     describe('if tickFormat is not a string', () => {
       it('returns the result from getNumTicks', () => {
         tickFormat = () => '2';
-        expect((abstractClass as any).getValidNumTicks(tickFormat)).toEqual(8);
+        expect((abstractClass as any).getSuggestedNumTicks(tickFormat)).toEqual(
+          8
+        );
       });
     });
 
@@ -192,7 +222,7 @@ describe('the QuantitativeAxis mixin', () => {
       it('returns the result from initNumTicks', () => {
         getNumTicksSpy.and.returnValue(timeMonth);
         tickFormat = ',.0f';
-        expect((abstractClass as any).getValidNumTicks(tickFormat)).toEqual(
+        expect((abstractClass as any).getSuggestedNumTicks(tickFormat)).toEqual(
           timeMonth
         );
       });
@@ -220,7 +250,7 @@ describe('the QuantitativeAxis mixin', () => {
     });
   });
 
-  describe('getValidNumTicksForStringFormatter', () => {
+  describe('getSuggestedNumTicksForStringFormatter', () => {
     let domainSpy: jasmine.Spy;
     beforeEach(() => {
       domainSpy = jasmine.createSpy('domain');
@@ -230,7 +260,10 @@ describe('the QuantitativeAxis mixin', () => {
         domain: domainSpy.and.returnValue([0, 20]),
       };
       expect(
-        (abstractClass as any).getValidNumTicksForStringFormatter(10, ',.0f')
+        (abstractClass as any).getSuggestedNumTicksForStringFormatter(
+          10,
+          ',.0f'
+        )
       ).toEqual(10);
     });
     it('returns 1 if the first possible tick is greater than the end of the domain', () => {
@@ -238,7 +271,10 @@ describe('the QuantitativeAxis mixin', () => {
         domain: domainSpy.and.returnValue([0, 0.5]),
       };
       expect(
-        (abstractClass as any).getValidNumTicksForStringFormatter(10, ',.0f')
+        (abstractClass as any).getSuggestedNumTicksForStringFormatter(
+          10,
+          ',.0f'
+        )
       ).toEqual(1);
     });
     it('returns the correct value if formatter is for ints and numTicks is too big given domain max', () => {
@@ -246,7 +282,10 @@ describe('the QuantitativeAxis mixin', () => {
         domain: domainSpy.and.returnValue([0, 5]),
       };
       expect(
-        (abstractClass as any).getValidNumTicksForStringFormatter(10, ',.0f')
+        (abstractClass as any).getSuggestedNumTicksForStringFormatter(
+          10,
+          ',.0f'
+        )
       ).toEqual(6);
     });
     it('returns the correct value if formatter makes decimals and numTicks is too big given domain max', () => {
@@ -254,7 +293,10 @@ describe('the QuantitativeAxis mixin', () => {
         domain: domainSpy.and.returnValue([0, 5]),
       };
       expect(
-        (abstractClass as any).getValidNumTicksForStringFormatter(100, ',.1f')
+        (abstractClass as any).getSuggestedNumTicksForStringFormatter(
+          100,
+          ',.1f'
+        )
       ).toEqual(51);
     });
     it('returns the correct value if formatter makes percents and numTicks is too big given domain max', () => {
@@ -262,7 +304,10 @@ describe('the QuantitativeAxis mixin', () => {
         domain: domainSpy.and.returnValue([0, 5]),
       };
       expect(
-        (abstractClass as any).getValidNumTicksForStringFormatter(1000, '.0%')
+        (abstractClass as any).getSuggestedNumTicksForStringFormatter(
+          1000,
+          '.0%'
+        )
       ).toEqual(501);
     });
   });

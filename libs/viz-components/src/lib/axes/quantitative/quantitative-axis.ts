@@ -49,11 +49,8 @@ export function quantitativeAxisMixin<
     setUnspecifiedTickValues(
       tickFormat: string | ((value: Tick) => string)
     ): void {
-      const validNumTicks =
-        this.scale.domain()[0] instanceof Date
-          ? undefined
-          : this.getValidNumTicks(tickFormat);
-      if (validNumTicks) {
+      if (!(this.scale.domain()[0] instanceof Date)) {
+        const validNumTicks = this.getSuggestedNumTicks(tickFormat);
         this.axis.ticks(validNumTicks);
       }
       this.axis.tickFormat((d) => {
@@ -64,22 +61,25 @@ export function quantitativeAxisMixin<
       });
     }
 
-    getValidNumTicks(
+    getSuggestedNumTicks(
       tickFormat: string | ((value: Tick) => string)
     ): number | AxisTimeInterval {
-      let numValidTicks = this.getNumTicks();
-      if (typeof tickFormat === 'string' && typeof numValidTicks === 'number') {
-        numValidTicks = Math.round(numValidTicks);
+      let numSuggestedTicks = this.getNumTicks();
+      if (
+        typeof tickFormat === 'string' &&
+        typeof numSuggestedTicks === 'number'
+      ) {
+        numSuggestedTicks = Math.round(numSuggestedTicks);
         if (!tickFormat.includes('.')) {
-          return numValidTicks;
+          return numSuggestedTicks;
         } else {
           return this.getValidNumTicksForStringFormatter(
-            numValidTicks,
+            numSuggestedTicks,
             tickFormat
           );
         }
       } else {
-        return numValidTicks;
+        return numSuggestedTicks;
       }
     }
 
