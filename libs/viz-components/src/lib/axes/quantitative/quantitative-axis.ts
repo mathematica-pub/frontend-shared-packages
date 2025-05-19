@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { AxisTimeInterval, format, timeFormat } from 'd3';
+import { AxisTimeInterval, format, utcFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { ContinuousValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
@@ -28,7 +28,7 @@ export function quantitativeAxisMixin<
       const validTickValues = this.getValidTickValues();
       this.axis.tickValues(validTickValues);
       this.axis.tickFormat((d) => {
-        const formatter = d instanceof Date ? timeFormat : format;
+        const formatter = d instanceof Date ? utcFormat : format;
         return typeof tickFormat === 'function'
           ? tickFormat(d)
           : formatter(tickFormat)(d);
@@ -49,10 +49,15 @@ export function quantitativeAxisMixin<
     setUnspecifiedTickValues(
       tickFormat: string | ((value: Tick) => string)
     ): void {
-      const validNumTicks = this.getValidNumTicks(tickFormat);
-      this.axis.ticks(validNumTicks);
+      const validNumTicks =
+        this.scale.domain()[0] instanceof Date
+          ? undefined
+          : this.getValidNumTicks(tickFormat);
+      if (validNumTicks) {
+        this.axis.ticks(validNumTicks);
+      }
       this.axis.tickFormat((d) => {
-        const formatter = d instanceof Date ? timeFormat : format;
+        const formatter = d instanceof Date ? utcFormat : format;
         return typeof tickFormat === 'function'
           ? tickFormat(d)
           : formatter(tickFormat)(d);
