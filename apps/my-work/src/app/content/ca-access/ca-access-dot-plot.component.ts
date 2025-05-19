@@ -5,13 +5,13 @@ import {
   Component,
   Input,
   OnChanges,
-  OnInit,
 } from '@angular/core';
 import {
   ChartConfig,
   StackedBarsConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
+  VicChartConfigBuilder,
   VicChartModule,
   VicStackedBarsConfigBuilder,
   VicStackedBarsModule,
@@ -39,11 +39,12 @@ import { CaDatum } from './ca-access-stacked-bars.component';
     VicStackedBarsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
+    VicChartConfigBuilder,
   ],
   templateUrl: 'ca-access-dot-plot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CaAccessDotPlotComponent implements OnChanges, OnInit {
+export class CaAccessDotPlotComponent implements OnChanges {
   @Input() data: CaDatum[];
   chartConfig: ChartConfig;
   rollupData: CaDatum[] = [];
@@ -57,28 +58,29 @@ export class CaAccessDotPlotComponent implements OnChanges, OnInit {
   constructor(
     private bars: VicStackedBarsConfigBuilder<any, string>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
-    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>
+    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>,
+    private chartConfigBuilder: VicChartConfigBuilder
   ) {}
 
-  ngOnInit(): void {
-    this.chartConfig = {
-      margin: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-      height: null,
-      width: 700,
-      aspectRatio: 1,
-      resize: {
-        width: false,
-        height: false,
-        useViewbox: false,
-      },
-      transitionDuration: 0,
-    };
-  }
+  // ngOnInit(): void {
+  //   this.chartConfig = {
+  //     margin: {
+  //       top: 0,
+  //       right: 0,
+  //       bottom: 0,
+  //       left: 0,
+  //     },
+  //     height: null,
+  //     width: 700,
+  //     aspectRatio: 1,
+  //     resize: {
+  //       width: false,
+  //       height: false,
+  //       useViewbox: false,
+  //     },
+  //     transitionDuration: 0,
+  //   };
+  // }
 
   ngOnChanges(): void {
     if (this.data[0]) {
@@ -147,7 +149,24 @@ export class CaAccessDotPlotComponent implements OnChanges, OnInit {
 
   setProperties(): void {
     if (this.rollupData.length > 0) {
-      this.chartConfig.height = this.rollupData.length * this.bandwidth * 2;
+      const chartHeight = this.rollupData.length * this.bandwidth * 2;
+
+      this.chartConfig = this.chartConfigBuilder
+        .margin({
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+        })
+        .height(chartHeight)
+        .width(700)
+        .resize({
+          width: false,
+          height: false,
+          useViewbox: false,
+        })
+        .transitionDuration(0)
+        .getConfig();
 
       const dotMax = max(this.rollupData.map((d) => max(d.plans)));
       const barMax = max(this.rollupData, (d) => this.getBarValue(d));

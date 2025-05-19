@@ -3,6 +3,7 @@ import { Component, OnChanges } from '@angular/core';
 import {
   VicBarsConfigBuilder,
   VicBarsModule,
+  VicChartConfigBuilder,
   VicChartModule,
   VicStackedBarsConfigBuilder,
   VicStackedBarsModule,
@@ -30,6 +31,7 @@ import { BdaStackedBarsComponent } from './bda-stacked-bars/bda-stacked-bars.com
     VicStackedBarsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
+    VicChartConfigBuilder,
   ],
   templateUrl: './bda-dot-plot.component.html',
   styleUrl: './bda-dot-plot.component.scss',
