@@ -59,4 +59,4 @@ const path = {
   },
 };
 
-export const dataPath = path.current;
+export const dataPath = path.mock;
