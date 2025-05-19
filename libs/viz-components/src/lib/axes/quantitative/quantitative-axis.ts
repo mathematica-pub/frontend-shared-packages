@@ -73,7 +73,7 @@ export function quantitativeAxisMixin<
         if (!tickFormat.includes('.')) {
           return numSuggestedTicks;
         } else {
-          return this.getValidNumTicksForStringFormatter(
+          return this.getValidNumTicksForNumberFormatString(
             numSuggestedTicks,
             tickFormat
           );
@@ -93,7 +93,7 @@ export function quantitativeAxisMixin<
       );
     }
 
-    getValidNumTicksForStringFormatter(
+    getValidNumTicksForNumberFormatString(
       numTicks: number,
       tickFormat: string
     ): number {
