@@ -67,7 +67,6 @@ export class IcaDotPlotComponent implements OnChanges {
   xAxisConfig: VicXQuantitativeAxisConfig<number>;
   yAxisConfig: VicYOrdinalAxisConfig<string>;
   trueMax: number;
-  chartHeight: number;
 
   constructor(
     private bars: VicStackedBarsConfigBuilder<IcaDatum, string>,
