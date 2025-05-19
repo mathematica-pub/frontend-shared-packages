@@ -4,7 +4,6 @@ import {
   Component,
   Input,
   OnChanges,
-  OnInit,
 } from '@angular/core';
 import {
   ChartConfig,
@@ -60,7 +59,7 @@ export interface IcaDatum {
   styleUrl: './ica-dot-plot.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IcaDotPlotComponent implements OnInit, OnChanges {
+export class IcaDotPlotComponent implements OnChanges {
   @Input() data: IcaDatum[];
   chartConfig: ChartConfig;
   rollupData: IcaDatum[] = [];
@@ -73,28 +72,9 @@ export class IcaDotPlotComponent implements OnInit, OnChanges {
   constructor(
     private bars: VicStackedBarsConfigBuilder<IcaDatum, string>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
-    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>
+    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>,
+    private chartConfigBuilder: VicChartConfigBuilder
   ) {}
-
-  ngOnInit(): void {
-    this.chartConfig = {
-      margin: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-      height: null,
-      width: 660,
-      aspectRatio: 1,
-      resize: {
-        width: false,
-        height: false,
-        useViewbox: false,
-      },
-      transitionDuration: 0,
-    };
-  }
 
   ngOnChanges(): void {
     if (this.data[0]) {
@@ -145,7 +125,24 @@ export class IcaDotPlotComponent implements OnInit, OnChanges {
     this.rollupData = this.rollupData.filter((d) => d.plans.length > 1);
 
     if (this.rollupData.length > 0) {
-      this.chartConfig.height = this.rollupData.length * 15;
+      const chartHeight = this.rollupData.length * 15;
+
+      this.chartConfig = this.chartConfigBuilder
+        .margin({
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+        })
+        .height(chartHeight)
+        .width(660)
+        .resize({
+          width: false,
+          height: false,
+          useViewbox: false,
+        })
+        .transitionDuration(0)
+        .getConfig();
 
       this.trueMax = max(this.rollupData.map((d) => max(d.plans)));
       if (this.trueMax < 1 && this.trueMax > 0.8) this.trueMax = 1;
