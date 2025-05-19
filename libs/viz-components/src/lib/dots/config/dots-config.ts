@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { range } from 'd3';
 import { DataValue } from '../../core';
 import { DateChartPositionDimension } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position';
@@ -39,7 +40,7 @@ export class DotsConfig<
 
   constructor(options: DotsOptions<Datum, XOrdinalDomain, YOrdinalDomain>) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
     this.initPropertiesFromData();
   }
 

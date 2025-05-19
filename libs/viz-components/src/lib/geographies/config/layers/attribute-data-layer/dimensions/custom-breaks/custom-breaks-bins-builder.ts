@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { interpolateLab, scaleThreshold } from 'd3';
 import { AttributeDataDimensionBuilder } from '../attribute-data/attribute-data-dimension-builder';
 import { CustomBreaksBinsAttributeDataDimension } from './custom-breaks-bins';
@@ -17,7 +18,7 @@ export class CustomBreaksBinsAttributeDataDimensionBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

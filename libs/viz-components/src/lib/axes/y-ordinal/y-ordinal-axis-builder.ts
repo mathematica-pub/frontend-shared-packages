@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import { DataValue } from '../../core/types/values';
 import { XyAxisBaseBuilder } from '../base/config/xy-axis-builder';
 import { TicksBuilder } from '../ticks/ticks-builder';
@@ -24,7 +25,7 @@ export class VicYOrdinalAxisConfigBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
     this.ticksBuilder = this.getTicksBuilder();
   }
 
@@ -64,7 +65,7 @@ export class VicYOrdinalAxisConfigBuilder<
   getConfig(): VicYOrdinalAxisConfig<Tick> {
     return new VicYOrdinalAxisConfig({
       baseline: this.baselineBuilder._build('ordinal'),
-      grid: this.gridBuilder?._build('y'),
+      grid: this.gridBuilder?._build('y', 'ordinal'),
       label: this.labelBuilder?._build('y'),
       marksClass: 'vic-axis-y-ordinal',
       mixBlendMode: this._mixBlendMode,

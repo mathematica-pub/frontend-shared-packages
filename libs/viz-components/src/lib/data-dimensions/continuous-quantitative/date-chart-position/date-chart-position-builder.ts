@@ -1,10 +1,11 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { ScaleTime, scaleUtc } from 'd3';
 import { DataDimensionBuilder } from '../../dimension-builder';
 import { DateChartPositionDimension } from './date-chart-position';
 
 const DEFAULT = {
   _scaleFn: scaleUtc,
-  formatSpecifier: '%Y %m',
+  _formatSpecifier: '%Y %m',
 };
 
 export class DateChartPositionDimensionBuilder<
@@ -19,7 +20,7 @@ export class DateChartPositionDimensionBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

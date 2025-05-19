@@ -1,4 +1,5 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
+import { safeAssign } from '@hsi/app-dev-kit';
 
 export class RelativeToCenterLeftTooltipPosition implements ConnectedPosition {
   originX: 'start' | 'end' | 'center';
@@ -17,7 +18,7 @@ export class RelativeToCenterLeftTooltipPosition implements ConnectedPosition {
     this.overlayY = 'bottom';
 
     if (position) {
-      Object.assign(this, position);
+      safeAssign(this, position);
     }
   }
 }
@@ -39,7 +40,7 @@ export class RelativeToTopLeftTooltipPosition implements ConnectedPosition {
     this.overlayY = 'bottom';
 
     if (position) {
-      Object.assign(this, position);
+      safeAssign(this, position);
     }
   }
 }
@@ -61,7 +62,7 @@ export class RelativeToCenterTooltipPosition implements ConnectedPosition {
     this.overlayY = 'bottom';
 
     if (position) {
-      Object.assign(this, position);
+      safeAssign(this, position);
     }
   }
 }

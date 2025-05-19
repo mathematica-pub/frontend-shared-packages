@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { BinStrategy } from '../attribute-data-bin-enums';
 import { AttributeDataDimension } from '../attribute-data/attribute-data-dimension';
 import { CategoricalBinsOptions } from './categorical-bins-options';
@@ -22,7 +23,7 @@ export class CategoricalBinsAttributeDataDimension<
   constructor(options: CategoricalBinsOptions<Datum, RangeValue>) {
     super('ordinal');
     this.binType = BinStrategy.categorical;
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 
   getDomain(): string[] {

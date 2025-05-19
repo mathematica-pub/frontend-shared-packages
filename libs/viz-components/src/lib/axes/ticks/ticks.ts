@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { TickWrap } from './tick-wrap/tick-wrap';
 import { QuantitativeTicksOptions, TicksOptions } from './ticks-options';
 
@@ -15,7 +16,7 @@ export class Ticks<Tick> implements TicksOptions<Tick> {
   wrap: TickWrap;
 
   constructor(options: TicksOptions<Tick>) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }
 

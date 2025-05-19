@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { range, scaleLinear } from 'd3';
 import { BinStrategy } from '../attribute-data-bin-enums';
 import { AttributeDataDimension } from '../attribute-data/attribute-data-dimension';
@@ -28,7 +29,7 @@ export class CustomBreaksBinsAttributeDataDimension<
   ) {
     super('number');
     this.binType = BinStrategy.customBreaks;
-    Object.assign(this, options);
+    safeAssign(this, options);
     if (!this.valueAccessor) {
       console.error(
         'Value accessor is required for CustomBreaksAttributeDataDimension'

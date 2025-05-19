@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { Stroke } from '../../stroke';
 import { GridOptions } from './grid-options';
 
@@ -7,6 +8,6 @@ export class Grid implements GridOptions {
   stroke: Stroke;
 
   constructor(options: GridOptions) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

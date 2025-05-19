@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { ScaleContinuousNumeric } from 'd3';
 import { VisualValue } from '../../../core';
 import { NumberDimension } from '../number-dimension/number-dimension';
@@ -33,7 +34,7 @@ export class NumberVisualValueDimension<
 
   constructor(options: NumberVisualValueDimensionOptions<Datum, Range>) {
     super('number');
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 
   getScale(): (value: number) => Range {

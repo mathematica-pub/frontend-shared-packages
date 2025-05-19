@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import { ElementSpacing } from '../../../core/types/layout';
 import { ChartResizing } from '../chart.component';
 import { ChartConfig } from './chart-config';
@@ -38,7 +39,7 @@ export class VicChartConfigBuilder {
   private _width: number;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

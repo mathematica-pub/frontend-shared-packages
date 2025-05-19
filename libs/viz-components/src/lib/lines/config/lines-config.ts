@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { CurveFactory, group, range } from 'd3';
 import { DateChartPositionDimension } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position';
 import { NumberChartPositionDimension } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position';
@@ -35,7 +36,7 @@ export class LinesConfig<Datum>
 
   constructor(options: LinesOptions<Datum>) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
     this.initPropertiesFromData();
   }
 

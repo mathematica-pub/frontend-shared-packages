@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { AxisTimeInterval } from 'd3';
 import { TickWrapBuilder } from './tick-wrap/tick-wrap-builder';
 import { QuantitativeTicks, Ticks } from './ticks';
@@ -37,7 +38,8 @@ export class TicksBuilder<Tick> {
   protected wrapBuilder: TickWrapBuilder;
 
   constructor(options: Partial<AxisSpecificTickBuilderOptions>) {
-    Object.assign(this, DEFAULT, options);
+    safeAssign(this, DEFAULT);
+    safeAssign(this, options);
   }
 
   /**
@@ -250,7 +252,8 @@ export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
     options: Partial<AxisSpecificQuantitativeTickBuilderOptions<Tick>>
   ) {
     super(options);
-    Object.assign(this, DEFAULT, QUANT_DEFAULT);
+    safeAssign(this, DEFAULT);
+    safeAssign(this, QUANT_DEFAULT);
   }
 
   /**

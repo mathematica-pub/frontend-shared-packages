@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import { ContinuousValue } from '../../core/types/values';
 import { XyAxisBaseBuilder } from '../base/config/xy-axis-builder';
 import { QuantitativeTicksBuilder } from '../ticks/ticks-builder';
@@ -23,7 +24,7 @@ export class VicYQuantitativeAxisConfigBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
     this.ticksBuilder = this.getTicksBuilder();
   }
 
@@ -62,7 +63,7 @@ export class VicYQuantitativeAxisConfigBuilder<
   getConfig(): VicYQuantitativeAxisConfig<Tick> {
     return new VicYQuantitativeAxisConfig<Tick>({
       baseline: this.baselineBuilder._build('quantitative'),
-      grid: this.gridBuilder?._build('y'),
+      grid: this.gridBuilder?._build('y', 'quantitative'),
       label: this.labelBuilder?._build('y'),
       marksClass: 'vic-axis-y-quantitative',
       mixBlendMode: this._mixBlendMode,
