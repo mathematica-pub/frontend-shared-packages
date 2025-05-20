@@ -62,26 +62,6 @@ export class CaAccessDotPlotComponent implements OnChanges {
     private chartConfigBuilder: VicChartConfigBuilder
   ) {}
 
-  // ngOnInit(): void {
-  //   this.chartConfig = {
-  //     margin: {
-  //       top: 0,
-  //       right: 0,
-  //       bottom: 0,
-  //       left: 0,
-  //     },
-  //     height: null,
-  //     width: 700,
-  //     aspectRatio: 1,
-  //     resize: {
-  //       width: false,
-  //       height: false,
-  //       useViewbox: false,
-  //     },
-  //     transitionDuration: 0,
-  //   };
-  // }
-
   ngOnChanges(): void {
     if (this.data[0]) {
       console.log('this.data after changes', this.data);
