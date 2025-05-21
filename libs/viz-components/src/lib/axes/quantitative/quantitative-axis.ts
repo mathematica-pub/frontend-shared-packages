@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { AxisTimeInterval, format, timeFormat } from 'd3';
+import { AxisTimeInterval, format, utcFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { ContinuousValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
@@ -28,7 +28,7 @@ export function quantitativeAxisMixin<
       const validTickValues = this.getValidTickValues();
       this.axis.tickValues(validTickValues);
       this.axis.tickFormat((d) => {
-        const formatter = d instanceof Date ? timeFormat : format;
+        const formatter = d instanceof Date ? utcFormat : format;
         return typeof tickFormat === 'function'
           ? tickFormat(d)
           : formatter(tickFormat)(d);
@@ -49,32 +49,37 @@ export function quantitativeAxisMixin<
     setUnspecifiedTickValues(
       tickFormat: string | ((value: Tick) => string)
     ): void {
-      const validNumTicks = this.getValidNumTicks(tickFormat);
-      this.axis.ticks(validNumTicks);
+      if (!(this.scale.domain()[0] instanceof Date)) {
+        const validNumTicks = this.getSuggestedNumTicks(tickFormat);
+        this.axis.ticks(validNumTicks);
+      }
       this.axis.tickFormat((d) => {
-        const formatter = d instanceof Date ? timeFormat : format;
+        const formatter = d instanceof Date ? utcFormat : format;
         return typeof tickFormat === 'function'
           ? tickFormat(d)
           : formatter(tickFormat)(d);
       });
     }
 
-    getValidNumTicks(
+    getSuggestedNumTicks(
       tickFormat: string | ((value: Tick) => string)
     ): number | AxisTimeInterval {
-      let numValidTicks = this.getNumTicks();
-      if (typeof tickFormat === 'string' && typeof numValidTicks === 'number') {
-        numValidTicks = Math.round(numValidTicks);
+      let numSuggestedTicks = this.getNumTicks();
+      if (
+        typeof tickFormat === 'string' &&
+        typeof numSuggestedTicks === 'number'
+      ) {
+        numSuggestedTicks = Math.round(numSuggestedTicks);
         if (!tickFormat.includes('.')) {
-          return numValidTicks;
+          return numSuggestedTicks;
         } else {
-          return this.getValidNumTicksForStringFormatter(
-            numValidTicks,
+          return this.getValidNumTicksForNumberFormatString(
+            numSuggestedTicks,
             tickFormat
           );
         }
       } else {
-        return numValidTicks;
+        return numSuggestedTicks;
       }
     }
 
@@ -88,7 +93,7 @@ export function quantitativeAxisMixin<
       );
     }
 
-    getValidNumTicksForStringFormatter(
+    getValidNumTicksForNumberFormatString(
       numTicks: number,
       tickFormat: string
     ): number {
