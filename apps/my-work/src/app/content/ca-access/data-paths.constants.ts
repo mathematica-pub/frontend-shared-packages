@@ -1,6 +1,6 @@
 const folder = 'content/data/';
 
-const path = {
+const caAccessPath = {
   current: {
     bda: `${folder}BDA_Results_v2.csv`,
     csa: `${folder}Statistical_Results.csv`,
@@ -59,4 +59,10 @@ const path = {
   },
 };
 
-export const dataPath = path.mock;
+const mlbPath = {
+  current: `${folder}MLB_Results.csv`,
+  mock: `${folder}Mock_MLB_Results.csv`,
+};
+
+export const dataPath = caAccessPath.mock;
+export const mlbDataPath = mlbPath.mock;

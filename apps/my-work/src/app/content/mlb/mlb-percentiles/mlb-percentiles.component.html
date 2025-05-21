@@ -1,0 +1,39 @@
+<div class="title">MLB percentiles</div>
+<form [formGroup]="myForm">
+  <div class="selection">
+    <label for="measureCode">Measure Code</label>
+    <select id="measureCode" formControlName="measureCode">
+      <option
+        *ngFor="let code of filters.measureCodes"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+  <div class="selection">
+    <label for="stratVal">Stratification</label>
+    <select id="stratVal" formControlName="stratVal">
+      <option
+        *ngFor="let strat of filters.stratVals"
+        [ngValue]="strat.name"
+        [disabled]="strat.disabled"
+      >
+        {{ strat.name }}
+      </option>
+    </select>
+  </div>
+</form>
+@if (filteredData$ | async; as data) {
+  <app-export-content
+    [fileName]="
+      'MLB percentiles ' +
+      myForm.value[filterTypes[0]] +
+      ' ' +
+      myForm.value[filterTypes[1]]
+    "
+  >
+    <!-- <app-csa-dot-plot [data]="data"></app-csa-dot-plot> -->
+  </app-export-content>
+}
