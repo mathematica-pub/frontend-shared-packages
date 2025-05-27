@@ -71,10 +71,7 @@
         "cypressConfig": "libs/ui-components/cypress.config.ts",
         "testingType": "component",
         "skipServe": true,
-        "devServerTarget": "demo-app:build:production",
-        "reporter": "spec",
-        "video": false,
-        "screenshotOnRunFailure": false
+        "devServerTarget": "demo-app:build:production"
       }
     },
     "cypress-local": {
