@@ -1,5 +1,6 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -52,16 +53,13 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxDynamicLabelTestComponent extends ComboboxBaseTestComponent {}
 
 describe('Single-select combobox with a default (dynamic) label', () => {
   beforeEach(() => {
-    cy.mount(ComboboxDynamicLabelTestComponent, {
-      declarations: [ComboboxDynamicLabelTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxDynamicLabelTestComponent);
   });
   it('textbox label shows the boxLabel before there is a selection, and the selected value afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
@@ -102,16 +100,13 @@ describe('Single-select combobox with a default (dynamic) label', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxNoBoxLabelTestComponent extends ComboboxBaseTestComponent {}
 
 describe('Single-select combobox with a default label / no boxLabel', () => {
   beforeEach(() => {
-    cy.mount(ComboboxNoBoxLabelTestComponent, {
-      declarations: [ComboboxNoBoxLabelTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxNoBoxLabelTestComponent);
   });
   it('textbox label is empty before there is a selection, and the selected value afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', '');
@@ -159,16 +154,13 @@ describe('Single-select combobox with a default label / no boxLabel', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxDynamicLabelMultiTestComponent extends ComboboxBaseTestComponent {}
 
 describe('Multi-select combobox with a default (dynamic) label', () => {
   beforeEach(() => {
-    cy.mount(ComboboxDynamicLabelMultiTestComponent, {
-      declarations: [ComboboxDynamicLabelMultiTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxDynamicLabelMultiTestComponent);
   });
   it('textbox label shows the boxLabel before there is a selection, and the selected values afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
@@ -217,16 +209,13 @@ describe('Multi-select combobox with a default (dynamic) label', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxStaticLabelTestComponent extends ComboboxBaseTestComponent {}
 
 describe('Textbox with a static label', () => {
   beforeEach(() => {
-    cy.mount(ComboboxStaticLabelTestComponent, {
-      declarations: [ComboboxStaticLabelTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxStaticLabelTestComponent);
   });
   it('textbox label does not change with a selection', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit, A-E');
@@ -276,16 +265,13 @@ describe('Textbox with a static label', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboCountLabelMultiTestComponent extends ComboboxBaseTestComponent {}
 
 describe('Multi-select combobox with a show selected count label', () => {
   beforeEach(() => {
-    cy.mount(ComboboCountLabelMultiTestComponent, {
-      declarations: [ComboboCountLabelMultiTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboCountLabelMultiTestComponent);
   });
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select fruits');
@@ -350,7 +336,7 @@ describe('Multi-select combobox with a show selected count label', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxGroupedMultiTestComponent {
   options1 = [
@@ -372,10 +358,7 @@ class ComboboxGroupedMultiTestComponent {
 
 describe('Grouped multi-select combobox with a show selected count label', () => {
   beforeEach(() => {
-    cy.mount(ComboboxGroupedMultiTestComponent, {
-      declarations: [ComboboxGroupedMultiTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxGroupedMultiTestComponent);
   });
 
   it('can select from multiple groups', () => {
@@ -428,7 +411,7 @@ describe('Grouped multi-select combobox with a show selected count label', () =>
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboCustomLabelMultiTestComponent extends ComboboxBaseTestComponent {
   customLabel = (options: ListboxOptionComponent[]) => {
@@ -444,10 +427,7 @@ class ComboboCustomLabelMultiTestComponent extends ComboboxBaseTestComponent {
 
 describe('Multi-select combobox with a custom label', () => {
   beforeEach(() => {
-    cy.mount(ComboboCustomLabelMultiTestComponent, {
-      declarations: [ComboboCustomLabelMultiTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboCustomLabelMultiTestComponent);
   });
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select fruits');
@@ -515,16 +495,13 @@ describe('Multi-select combobox with a custom label', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboInitialSelectionsMultiTestComponent extends ComboboxBaseTestComponent {}
 
 describe('Multi-select combobox with a dynamic label and initial selections', () => {
   beforeEach(() => {
-    cy.mount(ComboboInitialSelectionsMultiTestComponent, {
-      declarations: [ComboboInitialSelectionsMultiTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboInitialSelectionsMultiTestComponent);
   });
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should(
@@ -581,16 +558,13 @@ describe('Multi-select combobox with a dynamic label and initial selections', ()
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboInitialSelectionsCountMultiTestComponent extends ComboboxBaseTestComponent {}
 
 describe('Multi-select combobox with a count label and initial selections', () => {
   beforeEach(() => {
-    cy.mount(ComboboInitialSelectionsCountMultiTestComponent, {
-      declarations: [ComboboInitialSelectionsCountMultiTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboInitialSelectionsCountMultiTestComponent);
   });
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', '2 fruits selected');

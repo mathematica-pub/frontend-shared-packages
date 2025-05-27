@@ -85,7 +85,7 @@ const barSelector = '.vic-bars-bar';
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [VicChartModule, VicBarsModule, VicXyAxisModule],
 })
 class TestHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
@@ -108,12 +108,8 @@ const mountHorizontalBarsComponent = (
     .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
-  const declarations = [TestHorizontalBarsComponent];
-  const imports = [VicChartModule, VicBarsModule, VicXyAxisModule];
 
   cy.mount(TestHorizontalBarsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       xQuantitativeAxisConfig: xAxisConfig,

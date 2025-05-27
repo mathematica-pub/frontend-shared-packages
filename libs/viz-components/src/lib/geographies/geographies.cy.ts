@@ -1,4 +1,5 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
   ChartConfig,
@@ -97,7 +98,12 @@ type TestUsMapTopology = Topology<TestMapObjects>;
     </ng-template>
   `,
   styles: ['.tooltip-container { font-size: 12px; }'],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicGeographiesModule,
+    VicHtmlTooltipModule,
+    CommonModule,
+  ],
 })
 class TestGeographiesComponent {
   @Input() geographiesConfig: GeographiesConfig<
@@ -157,12 +163,7 @@ const mountGeographiesComponent = (
     TestMapGeometryProperties
   >
 ): void => {
-  const declarations = [TestGeographiesComponent];
-  const imports = [VicChartModule, VicGeographiesModule, VicHtmlTooltipModule];
-
   cy.mount(TestGeographiesComponent, {
-    declarations,
-    imports,
     componentProperties: {
       geographiesConfig: geographiesConfig,
     },

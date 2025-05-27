@@ -78,7 +78,12 @@ const labelSelector = '.vic-quantitative-rules-label';
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicQuantitativeRulesModule,
+  ],
 })
 class TestQuantitativeRulesHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
@@ -111,17 +116,8 @@ const mountHorizontalBarsComponent = (
     )
     .labels((labels) => labels.display(true))
     .getConfig();
-  const declarations = [TestQuantitativeRulesHorizontalBarsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-    VicQuantitativeRulesModule,
-  ];
 
   cy.mount(TestQuantitativeRulesHorizontalBarsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       rulesConfig: rulesConfig,
@@ -157,7 +153,12 @@ const mountHorizontalBarsComponent = (
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicQuantitativeRulesModule,
+  ],
 })
 class TestVerticalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
@@ -192,17 +193,7 @@ const mountVerticalBarsComponent = (
     .labels((labels) => labels.display(true))
     .getConfig();
 
-  const declarations = [TestVerticalBarsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-    VicQuantitativeRulesModule,
-  ];
-
   cy.mount(TestVerticalBarsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       rulesConfig: rulesConfig,
@@ -247,7 +238,12 @@ const linesNumericData = ContinentPopulationNumYearData;
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicLinesModule,
+    VicXyAxisModule,
+    VicQuantitativeRulesModule,
+  ],
 })
 class TestLinesComponent<
   Datum,
@@ -266,13 +262,6 @@ class TestLinesComponent<
     .getConfig();
 }
 
-const lineImports = [
-  VicChartModule,
-  VicLinesModule,
-  VicXyAxisModule,
-  VicQuantitativeRulesModule,
-];
-
 function mountDateLinesComponent<RuleDatum extends number | Date>(
   rulesConfig: QuantitativeRulesConfig<RuleDatum>
 ): void {
@@ -290,14 +279,9 @@ function mountDateLinesComponent<RuleDatum extends number | Date>(
         stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
       .getConfig();
-  const declarations = [
-    TestLinesComponent<ContinentPopulationDateYearDatum, Date, RuleDatum>,
-  ];
   cy.mount(
     TestLinesComponent<ContinentPopulationDateYearDatum, Date, RuleDatum>,
     {
-      declarations,
-      imports: lineImports,
       componentProperties: {
         linesConfig: linesConfig,
         rulesConfig: rulesConfig,
@@ -328,14 +312,9 @@ function mountNumberLinesComponent(
         stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
       .getConfig();
-  const declarations = [
-    TestLinesComponent<ContinentPopulationNumYearDatum, number, number>,
-  ];
   cy.mount(
     TestLinesComponent<ContinentPopulationNumYearDatum, number, number>,
     {
-      declarations,
-      imports: lineImports,
       componentProperties: {
         linesConfig: linesConfig,
         rulesConfig: rulesConfig,

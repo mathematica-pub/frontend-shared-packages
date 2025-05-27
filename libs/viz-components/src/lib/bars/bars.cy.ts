@@ -1,4 +1,5 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
   BarsConfig,
@@ -101,7 +102,13 @@ const labelSelector = '.vic-bars-label';
       <p class="y-value">{{ (tooltipData$ | async).values.y }}</p>
     </ng-template>
   `,
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+    CommonModule,
+  ],
 })
 class TestHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
@@ -156,17 +163,8 @@ const mountHorizontalBarsComponent = (
     .ticks((ticks) => ticks.format(',.0f'))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
-  const declarations = [TestHorizontalBarsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-    VicHtmlTooltipModule,
-  ];
 
   cy.mount(TestHorizontalBarsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       xQuantitativeAxisConfig: xAxisConfig,
@@ -207,7 +205,13 @@ const mountHorizontalBarsComponent = (
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+    CommonModule,
+  ],
 })
 class TestVerticalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
@@ -263,17 +267,7 @@ const mountVerticalBarsComponent = (
     .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
 
-  const declarations = [TestVerticalBarsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-    VicHtmlTooltipModule,
-  ];
-
   cy.mount(TestVerticalBarsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       xOrdinalAxisConfig: xAxisConfig,

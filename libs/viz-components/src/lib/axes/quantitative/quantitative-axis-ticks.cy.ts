@@ -37,8 +37,13 @@ const tickTextSelector = '.vic-axis-x-quantitative .tick text';
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
   providers: [VicChartConfigBuilder],
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicXyBackgroundModule,
+  ],
 })
 class TestXQuantitativeAxisComponent implements OnInit {
   @Input() barsConfig: BarsOptions<{ state: string; value: number }, string>;
@@ -59,13 +64,6 @@ class TestXQuantitativeAxisComponent implements OnInit {
 describe('it correctly sets ticks', () => {
   let barsConfig: BarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicXQuantitativeAxisConfig<number>;
-  const declarations = [TestXQuantitativeAxisComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-    VicXyBackgroundModule,
-  ];
   beforeEach(() => {
     axisConfig = new VicXQuantitativeAxisConfigBuilder()
       .ticks((ticks) => ticks.format('.0f'))
@@ -90,8 +88,6 @@ describe('it correctly sets ticks', () => {
   describe('only tickFormat is specified by the user', () => {
     beforeEach(() => {
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -114,8 +110,6 @@ describe('it correctly sets ticks', () => {
         .ticks((ticks) => ticks.format('.0f').values([1, 2, 7, 21]))
         .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -136,8 +130,6 @@ describe('it correctly sets ticks', () => {
         .ticks((ticks) => ticks.format('.0f').values([-1, 1, 2, 7, 21, 100]))
         .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -158,13 +150,6 @@ describe('integer formatted ticks', () => {
   let validFormatRegex: RegExp;
   let barsConfig: BarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicXQuantitativeAxisConfig<number>;
-  const declarations = [TestXQuantitativeAxisComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-    VicXyBackgroundModule,
-  ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<
       { state: string; value: number },
@@ -190,8 +175,6 @@ describe('integer formatted ticks', () => {
   describe('only tickFormat is specified by the user', () => {
     beforeEach(() => {
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -213,8 +196,6 @@ describe('integer formatted ticks', () => {
         .ticks((ticks) => ticks.format('.0f').values([1.1, 2.2, 7.7, 21.21]))
         .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -251,8 +232,6 @@ describe('integer formatted ticks', () => {
         .ticks((ticks) => ticks.format('.0f').count(100))
         .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -296,8 +275,6 @@ describe('integer formatted ticks', () => {
         .ticks((ticks) => ticks.format('.0f').count(10))
         .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -325,13 +302,6 @@ describe('float formatted ticks', () => {
   let validFormatRegex: RegExp;
   let barsConfig: BarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicXQuantitativeAxisConfig<number>;
-  const declarations = [TestXQuantitativeAxisComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-    VicXyBackgroundModule,
-  ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<
       { state: string; value: number },
@@ -357,8 +327,6 @@ describe('float formatted ticks', () => {
   describe('only tickFormat is specified by the user', () => {
     beforeEach(() => {
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -380,8 +348,6 @@ describe('float formatted ticks', () => {
         .ticks((ticks) => ticks.format('.1f').values([1, 2.27, 7.0, 21.21]))
         .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -424,8 +390,6 @@ describe('float formatted ticks', () => {
           Math.pow(10, numDecimalPlaces) +
         1;
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -476,8 +440,6 @@ describe('float formatted ticks', () => {
         .ticks((ticks) => ticks.format('.1f').count(10))
         .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -505,13 +467,6 @@ describe('percent formatted ticks', () => {
   let validFormatRegex: RegExp;
   let barsConfig: BarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicXQuantitativeAxisConfig<number>;
-  const declarations = [TestXQuantitativeAxisComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-    VicXyBackgroundModule,
-  ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<
       { state: string; value: number },
@@ -537,8 +492,6 @@ describe('percent formatted ticks', () => {
   describe('only tickFormat is specified by the user', () => {
     beforeEach(() => {
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -562,8 +515,6 @@ describe('percent formatted ticks', () => {
         )
         .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -590,8 +541,6 @@ describe('percent formatted ticks', () => {
           Math.pow(10, numDecimalPlaces) +
         1;
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -642,8 +591,6 @@ describe('percent formatted ticks', () => {
         .ticks((ticks) => ticks.format('.0%').count(10))
         .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
-        declarations,
-        imports,
         componentProperties: {
           barsConfig: barsConfig,
           xQuantitativeAxisConfig: axisConfig,
@@ -670,13 +617,6 @@ describe('percent formatted ticks', () => {
 describe('grid lines', () => {
   let barsConfig: BarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicXQuantitativeAxisConfig<number>;
-  const declarations = [TestXQuantitativeAxisComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-    VicXyBackgroundModule,
-  ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<
       { state: string; value: number },
@@ -697,8 +637,6 @@ describe('grid lines', () => {
   it('height matches chart area', () => {
     axisConfig = new VicXQuantitativeAxisConfigBuilder().grid().getConfig();
     cy.mount(TestXQuantitativeAxisComponent, {
-      declarations,
-      imports,
       componentProperties: {
         barsConfig: barsConfig,
         xQuantitativeAxisConfig: axisConfig,
@@ -724,8 +662,6 @@ describe('grid lines', () => {
       .grid()
       .getConfig();
     cy.mount(TestXQuantitativeAxisComponent, {
-      declarations,
-      imports,
       componentProperties: {
         barsConfig: barsConfig,
         xQuantitativeAxisConfig: axisConfig,
@@ -740,8 +676,6 @@ describe('grid lines', () => {
       .grid((grid) => grid.filter((i) => i % 2 === 0))
       .getConfig();
     cy.mount(TestXQuantitativeAxisComponent, {
-      declarations,
-      imports,
       componentProperties: {
         barsConfig: barsConfig,
         xQuantitativeAxisConfig: axisConfig,

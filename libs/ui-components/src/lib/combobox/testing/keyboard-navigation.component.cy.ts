@@ -1,4 +1,5 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
+import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { HsiUiComboboxModule } from '@hsi/ui-components';
@@ -40,16 +41,13 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxSingleKeyboardTestComponent extends ComboboxBaseTestComponent {}
 
 describe('keyboard navigation with a generic listbox', () => {
   beforeEach(() => {
-    cy.mount(ComboboxSingleKeyboardTestComponent, {
-      declarations: [ComboboxSingleKeyboardTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxSingleKeyboardTestComponent);
     cy.get('.hsi-ui-textbox').trigger('focus');
   });
   describe('correctly opens the combobox with the open keys ', () => {
@@ -75,10 +73,7 @@ describe('keyboard navigation with a generic listbox', () => {
 
 describe('keyboard navigation with a single select listbox', () => {
   beforeEach(() => {
-    cy.mount(ComboboxSingleKeyboardTestComponent, {
-      declarations: [ComboboxSingleKeyboardTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxSingleKeyboardTestComponent);
   });
   it('correctly responds to keyboard navigation and selection', () => {
     cy.get('.hsi-ui-textbox').should('be.visible');
@@ -155,16 +150,13 @@ describe('keyboard navigation with a single select listbox', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxMultiKeyboardTestComponent extends ComboboxBaseTestComponent {}
 
 describe('keyboard navigation with a multi select listbox', () => {
   beforeEach(() => {
-    cy.mount(ComboboxMultiKeyboardTestComponent, {
-      declarations: [ComboboxMultiKeyboardTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxMultiKeyboardTestComponent);
   });
   it('correctly responds to keyboard navigation and selection', () => {
     // textbox receives focus on tab

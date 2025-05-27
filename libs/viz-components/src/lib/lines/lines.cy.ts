@@ -1,4 +1,5 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
   ChartConfig,
@@ -89,7 +90,13 @@ const markerSelector = '.vic-lines-marker';
     </ng-template>
   `,
   styles: ['.tooltip-text { font-size: 12px; }'],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicLinesModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+    CommonModule,
+  ],
 })
 class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   @Input() linesConfig: LinesConfig<Datum>;
@@ -140,13 +147,6 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   }
 }
 
-const imports = [
-  VicChartModule,
-  VicLinesModule,
-  VicXyAxisModule,
-  VicHtmlTooltipModule,
-];
-
 function mountDateLinesComponent(
   linesConfig: LinesConfig<ContinentPopulationDateYearDatum>
 ): void {
@@ -155,12 +155,7 @@ function mountDateLinesComponent(
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
-  const declarations = [
-    TestLinesComponent<ContinentPopulationDateYearDatum, Date>,
-  ];
   cy.mount(TestLinesComponent<ContinentPopulationDateYearDatum, Date>, {
-    declarations,
-    imports,
     componentProperties: {
       linesConfig: linesConfig,
       xQuantitativeAxisConfig: xAxisConfig,
@@ -177,12 +172,7 @@ function mountNumberLinesComponent(
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
-  const declarations = [
-    TestLinesComponent<ContinentPopulationNumYearDatum, number>,
-  ];
   cy.mount(TestLinesComponent<ContinentPopulationNumYearDatum, number>, {
-    declarations,
-    imports,
     componentProperties: {
       linesConfig: linesConfig,
       xQuantitativeAxisConfig: xAxisConfig,

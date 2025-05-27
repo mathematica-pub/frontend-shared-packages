@@ -61,7 +61,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
     </vic-map-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [VicChartModule, VicGeographiesModule],
 })
 class TestGeographiesComponent {
   @Input() geographiesConfig: GeographiesConfig<
@@ -82,12 +82,7 @@ const mountGeographiesComponent = (
     TestMapGeometryProperties
   >
 ): void => {
-  const declarations = [TestGeographiesComponent];
-  const imports = [VicChartModule, VicGeographiesModule];
-
   cy.mount(TestGeographiesComponent, {
-    declarations,
-    imports,
     componentProperties: {
       geographiesConfig: geographiesConfig,
     },

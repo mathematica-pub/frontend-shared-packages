@@ -48,7 +48,12 @@ const data = ContinentPopulationNumYearData;
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicLinesModule,
+    VicXyAxisModule,
+    VicXyBackgroundModule,
+  ],
 })
 class TestAxisLabelsComponent<Datum> {
   @Input() linesConfig: LinesConfig<Datum>;
@@ -61,13 +66,6 @@ class TestAxisLabelsComponent<Datum> {
     .resize({ height: false, useViewbox: false })
     .getConfig();
 }
-
-const imports = [
-  VicChartModule,
-  VicLinesModule,
-  VicXyAxisModule,
-  VicXyBackgroundModule,
-];
 
 function mountAxisLabelsComponent(
   xAxisConfig: VicXQuantitativeAxisConfig<number>,
@@ -84,12 +82,8 @@ function mountAxisLabelsComponent(
         stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
       .getConfig();
-  const declarations = [
-    TestAxisLabelsComponent<ContinentPopulationNumYearDatum>,
-  ];
+
   cy.mount(TestAxisLabelsComponent<ContinentPopulationNumYearDatum>, {
-    declarations,
-    imports,
     componentProperties: {
       linesConfig: linesConfig,
       xQuantitativeAxisConfig: xAxisConfig,

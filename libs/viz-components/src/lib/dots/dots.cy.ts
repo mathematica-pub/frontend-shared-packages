@@ -2,6 +2,7 @@
 // ***********************************************************
 // Set up Lines component -- can use with Date or numeric values for x axis
 
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
   ChartConfig,
@@ -109,7 +110,13 @@ const dotGSelector = '.vic-dots-group';
     </ng-template>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicDotsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+    CommonModule,
+  ],
 })
 class TestDotsQuantQuantComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
@@ -155,13 +162,6 @@ class TestDotsQuantQuantComponent<Datum> {
   }
 }
 
-const quantQuantImports = [
-  VicChartModule,
-  VicDotsModule,
-  VicXyAxisModule,
-  VicHtmlTooltipModule,
-];
-
 function mountDotsXQuantYQuantComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
 ): void {
@@ -170,10 +170,7 @@ function mountDotsXQuantYQuantComponent(
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
-  const declarations = [TestDotsQuantQuantComponent<CountryFactsDatum>];
   cy.mount(TestDotsQuantQuantComponent<CountryFactsDatum>, {
-    declarations,
-    imports: quantQuantImports,
     componentProperties: {
       dotsConfig: dotsConfig,
       xQuantitativeAxisConfig: xAxisConfig,
@@ -201,7 +198,12 @@ function mountDotsXQuantYQuantComponent(
     </vic-xy-chart>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicDotsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+  ],
 })
 class TestDotsXQuantYOrdinalComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
@@ -218,13 +220,6 @@ class TestDotsXQuantYOrdinalComponent<Datum> {
     .getConfig();
 }
 
-const quantOrdinalImports = [
-  VicChartModule,
-  VicDotsModule,
-  VicXyAxisModule,
-  VicHtmlTooltipModule,
-];
-
 function mountDotsXQuantYOrdinalComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
 ): void {
@@ -232,10 +227,7 @@ function mountDotsXQuantYOrdinalComponent(
     .ticks((ticks) => ticks.format('.0f').count(5))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder<string>().getConfig();
-  const declarations = [TestDotsXQuantYOrdinalComponent<CountryFactsDatum>];
   cy.mount(TestDotsXQuantYOrdinalComponent<CountryFactsDatum>, {
-    declarations,
-    imports: quantOrdinalImports,
     componentProperties: {
       dotsConfig: dotsConfig,
       xQuantitativeAxisConfig: xAxisConfig,
@@ -263,7 +255,12 @@ function mountDotsXQuantYOrdinalComponent(
     </vic-xy-chart>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicDotsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+  ],
 })
 class TestDotsXOrdinalYQuantComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
@@ -277,13 +274,6 @@ class TestDotsXOrdinalYQuantComponent<Datum> {
     .getConfig();
 }
 
-const ordinalQuantImports = [
-  VicChartModule,
-  VicDotsModule,
-  VicXyAxisModule,
-  VicHtmlTooltipModule,
-];
-
 function mountDotsXOrdinalYQuantComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
 ): void {
@@ -291,10 +281,7 @@ function mountDotsXOrdinalYQuantComponent(
     .ticks((ticks) => ticks.format('.0f').count(5))
     .getConfig();
   const xAxisConfig = new VicXOrdinalAxisConfigBuilder<string>().getConfig();
-  const declarations = [TestDotsXOrdinalYQuantComponent<CountryFactsDatum>];
   cy.mount(TestDotsXOrdinalYQuantComponent<CountryFactsDatum>, {
-    declarations,
-    imports: ordinalQuantImports,
     componentProperties: {
       dotsConfig: dotsConfig,
       yQuantitativeAxisConfig: yAxisConfig,

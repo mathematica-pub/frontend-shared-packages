@@ -52,7 +52,12 @@ const data = ContinentPopulationNumYearData;
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicLinesModule,
+    VicXyAxisModule,
+    VicXyBackgroundModule,
+  ],
 })
 class TestZeroAxisLinesComponent<Datum> {
   @Input() linesConfig: LinesConfig<Datum>;
@@ -64,13 +69,6 @@ class TestZeroAxisLinesComponent<Datum> {
     .width(chartWidth)
     .getConfig();
 }
-
-const linesImports = [
-  VicChartModule,
-  VicLinesModule,
-  VicXyAxisModule,
-  VicXyBackgroundModule,
-];
 
 function mountZeroAxisLinesComponent(
   data: ContinentPopulationNumYearDatum[],
@@ -88,12 +86,7 @@ function mountZeroAxisLinesComponent(
         stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
       .getConfig();
-  const declarations = [
-    TestZeroAxisLinesComponent<ContinentPopulationNumYearDatum>,
-  ];
   cy.mount(TestZeroAxisLinesComponent<ContinentPopulationNumYearDatum>, {
-    declarations,
-    imports: linesImports,
     componentProperties: {
       linesConfig: linesConfig,
       xQuantitativeAxisConfig: xAxisConfig,
@@ -173,7 +166,12 @@ describe('Domain lines positioning, two quant dimensions', () => {
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicXyBackgroundModule,
+  ],
 })
 class TestZeroAxisHorizontalBarsComponent<Datum> {
   @Input() barsConfig: BarsConfig<Datum, string>;
@@ -185,13 +183,6 @@ class TestZeroAxisHorizontalBarsComponent<Datum> {
     .width(chartWidth)
     .getConfig();
 }
-
-const horizontalBarsImports = [
-  VicChartModule,
-  VicBarsModule,
-  VicXyAxisModule,
-  VicXyBackgroundModule,
-];
 
 function mountZeroAxisHorizontalBarsComponent(
   data: ContinentPopulationNumYearDatum[],
@@ -209,14 +200,9 @@ function mountZeroAxisHorizontalBarsComponent(
         .y((y) => y.valueAccessor((d) => d.continent))
     )
     .getConfig();
-  const declarations = [
-    TestZeroAxisHorizontalBarsComponent<ContinentPopulationNumYearDatum>,
-  ];
   cy.mount(
     TestZeroAxisHorizontalBarsComponent<ContinentPopulationNumYearDatum>,
     {
-      declarations,
-      imports: horizontalBarsImports,
       componentProperties: {
         barsConfig,
         xQuantitativeAxisConfig,
@@ -299,7 +285,12 @@ describe('Domain lines positioning, one quant, one ordinal dimension - horizonta
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicXyBackgroundModule,
+  ],
 })
 class TestZeroAxisVerticalBarsComponent<Datum> {
   @Input() barsConfig: BarsConfig<Datum, string>;
@@ -311,13 +302,6 @@ class TestZeroAxisVerticalBarsComponent<Datum> {
     .width(chartWidth)
     .getConfig();
 }
-
-const verticalBarsImports = [
-  VicChartModule,
-  VicBarsModule,
-  VicXyAxisModule,
-  VicXyBackgroundModule,
-];
 
 function mountZeroAxisVerticalBarsComponent(
   data: ContinentPopulationNumYearDatum[],
@@ -335,12 +319,8 @@ function mountZeroAxisVerticalBarsComponent(
         .y((y) => y.valueAccessor((d) => d.population))
     )
     .getConfig();
-  const declarations = [
-    TestZeroAxisVerticalBarsComponent<ContinentPopulationNumYearDatum>,
-  ];
+
   cy.mount(TestZeroAxisVerticalBarsComponent<ContinentPopulationNumYearDatum>, {
-    declarations,
-    imports: verticalBarsImports,
     componentProperties: {
       barsConfig,
       yQuantitativeAxisConfig,
