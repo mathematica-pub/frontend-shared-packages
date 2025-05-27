@@ -24,7 +24,6 @@ import {
   merge,
   of,
   shareReplay,
-  startWith,
 } from 'rxjs';
 import { Dimensions, ElementSpacing } from '../../core/types/layout';
 import { Chart } from './chart';
@@ -96,18 +95,20 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   }
 
   initFromConfig(): void {
+    this.updateUserDimensionProperties();
+    this.createDimensionObservables();
+  }
+
+  updateUserDimensionProperties(): void {
     this._height.next(this.config.height);
     this._margin.next(this.config.margin);
-    this.createDimensionObservables();
   }
 
   createDimensionObservables() {
     const divWidth$ = this.getDivWidthObservable();
-    const height$ = this.height$.pipe(startWith(this.config.height));
+    const height$ = this.height$.pipe(distinctUntilChanged());
     const margin$ = this.margin$.pipe(
-      startWith(this.config.margin),
-      distinctUntilChanged((a, b) => isEqual(a, b)),
-      shareReplay(1)
+      distinctUntilChanged((a, b) => isEqual(a, b))
     );
 
     this.svgDimensions$ = combineLatest([divWidth$, height$]).pipe(
