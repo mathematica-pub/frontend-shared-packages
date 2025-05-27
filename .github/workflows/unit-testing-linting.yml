@@ -97,7 +97,7 @@ jobs:
           npm ci
 
       - name: Run cypress component tests
-        run: npx nx affected -t component-test --base=remotes/origin/main --head=HEAD --parallel=false --verbose
+        run: npx nx affected -t component-test --base=remotes/origin/main --head=HEAD --parallel=false --verbose --output-style=stream
 
   build:
     runs-on: ubuntu-latest
