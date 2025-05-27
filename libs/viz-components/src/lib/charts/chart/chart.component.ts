@@ -74,10 +74,11 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;
   @ViewChild('svg', { static: true }) svgRef: ElementRef<SVGSVGElement>;
   protected multiples: ['one', 'two'];
-  private _height: BehaviorSubject<number> = new BehaviorSubject(null);
-  height$ = this._height.asObservable();
-  private _margin: BehaviorSubject<ElementSpacing> = new BehaviorSubject(null);
-  margin$ = this._margin.asObservable();
+  private heightFromConfig: BehaviorSubject<number> = new BehaviorSubject(null);
+  heightFromConfig$ = this.heightFromConfig.asObservable();
+  private marginFromConfig: BehaviorSubject<ElementSpacing> =
+    new BehaviorSubject(null);
+  marginFromConfig$ = this.marginFromConfig.asObservable();
   ranges$: Observable<Ranges>;
   svgDimensions$: Observable<Dimensions>;
   protected destroyRef = inject(DestroyRef);
@@ -100,14 +101,14 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   }
 
   updateUserDimensionProperties(): void {
-    this._height.next(this.config.height);
-    this._margin.next(this.config.margin);
+    this.heightFromConfig.next(this.config.height);
+    this.marginFromConfig.next(this.config.margin);
   }
 
   createDimensionObservables() {
     const divWidth$ = this.getDivWidthObservable();
-    const height$ = this.height$.pipe(distinctUntilChanged());
-    const margin$ = this.margin$.pipe(
+    const height$ = this.heightFromConfig$.pipe(distinctUntilChanged());
+    const margin$ = this.marginFromConfig$.pipe(
       distinctUntilChanged((a, b) => isEqual(a, b))
     );
 
