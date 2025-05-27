@@ -3,11 +3,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { ComboboxService, HsiUiComboboxModule } from '@hsi/ui-components';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
-import { HsiUiComboboxModule } from '../combobox.module';
-import { ComboboxService } from '../combobox.service';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
 @Component({

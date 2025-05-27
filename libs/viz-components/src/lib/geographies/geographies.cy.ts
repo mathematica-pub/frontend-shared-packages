@@ -1,5 +1,20 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
+import {
+  ChartConfig,
+  EventAction,
+  GeographiesConfig,
+  GeographiesEventOutput,
+  GeographiesHoverDirective,
+  GeographiesHoverEmitTooltipData,
+  HtmlTooltipConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
+  VicGeographiesConfigBuilder,
+  VicGeographiesModule,
+  VicHtmlTooltipConfigBuilder,
+  VicHtmlTooltipModule,
+} from '@hsi/viz-components';
 import 'cypress-real-events';
 import { ascending, extent, mean, scaleLinear } from 'd3';
 import {
@@ -13,24 +28,9 @@ import { BehaviorSubject } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
-  ChartConfig,
-  GeographiesHoverDirective,
-  GeographiesHoverEmitTooltipData,
-  VicChartConfigBuilder,
-  VicChartModule,
-  VicGeographiesConfigBuilder,
-  VicGeographiesModule,
-  VicHtmlTooltipModule,
-} from '../../public-api';
-import { EventAction } from '../events/action';
-import {
   StateIncomePopulationYearDatum,
   stateIncomePopulationYearData,
 } from '../testing/data/state-population-income-year-data';
-import { VicHtmlTooltipConfigBuilder } from '../tooltips/html-tooltip/config/html-tooltip-builder';
-import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
-import { GeographiesConfig } from './config/geographies-config';
-import { GeographiesEventOutput } from './events/geographies-event-output';
 interface StateIncomeDatum {
   state: string;
   population: number;

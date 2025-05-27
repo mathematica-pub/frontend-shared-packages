@@ -2,11 +2,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import {
+  HsiUiComboboxModule,
+  ListboxOptionComponent,
+} from '@hsi/ui-components';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
-import { HsiUiComboboxModule } from '../combobox.module';
-import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
 // SPECIFICATIONS

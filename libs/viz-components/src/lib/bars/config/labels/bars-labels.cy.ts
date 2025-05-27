@@ -2,7 +2,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input } from '@angular/core';
 import {
+  BarsConfig,
   ChartConfig,
+  VicBarsConfigBuilder,
   VicBarsModule,
   VicChartConfigBuilder,
   VicChartModule,
@@ -15,10 +17,8 @@ import {
   VicYOrdinalAxisConfigBuilder,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from 'libs/viz-components/src/public-api';
+} from '@hsi/viz-components';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { VicBarsConfigBuilder } from '../bars-builder';
-import { BarsConfig } from '../bars-config';
 
 type Datum = { state: string; value: number };
 

@@ -3,10 +3,10 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { HsiUiComboboxModule } from '@hsi/ui-components';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
-import { HsiUiComboboxModule } from '../combobox.module';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
 // Simple single select combobox that displays selected

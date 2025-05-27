@@ -1,27 +1,30 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
-import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { BarsConfig, VicBarsConfigBuilder, VicBarsModule } from '../../bars';
-import { VicChartConfigBuilder, VicChartModule } from '../../charts';
 import {
+  BarsConfig,
   LinesConfig,
+  VicBarsConfigBuilder,
+  VicBarsModule,
+  VicChartConfigBuilder,
+  VicChartModule,
   VicLinesConfigBuilder,
   VicLinesModule,
-} from '../../lines';
+  VicXOrdinalAxisConfig,
+  VicXOrdinalAxisConfigBuilder,
+  VicXQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfigBuilder,
+  VicXyAxisModule,
+  VicXyBackgroundModule,
+  VicYOrdinalAxisConfig,
+  VicYOrdinalAxisConfigBuilder,
+  VicYQuantitativeAxisConfig,
+  VicYQuantitativeAxisConfigBuilder,
+} from '@hsi/viz-components';
+import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
   ContinentPopulationNumYearData,
   ContinentPopulationNumYearDatum,
 } from '../../testing/data/continent-population-year-data';
-import { VicXyBackgroundModule } from '../../xy-background';
-import { VicXOrdinalAxisConfigBuilder } from '../x-ordinal/x-ordinal-axis-builder';
-import { VicXOrdinalAxisConfig } from '../x-ordinal/x-ordinal-axis-config';
-import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
-import { VicXQuantitativeAxisConfig } from '../x-quantitative/x-quantitative-axis-config';
-import { VicXyAxisModule } from '../xy-axis.module';
-import { VicYOrdinalAxisConfigBuilder } from '../y-ordinal/y-ordinal-axis-builder';
-import { VicYOrdinalAxisConfig } from '../y-ordinal/y-ordinal-axis-config';
-import { VicYQuantitativeAxisConfigBuilder } from '../y-quantitative-axis/y-quantitative-axis-builder';
-import { VicYQuantitativeAxisConfig } from '../y-quantitative-axis/y-quantitative-axis-config';
 
 const axisTickTextWaitTime = 2000;
 

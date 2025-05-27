@@ -1,20 +1,20 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { BarsConfig } from 'libs/viz-components/src/lib/bars/config/bars-config';
 import {
+  BarsComponent,
+  BarsConfig,
   ChartConfig,
+  VicBarsConfigBuilder,
+  VicBarsModule,
   VicChartConfigBuilder,
+  VicChartModule,
   VicXQuantitativeAxisConfig,
-} from 'libs/viz-components/src/public-api';
+  VicXQuantitativeAxisConfigBuilder,
+  VicXyAxisModule,
+} from '@hsi/viz-components';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
-import { VicXQuantitativeAxisConfigBuilder } from '../../../../axes/x-quantitative/x-quantitative-axis-builder';
-import { VicXyAxisModule } from '../../../../axes/xy-axis.module';
-import { BarsComponent } from '../../../../bars/bars.component';
-import { VicBarsModule } from '../../../../bars/bars.module';
-import { VicBarsConfigBuilder } from '../../../../bars/config/bars-builder';
-import { VicChartModule } from '../../../../charts/chart.module';
 import { expectDomain } from './domain-test-utility';
 import { PercentOverDomainPadding } from './percent-over/percent-over';
 import { PixelDomainPadding } from './pixel/pixel';

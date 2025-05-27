@@ -1,18 +1,20 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input, OnInit } from '@angular/core';
+import {
+  BarsOptions,
+  ChartConfig,
+  VicBarsConfigBuilder,
+  VicBarsModule,
+  VicChartConfigBuilder,
+  VicChartModule,
+  VicXQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfigBuilder,
+  VicXyAxisModule,
+  VicXyBackgroundModule,
+} from '@hsi/viz-components';
 import { extent } from 'd3';
-import 'libs/viz-components/cypress/support/component';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { VicBarsModule } from '../../bars/bars.module';
-import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
-import { BarsOptions } from '../../bars/config/bars-options';
-import { ChartConfig, VicChartConfigBuilder } from '../../charts';
-import { VicChartModule } from '../../charts/chart.module';
-import { VicXyBackgroundModule } from '../../xy-background';
-import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
-import { VicXQuantitativeAxisConfig } from '../x-quantitative/x-quantitative-axis-config';
-import { VicXyAxisModule } from '../xy-axis.module';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).

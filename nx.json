@@ -25,7 +25,7 @@
     "component-test": {
       "cache": true,
       "inputs": ["default", "^production"],
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build", "build"]
     },
     "publish": {
       "inputs": ["default", "^production"],

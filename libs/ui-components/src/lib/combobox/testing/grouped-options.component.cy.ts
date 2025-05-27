@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input, signal, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { HsiUiComboboxModule } from '@hsi/ui-components';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
-import { HsiUiComboboxModule } from '../combobox.module';
 import { scss } from './combobox-testing.constants';
 
 @Component({

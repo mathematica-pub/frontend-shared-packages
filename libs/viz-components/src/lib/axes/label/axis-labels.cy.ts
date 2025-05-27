@@ -1,28 +1,24 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
-import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import {
-  VicXQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisConfigBuilder,
-} from '..';
 import {
   ChartConfig,
+  LinesConfig,
   VicChartConfigBuilder,
   VicChartModule,
-} from '../../charts';
-import {
-  LinesConfig,
   VicLinesConfigBuilder,
   VicLinesModule,
-} from '../../lines';
+  VicXQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfigBuilder,
+  VicXyAxisModule,
+  VicXyBackgroundModule,
+  VicYQuantitativeAxisConfig,
+  VicYQuantitativeAxisConfigBuilder,
+} from '@hsi/viz-components';
+import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
   ContinentPopulationNumYearData,
   ContinentPopulationNumYearDatum,
 } from '../../testing/data/continent-population-year-data';
-import { VicXyBackgroundModule } from '../../xy-background';
-import { VicXQuantitativeAxisConfig } from '../x-quantitative/x-quantitative-axis-config';
-import { VicXyAxisModule } from '../xy-axis.module';
-import { VicYQuantitativeAxisConfig } from '../y-quantitative-axis/y-quantitative-axis-config';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).

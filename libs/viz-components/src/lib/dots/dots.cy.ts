@@ -3,12 +3,20 @@
 // Set up Lines component -- can use with Date or numeric values for x axis
 
 import { Component, Input } from '@angular/core';
-import 'cypress-real-events';
-import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { cloneDeep } from 'lodash-es';
-import { BehaviorSubject } from 'rxjs';
-import { DotsHoverMoveEmitTooltipData } from '../../public-api';
 import {
+  ChartConfig,
+  DotsConfig,
+  DotsEventOutput,
+  DotsHoverMoveDirective,
+  DotsHoverMoveEmitTooltipData,
+  HoverMoveAction,
+  HtmlTooltipConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
+  VicDotsConfigBuilder,
+  VicDotsModule,
+  VicHtmlTooltipConfigBuilder,
+  VicHtmlTooltipModule,
   VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
   VicXQuantitativeAxisConfig,
@@ -18,23 +26,15 @@ import {
   VicYOrdinalAxisConfigBuilder,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '../axes';
-import { ChartConfig, VicChartConfigBuilder, VicChartModule } from '../charts';
-import { HoverMoveAction } from '../events';
+} from '@hsi/viz-components';
+import 'cypress-real-events';
+import { beforeEach, cy, describe, expect, it } from 'local-cypress';
+import { cloneDeep } from 'lodash-es';
+import { BehaviorSubject } from 'rxjs';
 import {
   countryFactsData,
   CountryFactsDatum,
 } from '../testing/data/country-area-continent';
-import {
-  HtmlTooltipConfig,
-  VicHtmlTooltipConfigBuilder,
-  VicHtmlTooltipModule,
-} from '../tooltips';
-import { VicDotsConfigBuilder } from './config/dots-builder';
-import { DotsConfig } from './config/dots-config';
-import { VicDotsModule } from './dots.module';
-import { DotsEventOutput } from './events/dots-event-output';
-import { DotsHoverMoveDirective } from './events/dots-hover-move.directive';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).
