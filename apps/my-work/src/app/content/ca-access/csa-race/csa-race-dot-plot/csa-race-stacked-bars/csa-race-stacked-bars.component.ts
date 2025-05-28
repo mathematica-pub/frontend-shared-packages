@@ -8,8 +8,7 @@ import { CsaRaceDatum } from '../../csa-race.component';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[app-csa-race-stacked-bars]',
   standalone: true,
-  templateUrl: './csa-race-stacked-bars.component.html',
-  styleUrl: './csa-race-stacked-bars.component.scss',
+  templateUrl: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
 })
@@ -59,6 +58,6 @@ export class CsaRaceStackedBarsComponent extends CaAccessStackedBarsComponent {
       .join('text')
       .attr('dx', '0.5em')
       .attr('dy', (this.scales.y as any).bandwidth() / 4)
-      .text('25th—75th Percentiles');
+      .text('25th–75th Percentiles');
   }
 }

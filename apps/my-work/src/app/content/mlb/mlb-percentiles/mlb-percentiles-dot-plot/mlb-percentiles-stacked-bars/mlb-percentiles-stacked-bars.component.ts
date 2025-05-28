@@ -1,31 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CaAccessStackedBarsComponent } from '../../../ca-access-stacked-bars.component';
-import { CsaDatum } from '../../csa.component';
+import { MlbStackedBarsComponent } from '../../../mlb-stacked-bars.component';
+import { MlbDatum } from '../../mlb-percentiles.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[app-csa-stacked-bars]',
+  selector: '[app-mlb-percentiles-stacked-bars]',
   standalone: true,
   templateUrl: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
 })
-export class CsaStackedBarsComponent extends CaAccessStackedBarsComponent {
+export class MlbPercentilesStackedBarsComponent extends MlbStackedBarsComponent {
+  override radius = 7;
+
   override drawMarks(): void {
     super.drawMarks();
     this.updatePercentileGroup();
   }
 
-  override getCategory(category: CsaDatum): string {
-    return category.size;
-  }
-
-  override getComparisonDescription(): string {
-    return this.config.data
-      .find((category) => category.compValDesc !== '')
-      .compValDesc.toLowerCase();
+  override getCategory(category: MlbDatum): string {
+    return category.lob;
   }
 
   updatePercentileGroup(): void {
@@ -37,8 +33,9 @@ export class CsaStackedBarsComponent extends CaAccessStackedBarsComponent {
       .attr('class', 'percentile')
       .attr(
         'transform',
-        `translate(${this.percentileLabelPosition}, ${-(this.scales.y as any).bandwidth() / 4 - 4})`
-      );
+        `translate(300, ${-(this.scales.y as any).bandwidth() / 4 - 4 + 26})`
+      )
+      .lower();
     group
       .selectAll('rect')
       .data((d) => [d])
@@ -50,7 +47,7 @@ export class CsaStackedBarsComponent extends CaAccessStackedBarsComponent {
       .selectAll('text')
       .data((d) => [d])
       .join('text')
-      .attr('dx', '0.5em')
+      .attr('dx', '-0.5em')
       .attr('dy', (this.scales.y as any).bandwidth() / 4)
       .text('25th–75th Percentiles');
   }

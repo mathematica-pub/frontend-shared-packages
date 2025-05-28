@@ -9,8 +9,7 @@ import { IcaDatum } from '../ica-dot-plot.component';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[app-ica-stacked-bars]',
   standalone: true,
-  templateUrl: './ica-stacked-bars.component.html',
-  styleUrl: './ica-stacked-bars.component.scss',
+  templateUrl: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
 })

@@ -10,8 +10,7 @@ import { BdaDatum } from '../../bda.component';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[app-bda-stacked-bars]',
   standalone: true,
-  templateUrl: './bda-stacked-bars.component.html',
-  styleUrl: './bda-stacked-bars.component.scss',
+  templateUrl: '',
   imports: [CommonModule],
 })
 export class BdaStackedBarsComponent

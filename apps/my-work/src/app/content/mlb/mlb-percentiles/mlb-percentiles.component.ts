@@ -7,7 +7,7 @@ import { DataService } from 'apps/my-work/src/app/core/services/data.service';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { mlbDataPath } from '../../ca-access/data-paths.constants';
 import { MlbChartComponent } from '../mlb-chart.component';
-// import { CsaDotPlotComponent } from './csa-dot-plot/csa-dot-plot.component';
+import { MlbPercentilesDotPlotComponent } from './mlb-percentiles-dot-plot/mlb-percentiles-dot-plot.component';
 
 export interface MlbDatum {
   lob: string;
@@ -29,7 +29,7 @@ export interface MlbDatum {
   imports: [
     CommonModule,
     ExportContentComponent,
-    // CsaDotPlotComponent,
+    MlbPercentilesDotPlotComponent,
     ReactiveFormsModule,
   ],
   providers: [VicChartConfigBuilder],
@@ -63,7 +63,7 @@ export class MlbPercentilesComponent extends MlbChartComponent {
           x.MLB_25 && !isNaN(x.MLB_25) && x.MLB_75 && !isNaN(x.MLB_75)
             ? Math.abs(x.MLB_75 - x.MLB_25)
             : null,
-        average: x.average && !isNaN(x.average) ? +x.average : null,
+        average: x.Average && !isNaN(x.Average) ? +x.Average : null,
         percentile25: x.MLB_25 && !isNaN(x.MLB_25) ? +x.MLB_25 : null,
         percentile75: x.MLB_75 && !isNaN(x.MLB_75) ? +x.MLB_75 : null,
         directionality: x.Directionality,
