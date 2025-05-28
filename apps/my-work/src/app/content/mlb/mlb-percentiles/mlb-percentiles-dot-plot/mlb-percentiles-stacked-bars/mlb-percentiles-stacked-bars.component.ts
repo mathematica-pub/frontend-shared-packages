@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MlbStackedBarsComponent } from '../../../mlb-stacked-bars.component';
-import { MlbDatum } from '../../mlb-percentiles.component';
+import { MlbPercentilesDatum } from '../../mlb-percentiles.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -20,7 +20,7 @@ export class MlbPercentilesStackedBarsComponent extends MlbStackedBarsComponent 
     this.updatePercentileGroup();
   }
 
-  override getCategory(category: MlbDatum): string {
+  override getCategory(category: MlbPercentilesDatum): string {
     return category.lob;
   }
 

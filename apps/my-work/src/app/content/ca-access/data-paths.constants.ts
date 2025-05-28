@@ -60,8 +60,14 @@ const caAccessPath = {
 };
 
 const mlbPath = {
-  current: `${folder}MLB_Results.csv`,
-  mock: `${folder}Mock_MLB_Results.csv`,
+  current: {
+    bda: `${folder}MLB_BDA_Results.csv`,
+    percentiles: `${folder}MLB_Results.csv`,
+  },
+  mock: {
+    bda: `${folder}Mock_MLB_BDA_Results.csv`,
+    percentiles: `${folder}Mock_MLB_Results.csv`,
+  },
 };
 
 export const dataPath = caAccessPath.mock;

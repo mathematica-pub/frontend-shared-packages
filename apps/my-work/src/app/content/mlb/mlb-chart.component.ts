@@ -9,8 +9,7 @@ import {
 import { DataService } from 'apps/my-work/src/app/core/services/data.service';
 import { ascending } from 'd3';
 import { combineLatest, debounceTime, filter, map, Observable } from 'rxjs';
-// import { CaDatum } from './ca-access-stacked-bars.component';
-import { MlbDatum } from './mlb-percentiles/mlb-percentiles.component';
+import { MlbDatum } from './mlb-stacked-bars.component';
 
 interface SelectionForm {
   measureCode: AbstractControl<string>;

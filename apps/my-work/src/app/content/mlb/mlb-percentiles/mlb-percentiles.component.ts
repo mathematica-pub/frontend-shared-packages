@@ -7,20 +7,12 @@ import { DataService } from 'apps/my-work/src/app/core/services/data.service';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { mlbDataPath } from '../../ca-access/data-paths.constants';
 import { MlbChartComponent } from '../mlb-chart.component';
+import { MlbDatum } from '../mlb-stacked-bars.component';
 import { MlbPercentilesDotPlotComponent } from './mlb-percentiles-dot-plot/mlb-percentiles-dot-plot.component';
 
-export interface MlbDatum {
-  lob: string;
+export interface MlbPercentilesDatum extends MlbDatum {
   percentile25: number;
   percentile75: number;
-  average: number;
-  series: string;
-  measureCode: string;
-  delivSys: string;
-  value: number;
-  units: string;
-  directionality: string;
-  stratVal: string;
 }
 
 @Component({
@@ -38,7 +30,7 @@ export interface MlbDatum {
   encapsulation: ViewEncapsulation.None,
 })
 export class MlbPercentilesComponent extends MlbChartComponent {
-  override mlbDataPath = mlbDataPath;
+  override mlbDataPath = mlbDataPath.percentiles;
   override filters = {
     measureCodes: [],
     delivSyss: [],
@@ -50,9 +42,11 @@ export class MlbPercentilesComponent extends MlbChartComponent {
     super(dataService);
   }
 
-  override getTransformedData(data: MlbDatum[]): MlbDatum[] {
-    const transformed: MlbDatum[] = data.map((x: any) => {
-      const obj: MlbDatum = {
+  override getTransformedData(
+    data: MlbPercentilesDatum[]
+  ): MlbPercentilesDatum[] {
+    const transformed: MlbPercentilesDatum[] = data.map((x: any) => {
+      const obj: MlbPercentilesDatum = {
         series: 'percentile',
         lob: x.LOB,
         measureCode: x.Measure_Code,

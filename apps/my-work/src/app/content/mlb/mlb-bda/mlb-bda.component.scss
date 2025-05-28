@@ -1,0 +1,18 @@
+@use '../../ca-access/ca-access.scss';
+@use '../../ca-access/color.scss';
+
+.image {
+  padding-left: 250px !important;
+}
+
+.strat-label {
+  text {
+    text-transform: uppercase;
+    text-anchor: middle;
+  }
+
+  line {
+    stroke: black;
+    stroke-width: 2px;
+  }
+}

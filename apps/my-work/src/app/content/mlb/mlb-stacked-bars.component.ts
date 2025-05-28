@@ -8,7 +8,18 @@ import {
 } from '@angular/core';
 import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
 import { select, Selection } from 'd3';
-import { MlbDatum } from './mlb-percentiles/mlb-percentiles.component';
+
+export interface MlbDatum {
+  lob: string;
+  average: number;
+  series: string;
+  measureCode: string;
+  delivSys: string;
+  value: number;
+  units: string;
+  directionality: string;
+  stratVal: string;
+}
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

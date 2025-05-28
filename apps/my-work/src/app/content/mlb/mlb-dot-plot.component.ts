@@ -22,7 +22,7 @@ import {
   VicYOrdinalAxisConfigBuilder,
 } from '@hsi/viz-components';
 import { max, min } from 'd3';
-import { MlbDatum } from './mlb-percentiles/mlb-percentiles.component';
+import { MlbDatum } from './mlb-stacked-bars.component';
 
 @Component({
   selector: 'app-mlb-dot-plot',
@@ -78,7 +78,7 @@ export class MlbDotPlotComponent implements OnChanges {
 
   getInvisibleStackValue(plan: MlbDatum): number {
     console.error('override getInvisibleStackValue');
-    return plan.percentile25;
+    return plan.average;
   }
 
   getBarValue(plan: MlbDatum): number {

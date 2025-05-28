@@ -12,7 +12,7 @@ import {
 } from '@hsi/viz-components';
 import { min } from 'd3';
 import { MlbDotPlotComponent } from '../../mlb-dot-plot.component';
-import { MlbDatum } from '../mlb-percentiles.component';
+import { MlbPercentilesDatum } from '../mlb-percentiles.component';
 import { MlbPercentilesStackedBarsComponent } from './mlb-percentiles-stacked-bars/mlb-percentiles-stacked-bars.component';
 
 @Component({
@@ -49,23 +49,29 @@ export class MlbPercentilesDotPlotComponent
     }
   }
 
-  override getCurrentRollup(x: MlbDatum, lob: MlbDatum): boolean {
+  override getCurrentRollup(
+    x: MlbPercentilesDatum,
+    lob: MlbPercentilesDatum
+  ): boolean {
     return x.lob === lob.lob;
   }
 
-  override getInvisibleStackValue(lob: MlbDatum): number {
+  override getInvisibleStackValue(lob: MlbPercentilesDatum): number {
     return min([lob.percentile25, lob.percentile75]) ?? null;
   }
 
-  override getBarValue(lob: MlbDatum): number {
+  override getBarValue(lob: MlbPercentilesDatum): number {
     return lob.percentile75;
   }
 
-  override getSortOrder(a: MlbDatum, b: MlbDatum): number {
+  override getSortOrder(
+    a: MlbPercentilesDatum,
+    b: MlbPercentilesDatum
+  ): number {
     return this.categories.indexOf(a.lob) - this.categories.indexOf(b.lob);
   }
 
-  override getYDimension(lob: MlbDatum): string {
+  override getYDimension(lob: MlbPercentilesDatum): string {
     return lob.lob;
   }
 }

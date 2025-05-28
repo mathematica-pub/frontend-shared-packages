@@ -1,0 +1,20 @@
+<div class="title">MLB BDA</div>
+<form [formGroup]="myForm">
+  <div class="selection">
+    <label for="measureCode">Measure Code</label>
+    <select id="measureCode" formControlName="measureCode">
+      <option
+        *ngFor="let code of filters.measureCodes"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+</form>
+@if (filteredData$ | async; as data) {
+  <app-export-content [fileName]="'MLB BDA ' + myForm.value[filterTypes[0]]">
+    <!-- <app-mlb-bda-dot-plot [data]="data"></app-mlb-bda-dot-plot> -->
+  </app-export-content>
+}
