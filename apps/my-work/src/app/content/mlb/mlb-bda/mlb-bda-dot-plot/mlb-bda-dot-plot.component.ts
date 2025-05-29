@@ -40,7 +40,7 @@ export class MlbBdaDotPlotComponent
   extends MlbDotPlotComponent
   implements OnChanges
 {
-  override labelWidth = 280;
+  override labelWidth = 140;
   override bandwidth = 26;
   categories = {
     race: {

@@ -143,10 +143,7 @@ export class MlbBdaStackedBarsComponent
       .data(this.colorScale.domain())
       .join('g')
       .attr('class', 'average-label')
-      .attr('transform', (d, i) => {
-        const x = i * (this.labelWidth + 10);
-        return `translate(${x}, 0)`;
-      });
+      .attr('transform', (d, i) => `translate(${i * 270}, 0)`);
     labels
       .append('text')
       .attr('dx', this.radius + 5)
