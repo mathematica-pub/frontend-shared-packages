@@ -143,10 +143,8 @@ export class LinesExampleComponent implements OnInit {
     const yAxisConfig = this.yAxisQuantitative
       .label((label) =>
         label
-          .position('start')
           .text('Percent Unemployment (US Bureau of Labor Statistics)')
-          .anchor('start')
-          .offset({ x: 8, y: 12 })
+          .wrap((wrap) => wrap.width(200).lineHeight(1.2))
       )
       .ticks((ticks) => ticks.format('.0%'))
       .getConfig();

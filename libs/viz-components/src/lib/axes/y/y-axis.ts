@@ -102,25 +102,58 @@ export function yAxisMixin<
 
       this.axisGroup.selectAll(`.${this.class.label}`).remove();
 
-      this.axisGroup.call((g) =>
-        g
-          .append('text')
-          .attr('class', this.class.label)
-          .attr('transform', rotate)
-          .attr('x', config.position === 'middle' ? y * -1 : x)
-          .attr('y', config.position === 'middle' ? x * -1 : y)
-          .attr('text-anchor', anchor)
-          .attr('alignment-baseline', alignmentBaseline)
-          .text(this.config.label.text)
-          .call((l) => {
-            if (config.wrap) {
-              // ensure that label is actually in the DOM before wrapping
-              requestAnimationFrame(() => {
-                this.config.label.wrap.wrap(l);
-              });
-            }
-          })
-      );
+      this.axisGroup.call((g) => {
+        if (rotate) {
+          const label = g
+            .append('text')
+            .attr('class', this.class.label)
+            .attr('x', 0)
+            .attr('y', 0)
+            .text(this.config.label.text);
+
+          const edgeOffset = this.config.side === 'left' ? 1 : -1;
+          const rotatedX = y * -1;
+          const rotatedY = x * -1;
+
+          if (config.wrap) {
+            // ensure that label is actually in the DOM before wrapping
+            requestAnimationFrame(() => {
+              this.config.label.wrap.wrap(label);
+              label.attr('x', x).attr('y', y).attr('transform', rotate);
+              label
+                .selectAll('tspan')
+                .attr('x', rotatedX)
+                .attr('text-anchor', anchor)
+                .attr('alignment-baseline', alignmentBaseline);
+              label.select('tspan').attr('y', rotatedY + edgeOffset);
+            });
+          } else {
+            label
+              .attr('x', rotatedX)
+              .attr('y', rotatedY + edgeOffset)
+              .attr('transform', rotate)
+              .attr('text-anchor', anchor)
+              .attr('alignment-baseline', alignmentBaseline);
+          }
+        } else {
+          g.append('text')
+            .attr('class', this.class.label)
+            .attr('transform', rotate)
+            .attr('x', x)
+            .attr('y', y)
+            .attr('text-anchor', anchor)
+            .attr('alignment-baseline', alignmentBaseline)
+            .text(this.config.label.text)
+            .call((l) => {
+              if (config.wrap) {
+                // ensure that label is actually in the DOM before wrapping
+                requestAnimationFrame(() => {
+                  this.config.label.wrap.wrap(l);
+                });
+              }
+            });
+        }
+      });
     }
   }
 
