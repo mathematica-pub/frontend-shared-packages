@@ -33,7 +33,6 @@ export class MlbPercentilesComponent extends MlbChartComponent {
   override mlbDataPath = mlbDataPath.percentiles;
   override filters = {
     measureCodes: [],
-    delivSyss: [],
     stratVals: [],
   };
   override filterTypes = ['measureCode', 'stratVal'];
@@ -51,7 +50,6 @@ export class MlbPercentilesComponent extends MlbChartComponent {
         lob: x.LOB,
         measureCode: x.Measure_Code,
         stratVal: x.StratVal,
-        delivSys: x.DelivSys,
         units: x.Units,
         value:
           x.MLB_25 && !isNaN(x.MLB_25) && x.MLB_75 && !isNaN(x.MLB_75)

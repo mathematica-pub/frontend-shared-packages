@@ -15,6 +15,6 @@
 </form>
 @if (filteredData$ | async; as data) {
   <app-export-content [fileName]="'MLB BDA ' + myForm.value[filterTypes[0]]">
-    <!-- <app-mlb-bda-dot-plot [data]="data"></app-mlb-bda-dot-plot> -->
+    <app-mlb-bda-dot-plot [data]="data"></app-mlb-bda-dot-plot>
   </app-export-content>
 }

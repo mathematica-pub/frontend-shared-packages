@@ -11,12 +11,12 @@ import {
   VicXyAxisModule,
   VicYOrdinalAxisConfigBuilder,
 } from '@hsi/viz-components';
-import { CaAccessDotPlotComponent } from '../../ca-access-dot-plot.component';
-import { BdaDatum } from '../bda.component';
-import { BdaStackedBarsComponent } from './bda-stacked-bars/bda-stacked-bars.component';
+import { MlbDotPlotComponent } from '../../mlb-dot-plot.component';
+import { MlbBdaDatum } from '../mlb-bda.component';
+import { MlbBdaStackedBarsComponent } from './mlb-bda-stacked-bars/mlb-bda-stacked-bars.component';
 
 @Component({
-  selector: 'app-bda-dot-plot',
+  selector: 'app-mlb-bda-dot-plot',
   standalone: true,
   imports: [
     CommonModule,
@@ -24,7 +24,7 @@ import { BdaStackedBarsComponent } from './bda-stacked-bars/bda-stacked-bars.com
     VicBarsModule,
     VicStackedBarsModule,
     VicXyAxisModule,
-    BdaStackedBarsComponent,
+    MlbBdaStackedBarsComponent,
   ],
   providers: [
     VicBarsConfigBuilder,
@@ -33,11 +33,11 @@ import { BdaStackedBarsComponent } from './bda-stacked-bars/bda-stacked-bars.com
     VicYOrdinalAxisConfigBuilder,
     VicChartConfigBuilder,
   ],
-  templateUrl: './bda-dot-plot.component.html',
-  styleUrl: './bda-dot-plot.component.scss',
+  templateUrl: './mlb-bda-dot-plot.component.html',
+  styleUrl: './mlb-bda-dot-plot.component.scss',
 })
-export class BdaDotPlotComponent
-  extends CaAccessDotPlotComponent
+export class MlbBdaDotPlotComponent
+  extends MlbDotPlotComponent
   implements OnChanges
 {
   override labelWidth = 140;
@@ -67,23 +67,23 @@ export class BdaDotPlotComponent
       this.setData();
       this.injectMissingCategories();
       this.setProperties();
-      this.chartConfig.height = this.rollupData.length * this.bandwidth;
+      this.setHeight();
     }
   }
 
-  override getCurrentRollup(x: BdaDatum, plan: BdaDatum): boolean {
+  override getCurrentRollup(x: MlbBdaDatum, plan: MlbBdaDatum): boolean {
     return x.stratVal === plan.stratVal && x.strat === plan.strat;
   }
 
-  override getInvisibleStackValue(plan: BdaDatum): number {
+  override getInvisibleStackValue(plan: MlbBdaDatum): number {
     return plan.value;
   }
 
-  override getBarValue(plan: BdaDatum): number {
+  override getBarValue(plan: MlbBdaDatum): number {
     return plan.value;
   }
 
-  override getSortOrder(a: BdaDatum, b: BdaDatum): number {
+  override getSortOrder(a: MlbBdaDatum, b: MlbBdaDatum): number {
     const order = structuredClone(this.categories);
     // account for mock categories
     order.race['Race 1 covers two lines'] = 0;
@@ -92,6 +92,8 @@ export class BdaDotPlotComponent
     order.race[`Race 4 covers three lines because it's long`] = 3;
     order.race['Race 5'] = 4;
     order.race['No Race Selection and Race 1 or Race 2 Ethnicity'] = 5;
+    order.race['Some Other Race'] = 6;
+    order.race['Two or More Races'] = 7;
     order.ethnicity['Ethnicity 1 covers two lines'] = 9;
     order.ethnicity['Ethnicity 2 covers two lines'] = 10;
 
@@ -100,39 +102,34 @@ export class BdaDotPlotComponent
     return order[stratA][a.stratVal] - order[stratB][b.stratVal];
   }
 
-  override getYDimension(plan: BdaDatum): string {
+  override getYDimension(plan: MlbBdaDatum): string {
     return plan.stratVal;
   }
 
   injectMissingCategories(): void {
     Object.keys(this.categories).forEach((strat) => {
       Object.keys(this.categories[strat]).forEach((stratVal) => {
-        const categoryData = (this.rollupData as BdaDatum[]).filter(
+        const categoryData = (this.rollupData as MlbBdaDatum[]).filter(
           (category) =>
-            (category as BdaDatum).strat.toLowerCase().includes(strat) &&
+            (category as MlbBdaDatum).strat.toLowerCase().includes(strat) &&
             category.stratVal === stratVal
         );
 
         if (categoryData.length === 0) {
-          const matchingStrat = (this.rollupData as BdaDatum[]).find(
+          const matchingStrat = (this.rollupData as MlbBdaDatum[]).find(
             (category) => category.strat.toLowerCase() === strat
           );
           if (matchingStrat) {
-            const emptyCategory: BdaDatum = {
-              compVal: null,
-              compValDesc: null,
-              delivSys: null,
+            const emptyCategory: MlbBdaDatum = {
               directionality: null,
-              goal: null,
               measureCode: null,
-              pctBelowComp: null,
-              planValue: null,
-              plans: [],
               series: 'percentile',
               strat: matchingStrat.strat,
               stratVal: stratVal,
               units: null,
               value: null,
+              lob: null,
+              average: null,
             };
             const invisibleCategory = structuredClone(emptyCategory);
             invisibleCategory.series = 'invisible';
@@ -142,5 +139,13 @@ export class BdaDotPlotComponent
         }
       });
     });
+  }
+
+  setHeight(): void {
+    const uniqueStratVals = this.rollupData.reduce((set, d) => {
+      set.add(d.series + d.stratVal);
+      return set;
+    }, new Set());
+    this.chartConfig.height = uniqueStratVals.size * this.bandwidth;
   }
 }

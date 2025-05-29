@@ -7,6 +7,7 @@ import { DataService } from '../../../core/services/data.service';
 import { mlbDataPath } from '../../ca-access/data-paths.constants';
 import { MlbChartComponent } from '../mlb-chart.component';
 import { MlbDatum } from '../mlb-stacked-bars.component';
+import { MlbBdaDotPlotComponent } from './mlb-bda-dot-plot/mlb-bda-dot-plot.component';
 
 export interface MlbBdaDatum extends MlbDatum {
   strat: string;
@@ -19,7 +20,7 @@ export interface MlbBdaDatum extends MlbDatum {
     CommonModule,
     ExportContentComponent,
     ReactiveFormsModule,
-    // BdaDotPlotComponent,
+    MlbBdaDotPlotComponent,
   ],
   templateUrl: 'mlb-bda.component.html',
   styleUrl: './mlb-bda.component.scss',
@@ -41,13 +42,12 @@ export class MlbBdaComponent extends MlbChartComponent {
       const obj: MlbBdaDatum = {
         series: 'percentile',
         measureCode: x.Measure_Code,
-        delivSys: x.DelivSys,
         units: x.Units,
         directionality: x.Directionality,
         strat: x.STRAT,
         stratVal: x.StratVal_v2,
         lob: x.LOB,
-        value: x.Value && !isNaN(x.Value) ? +x.Value : null,
+        value: null, // null to avoid bars
         average: x.Average && !isNaN(x.Average) ? +x.Average : null,
       };
       return obj;

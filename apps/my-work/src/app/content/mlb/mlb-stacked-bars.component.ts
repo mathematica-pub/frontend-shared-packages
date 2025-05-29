@@ -14,7 +14,6 @@ export interface MlbDatum {
   average: number;
   series: string;
   measureCode: string;
-  delivSys: string;
   value: number;
   units: string;
   directionality: string;
@@ -41,7 +40,7 @@ export class MlbStackedBarsComponent
   headerOffset = -50;
   yAxisOffset = -0.8;
   additionalYAxisOffset = `${this.yAxisOffset - 2.5}em`;
-  radius = 5;
+  radius = 7;
   percentOffset: string;
 
   override ngOnInit(): void {
@@ -114,7 +113,7 @@ export class MlbStackedBarsComponent
       .selectAll('.average')
       .data(
         this.config.data.filter(
-          (category: MlbDatum) => category.series !== 'invisible'
+          (lob: MlbDatum) => lob.series !== 'invisible' && lob.average !== null
         )
       )
       .join('circle')
@@ -126,17 +125,23 @@ export class MlbStackedBarsComponent
           this.scales.y(this.getCategory(lob)) +
           (this.scales.y as any).bandwidth() / 2
       )
-      .attr('class', 'average');
+      .attr('class', 'average')
+      .style('fill', (lob: MlbDatum) => this.getColor(lob));
   }
 
-  getCategory(category: MlbDatum): string {
+  getCategory(lob: MlbDatum): string {
     console.warn('override getCategory');
-    return category.stratVal;
+    return lob.stratVal;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getColor(lob: MlbDatum): string {
+    return null;
   }
 
   getDirection(): string {
     return this.config.data
-      .find((category) => category.directionality !== null)
+      .find((lob) => lob.directionality !== null)
       .directionality.toLowerCase()
       .includes('higher')
       ? 'below'
@@ -146,7 +151,7 @@ export class MlbStackedBarsComponent
   updateDirectionLabel(): void {
     this.directionLabel
       .text(
-        this.config.data.find((category) => category.directionality !== null)
+        this.config.data.find((lob) => lob.directionality !== null)
           .directionality
       )
       .attr('y', this.chart.config.height + 40);
@@ -155,9 +160,7 @@ export class MlbStackedBarsComponent
   updateXLabel(): void {
     this.xLabel
       .text(() => {
-        const units = this.config.data.find(
-          (category) => category.units !== null
-        ).units;
+        const units = this.config.data.find((lob) => lob.units !== null).units;
         return units === 'Percentage' ? null : units;
       })
       .attr('y', this.chart.config.height + 40);
