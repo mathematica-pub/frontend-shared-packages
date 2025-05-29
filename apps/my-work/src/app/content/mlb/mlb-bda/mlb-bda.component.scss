@@ -2,6 +2,7 @@
 @use '../../ca-access/color.scss';
 
 .image {
+  padding-top: 40px !important;
   padding-left: 200px !important;
 }
 
@@ -19,6 +20,10 @@
 
 .average {
   stroke: white;
+}
+
+.average-label text {
+  alignment-baseline: middle;
 }
 
 .vic-axis-y-ordinal text {

@@ -133,4 +133,28 @@ export class MlbBdaStackedBarsComponent
     // hide empty categories
     return datum[0] === 0 && datum[1] === 0 ? 0 : height;
   }
+
+  override createAverageHeaderGroup(): void {
+    const labels = this.headerGroup
+      .append('g')
+      .attr('class', 'average-header')
+      .attr('transform', `translate(${20}, 26)`)
+      .selectAll('.label')
+      .data(this.colorScale.domain())
+      .join('g')
+      .attr('class', 'average-label')
+      .attr('transform', (d, i) => {
+        const x = i * (this.labelWidth + 10);
+        return `translate(${x}, 0)`;
+      });
+    labels
+      .append('text')
+      .attr('dx', this.radius + 5)
+      .text((d) => d);
+    labels
+      .append('circle')
+      .attr('class', 'average')
+      .attr('r', this.radius)
+      .style('fill', (d) => this.colorScale(d) as string);
+  }
 }
