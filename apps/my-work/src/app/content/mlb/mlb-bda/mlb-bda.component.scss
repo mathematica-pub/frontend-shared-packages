@@ -2,7 +2,7 @@
 @use '../../ca-access/color.scss';
 
 .image {
-  padding-left: 250px !important;
+  padding-left: 200px !important;
 }
 
 .strat-label {
@@ -19,4 +19,8 @@
 
 .average {
   stroke: white;
+}
+
+.vic-axis-y-ordinal text {
+  transform: none;
 }

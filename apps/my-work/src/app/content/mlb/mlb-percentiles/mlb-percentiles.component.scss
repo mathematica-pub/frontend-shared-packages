@@ -1,5 +1,9 @@
 @use '../../ca-access/csa/csa.component.scss';
 
+.image {
+  padding-left: 200px !important;
+}
+
 .vic-axis-y-ordinal text {
   transform: translateX(0);
 }

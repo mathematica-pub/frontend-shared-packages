@@ -69,7 +69,7 @@ export class MlbBdaStackedBarsComponent
       .data(data)
       .join('g')
       .attr('class', 'strat-label');
-    const offset = -this.labelWidth - 80;
+    const offset = -this.labelWidth - 30;
     strats
       .selectAll('text')
       .data((d) => [d])
