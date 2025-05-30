@@ -104,63 +104,65 @@ export function yAxisMixin<
         anchor = config.anchor || 'end';
       }
 
-      this.axisGroup.selectAll(`.${this.class.label}`).remove();
+      let label = this.axisGroup.select<SVGTextElement>(`.${this.class.label}`);
+      const needsInit = label.empty();
 
-      this.axisGroup.call((g) => {
-        if (rotate) {
-          const label = g
-            .append('text')
-            .attr('class', this.class.label)
-            .attr('x', 0)
-            .attr('y', 0)
-            .text(this.config.label.text);
+      if (needsInit) {
+        label = this.axisGroup.append('text').attr('class', this.class.label);
+      }
 
-          const edgeOffset = this.config.side === 'left' ? 1 : -1;
-          const rotatedX = y * -1;
-          const rotatedY =
-            this.config.side === 'left'
-              ? x * -1
-              : this.chart.config.margin.right;
+      label.text(this.config.label.text);
 
-          if (config.wrap) {
-            // ensure that label is actually in the DOM before wrapping
-            requestAnimationFrame(() => {
-              this.config.label.wrap.wrap(label);
-              label.attr('x', x).attr('y', y).attr('transform', rotate);
-              label
-                .selectAll('tspan')
-                .attr('x', rotatedX)
-                .attr('text-anchor', anchor)
-                .attr('alignment-baseline', alignmentBaseline);
-              label.select('tspan').attr('y', rotatedY + edgeOffset);
-            });
-          } else {
+      if (rotate) {
+        const edgeOffset = this.config.side === 'left' ? 1 : -1;
+        const rotatedX = y * -1;
+        const rotatedY =
+          this.config.side === 'left' ? x * -1 : this.chart.config.margin.right;
+
+        label.style('visibility', 'hidden');
+
+        if (config.wrap) {
+          requestAnimationFrame(() => {
+            this.config.label.wrap.wrap(label);
             label
-              .attr('x', rotatedX)
-              .attr('y', rotatedY + edgeOffset)
+              .attr('x', x)
+              .attr('y', y)
               .attr('transform', rotate)
+              .style('visibility', 'visible');
+
+            label
+              .selectAll('tspan')
+              .attr('x', rotatedX)
               .attr('text-anchor', anchor)
               .attr('alignment-baseline', alignmentBaseline);
-          }
+
+            label.select('tspan').attr('y', rotatedY + edgeOffset);
+          });
         } else {
-          g.append('text')
-            .attr('class', this.class.label)
+          label
+            .attr('x', rotatedX)
+            .attr('y', rotatedY + edgeOffset)
             .attr('transform', rotate)
-            .attr('x', x)
-            .attr('y', y)
             .attr('text-anchor', anchor)
             .attr('alignment-baseline', alignmentBaseline)
-            .text(this.config.label.text)
-            .call((l) => {
-              if (config.wrap) {
-                // ensure that label is actually in the DOM before wrapping
-                requestAnimationFrame(() => {
-                  this.config.label.wrap.wrap(l);
-                });
-              }
-            });
+            .style('visibility', 'visible');
         }
-      });
+      } else {
+        label
+          .attr('x', x)
+          .attr('y', y)
+          .attr('transform', null)
+          .attr('text-anchor', anchor)
+          .attr('alignment-baseline', alignmentBaseline);
+
+        if (config.wrap) {
+          label.style('visibility', 'hidden');
+          requestAnimationFrame(() => {
+            this.config.label.wrap.wrap(label);
+            label.style('visibility', 'visible');
+          });
+        }
+      }
     }
   }
 
