@@ -84,6 +84,7 @@ export function yAxisMixin<
         y += range[1];
         anchor = config.anchor || 'end';
       } else if (config.position === 'middle') {
+        rotate = 'rotate(-90)';
         x = config.offset.x * -1;
         y = config.offset.y;
         y += (range[0] - range[1]) / 2 + +this.chart.config.margin.top;
@@ -92,7 +93,10 @@ export function yAxisMixin<
             ? this.chart.config.margin.left
             : this.chart.config.width;
         anchor = config.anchor || 'middle';
-        rotate = 'rotate(-90)';
+        // otherwise will separate lines if wrapped
+        if (config.wrap) {
+          config.wrap.maintainXPosition = true;
+        }
         alignmentBaseline =
           this.config.side === 'left' ? 'hanging' : 'baseline';
       } else {
@@ -113,7 +117,10 @@ export function yAxisMixin<
 
           const edgeOffset = this.config.side === 'left' ? 1 : -1;
           const rotatedX = y * -1;
-          const rotatedY = x * -1;
+          const rotatedY =
+            this.config.side === 'left'
+              ? x * -1
+              : this.chart.config.margin.right;
 
           if (config.wrap) {
             // ensure that label is actually in the DOM before wrapping

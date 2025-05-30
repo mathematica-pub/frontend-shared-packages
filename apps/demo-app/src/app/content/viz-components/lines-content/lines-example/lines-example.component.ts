@@ -81,7 +81,7 @@ export class LinesExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 36,
-    right: 12,
+    right: 48,
     bottom: 36,
     left: 64,
   };
@@ -144,7 +144,7 @@ export class LinesExampleComponent implements OnInit {
       .label((label) =>
         label
           .text('Percent Unemployment (US Bureau of Labor Statistics)')
-          .wrap((wrap) => wrap.width(200).lineHeight(1.2))
+          .wrap((wrap) => wrap.width(180).lineHeight(1.2))
       )
       .ticks((ticks) => ticks.format('.0%'))
       .getConfig();
