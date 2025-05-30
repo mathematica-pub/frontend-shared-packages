@@ -123,12 +123,9 @@ export function yAxisMixin<
 
         if (config.wrap) {
           requestAnimationFrame(() => {
+            label.attr('x', x).attr('y', y);
             this.config.label.wrap.wrap(label);
-            label
-              .attr('x', x)
-              .attr('y', y)
-              .attr('transform', rotate)
-              .style('visibility', 'visible');
+            label.attr('transform', rotate).style('visibility', 'visible');
 
             label
               .selectAll('tspan')
