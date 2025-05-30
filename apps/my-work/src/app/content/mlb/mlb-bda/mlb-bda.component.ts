@@ -48,7 +48,7 @@ export class MlbBdaComponent extends MlbChartComponent {
         stratVal: x.StratVal_v2,
         lob: x.LOB,
         value: null, // null to avoid bars
-        average: x.Average && !isNaN(x.Average) ? +x.Average : null,
+        average: x.Value && !isNaN(x.Value) ? +x.Value : null,
       };
       return obj;
     });
