@@ -52,6 +52,9 @@ export class MlbBdaComponent extends MlbChartComponent {
       };
       return obj;
     });
-    return transformed;
+    return transformed.filter((x: MlbBdaDatum) => {
+      const strat = x.strat.toLowerCase();
+      return strat.includes('race') || strat.includes('ethnicity');
+    });
   }
 }
