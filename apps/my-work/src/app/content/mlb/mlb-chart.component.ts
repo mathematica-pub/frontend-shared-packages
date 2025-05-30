@@ -13,7 +13,6 @@ import { MlbDatum } from './mlb-stacked-bars.component';
 
 interface SelectionForm {
   measureCode: AbstractControl<string>;
-  delivSys: AbstractControl<string>;
 }
 
 interface Option {
