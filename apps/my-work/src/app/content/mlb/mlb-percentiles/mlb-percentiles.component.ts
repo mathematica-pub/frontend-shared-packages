@@ -11,6 +11,7 @@ import { MlbDatum } from '../mlb-stacked-bars.component';
 import { MlbPercentilesDotPlotComponent } from './mlb-percentiles-dot-plot/mlb-percentiles-dot-plot.component';
 
 export interface MlbPercentilesDatum extends MlbDatum {
+  strat: string;
   percentile25: number;
   percentile75: number;
 }
@@ -30,7 +31,7 @@ export interface MlbPercentilesDatum extends MlbDatum {
   encapsulation: ViewEncapsulation.None,
 })
 export class MlbPercentilesComponent extends MlbChartComponent {
-  override mlbDataPath = mlbDataPath.percentiles;
+  override mlbDataPath = mlbDataPath.bda;
   override filters = {
     measureCodes: [],
     stratVals: [],
@@ -49,7 +50,8 @@ export class MlbPercentilesComponent extends MlbChartComponent {
         series: 'percentile',
         lob: x.LOB,
         measureCode: x.Measure_Code,
-        stratVal: x.StratVal,
+        strat: x.STRAT,
+        stratVal: x.StratVal_v2,
         units: x.Units,
         value:
           x.MLB_25 && !isNaN(x.MLB_25) && x.MLB_75 && !isNaN(x.MLB_75)
@@ -62,6 +64,8 @@ export class MlbPercentilesComponent extends MlbChartComponent {
       };
       return obj;
     });
-    return transformed;
+    return transformed.filter((x: MlbPercentilesDatum) => {
+      return x.strat === 'NULL';
+    });
   }
 }

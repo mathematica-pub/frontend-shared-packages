@@ -62,11 +62,11 @@ const caAccessPath = {
 const mlbPath = {
   current: {
     bda: `${folder}MLB_BDA_Results.csv`,
-    percentiles: `${folder}MLB_Results.csv`,
+    csa: `${folder}MLB_Results.csv`,
   },
   mock: {
     bda: `${folder}Mock_MLB_BDA_Results.csv`,
-    percentiles: `${folder}Mock_MLB_Results.csv`,
+    csa: `${folder}Mock_MLB_Results.csv`,
   },
 };
 
