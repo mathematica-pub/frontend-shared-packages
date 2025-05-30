@@ -1,11 +1,12 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { CommonModule } from '@angular/common';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { HsiUiComboboxModule } from '@hsi/ui-components';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
-import { HsiUiComboboxModule } from '../combobox.module';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
 // SPECIFICATIONS
@@ -59,7 +60,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxSelectAllMultiSelectTestComponent extends ComboboxBaseTestComponent {
   @Input() dynamicLabel = false;
@@ -70,8 +71,6 @@ describe('ComboboxSelectAllMultiComponent', () => {
   describe('toggling the select all / options with a click', () => {
     beforeEach(() => {
       cy.mount(ComboboxSelectAllMultiSelectTestComponent, {
-        declarations: [ComboboxSelectAllMultiSelectTestComponent],
-        imports: [HsiUiComboboxModule, MatIconModule],
         componentProperties: { dynamicLabel: true },
       });
     });
@@ -163,7 +162,7 @@ describe('ComboboxSelectAllMultiComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxExternalSelectedTestComponent {
   @Input() dynamicLabel = false;
@@ -209,8 +208,6 @@ class ComboboxExternalSelectedTestComponent {
 describe('ComboboxExternalSelectedTestComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxExternalSelectedTestComponent, {
-      declarations: [ComboboxExternalSelectedTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
       componentProperties: { dynamicLabel: true },
     });
   });
@@ -315,7 +312,7 @@ describe('ComboboxExternalSelectedTestComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxExternalDisableTestComponent {
   @Input() dynamicLabel = false;
@@ -352,8 +349,6 @@ class ComboboxExternalDisableTestComponent {
 describe('ComboboxExternalDisableTestComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxExternalDisableTestComponent, {
-      declarations: [ComboboxExternalDisableTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
       componentProperties: { dynamicLabel: true },
     });
   });

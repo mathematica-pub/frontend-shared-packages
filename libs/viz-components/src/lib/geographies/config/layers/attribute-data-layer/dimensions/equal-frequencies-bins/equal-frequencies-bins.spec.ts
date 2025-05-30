@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { it } from 'local-cypress';
 import { EqualFrequenciesAttributeDataDimension } from './equal-frequencies-bins';
 import { EqualFrequenciesAttributeDataDimensionBuilder } from './equal-frequencies-bins-builder';
 
