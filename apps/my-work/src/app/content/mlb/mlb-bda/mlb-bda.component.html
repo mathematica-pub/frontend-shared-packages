@@ -1,4 +1,4 @@
-<div class="title">MLB BDA</div>
+<div class="title">MLB {{ chartName }}</div>
 <form [formGroup]="myForm">
   <div class="selection">
     <label for="measureCode">Measure Code</label>
@@ -14,7 +14,9 @@
   </div>
 </form>
 @if (filteredData$ | async; as data) {
-  <app-export-content [fileName]="'MLB BDA ' + myForm.value[filterTypes[0]]">
+  <app-export-content
+    [fileName]="'MLB ' + chartName + ' ' + myForm.value[filterTypes[0]]"
+  >
     <app-mlb-bda-dot-plot [data]="data"></app-mlb-bda-dot-plot>
   </app-export-content>
 }

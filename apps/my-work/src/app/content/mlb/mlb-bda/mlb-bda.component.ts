@@ -32,6 +32,7 @@ export class MlbBdaComponent extends MlbChartComponent {
     measureCodes: [],
   };
   override filterTypes = ['measureCode'];
+  chartName = 'BDA';
 
   constructor(dataService: DataService) {
     super(dataService);

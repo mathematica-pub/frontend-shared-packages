@@ -19,6 +19,8 @@ import { MlbBdaComponent } from '../mlb-bda/mlb-bda.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class MlbShortageComponent extends MlbBdaComponent {
+  override chartName = 'Provider Shortage';
+
   override isMatchingStrat(strat: string): boolean {
     return strat.includes('shortage');
   }
