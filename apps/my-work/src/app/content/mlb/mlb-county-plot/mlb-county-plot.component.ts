@@ -19,6 +19,8 @@ import { MlbBdaComponent } from '../mlb-bda/mlb-bda.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class MlbCountyPlotComponent extends MlbBdaComponent {
+  override chartName = 'County Dot Plot';
+
   override isMatchingStrat(strat: string): boolean {
     return strat.includes('shortage');
   }
