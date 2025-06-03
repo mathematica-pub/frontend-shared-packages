@@ -75,15 +75,13 @@ export function quantitativeAxisMixin<
             return Math.min(numSuggestedTicks, maxTicks);
           }
         }
-
-        if (!tickFormat.includes('.')) {
-          return numSuggestedTicks;
-        } else {
+        if (tickFormat.includes('.')) {
           return this.getValidNumTicksForNumberFormatString(
             numSuggestedTicks,
             tickFormat
           );
         }
+        return numSuggestedTicks;
       } else {
         return numSuggestedTicks;
       }
@@ -192,27 +190,6 @@ export function quantitativeAxisMixin<
         const timeDiff = endDate.getTime() - startDate.getTime();
         const weeksDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24 * 7));
         return weeksDiff + 1;
-      }
-
-      // Hour formatters: %H (24-hour), %I (12-hour)
-      if (tickFormat === '%H' || tickFormat === '%I') {
-        const timeDiff = endDate.getTime() - startDate.getTime();
-        const hoursDiff = Math.ceil(timeDiff / (1000 * 60 * 60));
-        return hoursDiff + 1;
-      }
-
-      // Minute formatters: %M
-      if (tickFormat === '%M') {
-        const timeDiff = endDate.getTime() - startDate.getTime();
-        const minutesDiff = Math.ceil(timeDiff / (1000 * 60));
-        return minutesDiff + 1;
-      }
-
-      // Second formatters: %S
-      if (tickFormat === '%S') {
-        const timeDiff = endDate.getTime() - startDate.getTime();
-        const secondsDiff = Math.ceil(timeDiff / 1000);
-        return secondsDiff + 1;
       }
 
       // For composite formats or unrecognized formats, return null to use default logic

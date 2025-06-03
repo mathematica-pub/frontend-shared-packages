@@ -145,11 +145,17 @@ describe('the QuantitativeAxis mixin', () => {
   describe('getSuggestedNumTicks', () => {
     let tickFormat: string | ((value: number | Date) => string);
     let getNumTicksSpy: jasmine.Spy;
+    let domainSpy: jasmine.Spy;
+    let maxTicksFroDateFormatSpy: jasmine.Spy;
     beforeEach(() => {
       getNumTicksSpy = spyOn(
         abstractClass as any,
         'getNumTicks'
       ).and.returnValue(8);
+      maxTicksFroDateFormatSpy = spyOn(
+        abstractClass as any,
+        'getMaxTicksForDateFormat'
+      ).and.returnValue(null);
       spyOn(
         abstractClass as any,
         'getValidNumTicksForNumberFormatString'
@@ -157,20 +163,66 @@ describe('the QuantitativeAxis mixin', () => {
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .ticks((t) => t.count(1))
         .getConfig();
+      domainSpy = jasmine.createSpy('domain');
+      abstractClass.scale = {
+        domain: domainSpy.and.returnValue([0, 10]),
+      };
     });
-
     it('calls getNumTicks once', () => {
       tickFormat = ',.0f';
       (abstractClass as any).getSuggestedNumTicks(tickFormat);
       expect((abstractClass as any).getNumTicks).toHaveBeenCalledTimes(1);
     });
 
-    describe('if tickFormat is a string but has no period in it', () => {
-      it('returns the result from getNumTicks', () => {
+    describe('if tickFormat is a date format', () => {
+      beforeEach(() => {
         tickFormat = '%Y';
+        abstractClass.scale = {
+          domain: domainSpy.and.returnValue([
+            new Date(2020, 0, 1),
+            new Date(2021, 11, 31),
+          ]),
+        };
+        maxTicksFroDateFormatSpy.and.returnValue(5);
+      });
+      it('calls getMaxTicksForDateFormat once with the correct value', () => {
+        (abstractClass as any).getSuggestedNumTicks(tickFormat);
+        expect(
+          (abstractClass as any).getMaxTicksForDateFormat
+        ).toHaveBeenCalledOnceWith(tickFormat);
+      });
+      it('returns the result from getMaxTicksForDateFormat', () => {
+        expect((abstractClass as any).getSuggestedNumTicks(tickFormat)).toEqual(
+          5
+        );
+      });
+      it('returns the result from getMaxTicksForDateFormat if it is less than the result from getNumTicks', () => {
+        getNumTicksSpy.and.returnValue(10);
+        expect((abstractClass as any).getSuggestedNumTicks(tickFormat)).toEqual(
+          5
+        );
+      });
+      it('returns the result from getNumTicks if getMaxTicksForDateFormat returns null', () => {
+        (abstractClass as any).getMaxTicksForDateFormat.and.returnValue(null);
         expect((abstractClass as any).getSuggestedNumTicks(tickFormat)).toEqual(
           8
         );
+      });
+    });
+
+    describe('if tickFormat is a string but has no period in it', () => {
+      beforeEach(() => {
+        tickFormat = '0f';
+      });
+      it('returns the result from getNumTicks', () => {
+        expect((abstractClass as any).getSuggestedNumTicks(tickFormat)).toEqual(
+          8
+        );
+      });
+      it('does not call getValidNumTicksForNumberFormatString', () => {
+        expect(
+          (abstractClass as any).getValidNumTicksForNumberFormatString
+        ).not.toHaveBeenCalled();
       });
     });
 
@@ -187,15 +239,6 @@ describe('the QuantitativeAxis mixin', () => {
       it('returns the result from getSuggestedNumTicksStringFormatter', () => {
         expect((abstractClass as any).getSuggestedNumTicks(tickFormat)).toEqual(
           10
-        );
-      });
-    });
-
-    describe('if tickFormat is not a string', () => {
-      it('returns the result from getNumTicks', () => {
-        tickFormat = () => '2';
-        expect((abstractClass as any).getSuggestedNumTicks(tickFormat)).toEqual(
-          8
         );
       });
     });
@@ -426,39 +469,6 @@ describe('the QuantitativeAxis mixin', () => {
         const result = (abstractClass as any).getMaxTicksForDateFormat('%W');
         expect(result).toBeGreaterThanOrEqual(104);
         expect(result).toBeLessThanOrEqual(106);
-      });
-    });
-
-    describe('Hour formatters', () => {
-      it('returns the correct value for %H format', () => {
-        // 731 days * 24 hours = 17,544 hours
-        expect((abstractClass as any).getMaxTicksForDateFormat('%H')).toEqual(
-          17545
-        ); // +1 for inclusive range
-      });
-
-      it('returns the correct value for %I format', () => {
-        expect((abstractClass as any).getMaxTicksForDateFormat('%I')).toEqual(
-          17545
-        );
-      });
-    });
-
-    describe('Minute formatters', () => {
-      it('returns the correct value for %M format', () => {
-        // 17,544 hours * 60 minutes = 1,052,640 minutes
-        expect((abstractClass as any).getMaxTicksForDateFormat('%M')).toEqual(
-          1052641
-        ); // +1 for inclusive range
-      });
-    });
-
-    describe('Second formatters', () => {
-      it('returns the correct value for %S format', () => {
-        // 1,052,640 minutes * 60 seconds = 63,158,400 seconds
-        expect((abstractClass as any).getMaxTicksForDateFormat('%S')).toEqual(
-          63158401
-        ); // +1 for inclusive range
       });
     });
 
