@@ -60,10 +60,12 @@ export function xAxisMixin<
       const spaceFromMarginEdge = 4;
       let x = config.offset.x;
       let y = config.offset.y;
+
       y +=
         this.config.side === 'top'
           ? this.chart.config.margin.top * -1 + spaceFromMarginEdge
           : this.chart.config.margin.bottom - spaceFromMarginEdge;
+
       let anchor: 'start' | 'middle' | 'end';
       const range = this.scales.x.range();
 
@@ -78,26 +80,31 @@ export function xAxisMixin<
         anchor = config.anchor || 'end';
       }
 
-      this.axisGroup.selectAll(`.${this.class.label}`).remove();
+      let label = this.axisGroup.select<SVGTextElement>(`.${this.class.label}`);
+      const needsInit = label.empty();
 
-      this.axisGroup.call((g) =>
-        g
-          .append('text')
-          .attr('class', this.class.label)
-          .attr('x', x)
-          .attr('y', y)
-          .attr('text-anchor', anchor)
-          .text(this.config.label.text)
-          .call((l) => {
-            if (config.wrap) {
-              // ensure that label is actually in the DOM before wrapping
-              requestAnimationFrame(() => {
-                this.config.label.wrap.wrap(l);
-                l.selectAll('tspan').attr('x', x);
-              });
-            }
-          })
-      );
+      if (needsInit) {
+        label = this.axisGroup
+          .append<SVGTextElement>('text')
+          .attr('class', this.class.label);
+      }
+
+      label
+        .text(this.config.label.text)
+        .attr('text-anchor', anchor)
+        .attr('y', y)
+        .style('visibility', config.wrap ? 'hidden' : 'visible');
+
+      if (config.wrap) {
+        requestAnimationFrame(() => {
+          this.config.label.wrap.wrap(label);
+          label.attr('x', x).style('visibility', 'visible');
+
+          label.selectAll('tspan').attr('x', x);
+        });
+      } else {
+        label.attr('x', x);
+      }
     }
   }
 
