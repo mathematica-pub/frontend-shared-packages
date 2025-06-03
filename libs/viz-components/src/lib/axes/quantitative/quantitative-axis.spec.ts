@@ -124,43 +124,21 @@ describe('the QuantitativeAxis mixin', () => {
       abstractClass.scale = {
         domain: domainSpy,
       };
+      domainSpy.and.returnValue([0, 5]);
+      (abstractClass as any).setUnspecifiedTickValues(tickFormat);
     });
-    describe('scale is Dates', () => {
-      beforeEach(() => {
-        domainSpy.and.returnValue([new Date(2020, 0, 1), new Date(2023, 0, 1)]);
-        (abstractClass as any).setUnspecifiedTickValues(tickFormat);
-      });
-      it('does not call getSuggestedNumTicks', () => {
-        expect(
-          (abstractClass as any).getSuggestedNumTicks
-        ).not.toHaveBeenCalled();
-      });
-      it('does not call ticks on axis', () => {
-        expect(ticksSpy).not.toHaveBeenCalled();
-      });
-      it('calls tickFormat on axis with the correct values', () => {
-        ticksSpy.calls.reset();
-        expect(tickFormatSpy).toHaveBeenCalledTimes(1);
-      });
+    it('calls getSuggestedNumTicks once', () => {
+      expect(
+        (abstractClass as any).getSuggestedNumTicks
+      ).toHaveBeenCalledOnceWith(tickFormat);
     });
-    describe('scale is not Dates', () => {
-      beforeEach(() => {
-        domainSpy.and.returnValue([0, 5]);
-        (abstractClass as any).setUnspecifiedTickValues(tickFormat);
-      });
-      it('calls getValidatedNumTicks once', () => {
-        expect(
-          (abstractClass as any).getSuggestedNumTicks
-        ).toHaveBeenCalledOnceWith(tickFormat);
-      });
-      it('calls ticks on axis with the correct values', () => {
-        tickFormatSpy.calls.reset();
-        expect(ticksSpy).toHaveBeenCalledOnceWith(10);
-      });
-      it('calls tickFormat on axis with the correct values', () => {
-        ticksSpy.calls.reset();
-        expect(tickFormatSpy).toHaveBeenCalledTimes(1);
-      });
+    it('calls ticks on axis with the correct values', () => {
+      tickFormatSpy.calls.reset();
+      expect(ticksSpy).toHaveBeenCalledOnceWith(10);
+    });
+    it('calls tickFormat on axis with the correct values', () => {
+      ticksSpy.calls.reset();
+      expect(tickFormatSpy).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -304,6 +282,246 @@ describe('the QuantitativeAxis mixin', () => {
           '.0%'
         )
       ).toEqual(501);
+    });
+  });
+
+  describe('getMaxTicksForDateFormat', () => {
+    let domainSpy: jasmine.Spy;
+
+    beforeEach(() => {
+      domainSpy = jasmine.createSpy('domain');
+      abstractClass.scale = {
+        domain: domainSpy.and.returnValue([
+          new Date(Date.UTC(2020, 0, 1)),
+          new Date(Date.UTC(2021, 11, 31)),
+        ]),
+      };
+    });
+
+    it('returns null if the tickFormat is not a date format', () => {
+      expect(
+        (abstractClass as any).getMaxTicksForDateFormat('%.0f')
+      ).toBeNull();
+    });
+
+    it('returns null for unrecognized composite formats', () => {
+      expect(
+        (abstractClass as any).getMaxTicksForDateFormat('%Y-%m-%d %H:%M')
+      ).toBeNull();
+    });
+
+    describe('Year formatters', () => {
+      it('returns the correct value for %Y format', () => {
+        expect((abstractClass as any).getMaxTicksForDateFormat('%Y')).toEqual(
+          2
+        ); // 2020, 2021
+      });
+
+      it('returns the correct value for %y format', () => {
+        expect((abstractClass as any).getMaxTicksForDateFormat('%y')).toEqual(
+          2
+        ); // 20, 21
+      });
+    });
+
+    describe('Quarter formatters', () => {
+      it('returns the correct value for quarter format', () => {
+        expect(
+          (abstractClass as any).getMaxTicksForDateFormat('%Y Q%q')
+        ).toEqual(8); // 2020 Q1-Q4, 2021 Q1-Q4
+      });
+
+      it('handles partial quarter ranges correctly', () => {
+        // Test with a domain that starts mid-year
+        domainSpy.and.returnValue([
+          new Date(Date.UTC(2020, 6, 1)),
+          new Date(Date.UTC(2021, 2, 31)),
+        ]);
+        expect(
+          (abstractClass as any).getMaxTicksForDateFormat('%Y Q%q')
+        ).toEqual(3); // 2020 Q3-Q4, 2021 Q1
+      });
+    });
+
+    describe('Month formatters', () => {
+      it('returns the correct value for %B format', () => {
+        expect((abstractClass as any).getMaxTicksForDateFormat('%B')).toEqual(
+          24
+        ); // Jan 2020 - Dec 2021 = 24 months
+      });
+
+      it('returns the correct value for %b format', () => {
+        expect((abstractClass as any).getMaxTicksForDateFormat('%b')).toEqual(
+          24
+        );
+      });
+
+      it('returns the correct value for %m format', () => {
+        expect((abstractClass as any).getMaxTicksForDateFormat('%m')).toEqual(
+          24
+        );
+      });
+
+      it('returns the correct value for %B %Y format', () => {
+        expect(
+          (abstractClass as any).getMaxTicksForDateFormat('%B %Y')
+        ).toEqual(24);
+      });
+
+      it('returns the correct value for %b %Y format', () => {
+        expect(
+          (abstractClass as any).getMaxTicksForDateFormat('%b %Y')
+        ).toEqual(24);
+      });
+    });
+
+    describe('Day formatters', () => {
+      it('returns the correct value for %d format', () => {
+        // Jan 1, 2020 to Dec 31, 2021 = 731 days (2020 is leap year)
+        expect((abstractClass as any).getMaxTicksForDateFormat('%d')).toEqual(
+          731
+        );
+      });
+
+      it('returns the correct value for %e format', () => {
+        expect((abstractClass as any).getMaxTicksForDateFormat('%e')).toEqual(
+          731
+        );
+      });
+
+      it('returns the correct value for %j format', () => {
+        expect((abstractClass as any).getMaxTicksForDateFormat('%j')).toEqual(
+          731
+        );
+      });
+
+      it('returns the correct value for %B %d, %Y format', () => {
+        expect(
+          (abstractClass as any).getMaxTicksForDateFormat('%B %d, %Y')
+        ).toEqual(731);
+      });
+
+      it('returns the correct value for %m/%d/%Y format', () => {
+        expect(
+          (abstractClass as any).getMaxTicksForDateFormat('%m/%d/%Y')
+        ).toEqual(731);
+      });
+
+      it('returns the correct value for %Y-%m-%d format', () => {
+        expect(
+          (abstractClass as any).getMaxTicksForDateFormat('%Y-%m-%d')
+        ).toEqual(731);
+      });
+    });
+
+    describe('Week formatters', () => {
+      it('returns the correct value for %U format', () => {
+        // Approximately 104-105 weeks in 2 years
+        const result = (abstractClass as any).getMaxTicksForDateFormat('%U');
+        expect(result).toBeGreaterThanOrEqual(104);
+        expect(result).toBeLessThanOrEqual(106);
+      });
+
+      it('returns the correct value for %W format', () => {
+        const result = (abstractClass as any).getMaxTicksForDateFormat('%W');
+        expect(result).toBeGreaterThanOrEqual(104);
+        expect(result).toBeLessThanOrEqual(106);
+      });
+    });
+
+    describe('Hour formatters', () => {
+      it('returns the correct value for %H format', () => {
+        // 731 days * 24 hours = 17,544 hours
+        expect((abstractClass as any).getMaxTicksForDateFormat('%H')).toEqual(
+          17545
+        ); // +1 for inclusive range
+      });
+
+      it('returns the correct value for %I format', () => {
+        expect((abstractClass as any).getMaxTicksForDateFormat('%I')).toEqual(
+          17545
+        );
+      });
+    });
+
+    describe('Minute formatters', () => {
+      it('returns the correct value for %M format', () => {
+        // 17,544 hours * 60 minutes = 1,052,640 minutes
+        expect((abstractClass as any).getMaxTicksForDateFormat('%M')).toEqual(
+          1052641
+        ); // +1 for inclusive range
+      });
+    });
+
+    describe('Second formatters', () => {
+      it('returns the correct value for %S format', () => {
+        // 1,052,640 minutes * 60 seconds = 63,158,400 seconds
+        expect((abstractClass as any).getMaxTicksForDateFormat('%S')).toEqual(
+          63158401
+        ); // +1 for inclusive range
+      });
+    });
+
+    describe('Edge cases', () => {
+      it('handles same start and end dates', () => {
+        domainSpy.and.returnValue([
+          new Date(Date.UTC(2020, 5, 15)),
+          new Date(Date.UTC(2020, 5, 15)),
+        ]);
+
+        expect((abstractClass as any).getMaxTicksForDateFormat('%Y')).toEqual(
+          1
+        );
+        expect(
+          (abstractClass as any).getMaxTicksForDateFormat('%B %Y')
+        ).toEqual(1);
+        expect((abstractClass as any).getMaxTicksForDateFormat('%d')).toEqual(
+          1
+        );
+      });
+
+      it('handles single day difference', () => {
+        domainSpy.and.returnValue([
+          new Date(Date.UTC(2020, 5, 15)),
+          new Date(Date.UTC(2020, 5, 16)),
+        ]);
+
+        expect((abstractClass as any).getMaxTicksForDateFormat('%Y')).toEqual(
+          1
+        );
+        expect(
+          (abstractClass as any).getMaxTicksForDateFormat('%B %Y')
+        ).toEqual(1);
+        expect((abstractClass as any).getMaxTicksForDateFormat('%d')).toEqual(
+          2
+        );
+      });
+
+      it('handles cross-month boundaries', () => {
+        domainSpy.and.returnValue([
+          new Date(Date.UTC(2020, 0, 31)),
+          new Date(Date.UTC(2020, 1, 1)),
+        ]);
+
+        expect(
+          (abstractClass as any).getMaxTicksForDateFormat('%B %Y')
+        ).toEqual(2); // Jan, Feb
+        expect((abstractClass as any).getMaxTicksForDateFormat('%d')).toEqual(
+          2
+        ); // Jan 31, Feb 1
+      });
+
+      it('handles leap year correctly', () => {
+        // Feb 28, 2020 to Mar 1, 2020 (leap year)
+        domainSpy.and.returnValue([
+          new Date(Date.UTC(2020, 1, 28)),
+          new Date(Date.UTC(2020, 2, 1)),
+        ]);
+
+        expect((abstractClass as any).getMaxTicksForDateFormat('%d')).toEqual(
+          3
+        ); // Feb 28, Feb 29, Mar 1
+      });
     });
   });
 });

@@ -130,12 +130,45 @@ export function quantitativeAxisMixin<
     getMaxTicksForDateFormat(tickFormat: string): number | null {
       const [startDate, endDate] = this.scale.domain() as [Date, Date];
 
-      // Year formatters: %Y, %y
+      // Year-only formatters: %Y, %y
       if (tickFormat === '%Y' || tickFormat === '%y') {
         const startYear = startDate.getUTCFullYear();
         const endYear = endDate.getUTCFullYear();
         return endYear - startYear + 1;
       }
+
+      // Quarter formatter: %Y Q%q
+      if (tickFormat === '%Y Q%q') {
+        const startYear = startDate.getUTCFullYear();
+        const startQuarter = Math.floor(startDate.getUTCMonth() / 3);
+        const endYear = endDate.getUTCFullYear();
+        const endQuarter = Math.floor(endDate.getUTCMonth() / 3);
+
+        return (endYear - startYear) * 4 + (endQuarter - startQuarter) + 1;
+      }
+
+      // Month-year formatters: %B %Y, %b %Y
+      if (tickFormat === '%B %Y' || tickFormat === '%b %Y') {
+        const startYear = startDate.getUTCFullYear();
+        const startMonth = startDate.getUTCMonth();
+        const endYear = endDate.getUTCFullYear();
+        const endMonth = endDate.getUTCMonth();
+
+        return (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
+      }
+
+      // Full date formatters: %B %d, %Y
+      if (
+        tickFormat === '%B %d, %Y' ||
+        tickFormat === '%m/%d/%Y' ||
+        tickFormat === '%Y-%m-%d'
+      ) {
+        const timeDiff = endDate.getTime() - startDate.getTime();
+        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+        return daysDiff + 1;
+      }
+
+      // Additional common time formatters for completeness
 
       // Month formatters: %B (full month), %b (abbreviated), %m (numeric)
       if (tickFormat === '%B' || tickFormat === '%b' || tickFormat === '%m') {
