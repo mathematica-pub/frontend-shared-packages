@@ -47,7 +47,6 @@ export class SvgTextWrap {
           tspan = text
             .append('tspan')
             .attr('x', x)
-            .attr('y', y)
             .attr('dy', ++lineNumber * this.lineHeight + dy + 'em')
             .text(word);
         }

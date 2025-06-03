@@ -57,7 +57,7 @@ params:
 
 ```builder-method
 name: anchor
-description: Positions the text relative to the label position. If not specified, the default value is 'middle'.
+description: Positions the text relative to the label position. If not provided or if called with null, the anchor will be determined by the position.
 params:
   - name: anchor
     type: "'start' | 'middle' | 'end'"
@@ -90,7 +90,7 @@ params:
 
 ```builder-method
 name: wrap
-description: Wraps the text of the label to fit within the specified width. If not specified, the default value is false.
+description: Wraps the text of the label to fit within the specified width. If not specified, the default value is false. Note that `maintainYPosition` will have no effect on rotated labels.
 params:
   - name: wrap
     type: '(wrap: SvgTextWrapBuilder) => void'

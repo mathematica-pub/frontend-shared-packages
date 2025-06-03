@@ -2,7 +2,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input } from '@angular/core';
 import {
+  BarsConfig,
   ChartConfig,
+  VicBarsConfigBuilder,
   VicBarsModule,
   VicChartConfigBuilder,
   VicChartModule,
@@ -15,10 +17,8 @@ import {
   VicYOrdinalAxisConfigBuilder,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from 'libs/viz-components/src/public-api';
+} from '@hsi/viz-components';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { VicBarsConfigBuilder } from '../bars-builder';
-import { BarsConfig } from '../bars-config';
 
 type Datum = { state: string; value: number };
 
@@ -152,7 +152,7 @@ const barLabelColorMatchesExpectedRgb = (
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [VicChartModule, VicBarsModule, VicXyAxisModule],
 })
 class TestVerticalBarsWithLabelsComponent {
   @Input() barsConfig: BarsConfig<Datum, string>;
@@ -173,12 +173,7 @@ const mountVerticalBarsComponent = (
     .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
 
-  const declarations = [TestVerticalBarsWithLabelsComponent];
-  const imports = [VicChartModule, VicBarsModule, VicXyAxisModule];
-
   cy.mount(TestVerticalBarsWithLabelsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       xOrdinalAxisConfig: xAxisConfig,
@@ -481,7 +476,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [VicChartModule, VicBarsModule, VicXyAxisModule],
 })
 class TestHorizontalBarsWithLabelsComponent {
   @Input() barsConfig: BarsConfig<Datum, string>;
@@ -502,12 +497,7 @@ const mountHorizontalBarsComponent = (
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
 
-  const declarations = [TestHorizontalBarsWithLabelsComponent];
-  const imports = [VicChartModule, VicBarsModule, VicXyAxisModule];
-
   cy.mount(TestHorizontalBarsWithLabelsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       xQuantitativeAxisConfig: xAxisConfig,

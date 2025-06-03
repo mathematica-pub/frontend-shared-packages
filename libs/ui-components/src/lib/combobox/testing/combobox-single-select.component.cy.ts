@@ -1,12 +1,13 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { HsiUiComboboxModule } from '@hsi/ui-components';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
-import { HsiUiComboboxModule } from '../combobox.module';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
 // Simple single select combobox that displays selected
@@ -45,16 +46,13 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxSingleTestComponent extends ComboboxBaseTestComponent {}
 
 describe('ComboboxSingleSelectOnlyComponent', () => {
   beforeEach(() => {
-    cy.mount(ComboboxSingleTestComponent, {
-      declarations: [ComboboxSingleTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxSingleTestComponent);
   });
   describe('click behavior after load', () => {
     it('should not emit a value on load', () => {
@@ -156,16 +154,13 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxSingleSelectDisabledOptionsComponent extends ComboboxBaseTestComponent {}
 
 describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
   beforeEach(() => {
-    cy.mount(ComboboxSingleSelectDisabledOptionsComponent, {
-      declarations: [ComboboxSingleSelectDisabledOptionsComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxSingleSelectDisabledOptionsComponent);
   });
   it('can select non-disabled options', () => {
     cy.get('.hsi-ui-textbox').click();
@@ -216,16 +211,13 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxSelectFromOutsideSingleTestComponent extends ComboboxBaseTestComponent {}
 
 describe('ComboboxSelectFromOutsideSingleComponent', () => {
   beforeEach(() => {
-    cy.mount(ComboboxSelectFromOutsideSingleTestComponent, {
-      declarations: [ComboboxSelectFromOutsideSingleTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxSelectFromOutsideSingleTestComponent);
   });
   it('should display the selected option in the textbox on load', () => {
     cy.wait(1000);
@@ -286,7 +278,7 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxGroupedSingleTestComponent {
   optionsGroup1 = [
@@ -309,10 +301,7 @@ class ComboboxGroupedSingleTestComponent {
 
 describe('ComboboxGroupedSingleTestComponent', () => {
   beforeEach(() => {
-    cy.mount(ComboboxGroupedSingleTestComponent, {
-      declarations: [ComboboxGroupedSingleTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxGroupedSingleTestComponent);
   });
   it('can select values from different groups', () => {
     cy.get('.hsi-ui-textbox').realClick();
@@ -362,7 +351,7 @@ describe('ComboboxGroupedSingleTestComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
-  standalone: false,
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class NgFormListboxSingleTestComponent {
   options = [
@@ -377,10 +366,7 @@ class NgFormListboxSingleTestComponent {
 
 describe('NgFormListboxSingleTestComponent', () => {
   beforeEach(() => {
-    cy.mount(NgFormListboxSingleTestComponent, {
-      declarations: [NgFormListboxSingleTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(NgFormListboxSingleTestComponent);
   });
   it('can make one selection', () => {
     cy.get('.hsi-ui-textbox').click();
