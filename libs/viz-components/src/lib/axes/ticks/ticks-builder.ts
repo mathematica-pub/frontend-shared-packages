@@ -264,6 +264,8 @@ export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
    * If not called, a reasonable and valid default will be used based on the size of the chart.
    *
    * Note that this number will be passed to D3's `ticks()` method and therefore it can be an approximate number of ticks.
+   *
+   * If this method is called, the passed in number of ticks will be validated against the data domain and the value formatter for the axis. If the number of ticks is not valid—for example, if the ticks are formatted with %Y and there are three years of values in the data, and this method is called with 10, a valid number will be used instead.
    */
   count(value: number | AxisTimeInterval | null): this {
     if (value === null) {
