@@ -160,6 +160,7 @@ params:
     description:
       - "The number of ticks to pass to D3's axis.ticks(), or a time-based frequency of ticks for axes with `Date` values, or null to unset the number of ticks."
       - "Note that this number will be passed to D3's `ticks()` method and therefore it can be an approximate number of ticks."
+      - "If this method is called, the passed in number of ticks will be validated against the data domain and the value formatter for the axis. If the number of ticks is not valid—for example, if the ticks are formatted with %Y and there are three years of values in the data, and this method is called with 10, a valid number will be used instead."
 ```
 
 ```builder-method
