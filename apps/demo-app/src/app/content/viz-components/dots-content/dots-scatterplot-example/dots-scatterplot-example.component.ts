@@ -90,7 +90,7 @@ export class DotsScatterplotExampleComponent implements OnInit {
       .margin(this.margin)
       .height(160)
       .width(160)
-      .resize({ height: false })
+      .scalingStrategy('responsive-width')
       .getConfig();
 
     let xAxisConfig: VicXQuantitativeAxisConfig<number>;

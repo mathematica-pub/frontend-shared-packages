@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import { safeAssign } from '@hsi/app-dev-kit';
 import { ElementSpacing } from '../../../core/types/layout';
-import { ChartResizing } from '../chart.component';
 import { ChartConfig } from './chart-config';
+
+export type ScalingStrategy =
+  | 'fixed'
+  | 'responsive-width'
+  | 'responsive-both'
+  | 'viewbox';
 
 const SCALES_DEFAULT = {
   height: 600,
@@ -19,7 +24,7 @@ const VIEWBOX_DEFAULT = {
 const DEFAULT = {
   _height: 600,
   _margin: { top: 36, right: 36, bottom: 36, left: 36 },
-  _resize: { width: true, height: true, useViewbox: false },
+  _scalingStrategy: 'responsive-width' as ScalingStrategy,
   _transitionDuration: 250,
   _width: 800,
 };
@@ -34,7 +39,7 @@ const DEFAULT = {
 export class VicChartConfigBuilder {
   private _height: number;
   private _margin: ElementSpacing;
-  private _resize: ChartResizing;
+  private _scalingStrategy: ScalingStrategy;
   private _transitionDuration: number;
   private _width: number;
 
@@ -78,33 +83,18 @@ export class VicChartConfigBuilder {
   }
 
   /**
-   * OPTIONAL. Determines whether the chart size is fixed or will resize as the container width changes sizes, and how this resizing will be done.
+   * OPTIONAL. Determines how the chart scales in response to container or window size changes.
    *
-   * @param value - An object with up to three properties: `width`, `height`, and `useViewbox`. Can also be called with null to reset the resize configuration to its default value, which is `{ width: true, height: true, useViewbox: false }`.
+   * Default value, if not called, is 'responsive-width'.
    *
-   * If `useViewbox` is true, the chart will resize via the viewbox attribute, scaling all contents of the chart at once. (For example, as the chart grows smaller, svg text in the chart will also grow proportionally smaller.) This is a more performant way to resize the chart.
-   *
-   * If `useViewbox` is false, the chart will resize by changing the width and height attributes of the svg element, recalculating scales and re-rendering the chart. This is a less performant way to resize the chart but may be necessary in some cases, particularly when the chart contains elements like text that should not be resized.
-   *
-   * If `useViewbox` is false, width and height can be used to determine which dimensions will resize when the chart's container changes width. If both are true, the chart will resize in both dimensions. If only one is true, the chart will resize in that dimension only.
-   *
-   * Note that the chart does not respond to changes in container height.
+   * @param value - One of:
+   * - 'fixed': Chart dimensions remain constant. Width and height are fixed.
+   * - 'responsive-width': Chart width responds to container; height is derived via aspect ratio.
+   * - 'responsive-both': Chart width and height both respond to container dimensions.
+   * - 'viewbox': Chart is scaled entirely via SVG viewBox. All resizing behavior is controlled through CSS.
    */
-  resize(
-    value: Partial<{
-      width: boolean;
-      height: boolean;
-      useViewbox: boolean;
-    }> | null
-  ): this {
-    if (value === null) {
-      value = DEFAULT._resize;
-      return this;
-    }
-    this._resize = {
-      ...this._resize,
-      ...value,
-    };
+  scalingStrategy(value: ScalingStrategy): this {
+    this._scalingStrategy = value;
     return this;
   }
 
@@ -142,7 +132,7 @@ export class VicChartConfigBuilder {
       aspectRatio: this._width / this._height,
       height: this._height,
       margin: this._margin,
-      resize: this._resize,
+      scalingStrategy: this._scalingStrategy,
       transitionDuration: this._transitionDuration,
       width: this._width,
     });
@@ -150,14 +140,16 @@ export class VicChartConfigBuilder {
 
   private validateBuilder(): void {
     if (this._height === undefined) {
-      this._height = this._resize.useViewbox
-        ? VIEWBOX_DEFAULT.height
-        : SCALES_DEFAULT.height;
+      this._height =
+        this._scalingStrategy === 'viewbox'
+          ? VIEWBOX_DEFAULT.height
+          : SCALES_DEFAULT.height;
     }
     if (this._width === undefined) {
-      this._width = this._resize.useViewbox
-        ? VIEWBOX_DEFAULT.width
-        : SCALES_DEFAULT.width;
+      this._width =
+        this._scalingStrategy === 'viewbox'
+          ? VIEWBOX_DEFAULT.width
+          : SCALES_DEFAULT.width;
     }
   }
 }

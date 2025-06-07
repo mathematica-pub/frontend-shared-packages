@@ -104,7 +104,7 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
       .margin(this.margin)
       .height(this.height)
       .width(this.width)
-      .resize({ height: false, width: !this.useLongLabelsAndWrap })
+      .scalingStrategy(this.useLongLabelsAndWrap ? 'fixed' : 'responsive-width')
       .getConfig();
 
     if (this.orientation === 'horizontal') {

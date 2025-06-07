@@ -71,7 +71,7 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
       .margin(this.margin)
       .height(160)
       .width(400)
-      .resize({ height: false })
+      .scalingStrategy('responsive-width')
       .getConfig();
 
     const xAxisConfig = this.xQuantitativeAxis

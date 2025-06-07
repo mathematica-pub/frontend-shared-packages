@@ -3,18 +3,17 @@
 <div
   #div
   class="vic-chart-container"
+  [ngClass]="'vic-scaling-' + config.scalingStrategy"
   [style.maxWidth.px]="config.width"
   [style.maxHeight.px]="config.height"
 >
   <svg
     #svg
     class="vic-chart-svg"
-    [class.vic-chart-viewbox]="config.resize.useViewbox"
-    [class.vic-chart-resize-width]="config.resize.width"
-    [class.vic-chart-resize-height]="config.resize.height"
-    [attr.width]="config.resize.useViewbox ? null : (svgDimensions$ | async).width"
-    [attr.height]="config.resize.useViewbox ? null : (svgDimensions$ | async).height"
-    [attr.viewBox]="config.resize.useViewbox ? '0 0 ' + config.width + ' ' + config.height : null"
+    [class.vic-chart-viewbox]="config.scalingStrategy === 'viewbox'"
+    [attr.width]="config.scalingStrategy !== 'viewbox' ? (svgDimensions$ | async)?.width : null"
+    [attr.height]="config.scalingStrategy !== 'viewbox' ? (svgDimensions$ | async)?.height : null"
+    [attr.viewBox]="config.scalingStrategy === 'viewbox' ? '0 0 ' + config.width + ' ' + config.height : null"
   >
     <defs>
       <ng-container *ngTemplateOutlet="svgDefs"></ng-container>
@@ -22,6 +21,7 @@
     <ng-container *ngTemplateOutlet="svgElements"></ng-container>
   </svg>
 </div>
+
 <!-- Slot exists so that projected content can have access to scales -->
 <ng-container *ngTemplateOutlet="htmlElementsAfter"></ng-container>
 
