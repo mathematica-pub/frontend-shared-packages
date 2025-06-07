@@ -116,7 +116,7 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
     .height(chartHeight)
     .width(chartWidth)
     .margin(margin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 
   updateTooltipForNewOutput(data: LinesEventOutput<Datum>): void {

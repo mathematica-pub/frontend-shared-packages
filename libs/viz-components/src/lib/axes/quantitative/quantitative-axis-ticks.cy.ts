@@ -56,7 +56,7 @@ class TestXQuantitativeAxisComponent implements OnInit {
     this.chartConfig = this.chart
       .height(800)
       .margin({ top: 20, right: 20, bottom: 20, left: 20 })
-      .resize({ height: false, useViewbox: false })
+      .scalingStrategy('responsive-width')
       .getConfig();
   }
 }

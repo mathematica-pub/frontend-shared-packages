@@ -49,7 +49,7 @@ class TestXQuantitativeDomainComponent implements AfterViewInit {
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .height(800)
     .margin({ top: 20, right: 20, bottom: 20, left: 20 })
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 
   ngAfterViewInit(): void {

@@ -72,7 +72,7 @@ class TestGeographiesComponent {
     .margin(margin)
     .width(chartWidth)
     .height(chartHeight)
-    .resize({ useViewbox: false })
+    .scalingStrategy('responsive-both')
     .getConfig();
 }
 

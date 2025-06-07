@@ -161,7 +161,7 @@ class TestVerticalBarsWithLabelsComponent {
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .height(400)
     .margin({ top: 20, right: 20, bottom: 0, left: 40 })
-    .resize({ useViewbox: false })
+    .scalingStrategy('responsive-both')
     .getConfig();
 }
 
@@ -485,7 +485,7 @@ class TestHorizontalBarsWithLabelsComponent {
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .height(200)
     .margin({ top: 20, right: 20, bottom: 20, left: 60 })
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
 

@@ -94,7 +94,7 @@ class TestQuantitativeRulesHorizontalBarsComponent {
     .height(barsChartHeight)
     .width(barsChartWidth)
     .margin(barsHorizontalMargin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
 
@@ -170,7 +170,7 @@ class TestVerticalBarsComponent {
     .height(barsChartHeight)
     .width(barsChartWidth)
     .margin(barsVerticalMargin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
 
@@ -258,7 +258,7 @@ class TestLinesComponent<
     .height(linesChartHeight)
     .width(linesChartWidth)
     .margin(linesMargin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
 

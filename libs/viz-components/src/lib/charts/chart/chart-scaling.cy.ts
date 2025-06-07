@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import {
+  ChartConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
+} from '@hsi/viz-components';
 import { cy, describe, it } from 'local-cypress';
-import { VicChartModule } from '../chart.module';
-import { VicChartConfigBuilder } from './config/chart-builder';
-import { ChartConfig } from './config/chart-config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

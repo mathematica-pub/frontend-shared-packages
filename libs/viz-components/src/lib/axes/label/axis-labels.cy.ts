@@ -63,7 +63,7 @@ class TestAxisLabelsComponent<Datum> {
     .height(chartHeight)
     .width(chartWidth)
     .margin(margin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
 

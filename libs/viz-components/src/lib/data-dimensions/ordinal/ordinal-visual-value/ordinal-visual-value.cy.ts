@@ -97,7 +97,7 @@ class TestHorizontalBarsComponent {
     .height(chartHeight)
     .width(chartWidth)
     .margin(horizontalMargin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
 

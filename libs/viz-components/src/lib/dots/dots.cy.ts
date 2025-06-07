@@ -136,7 +136,7 @@ class TestDotsQuantQuantComponent<Datum> {
     .height(chartHeight)
     .width(chartWidth)
     .margin(margin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 
   updateTooltipForNewOutput(data: DotsEventOutput<Datum>): void {
@@ -216,7 +216,7 @@ class TestDotsXQuantYOrdinalComponent<Datum> {
     .height(chartHeight)
     .width(chartWidth)
     .margin(margin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
 
@@ -270,7 +270,7 @@ class TestDotsXOrdinalYQuantComponent<Datum> {
     .height(chartHeight)
     .width(chartWidth)
     .margin(margin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
 
