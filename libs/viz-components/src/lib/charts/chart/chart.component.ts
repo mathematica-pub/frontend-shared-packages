@@ -102,16 +102,17 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
     const strategy = this.config.scalingStrategy;
 
     const width$ =
-      strategy === 'responsive-width' || strategy === 'responsive-both'
+      strategy === 'responsive-width'
         ? this.observeElementWidth(this.divRef.nativeElement)
         : of(this.config.width);
 
     const height$ =
-      strategy === 'responsive-both'
-        ? this.observeElementHeight(this.divRef.nativeElement)
-        : strategy === 'responsive-width'
-          ? width$.pipe(map((w) => w / this.config.aspectRatio))
-          : of(this.config.height);
+      strategy === 'responsive-width' && this.config.aspectRatio !== undefined
+        ? width$.pipe(map((w) => w / this.config.aspectRatio))
+        : of(this.config.height);
+
+    console.log('strategy', this.config.scalingStrategy);
+    console.log('aspectRatio', this.config.aspectRatio);
 
     this.svgDimensions$ = combineLatest([width$, height$]).pipe(
       filter(([w, h]) => w > 0 && h > 0),
@@ -136,19 +137,6 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
     return new Observable<number>((subscriber) => {
       const observer = new ResizeObserver((entries) => {
         subscriber.next(entries[0].contentRect.width);
-      });
-      observer.observe(element);
-      return () => {
-        observer.unobserve(element);
-        observer.disconnect();
-      };
-    }).pipe(distinctUntilChanged());
-  }
-
-  private observeElementHeight(element: HTMLElement): Observable<number> {
-    return new Observable<number>((subscriber) => {
-      const observer = new ResizeObserver((entries) => {
-        subscriber.next(entries[0].contentRect.height);
       });
       observer.observe(element);
       return () => {

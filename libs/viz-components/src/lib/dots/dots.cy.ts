@@ -54,7 +54,7 @@ const dotGSelector = '.vic-dots-group';
 // ***********************************************************
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'app-test-lines',
+  selector: 'app-test-dots-quant-quant',
   template: `
     <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
@@ -133,8 +133,8 @@ class TestDotsQuantQuantComponent<Datum> {
     new DotsHoverMoveEmitTooltipData(),
   ];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .margin(margin)
     .scalingStrategy('responsive-width')
     .getConfig();
@@ -213,8 +213,8 @@ class TestDotsXQuantYOrdinalComponent<Datum> {
   chartHeight = chartHeight;
   chartWidth = chartWidth;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .margin(margin)
     .scalingStrategy('responsive-width')
     .getConfig();
@@ -267,8 +267,8 @@ class TestDotsXOrdinalYQuantComponent<Datum> {
   @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
   @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .margin(margin)
     .scalingStrategy('responsive-width')
     .getConfig();

@@ -69,8 +69,8 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
   getViewModel(): void {
     const chartConfig = this.chart
       .margin(this.margin)
-      .height(160)
-      .width(400)
+      .maxHeight(160)
+      .maxWidth(400)
       .scalingStrategy('responsive-width')
       .getConfig();
 

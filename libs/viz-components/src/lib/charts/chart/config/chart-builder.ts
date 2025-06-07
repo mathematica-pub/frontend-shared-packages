@@ -3,11 +3,7 @@ import { safeAssign } from '@hsi/app-dev-kit';
 import { ElementSpacing } from '../../../core/types/layout';
 import { ChartConfig } from './chart-config';
 
-export type ScalingStrategy =
-  | 'fixed'
-  | 'responsive-width'
-  | 'responsive-both'
-  | 'viewbox';
+export type ScalingStrategy = 'fixed' | 'responsive-width' | 'viewbox';
 
 const SCALES_DEFAULT = {
   height: 600,
@@ -22,6 +18,7 @@ const VIEWBOX_DEFAULT = {
 };
 
 const DEFAULT = {
+  _fixedHeight: false,
   _height: 600,
   _margin: { top: 36, right: 36, bottom: 36, left: 36 },
   _scalingStrategy: 'responsive-width' as ScalingStrategy,
@@ -37,6 +34,8 @@ const DEFAULT = {
  */
 @Injectable()
 export class VicChartConfigBuilder {
+  private _aspectRatio?: number;
+  private _fixedHeight: boolean;
   private _height: number;
   private _margin: ElementSpacing;
   private _scalingStrategy: ScalingStrategy;
@@ -48,17 +47,29 @@ export class VicChartConfigBuilder {
   }
 
   /**
-   * OPTIONAL. If chart size is dynamic, determines the maximum height of the chart. In this case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing. If chart size is not dynamic, sets the fixed height of the chart.
-   *
-   * @param value - The maximum height of the chart, in px. If chart size is static, the fixed height of the chart. If not called or called with `null`, a default value of 600 will be used.
+   * OPTIONAL. Explicitly sets the aspect ratio to use when scalingStrategy is 'responsive-width' and fixedHeight is false.
+   */
+  aspectRatio(value: number): this {
+    this._aspectRatio = value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. If set to true and used with 'responsive-width' strategy, height will be fixed and not derived from aspect ratio.
+   */
+  fixedHeight(value: boolean): this {
+    this._fixedHeight = value;
+    return this;
+  }
+
+  /**
+   * @deprecated Use .maxHeight(...) instead.
    */
   height(value: number | null): this {
-    if (value === null) {
-      value = undefined;
-      return this;
-    }
-    this._height = value;
-    return this;
+    console.warn(
+      '[vic-chart] .height(...) is deprecated. Use .maxHeight(...) instead.'
+    );
+    return this.maxHeight(value);
   }
 
   /**
@@ -82,6 +93,66 @@ export class VicChartConfigBuilder {
     return this;
   }
 
+  /**
+   * OPTIONAL. If chart size is dynamic, determines the maximum height of the chart. In this case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing. If chart size is not dynamic, sets the fixed height of the chart.
+   *
+   * @param value - The maximum height of the chart, in px. If chart size is static, the fixed height of the chart. If not called or called with `null`, a default value of 600 will be used.
+   */
+  maxHeight(value: number | null): this {
+    if (value === null) {
+      value = undefined;
+      return this;
+    }
+    this._height = value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. If chart size is dynamic, sets the maximum width of the chart. In this case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing. If chart size is not dynamic, sets the fixed width of the chart.
+   *
+   * @param value - The maximum width of the chart, in px. If chart size is static, the fixed width of the chart. If not called or called with `null`, a default value of 800 will be used.
+   */
+  maxWidth(value: number | null): this {
+    if (value === null) {
+      value = undefined;
+      return this;
+    }
+    this._width = value;
+    return this;
+  }
+
+  /**
+   * @deprecated Use .scalingStrategy(...) and .fixedHeight(...) instead.
+   */
+  resize(
+    value: Partial<{
+      width: boolean;
+      height: boolean;
+      useViewbox: boolean;
+    }> | null
+  ): this {
+    console.warn(
+      '[vic-chart] .resize(...) is deprecated. Use .scalingStrategy(...) and .fixedHeight(...) instead.'
+    );
+    if (value === null) {
+      this._scalingStrategy = DEFAULT._scalingStrategy;
+      return this;
+    }
+    if (value.useViewbox) {
+      this._scalingStrategy = 'viewbox';
+    } else {
+      if (!value.width && !value.height) {
+        this._scalingStrategy = 'fixed';
+      } else {
+        this._scalingStrategy = 'responsive-width';
+
+        if (value.height) {
+          this._fixedHeight = true;
+        }
+      }
+    }
+    return this;
+  }
   /**
    * OPTIONAL. Determines how the chart scales in response to container or window size changes.
    *
@@ -113,23 +184,25 @@ export class VicChartConfigBuilder {
   }
 
   /**
-   * OPTIONAL. If chart size is dynamic, sets the maximum width of the chart. In this case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing. If chart size is not dynamic, sets the fixed width of the chart.
-   *
-   * @param value - The maximum width of the chart, in px. If chart size is static, the fixed width of the chart. If not called or called with `null`, a default value of 800 will be used.
+   * @deprecated Use .maxWidth(...) instead.
    */
   width(value: number | null): this {
-    if (value === null) {
-      value = undefined;
-      return this;
-    }
-    this._width = value;
-    return this;
+    console.warn(
+      '[vic-chart] .width(...) is deprecated. Use .maxWidth(...) instead.'
+    );
+    return this.maxWidth(value);
   }
 
   getConfig(): ChartConfig {
     this.validateBuilder();
+
+    const aspectRatio =
+      this._scalingStrategy === 'responsive-width' && !this._fixedHeight
+        ? (this._aspectRatio ?? this._width / this._height)
+        : undefined;
+
     return new ChartConfig({
-      aspectRatio: this._width / this._height,
+      aspectRatio,
       height: this._height,
       margin: this._margin,
       scalingStrategy: this._scalingStrategy,

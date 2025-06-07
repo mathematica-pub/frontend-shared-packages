@@ -94,8 +94,8 @@ class TestHorizontalBarsComponent {
   dotsPatternMagenta = dotsPatternMagenta;
   dotsPatternTeal = dotsPatternTeal;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .margin(horizontalMargin)
     .scalingStrategy('responsive-width')
     .getConfig();

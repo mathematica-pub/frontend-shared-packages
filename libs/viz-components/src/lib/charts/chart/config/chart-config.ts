@@ -4,7 +4,7 @@ import { ScalingStrategy } from './chart-builder';
 import { ChartOptions } from './chart-options';
 
 export class ChartConfig implements ChartOptions {
-  aspectRatio: number;
+  aspectRatio?: number;
   height: number;
   margin: ElementSpacing;
   scalingStrategy: ScalingStrategy;

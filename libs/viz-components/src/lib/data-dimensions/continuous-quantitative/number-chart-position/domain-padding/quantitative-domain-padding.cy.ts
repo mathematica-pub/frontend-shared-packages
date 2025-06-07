@@ -47,7 +47,7 @@ class TestXQuantitativeDomainComponent implements AfterViewInit {
   domain = new BehaviorSubject<[number, number]>([undefined, undefined]);
   domain$ = this.domain.asObservable();
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(800)
+    .maxHeight(800)
     .margin({ top: 20, right: 20, bottom: 20, left: 20 })
     .scalingStrategy('responsive-width')
     .getConfig();

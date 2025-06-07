@@ -113,8 +113,8 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
     new LinesHoverMoveEmitTooltipData(),
   ];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .margin(margin)
     .scalingStrategy('responsive-width')
     .getConfig();

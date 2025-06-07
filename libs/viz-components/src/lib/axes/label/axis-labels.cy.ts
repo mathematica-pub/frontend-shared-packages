@@ -60,8 +60,8 @@ class TestAxisLabelsComponent<Datum> {
   @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
   @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .margin(margin)
     .scalingStrategy('responsive-width')
     .getConfig();

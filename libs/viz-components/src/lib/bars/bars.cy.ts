@@ -125,10 +125,10 @@ class TestHorizontalBarsComponent {
   >[] = [new BarsHoverMoveEmitTooltipData()];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .margin(horizontalMargin)
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .transitionDuration(0)
-    .scalingStrategy('responsive-both')
+    .scalingStrategy('responsive-width')
     .getConfig();
 
   updateTooltipForNewOutput(
@@ -228,10 +228,10 @@ class TestVerticalBarsComponent {
   ];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .margin(verticalMargin)
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .transitionDuration(0)
-    .scalingStrategy('responsive-both')
+    .scalingStrategy('responsive-width')
     .getConfig();
 
   updateTooltipForNewOutput(

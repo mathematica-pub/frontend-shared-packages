@@ -159,9 +159,9 @@ class TestVerticalBarsWithLabelsComponent {
   @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
   @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(400)
+    .maxHeight(400)
     .margin({ top: 20, right: 20, bottom: 0, left: 40 })
-    .scalingStrategy('responsive-both')
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
 
@@ -483,7 +483,7 @@ class TestHorizontalBarsWithLabelsComponent {
   @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(200)
+    .maxHeight(200)
     .margin({ top: 20, right: 20, bottom: 20, left: 60 })
     .scalingStrategy('responsive-width')
     .getConfig();
