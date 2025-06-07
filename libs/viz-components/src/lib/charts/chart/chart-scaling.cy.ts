@@ -19,7 +19,7 @@ import {
   countryFactsData,
 } from '../../testing/data/country-area-continent';
 
-function getDotTransform(
+export function getDotTransform(
   selector = '.vic-dots-group'
 ): Cypress.Chainable<{ x: number; y: number }> {
   return cy
@@ -185,7 +185,7 @@ describe('ChartComponent SVG attributes by scalingStrategy', () => {
   `,
   imports: [CommonModule, VicChartModule, VicDotsModule, VicXyAxisModule],
 })
-class ScalingStrategyTestComponent {
+export class ScalingStrategyTestComponent {
   @Input() chartConfig: ChartConfig;
   @Input() dotsConfig: DotsConfig<CountryFactsDatum>;
   @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
