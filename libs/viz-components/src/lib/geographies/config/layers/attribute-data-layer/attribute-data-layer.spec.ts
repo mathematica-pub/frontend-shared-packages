@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { beforeEach } from 'local-cypress';
 import { GeographiesAttributeDataLayer } from './attribute-data-layer';
 import { GeographiesAttributeDataLayerBuilder } from './attribute-data-layer-builder';
 
