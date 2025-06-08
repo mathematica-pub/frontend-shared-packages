@@ -22,7 +22,6 @@ import {
   map,
   of,
   shareReplay,
-  tap,
 } from 'rxjs';
 import { Dimensions, ElementSpacing } from '../../core/types/layout';
 import { Chart } from './chart';
@@ -115,7 +114,6 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
 
     this.svgDimensions$ = combineLatest([width$, height$]).pipe(
       filter(([w, h]) => w > 0 && h > 0),
-      tap(([w, h]) => console.log('computed dims', { w, h })),
       map(([width, height]) => ({ width, height })),
       distinctUntilChanged((a, b) => isEqual(a, b)),
       shareReplay(1)
@@ -132,6 +130,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
       shareReplay(1)
     );
 
+    // ensure that values are pulled through
     this.ranges$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 
