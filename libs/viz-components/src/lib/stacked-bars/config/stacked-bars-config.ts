@@ -5,9 +5,13 @@ import { DataValue } from '../../core/types/values';
 import { StackDatum } from '../stacked-bars.component';
 import { StackedBarsOptions } from './stacked-bars-options';
 
-export class StackedBarsConfig<Datum, TOrdinalValue extends DataValue>
-  extends BarsConfig<Datum, TOrdinalValue>
-  implements StackedBarsOptions<Datum, TOrdinalValue>
+export class StackedBarsConfig<
+    Datum,
+    OrdinalDomain extends DataValue,
+    ChartMultipleDomain extends DataValue = string,
+  >
+  extends BarsConfig<Datum, OrdinalDomain, ChartMultipleDomain>
+  implements StackedBarsOptions<Datum, OrdinalDomain, ChartMultipleDomain>
 {
   stackOffset: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,7 +24,7 @@ export class StackedBarsConfig<Datum, TOrdinalValue extends DataValue>
 
   constructor(
     dimensions: BarsDimensions,
-    options: StackedBarsOptions<Datum, TOrdinalValue>
+    options: StackedBarsOptions<Datum, OrdinalDomain, ChartMultipleDomain>
   ) {
     super(dimensions, options);
   }

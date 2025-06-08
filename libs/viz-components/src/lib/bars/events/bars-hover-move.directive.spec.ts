@@ -9,7 +9,8 @@ describe('BarsHoverMoveDirective', () => {
   let directive: BarsHoverMoveDirective<
     any,
     string,
-    BarsComponent<any, string>
+    string,
+    BarsComponent<any, string, string>
   >;
 
   beforeEach(() => {
@@ -24,7 +25,12 @@ describe('BarsHoverMoveDirective', () => {
       ],
     });
     directive = TestBed.inject(
-      BarsHoverMoveDirective<any, string, BarsComponent<any, string>>
+      BarsHoverMoveDirective<
+        any,
+        string,
+        string,
+        BarsComponent<any, string, string>
+      >
     );
     directive.unlistenTouchStart = [
       () => {
@@ -147,13 +153,13 @@ describe('BarsHoverMoveDirective', () => {
       directive.actions = [actionA, actionB];
     });
     it('calls remove action on each action in actions array', () => {
-      directive.onElementPointerLeave();
+      directive.onElementPointerLeave({} as PointerEvent);
       expect(removeASpy).toHaveBeenCalledOnceWith(directive);
       expect(removeBSpy).toHaveBeenCalledOnceWith(directive);
     });
     it('does not call remove action on each action in actions array if actions do not exist', () => {
       directive.actions = undefined;
-      directive.onElementPointerLeave();
+      directive.onElementPointerLeave({} as PointerEvent);
       expect(removeASpy).not.toHaveBeenCalled();
       expect(removeBSpy).not.toHaveBeenCalled();
     });
@@ -164,12 +170,12 @@ describe('BarsHoverMoveDirective', () => {
         quantitative: 2,
         ordinal: 'ordinal',
       };
-      directive.onElementPointerLeave();
+      directive.onElementPointerLeave({} as PointerEvent);
       expect(directive.barDatum).toBeUndefined();
     });
     it('sets elRef to undefined', () => {
       directive.origin = 'elRef' as any;
-      directive.onElementPointerLeave();
+      directive.onElementPointerLeave({} as PointerEvent);
       expect(directive.origin).toBeUndefined();
     });
   });

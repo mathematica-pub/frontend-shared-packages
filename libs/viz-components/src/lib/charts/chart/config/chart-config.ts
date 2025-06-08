@@ -11,7 +11,7 @@ export class ChartConfig implements ChartOptions {
   transitionDuration: number;
   width: number;
 
-  constructor(config: ChartConfig) {
+  constructor(config: ChartOptions) {
     safeAssign(this, config);
   }
 }

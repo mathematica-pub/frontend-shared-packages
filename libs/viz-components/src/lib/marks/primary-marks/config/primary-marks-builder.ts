@@ -1,14 +1,23 @@
 import { safeAssign } from '@hsi/app-dev-kit';
+import { DataValue } from '../../../core/types/values';
+import { OrdinalChartMultipleDimensionBuilder } from '../../../data-dimensions/ordinal/ordinal-chart-multiple/ordinal-chart-multiple-builder';
 
 const DEFAULT = {
   _class: () => '',
   _mixBlendMode: 'normal',
 };
 
-export abstract class PrimaryMarksBuilder<Datum> {
+export abstract class PrimaryMarksBuilder<
+  Datum,
+  ChartMultipleDomain extends DataValue,
+> {
   protected _class: (d: Datum) => string;
   protected _data: Datum[];
   protected _mixBlendMode: string;
+  protected multiplesBuilder: OrdinalChartMultipleDimensionBuilder<
+    Datum,
+    ChartMultipleDomain
+  >;
 
   constructor() {
     safeAssign(this, DEFAULT);
@@ -62,6 +71,26 @@ export abstract class PrimaryMarksBuilder<Datum> {
       return this;
     }
     this._mixBlendMode = mixBlendMode;
+    return this;
+  }
+
+  multiples(
+    multiples: (
+      multiples: OrdinalChartMultipleDimensionBuilder<
+        Datum,
+        ChartMultipleDomain
+      >
+    ) => void
+  ): this {
+    if (multiples === null) {
+      this.multiplesBuilder = undefined;
+      return this;
+    }
+    this.multiplesBuilder = new OrdinalChartMultipleDimensionBuilder<
+      Datum,
+      ChartMultipleDomain
+    >();
+    multiples?.(this.multiplesBuilder);
     return this;
   }
 

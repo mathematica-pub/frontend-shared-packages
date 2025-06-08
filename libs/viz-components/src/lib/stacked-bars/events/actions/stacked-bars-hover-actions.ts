@@ -3,15 +3,31 @@ import { EventAction } from '../../../events/action';
 import { StackedBarsHoverDirective } from '../stacked-bars-hover.directive';
 export class StackedBarsHoverEmitTooltipData<
   Datum,
-  TOrdinalValue extends DataValue,
-> implements EventAction<StackedBarsHoverDirective<Datum, TOrdinalValue>>
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+> implements
+    EventAction<
+      StackedBarsHoverDirective<Datum, OrdinalDomain, ChartMultipleDomain>
+    >
 {
-  onStart(directive: StackedBarsHoverDirective<Datum, TOrdinalValue>): void {
+  onStart(
+    directive: StackedBarsHoverDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain
+    >
+  ): void {
     const tooltipData = directive.getEventOutput();
     directive.eventOutput.emit(tooltipData);
   }
 
-  onEnd(directive: StackedBarsHoverDirective<Datum, TOrdinalValue>): void {
+  onEnd(
+    directive: StackedBarsHoverDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain
+    >
+  ): void {
     directive.eventOutput.emit(null);
   }
 }

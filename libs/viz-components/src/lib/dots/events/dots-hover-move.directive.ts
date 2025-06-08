@@ -4,6 +4,7 @@ import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { filter } from 'rxjs';
+import { DataValue } from '../../core/types/values';
 import { HoverMoveAction } from '../../events/action';
 import { HoverMoveDirective } from '../../events/hover-move.directive';
 import { DotDatum, DOTS, DotsComponent } from '../dots.component';
@@ -14,10 +15,26 @@ import { DotsEventOutput } from './dots-event-output';
 })
 export class DotsHoverMoveDirective<
   Datum,
-  TDotsComponent extends DotsComponent<Datum> = DotsComponent<Datum>,
+  XOrdinalDomain extends DataValue = string,
+  YOrdinalDomain extends DataValue = string,
+  ChartMultipleDomain extends DataValue = string,
+  TDotsComponent extends DotsComponent<
+    Datum,
+    XOrdinalDomain,
+    YOrdinalDomain,
+    ChartMultipleDomain
+  > = DotsComponent<Datum, XOrdinalDomain, YOrdinalDomain, ChartMultipleDomain>,
 > extends HoverMoveDirective {
   @Input('vicDotsHoverMoveActions')
-  actions: HoverMoveAction<DotsHoverMoveDirective<Datum, TDotsComponent>>[];
+  actions: HoverMoveAction<
+    DotsHoverMoveDirective<
+      Datum,
+      XOrdinalDomain,
+      YOrdinalDomain,
+      ChartMultipleDomain,
+      TDotsComponent
+    >
+  >[];
   @Output('vicDotsHoverMoveOutput') eventOutput = new EventEmitter<
     DotsEventOutput<Datum>
   >();

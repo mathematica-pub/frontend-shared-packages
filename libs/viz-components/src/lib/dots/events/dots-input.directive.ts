@@ -9,6 +9,7 @@ import {
   Output,
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import { DataValue } from '../../core';
 import { InputEventAction } from '../../events/action';
 import { InputEventDirective } from '../../events/input-event.directive';
 import { DOTS, DotsComponent } from '../dots.component';
@@ -18,11 +19,27 @@ import { DOTS, DotsComponent } from '../dots.component';
 })
 export class DotsInputEventDirective<
   Datum,
-  TDotsComponent extends DotsComponent<Datum> = DotsComponent<Datum>,
+  XOrdinalDomain extends DataValue = string,
+  YOrdinalDomain extends DataValue = string,
+  ChartMultipleDomain extends DataValue = string,
+  TDotsComponent extends DotsComponent<
+    Datum,
+    XOrdinalDomain,
+    YOrdinalDomain,
+    ChartMultipleDomain
+  > = DotsComponent<Datum, XOrdinalDomain, YOrdinalDomain, ChartMultipleDomain>,
 > extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicDotsInputEventActions')
-  actions: InputEventAction<DotsInputEventDirective<Datum, TDotsComponent>>[];
+  actions: InputEventAction<
+    DotsInputEventDirective<
+      Datum,
+      XOrdinalDomain,
+      YOrdinalDomain,
+      ChartMultipleDomain,
+      TDotsComponent
+    >
+  >[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input('vicDotsInputEvent$') override inputEvent$: Observable<any>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,7 +47,13 @@ export class DotsInputEventDirective<
 
   constructor(
     destroyRef: DestroyRef,
-    @Inject(DOTS) public bars: DotsComponent<Datum>
+    @Inject(DOTS)
+    public bars: DotsComponent<
+      Datum,
+      XOrdinalDomain,
+      YOrdinalDomain,
+      ChartMultipleDomain
+    >
   ) {
     super(destroyRef);
   }

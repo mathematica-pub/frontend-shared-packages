@@ -4,16 +4,32 @@ import { StackedBarsClickDirective } from '../stacked-bars-click.directive';
 
 export class StackedBarsClickEmitTooltipDataPauseHoverMoveActions<
   Datum,
-  TOrdinalValue extends DataValue,
-> implements EventAction<StackedBarsClickDirective<Datum, TOrdinalValue>>
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+> implements
+    EventAction<
+      StackedBarsClickDirective<Datum, OrdinalDomain, ChartMultipleDomain>
+    >
 {
-  onStart(directive: StackedBarsClickDirective<Datum, TOrdinalValue>) {
+  onStart(
+    directive: StackedBarsClickDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain
+    >
+  ) {
     const outputData = directive.getEventOutput();
     directive.disableHoverActions();
     directive.eventOutput.emit(outputData);
   }
 
-  onEnd(directive: StackedBarsClickDirective<Datum, TOrdinalValue>) {
+  onEnd(
+    directive: StackedBarsClickDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain
+    >
+  ) {
     directive.resumeHoverActions();
     directive.eventOutput.emit(null);
   }

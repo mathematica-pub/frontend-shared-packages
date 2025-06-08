@@ -7,25 +7,34 @@ import {
   inject,
 } from '@angular/core';
 import { Ranges } from '../../charts';
+import { DataValue } from '../../core/types/values';
+import { SharedContextComponent } from '../../shared-context/shared-context.component';
 import { DataMarksConfig, MarksConfig } from '../config/marks-config';
 import { Marks } from '../marks';
 
 export const VIC_PRIMARY_MARKS = new InjectionToken<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  PrimaryMarks<unknown, any>
+  PrimaryMarks<unknown, DataValue, any>
 >('PrimaryMarks');
 
 @Directive()
 export abstract class PrimaryMarks<
     Datum,
-    TPrimaryMarksConfig extends MarksConfig | DataMarksConfig<Datum>,
+    ChartMultipleDomain extends DataValue,
+    TPrimaryMarksConfig extends
+      | MarksConfig
+      | DataMarksConfig<Datum, ChartMultipleDomain>,
   >
   extends Marks
   implements Marks, OnChanges
 {
   @Input() config: TPrimaryMarksConfig;
+  @Input() multiple: { value: ChartMultipleDomain; index: number };
   ranges: Ranges;
   destroyRef = inject(DestroyRef);
+  sharedContext = inject(SharedContextComponent<ChartMultipleDomain>, {
+    optional: true,
+  });
 
   /**
    * This method sets creates and sets scales on ChartComponent. Any methods that require ranges

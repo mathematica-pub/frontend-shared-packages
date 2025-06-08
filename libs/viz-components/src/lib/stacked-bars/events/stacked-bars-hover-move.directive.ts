@@ -19,18 +19,25 @@ import {
 })
 export class StackedBarsHoverMoveDirective<
   Datum,
-  TOrdinalValue extends DataValue,
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
   TStackedBarsComponent extends StackedBarsComponent<
     Datum,
-    TOrdinalValue
-  > = StackedBarsComponent<Datum, TOrdinalValue>,
+    OrdinalDomain,
+    ChartMultipleDomain
+  > = StackedBarsComponent<Datum, OrdinalDomain, ChartMultipleDomain>,
 > extends HoverMoveDirective {
   @Input('vicStackedBarsHoverMoveActions')
   actions: HoverMoveAction<
-    StackedBarsHoverMoveDirective<Datum, TOrdinalValue, TStackedBarsComponent>
+    StackedBarsHoverMoveDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TStackedBarsComponent
+    >
   >[];
   @Output('vicStackedBarsHoverMoveOutput') eventOutput = new EventEmitter<
-    BarsEventOutput<Datum, TOrdinalValue>
+    BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain>
   >();
   origin: SVGRectElement;
   pointerX: number;
@@ -86,7 +93,7 @@ export class StackedBarsHoverMoveDirective<
     this.origin = undefined;
   }
 
-  getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
+  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain> {
     const datum = this.bars.getSourceDatumFromStackedBarDatum(
       this.stackedBarDatum
     );

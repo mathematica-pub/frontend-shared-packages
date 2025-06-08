@@ -4,15 +4,23 @@ import { BarsHoverMoveDirective } from '../bars-hover-move.directive';
 
 export class BarsHoverMoveEmitTooltipData<
   Datum,
-  TOrdinalValue extends DataValue,
-> implements HoverMoveAction<BarsHoverMoveDirective<Datum, TOrdinalValue>>
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+> implements
+    HoverMoveAction<
+      BarsHoverMoveDirective<Datum, OrdinalDomain, ChartMultipleDomain>
+    >
 {
-  onStart(directive: BarsHoverMoveDirective<Datum, TOrdinalValue>): void {
+  onStart(
+    directive: BarsHoverMoveDirective<Datum, OrdinalDomain, ChartMultipleDomain>
+  ): void {
     const tooltipData = directive.getEventOutput();
     directive.eventOutput.emit(tooltipData);
   }
 
-  onEnd(directive: BarsHoverMoveDirective<Datum, TOrdinalValue>): void {
+  onEnd(
+    directive: BarsHoverMoveDirective<Datum, OrdinalDomain, ChartMultipleDomain>
+  ): void {
     directive.eventOutput.emit(null);
   }
 }

@@ -12,6 +12,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { filter, Observable } from 'rxjs';
+import { DataValue } from '../../core/types/values';
 import { EventAction } from '../../events/action';
 import { ClickDirective } from '../../events/click.directive';
 import { DotDatum, DOTS, DotsComponent } from '../dots.component';
@@ -26,10 +27,26 @@ import { DotsInputEventDirective } from './dots-input.directive';
 })
 export class DotsClickDirective<
   Datum,
-  TDotsComponent extends DotsComponent<Datum> = DotsComponent<Datum>,
+  XOrdinalDomain extends DataValue = string,
+  YOrdinalDomain extends DataValue = string,
+  ChartMultipleDomain extends DataValue = string,
+  TDotsComponent extends DotsComponent<
+    Datum,
+    XOrdinalDomain,
+    YOrdinalDomain,
+    ChartMultipleDomain
+  > = DotsComponent<Datum, XOrdinalDomain, YOrdinalDomain, ChartMultipleDomain>,
 > extends ClickDirective {
   @Input('vicDotsClickActions')
-  actions: EventAction<DotsClickDirective<Datum, TDotsComponent>>[];
+  actions: EventAction<
+    DotsClickDirective<
+      Datum,
+      XOrdinalDomain,
+      YOrdinalDomain,
+      ChartMultipleDomain,
+      TDotsComponent
+    >
+  >[];
   @Input('vicDotsClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicDotsClickOutput') eventOutput = new EventEmitter<
@@ -44,16 +61,31 @@ export class DotsClickDirective<
     @Inject(DOTS) public dots: TDotsComponent,
     @Self()
     @Optional()
-    public hoverDirective?: DotsHoverDirective<Datum, TDotsComponent>,
-    @Self()
-    @Optional()
-    public hoverAndMoveDirective?: DotsHoverMoveDirective<
+    public hoverDirective?: DotsHoverDirective<
       Datum,
+      XOrdinalDomain,
+      YOrdinalDomain,
+      ChartMultipleDomain,
       TDotsComponent
     >,
     @Self()
     @Optional()
-    public inputEventDirective?: DotsInputEventDirective<Datum, TDotsComponent>
+    public hoverAndMoveDirective?: DotsHoverMoveDirective<
+      Datum,
+      XOrdinalDomain,
+      YOrdinalDomain,
+      ChartMultipleDomain,
+      TDotsComponent
+    >,
+    @Self()
+    @Optional()
+    public inputEventDirective?: DotsInputEventDirective<
+      Datum,
+      XOrdinalDomain,
+      YOrdinalDomain,
+      ChartMultipleDomain,
+      TDotsComponent
+    >
   ) {
     super();
   }
@@ -125,14 +157,28 @@ export class DotsClickDirective<
     this.enableAction(this.inputEventDirective, cancelCurrentActions);
   }
 
-  disableAction(directive: DotsEventDirective<Datum, TDotsComponent>): void {
+  disableAction(
+    directive: DotsEventDirective<
+      Datum,
+      XOrdinalDomain,
+      YOrdinalDomain,
+      ChartMultipleDomain,
+      TDotsComponent
+    >
+  ): void {
     if (directive) {
       directive.preventAction = true;
     }
   }
 
   enableAction(
-    directive: DotsEventDirective<Datum, TDotsComponent>,
+    directive: DotsEventDirective<
+      Datum,
+      XOrdinalDomain,
+      YOrdinalDomain,
+      ChartMultipleDomain,
+      TDotsComponent
+    >,
     cancelCurrentActions: boolean
   ): void {
     if (directive) {

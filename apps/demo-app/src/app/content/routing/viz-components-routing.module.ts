@@ -109,6 +109,25 @@ const routes = [
     ],
   },
   {
+    path: 'composing-components',
+    children: [
+      {
+        path: 'chart-multiples',
+        loadComponent: () =>
+          import(
+            '../viz-components/chart-composition-content/chart-composition-content.component'
+          ).then((m) => m.ChartCompositionContentComponent),
+      },
+      {
+        path: 'responsive-bars',
+        loadComponent: () =>
+          import(
+            '../viz-components/chart-composition-content/chart-composition-content.component'
+          ).then((m) => m.ChartCompositionContentComponent),
+      },
+    ],
+  },
+  {
     path: '**',
     loadComponent: () =>
       import(

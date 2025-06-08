@@ -50,3 +50,8 @@ viz-components:
         labels: xy-axis-labels.md
         ticks: xy-axis-ticks.md
         tick-wrap: xy-axis-tick-wrap.md
+    data-dimensions:
+      ordinal: ordinal-dimensions.md
+      continuous-quantitative: continuous-quantitative-dimensions.md
+    composing-components:
+      chart-multiples: chart-multiples.md

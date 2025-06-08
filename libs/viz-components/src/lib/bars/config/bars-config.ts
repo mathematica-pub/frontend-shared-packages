@@ -11,9 +11,13 @@ import { BarsDimensions } from './bars-dimensions';
 import { BarsOptions } from './bars-options';
 import { BarsLabels } from './labels/bars-labels';
 
-export class BarsConfig<Datum, OrdinalDomain extends DataValue>
-  extends XyPrimaryMarksConfig<Datum>
-  implements BarsOptions<Datum, OrdinalDomain>
+export class BarsConfig<
+    Datum,
+    OrdinalDomain extends DataValue,
+    ChartMultipleDomain extends DataValue = string,
+  >
+  extends XyPrimaryMarksConfig<Datum, ChartMultipleDomain>
+  implements BarsOptions<Datum, OrdinalDomain, ChartMultipleDomain>
 {
   barsKeyFunction: (i: number) => string;
   readonly backgrounds: BarsBackgrounds;
@@ -27,7 +31,7 @@ export class BarsConfig<Datum, OrdinalDomain extends DataValue>
 
   constructor(
     dimensions: BarsDimensions,
-    options: BarsOptions<Datum, OrdinalDomain>
+    options: BarsOptions<Datum, OrdinalDomain, ChartMultipleDomain>
   ) {
     super();
     safeAssign(this, options);
@@ -43,21 +47,63 @@ export class BarsConfig<Datum, OrdinalDomain extends DataValue>
   }
 
   protected setDimensionPropertiesFromData(): void {
+    this.multiples?.setPropertiesFromData(this.data);
     this.quantitative.setPropertiesFromData(this.data);
     this.ordinal.setPropertiesFromData(this.data, this.dimensions.isHorizontal);
     this.color.setPropertiesFromData(this.data);
   }
 
   protected setValueIndices(): void {
-    this.valueIndices = range(this.data.length).filter((i) => {
-      if (!this.ordinal.domainIncludes(this.ordinal.values[i])) {
+    if (this.multiples) {
+      this.setValueIncicesWithMultiples();
+    } else {
+      this.setValueIndicesNoMultiples();
+    }
+  }
+
+  protected setValueIndicesNoMultiples(): void {
+    this.valueIndices = range(this.data.length).filter((index) => {
+      if (!this.isValidOrdinalValue(index)) {
         return false;
-      } else {
-        const ordinalValue = this.ordinal.values[i];
-        const firstIndex = this.ordinal.values.indexOf(ordinalValue);
-        return i === firstIndex;
       }
+      const ordinalValue = this.ordinal.values[index];
+      // Filter out duplicate ordinal values in the entire dataset
+      return this.ordinal.values.indexOf(ordinalValue) === index;
     });
+  }
+
+  protected setValueIncicesWithMultiples(): void {
+    const indicesByMultiple = this.getIndicesByMultiple();
+    this.valueIndices = range(this.data.length).filter((index) => {
+      if (
+        !this.isValidMultipleValue(index) ||
+        !this.isValidOrdinalValue(index)
+      ) {
+        return false;
+      }
+      const multipleValue = this.multiples.values[index];
+      const ordinalValue = this.ordinal.values[index];
+
+      if (multipleValue !== undefined) {
+        const indicesInThisMultiple =
+          indicesByMultiple.get(multipleValue) || [];
+        const ordinalValuesInThisMultiple = indicesInThisMultiple.map(
+          (i) => this.ordinal.values[i]
+        );
+
+        // Filter out duplicate ordinal values in this multiple
+        return (
+          ordinalValuesInThisMultiple.indexOf(ordinalValue) ===
+          indicesInThisMultiple.indexOf(index)
+        );
+      }
+      // If no valid multiple value
+      return false;
+    });
+  }
+
+  private isValidOrdinalValue(i: number): boolean {
+    return this.ordinal.domainIncludes(this.ordinal.values[i]);
   }
 
   protected setHasNegativeValues(): void {

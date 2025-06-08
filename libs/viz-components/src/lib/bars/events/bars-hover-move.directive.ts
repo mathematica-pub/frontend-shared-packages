@@ -3,6 +3,7 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
+import { isEqual } from 'lodash-es';
 import { filter } from 'rxjs';
 import { DataValue } from '../../core/types/values';
 import { HoverMoveAction } from '../../events/action';
@@ -15,20 +16,27 @@ import { BarsEventOutput } from './bars-event-output';
 })
 export class BarsHoverMoveDirective<
   Datum,
-  TOrdinalValue extends DataValue,
-  TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+  TBarsComponent extends BarsComponent<
     Datum,
-    TOrdinalValue
-  >,
+    OrdinalDomain,
+    ChartMultipleDomain
+  > = BarsComponent<Datum, OrdinalDomain, ChartMultipleDomain>,
 > extends HoverMoveDirective {
   @Input('vicBarsHoverMoveActions')
   actions: HoverMoveAction<
-    BarsHoverMoveDirective<Datum, TOrdinalValue, TBarsComponent>
+    BarsHoverMoveDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TBarsComponent
+    >
   >[];
   @Output('vicBarsHoverMoveOutput') eventOutput = new EventEmitter<
-    BarsEventOutput<Datum, TOrdinalValue>
+    BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain>
   >();
-  barDatum: BarDatum<TOrdinalValue>;
+  barDatum: BarDatum<OrdinalDomain>;
   origin: SVGRectElement;
   pointerX: number;
   pointerY: number;
@@ -47,12 +55,43 @@ export class BarsHoverMoveDirective<
         this.elements = barSels.nodes();
         this.setListeners();
       });
+
+    this.bars.sharedContext?.pointerEnter$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(({ event, multiple }) => {
+        if (multiple !== this.bars.multiple.value) {
+          this.onElementPointerEnter(event, false);
+        }
+      });
+
+    this.bars.sharedContext?.pointerMove$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(({ event, multiple }) => {
+        if (multiple !== this.bars.multiple.value) {
+          this.onElementPointerMove(event, false);
+        }
+      });
+
+    this.bars.sharedContext?.pointerLeave$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((multiple) => {
+        if (multiple !== this.bars.multiple.value) {
+          this.onElementPointerLeave(undefined, false);
+        }
+      });
   }
 
-  onElementPointerEnter(event: PointerEvent): void {
+  onElementPointerEnter(
+    event: PointerEvent,
+    isOriginEvent: boolean = true
+  ): void {
     if (!this.preventAction) {
-      this.origin = event.target as SVGRectElement;
-      this.barDatum = this.getBarDatum(event);
+      this.barDatum = isOriginEvent
+        ? this.getBarDatum(event)
+        : this.getBarDatumForThisMultiple(event);
+      this.origin = isOriginEvent
+        ? (event.target as SVGRectElement)
+        : this.getOriginForThisMultiple(event.target as SVGRectElement);
     }
     if (this.actions && !this.preventAction) {
       this.actions.forEach((action) => {
@@ -61,30 +100,71 @@ export class BarsHoverMoveDirective<
         }
       });
     }
+    if (isOriginEvent) {
+      this.bars.sharedContext?.sharePointerEnter(
+        event,
+        this.bars.multiple.value
+      );
+    }
   }
 
-  getBarDatum(event: PointerEvent): BarDatum<TOrdinalValue> {
+  getOriginForThisMultiple(sourceOrigin: SVGRectElement): SVGRectElement {
+    // use class to determine if source origin is bar or backgroundBar
+    const originClass = sourceOrigin.classList.value;
+    const origin = this.bars.barGroups
+      .selectAll<SVGRectElement, number>('rect')
+      .filter((d, i, nodes) => {
+        return (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          isEqual(d, this.barDatum) &&
+          originClass === (nodes[i] as SVGRectElement).classList.value
+        );
+      })
+      .node();
+    return origin;
+  }
+
+  getBarDatum(event: PointerEvent): BarDatum<OrdinalDomain> {
     return select(
       event.target as SVGRectElement
-    ).datum() as BarDatum<TOrdinalValue>;
+    ).datum() as BarDatum<OrdinalDomain>;
   }
 
-  onElementPointerMove(event: PointerEvent) {
+  getBarDatumForThisMultiple(event: PointerEvent): BarDatum<OrdinalDomain> {
+    const originBarDatum = this.getBarDatum(event);
+    return this.bars.getThisMultipleBarDatumFromEventOriginDatum(
+      originBarDatum
+    );
+  }
+
+  onElementPointerMove(event: PointerEvent, replicateEvent: boolean = true) {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     if (this.actions && !this.preventAction) {
       this.actions.forEach((action) => action.onStart(this));
     }
+    if (replicateEvent) {
+      this.bars.sharedContext?.sharePointerMove(
+        event,
+        this.bars.multiple.value
+      );
+    }
   }
 
-  onElementPointerLeave() {
+  onElementPointerLeave(
+    event: PointerEvent,
+    replicateEvent: boolean = true
+  ): void {
     if (this.actions && !this.preventAction) {
       this.actions.forEach((action) => action.onEnd(this));
     }
     this.barDatum = undefined;
     this.origin = undefined;
+    if (replicateEvent) {
+      this.bars.sharedContext?.sharePointerLeave(this.bars.multiple.value);
+    }
   }
 
-  getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
+  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain> {
     const datum = this.bars.getSourceDatumFromBarDatum(this.barDatum);
     const tooltipData = this.bars.getTooltipData(datum);
     const extras = {

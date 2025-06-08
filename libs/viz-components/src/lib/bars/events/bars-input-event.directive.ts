@@ -19,16 +19,23 @@ import { BARS, BarsComponent } from '../bars.component';
 })
 export class BarsInputEventDirective<
   Datum,
-  TOrdinalValue extends DataValue,
-  TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+  TBarsComponent extends BarsComponent<
     Datum,
-    TOrdinalValue
-  >,
+    OrdinalDomain,
+    ChartMultipleDomain
+  > = BarsComponent<Datum, OrdinalDomain, ChartMultipleDomain>,
 > extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicBarsInputEventActions')
   actions: InputEventAction<
-    BarsInputEventDirective<Datum, TOrdinalValue, TBarsComponent>
+    BarsInputEventDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TBarsComponent
+    >
   >[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input('vicBarsInputEvent$') override inputEvent$: Observable<any>;
@@ -37,7 +44,8 @@ export class BarsInputEventDirective<
 
   constructor(
     destroyRef: DestroyRef,
-    @Inject(BARS) public bars: BarsComponent<Datum, TOrdinalValue>
+    @Inject(BARS)
+    public bars: BarsComponent<Datum, OrdinalDomain, ChartMultipleDomain>
   ) {
     super(destroyRef);
   }

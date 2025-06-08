@@ -6,12 +6,29 @@ import { BarsInputEventDirective } from './bars-input-event.directive';
 
 export type BarsEventDirective<
   Datum,
-  TOrdinalValue extends DataValue,
-  TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue,
+  TBarsComponent extends BarsComponent<
     Datum,
-    TOrdinalValue
-  >,
+    OrdinalDomain,
+    ChartMultipleDomain
+  > = BarsComponent<Datum, OrdinalDomain, ChartMultipleDomain>,
 > =
-  | BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>
-  | BarsHoverMoveDirective<Datum, TOrdinalValue, TBarsComponent>
-  | BarsInputEventDirective<Datum, TOrdinalValue, TBarsComponent>;
+  | BarsHoverDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TBarsComponent
+    >
+  | BarsHoverMoveDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TBarsComponent
+    >
+  | BarsInputEventDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TBarsComponent
+    >;

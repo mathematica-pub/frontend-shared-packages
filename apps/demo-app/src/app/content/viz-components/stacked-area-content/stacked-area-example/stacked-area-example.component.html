@@ -31,17 +31,27 @@
 <ng-template #loading>Loading...</ng-template>
 
 <ng-template #htmlTooltip>
-  <div
-    *ngIf="(tooltipData$ | async).hoveredDatum as data"
-    [style.--color]="data.color"
-    class="stacked-area-example-tooltip-container"
-  >
-    <p class="tooltip-label category">{{ data.values.color }}</p>
-    <div class="values-container">
-      <p class="tooltip-label y">
-        <span class="value-label">Value</span>
-        {{ data.datum.value }}
-      </p>
+  @if ((tooltipData$ | async).hoveredDatum; as data) {
+    <div class="stacked-area-example-tooltip-container">
+      <div class="tooltip-content" [style.--color]="data.color">
+        <p class="tooltip-label category">{{ data.values.color }}</p>
+        <div class="values-container">
+          <p class="tooltip-label y">
+            <span class="value-label">Value</span>
+            {{ data.datum.value }}
+          </p>
+        </div>
+      </div>
+      <svg
+        width="100%"
+        height="12"
+        [style.--width]="'20px'"
+        class="svg-triangle"
+      >
+        <g class="svg-g">
+          <path class="triangle-path" d="M 0,0 10,12 20,0"></path>
+        </g>
+      </svg>
     </div>
-  </div>
+  }
 </ng-template>

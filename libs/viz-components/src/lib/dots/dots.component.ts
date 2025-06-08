@@ -14,7 +14,8 @@ import {
   XyChartComponent,
   XyChartScales,
 } from '../charts/xy-chart/xy-chart.component';
-import { DataValue, GenericScale } from '../core';
+import { GenericScale } from '../core/types/scale';
+import { DataValue } from '../core/types/values';
 import { ValueUtilities } from '../core/utilities/values';
 import { NumberDimension } from '../data-dimensions/continuous-quantitative/number-dimension/number-dimension';
 import { DataDimension } from '../data-dimensions/dimension';
@@ -22,7 +23,9 @@ import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 import { DotsConfig } from './config/dots-config';
 
-export const DOTS = new InjectionToken<DotsComponent<unknown>>('DotsComponent');
+export const DOTS = new InjectionToken<
+  DotsComponent<unknown, DataValue, DataValue, DataValue>
+>('DotsComponent');
 
 export type DotGroupSelection = Selection<
   SVGGElement,
@@ -80,9 +83,15 @@ type DotsSvgElement = 'g' | 'dot';
     '[style.mixed-blend-mode]': 'config.mixBlendMode',
   },
 })
-export class DotsComponent<Datum> extends VicXyPrimaryMarks<
+export class DotsComponent<
   Datum,
-  DotsConfig<Datum>
+  XOrdinalDomain extends DataValue = string,
+  YOrdinalDomain extends DataValue = string,
+  ChartMultipleDomain extends DataValue = string,
+> extends VicXyPrimaryMarks<
+  Datum,
+  ChartMultipleDomain,
+  DotsConfig<Datum, XOrdinalDomain, YOrdinalDomain, ChartMultipleDomain>
 > {
   dotGroups: DotGroupSelection;
   dots: BehaviorSubject<DotSelection> = new BehaviorSubject(null);
@@ -93,6 +102,7 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     radius: GenericScale<any, any>;
   } & XyChartScales = {
+    multiple: undefined,
     fill: undefined,
     radius: undefined,
     x: undefined,
@@ -139,7 +149,7 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
     this.dotGroups = select(this.elRef.nativeElement)
       .selectAll<SVGGElement, DotDatum>(`.${this.class.g}`)
       .data<DotDatum>(
-        this.config.valueIndices.map((i) => this.getDotDatumFromIndex(i))
+        this.valueIndices.map((i) => this.getDotDatumFromIndex(i))
       )
       .join(
         (enter) =>

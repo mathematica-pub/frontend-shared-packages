@@ -4,18 +4,31 @@ import { StackedBarsHoverMoveDirective } from '../stacked-bars-hover-move.direct
 
 export class StackedBarsHoverMoveEmitTooltipData<
   Datum,
-  TOrdinalValue extends DataValue,
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
 > implements
-    HoverMoveAction<StackedBarsHoverMoveDirective<Datum, TOrdinalValue>>
+    HoverMoveAction<
+      StackedBarsHoverMoveDirective<Datum, OrdinalDomain, ChartMultipleDomain>
+    >
 {
   onStart(
-    directive: StackedBarsHoverMoveDirective<Datum, TOrdinalValue>
+    directive: StackedBarsHoverMoveDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain
+    >
   ): void {
     const tooltipData = directive.getEventOutput();
     directive.eventOutput.emit(tooltipData);
   }
 
-  onEnd(directive: StackedBarsHoverMoveDirective<Datum, TOrdinalValue>): void {
+  onEnd(
+    directive: StackedBarsHoverMoveDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain
+    >
+  ): void {
     directive.eventOutput.emit(null);
   }
 }

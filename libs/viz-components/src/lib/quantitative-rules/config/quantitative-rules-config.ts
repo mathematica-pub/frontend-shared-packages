@@ -1,12 +1,12 @@
 import { safeAssign } from '@hsi/app-dev-kit';
-import { XyMarksConfig } from '../../marks/xy-marks/xy-marks-config';
+import { AuxMarksConfig } from '../../marks';
 import { Stroke } from '../../stroke/stroke';
 import { QuantitativeRulesLabels } from './labels/quantitative-rules-labels';
 import { QuantitativeRulesDimensions } from './quantitative-rules-dimensions';
 import { QuantitativeRulesOptions } from './quantitative-rules-options';
 
 export class QuantitativeRulesConfig<Datum extends number | Date>
-  extends XyMarksConfig<Datum>
+  extends AuxMarksConfig<Datum>
   implements QuantitativeRulesOptions<Datum>
 {
   color: (d: Datum) => string;

@@ -33,20 +33,27 @@ import { StackedBarsInputEventDirective } from './stacked-bars-input-event.direc
 })
 export class StackedBarsClickDirective<
   Datum,
-  TOrdinalValue extends DataValue,
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
   TStackedBarsComponent extends StackedBarsComponent<
     Datum,
-    TOrdinalValue
-  > = StackedBarsComponent<Datum, TOrdinalValue>,
+    OrdinalDomain,
+    ChartMultipleDomain
+  > = StackedBarsComponent<Datum, OrdinalDomain, ChartMultipleDomain>,
 > extends ClickDirective {
   @Input('vicStackedBarsClickActions')
   actions: EventAction<
-    StackedBarsClickDirective<Datum, TOrdinalValue, TStackedBarsComponent>
+    StackedBarsClickDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TStackedBarsComponent
+    >
   >[];
   @Input('vicStackedBarsClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicStackedBarsClickOutput') eventOutput = new EventEmitter<
-    BarsEventOutput<Datum, TOrdinalValue>
+    BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain>
   >();
   stackedBarDatum: StackDatum;
   origin: SVGRectElement;
@@ -59,21 +66,24 @@ export class StackedBarsClickDirective<
     @Optional()
     public hoverDirective?: StackedBarsHoverDirective<
       Datum,
-      TOrdinalValue,
+      OrdinalDomain,
+      ChartMultipleDomain,
       TStackedBarsComponent
     >,
     @Self()
     @Optional()
     public hoverAndMoveDirective?: StackedBarsHoverMoveDirective<
       Datum,
-      TOrdinalValue,
+      OrdinalDomain,
+      ChartMultipleDomain,
       TStackedBarsComponent
     >,
     @Self()
     @Optional()
     public inputEventDirective?: StackedBarsInputEventDirective<
       Datum,
-      TOrdinalValue,
+      OrdinalDomain,
+      ChartMultipleDomain,
       TStackedBarsComponent
     >
   ) {
@@ -107,7 +117,7 @@ export class StackedBarsClickDirective<
     this.pointerY = undefined;
   }
 
-  getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
+  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain> {
     const datum = this.bars.getSourceDatumFromStackedBarDatum(
       this.stackedBarDatum
     );
@@ -151,7 +161,8 @@ export class StackedBarsClickDirective<
   disableAction(
     directive: StackedBarsEventDirective<
       Datum,
-      TOrdinalValue,
+      OrdinalDomain,
+      ChartMultipleDomain,
       TStackedBarsComponent
     >
   ): void {
@@ -163,7 +174,8 @@ export class StackedBarsClickDirective<
   enableAction(
     directive: StackedBarsEventDirective<
       Datum,
-      TOrdinalValue,
+      OrdinalDomain,
+      ChartMultipleDomain,
       TStackedBarsComponent
     >,
     cancelCurrentActions: boolean

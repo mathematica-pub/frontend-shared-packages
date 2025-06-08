@@ -201,7 +201,7 @@ export class LinesExampleComponent implements OnInit {
       .linesPosition([
         {
           offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 16 : 0,
+          offsetY: data ? data.positionY - 2 : 0,
         },
       ])
       .hasBackdrop(eventContext === 'click')

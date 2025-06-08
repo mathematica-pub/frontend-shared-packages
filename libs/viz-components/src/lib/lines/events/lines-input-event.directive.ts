@@ -9,6 +9,7 @@ import {
   Output,
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import { DataValue } from '../../core/types/values';
 import { InputEventAction } from '../../events/action';
 import { InputEventDirective } from '../../events/input-event.directive';
 import { LINES, LinesComponent } from '../lines.component';
@@ -18,11 +19,15 @@ import { LINES, LinesComponent } from '../lines.component';
 })
 export class LinesInputEventDirective<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
+  ChartMultipleDomain extends DataValue = string,
+  TLinesComponent extends LinesComponent<
+    Datum,
+    ChartMultipleDomain
+  > = LinesComponent<Datum, ChartMultipleDomain>,
 > extends InputEventDirective {
   @Input('vicLinesInputActions')
   actions: InputEventAction<
-    LinesInputEventDirective<Datum, ExtendedLinesComponent>
+    LinesInputEventDirective<Datum, ChartMultipleDomain, TLinesComponent>
   >[];
   @Input('vicLinesInputEvent$') override inputEvent$: Observable<unknown>;
   @Output('vicLinesInputEventOutput') inputEventOutput =
@@ -30,7 +35,7 @@ export class LinesInputEventDirective<
 
   constructor(
     destroyRef: DestroyRef,
-    @Inject(LINES) public lines: ExtendedLinesComponent
+    @Inject(LINES) public lines: TLinesComponent
   ) {
     super(destroyRef);
   }

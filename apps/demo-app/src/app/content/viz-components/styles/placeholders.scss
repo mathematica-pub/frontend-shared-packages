@@ -3,16 +3,47 @@
 @use 'vars' as *;
 @use 'colors';
 
-%vic-examples-tooltip-container-styles {
-  background: rgba(white, 0.9);
-  padding: grid(2);
-  border: 1px solid colors.$muted-primary-80;
-  width: 100%;
+%vic-examples-base-tooltip-container-styles {
+  $outline-color: colors.$muted-primary-80;
+  display: inline-block;
+  position: relative;
+
+  .tooltip-content {
+    background: rgba(white, 0.9);
+    padding: grid(2);
+    border: 1px solid $outline-color;
+    transform: translateY(-14px);
+  }
 
   .tooltip-label {
     display: flex;
     flex-direction: column;
   }
+
+  .value-label {
+    @include hsi-adk.label-2xs-caps;
+  }
+
+  .svg-triangle {
+    $x-offset: calc(50% - (var(--width) / 2));
+    display: block;
+    transform: translate(#{$x-offset}, -2px);
+    width: var(--width);
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 3px;
+    position: absolute;
+
+    .triangle-path {
+      stroke: $outline-color;
+      fill: white;
+      fill-opacity: 0.9;
+    }
+  }
+}
+
+%vic-examples-tooltip-container-styles {
+  @extend %vic-examples-base-tooltip-container-styles;
 
   .tooltip-label:not(.category) {
     padding-top: grid(1);
@@ -24,8 +55,19 @@
     line-height: 1.2;
     padding-bottom: grid(1);
   }
+}
 
-  .value-label {
-    @include hsi-adk.label-2xs-caps;
+%vic-examples-multiples-tooltip-container-styles {
+  @extend %vic-examples-base-tooltip-container-styles;
+
+  .tooltip-label:not(.multiple):not(.category) {
+    padding-top: grid(1);
+  }
+
+  .multiple {
+    color: var(--color);
+    font-weight: $font-weight-bold;
+    line-height: 1.2;
+    padding-bottom: grid(1);
   }
 }

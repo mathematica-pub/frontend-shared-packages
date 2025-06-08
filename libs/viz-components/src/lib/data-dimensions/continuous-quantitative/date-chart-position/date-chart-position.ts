@@ -5,12 +5,6 @@ import { DataDimension } from '../../dimension';
 import { DateChartPositionDimensionOptions } from './date-chart-position-options';
 
 /**
- * A dimension that transforms Date values into a position on a chart.
- *
- * This dimension is used for the positional dimensions of a chart, such as x and y. The underlying scale will always be a [D3 time scale](https://d3js.org/d3-scale/time). The range of the scale will be a dimension from the chart.
- *
- * The generic is the type of the data that will be passed to the dimension.
- *
  * TESTABLE FUNCTIONALITY
  *
  * - It extracts values for the dimension from data.
@@ -29,6 +23,13 @@ import { DateChartPositionDimensionOptions } from './date-chart-position-options
  *   - tested in: date-chart-position.spec.ts
  */
 
+/**
+ * A dimension that transforms Date values into a position on a chart.
+ *
+ * This dimension is used for the positional dimensions of a chart, such as x and y. The underlying scale will always be a [D3 time scale](https://d3js.org/d3-scale/time). The range of the scale will be a dimension from the chart.
+ *
+ * The generic is the type of the data that will be passed to the dimension.
+ */
 export class DateChartPositionDimension<Datum>
   extends DataDimension<Datum, Date>
   implements DateChartPositionDimensionOptions<Datum>

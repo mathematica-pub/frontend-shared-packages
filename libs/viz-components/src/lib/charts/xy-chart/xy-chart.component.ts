@@ -7,10 +7,9 @@ import {
   NgZone,
   OnInit,
 } from '@angular/core';
-import { BehaviorSubject, filter } from 'rxjs';
-import { GenericScale } from '../../core';
+import { GenericScale } from '../../core/types/scale';
 import { Chart } from '../chart/chart';
-import { ChartComponent } from '../chart/chart.component';
+import { ChartComponent, ChartScales } from '../chart/chart.component';
 import { CHART } from '../chart/chart.token';
 
 export enum XyContentScale {
@@ -18,7 +17,7 @@ export enum XyContentScale {
   y = 'y',
 }
 
-export interface XyChartScales {
+export interface XyChartScales extends ChartScales {
   [XyContentScale.x]: GenericScale<any, any>;
   [XyContentScale.y]: GenericScale<any, any>;
   useTransition: boolean;
@@ -52,9 +51,10 @@ export interface XyChartScales {
   },
   imports: [CommonModule],
 })
-export class XyChartComponent extends ChartComponent implements Chart, OnInit {
-  private scales: BehaviorSubject<XyChartScales> = new BehaviorSubject(null);
-  scales$ = this.scales.asObservable().pipe(filter((scales) => !!scales));
+export class XyChartComponent
+  extends ChartComponent<XyChartScales>
+  implements Chart, OnInit
+{
   protected zone = inject(NgZone);
 
   updateScales(scales: Partial<XyChartScales>): void {

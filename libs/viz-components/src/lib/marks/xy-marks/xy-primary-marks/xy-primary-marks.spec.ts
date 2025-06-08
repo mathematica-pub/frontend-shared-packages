@@ -116,6 +116,7 @@ describe('XyPrimaryMarks abstract class', () => {
       abstractClass.chart.scales$ = (
         abstractClass.chart as any
       ).scales.asObservable();
+      spyOn(abstractClass, 'setValueIndicesForChart');
       spyOn(abstractClass, 'drawMarks');
     });
 
@@ -124,6 +125,7 @@ describe('XyPrimaryMarks abstract class', () => {
         abstractClass.scales = {
           x: undefined as any,
           y: undefined as any,
+          multiple: undefined as any,
           useTransition: undefined as any,
         };
       });
@@ -132,19 +134,32 @@ describe('XyPrimaryMarks abstract class', () => {
         (abstractClass.chart as any).scales.next({
           x: 'test x' as any,
           y: 'test y' as any,
+          multiple: undefined as any,
           useTransition: true,
         });
         expect(abstractClass.scales).toEqual({
           x: 'test x' as any,
           y: 'test y' as any,
+          multiple: undefined as any,
           useTransition: true,
         });
+      });
+      it('calls setValueIndicesForChart once with the correct values', () => {
+        abstractClass.subscribeToScales();
+        (abstractClass.chart as any).scales.next({
+          x: 'test x' as any,
+          y: 'test y' as any,
+          multiple: undefined as any,
+          useTransition: true,
+        });
+        expect(abstractClass.setValueIndicesForChart).toHaveBeenCalledTimes(1);
       });
       it('calls drawMarks once with the correct values', () => {
         abstractClass.subscribeToScales();
         (abstractClass.chart as any).scales.next({
           x: 'test x' as any,
           y: 'test y' as any,
+          multiple: undefined as any,
           useTransition: true,
         });
         expect(abstractClass.drawMarks).toHaveBeenCalledTimes(1);

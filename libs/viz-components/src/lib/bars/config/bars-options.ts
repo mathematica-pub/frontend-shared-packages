@@ -7,8 +7,11 @@ import { DataMarksOptions } from '../../marks/config/marks-options';
 import { BarsBackgrounds } from './backgrounds/bars-backgrounds';
 import { BarsLabels } from './labels/bars-labels';
 
-export interface BarsOptions<Datum, OrdinalDomain extends DataValue>
-  extends DataMarksOptions<Datum> {
+export interface BarsOptions<
+  Datum,
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+> extends DataMarksOptions<Datum, ChartMultipleDomain> {
   backgrounds: BarsBackgrounds;
   color: OrdinalVisualValueDimension<Datum, string, string>;
   customFills: FillDefinition<Datum>[];

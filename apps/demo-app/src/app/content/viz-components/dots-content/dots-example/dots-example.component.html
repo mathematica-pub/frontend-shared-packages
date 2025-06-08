@@ -21,27 +21,36 @@
 
 <ng-template #htmlTooltip>
   @if (tooltipData$ | async; as tooltipData) {
-    <div
-      [style.--color]="tooltipData.color"
-      class="dots-example-tooltip-container"
-    >
-      <p class="tooltip-label category">
-        {{ tooltipData.values.fill }}
-      </p>
-      <div class="values-container">
-        <p class="tooltip-label x">
-          <span class="value-label">Max Temperature</span>
-          {{ tooltipData.values.x }}
+    <div class="dots-example-tooltip-container">
+      <div [style.--color]="tooltipData.color" class="tooltip-content">
+        <p class="tooltip-label category">
+          {{ tooltipData.values.fill }}
         </p>
-        <p class="tooltip-label y">
-          <span class="value-label">Precipitation</span>
-          {{ tooltipData.values.y }}
-        </p>
-        <p class="tooltip-label radius">
-          <span class="value-label">Wind</span>
-          {{ tooltipData.values.radius }}
-        </p>
+        <div class="values-container">
+          <p class="tooltip-label x">
+            <span class="value-label">Max Temperature</span>
+            {{ tooltipData.values.x }}
+          </p>
+          <p class="tooltip-label y">
+            <span class="value-label">Precipitation</span>
+            {{ tooltipData.values.y }}
+          </p>
+          <p class="tooltip-label radius">
+            <span class="value-label">Wind</span>
+            {{ tooltipData.values.radius }}
+          </p>
+        </div>
       </div>
+      <svg
+        width="100%"
+        height="12"
+        [style.--width]="'20px'"
+        class="svg-triangle"
+      >
+        <g class="svg-g">
+          <path class="triangle-path" d="M 0,0 10,12 20,0"></path>
+        </g>
+      </svg>
     </div>
   }
 </ng-template>

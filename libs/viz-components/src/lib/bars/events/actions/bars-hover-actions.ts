@@ -5,16 +5,30 @@ import { BarsHoverDirective } from '../bars-hover.directive';
 
 export class BarsHoverShowLabels<
   Datum,
-  TOrdinalValue extends DataValue,
-  TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+  TBarsComponent extends BarsComponent<
     Datum,
-    TOrdinalValue
-  >,
+    OrdinalDomain,
+    ChartMultipleDomain
+  > = BarsComponent<Datum, OrdinalDomain, ChartMultipleDomain>,
 > implements
-    EventAction<BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>>
+    EventAction<
+      BarsHoverDirective<
+        Datum,
+        OrdinalDomain,
+        ChartMultipleDomain,
+        TBarsComponent
+      >
+    >
 {
   onStart(
-    directive: BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>
+    directive: BarsHoverDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TBarsComponent
+    >
   ): void {
     directive.bars.barGroups
       .filter((d) => d === directive.barDatum.index)
@@ -23,7 +37,12 @@ export class BarsHoverShowLabels<
   }
 
   onEnd(
-    directive: BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>
+    directive: BarsHoverDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TBarsComponent
+    >
   ): void {
     directive.bars.barGroups
       .filter((d) => d === directive.barDatum.index)
@@ -32,15 +51,23 @@ export class BarsHoverShowLabels<
   }
 }
 
-export class BarsHoverEmitTooltipData<Datum, TOrdinalValue extends DataValue>
-  implements EventAction<BarsHoverDirective<Datum, TOrdinalValue>>
+export class BarsHoverEmitTooltipData<
+  Datum,
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue,
+> implements
+    EventAction<BarsHoverDirective<Datum, OrdinalDomain, ChartMultipleDomain>>
 {
-  onStart(directive: BarsHoverDirective<Datum, TOrdinalValue>): void {
+  onStart(
+    directive: BarsHoverDirective<Datum, OrdinalDomain, ChartMultipleDomain>
+  ): void {
     const tooltipData = directive.getEventOutput();
     directive.eventOutput.emit(tooltipData);
   }
 
-  onEnd(directive: BarsHoverDirective<Datum, TOrdinalValue>): void {
+  onEnd(
+    directive: BarsHoverDirective<Datum, OrdinalDomain, ChartMultipleDomain>
+  ): void {
     directive.eventOutput.emit(null);
   }
 }

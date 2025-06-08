@@ -35,30 +35,34 @@
 <ng-template #loading>Loading...</ng-template>
 
 <ng-template #htmlTooltip>
-  <div
-    [style.--color]="(tooltipData$ | async).color"
-    class="bars-example-tooltip-container"
-  >
-    @if ((layoutProperties$ | async).orientation === 'horizontal') {
-      <p class="tooltip-label category">
-        {{ (tooltipData$ | async).values.y }}
-      </p>
-      <div class="values-container">
-        <p class="tooltip-label y">
-          <span class="value-label">Value</span>
-          {{ (tooltipData$ | async).values.x }}
-        </p>
-      </div>
-    } @else {
-      <p class="tooltip-label category">
-        {{ (tooltipData$ | async).values.x }}
-      </p>
-      <div class="values-container">
-        <p class="tooltip-label y">
-          <span class="value-label">Value</span>
+  <div class="bars-example-tooltip-container">
+    <div class="tooltip-content" [style.--color]="(tooltipData$ | async).color">
+      @if ((layoutProperties$ | async).orientation === 'horizontal') {
+        <p class="tooltip-label category">
           {{ (tooltipData$ | async).values.y }}
         </p>
-      </div>
-    }
+        <div class="values-container">
+          <p class="tooltip-label y">
+            <span class="value-label">Value</span>
+            {{ (tooltipData$ | async).values.x }}
+          </p>
+        </div>
+      } @else {
+        <p class="tooltip-label category">
+          {{ (tooltipData$ | async).values.x }}
+        </p>
+        <div class="values-container">
+          <p class="tooltip-label y">
+            <span class="value-label">Value</span>
+            {{ (tooltipData$ | async).values.y }}
+          </p>
+        </div>
+      }
+    </div>
+    <svg height="12" [style.--width]="'20px'" class="svg-triangle">
+      <g class="svg-g">
+        <path class="triangle-path" d="M 0,0 10,12 20,0"></path>
+      </g>
+    </svg>
   </div>
 </ng-template>

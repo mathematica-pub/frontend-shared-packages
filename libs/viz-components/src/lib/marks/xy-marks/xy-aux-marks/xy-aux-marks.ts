@@ -3,13 +3,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { XyChartComponent, XyChartScales } from '../../../charts';
 import { AuxMarks } from '../../aux-marks/aux-marks';
-import { DataMarksConfig, MarksConfig } from '../../config/marks-config';
+import { AuxMarksConfig, MarksConfig } from '../../config/marks-config';
 import { XyMarks } from '../xy-marks';
 
 @Directive()
 export abstract class XyAuxMarks<
     Datum,
-    TMarksConfig extends MarksConfig | DataMarksConfig<Datum>,
+    TMarksConfig extends MarksConfig | AuxMarksConfig<Datum>,
   >
   extends AuxMarks<Datum, TMarksConfig>
   implements OnInit, XyMarks

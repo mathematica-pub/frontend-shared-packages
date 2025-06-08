@@ -159,7 +159,7 @@ export class StackedBarsExampleComponent implements OnInit {
       .barsPosition(data?.origin, [
         {
           offsetX: data?.positionX,
-          offsetY: data?.positionY - 12,
+          offsetY: data?.positionY - 2,
         },
       ])
       .hasBackdrop(tooltipEvent === 'click')

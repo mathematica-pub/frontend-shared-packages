@@ -18,6 +18,7 @@ export * from './lib/map-legend/index';
 export * from './lib/marks/index';
 export * from './lib/point-markers/index';
 export * from './lib/quantitative-rules/index';
+export * from './lib/shared-context/index';
 export * from './lib/stacked-area/index';
 export * from './lib/stacked-bars/index';
 export * from './lib/stroke/index';

@@ -16,9 +16,11 @@ export class DotsConfig<
     Datum,
     XOrdinalDomain extends DataValue = string,
     YOrdinalDomain extends DataValue = string,
+    ChartMultipleDomain extends DataValue = string,
   >
-  extends XyPrimaryMarksConfig<Datum>
-  implements DotsOptions<Datum, XOrdinalDomain, YOrdinalDomain>
+  extends XyPrimaryMarksConfig<Datum, ChartMultipleDomain>
+  implements
+    DotsOptions<Datum, XOrdinalDomain, YOrdinalDomain, ChartMultipleDomain>
 {
   fill:
     | OrdinalVisualValueDimension<Datum, string, string>
@@ -38,7 +40,14 @@ export class DotsConfig<
     | DateChartPositionDimension<Datum>
     | OrdinalChartPositionDimension<Datum, YOrdinalDomain>;
 
-  constructor(options: DotsOptions<Datum, XOrdinalDomain, YOrdinalDomain>) {
+  constructor(
+    options: DotsOptions<
+      Datum,
+      XOrdinalDomain,
+      YOrdinalDomain,
+      ChartMultipleDomain
+    >
+  ) {
     super();
     safeAssign(this, options);
     this.initPropertiesFromData();
@@ -57,9 +66,19 @@ export class DotsConfig<
   }
 
   protected setValueIndices(): void {
-    this.valueIndices = range(this.data.length).filter(
-      (i) => this.isValidValue('x', i) && this.isValidValue('y', i)
-    );
+    this.valueIndices = range(this.data.length).filter((index) => {
+      if (
+        !this.isValidMultipleValue(index) ||
+        !this.isPositionableValue(index)
+      ) {
+        return false;
+      }
+      return true;
+    });
+  }
+
+  private isPositionableValue(index: number): boolean {
+    return this.isValidValue('x', index) && this.isValidValue('y', index);
   }
 
   private isValidValue(dimension: 'x' | 'y', i: number): boolean {

@@ -2,7 +2,7 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
-import { ContinuousValue } from '../../core/types/values';
+import { ContinuousValue, DataValue } from '../../core/types/values';
 import { HoverMoveAction } from '../../events/action';
 import { HoverMoveDirective } from '../../events/hover-move.directive';
 import { LINES, LinesComponent } from '../lines.component';
@@ -13,10 +13,16 @@ import { LinesEventOutput } from './lines-event-output';
 })
 export class LinesHoverMoveDirective<
   Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
+  ChartMultipleDomain extends DataValue = string,
+  TLinesComponent extends LinesComponent<
+    Datum,
+    ChartMultipleDomain
+  > = LinesComponent<Datum, ChartMultipleDomain>,
 > extends HoverMoveDirective {
   @Input('vicLinesHoverMoveActions')
-  actions: HoverMoveAction<LinesHoverMoveDirective<Datum, TLinesComponent>>[];
+  actions: HoverMoveAction<
+    LinesHoverMoveDirective<Datum, ChartMultipleDomain, TLinesComponent>
+  >[];
   @Output('vicLinesHoverMoveOutput') eventOutput = new EventEmitter<
     LinesEventOutput<Datum>
   >();

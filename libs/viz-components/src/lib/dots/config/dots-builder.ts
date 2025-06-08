@@ -23,7 +23,8 @@ export class VicDotsConfigBuilder<
   Datum,
   XOrdinalDomain extends DataValue = string,
   YOrdinalDomain extends DataValue = string,
-> extends PrimaryMarksBuilder<Datum> {
+  ChartMultipleDomain extends DataValue = string,
+> extends PrimaryMarksBuilder<Datum, ChartMultipleDomain> {
   private _opacity: number;
   private _pointerDetectionRadius: number;
   private fillBuilderCategorical: OrdinalVisualValueDimensionBuilder<
@@ -347,7 +348,12 @@ export class VicDotsConfigBuilder<
    *
    * The user must call this at the end of the chain of methods to build the configuration object.
    */
-  getConfig(): DotsConfig<Datum, XOrdinalDomain, YOrdinalDomain> {
+  getConfig(): DotsConfig<
+    Datum,
+    XOrdinalDomain,
+    YOrdinalDomain,
+    ChartMultipleDomain
+  > {
     this.validateBuilder();
     const fillName = 'Dots Fill';
     const radiusName = 'Dots Radius';
@@ -359,12 +365,18 @@ export class VicDotsConfigBuilder<
     const radiusBuilder = this.radiusBuilderCategorical
       ? this.radiusBuilderCategorical
       : this.radiusBuilderNumber || this.radiusBuilderConst;
-    return new DotsConfig<Datum, XOrdinalDomain, YOrdinalDomain>({
+    return new DotsConfig<
+      Datum,
+      XOrdinalDomain,
+      YOrdinalDomain,
+      ChartMultipleDomain
+    >({
       marksClass: 'vic-dots',
       data: this._data,
       datumClass: this._class,
       fill: fillBuilder._build(fillName),
       mixBlendMode: this._mixBlendMode,
+      multiples: this.multiplesBuilder?._build(),
       opacity: this._opacity,
       pointerDetectionRadius: this._pointerDetectionRadius,
       radius: radiusBuilder._build(radiusName),

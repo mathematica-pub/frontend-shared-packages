@@ -5,12 +5,6 @@ import { ConcreteDomainPadding } from './domain-padding/concrete-domain-padding'
 import { NumberChartPositionDimensionOptions } from './number-chart-position-options';
 
 /**
- * A dimension that transforms number values into a position on a chart.
- *
- * This dimension is used for the positional dimensions of a chart, such as x and y. The resultant scale will confirm to the ScaleContinuousNumeric interface from @types/d3. The range of the scale will be a dimension from the chart.
- *
- * The generic is the type of the data that will be passed to the dimension.
- *
  * TESTABLE FUNCTIONALITY
  *
  * - It extracts values for the dimension from data.
@@ -23,6 +17,13 @@ import { NumberChartPositionDimensionOptions } from './number-chart-position-opt
  *   - tested in: bars.cy.ts, dots.cy.ts, lines.cy.ts, stacked-bars.cy.ts
  */
 
+/**
+ * A dimension that transforms number values into a position on a chart.
+ *
+ * This dimension is used for the positional dimensions of a chart, such as x and y. The resultant scale will confirm to the ScaleContinuousNumeric interface from `@types/d3`. The range of the scale will be a dimension from the chart.
+ *
+ * The generic is the type of the data that will be passed to the dimension.
+ */
 export class NumberChartPositionDimension<Datum>
   extends NumberDimension<Datum>
   implements NumberChartPositionDimensionOptions<Datum>

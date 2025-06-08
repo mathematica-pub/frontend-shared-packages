@@ -15,20 +15,27 @@ import { BarsEventOutput } from './bars-event-output';
 })
 export class BarsHoverDirective<
   Datum,
-  TOrdinalValue extends DataValue,
-  TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+  TBarsComponent extends BarsComponent<
     Datum,
-    TOrdinalValue
-  >,
+    OrdinalDomain,
+    ChartMultipleDomain
+  > = BarsComponent<Datum, OrdinalDomain, ChartMultipleDomain>,
 > extends HoverDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicBarsHoverActions') actions: EventAction<
-    BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>
+    BarsHoverDirective<
+      Datum,
+      OrdinalDomain,
+      ChartMultipleDomain,
+      TBarsComponent
+    >
   >[];
   @Output('vicBarsHoverOutput') eventOutput = new EventEmitter<
-    BarsEventOutput<Datum, TOrdinalValue>
+    BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain>
   >();
-  barDatum: BarDatum<TOrdinalValue>;
+  barDatum: BarDatum<OrdinalDomain>;
   origin: SVGRectElement;
   positionX: number;
   positionY: number;
@@ -47,12 +54,28 @@ export class BarsHoverDirective<
         this.elements = barSels.nodes();
         this.setListeners();
       });
+
+    this.bars.sharedContext?.pointerEnter$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(({ event, multiple }) => {
+        if (multiple !== this.bars.multiple.value) {
+          this.onElementPointerEnter(event);
+        }
+      });
+
+    this.bars.sharedContext?.pointerLeave$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((multiple) => {
+        if (multiple !== this.bars.multiple.value) {
+          this.onElementPointerLeave();
+        }
+      });
   }
 
   onElementPointerEnter(event: PointerEvent): void {
     this.barDatum = select(
       event.target as SVGRectElement
-    ).datum() as BarDatum<TOrdinalValue>;
+    ).datum() as BarDatum<OrdinalDomain>;
     this.origin = event.target as SVGRectElement;
     const barRect = this.origin.getBoundingClientRect();
     this.positionX = barRect.width / 2;
@@ -68,7 +91,7 @@ export class BarsHoverDirective<
     }
   }
 
-  getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
+  getEventOutput(): BarsEventOutput<Datum, OrdinalDomain, ChartMultipleDomain> {
     const datum = this.bars.getSourceDatumFromBarDatum(this.barDatum);
     const tooltipData = this.bars.getTooltipData(datum);
 

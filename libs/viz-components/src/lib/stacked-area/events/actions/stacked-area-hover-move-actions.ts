@@ -5,16 +5,19 @@ import { StackedAreaHoverMoveDirective } from '../stacked-area-hover-move.direct
 
 export class StackedAreaHoverMoveEmitTooltipData<
   Datum,
-  TCategoricalValue extends DataValue,
+  CategoricalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
   TStackedAreaComponent extends StackedAreaComponent<
     Datum,
-    TCategoricalValue
-  > = StackedAreaComponent<Datum, TCategoricalValue>,
+    CategoricalDomain,
+    ChartMultipleDomain
+  > = StackedAreaComponent<Datum, CategoricalDomain, ChartMultipleDomain>,
 > implements
     HoverMoveAction<
       StackedAreaHoverMoveDirective<
         Datum,
-        TCategoricalValue,
+        CategoricalDomain,
+        ChartMultipleDomain,
         TStackedAreaComponent
       >
     >
@@ -22,7 +25,8 @@ export class StackedAreaHoverMoveEmitTooltipData<
   onStart(
     directive: StackedAreaHoverMoveDirective<
       Datum,
-      TCategoricalValue,
+      CategoricalDomain,
+      ChartMultipleDomain,
       TStackedAreaComponent
     >
   ): void {
@@ -33,7 +37,8 @@ export class StackedAreaHoverMoveEmitTooltipData<
   onEnd(
     event: StackedAreaHoverMoveDirective<
       Datum,
-      TCategoricalValue,
+      CategoricalDomain,
+      ChartMultipleDomain,
       TStackedAreaComponent
     >
   ): void {

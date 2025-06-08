@@ -8,7 +8,8 @@ describe('StackedAreaInputDirective', () => {
   let directive: StackedAreaInputEventDirective<
     any,
     string,
-    StackedAreaComponent<any, string>
+    string,
+    StackedAreaComponent<any, string, string>
   >;
 
   beforeEach(() => {
@@ -25,7 +26,8 @@ describe('StackedAreaInputDirective', () => {
       StackedAreaInputEventDirective<
         any,
         string,
-        StackedAreaComponent<any, string>
+        string,
+        StackedAreaComponent<any, string, string>
       >
     );
   });

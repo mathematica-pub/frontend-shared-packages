@@ -1,0 +1,9 @@
+<app-content-container class="chart-composition-content-container">
+  <ng-template let-section #customAngular>
+    @switch (section.content) {
+      @case ('small multiples bars example') {
+        <app-small-multiples-bars-example></app-small-multiples-bars-example>
+      }
+    }
+  </ng-template>
+</app-content-container>

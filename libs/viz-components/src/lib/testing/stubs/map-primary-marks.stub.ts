@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { DataValue } from '../../core/types/values';
 import { MarksOptions } from '../../marks/config/marks-options';
 import { MapPrimaryMarks } from '../../marks/map-marks/map-primary-marks/map-primary-marks';
 
 export class MapPrimaryMarksStub<Datum> extends MapPrimaryMarks<
   Datum,
+  DataValue,
   MarksOptions
 > {
   override setChartScalesFromRanges(useTransition: boolean): void {

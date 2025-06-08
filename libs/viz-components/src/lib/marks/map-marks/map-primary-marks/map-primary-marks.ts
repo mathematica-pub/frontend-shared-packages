@@ -2,6 +2,7 @@ import { Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { MapChartComponent } from '../../../charts/map-chart/map-chart.component';
+import { DataValue } from '../../../core';
 import { VicAttributeDataDimensionConfig } from '../../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types';
 import { MarksConfig } from '../../config/marks-config';
 import { PrimaryMarks } from '../../primary-marks/primary-marks';
@@ -12,9 +13,10 @@ import { PrimaryMarks } from '../../primary-marks/primary-marks';
 @Directive()
 export abstract class MapPrimaryMarks<
     Datum,
+    ChartMultipleDomain extends DataValue,
     TPrimaryMarksConfig extends MarksConfig,
   >
-  extends PrimaryMarks<Datum, TPrimaryMarksConfig>
+  extends PrimaryMarks<Datum, ChartMultipleDomain, TPrimaryMarksConfig>
   implements OnInit
 {
   attributeDataConfig: VicAttributeDataDimensionConfig<Datum>;

@@ -9,9 +9,10 @@ import { Stroke } from '../../stroke/stroke';
 
 export interface DotsOptions<
   Datum,
-  XOrdinalDomain extends DataValue = string,
-  YOrdinalDomain extends DataValue = string,
-> extends DataMarksOptions<Datum> {
+  XOrdinalDomain extends DataValue,
+  YOrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue,
+> extends DataMarksOptions<Datum, ChartMultipleDomain> {
   fill:
     | OrdinalVisualValueDimension<Datum, string, string>
     | NumberVisualValueDimension<Datum, string>;

@@ -34,7 +34,7 @@ describe('StackedAreaConfig', () => {
         StackedAreaConfig.prototype as any,
         'setDimensionPropertiesFromData'
       );
-      spyOn(StackedAreaConfig.prototype as any, 'setValueIndicies');
+      spyOn(StackedAreaConfig.prototype as any, 'setValueIndices');
       spyOn(StackedAreaConfig.prototype as any, 'setSeries');
       spyOn(
         StackedAreaConfig.prototype as any,
@@ -47,8 +47,8 @@ describe('StackedAreaConfig', () => {
         (config as any).setDimensionPropertiesFromData
       ).toHaveBeenCalledTimes(1);
     });
-    it('calls setValueIndicies once', () => {
-      expect((config as any).setValueIndicies).toHaveBeenCalledTimes(1);
+    it('calls setValueIndices once', () => {
+      expect((config as any).setValueIndices).toHaveBeenCalledTimes(1);
     });
     it('calls setSeries once', () => {
       expect((config as any).setSeries).toHaveBeenCalledTimes(1);
@@ -80,17 +80,17 @@ describe('StackedAreaConfig', () => {
     });
   });
 
-  describe('setValueIndicies()', () => {
+  describe('setValueIndices()', () => {
     beforeEach(() => {
       spyOn(StackedAreaConfig.prototype as any, 'initPropertiesFromData');
     });
-    it('sets valueIndicies to an array of length 6', () => {
+    it('sets valueIndices to an array of length 6', () => {
       config = createConfig();
       (config as any).setDimensionPropertiesFromData();
-      (config as any).setValueIndicies();
+      (config as any).setValueIndices();
       expect(config.valueIndices).toEqual([0, 1, 2, 3, 4, 5]);
     });
-    it('sets valueIndicies to an array of length 3 if categorical domain is limited by user', () => {
+    it('sets valueIndices to an array of length 3 if categorical domain is limited by user', () => {
       config = new VicStackedAreaConfigBuilder<Datum, string>()
         .data(data)
         .xDate((dimension) => dimension.valueAccessor((d) => d.date))
@@ -100,7 +100,7 @@ describe('StackedAreaConfig', () => {
         )
         .getConfig();
       (config as any).setDimensionPropertiesFromData();
-      (config as any).setValueIndicies();
+      (config as any).setValueIndices();
       expect(config.valueIndices).toEqual([0, 1, 2]);
     });
   });

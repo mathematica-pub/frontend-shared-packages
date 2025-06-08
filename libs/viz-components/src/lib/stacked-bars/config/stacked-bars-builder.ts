@@ -22,8 +22,9 @@ const DEFAULT = {
 @Injectable()
 export class VicStackedBarsConfigBuilder<
   Datum,
-  TOrdinalValue extends DataValue,
-> extends VicBarsConfigBuilder<Datum, TOrdinalValue> {
+  OrdinalDomain extends DataValue,
+  ChartMultipleDomain extends DataValue = string,
+> extends VicBarsConfigBuilder<Datum, OrdinalDomain, ChartMultipleDomain> {
   private _stackOffset: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     series: Series<any, any>,
@@ -65,7 +66,7 @@ export class VicStackedBarsConfigBuilder<
   stackOrder(stackOrder: null): this;
   stackOrder(
     stackOrder:
-      | ((series: Series<Datum, TOrdinalValue>) => Iterable<number>)
+      | ((series: Series<Datum, OrdinalDomain>) => Iterable<number>)
       | null
   ): this;
   stackOrder(
@@ -84,7 +85,11 @@ export class VicStackedBarsConfigBuilder<
     return this;
   }
 
-  override getConfig(): StackedBarsConfig<Datum, TOrdinalValue> {
+  override getConfig(): StackedBarsConfig<
+    Datum,
+    OrdinalDomain,
+    ChartMultipleDomain
+  > {
     this.validateBuilder('Stacked Bars');
     return new StackedBarsConfig(this.dimensions, {
       marksClass: 'vic-stacked-bars',
@@ -94,6 +99,7 @@ export class VicStackedBarsConfigBuilder<
       data: this._data,
       datumClass: this._class,
       mixBlendMode: this._mixBlendMode,
+      multiples: this.multiplesBuilder?._build(),
       ordinal: this.ordinalDimensionBuilder._build(
         'band',
         this.getOrdinalDimensionName()
