@@ -3,9 +3,11 @@
 
 $combobox: (
   'background': var(--hsi-adk-color-primary-100, white),
-  'border-color': var(--hsi-adk-color-muted-primary-40, gray),
-  'border-radius': grid(2),
-  'border-width': 1px,
+  'border': (
+    'color': var(--hsi-adk-color-muted-primary-40, gray),
+    'style': solid,
+    'width': 1px,
+  ),
   'hover': (
     'border-color': var(--hsi-adk-color-muted-primary-20, darkgray),
     'cursor': pointer,
