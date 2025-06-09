@@ -4,13 +4,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {
   BarsConfig,
-  BarsEventOutput,
-  BarsHoverMoveDirective,
-  BarsHoverMoveEmitTooltipData,
+  BarsHost,
+  BarsInteractionOutput,
   ChartConfig,
   ElementSpacing,
-  HoverMoveAction,
   HtmlTooltipConfig,
+  RefactorBarsHoverMoveEmitTooltipData,
+  RefactorHoverMoveAction,
   VicBarsConfigBuilder,
   VicBarsModule,
   VicChartConfigBuilder,
@@ -85,14 +85,15 @@ export class BarsExampleComponent implements OnInit {
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<
-    BarsEventOutput<MetroUnemploymentDatum, string>
-  > = new BehaviorSubject<BarsEventOutput<MetroUnemploymentDatum, string>>(
-    null
-  );
+    BarsInteractionOutput<MetroUnemploymentDatum, string>
+  > = new BehaviorSubject<
+    BarsInteractionOutput<MetroUnemploymentDatum, string>
+  >(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveActions: HoverMoveAction<
-    BarsHoverMoveDirective<MetroUnemploymentDatum, string>
-  >[] = [new BarsHoverMoveEmitTooltipData()];
+  hoverAndMoveActions: RefactorHoverMoveAction<
+    BarsHost<MetroUnemploymentDatum, string>,
+    BarsInteractionOutput<MetroUnemploymentDatum, string>
+  >[] = [new RefactorBarsHoverMoveEmitTooltipData()];
   layoutProperties: BehaviorSubject<LayoutProperties> =
     new BehaviorSubject<LayoutProperties>({
       orientation: Orientation.horizontal,
@@ -212,20 +213,20 @@ export class BarsExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: BarsEventOutput<MetroUnemploymentDatum, string>
+    data: BarsInteractionOutput<MetroUnemploymentDatum, string>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
   updateTooltipData(
-    data: BarsEventOutput<MetroUnemploymentDatum, string>
+    data: BarsInteractionOutput<MetroUnemploymentDatum, string>
   ): void {
     this.tooltipData.next(data);
   }
 
   updateTooltipConfig(
-    data: BarsEventOutput<MetroUnemploymentDatum, string>
+    data: BarsInteractionOutput<MetroUnemploymentDatum, string>
   ): void {
     const config = this.tooltip
       .barsPosition(data?.origin, [
