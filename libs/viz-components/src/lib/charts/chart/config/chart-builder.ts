@@ -161,7 +161,6 @@ export class VicChartConfigBuilder {
    * @param value - One of:
    * - 'fixed': Chart dimensions remain constant. Width and height are fixed.
    * - 'responsive-width': Chart width responds to container; height is derived via aspect ratio.
-   * - 'responsive-both': Chart width and height both respond to container dimensions.
    * - 'viewbox': Chart is scaled entirely via SVG viewBox. All resizing behavior is controlled through CSS.
    */
   scalingStrategy(value: ScalingStrategy): this {
