@@ -22,9 +22,9 @@ export * from './config/layers/geojson-properties-layer/geojson-properties-layer
 export * from './config/layers/labels/geographies-labels';
 export * from './config/layers/labels/geographies-labels-builder';
 export * from './config/layers/labels/geographies-labels-options';
-export * from './events/actions/refactor-geographies-click-actions';
-export * from './events/actions/refactor-geographies-hover-actions';
-export * from './events/actions/refactor-geographies-hover-move-actions';
+export * from './events/actions/geographies-click-actions';
+export * from './events/actions/geographies-hover-actions';
+export * from './events/actions/geographies-hover-move-actions';
 export * from './events/geographies-events.directive';
 export * from './events/geographies-interaction-output';
 export * from './geographies-feature';

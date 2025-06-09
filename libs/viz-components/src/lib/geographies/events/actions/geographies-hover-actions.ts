@@ -2,7 +2,7 @@ import { EventType, RefactorEventAction } from '../../../events';
 import { GeographiesHost } from '../geographies-events.directive';
 import { GeographiesInteractionOutput } from '../geographies-interaction-output';
 
-export class RefactorGeographiesClickEmitTooltipDataPauseOtherActions<Datum>
+export class GeographiesHoverEmitTooltipData<Datum>
   implements
     RefactorEventAction<
       GeographiesHost<Datum>,
@@ -10,13 +10,11 @@ export class RefactorGeographiesClickEmitTooltipDataPauseOtherActions<Datum>
     >
 {
   onStart(host: GeographiesHost<Datum>): void {
-    const outputData = host.getInteractionOutput(EventType.Click);
-    host.disableOtherActions(EventType.Click);
+    const outputData = host.getInteractionOutput(EventType.Hover);
     host.emitInteractionOutput(outputData);
   }
 
   onEnd(host: GeographiesHost<Datum>): void {
-    host.resumeOtherActions(EventType.Click);
     host.emitInteractionOutput(null);
   }
 }

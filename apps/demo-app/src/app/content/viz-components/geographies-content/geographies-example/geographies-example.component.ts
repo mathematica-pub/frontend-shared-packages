@@ -10,16 +10,16 @@ import {
   ChartConfig,
   ElementSpacing,
   GeographiesAttributeDataLayerBuilder,
+  GeographiesClickEmitTooltipDataPauseOtherActions,
   GeographiesConfig,
   GeographiesFeature,
   GeographiesGeojsonPropertiesLayerBuilder,
   GeographiesHost,
+  GeographiesHoverEmitTooltipData,
   GeographiesInteractionOutput,
   GeographiesLabelsBuilder,
   HtmlTooltipConfig,
   RefactorEventAction,
-  RefactorGeographiesClickEmitTooltipDataPauseOtherActions,
-  RefactorGeographiesHoverEmitTooltipData,
   VicChartConfigBuilder,
   VicChartModule,
   VicGeographiesConfigBuilder,
@@ -96,7 +96,7 @@ export class GeographiesExampleComponent implements OnInit {
     new BehaviorSubject<GeographiesInteractionOutput<StateIncomeDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverActions: RefactorEventAction<GeographiesHost<StateIncomeDatum>>[] = [
-    new RefactorGeographiesHoverEmitTooltipData<StateIncomeDatum>(),
+    new GeographiesHoverEmitTooltipData<StateIncomeDatum>(),
   ];
   patternName = 'dotPattern';
   folderName = 'geographies-example';
@@ -115,7 +115,7 @@ export class GeographiesExampleComponent implements OnInit {
   ];
 
   clickActions: RefactorEventAction<GeographiesHost<StateIncomeDatum>>[] = [
-    new RefactorGeographiesClickEmitTooltipDataPauseOtherActions<StateIncomeDatum>(),
+    new GeographiesClickEmitTooltipDataPauseOtherActions<StateIncomeDatum>(),
   ];
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
