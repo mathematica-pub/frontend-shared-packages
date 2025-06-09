@@ -1,9 +1,6 @@
 export * from './config/lines-builder';
 export * from './config/lines-config';
 export * from './config/lines-options';
-export * from './events/actions/lines-click-actions';
-export * from './events/actions/lines-hover-move-actions';
-export * from './events/actions/lines-marker-click-actions';
 export * from './events/actions/refactor-lines-click-actions';
 export * from './events/actions/refactor-lines-hover-move-actions';
 export * from './events/actions/refactor-lines-marker-click-actions';
@@ -15,6 +12,5 @@ export * from './events/lines-hover.directive';
 export * from './events/lines-input-event.directive';
 export * from './events/lines-interaction-output';
 export * from './events/lines-marker-click.directive';
-export * from './events/lines-markers-events.directive';
 export * from './lines.component';
 export * from './lines.module';
