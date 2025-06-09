@@ -9,18 +9,17 @@ import {
   BinStrategy,
   ChartConfig,
   ElementSpacing,
-  EventAction,
   GeographiesAttributeDataLayerBuilder,
-  GeographiesClickDirective,
-  GeographiesClickEmitTooltipDataPauseHoverMoveActions,
   GeographiesConfig,
-  GeographiesEventOutput,
   GeographiesFeature,
   GeographiesGeojsonPropertiesLayerBuilder,
-  GeographiesHoverDirective,
-  GeographiesHoverEmitTooltipData,
+  GeographiesHost,
+  GeographiesInteractionOutput,
   GeographiesLabelsBuilder,
   HtmlTooltipConfig,
+  RefactorEventAction,
+  RefactorGeographiesClickEmitTooltipDataPauseOtherActions,
+  RefactorGeographiesHoverEmitTooltipData,
   VicChartConfigBuilder,
   VicChartModule,
   VicGeographiesConfigBuilder,
@@ -93,16 +92,11 @@ export class GeographiesExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>> =
-    new BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>>(null);
+  tooltipData: BehaviorSubject<GeographiesInteractionOutput<StateIncomeDatum>> =
+    new BehaviorSubject<GeographiesInteractionOutput<StateIncomeDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: EventAction<
-    GeographiesHoverDirective<StateIncomeDatum, MapGeometryProperties>
-  >[] = [
-    new GeographiesHoverEmitTooltipData<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >(),
+  hoverActions: RefactorEventAction<GeographiesHost<StateIncomeDatum>>[] = [
+    new RefactorGeographiesHoverEmitTooltipData<StateIncomeDatum>(),
   ];
   patternName = 'dotPattern';
   folderName = 'geographies-example';
@@ -120,13 +114,8 @@ export class GeographiesExampleComponent implements OnInit {
     BinStrategy.customBreaks,
   ];
 
-  clickActions: EventAction<
-    GeographiesClickDirective<StateIncomeDatum, MapGeometryProperties>
-  >[] = [
-    new GeographiesClickEmitTooltipDataPauseHoverMoveActions<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >(),
+  clickActions: RefactorEventAction<GeographiesHost<StateIncomeDatum>>[] = [
+    new RefactorGeographiesClickEmitTooltipDataPauseOtherActions<StateIncomeDatum>(),
   ];
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
@@ -347,20 +336,20 @@ export class GeographiesExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: GeographiesEventOutput<StateIncomeDatum>,
-    tooltipEvent: 'hover' | 'click'
+    data: GeographiesInteractionOutput<StateIncomeDatum>
   ): void {
     this.updateTooltipData(data);
-    this.updateTooltipConfig(data, tooltipEvent);
+    this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: GeographiesEventOutput<StateIncomeDatum>): void {
+  updateTooltipData(
+    data: GeographiesInteractionOutput<StateIncomeDatum>
+  ): void {
     this.tooltipData.next(data);
   }
 
   updateTooltipConfig(
-    data: GeographiesEventOutput<StateIncomeDatum>,
-    eventContext: 'hover' | 'click'
+    data: GeographiesInteractionOutput<StateIncomeDatum>
   ): void {
     const config = this.tooltip
       .size((size) => size.minWidth(130))
@@ -370,7 +359,7 @@ export class GeographiesExampleComponent implements OnInit {
           offsetY: data ? data.positionY - 16 : undefined,
         },
       ])
-      .hasBackdrop(eventContext === 'click')
+      .hasBackdrop(data?.type === 'click')
       .show(!!data)
       .getConfig();
 

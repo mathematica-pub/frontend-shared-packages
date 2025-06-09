@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { area, line, map, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
+import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
 import {
   XyChartComponent,
@@ -46,6 +47,13 @@ export interface LinesTooltipDatum<Datum> {
 
 type LinesSvgElements = 'g' | 'line' | 'area' | 'marker' | 'label';
 
+export type MarkerSelection = Selection<
+  SVGCircleElement,
+  LinesMarkerDatum,
+  SVGGElement,
+  LinesGroupSelectionDatum
+>;
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-lines]',
@@ -79,6 +87,8 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   lineGroups: LinesGroupSelection;
   lineLabelsRef: ElementRef<SVGSVGElement>;
   markerIndexAttr = 'index';
+  markers: BehaviorSubject<MarkerSelection> = new BehaviorSubject(null);
+  markers$ = this.markers.asObservable();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override scales: { color: GenericScale<any, any> } & XyChartScales = {
     x: undefined,
@@ -124,6 +134,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     }
     if (this.config.pointMarkers) {
       this.drawPointMarkers(transitionDuration);
+      this.updateMarkerElements();
     }
     if (this.config.labelLines) {
       this.drawLineLabels();
@@ -358,6 +369,14 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .text((d) => this.config.lineLabelsFormat(d.category)),
         (exit) => exit.remove()
       );
+  }
+
+  updateMarkerElements(): void {
+    const markers = select(this.elRef.nativeElement).selectAll<
+      SVGCircleElement,
+      LinesMarkerDatum
+    >(`.${this.class.marker}`);
+    this.markers.next(markers);
   }
 
   getTooltipData(datumIndex: number): LinesEventOutput<Datum> {

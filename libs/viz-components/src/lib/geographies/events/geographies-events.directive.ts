@@ -1,91 +1,89 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
-import { map, Observable } from 'rxjs';
-import { DataValue } from '../../core/types/values';
-import {
-  RefactorEventAction,
-  RefactorHoverMoveAction,
-  RefactorInputEventAction,
-} from '../../events/refactor-action';
+import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { Observable, filter, map } from 'rxjs';
 import {
   EventType,
   MarksHost,
+  RefactorEventAction,
   RefactorEventDirective,
+  RefactorHoverMoveAction,
+  RefactorInputEventAction,
   UnlistenFunction,
-} from '../../events/refactor-event.directive';
-import { BarDatum, BARS, BarsComponent } from '../bars.component';
-import { BarsInteractionOutput } from './bars-interaction-output';
+} from '../../events';
+import { GeographiesAttributeDataLayer } from '../config/layers/attribute-data-layer/attribute-data-layer';
+import { GeographiesGeojsonPropertiesLayer } from '../config/layers/geojson-properties-layer/geojson-properties-layer';
+import { GeographiesFeature } from '../geographies-feature';
+import { GEOGRAPHIES, GeographiesComponent } from '../geographies.component';
+import { GeographiesInteractionOutput } from './geographies-interaction-output';
 
-export interface BarsHost<Datum, TOrdinalValue extends DataValue>
-  extends MarksHost<
-    BarsInteractionOutput<Datum, TOrdinalValue>,
-    BarsComponent<Datum, TOrdinalValue>
-  > {
-  getBarDatum(): BarDatum<TOrdinalValue> | null;
-}
+export type GeographiesHost<Datum> = MarksHost<
+  GeographiesInteractionOutput<Datum>,
+  GeographiesComponent<Datum>
+>;
 
 @Directive({
-  selector: '[vicBarsEvents]',
+  selector: '[vicGeographiesEvents]',
 })
-export class BarsEventsDirective<
+export class GeographiesEventsDirective<
+  Datum,
+  TProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon,
+  TComponent extends GeographiesComponent<
     Datum,
-    TOrdinalValue extends DataValue,
-    TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
-      Datum,
-      TOrdinalValue
-    >,
-  >
-  extends RefactorEventDirective<BarsHost<Datum, TOrdinalValue>>
-  implements BarsHost<Datum, TOrdinalValue>
-{
+    TProperties,
+    TGeometry
+  > = GeographiesComponent<Datum, TProperties, TGeometry>,
+> extends RefactorEventDirective<GeographiesHost<Datum>> {
   @Input()
   hoverActions:
     | RefactorEventAction<
-        BarsHost<Datum, TOrdinalValue>,
-        BarsInteractionOutput<Datum, TOrdinalValue>
+        GeographiesHost<Datum>,
+        GeographiesInteractionOutput<Datum>
       >[]
     | null;
   @Input()
   hoverMoveActions:
     | RefactorHoverMoveAction<
-        BarsHost<Datum, TOrdinalValue>,
-        BarsInteractionOutput<Datum, TOrdinalValue>
+        GeographiesHost<Datum>,
+        GeographiesInteractionOutput<Datum>
       >[]
     | null;
   @Input()
   clickActions:
     | RefactorEventAction<
-        BarsHost<Datum, TOrdinalValue>,
-        BarsInteractionOutput<Datum, TOrdinalValue>
+        GeographiesHost<Datum>,
+        GeographiesInteractionOutput<Datum>
       >[]
     | null;
   @Input()
   inputEventActions: RefactorInputEventAction<
-    BarsHost<Datum, TOrdinalValue>,
-    BarsInteractionOutput<Datum, TOrdinalValue>
+    GeographiesHost<Datum>,
+    GeographiesInteractionOutput<Datum>
   >[];
-  @Output() interactionOutput = new EventEmitter<BarsInteractionOutput<
-    Datum,
-    TOrdinalValue
-  > | null>();
+  @Output() interactionOutput = new EventEmitter<
+    GeographiesInteractionOutput<Datum>
+  >();
 
-  barDatum: BarDatum<TOrdinalValue>;
-  origin: SVGRectElement;
+  bounds: [[number, number], [number, number]];
+  layer:
+    | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
+    | GeographiesGeojsonPropertiesLayer<TProperties, TGeometry>;
+  path: SVGPathElement;
 
-  constructor(@Inject(BARS) public bars: TBarsComponent) {
+  constructor(@Inject(GEOGRAPHIES) public geographies: TComponent) {
     super();
   }
 
-  get marks(): BarsComponent<Datum, TOrdinalValue> {
-    return this.bars;
+  get marks(): GeographiesComponent<Datum, TProperties, TGeometry> {
+    return this.geographies;
   }
 
   getElements(): Observable<Element[]> {
-    return this.bars.bars$.pipe(map((sel) => sel.nodes()));
-  }
-
-  getBarDatum(): BarDatum<TOrdinalValue> | null {
-    return this.barDatum ?? null;
+    return this.geographies.pathsByLayer$.pipe(
+      filter((layers) => !!layers),
+      map((layers) => layers.flatMap((selections) => selections.nodes()))
+    );
   }
 
   setupListeners(elements: Element[]): UnlistenFunction[] {
@@ -112,8 +110,9 @@ export class BarsEventsDirective<
     );
   }
 
-  onEnter(event: PointerEvent, el: Element): void {
+  onEnter(_: PointerEvent, el: Element): void {
     this.initFromElement(el);
+
     if (this.isEventAllowed(EventType.Hover)) {
       this.setPositionsFromElement();
       this.runActions(this.hoverActions, (a) => a.onStart(this.asHost()));
@@ -165,38 +164,40 @@ export class BarsEventsDirective<
     if (this.isEventAllowed(EventType.Input)) {
       if (inputValue === null || inputValue === undefined) {
         this.inputEventActions.forEach((action) =>
-          action.onEnd(this, inputValue)
+          action.onEnd(this.asHost(), inputValue)
         );
       } else {
         this.inputEventActions.forEach((action) =>
-          action.onStart(this, inputValue)
+          action.onStart(this.asHost(), inputValue)
         );
       }
     }
   }
 
   initFromElement(el: Element): void {
-    this.origin = el as SVGRectElement;
-    this.barDatum = select(
-      el as SVGRectElement
-    ).datum() as BarDatum<TOrdinalValue>;
+    this.path = el as SVGPathElement;
+    const layerIndex = parseFloat(this.path.dataset['layerIndex']);
+    this.layer =
+      layerIndex === 0
+        ? this.geographies.config.attributeDataLayer
+        : this.geographies.config.geojsonPropertiesLayers[layerIndex - 1];
+    const d = select(this.path).datum() as GeographiesFeature<
+      TProperties,
+      TGeometry
+    >;
+    this.bounds = this.geographies.path.bounds(d);
   }
 
   setPositionsFromElement(): void {
-    const barRect = this.origin.getBoundingClientRect();
-    this.positionX = barRect.width / 2;
-    this.positionY = barRect.height / 2;
+    this.positionX = (this.bounds[1][0] - this.bounds[0][0]) / 2;
+    this.positionY = (this.bounds[1][1] - this.bounds[0][1]) / 2;
   }
 
-  getInteractionOutput(
-    type: EventType
-  ): BarsInteractionOutput<Datum, TOrdinalValue> {
-    const datum = this.bars.getSourceDatumFromBarDatum(this.barDatum);
-    const tooltipData = this.bars.getTooltipData(datum);
-
+  getInteractionOutput(type: EventType): GeographiesInteractionOutput<Datum> {
+    const tooltipData = this.layer.getTooltipData(this.path);
     return {
       ...tooltipData,
-      origin: this.origin,
+      origin: this.path,
       positionX: this.positionX,
       positionY: this.positionY,
       type,
@@ -204,15 +205,16 @@ export class BarsEventsDirective<
   }
 
   emitInteractionOutput(
-    output: BarsInteractionOutput<Datum, TOrdinalValue> | null
+    output: GeographiesInteractionOutput<Datum> | null
   ): void {
     this.interactionOutput.emit(output);
   }
 
   private resetDirective(): void {
-    this.barDatum = undefined;
-    this.origin = undefined;
+    this.path = undefined;
+    this.bounds = undefined;
     this.positionX = undefined;
     this.positionY = undefined;
+    this.layer = undefined;
   }
 }

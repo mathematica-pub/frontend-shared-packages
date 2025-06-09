@@ -57,8 +57,7 @@ export abstract class RefactorEventDirective<
 
   protected abstract getElements(): Observable<Element[]>;
   protected abstract onClickRemove(): void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  protected abstract onInputEvent(event: any): void;
+  protected abstract onInputEvent(inputValue: unknown): void;
   protected abstract setPositionsFromElement(): void;
   protected abstract setupListeners(elements: Element[]): UnlistenFunction[];
 
@@ -96,6 +95,36 @@ export abstract class RefactorEventDirective<
 
   ngOnDestroy(): void {
     this.unlistenFns.forEach((fn) => fn());
+  }
+
+  protected buildInteractionListeners(
+    handlers: Partial<
+      Record<
+        EventType,
+        Partial<{
+          pointerenter: (e: PointerEvent, el: Element) => void;
+          pointermove: (e: PointerEvent, el: Element) => void;
+          pointerleave: (e: PointerEvent, el: Element) => void;
+          click: (e: PointerEvent, el: Element) => void;
+        }>
+      >
+    >
+  ): Record<string, (e: PointerEvent, el: Element) => void> {
+    const listeners: Record<string, (e: PointerEvent, el: Element) => void> =
+      {};
+
+    for (const eventType of Object.keys(handlers) as EventType[]) {
+      const handler = handlers[eventType];
+      if (!handler) continue;
+
+      this.events.push(eventType);
+
+      for (const [domEvent, fn] of Object.entries(handler)) {
+        listeners[domEvent] = fn;
+      }
+    }
+
+    return listeners;
   }
 
   protected bindEventListeners(

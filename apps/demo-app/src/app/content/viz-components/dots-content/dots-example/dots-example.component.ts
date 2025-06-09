@@ -3,12 +3,12 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   ChartConfig,
   DotsConfig,
-  DotsEventOutput,
+  DotsHost,
   DotsHoverMoveDefaultStyles,
-  DotsHoverMoveDirective,
   DotsHoverMoveEmitTooltipData,
-  HoverMoveAction,
+  DotsInteractionOutput,
   HtmlTooltipConfig,
+  RefactorHoverMoveAction,
   VicChartConfigBuilder,
   VicChartModule,
   VicDotsConfigBuilder,
@@ -59,10 +59,10 @@ export class DotsExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<DotsEventOutput<WeatherDatum>> =
-    new BehaviorSubject<DotsEventOutput<WeatherDatum>>(null);
+  tooltipData: BehaviorSubject<DotsInteractionOutput<WeatherDatum>> =
+    new BehaviorSubject<DotsInteractionOutput<WeatherDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: HoverMoveAction<DotsHoverMoveDirective<WeatherDatum>>[] = [
+  hoverActions: RefactorHoverMoveAction<DotsHost<WeatherDatum>>[] = [
     new DotsHoverMoveDefaultStyles(),
     new DotsHoverMoveEmitTooltipData(),
   ];
@@ -122,16 +122,16 @@ export class DotsExampleComponent implements OnInit {
     };
   }
 
-  updateTooltipForNewOutput(data: DotsEventOutput<WeatherDatum>): void {
+  updateTooltipForNewOutput(data: DotsInteractionOutput<WeatherDatum>): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: DotsEventOutput<WeatherDatum>): void {
+  updateTooltipData(data: DotsInteractionOutput<WeatherDatum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: DotsEventOutput<WeatherDatum>): void {
+  updateTooltipConfig(data: DotsInteractionOutput<WeatherDatum>): void {
     const config = this.tooltip
       .dotsPosition(data?.origin, [
         {

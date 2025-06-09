@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { LinesClickDirective } from './events/lines-click.directive';
+import { LinesEventsDirective } from './events/lines-events.directive';
 import { LinesHoverMoveDirective } from './events/lines-hover-move.directive';
 import { LinesHoverDirective } from './events/lines-hover.directive';
 import { LinesInputEventDirective } from './events/lines-input-event.directive';
@@ -14,6 +15,7 @@ import { LinesComponent } from './lines.component';
     LinesHoverMoveDirective,
     LinesInputEventDirective,
     LinesHoverDirective,
+    LinesEventsDirective,
   ],
   exports: [
     LinesComponent,
@@ -22,6 +24,7 @@ import { LinesComponent } from './lines.component';
     LinesHoverDirective,
     LinesHoverMoveDirective,
     LinesInputEventDirective,
+    LinesEventsDirective,
   ],
 })
 export class VicLinesModule {}

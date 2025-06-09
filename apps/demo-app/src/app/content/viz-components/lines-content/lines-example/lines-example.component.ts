@@ -13,16 +13,16 @@ import {
 import {
   ChartConfig,
   ElementSpacing,
-  EventAction,
-  HoverMoveAction,
+  EventType,
   HtmlTooltipConfig,
-  LinesClickDirective,
-  LinesClickEmitTooltipDataPauseHoverMoveActions,
   LinesConfig,
-  LinesEventOutput,
-  LinesHoverMoveDefaultStyles,
-  LinesHoverMoveDirective,
-  LinesHoverMoveEmitTooltipData,
+  LinesHost,
+  LinesInteractionOutput,
+  RefactorEventAction,
+  RefactorHoverMoveAction,
+  RefactorLinesClickEmitTooltipDataPauseHoverMoveActions,
+  RefactorLinesHoverMoveDefaultStyles,
+  RefactorLinesHoverMoveEmitTooltipData,
   VicChartConfigBuilder,
   VicChartModule,
   VicColumnConfig,
@@ -88,22 +88,21 @@ export class LinesExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<LinesEventOutput<MetroUnemploymentDatum>> =
-    new BehaviorSubject<LinesEventOutput<MetroUnemploymentDatum>>(null);
+  tooltipData: BehaviorSubject<LinesInteractionOutput<MetroUnemploymentDatum>> =
+    new BehaviorSubject<LinesInteractionOutput<MetroUnemploymentDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  chartInputEvent: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  chartInputEvent: Subject<string> = new Subject<string>();
   chartInputEvent$ = this.chartInputEvent.asObservable();
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
-  highlightLineForLabelAction = new HighlightLineForLabel();
-  hoverActions: HoverMoveAction<
-    LinesHoverMoveDirective<MetroUnemploymentDatum>
-  >[] = [
-    new LinesHoverMoveDefaultStyles(),
-    new LinesHoverMoveEmitTooltipData(),
+  highlightLineForLabelAction =
+    new HighlightLineForLabel<MetroUnemploymentDatum>();
+  hoverActions: RefactorHoverMoveAction<LinesHost<MetroUnemploymentDatum>>[] = [
+    new RefactorLinesHoverMoveDefaultStyles(),
+    new RefactorLinesHoverMoveEmitTooltipData(),
   ];
-  clickActions: EventAction<LinesClickDirective<MetroUnemploymentDatum>>[] = [
-    new LinesClickEmitTooltipDataPauseHoverMoveActions(),
+  clickActions: RefactorEventAction<LinesHost<MetroUnemploymentDatum>>[] = [
+    new RefactorLinesClickEmitTooltipDataPauseHoverMoveActions(),
   ];
   includeFiles = includeFiles;
   folderName = 'lines-example';
@@ -183,18 +182,19 @@ export class LinesExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: LinesEventOutput<MetroUnemploymentDatum>,
-    tooltipEvent: 'hover' | 'click'
+    data: LinesInteractionOutput<MetroUnemploymentDatum>
   ): void {
     this.updateTooltipData(data);
-    this.updateTooltipConfig(tooltipEvent);
+    this.updateTooltipConfig(data.type);
   }
 
-  updateTooltipData(data: LinesEventOutput<MetroUnemploymentDatum>): void {
+  updateTooltipData(
+    data: LinesInteractionOutput<MetroUnemploymentDatum>
+  ): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(eventContext: 'click' | 'hover'): void {
+  updateTooltipConfig(eventType: EventType): void {
     const data = this.tooltipData.getValue();
     const config = this.tooltip
       .size((size) => size.minWidth(340))
@@ -204,7 +204,7 @@ export class LinesExampleComponent implements OnInit {
           offsetY: data ? data.positionY - 16 : 0,
         },
       ])
-      .hasBackdrop(eventContext === 'click')
+      .hasBackdrop(eventType === 'click')
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
@@ -216,7 +216,7 @@ export class LinesExampleComponent implements OnInit {
 
   onBackdropClick(): void {
     this.removeTooltipEvent.next();
-    this.updateTooltipConfig('hover');
+    this.updateTooltipConfig(EventType.Hover);
   }
 
   async downloadImage(): Promise<void> {

@@ -15,10 +15,10 @@ import {
 import { DotDatum, DOTS, DotsComponent } from '../dots.component';
 import { DotsInteractionOutput } from './dots-interaction-output';
 
-type DotsHost<Datum> = MarksHost<
-  DotsInteractionOutput<Datum>,
-  DotsComponent<Datum>
->;
+export interface DotsHost<Datum>
+  extends MarksHost<DotsInteractionOutput<Datum>, DotsComponent<Datum>> {
+  getDotDatum(): DotDatum | null;
+}
 
 @Directive({
   selector: '[vicDotsEvents]',
@@ -63,45 +63,35 @@ export class DotsEventsDirective<
     return this.dots.dots$.pipe(map((sel) => sel.nodes()));
   }
 
+  getDotDatum(): DotDatum | null {
+    return this.dotDatum;
+  }
+
   setupListeners(elements: Element[]): UnlistenFunction[] {
-    const listeners = {};
-
-    if (this.hoverActions?.length && this.hoverMoveActions?.length) {
-      throw new Error(
-        'DotsEventsDirective: [hoverActions] and [hoverMoveActions] cannot be used at the same time.'
-      );
-    }
-
-    if (this.hoverActions?.length) {
-      listeners['pointerenter'] = (e: PointerEvent, el: Element) =>
-        this.onEnter(e, el);
-      listeners['pointerleave'] = (e: PointerEvent, el: Element) =>
-        this.onLeave(e, el);
-      this.events.push(EventType.Hover);
-    } else if (this.hoverMoveActions?.length) {
-      listeners['pointerenter'] = (e: PointerEvent, el: Element) =>
-        this.onEnter(e, el);
-      listeners['pointermove'] = (e: PointerEvent, el: Element) =>
-        this.onMove(e, el);
-      listeners['pointerleave'] = (e: PointerEvent, el: Element) =>
-        this.onLeave(e, el);
-      this.events.push(EventType.HoverMove);
-    }
-
-    if (this.clickActions?.length) {
-      listeners['click'] = (e: PointerEvent, el: Element) =>
-        this.onClick(e, el);
-      this.events.push(EventType.Click);
-    }
-
     if (this.inputEventActions?.length && this.inputEvent$) {
       this.events.push(EventType.Input);
     }
 
-    return this.bindEventListeners(elements, listeners);
+    return this.bindEventListeners(
+      elements,
+      this.buildInteractionListeners({
+        hover: this.hoverActions?.length && {
+          pointerenter: (e, el) => this.onEnter(e, el),
+          pointerleave: (e, el) => this.onLeave(e, el),
+        },
+        hoverMove: this.hoverMoveActions?.length && {
+          pointerenter: (e, el) => this.onEnter(e, el),
+          pointermove: (e, el) => this.onMove(e, el),
+          pointerleave: (e, el) => this.onLeave(e, el),
+        },
+        click: this.clickActions?.length && {
+          click: (e, el) => this.onClick(e, el),
+        },
+      })
+    );
   }
 
-  onEnter(event: PointerEvent, el: Element): void {
+  onEnter(_: PointerEvent, el: Element): void {
     this.initFromElement(el);
     if (this.isEventAllowed(EventType.Hover)) {
       this.setPositionsFromElement();
@@ -148,10 +138,17 @@ export class DotsEventsDirective<
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-  onInputEvent(_: any): void {
+  onInputEvent(inputValue: unknown): void {
     if (this.isEventAllowed(EventType.Input)) {
-      this.inputEventActions.forEach((action) => action.onStart(this));
+      if (inputValue === null || inputValue === undefined) {
+        this.inputEventActions.forEach((action) =>
+          action.onEnd(this, inputValue)
+        );
+      } else {
+        this.inputEventActions.forEach((action) =>
+          action.onStart(this, inputValue)
+        );
+      }
     }
   }
 

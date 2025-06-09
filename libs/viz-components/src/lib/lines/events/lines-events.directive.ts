@@ -16,10 +16,10 @@ import {
 import { LINES, LinesComponent } from '../lines.component';
 import { LinesInteractionOutput } from './lines-interaction-output';
 
-type LinesHost<Datum> = MarksHost<
-  LinesInteractionOutput<Datum>,
-  LinesComponent<Datum>
->;
+export interface LinesHost<Datum>
+  extends MarksHost<LinesInteractionOutput<Datum>, LinesComponent<Datum>> {
+  getClosestPointIndex(): number;
+}
 
 @Directive({
   selector: '[vicLinesEvents]',
@@ -63,30 +63,28 @@ export class LinesEventsDirective<
     return of([this.lines.chart.svgRef.nativeElement]);
   }
 
+  getClosestPointIndex(): number {
+    return this.closestPointIndex;
+  }
+
   setupListeners(elements: Element[]): UnlistenFunction[] {
-    const listeners = {};
-
-    if (this.hoverMoveActions?.length) {
-      listeners['pointerenter'] = (e: PointerEvent, el: Element) =>
-        this.onEnter(e, el);
-      listeners['pointermove'] = (e: PointerEvent, el: Element) =>
-        this.onMove(e, el);
-      listeners['pointerleave'] = (e: PointerEvent, el: Element) =>
-        this.onLeave(e, el);
-      this.events.push(EventType.HoverMove);
-    }
-
-    if (this.clickActions?.length) {
-      listeners['click'] = (e: PointerEvent, el: Element) =>
-        this.onClick(e, el);
-      this.events.push(EventType.Click);
-    }
-
     if (this.inputEventActions?.length && this.inputEvent$) {
       this.events.push(EventType.Input);
     }
 
-    return this.bindEventListeners(elements, listeners);
+    return this.bindEventListeners(
+      elements,
+      this.buildInteractionListeners({
+        hoverMove: this.hoverMoveActions?.length && {
+          pointerenter: (e, el) => this.onEnter(e, el),
+          pointermove: (e, el) => this.onMove(e, el),
+          pointerleave: (e, el) => this.onLeave(e, el),
+        },
+        click: this.clickActions?.length && {
+          click: (e, el) => this.onClick(e, el),
+        },
+      })
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -137,9 +135,17 @@ export class LinesEventsDirective<
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-  onInputEvent(_: any): void {
+  onInputEvent(inputValue: unknown): void {
     if (this.isEventAllowed(EventType.Input)) {
-      this.inputEventActions.forEach((action) => action.onStart(this));
+      if (inputValue === null || inputValue === undefined) {
+        this.inputEventActions.forEach((action) =>
+          action.onEnd(this, inputValue)
+        );
+      } else {
+        this.inputEventActions.forEach((action) =>
+          action.onStart(this, inputValue)
+        );
+      }
     }
   }
 
@@ -158,7 +164,7 @@ export class LinesEventsDirective<
   ): void {
     if (!this.isEventAllowed(type)) return;
 
-    this.closestPointIndex = this.getClosestPointIndex();
+    this.closestPointIndex = this._getClosestPointIndex();
 
     const isInside = this.pointerIsInsideShowTooltipRadius(
       this.closestPointIndex,
@@ -178,7 +184,7 @@ export class LinesEventsDirective<
     }
   }
 
-  getClosestPointIndex(): number {
+  protected _getClosestPointIndex(): number {
     return least(this.lines.config.valueIndices, (i) =>
       this.getPointerDistanceFromPoint(
         this.lines.config.x.values[i],

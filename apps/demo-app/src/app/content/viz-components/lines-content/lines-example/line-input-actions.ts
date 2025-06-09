@@ -1,51 +1,43 @@
 import {
-  InputEventAction,
-  LinesComponent,
   LinesGroupSelectionDatum,
-  LinesInputEventDirective,
+  LinesHost,
   LinesMarkerDatum,
+  RefactorInputEventAction,
 } from '@hsi/viz-components';
 
-export class HighlightLineForLabel<
-  Datum,
-  ExtendedLineComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> implements
-    InputEventAction<LinesInputEventDirective<Datum, ExtendedLineComponent>>
+export class HighlightLineForLabel<Datum>
+  implements RefactorInputEventAction<LinesHost<Datum>>
 {
-  onStart(
-    event: LinesInputEventDirective<Datum, ExtendedLineComponent>,
-    label: string
-  ): void {
-    event.lines.lineGroups
+  onStart(host: LinesHost<Datum>, label: string): void {
+    host.marks.lineGroups
       .filter(([category]): boolean => label === category)
       .raise()
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
       .style('stroke', null);
 
-    event.lines.lineGroups
+    host.marks.lineGroups
       .filter(([category]): boolean => label !== category)
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
       .style('stroke', '#ddd');
 
-    event.lines.lineGroups
+    host.marks.lineGroups
       .selectAll<SVGPathElement, LinesMarkerDatum>('circle')
       .style('fill', (d): string =>
-        label === event.lines.config.stroke.color.values[d.index]
+        label === host.marks.config.stroke.color.values[d.index]
           ? null
           : 'transparent'
       )
       .filter(
-        (d): boolean =>
-          label === event.lines.config.stroke.color.values[d.index]
+        (d): boolean => label === host.marks.config.stroke.color.values[d.index]
       )
       .raise();
   }
 
-  onEnd(event: LinesInputEventDirective<Datum, ExtendedLineComponent>): void {
-    event.lines.lineGroups
+  onEnd(event: LinesHost<Datum>): void {
+    event.marks.lineGroups
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
       .style('stroke', null);
-    event.lines.lineGroups
+    event.marks.lineGroups
       .selectAll<SVGPathElement, LinesMarkerDatum>('circle')
       .style('fill', null);
   }

@@ -41,12 +41,11 @@
           <svg:g
             vic-primary-marks-lines
             [config]="vm.dataConfig"
-            [vicLinesHoverMoveActions]="hoverActions"
-            (vicLinesHoverMoveOutput)="
-              updateTooltipForNewOutput($event, 'hover')
-            "
-            [vicLinesInputActions]="[highlightLineForLabelAction]"
-            [vicLinesInputEvent$]="chartInputEvent$"
+            vicLinesEvents
+            [hoverMoveActions]="hoverActions"
+            [inputEventActions]="[highlightLineForLabelAction]"
+            [inputEvent$]="chartInputEvent$"
+            (interactionOutput)="updateTooltipForNewOutput($event)"
           >
             <vic-html-tooltip
               [config]="tooltipConfig$ | async"
@@ -57,17 +56,13 @@
           <svg:g
             vic-primary-marks-lines
             [config]="vm.dataConfig"
-            [vicLinesHoverMoveActions]="hoverActions"
-            (vicLinesHoverMoveOutput)="
-              updateTooltipForNewOutput($event, 'hover')
-            "
-            [vicLinesChartClickActions]="clickActions"
-            [vicLinesChartClickRemoveEvent$]="removeTooltipEvent$"
-            (vicLinesChartClickOutput)="
-              updateTooltipForNewOutput($event, 'click')
-            "
-            [vicLinesInputActions]="[highlightLineForLabelAction]"
-            [vicLinesInputEvent$]="chartInputEvent$"
+            vicLinesEvents
+            [hoverMoveActions]="hoverActions"
+            [clickActions]="clickActions"
+            [clickRemoveEvent$]="removeTooltipEvent$"
+            [inputEventActions]="[highlightLineForLabelAction]"
+            [inputEvent$]="chartInputEvent$"
+            (interactionOutput)="updateTooltipForNewOutput($event)"
           >
             <vic-html-tooltip
               [config]="tooltipConfig$ | async"
