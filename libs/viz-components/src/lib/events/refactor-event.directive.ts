@@ -174,4 +174,8 @@ export abstract class RefactorEventDirective<
   protected isEventAllowed(event: EventType): boolean {
     return this.hasEvent(event) && !this.preventAction[event];
   }
+
+  protected asHost(): Host {
+    return this as unknown as Host;
+  }
 }

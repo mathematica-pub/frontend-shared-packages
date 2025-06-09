@@ -1,0 +1,45 @@
+import { DataValue } from '../../../core/types/values';
+import { EventType, RefactorEventAction } from '../../../events';
+import { BarsHost } from '../bars-events.directive';
+import { BarsInteractionOutput } from '../bars-interaction-output';
+
+export class RefactorBarsHoverShowLabels<Datum, TOrdinalValue extends DataValue>
+  implements
+    RefactorEventAction<
+      BarsHost<Datum, TOrdinalValue>,
+      BarsInteractionOutput<Datum, TOrdinalValue>
+    >
+{
+  onStart(host: BarsHost<Datum, TOrdinalValue>): void {
+    host.marks.barGroups
+      .filter((d) => d === host.getBarDatum().index)
+      .select('text')
+      .style('display', null);
+  }
+
+  onEnd(host: BarsHost<Datum, TOrdinalValue>): void {
+    host.marks.barGroups
+      .filter((d) => d === host.getBarDatum().index)
+      .select('text')
+      .style('display', 'none');
+  }
+}
+
+export class RefactorBarsHoverEmitTooltipData<
+  Datum,
+  TOrdinalValue extends DataValue,
+> implements
+    RefactorEventAction<
+      BarsHost<Datum, TOrdinalValue>,
+      BarsInteractionOutput<Datum, TOrdinalValue>
+    >
+{
+  onStart(host: BarsHost<Datum, TOrdinalValue>): void {
+    const tooltipData = host.getInteractionOutput(EventType.Hover);
+    host.emitInteractionOutput(tooltipData);
+  }
+
+  onEnd(host: BarsHost<Datum, TOrdinalValue>): void {
+    host.emitInteractionOutput(null);
+  }
+}

@@ -16,10 +16,13 @@ import {
 import { BarDatum, BARS, BarsComponent } from '../bars.component';
 import { BarsInteractionOutput } from './bars-interaction-output';
 
-export type BarsHost<Datum, TOrdinalValue extends DataValue> = MarksHost<
-  BarsInteractionOutput<Datum, TOrdinalValue>,
-  BarsComponent<Datum, TOrdinalValue>
->;
+export interface BarsHost<Datum, TOrdinalValue extends DataValue>
+  extends MarksHost<
+    BarsInteractionOutput<Datum, TOrdinalValue>,
+    BarsComponent<Datum, TOrdinalValue>
+  > {
+  getBarDatum(): BarDatum<TOrdinalValue> | null;
+}
 
 @Directive({
   selector: '[vicBarsEvents]',
@@ -81,6 +84,10 @@ export class BarsEventsDirective<
     return this.bars.bars$.pipe(map((sel) => sel.nodes()));
   }
 
+  getBarDatum(): BarDatum<TOrdinalValue> | null {
+    return this.barDatum ?? null;
+  }
+
   setupListeners(elements: Element[]): UnlistenFunction[] {
     const listeners = {};
 
@@ -123,9 +130,11 @@ export class BarsEventsDirective<
     this.initFromElement(el);
     if (this.isEventAllowed(EventType.Hover)) {
       this.setPositionsFromElement();
-      this.runActions(this.hoverActions, (a) => a.onStart(this));
+      this.runActions(this.hoverActions, (a) => a.onStart(this.asHost()));
     } else if (this.isEventAllowed(EventType.HoverMove)) {
-      this.runActions(this.hoverMoveActions, (a) => a.initialize(this));
+      this.runActions(this.hoverMoveActions, (a) =>
+        a.initialize(this.asHost())
+      );
     }
   }
 
@@ -133,16 +142,16 @@ export class BarsEventsDirective<
   onMove(event: PointerEvent, _: Element): void {
     if (this.isEventAllowed(EventType.HoverMove)) {
       this.setPositionsFromPointer(event);
-      this.hoverMoveActions.forEach((action) => action.onStart(this));
+      this.hoverMoveActions.forEach((action) => action.onStart(this.asHost()));
     }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onLeave(_: PointerEvent, __: Element): void {
     if (this.isEventAllowed(EventType.Hover)) {
-      this.hoverActions.forEach((action) => action.onEnd(this));
+      this.hoverActions.forEach((action) => action.onEnd(this.asHost()));
     } else if (this.isEventAllowed(EventType.HoverMove)) {
-      this.hoverMoveActions.forEach((action) => action.onEnd(this));
+      this.hoverMoveActions.forEach((action) => action.onEnd(this.asHost()));
     }
     this.resetDirective();
   }
@@ -155,13 +164,13 @@ export class BarsEventsDirective<
       } else {
         this.setPositionsFromPointer(event);
       }
-      this.runActions(this.clickActions, (a) => a.onStart(this));
+      this.runActions(this.clickActions, (a) => a.onStart(this.asHost()));
     }
   }
 
   onClickRemove(): void {
     if (!this.preventAction.click) {
-      this.runActions(this.clickActions, (a) => a.onEnd(this));
+      this.runActions(this.clickActions, (a) => a.onEnd(this.asHost()));
       this.resetDirective();
     }
   }
@@ -169,7 +178,7 @@ export class BarsEventsDirective<
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   onInputEvent(_: any): void {
     if (this.isEventAllowed(EventType.Input)) {
-      this.inputEventActions.forEach((action) => action.onStart(this));
+      this.inputEventActions.forEach((action) => action.onStart(this.asHost()));
     }
   }
 
