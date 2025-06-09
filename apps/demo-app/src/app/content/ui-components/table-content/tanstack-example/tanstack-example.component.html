@@ -15,7 +15,7 @@
                     "
                   >
                     <div
-                      class="sorted"
+                      class="header-cell-sort"
                       (click)="header.column.toggleSorting()"
                       [class.sorting-asc]="
                         header.column.getIsSorted() === 'asc'
@@ -25,6 +25,19 @@
                       "
                     >
                       {{ headerCell }}
+                      <span
+                        [ngClass]="[
+                          'material-sort-icon',
+                          'material-symbols-outlined',
+                        ]"
+                        [class.desc]="header.column.getIsSorted() === 'desc'"
+                        [class.asc]="header.column.getIsSorted() === 'asc'"
+                        [class.actively-sorted]="
+                          header.column.getIsSorted() !== false
+                        "
+                        [attr.aria-hidden]="true"
+                        >{{ sortIcon }}</span
+                      >
                     </div>
                   </ng-container>
                 </th>

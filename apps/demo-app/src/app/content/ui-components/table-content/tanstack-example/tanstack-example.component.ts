@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  signal,
+} from '@angular/core';
 import {
   ColumnDef,
   createAngularTable,
@@ -80,11 +85,6 @@ const defaultColumns: ColumnDef<Person>[] = [
     accessorKey: 'performance.visits',
     header: () => `Visits`,
     footer: (info) => info.column.id,
-    // sortingFn: (a, b) => {
-    //   const aValue = a.getValue('performance.visits');
-    //   const bValue = b.getValue('performance.visits');
-    //   return aValue - bValue;
-    // },
   },
   {
     accessorKey: 'performance.status',
@@ -112,21 +112,13 @@ const defaultColumns: ColumnDef<Person>[] = [
   styleUrls: ['./tanstack-example.component.scss'],
 })
 export class TanstackExampleComponent {
-  onClick(id: string) {
-    console.log('onClick', id);
-  }
+  @Input() sortIcon: string = 'arrow_upward';
   readonly sorting = signal<SortingState>([
     {
       id: 'age',
-      desc: false, //sort by age in descending order by default
+      desc: false,
     },
   ]);
-
-  //Use our controlled state values to fetch data
-  // readonly data$ = combineLatest({
-  //   data: of(defaultData),
-  //   sorting: toObservable(this.sorting),
-  // }).pipe(map(({ data, sorting }) => updateData(data, sorting)));
 
   readonly data = signal(defaultData);
   table = createAngularTable(() => ({
@@ -148,16 +140,3 @@ export class TanstackExampleComponent {
     },
   }));
 }
-// function updateData(data: Person[], sorting: SortingState): Person[] {
-//   if (sorting.length === 0) return data;
-
-//   const { id, desc } = sorting[0];
-//   return data.sort((a, b) => {
-//     const aValue = id.split('.').reduce((obj, key) => obj[key], a);
-//     const bValue = id.split('.').reduce((obj, key) => obj[key], b);
-
-//     if (aValue < bValue) return desc ? 1 : -1;
-//     if (aValue > bValue) return desc ? -1 : 1;
-//     return 0;
-//   });
-// }
