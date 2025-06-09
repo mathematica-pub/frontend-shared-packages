@@ -48,6 +48,7 @@ export class MlbBdaComponent extends MlbChartComponent {
         strat: x.STRAT,
         stratVal: x.StratVal_v2,
         lob: x.LOB,
+        comparison: x.Comparison === 'TRUE',
         value: null, // null to avoid bars
         average: x.Value && !isNaN(x.Value) ? +x.Value : null,
       };
@@ -55,7 +56,7 @@ export class MlbBdaComponent extends MlbChartComponent {
     });
     return transformed.filter((x: MlbBdaDatum) => {
       const strat = x.strat.toLowerCase();
-      return this.isMatchingStrat(strat);
+      return this.isMatchingStrat(strat) && x.comparison === false;
     });
   }
 

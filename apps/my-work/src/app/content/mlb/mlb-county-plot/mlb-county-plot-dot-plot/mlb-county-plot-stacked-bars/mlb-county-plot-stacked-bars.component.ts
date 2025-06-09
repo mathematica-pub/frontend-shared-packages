@@ -8,16 +8,16 @@ import {
   MlbStackedBarsComponent,
 } from '../../../mlb-stacked-bars.component';
 import { mlbColorRange } from '../../../mlb.constants';
-import { MlbBdaDatum } from '../../mlb-bda.component';
+import { MlbCsaDatum } from '../../mlb-county-plot.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[app-mlb-bda-stacked-bars]',
+  selector: '[app-mlb-county-plot-stacked-bars]',
   standalone: true,
   templateUrl: '',
   imports: [CommonModule],
 })
-export class MlbBdaStackedBarsComponent
+export class MlbCountyPlotStackedBarsComponent
   extends MlbStackedBarsComponent
   implements OnInit
 {
@@ -52,8 +52,8 @@ export class MlbBdaStackedBarsComponent
     this.colorScale = scaleOrdinal().domain(domain).range(mlbColorRange);
   }
 
-  override getCategory(lob: MlbBdaDatum): string {
-    return lob.stratVal;
+  override getCategory(lob: MlbCsaDatum): string {
+    return lob.county;
   }
 
   override getColor(lob: MlbDatum): string {
@@ -96,16 +96,17 @@ export class MlbBdaStackedBarsComponent
     return this.scales.y(strat.stratVal) + this.stratPadding;
   }
 
-  getY2(d: any, reverseData: MlbBdaDatum[]): number {
-    const strat = reverseData.find((x) => x.strat === d);
+  getY2(d: any, reverseData: MlbCsaDatum[]): number {
+    // const strat = reverseData.find((x) => x.strat === d);
+    const county = reverseData.find((x) => x.county === d);
     return (
-      this.scales.y(strat.stratVal) +
+      this.scales.y(county.stratVal) +
       (this.scales.y as any).bandwidth() -
       this.stratPadding
     );
   }
 
-  getAverageY(d: any, reverseData: MlbBdaDatum[]): number {
+  getAverageY(d: any, reverseData: MlbCsaDatum[]): number {
     const y1 = this.getY1(d);
     const y2 = this.getY2(d, reverseData);
     const average = (y1 + y2) / 2;

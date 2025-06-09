@@ -49,6 +49,7 @@ export class MlbPercentilesComponent extends MlbChartComponent {
       const obj: MlbPercentilesDatum = {
         series: 'percentile',
         lob: x.LOB,
+        comparison: x.Comparison === 'TRUE',
         measureCode: x.Measure_Code,
         strat: x.STRAT,
         stratVal: x.StratVal_v2,
@@ -65,7 +66,7 @@ export class MlbPercentilesComponent extends MlbChartComponent {
       return obj;
     });
     return transformed.filter((x: MlbPercentilesDatum) => {
-      return x.strat === 'NULL';
+      return x.strat === 'NULL' && x.comparison === false;
     });
   }
 }

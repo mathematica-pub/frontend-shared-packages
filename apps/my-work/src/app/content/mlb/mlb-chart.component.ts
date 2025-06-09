@@ -10,6 +10,7 @@ import { DataService } from 'apps/my-work/src/app/core/services/data.service';
 import { ascending } from 'd3';
 import { combineLatest, debounceTime, filter, map, Observable } from 'rxjs';
 import { MlbDatum } from './mlb-stacked-bars.component';
+import { lobNames } from './mlb.constants';
 
 interface SelectionForm {
   measureCode: AbstractControl<string>;
@@ -98,9 +99,11 @@ export class MlbChartComponent implements OnInit {
     this.setValidValues();
     let filteredData = data;
     this.filterTypes.forEach((type: string) => {
-      filteredData = filteredData.filter(
-        (plan) => plan[type] === filters[type]
-      );
+      filteredData = filteredData
+        .filter((d) => d[type] === filters[type] && d.comparison === false)
+        .sort((a) =>
+          a.lob === lobNames.mock || a.lob === lobNames.real ? -1 : 1
+        );
     });
     return filteredData;
   }

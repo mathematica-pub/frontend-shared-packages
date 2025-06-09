@@ -1,0 +1,34 @@
+<div class="title">MLB County Dot Plot</div>
+<form [formGroup]="myForm">
+  <div class="selection">
+    <label for="measureCode">Measure Code</label>
+    <select id="measureCode" formControlName="measureCode">
+      <option
+        *ngFor="let code of filters.measureCodes"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+  <div class="selection">
+    <label for="stratVal">Stratification</label>
+    <select id="stratVal" formControlName="stratVal">
+      <option
+        *ngFor="let code of filters.stratVals"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+</form>
+@if (filteredData$ | async; as data) {
+  <app-export-content
+    [fileName]="'MLB County Dot Plot ' + myForm.value[filterTypes[0]]"
+  >
+    <app-mlb-county-plot-dot-plot [data]="data"></app-mlb-county-plot-dot-plot>
+  </app-export-content>
+}

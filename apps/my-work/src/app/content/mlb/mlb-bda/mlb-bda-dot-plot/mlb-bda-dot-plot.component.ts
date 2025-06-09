@@ -129,6 +129,7 @@ export class MlbBdaDotPlotComponent
               units: null,
               value: null,
               lob: null,
+              comparison: false,
               average: null,
             };
             const invisibleCategory = structuredClone(emptyCategory);

@@ -8,9 +8,11 @@ import {
 } from '@angular/core';
 import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
 import { select, Selection } from 'd3';
+import { lobNames } from './mlb.constants';
 
 export interface MlbDatum {
   lob: string;
+  comparison: boolean;
   average: number;
   series: string;
   measureCode: string;
@@ -41,6 +43,7 @@ export class MlbStackedBarsComponent
   yAxisOffset = -0.8;
   additionalYAxisOffset = `${this.yAxisOffset - 2.5}em`;
   radius = 7;
+  highlightedRadius = 3;
   percentOffset: string;
 
   override ngOnInit(): void {
@@ -117,7 +120,7 @@ export class MlbStackedBarsComponent
         )
       )
       .join('circle')
-      .attr('r', this.radius)
+      .attr('r', (lob: MlbDatum) => this.getR(lob.lob))
       .attr('cx', (lob: MlbDatum) => this.scales.x(lob.average))
       .attr(
         'cy',
@@ -126,7 +129,18 @@ export class MlbStackedBarsComponent
           (this.scales.y as any).bandwidth() / 2
       )
       .attr('class', 'average')
-      .style('fill', (lob: MlbDatum) => this.getColor(lob));
+      .style('fill', (lob: MlbDatum) => this.getColor(lob))
+      .filter((lob: MlbDatum) => this.isHighlighted(lob.lob))
+      .lower();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getR(lob: string): number {
+    return this.radius;
+  }
+
+  isHighlighted(lob: string): boolean {
+    return lob === lobNames.mock || lob === lobNames.real;
   }
 
   getCategory(lob: MlbDatum): string {
