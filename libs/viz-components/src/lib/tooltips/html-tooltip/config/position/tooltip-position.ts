@@ -5,6 +5,7 @@ import {
   OverlayPositionBuilder,
   PositionStrategy,
 } from '@angular/cdk/overlay';
+import { safeAssign } from '@hsi/app-dev-kit';
 import { HtmlTooltipOffsetFromOriginPositionOptions } from './tooltip-position-options';
 
 export abstract class HtmlTooltipPosition {
@@ -51,7 +52,7 @@ export class HtmlTooltipOffsetFromOriginPosition
     this.type = 'global';
     this.tooltipOriginX = 'center';
     this.tooltipOriginY = 'bottom';
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 
   getPositionStrategy(

@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import type * as CSSType from 'csstype';
 import { GeoPath, GeoProjection, ScaleLinear } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
@@ -33,6 +34,6 @@ export class GeographiesLabels<
   ) => string;
 
   constructor(options: GeographiesLabelsOptions<TProperties, TGeometry>) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

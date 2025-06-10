@@ -1,9 +1,12 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import 'cypress-real-events';
-import { curveBasis, schemeTableau10 } from 'd3';
 import {
   ChartConfig,
+  HoverMoveAction,
+  HtmlTooltipConfig,
+  LinesConfig,
+  LinesEventOutput,
   LinesHoverMoveDirective,
   LinesHoverMoveEmitTooltipData,
   VicChartConfigBuilder,
@@ -12,25 +15,23 @@ import {
   VicHtmlTooltipModule,
   VicLinesConfigBuilder,
   VicLinesModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXyAxisModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from 'libs/viz-components/src/public-api';
+} from '@hsi/viz-components';
+import 'cypress-real-events';
+import { curveBasis, schemeTableau10 } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
-import { VicXQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
-import { VicYQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
-import { HoverMoveAction } from '../events/action';
 import {
   continentPopulationDateYearData,
   ContinentPopulationDateYearDatum,
   ContinentPopulationNumYearData,
   ContinentPopulationNumYearDatum,
 } from '../testing/data/continent-population-year-data';
-import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
-import { LinesConfig } from './config/lines-config';
-import { LinesEventOutput } from './events/lines-event-output';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).
@@ -89,7 +90,13 @@ const markerSelector = '.vic-lines-marker';
     </ng-template>
   `,
   styles: ['.tooltip-text { font-size: 12px; }'],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicLinesModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+    CommonModule,
+  ],
 })
 class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   @Input() linesConfig: LinesConfig<Datum>;
@@ -140,13 +147,6 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   }
 }
 
-const imports = [
-  VicChartModule,
-  VicLinesModule,
-  VicXyAxisModule,
-  VicHtmlTooltipModule,
-];
-
 function mountDateLinesComponent(
   linesConfig: LinesConfig<ContinentPopulationDateYearDatum>
 ): void {
@@ -155,12 +155,7 @@ function mountDateLinesComponent(
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
-  const declarations = [
-    TestLinesComponent<ContinentPopulationDateYearDatum, Date>,
-  ];
   cy.mount(TestLinesComponent<ContinentPopulationDateYearDatum, Date>, {
-    declarations,
-    imports,
     componentProperties: {
       linesConfig: linesConfig,
       xQuantitativeAxisConfig: xAxisConfig,
@@ -177,12 +172,7 @@ function mountNumberLinesComponent(
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
-  const declarations = [
-    TestLinesComponent<ContinentPopulationNumYearDatum, number>,
-  ];
   cy.mount(TestLinesComponent<ContinentPopulationNumYearDatum, number>, {
-    declarations,
-    imports,
     componentProperties: {
       linesConfig: linesConfig,
       xQuantitativeAxisConfig: xAxisConfig,

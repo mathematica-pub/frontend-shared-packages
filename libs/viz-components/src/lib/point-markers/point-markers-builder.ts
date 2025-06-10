@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { PointMarkers } from './point-markers';
 
 const DEFAULT = {
@@ -14,7 +15,7 @@ export class PointMarkersBuilder<Datum> {
   private _radius: number;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

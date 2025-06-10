@@ -1,28 +1,30 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
-import 'cypress-real-events';
-import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
+  BarsConfig,
   ChartConfig,
+  LinesConfig,
+  QuantitativeRulesConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
   VicChartConfigBuilder,
   VicChartModule,
   VicLinesConfigBuilder,
   VicLinesModule,
+  VicQuantitativeRulesConfigBuilder,
   VicQuantitativeRulesModule,
   VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXyAxisModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '../../public-api';
-import { VicXQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
-import { VicYQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
-import { BarsConfig } from '../bars/config/bars-config';
-import { LinesConfig } from '../lines/config/lines-config';
+} from '@hsi/viz-components';
+import 'cypress-real-events';
+import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
   continentPopulationDateYearData,
   ContinentPopulationDateYearDatum,
@@ -33,8 +35,6 @@ import {
   countryFactsData,
   CountryFactsDatum,
 } from '../testing/data/country-area-continent';
-import { VicQuantitativeRulesConfigBuilder } from './config/quantitative-rules-builder';
-import { QuantitativeRulesConfig } from './config/quantitative-rules-config';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).
@@ -78,7 +78,12 @@ const labelSelector = '.vic-quantitative-rules-label';
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicQuantitativeRulesModule,
+  ],
 })
 class TestQuantitativeRulesHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
@@ -111,17 +116,8 @@ const mountHorizontalBarsComponent = (
     )
     .labels((labels) => labels.display(true))
     .getConfig();
-  const declarations = [TestQuantitativeRulesHorizontalBarsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-    VicQuantitativeRulesModule,
-  ];
 
   cy.mount(TestQuantitativeRulesHorizontalBarsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       rulesConfig: rulesConfig,
@@ -157,7 +153,12 @@ const mountHorizontalBarsComponent = (
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicQuantitativeRulesModule,
+  ],
 })
 class TestVerticalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
@@ -192,17 +193,7 @@ const mountVerticalBarsComponent = (
     .labels((labels) => labels.display(true))
     .getConfig();
 
-  const declarations = [TestVerticalBarsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-    VicQuantitativeRulesModule,
-  ];
-
   cy.mount(TestVerticalBarsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       rulesConfig: rulesConfig,
@@ -247,7 +238,12 @@ const linesNumericData = ContinentPopulationNumYearData;
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicLinesModule,
+    VicXyAxisModule,
+    VicQuantitativeRulesModule,
+  ],
 })
 class TestLinesComponent<
   Datum,
@@ -266,13 +262,6 @@ class TestLinesComponent<
     .getConfig();
 }
 
-const lineImports = [
-  VicChartModule,
-  VicLinesModule,
-  VicXyAxisModule,
-  VicQuantitativeRulesModule,
-];
-
 function mountDateLinesComponent<RuleDatum extends number | Date>(
   rulesConfig: QuantitativeRulesConfig<RuleDatum>
 ): void {
@@ -290,14 +279,9 @@ function mountDateLinesComponent<RuleDatum extends number | Date>(
         stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
       .getConfig();
-  const declarations = [
-    TestLinesComponent<ContinentPopulationDateYearDatum, Date, RuleDatum>,
-  ];
   cy.mount(
     TestLinesComponent<ContinentPopulationDateYearDatum, Date, RuleDatum>,
     {
-      declarations,
-      imports: lineImports,
       componentProperties: {
         linesConfig: linesConfig,
         rulesConfig: rulesConfig,
@@ -328,14 +312,9 @@ function mountNumberLinesComponent(
         stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
       .getConfig();
-  const declarations = [
-    TestLinesComponent<ContinentPopulationNumYearDatum, number, number>,
-  ];
   cy.mount(
     TestLinesComponent<ContinentPopulationNumYearDatum, number, number>,
     {
-      declarations,
-      imports: lineImports,
       componentProperties: {
         linesConfig: linesConfig,
         rulesConfig: rulesConfig,

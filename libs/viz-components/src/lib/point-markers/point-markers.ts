@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { PointMarkersOptions } from './point-markers-options';
 
 export class PointMarkers<Datum> implements PointMarkersOptions<Datum> {
@@ -7,6 +8,6 @@ export class PointMarkers<Datum> implements PointMarkersOptions<Datum> {
   readonly radius: number;
 
   constructor(options: PointMarkersOptions<Datum>) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

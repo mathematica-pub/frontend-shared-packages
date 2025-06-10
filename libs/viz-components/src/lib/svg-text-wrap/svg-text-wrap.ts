@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { select, Selection } from 'd3';
 import { SvgTextWrapOptions } from './svg-text-wrap-options';
 
@@ -8,7 +9,7 @@ export class SvgTextWrap {
   lineHeight: number;
 
   constructor(options: SvgTextWrapOptions) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,7 +47,6 @@ export class SvgTextWrap {
           tspan = text
             .append('tspan')
             .attr('x', x)
-            .attr('y', y)
             .attr('dy', ++lineNumber * this.lineHeight + dy + 'em')
             .text(word);
         }

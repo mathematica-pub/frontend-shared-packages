@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import { DataValue } from '../../core/types/values';
 import { XyAxisBaseBuilder } from '../base/config/xy-axis-builder';
 import { TicksBuilder } from '../ticks/ticks-builder';
@@ -24,7 +25,7 @@ export class VicYOrdinalAxisConfigBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
     this.ticksBuilder = this.getTicksBuilder();
   }
 

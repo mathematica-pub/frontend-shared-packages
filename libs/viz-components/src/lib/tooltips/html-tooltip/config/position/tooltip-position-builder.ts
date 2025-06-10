@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { HtmlTooltipOffsetFromOriginPosition } from './tooltip-position';
 
 const DEFAULT = {
@@ -10,7 +11,7 @@ export class HtmlTooltipOffsetFromOriginPositionBuilder {
   private _offsetY: number;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

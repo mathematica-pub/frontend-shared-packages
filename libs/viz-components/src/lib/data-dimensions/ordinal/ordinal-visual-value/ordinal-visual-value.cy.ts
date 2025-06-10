@@ -1,8 +1,9 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
-import { schemeTableau10 } from 'd3';
 import {
+  BarsConfig,
   ChartConfig,
+  VicBarsConfigBuilder,
   VicBarsModule,
   VicChartConfigBuilder,
   VicChartModule,
@@ -11,10 +12,9 @@ import {
   VicXyAxisModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-} from 'libs/viz-components/src/public-api';
+} from '@hsi/viz-components';
+import { schemeTableau10 } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { VicBarsConfigBuilder } from '../../../bars/config/bars-builder';
-import { BarsConfig } from '../../../bars/config/bars-config';
 import {
   countryFactsData,
   CountryFactsDatum,
@@ -85,7 +85,7 @@ const barSelector = '.vic-bars-bar';
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [VicChartModule, VicBarsModule, VicXyAxisModule],
 })
 class TestHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
@@ -108,12 +108,8 @@ const mountHorizontalBarsComponent = (
     .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
-  const declarations = [TestHorizontalBarsComponent];
-  const imports = [VicChartModule, VicBarsModule, VicXyAxisModule];
 
   cy.mount(TestHorizontalBarsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       xQuantitativeAxisConfig: xAxisConfig,

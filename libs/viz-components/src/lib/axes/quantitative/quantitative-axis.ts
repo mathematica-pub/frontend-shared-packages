@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { AxisTimeInterval, format, timeFormat } from 'd3';
+import { AxisTimeInterval, format, utcFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { ContinuousValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
@@ -28,7 +28,7 @@ export function quantitativeAxisMixin<
       const validTickValues = this.getValidTickValues();
       this.axis.tickValues(validTickValues);
       this.axis.tickFormat((d) => {
-        const formatter = d instanceof Date ? timeFormat : format;
+        const formatter = d instanceof Date ? utcFormat : format;
         return typeof tickFormat === 'function'
           ? tickFormat(d)
           : formatter(tickFormat)(d);
@@ -49,32 +49,41 @@ export function quantitativeAxisMixin<
     setUnspecifiedTickValues(
       tickFormat: string | ((value: Tick) => string)
     ): void {
-      const validNumTicks = this.getValidNumTicks(tickFormat);
+      const validNumTicks = this.getSuggestedNumTicks(tickFormat);
       this.axis.ticks(validNumTicks);
       this.axis.tickFormat((d) => {
-        const formatter = d instanceof Date ? timeFormat : format;
+        const formatter = d instanceof Date ? utcFormat : format;
         return typeof tickFormat === 'function'
           ? tickFormat(d)
           : formatter(tickFormat)(d);
       });
     }
 
-    getValidNumTicks(
+    getSuggestedNumTicks(
       tickFormat: string | ((value: Tick) => string)
     ): number | AxisTimeInterval {
-      let numValidTicks = this.getNumTicks();
-      if (typeof tickFormat === 'string' && typeof numValidTicks === 'number') {
-        numValidTicks = Math.round(numValidTicks);
-        if (!tickFormat.includes('.')) {
-          return numValidTicks;
-        } else {
-          return this.getValidNumTicksForStringFormatter(
-            numValidTicks,
+      let numSuggestedTicks = this.getNumTicks();
+      if (
+        typeof tickFormat === 'string' &&
+        typeof numSuggestedTicks === 'number'
+      ) {
+        numSuggestedTicks = Math.round(numSuggestedTicks);
+
+        if (this.scale.domain()[0] instanceof Date) {
+          const maxTicks = this.getMaxTicksForDateFormat(tickFormat);
+          if (maxTicks !== null) {
+            return Math.min(numSuggestedTicks, maxTicks);
+          }
+        }
+        if (tickFormat.includes('.')) {
+          return this.getValidNumTicksForNumberFormatString(
+            numSuggestedTicks,
             tickFormat
           );
         }
+        return numSuggestedTicks;
       } else {
-        return numValidTicks;
+        return numSuggestedTicks;
       }
     }
 
@@ -88,7 +97,7 @@ export function quantitativeAxisMixin<
       );
     }
 
-    getValidNumTicksForStringFormatter(
+    getValidNumTicksForNumberFormatString(
       numTicks: number,
       tickFormat: string
     ): number {
@@ -114,6 +123,77 @@ export function quantitativeAxisMixin<
           return numValidTicks;
         }
       }
+    }
+
+    getMaxTicksForDateFormat(tickFormat: string): number | null {
+      const [startDate, endDate] = this.scale.domain() as [Date, Date];
+
+      // Year-only formatters: %Y, %y
+      if (tickFormat === '%Y' || tickFormat === '%y') {
+        const startYear = startDate.getUTCFullYear();
+        const endYear = endDate.getUTCFullYear();
+        return endYear - startYear + 1;
+      }
+
+      // Quarter formatter: %Y Q%q
+      if (tickFormat === '%Y Q%q') {
+        const startYear = startDate.getUTCFullYear();
+        const startQuarter = Math.floor(startDate.getUTCMonth() / 3);
+        const endYear = endDate.getUTCFullYear();
+        const endQuarter = Math.floor(endDate.getUTCMonth() / 3);
+
+        return (endYear - startYear) * 4 + (endQuarter - startQuarter) + 1;
+      }
+
+      // Month-year formatters: %B %Y, %b %Y
+      if (tickFormat === '%B %Y' || tickFormat === '%b %Y') {
+        const startYear = startDate.getUTCFullYear();
+        const startMonth = startDate.getUTCMonth();
+        const endYear = endDate.getUTCFullYear();
+        const endMonth = endDate.getUTCMonth();
+
+        return (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
+      }
+
+      // Full date formatters: %B %d, %Y
+      if (
+        tickFormat === '%B %d, %Y' ||
+        tickFormat === '%m/%d/%Y' ||
+        tickFormat === '%Y-%m-%d'
+      ) {
+        const timeDiff = endDate.getTime() - startDate.getTime();
+        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+        return daysDiff + 1;
+      }
+
+      // Additional common time formatters for completeness
+
+      // Month formatters: %B (full month), %b (abbreviated), %m (numeric)
+      if (tickFormat === '%B' || tickFormat === '%b' || tickFormat === '%m') {
+        const startYear = startDate.getUTCFullYear();
+        const startMonth = startDate.getUTCMonth();
+        const endYear = endDate.getUTCFullYear();
+        const endMonth = endDate.getUTCMonth();
+
+        return (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
+      }
+
+      // Day formatters: %d (day of month), %e (day of month with space), %j (day of year)
+      if (tickFormat === '%d' || tickFormat === '%e' || tickFormat === '%j') {
+        const timeDiff = endDate.getTime() - startDate.getTime();
+        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+        return daysDiff + 1;
+      }
+
+      // Week formatters: %U, %W (week of year)
+      if (tickFormat === '%U' || tickFormat === '%W') {
+        const timeDiff = endDate.getTime() - startDate.getTime();
+        const weeksDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24 * 7));
+        return weeksDiff + 1;
+      }
+
+      // For composite formats or unrecognized formats, return null to use default logic
+      return null;
     }
   }
 

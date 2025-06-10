@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { BarsBackgroundsOptions } from './bars-backgrounds-options';
 
 export class BarsBackgrounds {
@@ -5,6 +6,6 @@ export class BarsBackgrounds {
   readonly events: boolean;
 
   constructor(options: BarsBackgroundsOptions) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

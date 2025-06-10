@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { range } from 'd3';
 import { BarsConfig } from '../../bars/config/bars-config';
 import { BarsDimensions } from '../../bars/config/bars-dimensions';
@@ -19,7 +20,8 @@ export class GroupedBarsConfig<Datum, TOrdinalValue extends DataValue>
     options: GroupedBarsOptions<Datum, TOrdinalValue>
   ) {
     super(dimensions, options);
-    Object.assign(this, DEFAULT, options);
+    safeAssign(this, DEFAULT);
+    safeAssign(this, options);
     this.initPropertiesFromData();
   }
 

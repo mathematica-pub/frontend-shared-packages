@@ -1,3 +1,5 @@
+import { safeAssign } from '@hsi/app-dev-kit';
+
 const DEFAULT = {
   _class: () => '',
   _mixBlendMode: 'normal',
@@ -9,7 +11,7 @@ export abstract class PrimaryMarksBuilder<Datum> {
   protected _mixBlendMode: string;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

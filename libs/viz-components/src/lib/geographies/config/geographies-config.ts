@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import {
   ExtendedFeature,
   ExtendedFeatureCollection,
@@ -50,7 +51,7 @@ export class GeographiesConfig<
 
   constructor(options: GeographiesOptions<Datum, TProperties, TGeometry>) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
     this.initPropertiesFromData();
   }
 

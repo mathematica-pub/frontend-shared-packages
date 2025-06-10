@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { AxisBaseline } from './axis-baseline';
 
 const DEFAULT = {
@@ -15,7 +16,7 @@ export class AxisBaselineBuilder {
   };
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

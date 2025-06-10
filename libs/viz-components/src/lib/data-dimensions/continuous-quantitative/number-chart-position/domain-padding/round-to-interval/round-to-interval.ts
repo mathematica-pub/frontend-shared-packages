@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { ValueUtilities } from '../../../../../core/utilities/values';
 import {
   DomainPadding,
@@ -12,7 +13,7 @@ export class RoundUpToIntervalDomainPadding extends DomainPadding {
 
   constructor(options: RoundUpToIntervalDomainPaddingOptions) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
     this.type = DomainPaddingType.roundInterval;
   }
 
