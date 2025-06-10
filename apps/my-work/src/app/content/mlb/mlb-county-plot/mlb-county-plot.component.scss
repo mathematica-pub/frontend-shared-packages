@@ -1,1 +1,6 @@
 @use '../mlb-bda/mlb-bda.component.scss';
+@use '../../ca-access/color.scss';
+
+.bar {
+  fill: color.$bars;
+}

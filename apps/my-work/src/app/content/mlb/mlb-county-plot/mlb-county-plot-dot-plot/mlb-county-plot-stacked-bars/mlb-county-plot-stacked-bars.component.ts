@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { StackDatum } from '@hsi/viz-components';
 import { ScaleOrdinal, scaleOrdinal, select, Selection } from 'd3';
 import {
   MlbDatum,
   MlbStackedBarsComponent,
 } from '../../../mlb-stacked-bars.component';
-import { mlbColorRange } from '../../../mlb.constants';
+import { lobNames, mlbColorRange } from '../../../mlb.constants';
 import { MlbCsaDatum } from '../../mlb-county-plot.component';
 
 @Component({
@@ -22,13 +21,16 @@ export class MlbCountyPlotStackedBarsComponent
   implements OnInit
 {
   stratGroup: Selection<SVGGElement, unknown, null, undefined>;
+  barsGroup: Selection<SVGGElement, unknown, null, undefined>;
   override additionalYAxisOffset = `${this.yAxisOffset - 2.8}em`;
   goalThickness = 6;
   stratPadding = 3;
   override percentOffset = '0.07em';
   colorScale: ScaleOrdinal<string, unknown>;
+  barHeight = 3;
 
   override ngOnInit(): void {
+    this.createBarsGroup();
     this.createStratGroup();
     this.setColorScale();
     super.ngOnInit();
@@ -36,7 +38,18 @@ export class MlbCountyPlotStackedBarsComponent
 
   override drawMarks(): void {
     super.drawMarks();
+    this.updateBars();
     this.updateStratLabels();
+  }
+
+  createBarsGroup(): void {
+    this.barsGroup = select(this.chart.svgRef.nativeElement)
+      .append('g')
+      .attr('class', 'bars');
+    // .attr(
+    //   'transform',
+    //   `translate(${this.xAxisOffset}, ${this.yAxisOffset})`
+    // );
   }
 
   createStratGroup(): void {
@@ -58,6 +71,24 @@ export class MlbCountyPlotStackedBarsComponent
 
   override getColor(lob: MlbDatum): string {
     return this.colorScale(lob.lob) as string;
+  }
+
+  updateBars(): void {
+    const data = this.config.data.filter(
+      (d) =>
+        (d.lob === lobNames.mock || d.lob === lobNames.real) &&
+        d.series !== 'invisible'
+    );
+    this.barsGroup
+      .selectAll('.bar')
+      .data(data)
+      .join('rect')
+      .attr('class', 'bar')
+      .attr('x', (d) => this.getRangeX(d))
+      .attr('y', (d) => this.getRangeY(d))
+      .attr('width', (d) => this.getRangeWidth(d))
+      .attr('height', this.barHeight);
+    // .style('fill', (d) => this.getColor(d));
   }
 
   updateStratLabels(): void {
@@ -113,26 +144,21 @@ export class MlbCountyPlotStackedBarsComponent
     return average;
   }
 
-  override getStackElementX(datum: StackDatum): number {
+  getRangeX(datum: MlbCsaDatum): number {
+    const range = datum.range > 0 ? datum.range : 0;
+    return this.scales.x(datum.average - range);
+  }
+
+  getRangeY(datum: MlbCsaDatum): number {
     return (
-      Math.min(this.scales.x(datum[0]), this.scales.x(datum[1])) -
-      this.goalThickness / 2
+      this.scales.y(datum.county) +
+      (this.scales.y as any).bandwidth() / 2 -
+      this.barHeight / 2
     );
   }
 
-  override getStackElementWidth(): number {
-    return this.goalThickness;
-  }
-
-  override getStackElementY(datum: StackDatum): number {
-    return this.scales.y(this.config[this.config.dimensions.y].values[datum.i]);
-  }
-
-  override getStackElementHeight(datum: StackDatum): number {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const height = (this.scales.y as any).bandwidth();
-    // hide empty categories
-    return datum[0] === 0 && datum[1] === 0 ? 0 : height;
+  getRangeWidth(datum: MlbCsaDatum): number {
+    return this.scales.x(Math.abs(datum.range));
   }
 
   override createAverageHeaderGroup(): void {
