@@ -73,7 +73,11 @@ export class MlbCountyPlotDotPlotComponent
   }
 
   override getSortOrder(a: MlbCsaDatum, b: MlbCsaDatum): number {
-    return Math.abs(b.range) - Math.abs(a.range);
+    let sort = a.range - b.range;
+    if (a.directionality.toLowerCase().includes('higher')) {
+      sort = b.range - a.range;
+    }
+    return sort;
   }
 
   isNotStateLob(a: MlbCsaDatum): boolean {
