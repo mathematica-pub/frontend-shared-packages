@@ -1,7 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ScaleOrdinal, scaleOrdinal, select, Selection } from 'd3';
+import {
+  format,
+  max,
+  min,
+  ScaleOrdinal,
+  scaleOrdinal,
+  select,
+  Selection,
+} from 'd3';
 import {
   MlbDatum,
   MlbStackedBarsComponent,
@@ -22,6 +30,7 @@ export class MlbCountyPlotStackedBarsComponent
 {
   stratGroup: Selection<SVGGElement, unknown, null, undefined>;
   barsGroup: Selection<SVGGElement, unknown, null, undefined>;
+  labelsGroup: Selection<SVGGElement, unknown, null, undefined>;
   override additionalYAxisOffset = `${this.yAxisOffset - 2.8}em`;
   goalThickness = 6;
   stratPadding = 3;
@@ -30,8 +39,7 @@ export class MlbCountyPlotStackedBarsComponent
   barHeight = 3;
 
   override ngOnInit(): void {
-    this.createBarsGroup();
-    this.createStratGroup();
+    this.createGroups();
     this.setColorScale();
     super.ngOnInit();
   }
@@ -40,22 +48,21 @@ export class MlbCountyPlotStackedBarsComponent
     super.drawMarks();
     this.updateBars();
     this.updateStratLabels();
+    this.updateRangeLabels();
   }
 
-  createBarsGroup(): void {
+  createGroups(): void {
     this.barsGroup = select(this.chart.svgRef.nativeElement)
       .append('g')
       .attr('class', 'bars');
-    // .attr(
-    //   'transform',
-    //   `translate(${this.xAxisOffset}, ${this.yAxisOffset})`
-    // );
-  }
 
-  createStratGroup(): void {
     this.stratGroup = select(this.chart.svgRef.nativeElement)
       .append('g')
       .attr('class', 'strat-labels');
+
+    this.labelsGroup = select(this.chart.svgRef.nativeElement)
+      .append('g')
+      .attr('class', 'range-labels');
   }
 
   setColorScale(): void {
@@ -74,11 +81,7 @@ export class MlbCountyPlotStackedBarsComponent
   }
 
   updateBars(): void {
-    const data = this.config.data.filter(
-      (d) =>
-        (d.lob === lobNames.mock || d.lob === lobNames.real) &&
-        d.series !== 'invisible'
-    );
+    const data = this.config.data.filter((d) => this.isState(d));
     this.barsGroup
       .selectAll('.bar')
       .data(data)
@@ -88,7 +91,6 @@ export class MlbCountyPlotStackedBarsComponent
       .attr('y', (d) => this.getRangeY(d))
       .attr('width', (d) => this.getRangeWidth(d))
       .attr('height', this.barHeight);
-    // .style('fill', (d) => this.getColor(d));
   }
 
   updateStratLabels(): void {
@@ -128,7 +130,6 @@ export class MlbCountyPlotStackedBarsComponent
   }
 
   getY2(d: any, reverseData: MlbCsaDatum[]): number {
-    // const strat = reverseData.find((x) => x.strat === d);
     const county = reverseData.find((x) => x.county === d);
     return (
       this.scales.y(county.stratVal) +
@@ -159,6 +160,34 @@ export class MlbCountyPlotStackedBarsComponent
 
   getRangeWidth(datum: MlbCsaDatum): number {
     return this.scales.x(Math.abs(datum.range));
+  }
+
+  updateRangeLabels(): void {
+    const minAverage = min(this.config.data, (d) => d.average);
+    const isDataLow = minAverage < 0.1 * this.scales.x.domain()[1];
+    const x = isDataLow ? this.chart.config.width : 5;
+    const data = this.config.data.filter((d) => this.isState(d));
+    const maxAverage = max(data.map((d) => d.average));
+    this.labelsGroup
+      .attr('transform', `translate(${x}, 0)`)
+      .selectAll('.range-label')
+      .data(data)
+      .join('text')
+      .attr('class', 'range-label')
+      .attr('y', (d) => this.getRangeY(d))
+      .attr('dy', '0.35em')
+      .text((d) => {
+        const decimals = maxAverage > 1 || d.units === 'Percentage' ? '1' : '2';
+        const units = d.units === 'Percentage' ? '%' : 'f';
+        return format(`+.${decimals}${units}`)(d.range);
+      });
+  }
+
+  isState(d: any): boolean {
+    return (
+      (d.lob === lobNames.mock || d.lob === lobNames.real) &&
+      d.series !== 'invisible'
+    );
   }
 
   override createAverageHeaderGroup(): void {
