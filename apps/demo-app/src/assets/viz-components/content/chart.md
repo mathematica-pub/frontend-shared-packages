@@ -109,9 +109,9 @@ params:
     type: "'fixed' | 'responsive-width' | 'viewbox'"
     description:
       - 'Determines the primary layout behavior of the chart.'
-      - `'fixed'`: Chart dimensions remain constant using explicit width and height.
-      - `'responsive-width'`: Chart width responds to container width; height is derived from aspect ratio or fixed if `.fixedHeight(true)` is called.
-      - `'viewbox'`: Chart scales entirely via CSS and SVG viewBox. All resizing behavior is browser-driven.
+      - "`fixed`: Chart dimensions remain constant using explicit width and height."
+      - "`responsive-width`: Chart width responds to container width; height is derived from aspect ratio or fixed if `.fixedHeight(true)` is called."
+      - "`viewbox`: Chart scales entirely via CSS and SVG viewBox. All resizing behavior is browser-driven."
 ```
 
 ```builder-method
@@ -121,6 +121,6 @@ params:
   - name: value
     type: 'number | null'
     description:
-      - The duration of transitions in milliseconds.
+      - 'The duration of transitions in milliseconds.'
       - 'If not called or called with null, a default value of 250 will be used.'
 ```
