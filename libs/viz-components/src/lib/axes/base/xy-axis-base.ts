@@ -124,6 +124,9 @@ export abstract class XyAxis<
     if (this.config.ticks.wrap && this.config.ticks.wrap.width !== undefined) {
       this.wrapAxisTickText(tickText);
     }
+    if (!this.config.ticks.marksDisplay) {
+      select(this.elRef.nativeElement).selectAll('.tick line').remove();
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

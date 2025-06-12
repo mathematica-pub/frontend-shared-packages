@@ -9,6 +9,7 @@ export class Ticks<Tick> implements TicksOptions<Tick> {
   labelsStroke: string;
   labelsStrokeOpacity: number;
   labelsStrokeWidth: number;
+  marksDisplay: boolean;
   rotate: number;
   size: number;
   sizeInner: number;

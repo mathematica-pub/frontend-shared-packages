@@ -94,6 +94,17 @@ params:
 ```
 
 ```builder-method
+name: marksDisplay
+description: Determines whether tick marks will be displayed.
+params:
+  - name: value
+    type: 'boolean'
+    description:
+      - '`true` to retain all tick marks, `false` to remove all tick marks.'
+      - 'If not called, the default value is `true`.'
+```
+
+```builder-method
 name: rotate
 description: Determines the rotation of tick labels. Often used on vertical bar charts or when the tick labels are long.
 params:
@@ -107,7 +118,7 @@ params:
 
 ```builder-method
 name: size
-description: 'Sets the size of the inner and outer tick marks. To show no tick marks, set the size to 0.'
+description: 'Sets the size of the inner and outer tick marks.'
 params:
   - name: value
     type: 'number | null'
@@ -115,6 +126,7 @@ params:
       - The size of the ticks, in px.
       - 'If not called or called with `null`, the default size is the D3 default size.'
       - 'If specified, this value will override any values set by `sizeInner` or `sizeOuter`.'
+      - 'If called with 0, the ticks will not be drawn.'
 ```
 
 ```builder-method

@@ -14,7 +14,6 @@ export interface AxisSpecificQuantitativeTickBuilderOptions<Tick>
 
 const DEFAULT = {
   _display: true,
-  _remove: false,
   _stroke: 'none',
   _strokeOpacity: 1,
   _strokeWidth: 3,
@@ -32,6 +31,7 @@ export class TicksBuilder<Tick> {
   protected _labelsStroke: string;
   protected _labelsStrokeOpacity: number;
   protected _labelsStrokeWidth: number;
+  protected _marksDisplay: boolean;
   protected _size: number;
   protected _sizeInner: number;
   protected _sizeOuter: number;
@@ -138,6 +138,18 @@ export class TicksBuilder<Tick> {
   }
 
   /**
+   * OPTIONAL. If false, tick marks (lines) will be removed.
+   *
+   * @param value - `true` to retain all tick marks, `false` to remove all tick marks.
+   *
+   * If not called, the default value is `true`.
+   */
+  marksDisplay(value: boolean): this {
+    this._marksDisplay = value;
+    return this;
+  }
+
+  /**
    * OPTIONAL. Determines the rotation of tick labels.
    *
    * @param value - The rotation of the tick labels in degrees, or `null` to unset the rotation.
@@ -157,13 +169,15 @@ export class TicksBuilder<Tick> {
   }
 
   /**
-   * OPTIONAL. Sets the size of inner and outer tick marks. To show no tick marks, set the size to 0.
+   * OPTIONAL. Sets the size of inner and outer tick marks.
    *
    * @param value - The size of the ticks, in px.
    *
    * If not called or called with `null`, the default size is the D3 default size.
    *
    * If specified, this value will override any values set by `sizeInner` or `sizeOuter`.
+   *
+   * If called with `0`, the ticks will not be displayed.
    */
   size(value: number | null): this {
     if (value === null) {
@@ -227,6 +241,7 @@ export class TicksBuilder<Tick> {
   }
 
   _build(dimension: 'x' | 'y'): Ticks<Tick> {
+    this.validate();
     return new Ticks({
       fontSize: this._fontSize,
       format: this._format,
@@ -234,12 +249,19 @@ export class TicksBuilder<Tick> {
       labelsStroke: this._labelsStroke,
       labelsStrokeOpacity: this._labelsStrokeOpacity,
       labelsStrokeWidth: this._labelsStrokeWidth,
+      marksDisplay: this._marksDisplay,
       rotate: this._rotate,
       size: this._size,
       sizeInner: this._sizeInner,
       sizeOuter: this._sizeOuter,
       wrap: this.wrapBuilder?._build(dimension),
     });
+  }
+
+  protected validate(): void {
+    if (this._size === 0) {
+      this._marksDisplay = false;
+    }
   }
 }
 
@@ -308,6 +330,7 @@ export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
   }
 
   override _build(dimension: 'x' | 'y'): QuantitativeTicks<Tick> {
+    this.validate();
     return new QuantitativeTicks({
       fontSize: this._fontSize,
       format: this._format,
@@ -315,6 +338,7 @@ export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
       labelsStroke: this._labelsStroke,
       labelsStrokeOpacity: this._labelsStrokeOpacity,
       labelsStrokeWidth: this._labelsStrokeWidth,
+      marksDisplay: this._marksDisplay,
       count: this._count,
       rotate: this._rotate,
       size: this._size,
