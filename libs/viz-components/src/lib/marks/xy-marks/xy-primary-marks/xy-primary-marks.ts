@@ -35,7 +35,10 @@ export abstract class VicXyPrimaryMarks<
 
   subscribeToRanges(): void {
     this.chart.ranges$
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((ranges) => !!ranges)
+      )
       .subscribe((ranges) => {
         this.ranges = ranges;
         if (

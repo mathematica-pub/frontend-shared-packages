@@ -82,9 +82,7 @@ export class GroupedBarsExampleComponent implements OnInit {
     );
     const chartConfig = this.chart
       .margin(this.margin)
-      .resize({
-        height: false,
-      })
+      .scalingStrategy('responsive-width')
       .getConfig();
     const xAxisConfig = this.xAxisOrdinal
       .ticks((ticks) => ticks.format('%Y'))
