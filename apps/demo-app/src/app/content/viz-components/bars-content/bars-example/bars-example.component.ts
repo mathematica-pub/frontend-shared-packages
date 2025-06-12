@@ -138,12 +138,9 @@ export class BarsExampleComponent implements OnInit {
 
     const chartConfig = this.chart
       .margin(layout.margin)
-      .width(layout.orientation === 'horizontal' ? 800 : 960)
-      .height(layout.orientation === 'horizontal' ? 800 : 500)
-      .resize({
-        height: false,
-        width: true,
-      })
+      .maxWidth(layout.orientation === 'horizontal' ? 800 : 960)
+      .maxHeight(layout.orientation === 'horizontal' ? 800 : 500)
+      .scalingStrategy('responsive-width')
       .getConfig();
 
     const xAxisConfig =

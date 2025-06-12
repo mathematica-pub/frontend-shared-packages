@@ -6,7 +6,7 @@ import { VicAttributeDataDimensionConfig } from '../../geographies/config/layers
 import { NoBinsAttributeDataDimension } from '../../geographies/config/layers/attribute-data-layer/dimensions/no-bins/no-bins';
 import { MapLegend } from '../map-legend-base';
 
-type DiscontinuousAttributeDataDimensionConfig<Datum> = Exclude<
+export type DiscontinuousAttributeDataDimensionConfig<Datum> = Exclude<
   VicAttributeDataDimensionConfig<Datum>,
   NoBinsAttributeDataDimension<Datum>
 >;
