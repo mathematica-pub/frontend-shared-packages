@@ -13,7 +13,8 @@ export interface AxisSpecificQuantitativeTickBuilderOptions<Tick>
 }
 
 const DEFAULT = {
-  _display: true,
+  _labelsDisplay: true,
+  _marksDisplay: true,
   _stroke: 'none',
   _strokeOpacity: 1,
   _strokeWidth: 3,

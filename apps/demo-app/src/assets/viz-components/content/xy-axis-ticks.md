@@ -13,7 +13,7 @@ If the `ticks` method is never called, the default settings will be applied.
 
 ```ts
 // example: to specify that the x-axis should have ~10 ticks, tick labels formatted as floating point numbers with one decimal place, and not show any tick marks.
-this.xQuantitativeAxis.ticks((ticks) => ticks.format('.1f').size(0).count(10)).getConfig();
+this.xQuantitativeAxis.ticks((ticks) => ticks.format('.1f').marksDisplay(false).count(10)).getConfig();
 
 // example: to specify the exact tick values to show on the y-axis.
 this.yQuantitativeAxis.ticks((ticks) => ticks.values([0, 10, 20, 30]).getConfig();

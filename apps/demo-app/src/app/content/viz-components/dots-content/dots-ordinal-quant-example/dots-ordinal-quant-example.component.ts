@@ -75,11 +75,11 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
       .getConfig();
 
     const xAxisConfig = this.xQuantitativeAxis
-      .ticks((ticks) => ticks.format('.0%').size(0).count(5))
+      .ticks((ticks) => ticks.format('.0%').marksDisplay(false).count(5))
       .baseline((baseline) => baseline.display(false))
       .getConfig();
     const yAxisConfig = this.yOrdinalAxis
-      .ticks((ticks) => ticks.size(0))
+      .ticks((ticks) => ticks.marksDisplay(false))
       .baseline((baseline) => baseline.display(false))
       .getConfig();
 
