@@ -166,8 +166,8 @@ export class GeographiesExampleComponent implements OnInit {
   getChartConfig(): ChartConfig {
     return this.chart
       .margin(this.margin)
-      .height(this.height)
-      .width(this.width)
+      .maxHeight(this.height)
+      .maxWidth(this.width)
       .getConfig();
   }
 

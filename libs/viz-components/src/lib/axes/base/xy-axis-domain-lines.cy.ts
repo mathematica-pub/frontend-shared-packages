@@ -65,8 +65,8 @@ class TestZeroAxisLinesComponent<Datum> {
   @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   chartConfig = new VicChartConfigBuilder()
     .margin(margin)
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .getConfig();
 }
 
