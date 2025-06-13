@@ -138,7 +138,10 @@ export class BarsComponent<
       this.drawBackgrounds(transitionDuration);
     }
     if (this.config.labels) {
-      this.drawLabels(transitionDuration);
+      // must delay so that it can get the correct dimensions of the labels rather than 0 0 0 0.
+      requestAnimationFrame(() => {
+        this.drawLabels(transitionDuration);
+      });
     }
     this.updateBarElements();
   }
@@ -278,7 +281,7 @@ export class BarsComponent<
             .attr('class', this.class.label)
             .style('display', this.config.labels.display ? null : 'none')
             .text((d) => this.getLabelText(d))
-            .style('visiblity', 'hidden')
+            .style('visibility', 'hidden')
             .call((selection) => {
               selection.each((d, i, nodes) => {
                 const bbox = nodes[i].getBBox();
