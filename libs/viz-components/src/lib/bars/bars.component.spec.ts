@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick } from '@angular/core/testing';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 import { ColorUtilities } from '../core/utilities/colors';
 import { FillUtilities } from '../core/utilities/fill-utilities';
@@ -159,19 +159,23 @@ describe('BarsComponent', () => {
     });
     it('calls drawBars once with the correct parameter', () => {
       component.drawMarks();
+      tick();
       expect(component.drawBars).toHaveBeenCalledOnceWith(100);
     });
     it('calls drawBarLabels if config.labels is truthy', () => {
       component.drawMarks();
+      tick();
       expect(component.drawLabels).toHaveBeenCalledOnceWith(100);
     });
     it('does not call drawBarLabels if config.labels is falsy', () => {
       (component.config as any).labels = undefined;
       component.drawMarks();
+      tick();
       expect(component.drawLabels).not.toHaveBeenCalled();
     });
     it('calls updateBarElements', () => {
       component.drawMarks();
+      tick();
       expect(component.updateBarElements).toHaveBeenCalledTimes(1);
     });
   });
