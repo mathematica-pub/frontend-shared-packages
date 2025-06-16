@@ -69,9 +69,9 @@ class TestGeographiesComponent {
   >;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .margin(margin)
-    .width(chartWidth)
-    .height(chartHeight)
-    .resize({ useViewbox: false })
+    .maxWidth(chartWidth)
+    .maxHeight(chartHeight)
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
 

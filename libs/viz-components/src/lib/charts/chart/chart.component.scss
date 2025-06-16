@@ -4,12 +4,26 @@
 
 .vic-chart-svg {
   display: block;
+
+  // Allow overflow for annotations, labels, etc. unless viewbox
+  &:not(.vic-chart-viewbox) {
+    overflow: visible;
+  }
 }
 
-.vic-chart-svg:not(.vic-chart-viewbox) {
-  overflow: visible;
+// Strategy-specific scoping
+.vic-scaling-viewbox {
+  .vic-chart-svg {
+    width: 100%;
+    height: auto;
+  }
 }
 
-.vic-chart-svg.vic-chart-viewbox {
-  width: 100%;
+.vic-scaling-fixed,
+.vic-scaling-responsive-width,
+.vic-scaling-responsive-both {
+  .vic-chart-container {
+    max-width: 100%;
+    max-height: 100%;
+  }
 }

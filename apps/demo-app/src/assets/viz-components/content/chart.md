@@ -23,15 +23,8 @@ import { VicChartsConfigBuilder, VicChartModule } from '@hsi/viz-components';
 ...
 @Component({
   ...
-  imports: [
-    VicChartModule,
-    ...
-  ],
-  ...
-  providers: [
-    VicChartConfigBuilder
-    ...
-  ]
+  imports: [VicChartModule],
+  providers: [VicChartConfigBuilder],
 })
 constructor(private chart: VicChartConfigBuilder) {}
 ```
@@ -39,9 +32,8 @@ constructor(private chart: VicChartConfigBuilder) {}
 **Minimal example of creating a `ChartConfig`**
 
 ```ts
-...
 chartConfig: ChartConfig;
-...
+
 this.chartConfig = this.chart.getConfig();
 ```
 
@@ -53,15 +45,25 @@ omitted, in which case the chart will use default values as documented below.
 ### Optional Methods
 
 ```builder-method
-name: height
-description: If chart size is dynamic, determines the maximum height of the chart. In this case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing. If chart size is static, the fixed height of the chart.
+name: aspectRatio
+description: Explicitly sets the aspect ratio (width / height) when `responsive-width` is used without fixedHeight.
 params:
   - name: value
-    type: 'number | null'
+    type: 'number'
     description:
-      - The maximum height of the chart, in px.
-      - If chart size is static, the fixed height of the chart.
-      - If not called or called with `null`, a default value of 600 will be used.
+      - 'Used only when `scalingStrategy` is `responsive-width` and `fixedHeight` is false.'
+      - 'Overrides default derived aspect ratio from maxWidth / maxHeight.'
+```
+
+```builder-method
+name: fixedHeight
+description: Locks the chart height even in `responsive-width` mode.
+params:
+  - name: value
+    type: 'boolean'
+    description:
+      - 'Only used when `scalingStrategy` is `responsive-width`.'
+      - 'If true, height will be fixed to the value provided in `.maxHeight(...)` and not derived from aspect ratio.'
 ```
 
 ```builder-method
@@ -76,17 +78,40 @@ params:
 ```
 
 ```builder-method
-name: resize
-description: 'Determines whether the chart size is fixed or will resize as the container width changes sizes, and how this resizing will be done.'
+name: maxHeight
+description: Sets the maximum or fixed height of the chart.
 params:
   - name: value
-    type: 'Partial<{ width: boolean; height: boolean; useViewbox: boolean }> | null'
+    type: 'number | null'
     description:
-      - 'An object with up to three properties: `width`, `height`, and `useViewbox`. Can also be called with null to reset the resize configuration to its default value, which is `{ width: true, height: true, useViewbox: false }`.'
-      - 'If `useViewbox` is true, the chart will resize via the viewbox attribute, scalling all contents of the chart at once. (For example, as the chart grows smaller, svg text in the chart will also grow proportionally smaller.) This is a more performant way to resize the chart.'
-      - 'If `useViewbox` is false, the chart will resize by changing the width and height attributes of the svg element, recalculating scales and re-rendering the chart. This is a less performant way to resize the chart but may be necessary in some cases, particularly when the chart contains elements like text that should not be resized.'
-      - "If `useViewbox` is false, `width` and `height` can be used to determine which dimensionss will resize when the chart's container changes width. If both are true, the chart will resize in both dimensions. If only one is true, the chart will resize in that dimension only. Note that the chart does not respond to changes in container height."
-      - Note that the chart does not respond to changes in container height.
+      - 'If scalingStrategy is `fixed`, this sets the fixed chart height.'
+      - 'If scalingStrategy is `responsive-width`, this is used to compute aspect ratio or as the fixed height if `.fixedHeight(true)` is also used.'
+      - 'If null or not set, a default height of 600px is used.'
+```
+
+```builder-method
+name: maxWidth
+description: Sets the maximum or fixed width of the chart.
+params:
+  - name: value
+    type: 'number | null'
+    description:
+      - 'If scalingStrategy is `fixed`, this sets the fixed chart width.'
+      - 'If scalingStrategy is `responsive-width`, this is the maximum width the chart will grow to.'
+      - 'If null or not set, a default width of 800px is used.'
+```
+
+```builder-method
+name: scalingStrategy
+description: Determines how the chart scales in response to container size or layout changes.
+params:
+  - name: value
+    type: "'fixed' | 'responsive-width' | 'viewbox'"
+    description:
+      - 'Determines the primary layout behavior of the chart.'
+      - "`fixed`: Chart dimensions remain constant using explicit width and height."
+      - "`responsive-width`: Chart width responds to container width; height is derived from aspect ratio or fixed if `.fixedHeight(true)` is called."
+      - "`viewbox`: Chart scales entirely via CSS and SVG viewBox. All resizing behavior is browser-driven."
 ```
 
 ```builder-method
@@ -96,18 +121,6 @@ params:
   - name: value
     type: 'number | null'
     description:
-      - The duration of transitions in milliseconds.
+      - 'The duration of transitions in milliseconds.'
       - 'If not called or called with null, a default value of 250 will be used.'
-```
-
-```builder-method
-name: width
-description: If chart size is dynamic, sets the maximum width of the chart. In this case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing. If chart size is not dynamic, sets the fixed width of the chart..
-params:
-  - name: width
-    type: 'number | null'
-    description:
-      - The maximum width of the chart, in px.
-      - If chart size is static, the fixed width of the chart.
-      - 'If not called or called with `null`, a default value of 800 will be used.'
 ```

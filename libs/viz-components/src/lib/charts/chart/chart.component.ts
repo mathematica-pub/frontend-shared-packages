@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
-import { min } from 'd3';
 import { isEqual } from 'lodash-es';
 import {
   BehaviorSubject,
@@ -21,10 +20,8 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  merge,
   of,
   shareReplay,
-  startWith,
 } from 'rxjs';
 import { Dimensions, ElementSpacing } from '../../core/types/layout';
 import { Chart } from './chart';
@@ -74,13 +71,10 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   @Input() config: ChartConfig = new VicChartConfigBuilder().getConfig();
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;
   @ViewChild('svg', { static: true }) svgRef: ElementRef<SVGSVGElement>;
-  protected multiples: ['one', 'two'];
-  private _height: BehaviorSubject<number> = new BehaviorSubject(null);
-  height$ = this._height.asObservable();
-  private _margin: BehaviorSubject<ElementSpacing> = new BehaviorSubject(null);
-  margin$ = this._margin.asObservable();
-  ranges$: Observable<Ranges>;
   svgDimensions$: Observable<Dimensions>;
+  ranges$: Observable<Ranges>;
+  private heightFromConfig = new BehaviorSubject<number>(null);
+  private marginFromConfig = new BehaviorSubject<ElementSpacing>(null);
   protected destroyRef = inject(DestroyRef);
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -95,52 +89,53 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
     this.initFromConfig();
   }
 
-  initFromConfig(): void {
-    this._height.next(this.config.height);
-    this._margin.next(this.config.margin);
+  private initFromConfig(): void {
+    this.updateUserDimensionProperties();
     this.createDimensionObservables();
   }
 
-  createDimensionObservables() {
-    const divWidth$ = this.getDivWidthObservable();
-    const height$ = this.height$.pipe(startWith(this.config.height));
-    const margin$ = this.margin$.pipe(
-      startWith(this.config.margin),
-      distinctUntilChanged((a, b) => isEqual(a, b)),
-      shareReplay(1)
-    );
-
-    this.svgDimensions$ = combineLatest([divWidth$, height$]).pipe(
-      filter(([divWidth, height]) => divWidth > 0 && height > 0),
-      map(([divWidth]) => this.getSvgDimensionsFromDivWidth(divWidth)),
-      distinctUntilChanged((a, b) => isEqual(a, b)),
-      shareReplay(1)
-    );
-
-    this.ranges$ = combineLatest([this.svgDimensions$, margin$]).pipe(
-      map(([dimensions]) => this.getRangesFromSvgDimensions(dimensions)),
-      distinctUntilChanged((a, b) => isEqual(a, b)),
-      shareReplay(1)
-    );
+  updateUserDimensionProperties(): void {
+    this.heightFromConfig.next(this.config.height);
+    this.marginFromConfig.next(this.config.margin);
   }
 
-  private getDivWidthObservable(): Observable<number> {
-    if (!this.config.resize.width || this.config.resize.useViewbox) {
-      return of(this.config.width);
-    }
+  createDimensionObservables() {
+    const strategy = this.config.scalingStrategy;
 
-    const initialWidth$ = of(
-      min([this.divRef.nativeElement.offsetWidth, this.config.width])
+    const width$ =
+      strategy === 'responsive-width'
+        ? this.observeElementWidth(this.divRef.nativeElement)
+        : of(this.config.width);
+
+    const height$ =
+      strategy === 'responsive-width' && this.config.aspectRatio !== undefined
+        ? width$.pipe(map((w) => w / this.config.aspectRatio))
+        : of(this.config.height);
+
+    this.svgDimensions$ = combineLatest([width$, height$]).pipe(
+      filter(([w, h]) => w > 0 && h > 0),
+      map(([width, height]) => ({ width, height })),
+      distinctUntilChanged((a, b) => isEqual(a, b)),
+      shareReplay(1)
     );
 
-    const resize$ = this.observeElementWidth(this.divRef.nativeElement);
-    // ensure that there is always a subscription to divWidthResize$ so that it emits
-    resize$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
-    return merge(initialWidth$, resize$).pipe(distinctUntilChanged());
+    this.ranges$ = combineLatest([
+      this.svgDimensions$,
+      this.marginFromConfig,
+    ]).pipe(
+      map(([dimensions, margin]) =>
+        this.getRangesFromSvgDimensions(dimensions, margin)
+      ),
+      distinctUntilChanged((a, b) => isEqual(a, b)),
+      shareReplay(1)
+    );
+
+    // ensure that values are pulled through
+    this.ranges$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 
   private observeElementWidth(element: HTMLElement): Observable<number> {
-    return new Observable((subscriber) => {
+    return new Observable<number>((subscriber) => {
       const observer = new ResizeObserver((entries) => {
         subscriber.next(entries[0].contentRect.width);
       });
@@ -149,35 +144,16 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
         observer.unobserve(element);
         observer.disconnect();
       };
-    });
+    }).pipe(distinctUntilChanged());
   }
 
-  getSvgDimensionsFromDivWidth(divWidth: number) {
-    const width = this.getSvgWidthFromDivWidth(divWidth);
-    const height = this.getSvgHeightFromWidth(width);
-    return { width, height };
-  }
-
-  getSvgWidthFromDivWidth(divWidth: number): number {
-    return !this.config.resize.width ? this.config.width : divWidth;
-  }
-
-  getSvgHeightFromWidth(width: number): number {
-    return this.config.resize.height &&
-      this.divRef.nativeElement.offsetWidth <= this.config.width
-      ? width / this.config.aspectRatio
-      : this.config.height;
-  }
-
-  getRangesFromSvgDimensions(dimensions: Dimensions): Ranges {
-    const xRange: [number, number] = [
-      this.config.margin.left,
-      dimensions.width - this.config.margin.right,
-    ];
-    const yRange: [number, number] = [
-      dimensions.height - this.config.margin.bottom,
-      this.config.margin.top,
-    ];
-    return { x: xRange, y: yRange };
+  private getRangesFromSvgDimensions(
+    dim: Dimensions,
+    margin: ElementSpacing
+  ): Ranges {
+    return {
+      x: [margin.left, dim.width - margin.right],
+      y: [dim.height - margin.bottom, margin.top],
+    };
   }
 }

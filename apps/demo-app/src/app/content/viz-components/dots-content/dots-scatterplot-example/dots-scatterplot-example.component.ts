@@ -88,9 +88,9 @@ export class DotsScatterplotExampleComponent implements OnInit {
   getViewModel(): void {
     const chartConfig = this.chart
       .margin(this.margin)
-      .height(160)
-      .width(160)
-      .resize({ height: false })
+      .maxHeight(160)
+      .maxWidth(160)
+      .scalingStrategy('responsive-width')
       .getConfig();
 
     let xAxisConfig: VicXQuantitativeAxisConfig<number>;
