@@ -17,6 +17,7 @@ export class BarsConfig<Datum, OrdinalDomain extends DataValue>
 {
   barsKeyFunction: (i: number) => string;
   readonly backgrounds: BarsBackgrounds;
+  readonly borderRadius: number;
   readonly color: OrdinalVisualValueDimension<Datum, string, string>;
   readonly customFills: FillDefinition<Datum>[];
   readonly dimensions: BarsDimensions;

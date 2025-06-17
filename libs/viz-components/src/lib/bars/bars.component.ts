@@ -186,14 +186,18 @@ export class BarsComponent<
             .property('key', (d) => d.ordinal)
             .attr('width', (d) => this.getBarWidth(d))
             .attr('height', (d) => this.getBarHeight(d))
-            .attr('fill', (d) => this.getBarFill(d)),
+            .attr('fill', (d) => this.getBarFill(d))
+            .attr('rx', this.config.borderRadius)
+            .attr('ry', this.config.borderRadius),
         (update) =>
           update
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr('width', (d) => this.getBarWidth(d))
             .attr('height', (d) => this.getBarHeight(d))
-            .attr('fill', (d) => this.getBarFill(d)),
+            .attr('fill', (d) => this.getBarFill(d))
+            .attr('rx', this.config.borderRadius)
+            .attr('ry', this.config.borderRadius),
         (exit) => exit.remove()
       );
   }
