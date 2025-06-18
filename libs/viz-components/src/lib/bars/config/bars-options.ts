@@ -10,6 +10,7 @@ import { BarsLabels } from './labels/bars-labels';
 export interface BarsOptions<Datum, OrdinalDomain extends DataValue>
   extends DataMarksOptions<Datum> {
   backgrounds: BarsBackgrounds;
+  borderRadius: number;
   color: OrdinalVisualValueDimension<Datum, string, string>;
   customFills: FillDefinition<Datum>[];
   ordinal: OrdinalChartPositionDimension<Datum, OrdinalDomain>;

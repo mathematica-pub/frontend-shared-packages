@@ -47,6 +47,7 @@ export class VicGroupedBarsConfigBuilder<
     return new GroupedBarsConfig(this.dimensions, {
       marksClass: 'vic-grouped-bars',
       backgrounds: this.backgroundsBuilder?._build(),
+      borderRadius: this._borderRadius,
       color: this.colorDimensionBuilder._build('Color'),
       customFills: this._customFills,
       data: this._data,

@@ -89,6 +89,7 @@ export class VicStackedBarsConfigBuilder<
     return new StackedBarsConfig(this.dimensions, {
       marksClass: 'vic-stacked-bars',
       backgrounds: this.backgroundsBuilder?._build(),
+      borderRadius: this._borderRadius,
       color: this.colorDimensionBuilder._build('Color'),
       customFills: this._customFills,
       data: this._data,

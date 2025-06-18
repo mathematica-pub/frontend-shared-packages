@@ -138,7 +138,10 @@ export class BarsComponent<
       this.drawBackgrounds(transitionDuration);
     }
     if (this.config.labels) {
-      this.drawLabels(transitionDuration);
+      // must delay so that it can get the correct dimensions of the labels rather than 0 0 0 0.
+      requestAnimationFrame(() => {
+        this.drawLabels(transitionDuration);
+      });
     }
     this.updateBarElements();
   }
@@ -183,14 +186,18 @@ export class BarsComponent<
             .property('key', (d) => d.ordinal)
             .attr('width', (d) => this.getBarWidth(d))
             .attr('height', (d) => this.getBarHeight(d))
-            .attr('fill', (d) => this.getBarFill(d)),
+            .attr('fill', (d) => this.getBarFill(d))
+            .attr('rx', this.config.borderRadius)
+            .attr('ry', this.config.borderRadius),
         (update) =>
           update
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr('width', (d) => this.getBarWidth(d))
             .attr('height', (d) => this.getBarHeight(d))
-            .attr('fill', (d) => this.getBarFill(d)),
+            .attr('fill', (d) => this.getBarFill(d))
+            .attr('rx', this.config.borderRadius)
+            .attr('ry', this.config.borderRadius),
         (exit) => exit.remove()
       );
   }
@@ -278,7 +285,7 @@ export class BarsComponent<
             .attr('class', this.class.label)
             .style('display', this.config.labels.display ? null : 'none')
             .text((d) => this.getLabelText(d))
-            .style('visiblity', 'hidden')
+            .attr('visibility', 'hidden')
             .call((selection) => {
               selection.each((d, i, nodes) => {
                 const bbox = nodes[i].getBBox();
@@ -298,7 +305,7 @@ export class BarsComponent<
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .text((d) => this.getLabelText(d))
-            .style('visiblity', 'hidden')
+            .attr('visiblity', 'hidden')
             .call((selection) => {
               selection.each((d, i, nodes) => {
                 const bbox = nodes[i].getBBox();

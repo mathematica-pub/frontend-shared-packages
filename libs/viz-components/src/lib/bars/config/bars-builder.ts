@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import { DataValue } from '../../core/types/values';
 import { FillDefinition } from '../../data-dimensions';
 import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder';
@@ -13,6 +14,10 @@ import {
   VERTICAL_BARS_DIMENSIONS,
 } from './bars-dimensions';
 import { BarsLabelsBuilder } from './labels/bars-labels-builder';
+
+const DEFAULT = {
+  _borderRadius: 0,
+};
 
 abstract class BaseDimensionsBuilder<Datum, TOrdinalValue extends DataValue> {
   protected _ordinalDimensionBuilder: OrdinalChartPositionDimensionBuilder<
@@ -112,6 +117,7 @@ export class VicBarsConfigBuilder<
   Datum,
   OrdinalDomain extends DataValue,
 > extends PrimaryMarksBuilder<Datum> {
+  protected _borderRadius: number;
   protected _customFills: FillDefinition<Datum>[];
   protected dimensions: BarsDimensions;
   protected _orientation: 'horizontal' | 'vertical';
@@ -130,6 +136,7 @@ export class VicBarsConfigBuilder<
 
   constructor() {
     super();
+    safeAssign(this, DEFAULT);
   }
 
   /**
@@ -155,6 +162,23 @@ export class VicBarsConfigBuilder<
     if (backgrounds) {
       backgrounds?.(this.backgroundsBuilder);
     }
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Specifies the border radius of the bars.
+   *
+   * @param value - A non-negative number that specifies the border radius of the bars.
+   *
+   * If not called, the default value is `0`.
+   */
+  borderRadius(value: number): this {
+    if (value < 0) {
+      throw new Error(
+        `Bars Builder: borderRadius must be a non-negative number, but received ${value}.`
+      );
+    }
+    this._borderRadius = value;
     return this;
   }
 
@@ -288,6 +312,7 @@ export class VicBarsConfigBuilder<
     return new BarsConfig(this.dimensions, {
       marksClass: 'vic-bars',
       backgrounds: this.backgroundsBuilder?._build(),
+      borderRadius: this._borderRadius,
       color: this.colorDimensionBuilder._build('Color'),
       customFills: this._customFills,
       data: this._data,
