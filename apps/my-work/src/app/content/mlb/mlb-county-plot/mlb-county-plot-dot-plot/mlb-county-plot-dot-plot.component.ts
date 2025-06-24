@@ -12,7 +12,6 @@ import {
   VicYOrdinalAxisConfigBuilder,
 } from '@hsi/viz-components';
 import { MlbDotPlotComponent } from '../../mlb-dot-plot.component';
-import { lobNames } from '../../mlb.constants';
 import { MlbCsaDatum } from '../mlb-county-plot.component';
 import { MlbCountyPlotStackedBarsComponent } from './mlb-county-plot-stacked-bars/mlb-county-plot-stacked-bars.component';
 
@@ -41,27 +40,7 @@ export class MlbCountyPlotDotPlotComponent
   extends MlbDotPlotComponent
   implements OnChanges
 {
-  override labelWidth = 140;
-  override bandwidth = 15;
   override rollupData: MlbCsaDatum[] = [];
-  categories = {
-    race: {
-      'American Indian or Alaska Native': 0,
-      Asian: 1,
-      'Black or African American': 2,
-      'Native Hawaiian or Other Pacific Islander': 3,
-      White: 4,
-      'No Race Selection and Hispanic or Latino Ethnicity': 5,
-      'Some Other Race': 6,
-      'Two or More Races': 7,
-      'Asked But No Answer/Unknown': 8,
-    },
-    ethnicity: {
-      'Hispanic or Latino': 9,
-      'Not Hispanic or Latino': 10,
-      'Asked But No Answer/Unknown': 11,
-    },
-  };
 
   override ngOnChanges(): void {
     if (this.data[0]) {
@@ -78,19 +57,6 @@ export class MlbCountyPlotDotPlotComponent
       sort = b.range - a.range;
     }
     return sort;
-  }
-
-  isNotStateLob(a: MlbCsaDatum): boolean {
-    return a.lob !== lobNames.mock && a.lob !== lobNames.real;
-  }
-
-  getStateLob(a: MlbCsaDatum): MlbCsaDatum {
-    return this.rollupData.find(
-      (d) =>
-        (d.lob === lobNames.mock || d.lob === lobNames.real) &&
-        d.county === a.county &&
-        d.series === a.series
-    );
   }
 
   override getInvisibleStackValue(lob: MlbCsaDatum): number {

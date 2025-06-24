@@ -31,10 +31,7 @@ export class MlbCountyPlotStackedBarsComponent
   stratGroup: Selection<SVGGElement, unknown, null, undefined>;
   barsGroup: Selection<SVGGElement, unknown, null, undefined>;
   labelsGroup: Selection<SVGGElement, unknown, null, undefined>;
-  override additionalYAxisOffset = `${this.yAxisOffset - 2.8}em`;
-  goalThickness = 6;
   stratPadding = 3;
-  override percentOffset = '0.07em';
   colorScale: ScaleOrdinal<string, unknown>;
   barHeight = 3;
 
@@ -47,7 +44,6 @@ export class MlbCountyPlotStackedBarsComponent
   override drawMarks(): void {
     super.drawMarks();
     this.updateBars();
-    this.updateStratLabels();
     this.updateRangeLabels();
   }
 
@@ -91,58 +87,6 @@ export class MlbCountyPlotStackedBarsComponent
       .attr('y', (d) => this.getRangeY(d))
       .attr('width', (d) => this.getRangeWidth(d))
       .attr('height', this.barHeight);
-  }
-
-  updateStratLabels(): void {
-    let data = [...new Set(this.config.data.map((d) => d.strat))];
-    data = data.length > 1 ? data : [];
-    const reverseData = [...this.config.data].reverse();
-    const strats = this.stratGroup
-      .selectAll('.strat-label')
-      .data(data)
-      .join('g')
-      .attr('class', 'strat-label');
-    const offset = -this.labelWidth - 30;
-    strats
-      .selectAll('text')
-      .data((d) => [d])
-      .join('text')
-      .text((d) => d)
-      .attr('x', offset)
-      .attr('y', (d) => this.getAverageY(d, reverseData))
-      .attr('transform', (d) => {
-        const y = this.getAverageY(d, reverseData);
-        return `rotate(-90, ${offset}, ${y})`;
-      });
-    strats
-      .selectAll('line')
-      .data((d) => [d])
-      .join('line')
-      .attr('x1', offset + 8)
-      .attr('x2', offset + 8)
-      .attr('y1', (d) => this.getY1(d))
-      .attr('y2', (d) => this.getY2(d, reverseData));
-  }
-
-  getY1(d: any): number {
-    const strat = this.config.data.find((x) => x.strat === d);
-    return this.scales.y(strat.stratVal) + this.stratPadding;
-  }
-
-  getY2(d: any, reverseData: MlbCsaDatum[]): number {
-    const county = reverseData.find((x) => x.county === d);
-    return (
-      this.scales.y(county.stratVal) +
-      (this.scales.y as any).bandwidth() -
-      this.stratPadding
-    );
-  }
-
-  getAverageY(d: any, reverseData: MlbCsaDatum[]): number {
-    const y1 = this.getY1(d);
-    const y2 = this.getY2(d, reverseData);
-    const average = (y1 + y2) / 2;
-    return average;
   }
 
   getRangeX(datum: MlbCsaDatum): number {
