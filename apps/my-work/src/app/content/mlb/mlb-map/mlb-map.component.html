@@ -1,0 +1,49 @@
+<div class="title">MLB Map</div>
+<form [formGroup]="myForm">
+  <div class="selection">
+    <label for="measureCode">Measure Code</label>
+    <select id="measureCode" formControlName="measureCode">
+      <option
+        *ngFor="let code of filters.measureCodes"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+  <div class="selection">
+    <label for="stratVal">Stratification</label>
+    <select id="stratVal" formControlName="stratVal">
+      <option
+        *ngFor="let code of filters.stratVals"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+</form>
+@if (filteredData$ | async; as data) {
+  <app-export-content [fileName]="'MLB Map ' + myForm.value[filterTypes[0]]">
+    <!-- <app-mlb-county-plot-dot-plot [data]="data"></app-mlb-county-plot-dot-plot> -->
+    @if (vm$ | async; as vm) {
+      <vic-map-chart class="chart-component" [config]="vm.chartConfig">
+        <ng-container html-elements-after>
+          <vic-map-legend
+            class="legend-component"
+            [width]="400"
+            [height]="20"
+            [outlineColor]="colors.outline"
+          ></vic-map-legend>
+        </ng-container>
+        <svg:g
+          vic-primary-marks-geographies
+          svg-elements
+          [config]="vm.geographiesConfig"
+        ></svg:g>
+      </vic-map-chart>
+    }
+  </app-export-content>
+}
