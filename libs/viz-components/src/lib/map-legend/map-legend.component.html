@@ -1,23 +1,24 @@
 <ng-content select="[title]"></ng-content>
-<ng-container *ngIf="chart.attributeProperties$ | async as attributeProperties">
-  <vic-continuous-legend
-    *ngIf="attributeProperties.config.binType === VicValuesBin.none"
-    [width]="width"
-    [height]="height"
-    [valuesSide]="valuesSide"
-    [scale]="attributeProperties.scale"
-    [config]="attributeProperties.config"
-    [outlineColor]="outlineColor"
-    [orientation]="orientation"
-  ></vic-continuous-legend>
-  <vic-discontinuous-legend
-    *ngIf="attributeProperties.config.binType !== VicValuesBin.none"
-    [width]="width"
-    [height]="height"
-    [valuesSide]="valuesSide"
-    [scale]="attributeProperties.scale"
-    [config]="attributeProperties.config"
-    [outlineColor]="outlineColor"
-    [orientation]="orientation"
-  ></vic-discontinuous-legend>
-</ng-container>
+@if (chart.attributeProperties$ | async; as attributeProperties) { @if
+(attributeProperties.config) {
+<vic-continuous-legend
+  *ngIf="attributeProperties.config.binType === VicValuesBin.none"
+  [width]="width"
+  [height]="height"
+  [valuesSide]="valuesSide"
+  [scale]="attributeProperties.scale"
+  [config]="attributeProperties.config"
+  [outlineColor]="outlineColor"
+  [orientation]="orientation"
+></vic-continuous-legend>
+<vic-discontinuous-legend
+  *ngIf="attributeProperties.config.binType !== VicValuesBin.none"
+  [width]="width"
+  [height]="height"
+  [valuesSide]="valuesSide"
+  [scale]="attributeProperties.scale"
+  [config]="attributeProperties.config"
+  [outlineColor]="outlineColor"
+  [orientation]="orientation"
+></vic-discontinuous-legend>
+} }

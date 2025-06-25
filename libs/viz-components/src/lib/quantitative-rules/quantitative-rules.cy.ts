@@ -91,10 +91,10 @@ class TestQuantitativeRulesHorizontalBarsComponent {
   @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
   @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(barsChartHeight)
-    .width(barsChartWidth)
+    .maxHeight(barsChartHeight)
+    .maxWidth(barsChartWidth)
     .margin(barsHorizontalMargin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
 
@@ -167,10 +167,10 @@ class TestVerticalBarsComponent {
   @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
   @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(barsChartHeight)
-    .width(barsChartWidth)
+    .maxHeight(barsChartHeight)
+    .maxWidth(barsChartWidth)
     .margin(barsVerticalMargin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
 
@@ -255,10 +255,10 @@ class TestLinesComponent<
   @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
   @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<QuantAxisType>;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(linesChartHeight)
-    .width(linesChartWidth)
+    .maxHeight(linesChartHeight)
+    .maxWidth(linesChartWidth)
     .margin(linesMargin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
 

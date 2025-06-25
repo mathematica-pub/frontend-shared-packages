@@ -150,8 +150,10 @@ export class TextboxComponent implements OnInit, AfterViewInit {
       this.onEscape();
     } else {
       this.service.setTouched();
-      this.service.setIsKeyboardEvent(true);
       const action = this.getActionFromKeydownEvent(event);
+      if (action) {
+        this.service.setIsKeyboardEvent(true);
+      }
       this.handleKeyboardAction(action, event);
     }
   }

@@ -8,6 +8,12 @@
   padding: var(--hsi-ui-textbox-padding);
   border-radius: var(--hsi-ui-combobox-border-radius);
   transition: border var(--hsi-ui-textbox-transition-duration) ease-in-out;
+
+  &:hover {
+    border: var(--hsi-ui-combobox-border-width) solid
+      var(--hsi-ui-combobox-hover-border-color);
+    cursor: var(--hsi-ui-combobox-hover-cursor);
+  }
 }
 
 .hsi-ui-textbox-container.open {

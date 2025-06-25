@@ -75,16 +75,16 @@ export class EnergyIntensityBarComponent implements OnInit {
   setProperties(): void {
     this.sortedChartConfig = this.chart
       .margin({ top: 30, right: 0, bottom: 36, left: 200 })
-      .height(this.chartHeight)
-      .width(600)
-      .resize({ width: false, height: false })
+      .maxHeight(this.chartHeight)
+      .maxWidth(600)
+      .scalingStrategy('fixed')
       .getConfig();
 
     this.followingChartConfig = this.chart
       .margin({ top: 30, right: 36, bottom: 36, left: 24 })
-      .height(this.chartHeight)
-      .width(460)
-      .resize({ width: false, height: false })
+      .maxHeight(this.chartHeight)
+      .maxWidth(460)
+      .scalingStrategy('fixed')
       .getConfig();
 
     const sortedData = this.data
