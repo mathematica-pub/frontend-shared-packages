@@ -151,11 +151,13 @@ export class BarsExampleComponent implements OnInit {
             .ticks((ticks) => ticks.format('.0f'))
             .getConfig()
         : this.xOrdinalAxis
-            .ticks((ticks) => ticks.size(0).rotate(30))
+            .ticks((ticks) => ticks.marksDisplay(false).rotate(30))
             .getConfig();
     const yAxisConfig =
       layout.orientation === Orientation.horizontal
-        ? this.yOrdinalAxis.ticks((ticks) => ticks.size(0)).getConfig()
+        ? this.yOrdinalAxis
+            .ticks((ticks) => ticks.marksDisplay(false))
+            .getConfig()
         : this.yQuantitativeAxis
             .ticks((ticks) => ticks.format('.0f'))
             .getConfig();
