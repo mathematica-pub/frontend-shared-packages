@@ -71,9 +71,9 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
     d.properties.name;
   map: CaMapTopology;
   counties: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
-  width = 600;
-  height = 800;
-  margin: ElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
+  width = 550;
+  height = 650;
+  margin: ElementSpacing = { top: 0, right: 0, bottom: 20, left: 0 };
   colors = {
     min: 'white',
     max: '#d62728',
@@ -136,6 +136,7 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
       .margin(this.margin)
       .height(this.height)
       .width(this.width)
+      .resize({ useViewbox: false, width: false, height: false })
       .getConfig();
   }
 
