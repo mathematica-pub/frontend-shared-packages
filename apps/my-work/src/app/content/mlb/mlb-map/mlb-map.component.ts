@@ -199,7 +199,7 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
 
   getMap(): Observable<CaMapTopology> {
     return this.assets
-      .getAsset('content/data/caCountiesTopoSimple.json', AdkAssetResponse.Json)
+      .getAsset('content/data/caCountiesTopo.json', AdkAssetResponse.Json)
       .pipe(map((response) => response as CaMapTopology));
   }
 
