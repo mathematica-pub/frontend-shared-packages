@@ -113,8 +113,8 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
         stratVal: x.StratVal,
         lob: x.LOB,
         comparison: x.Comparison === 'TRUE',
-        value: null, // null to avoid bars
-        average: x.Value && !isNaN(x.Value) ? +x.Value : null,
+        value: x.Value && !isNaN(x.Value) ? +x.Value : null,
+        average: null,
         range: x.Range && !isNaN(x.Range) ? +x.Range : null,
       };
       return obj;
