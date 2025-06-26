@@ -27,7 +27,6 @@
 </form>
 @if (filteredData$ | async; as data) {
   <app-export-content [fileName]="'MLB Map ' + myForm.value[filterTypes[0]]">
-    <!-- <app-mlb-county-plot-dot-plot [data]="data"></app-mlb-county-plot-dot-plot> -->
     @if (vm$ | async; as vm) {
       <vic-map-chart class="chart-component" [config]="vm.chartConfig">
         <ng-container html-elements-after>
