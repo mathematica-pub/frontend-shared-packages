@@ -70,7 +70,6 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
   featureIndexAccessor = (d: GeographiesFeature<MapGeometryProperties>) =>
     d.properties.name;
   map: CaMapTopology;
-  //   ca: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   counties: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   width = 600;
   height = 800;
@@ -126,7 +125,6 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
     this.vm$ = this.filteredData$.pipe(
       map((data) => ({
         chartConfig: this.getChartConfig(),
-        // TODO: is this conversion of datum best?
         geographiesConfig: this.getPrimaryMarksConfig(data as MlbCsaDatum[]),
       })),
       shareReplay(1)
@@ -194,29 +192,15 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
   setMapObjects(): void {
     this.getMap().subscribe((map) => {
       this.map = map;
-      //   this.setCaGeoJson();
       this.setCountiesGeoJson();
     });
   }
 
   getMap(): Observable<CaMapTopology> {
     return this.assets
-      .getAsset(
-        'content/data/caCountiesTopoSimple.json',
-        //   'content/data/California_Counties.geojson',
-        AdkAssetResponse.Json
-      )
+      .getAsset('content/data/caCountiesTopoSimple.json', AdkAssetResponse.Json)
       .pipe(map((response) => response as CaMapTopology));
   }
-
-  //   setCaGeoJson(): void {
-  //     this.ca = topojson.feature(
-  //       this.map,
-  //       //   this.map.objects.country
-  //       // TODO: this should be the CA state outline, but is counties
-  //       this.map.objects['subunits']
-  //     ) as FeatureCollection<MultiPolygon, MapGeometryProperties>;
-  //   }
 
   setCountiesGeoJson(): void {
     this.counties = topojson.feature(
