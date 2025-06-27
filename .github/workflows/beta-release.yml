@@ -82,7 +82,7 @@ jobs:
           npx nx build $REFERENCED_PACKAGE
           cd dist/$REFERENCED_PACKAGE
           npm version $beta_version --no-git-tag-version
-          npm publish
+          npm publish --tag beta
 
       - name: Add comment to PR
         uses: actions/github-script@v6
