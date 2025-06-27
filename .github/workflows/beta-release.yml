@@ -1,11 +1,8 @@
 name: Beta Release Workflow
 
 on:
-  pull_request:
-    branches:
-      - main
-  # issue_comment:
-  #   types: [created]
+  issue_comment:
+    types: [created]
 
 permissions:
   id-token: write
@@ -21,7 +18,7 @@ env:
 
 jobs:
   beta-release:
-    # if: github.event.issue.pull_request && contains(github.event.comment.body, 'beta-release-bot:')
+    if: github.event.issue.pull_request && contains(github.event.comment.body, 'beta-release-bot:')
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -44,7 +41,7 @@ jobs:
 
       - name: Set referenced package
         run: |
-          REFERENCED_PACKAGE=viz-components
+          REFERENCED_PACKAGE=$(echo "${{ github.event.comment.body }}" | sed -n 's/.*beta-release-bot: \([^)]*\).*/\1/p')
           echo "Referenced package: $REFERENCED_PACKAGE"
           echo "REFERENCED_PACKAGE=$REFERENCED_PACKAGE" >> $GITHUB_ENV
 
