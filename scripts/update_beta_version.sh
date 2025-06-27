@@ -12,7 +12,7 @@ VAR_NAME="TEST_VERSION_${SAFE_PACKAGE_NAME}"
 if gh api \
         -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
-        /repos/${{ github.repository }}/actions/variables/$VAR_NAME \
+        /repos/${GITHUB_REPOSITORY}/actions/variables/$VAR_NAME \
         >/dev/null 2>&1; then
 
 # Update existing variable

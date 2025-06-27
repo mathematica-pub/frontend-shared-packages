@@ -67,6 +67,7 @@ jobs:
         id: beta_version
         env:
           REFERENCED_PACKAGE: ${{ env.REFERENCED_PACKAGE }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bash scripts/get_beta_version.sh
 
@@ -74,6 +75,7 @@ jobs:
         env:
           beta_version: ${{ env.beta_version }}
           REFERENCED_PACKAGE: ${{ env.REFERENCED_PACKAGE }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bash scripts/update_beta_version.sh
 
