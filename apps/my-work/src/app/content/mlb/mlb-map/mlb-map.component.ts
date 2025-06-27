@@ -63,9 +63,10 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
   override mlbDataPath = mlbDataPath.csa;
   override filters = {
     measureCodes: [],
+    lobs: [],
     stratVals: [],
   };
-  override filterTypes = ['measureCode', 'stratVal'];
+  override filterTypes = ['measureCode', 'lob', 'stratVal'];
   vm$: Observable<ViewModel>;
   featureIndexAccessor = (d: GeographiesFeature<MapGeometryProperties>) =>
     d.properties.name;

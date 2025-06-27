@@ -24,6 +24,18 @@
       </option>
     </select>
   </div>
+  <div class="selection">
+    <label for="lob">Line of Business</label>
+    <select id="lob" formControlName="lob">
+      <option
+        *ngFor="let code of filters.lobs"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
 </form>
 @if (filteredData$ | async; as data) {
   <app-export-content [fileName]="'MLB Map ' + myForm.value[filterTypes[0]]">
