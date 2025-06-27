@@ -21,7 +21,7 @@ import {
   MapObjects,
 } from 'apps/demo-app/src/app/core/services/basemap';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
-import { geoMercator } from 'd3';
+import { ascending, geoMercator, max } from 'd3';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import { map, Observable, shareReplay } from 'rxjs';
 import * as topojson from 'topojson-client';
@@ -74,13 +74,21 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
   width = 550;
   height = 650;
   margin: ElementSpacing = { top: 0, right: 0, bottom: 20, left: 0 };
+  outlineColor = 'white';
   colors = {
-    min: 'white',
-    max: '#d62728',
-    highlight: '#1f77b4',
+    min: '#eff3ff',
+    max: '#084594',
+    diverging: [
+      '#8c510a',
+      '#d8b365',
+      '#f6e8c3',
+      '#c7eae5',
+      '#5ab4ac',
+      '#01665e',
+    ],
     noData: '#d9d9d9',
-    stroke: '#888',
-    outline: '#000000',
+    stroke: this.outlineColor,
+    outline: this.outlineColor,
   };
 
   constructor(
@@ -121,6 +129,10 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
     return transformed;
   }
 
+  override isComparison(d: MlbDatum): boolean {
+    return d.comparison === true;
+  }
+
   setVm(): void {
     this.vm$ = this.filteredData$.pipe(
       map((data) => ({
@@ -158,7 +170,7 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
   ): GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
     return layer
       .geographies(this.counties.features)
-      .stroke((stroke) => stroke.color(this.colors.stroke).width(1))
+      .stroke((stroke) => stroke.color(this.colors.stroke).width(0.5))
       .fill((dimension) =>
         dimension.valueAccessor((d) => d.properties.name).range(['none'])
       );
@@ -171,16 +183,30 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
       MapGeometryProperties
     >
   ): GeographiesAttributeDataLayerBuilder<MlbCsaDatum, MapGeometryProperties> {
+    const absoluteMax = max(data, (d) => Math.abs(d.value));
+    const maxVals = [absoluteMax * 0.333, absoluteMax * 0.666, absoluteMax];
+    const breakValues = [...maxVals.map((d) => d * -1), 0, ...maxVals].sort(
+      ascending
+    );
     return layer
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.county)
-      .noBins((dimension) =>
+      .customBreaksBins((dimension) =>
         dimension
           .valueAccessor((d) => d.value)
+          .breakValues(breakValues)
           .formatSpecifier(',.2f')
-          .range([this.colors.min, this.colors.max])
+          .range(this.colors.diverging)
+          .nullColor(this.colors.noData)
       );
+    // .noBins((dimension) =>
+    //   dimension
+    //     .valueAccessor((d) => d.value)
+    //     .formatSpecifier(',.2f')
+    //     .range([this.colors.min, this.colors.max])
+    //     .nullColor(this.colors.noData)
+    // );
   }
 
   getDataGeographiesFeatures(data: MlbCsaDatum[]): any {

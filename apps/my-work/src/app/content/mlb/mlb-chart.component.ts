@@ -100,12 +100,16 @@ export class MlbChartComponent implements OnInit {
     let filteredData = data;
     this.filterTypes.forEach((type: string) => {
       filteredData = filteredData
-        .filter((d) => d[type] === filters[type] && d.comparison === false)
+        .filter((d) => d[type] === filters[type] && this.isComparison(d))
         .sort((a) =>
           a.lob === lobNames.mock || a.lob === lobNames.real ? -1 : 1
         );
     });
     return filteredData;
+  }
+
+  isComparison(d: MlbDatum): boolean {
+    return d.comparison === false;
   }
 
   getOptions(data: MlbDatum[], type: string): Option[] {
