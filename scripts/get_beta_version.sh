@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e
+set -x
+
+# Try to get the current version from a GitHub variable
+CURRENT_VERSION=$(gh api \
+-H "Accept: application/vnd.github+json" \
+-H "X-GitHub-Api-Version: 2022-11-28" \
+/repos/${{ github.repository }}/actions/variables/TEST_VERSION_${REFERENCED_PACKAGE^^} \
+--jq '.value' 2>/dev/null || echo "0")
+
+NEW_VERSION=$((CURRENT_VERSION + 1))
+
+echo "beta_version=${NEW_VERSION}" >> $GITHUB_ENV
