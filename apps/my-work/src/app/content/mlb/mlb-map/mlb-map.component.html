@@ -13,10 +13,10 @@
     </select>
   </div>
   <div class="selection">
-    <label for="stratVal">Stratification</label>
-    <select id="stratVal" formControlName="stratVal">
+    <label for="lob">Line of Business</label>
+    <select id="lob" formControlName="lob">
       <option
-        *ngFor="let code of filters.stratVals"
+        *ngFor="let code of filters.lobs"
         [ngValue]="code.name"
         [disabled]="code.disabled"
       >
@@ -25,10 +25,10 @@
     </select>
   </div>
   <div class="selection">
-    <label for="lob">Line of Business</label>
-    <select id="lob" formControlName="lob">
+    <label for="stratVal">Stratification</label>
+    <select id="stratVal" formControlName="stratVal">
       <option
-        *ngFor="let code of filters.lobs"
+        *ngFor="let code of filters.stratVals"
         [ngValue]="code.name"
         [disabled]="code.disabled"
       >
