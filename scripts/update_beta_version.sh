@@ -3,7 +3,10 @@
 set -e
 set -x
 
-VAR_NAME="TEST_VERSION_${REFERENCED_PACKAGE^^}"
+
+SAFE_PACKAGE_NAME=$(echo "$REFERENCED_PACKAGE" | tr '-' '_')
+
+VAR_NAME="TEST_VERSION_${SAFE_PACKAGE_NAME}"
 
 # Check if variable exists
 if gh api \
