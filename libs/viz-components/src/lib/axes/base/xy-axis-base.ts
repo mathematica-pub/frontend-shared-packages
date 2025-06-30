@@ -121,8 +121,14 @@ export abstract class XyAxis<
     if (this.config.ticks.fontSize) {
       this.setTickFontSize(tickText);
     }
+    // TODO: Determine if this needs to be called from the on('end') of the axisGroup transition
+    // or if if should be moved to processTickLabels. I think there is a reason it is here. (?)
     if (this.config.ticks.wrap && this.config.ticks.wrap.width !== undefined) {
       this.wrapAxisTickText(tickText);
+    }
+    if (this.config.ticks.marksDisplay === false) {
+      const marks = select(this.elRef.nativeElement).selectAll('.tick line');
+      marks.remove();
     }
   }
 
