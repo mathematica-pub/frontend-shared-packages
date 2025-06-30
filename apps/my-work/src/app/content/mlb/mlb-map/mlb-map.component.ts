@@ -39,6 +39,7 @@ export interface MlbCsaDatum extends MlbDatum {
 interface ViewModel {
   chartConfig: ChartConfig;
   geographiesConfig: GeographiesConfig<MlbCsaDatum, MapGeometryProperties>;
+  isNoData: boolean;
 }
 
 type CaMapTopology = Topology<MapObjects>;
@@ -91,6 +92,8 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
     stroke: this.outlineColor,
     outline: this.outlineColor,
   };
+  legendHeight = 20;
+  legendWidth = 400;
 
   constructor(
     dataService: DataService,
@@ -139,6 +142,7 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
       map((data) => ({
         chartConfig: this.getChartConfig(),
         geographiesConfig: this.getPrimaryMarksConfig(data as MlbCsaDatum[]),
+        isNoData: data.some((d: MlbDatum) => d.value === null),
       })),
       shareReplay(1)
     );

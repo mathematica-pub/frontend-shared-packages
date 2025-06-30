@@ -4,7 +4,33 @@
   padding: 0 !important;
 }
 
+.chart-component {
+  position: relative;
+}
+
+.chart-component,
 .legend-component .vic-legend-values-container .vic-value {
   font-size: 16px;
   font-family: Segoe UI;
+}
+
+.no-data-legend {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  bottom: 0;
+  right: 0;
+}
+
+.legend-color {
+  width: var(--value-width);
+  height: var(--legend-height);
+  background-color: var(--no-data-color);
+  border: 1px solid white;
+}
+
+.legend-value {
+  line-height: 1;
+  padding-top: 0.25rem;
 }

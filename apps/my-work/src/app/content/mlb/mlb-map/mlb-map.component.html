@@ -44,10 +44,21 @@
         <ng-container html-elements-after>
           <vic-map-legend
             class="legend-component"
-            [width]="400"
-            [height]="20"
+            [width]="legendWidth"
+            [height]="legendHeight"
             [outlineColor]="colors.outline"
           ></vic-map-legend>
+          @if (vm.isNoData) {
+            <div
+              class="no-data-legend"
+              [style.--no-data-color]="colors.noData"
+              [style.--value-width]="legendWidth / 7 + 'px'"
+              [style.--legend-height]="legendHeight + 'px'"
+            >
+              <div class="legend-color"></div>
+              <p class="legend-value">No data</p>
+            </div>
+          }
         </ng-container>
         <svg:g
           vic-primary-marks-geographies
