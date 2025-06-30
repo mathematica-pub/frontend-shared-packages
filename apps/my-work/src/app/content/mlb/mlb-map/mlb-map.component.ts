@@ -201,7 +201,7 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
         dimension
           .valueAccessor((d) => d.value)
           .breakValues(breakValues)
-          .formatSpecifier(',.2f')
+          .formatSpecifier('+,.2f')
           .range(this.colors.diverging)
           .nullColor(this.colors.noData)
       );
