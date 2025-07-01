@@ -12,7 +12,7 @@ import {
   VicYOrdinalAxisConfigBuilder,
 } from '@hsi/viz-components';
 import { MlbDotPlotComponent } from '../../mlb-dot-plot.component';
-import { MlbCsaDatum } from '../mlb-county-plot.component';
+import { MlbCountyDatum } from '../mlb-county-plot.component';
 import { MlbCountyPlotStackedBarsComponent } from './mlb-county-plot-stacked-bars/mlb-county-plot-stacked-bars.component';
 
 @Component({
@@ -40,7 +40,7 @@ export class MlbCountyPlotDotPlotComponent
   extends MlbDotPlotComponent
   implements OnChanges
 {
-  override rollupData: MlbCsaDatum[] = [];
+  override rollupData: MlbCountyDatum[] = [];
 
   override ngOnChanges(): void {
     if (this.data[0]) {
@@ -51,7 +51,7 @@ export class MlbCountyPlotDotPlotComponent
     }
   }
 
-  override getSortOrder(a: MlbCsaDatum, b: MlbCsaDatum): number {
+  override getSortOrder(a: MlbCountyDatum, b: MlbCountyDatum): number {
     let sort = a.range - b.range;
     if (a.directionality.toLowerCase().includes('higher')) {
       sort = b.range - a.range;
@@ -59,15 +59,15 @@ export class MlbCountyPlotDotPlotComponent
     return sort;
   }
 
-  override getInvisibleStackValue(lob: MlbCsaDatum): number {
+  override getInvisibleStackValue(lob: MlbCountyDatum): number {
     return lob.value;
   }
 
-  override getBarValue(lob: MlbCsaDatum): number {
+  override getBarValue(lob: MlbCountyDatum): number {
     return lob.value;
   }
 
-  override getYDimension(lob: MlbCsaDatum): string {
+  override getYDimension(lob: MlbCountyDatum): string {
     return lob.county;
   }
 

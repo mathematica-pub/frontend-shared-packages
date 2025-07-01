@@ -15,7 +15,7 @@ import {
   MlbStackedBarsComponent,
 } from '../../../mlb-stacked-bars.component';
 import { lobNames, mlbColorRange } from '../../../mlb.constants';
-import { MlbCsaDatum } from '../../mlb-county-plot.component';
+import { MlbCountyDatum } from '../../mlb-county-plot.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -68,7 +68,7 @@ export class MlbCountyPlotStackedBarsComponent
     this.colorScale = scaleOrdinal().domain(domain).range(mlbColorRange);
   }
 
-  override getCategory(lob: MlbCsaDatum): string {
+  override getCategory(lob: MlbCountyDatum): string {
     return lob.county;
   }
 
@@ -89,12 +89,12 @@ export class MlbCountyPlotStackedBarsComponent
       .attr('height', this.barHeight);
   }
 
-  getRangeX(datum: MlbCsaDatum): number {
+  getRangeX(datum: MlbCountyDatum): number {
     const range = datum.range > 0 ? datum.range : 0;
     return this.scales.x(datum.average - range);
   }
 
-  getRangeY(datum: MlbCsaDatum): number {
+  getRangeY(datum: MlbCountyDatum): number {
     return (
       this.scales.y(datum.county) +
       (this.scales.y as any).bandwidth() / 2 -
@@ -102,7 +102,7 @@ export class MlbCountyPlotStackedBarsComponent
     );
   }
 
-  getRangeWidth(datum: MlbCsaDatum): number {
+  getRangeWidth(datum: MlbCountyDatum): number {
     return this.scales.x(Math.abs(datum.range));
   }
 

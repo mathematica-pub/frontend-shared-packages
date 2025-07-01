@@ -9,7 +9,7 @@ import { MlbChartComponent } from '../mlb-chart.component';
 import { MlbDatum } from '../mlb-stacked-bars.component';
 import { MlbCountyPlotDotPlotComponent } from './mlb-county-plot-dot-plot/mlb-county-plot-dot-plot.component';
 
-export interface MlbCsaDatum extends MlbDatum {
+export interface MlbCountyDatum extends MlbDatum {
   county: string;
   range: number;
 }
@@ -39,9 +39,9 @@ export class MlbCountyPlotComponent extends MlbChartComponent {
     super(dataService);
   }
 
-  override getTransformedData(data: MlbCsaDatum[]): MlbCsaDatum[] {
-    const transformed: MlbCsaDatum[] = data.map((x: any) => {
-      const obj: MlbCsaDatum = {
+  override getTransformedData(data: MlbCountyDatum[]): MlbCountyDatum[] {
+    const transformed: MlbCountyDatum[] = data.map((x: any) => {
+      const obj: MlbCountyDatum = {
         series: 'percentile',
         measureCode: x.Measure_Code,
         units: x.Units,

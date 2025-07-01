@@ -32,16 +32,12 @@ import {
   mlbDataPath,
 } from '../../ca-access/data-paths.constants';
 import { MlbChartComponent } from '../mlb-chart.component';
+import { MlbCountyDatum } from '../mlb-county-plot/mlb-county-plot.component';
 import { MlbDatum } from '../mlb-stacked-bars.component';
-
-export interface MlbCsaDatum extends MlbDatum {
-  county: string;
-  range: number;
-}
 
 interface ViewModel {
   chartConfig: ChartConfig;
-  geographiesConfig: GeographiesConfig<MlbCsaDatum, MapGeometryProperties>;
+  geographiesConfig: GeographiesConfig<MlbCountyDatum, MapGeometryProperties>;
   isNoData: boolean;
 }
 
@@ -102,7 +98,7 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
     dataService: DataService,
     private chart: VicChartConfigBuilder,
     private geographies: VicGeographiesConfigBuilder<
-      MlbCsaDatum,
+      MlbCountyDatum,
       MapGeometryProperties
     >,
     private assets: AdkAssetsService
@@ -116,9 +112,9 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
     this.setVm();
   }
 
-  override getTransformedData(data: MlbCsaDatum[]): MlbCsaDatum[] {
-    const transformed: MlbCsaDatum[] = data.map((x: any) => {
-      const obj: MlbCsaDatum = {
+  override getTransformedData(data: MlbCountyDatum[]): MlbCountyDatum[] {
+    const transformed: MlbCountyDatum[] = data.map((x: any) => {
+      const obj: MlbCountyDatum = {
         series: 'percentile',
         measureCode: x.Measure_Code,
         units: x.Units,
@@ -144,7 +140,7 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
     this.vm$ = this.filteredData$.pipe(
       map((data) => ({
         chartConfig: this.getChartConfig(),
-        geographiesConfig: this.getPrimaryMarksConfig(data as MlbCsaDatum[]),
+        geographiesConfig: this.getPrimaryMarksConfig(data as MlbCountyDatum[]),
         isNoData: data.some((d: MlbDatum) => d.value === null),
       })),
       shareReplay(1)
@@ -161,8 +157,8 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
   }
 
   getPrimaryMarksConfig(
-    data: MlbCsaDatum[]
-  ): GeographiesConfig<MlbCsaDatum, MapGeometryProperties> {
+    data: MlbCountyDatum[]
+  ): GeographiesConfig<MlbCountyDatum, MapGeometryProperties> {
     const config = this.geographies
       .boundary(this.counties)
       .featureIndexAccessor(this.featureIndexAccessor)
@@ -185,12 +181,15 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
   }
 
   getDataLayer(
-    data: MlbCsaDatum[],
+    data: MlbCountyDatum[],
     layer: GeographiesAttributeDataLayerBuilder<
-      MlbCsaDatum,
+      MlbCountyDatum,
       MapGeometryProperties
     >
-  ): GeographiesAttributeDataLayerBuilder<MlbCsaDatum, MapGeometryProperties> {
+  ): GeographiesAttributeDataLayerBuilder<
+    MlbCountyDatum,
+    MapGeometryProperties
+  > {
     const absoluteMax = max(data, (d) => Math.abs(d.value));
     const maxVals = [absoluteMax * 0.333, absoluteMax * 0.666, absoluteMax];
     const breakValues = [...maxVals.map((d) => d * -1), 0, ...maxVals].sort(
@@ -217,7 +216,7 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
     // );
   }
 
-  getDataGeographiesFeatures(data: MlbCsaDatum[]): any {
+  getDataGeographiesFeatures(data: MlbCountyDatum[]): any {
     const countiesInData = data.map((x) => x.county);
     return this.counties.features.filter((x) =>
       countiesInData.includes(x.properties.name)
