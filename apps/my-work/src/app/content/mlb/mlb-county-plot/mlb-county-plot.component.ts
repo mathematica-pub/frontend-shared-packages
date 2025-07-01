@@ -28,7 +28,7 @@ export interface MlbCsaDatum extends MlbDatum {
   encapsulation: ViewEncapsulation.None,
 })
 export class MlbCountyPlotComponent extends MlbChartComponent {
-  override mlbDataPath = mlbDataPath.csa;
+  override mlbDataPath = mlbDataPath.lob;
   override filters = {
     measureCodes: [],
     stratVals: [],

@@ -64,7 +64,7 @@ type CaMapTopology = Topology<MapObjects>;
   encapsulation: ViewEncapsulation.None,
 })
 export class MlbMapComponent extends MlbChartComponent implements OnInit {
-  override mlbDataPath = mlbDataPath.csa;
+  override mlbDataPath = mlbDataPath.lob;
   override filters = {
     measureCodes: [],
     lobs: [],
