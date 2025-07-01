@@ -27,7 +27,10 @@ import { map, Observable, shareReplay } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { Topology } from 'topojson-specification';
 import { DataService } from '../../../core/services/data.service';
-import { mlbDataPath } from '../../ca-access/data-paths.constants';
+import {
+  caDataFolder,
+  mlbDataPath,
+} from '../../ca-access/data-paths.constants';
 import { MlbChartComponent } from '../mlb-chart.component';
 import { MlbDatum } from '../mlb-stacked-bars.component';
 
@@ -230,7 +233,7 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
 
   getMap(): Observable<CaMapTopology> {
     return this.assets
-      .getAsset('content/data/caCountiesTopo.json', AdkAssetResponse.Json)
+      .getAsset(`${caDataFolder}caCountiesTopo.json`, AdkAssetResponse.Json)
       .pipe(map((response) => response as CaMapTopology));
   }
 
