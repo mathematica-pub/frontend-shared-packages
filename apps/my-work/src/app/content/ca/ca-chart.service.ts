@@ -42,9 +42,7 @@ export class CaChartService {
   setData(dataPath: string, getTransformedData: (data: any[]) => any[]): void {
     const data$ = this.dataService.getDataFile(dataPath).pipe(
       filter((data) => data.length > 0),
-      map((data) => {
-        return getTransformedData(data);
-      })
+      map((data) => getTransformedData(data))
     );
 
     this.setDataObservable(data$);
