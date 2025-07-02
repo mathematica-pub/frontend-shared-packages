@@ -26,12 +26,11 @@ import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import { map, Observable, shareReplay } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { Topology } from 'topojson-specification';
-import { DataService } from '../../../core/services/data.service';
 import {
   caDataFolder,
   mlbDataPath,
 } from '../../ca-access/data-paths.constants';
-import { MlbChartComponent } from '../mlb-chart.component';
+import { CaChartService } from '../../ca/ca-chart.service';
 import { MlbCountyDatum } from '../mlb-county-plot/mlb-county-plot.component';
 import { MlbDatum } from '../mlb-stacked-bars.component';
 
@@ -56,17 +55,21 @@ type CaMapTopology = Topology<MapObjects>;
   ],
   templateUrl: 'mlb-map.component.html',
   styleUrl: './mlb-map.component.scss',
-  providers: [VicChartConfigBuilder, VicGeographiesConfigBuilder],
+  providers: [
+    VicChartConfigBuilder,
+    VicGeographiesConfigBuilder,
+    CaChartService,
+  ],
   encapsulation: ViewEncapsulation.None,
 })
-export class MlbMapComponent extends MlbChartComponent implements OnInit {
-  override mlbDataPath = mlbDataPath.lob;
-  override filters = {
+export class MlbMapComponent implements OnInit {
+  mlbDataPath = mlbDataPath.lob;
+  filters = {
     measureCodes: [],
     lobs: [],
     stratVals: [],
   };
-  override filterTypes = ['measureCode', 'lob', 'stratVal'];
+  filterTypes = ['measureCode', 'lob', 'stratVal'];
   vm$: Observable<ViewModel>;
   featureIndexAccessor = (d: GeographiesFeature<MapGeometryProperties>) =>
     d.properties.name;
@@ -95,24 +98,27 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
   legendWidth = 400;
 
   constructor(
-    dataService: DataService,
     private chart: VicChartConfigBuilder,
     private geographies: VicGeographiesConfigBuilder<
       MlbCountyDatum,
       MapGeometryProperties
     >,
-    private assets: AdkAssetsService
-  ) {
-    super(dataService);
-  }
+    private assets: AdkAssetsService,
+    public caChartService: CaChartService
+  ) {}
 
-  override ngOnInit(): void {
-    super.ngOnInit();
+  ngOnInit(): void {
+    this.caChartService.init(
+      this.filters,
+      this.filterTypes,
+      this.mlbDataPath,
+      this.getTransformedData.bind(this)
+    );
     this.setMapObjects();
     this.setVm();
   }
 
-  override getTransformedData(data: MlbCountyDatum[]): MlbCountyDatum[] {
+  getTransformedData(data: MlbCountyDatum[]): MlbCountyDatum[] {
     const transformed: MlbCountyDatum[] = data
       .map((x: any) => {
         const obj: MlbCountyDatum = {
@@ -134,12 +140,8 @@ export class MlbMapComponent extends MlbChartComponent implements OnInit {
     return transformed;
   }
 
-  override isComparison(d: MlbDatum): boolean {
-    return d.comparison === true;
-  }
-
   setVm(): void {
-    this.vm$ = this.filteredData$.pipe(
+    this.vm$ = this.caChartService.filteredData$.pipe(
       map((data) => ({
         chartConfig: this.getChartConfig(),
         geographiesConfig: this.getPrimaryMarksConfig(data as MlbCountyDatum[]),

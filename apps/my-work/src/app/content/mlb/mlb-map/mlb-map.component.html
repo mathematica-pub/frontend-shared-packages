@@ -1,5 +1,5 @@
 <div class="title">MLB Map</div>
-<form [formGroup]="myForm">
+<form [formGroup]="caChartService.myForm">
   <div class="selection">
     <label for="measureCode">Measure Code</label>
     <select id="measureCode" formControlName="measureCode">
@@ -37,8 +37,10 @@
     </select>
   </div>
 </form>
-@if (filteredData$ | async; as data) {
-  <app-export-content [fileName]="'MLB Map ' + myForm.value[filterTypes[0]]">
+@if (caChartService.filteredData$ | async; as data) {
+  <app-export-content
+    [fileName]="'MLB Map ' + caChartService.myForm.value[filterTypes[0]]"
+  >
     @if (vm$ | async; as vm) {
       <vic-map-chart class="chart-component" [config]="vm.chartConfig">
         <ng-container html-elements-after>
