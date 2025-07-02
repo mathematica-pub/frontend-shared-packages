@@ -53,9 +53,11 @@ export class IcaComponent implements OnInit {
   filter$: Observable<FormGroup<SelectionForm>>;
   filteredData$: Observable<IcaDatum[]>;
   myForm: FormGroup;
-  measureCodes: Option[] = [];
-  stratVals: Option[] = [];
-  delivSyss: Option[] = [];
+  filters = {
+    measureCodes: [],
+    stratVals: [],
+    delivSyss: [],
+  };
   filterTypes = ['delivSys', 'measureCode', 'stratVal'];
 
   constructor(private dataService: DataService) {}
@@ -100,7 +102,7 @@ export class IcaComponent implements OnInit {
       map((data: IcaDatum[]) => {
         this.setOptions(data);
         this.filterTypes.forEach((type: string) => {
-          this.myForm.controls[type].setValue(this[`${type}s`][0].name);
+          this.myForm.controls[type].setValue(this.filters[`${type}s`][0].name);
         });
         return data;
       })
@@ -118,7 +120,7 @@ export class IcaComponent implements OnInit {
 
   setOptions(data: IcaDatum[]): void {
     this.filterTypes.forEach((type: string) => {
-      this[`${type}s`] = this.getOptions(data, type);
+      this.filters[`${type}s`] = this.getOptions(data, type);
     });
   }
 
@@ -184,10 +186,10 @@ export class IcaComponent implements OnInit {
 
   setValidValues(): void {
     this.filterTypes.slice(1).forEach((type: string) => {
-      const selectedOption = this[`${type}s`].find(
+      const selectedOption = this.filters[`${type}s`].find(
         (x: Option) => x.name === this.myForm.controls[type].value
       );
-      const validSelection = this[`${type}s`].find(
+      const validSelection = this.filters[`${type}s`].find(
         (x: Option) => x.disabled === false
       )?.name;
       if (selectedOption?.disabled || !selectedOption?.name) {
