@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VicChartConfigBuilder } from '@hsi/viz-components';
-import { DataService } from 'apps/my-work/src/app/core/services/data.service';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
-import { CaAccessChartComponent } from '../ca-access-chart.component';
+import { CaChartService } from '../../ca/ca-chart.service';
 import { CaDatum } from '../ca-access-stacked-bars.component';
 import { dataPath } from '../data-paths.constants';
 import { CsaDotPlotComponent } from './csa-dot-plot/csa-dot-plot.component';
@@ -25,25 +24,32 @@ export interface CsaDatum extends CaDatum {
     CsaDotPlotComponent,
     ReactiveFormsModule,
   ],
-  providers: [VicChartConfigBuilder],
+  providers: [VicChartConfigBuilder, CaChartService],
   templateUrl: './csa.component.html',
   styleUrl: './csa.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class CsaComponent extends CaAccessChartComponent {
-  override dataPath = dataPath.csa;
-  override filters = {
-    measureCodes: [],
+export class CsaComponent implements OnInit {
+  dataPath = dataPath.csa;
+  filters = {
     delivSyss: [],
+    measureCodes: [],
     stratVals: [],
   };
-  override filterTypes = ['delivSys', 'measureCode', 'stratVal'];
+  filterTypes = ['delivSys', 'measureCode', 'stratVal'];
 
-  constructor(dataService: DataService) {
-    super(dataService);
+  constructor(public caChartService: CaChartService) {}
+
+  ngOnInit(): void {
+    this.caChartService.init(
+      this.filters,
+      this.filterTypes,
+      this.dataPath,
+      this.getTransformedData.bind(this)
+    );
   }
 
-  override getTransformedData(data: CsaDatum[]): CsaDatum[] {
+  getTransformedData(data: CsaDatum[]): CsaDatum[] {
     const transformed: CsaDatum[] = data.map((x: any) => {
       const obj: CsaDatum = {
         series: 'percentile',

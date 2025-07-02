@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
-import { DataService } from '../../../core/services/data.service';
 import { mlbDataPath } from '../../ca-access/data-paths.constants';
-import { MlbChartComponent } from '../mlb-chart.component';
+import { CaChartService } from '../../ca/ca-chart.service';
 import { MlbDatum } from '../mlb-stacked-bars.component';
 import { MlbBdaDotPlotComponent } from './mlb-bda-dot-plot/mlb-bda-dot-plot.component';
 
@@ -22,23 +21,31 @@ export interface MlbBdaDatum extends MlbDatum {
     ReactiveFormsModule,
     MlbBdaDotPlotComponent,
   ],
+  providers: [CaChartService],
   templateUrl: 'mlb-bda.component.html',
   styleUrl: './mlb-bda.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class MlbBdaComponent extends MlbChartComponent {
-  override mlbDataPath = mlbDataPath.bda;
-  override filters = {
+export class MlbBdaComponent implements OnInit {
+  mlbDataPath = mlbDataPath.bda;
+  filters = {
     measureCodes: [],
   };
-  override filterTypes = ['measureCode'];
+  filterTypes = ['measureCode'];
   chartName = 'BDA';
 
-  constructor(dataService: DataService) {
-    super(dataService);
+  constructor(public caChartService: CaChartService) {}
+
+  ngOnInit(): void {
+    this.caChartService.init(
+      this.filters,
+      this.filterTypes,
+      this.mlbDataPath,
+      this.getTransformedData.bind(this)
+    );
   }
 
-  override getTransformedData(data: MlbBdaDatum[]): MlbBdaDatum[] {
+  getTransformedData(data: MlbBdaDatum[]): MlbBdaDatum[] {
     const transformed: MlbBdaDatum[] = data.map((x: any) => {
       const obj: MlbBdaDatum = {
         series: 'percentile',

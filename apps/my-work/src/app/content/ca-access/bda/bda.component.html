@@ -1,5 +1,5 @@
 <div class="title">BDA</div>
-<form [formGroup]="myForm">
+<form [formGroup]="caChartService.myForm">
   <div class="selection">
     <label for="delivSys">Delivery System</label>
     <select id="delivSys" formControlName="delivSys">
@@ -21,10 +21,13 @@
     </select>
   </div>
 </form>
-@if (filteredData$ | async; as data) {
+@if (caChartService.filteredData$ | async; as data) {
   <app-export-content
     [fileName]="
-      'BDA ' + myForm.value[filterTypes[0]] + ' ' + myForm.value[filterTypes[1]]
+      'BDA ' +
+      caChartService.myForm.value[filterTypes[0]] +
+      ' ' +
+      caChartService.myForm.value[filterTypes[1]]
     "
   >
     <app-bda-dot-plot [data]="data"></app-bda-dot-plot>

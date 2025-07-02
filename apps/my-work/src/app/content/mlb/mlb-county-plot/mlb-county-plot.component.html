@@ -1,5 +1,5 @@
 <div class="title">MLB County Dot Plot</div>
-<form [formGroup]="myForm">
+<form [formGroup]="caChartService.myForm">
   <div class="selection">
     <label for="measureCode">Measure Code</label>
     <select id="measureCode" formControlName="measureCode">
@@ -25,9 +25,11 @@
     </select>
   </div>
 </form>
-@if (filteredData$ | async; as data) {
+@if (caChartService.filteredData$ | async; as data) {
   <app-export-content
-    [fileName]="'MLB County Dot Plot ' + myForm.value[filterTypes[0]]"
+    [fileName]="
+      'MLB County Dot Plot ' + caChartService.myForm.value[filterTypes[0]]
+    "
   >
     <app-mlb-county-plot-dot-plot [data]="data"></app-mlb-county-plot-dot-plot>
   </app-export-content>

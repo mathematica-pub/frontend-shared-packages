@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
-import { DataService } from '../../../core/services/data.service';
-import { CaAccessChartComponent } from '../ca-access-chart.component';
+import { CaChartService } from '../../ca/ca-chart.service';
 import { CaDatum } from '../ca-access-stacked-bars.component';
 import { dataPath } from '../data-paths.constants';
 import { BdaDotPlotComponent } from './bda-dot-plot/bda-dot-plot.component';
@@ -23,23 +22,31 @@ export interface BdaDatum extends CaDatum {
     ReactiveFormsModule,
     BdaDotPlotComponent,
   ],
+  providers: [CaChartService],
   templateUrl: 'bda.component.html',
   styleUrl: './bda.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class BdaComponent extends CaAccessChartComponent {
-  override dataPath = dataPath.bda;
-  override filters = {
+export class BdaComponent implements OnInit {
+  dataPath = dataPath.bda;
+  filters = {
     measureCodes: [],
     delivSyss: [],
   };
-  override filterTypes = ['delivSys', 'measureCode'];
+  filterTypes = ['delivSys', 'measureCode'];
 
-  constructor(dataService: DataService) {
-    super(dataService);
+  constructor(public caChartService: CaChartService) {}
+
+  ngOnInit(): void {
+    this.caChartService.init(
+      this.filters,
+      this.filterTypes,
+      this.dataPath,
+      this.getTransformedData.bind(this)
+    );
   }
 
-  override getTransformedData(data: BdaDatum[]): BdaDatum[] {
+  getTransformedData(data: BdaDatum[]): BdaDatum[] {
     const transformed: BdaDatum[] = data.map((x: any) => {
       const obj: BdaDatum = {
         series: 'percentile',

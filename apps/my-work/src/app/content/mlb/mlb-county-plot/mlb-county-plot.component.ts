@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
-import { DataService } from '../../../core/services/data.service';
 import { mlbDataPath } from '../../ca-access/data-paths.constants';
-import { MlbChartComponent } from '../mlb-chart.component';
+import { CaChartService } from '../../ca/ca-chart.service';
 import { MlbDatum } from '../mlb-stacked-bars.component';
 import { MlbCountyPlotDotPlotComponent } from './mlb-county-plot-dot-plot/mlb-county-plot-dot-plot.component';
 
@@ -23,39 +22,49 @@ export interface MlbCountyDatum extends MlbDatum {
     ReactiveFormsModule,
     MlbCountyPlotDotPlotComponent,
   ],
+  providers: [CaChartService],
   templateUrl: 'mlb-county-plot.component.html',
   styleUrl: './mlb-county-plot.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class MlbCountyPlotComponent extends MlbChartComponent {
-  override mlbDataPath = mlbDataPath.lob;
-  override filters = {
+export class MlbCountyPlotComponent implements OnInit {
+  mlbDataPath = mlbDataPath.lob;
+  filters = {
     measureCodes: [],
     stratVals: [],
   };
-  override filterTypes = ['measureCode', 'stratVal'];
+  filterTypes = ['measureCode', 'stratVal'];
 
-  constructor(dataService: DataService) {
-    super(dataService);
+  constructor(public caChartService: CaChartService) {}
+
+  ngOnInit(): void {
+    this.caChartService.init(
+      this.filters,
+      this.filterTypes,
+      this.mlbDataPath,
+      this.getTransformedData.bind(this)
+    );
   }
 
-  override getTransformedData(data: MlbCountyDatum[]): MlbCountyDatum[] {
-    const transformed: MlbCountyDatum[] = data.map((x: any) => {
-      const obj: MlbCountyDatum = {
-        series: 'percentile',
-        measureCode: x.Measure_Code,
-        units: x.Units,
-        county: x.County,
-        directionality: x.Directionality,
-        stratVal: x.StratVal,
-        lob: x.LOB,
-        comparison: x.Comparison === 'TRUE',
-        value: null, // null to avoid bars
-        average: x.Value && !isNaN(x.Value) ? +x.Value : null,
-        range: x.Range && !isNaN(x.Range) ? +x.Range : null,
-      };
-      return obj;
-    });
+  getTransformedData(data: MlbCountyDatum[]): MlbCountyDatum[] {
+    const transformed: MlbCountyDatum[] = data
+      .map((x: any) => {
+        const obj: MlbCountyDatum = {
+          series: 'percentile',
+          measureCode: x.Measure_Code,
+          units: x.Units,
+          county: x.County,
+          directionality: x.Directionality,
+          stratVal: x.StratVal,
+          lob: x.LOB,
+          comparison: x.Comparison === 'TRUE',
+          value: null, // null to avoid bars
+          average: x.Value && !isNaN(x.Value) ? +x.Value : null,
+          range: x.Range && !isNaN(x.Range) ? +x.Range : null,
+        };
+        return obj;
+      })
+      .filter((x: any) => x.comparison === false && x.average !== null);
     return transformed;
   }
 }

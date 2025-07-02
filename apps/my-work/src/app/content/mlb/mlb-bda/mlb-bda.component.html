@@ -1,5 +1,5 @@
 <div class="title">MLB {{ chartName }}</div>
-<form [formGroup]="myForm">
+<form [formGroup]="caChartService.myForm">
   <div class="selection">
     <label for="measureCode">Measure Code</label>
     <select id="measureCode" formControlName="measureCode">
@@ -13,9 +13,11 @@
     </select>
   </div>
 </form>
-@if (filteredData$ | async; as data) {
+@if (caChartService.filteredData$ | async; as data) {
   <app-export-content
-    [fileName]="'MLB ' + chartName + ' ' + myForm.value[filterTypes[0]]"
+    [fileName]="
+      'MLB ' + chartName + ' ' + caChartService.myForm.value[filterTypes[0]]
+    "
   >
     <app-mlb-bda-dot-plot [data]="data"></app-mlb-bda-dot-plot>
   </app-export-content>

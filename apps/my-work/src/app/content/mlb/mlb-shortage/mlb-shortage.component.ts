@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
+import { CaChartService } from '../../ca/ca-chart.service';
 import { MlbBdaDotPlotComponent } from '../mlb-bda/mlb-bda-dot-plot/mlb-bda-dot-plot.component';
 import { MlbBdaComponent } from '../mlb-bda/mlb-bda.component';
 
@@ -14,6 +15,7 @@ import { MlbBdaComponent } from '../mlb-bda/mlb-bda.component';
     ReactiveFormsModule,
     MlbBdaDotPlotComponent,
   ],
+  providers: [CaChartService],
   templateUrl: '../mlb-bda/mlb-bda.component.html',
   styleUrl: '../mlb-bda/mlb-bda.component.scss',
   encapsulation: ViewEncapsulation.None,

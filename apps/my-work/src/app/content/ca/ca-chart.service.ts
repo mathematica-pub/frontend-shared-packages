@@ -1,19 +1,14 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { DataService } from 'apps/my-work/src/app/core/services/data.service';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Injectable } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { ascending } from 'd3';
 import { combineLatest, debounceTime, filter, map, Observable } from 'rxjs';
-import { CaDatum } from './ca-access-stacked-bars.component';
+import { DataService } from '../../core/services/data.service';
 
-interface SelectionForm {
+export interface SelectionForm {
   measureCode: AbstractControl<string>;
   delivSys: AbstractControl<string>;
+  stratVal?: AbstractControl<string>;
 }
 
 interface Option {
@@ -21,39 +16,43 @@ interface Option {
   disabled: boolean;
 }
 
-@Component({
-  selector: 'app-ca-access-chart',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: 'ca-access-chart.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class CaAccessChartComponent implements OnInit {
-  dataPath: string;
-  data$: Observable<CaDatum[]>;
+@Injectable()
+export class CaChartService {
+  data$: Observable<any[]>;
   filter$: Observable<FormGroup<SelectionForm>>;
-  filteredData$: Observable<CaDatum[]>;
+  filteredData$: Observable<any[]>;
   myForm: FormGroup;
   filters: Record<string, Option[]> = {};
   filterTypes: string[];
 
   constructor(private dataService: DataService) {}
 
-  ngOnInit(): void {
-    this.setData();
+  init(
+    filters: Record<string, Option[]>,
+    filterTypes: string[],
+    dataPath: string,
+    getTransformedData: (data: any[]) => any[]
+  ): void {
+    this.setData(dataPath, getTransformedData);
+    this.filters = filters;
+    this.filterTypes = filterTypes;
     this.setForm();
   }
 
-  setData(): void {
-    const data$ = this.dataService.getDataFile(this.dataPath).pipe(
+  setData(dataPath: string, getTransformedData: (data: any[]) => any[]): void {
+    const data$ = this.dataService.getDataFile(dataPath).pipe(
       filter((data) => data.length > 0),
       map((data) => {
-        return this.getTransformedData(data);
+        return getTransformedData(data);
       })
     );
 
+    this.setDataObservable(data$);
+  }
+
+  setDataObservable(data$: Observable<any>): void {
     this.data$ = data$.pipe(
-      map((data: CaDatum[]) => {
+      map((data: any[]) => {
         this.setOptions(data);
         this.filterTypes.forEach((type: string) => {
           this.myForm.controls[type].setValue(this.filters[`${type}s`][0].name);
@@ -63,12 +62,7 @@ export class CaAccessChartComponent implements OnInit {
     );
   }
 
-  getTransformedData(data: CaDatum[]): CaDatum[] {
-    console.log('override getTransformedData');
-    return data;
-  }
-
-  setOptions(data: CaDatum[]): void {
+  setOptions(data: any[]): void {
     this.filterTypes.forEach((type: string) => {
       this.filters[`${type}s`] = this.getOptions(data, type);
     });
@@ -84,29 +78,23 @@ export class CaAccessChartComponent implements OnInit {
     this.filter$ = this.myForm.valueChanges.pipe(
       filter((form) => form !== undefined)
     );
-
     this.filteredData$ = combineLatest([this.data$, this.filter$]).pipe(
       debounceTime(10),
       map(([data, filters]) => this.getFilteredData(data, filters))
     );
   }
 
-  getFilteredData(
-    data: CaDatum[],
-    filters: FormGroup<SelectionForm>
-  ): CaDatum[] {
+  getFilteredData(data: any[], filters: FormGroup<SelectionForm>): any[] {
     this.setOptions(data);
     this.setValidValues();
     let filteredData = data;
     this.filterTypes.forEach((type: string) => {
-      filteredData = filteredData.filter(
-        (plan) => plan[type] === filters[type]
-      );
+      filteredData = filteredData.filter((d) => d[type] === filters[type]);
     });
     return filteredData;
   }
 
-  getOptions(data: CaDatum[], type: string): Option[] {
+  getOptions(data: any[], type: string): Option[] {
     const options = [...new Set(data.map((x) => x[type]).sort(ascending))].map(
       (x: string) => ({
         name: x,
@@ -116,7 +104,7 @@ export class CaAccessChartComponent implements OnInit {
     return options;
   }
 
-  getDisabled(data: CaDatum[], type: string, selectedOption: string): boolean {
+  getDisabled(data: any[], type: string, selectedOption: string): boolean {
     const type1 = this.myForm.controls[this.filterTypes[0]].value;
     let count = Infinity;
     if (type === this.filterTypes[1]) {

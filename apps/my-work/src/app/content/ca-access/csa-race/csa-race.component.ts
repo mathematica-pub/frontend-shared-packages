@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VicChartConfigBuilder } from '@hsi/viz-components';
-import { DataService } from 'apps/my-work/src/app/core/services/data.service';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
-import { CaAccessChartComponent } from '../ca-access-chart.component';
+import { CaChartService } from '../../ca/ca-chart.service';
 import { CsaDatum } from '../csa/csa.component';
 import { dataPath } from '../data-paths.constants';
 import { CsaRaceDotPlotComponent } from './csa-race-dot-plot/csa-race-dot-plot.component';
@@ -24,25 +23,32 @@ export interface CsaRaceDatum extends CsaDatum {
     CsaRaceDotPlotComponent,
     ReactiveFormsModule,
   ],
-  providers: [VicChartConfigBuilder],
+  providers: [VicChartConfigBuilder, CaChartService],
   templateUrl: './csa-race.component.html',
   styleUrl: './csa-race.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class CsaRaceComponent extends CaAccessChartComponent {
-  override dataPath = dataPath.bda;
-  override filters = {
+export class CsaRaceComponent implements OnInit {
+  dataPath = dataPath.bda;
+  filters = {
     measureCodes: [],
     delivSyss: [],
     stratVals: [],
   };
-  override filterTypes = ['delivSys', 'measureCode', 'stratVal'];
+  filterTypes = ['delivSys', 'measureCode', 'stratVal'];
 
-  constructor(dataService: DataService) {
-    super(dataService);
+  constructor(public caChartService: CaChartService) {}
+
+  ngOnInit(): void {
+    this.caChartService.init(
+      this.filters,
+      this.filterTypes,
+      this.dataPath,
+      this.getTransformedData.bind(this)
+    );
   }
 
-  override getTransformedData(data: CsaRaceDatum[]): CsaRaceDatum[] {
+  getTransformedData(data: CsaRaceDatum[]): CsaRaceDatum[] {
     const transformed: CsaRaceDatum[] = data
       .map((x: any) => {
         const obj: CsaRaceDatum = {
