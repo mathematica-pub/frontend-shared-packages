@@ -54,9 +54,9 @@ export class IcaComponent implements OnInit {
   filteredData$: Observable<IcaDatum[]>;
   myForm: FormGroup;
   filters = {
+    delivSyss: [],
     measureCodes: [],
     stratVals: [],
-    delivSyss: [],
   };
   filterTypes = ['delivSys', 'measureCode', 'stratVal'];
 
