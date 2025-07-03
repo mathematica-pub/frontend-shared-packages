@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
 import { extent, format, max, select, Selection } from 'd3';
+import { sizeCategories } from '../../../ca-access.constants';
 import { IcaDatum } from '../ica-dot-plot.component';
 
 @Component({
@@ -276,10 +277,14 @@ export class IcaStackedBarsComponent
       .attr('class', 'size-label');
 
     const offset = -this.labelWidth - 80;
-    const rural = this.config.data.filter((d) => d.size === 'Rural').length;
-    const other = this.config.data.filter((d) => d.size === 'Other').length;
-    const isLabelsCollide = rural < 6 && other < 6;
-    const adjustment = rural < 4 || other < 4 ? 10 : 5;
+    const firstSize = this.config.data.filter(
+      (d) => d.size === sizeCategories[0]
+    ).length;
+    const lastSize = this.config.data.filter(
+      (d) => d.size === sizeCategories[sizeCategories.length - 1]
+    ).length;
+    const isLabelsCollide = firstSize < 6 && lastSize < 6;
+    const adjustment = firstSize < 4 || lastSize < 4 ? 10 : 5;
 
     sizes
       .selectAll('text')

@@ -1,87 +1,65 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import {
-  VicBarsConfigBuilder,
-  VicBarsModule,
   VicChartModule,
   VicStackedBarsConfigBuilder,
-  VicStackedBarsModule,
   VicXQuantitativeAxisConfigBuilder,
   VicXyAxisModule,
   VicYOrdinalAxisConfigBuilder,
 } from '@hsi/viz-components';
-import { min } from 'd3';
-import { CaAccessDotPlotComponent } from '../../ca-access-dot-plot.component';
+import {
+  CaDotPlotService,
+  DotPlotDataConfig,
+} from '../../../ca/ca-dot-plot.service';
+import { sizeCategories } from '../../ca-access.constants';
 import { CsaRaceDatum } from '../csa-race.component';
 import { CsaRaceStackedBarsComponent } from './csa-race-stacked-bars/csa-race-stacked-bars.component';
 
 @Component({
   selector: 'app-csa-race-dot-plot',
   standalone: true,
-  imports: [
-    CommonModule,
-    VicChartModule,
-    VicBarsModule,
-    VicStackedBarsModule,
-    VicXyAxisModule,
-    CsaRaceStackedBarsComponent,
-  ],
+  imports: [VicChartModule, VicXyAxisModule, CsaRaceStackedBarsComponent],
   providers: [
-    VicBarsConfigBuilder,
     VicStackedBarsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
+    CaDotPlotService,
   ],
   templateUrl: './csa-race-dot-plot.component.html',
   styleUrl: './csa-race-dot-plot.component.scss',
 })
-export class CsaRaceDotPlotComponent
-  extends CaAccessDotPlotComponent
-  implements OnChanges
-{
-  categories = ['Rural', 'Small', 'Medium', 'Large', 'Other'];
+export class CsaRaceDotPlotComponent implements OnChanges {
+  @Input() data: CsaRaceDatum[];
+  categories = sizeCategories;
 
-  override ngOnChanges(): void {
+  constructor(public caDotPlotService: CaDotPlotService) {}
+
+  ngOnChanges(): void {
     if (this.data[0]) {
-      console.log('this.data after changes', this.data);
-      this.setData();
+      const dotPlotDataConfig: DotPlotDataConfig = {
+        data: this.data,
+        yDimension: 'size',
+        isPercentile: true,
+        getCurrentRollup: this.getCurrentRollup.bind(this),
+      };
+      this.caDotPlotService.onChanges(dotPlotDataConfig);
       this.injectMissingCategories();
-      this.setProperties();
+      this.caDotPlotService.setProperties(this.getSortOrder.bind(this));
     }
   }
 
-  override getCurrentRollup(x: CsaRaceDatum, plan: CsaRaceDatum): boolean {
+  getCurrentRollup(x: CsaRaceDatum, plan: CsaRaceDatum): boolean {
     return x.size === plan.size;
   }
 
-  override getInvisibleStackValue(plan: CsaRaceDatum): number {
-    return min([plan.percentile25, plan.percentile75]) ?? null;
-  }
-
-  override getBarValue(plan: CsaRaceDatum): number {
-    return plan.percentile75;
-  }
-
-  override getGoalValue(): number {
-    return (
-      this.data.find((category) => category.compVal !== null) as CsaRaceDatum
-    ).compVal;
-  }
-
-  override getSortOrder(a: CsaRaceDatum, b: CsaRaceDatum): number {
-    const order = ['Rural', 'Small', 'Medium', 'Large', 'Other'];
-    return order.indexOf(a.size) - order.indexOf(b.size);
-  }
-
-  override getYDimension(plan: CsaRaceDatum): string {
-    return plan.size;
+  getSortOrder(a: CsaRaceDatum, b: CsaRaceDatum): number {
+    return this.categories.indexOf(a.size) - this.categories.indexOf(b.size);
   }
 
   injectMissingCategories(): void {
     const categories = structuredClone(this.categories);
     categories.pop();
     categories.forEach((strat) => {
-      const categoryData = this.rollupData.filter(
+      const categoryData = this.caDotPlotService.rollupData.filter(
         (category) => (category as CsaRaceDatum).size === strat
       );
 
@@ -103,10 +81,7 @@ export class CsaRaceDotPlotComponent
           percentile25: null,
           percentile75: null,
         } as CsaRaceDatum;
-        const invisibleCategory = structuredClone(emptyCategory);
-        invisibleCategory.series = 'invisible';
-
-        this.rollupData.push(...[emptyCategory, invisibleCategory]);
+        this.caDotPlotService.addCategory(emptyCategory);
       }
     });
   }

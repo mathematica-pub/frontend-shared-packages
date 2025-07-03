@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,11 +7,9 @@ import {
 import {
   ChartConfig,
   StackedBarsConfig,
-  VicBarsConfigBuilder,
   VicChartConfigBuilder,
   VicChartModule,
   VicStackedBarsConfigBuilder,
-  VicStackedBarsModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXyAxisModule,
@@ -20,6 +17,7 @@ import {
   VicYOrdinalAxisConfigBuilder,
 } from '@hsi/viz-components';
 import { descending, extent, max, min } from 'd3';
+import { sizeCategories } from '../../ca-access.constants';
 import { IcaStackedBarsComponent } from './ica-stacked-bars/ica-stacked-bars.component';
 
 export interface IcaDatum {
@@ -41,15 +39,8 @@ export interface IcaDatum {
 @Component({
   selector: 'app-ica-dot-plot',
   standalone: true,
-  imports: [
-    CommonModule,
-    VicChartModule,
-    VicStackedBarsModule,
-    VicXyAxisModule,
-    IcaStackedBarsComponent,
-  ],
+  imports: [VicChartModule, VicXyAxisModule, IcaStackedBarsComponent],
   providers: [
-    VicBarsConfigBuilder,
     VicStackedBarsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
@@ -154,10 +145,10 @@ export class IcaDotPlotComponent implements OnChanges {
           const diffB = extentB[1] - extentB[0];
           return descending(diffA, diffB);
         })
-        .sort((a, b) => {
-          const order = ['Large', 'Medium', 'Small', 'Rural', 'Other'];
-          return order.indexOf(a.size) - order.indexOf(b.size);
-        });
+        .sort(
+          (a, b) =>
+            sizeCategories.indexOf(a.size) - sizeCategories.indexOf(b.size)
+        );
 
       console.log('rollupData', this.rollupData);
 
@@ -189,7 +180,9 @@ export class IcaDotPlotComponent implements OnChanges {
   }
 
   getTickFormat(): string {
-    const units = this.rollupData[0].units;
+    const units = this.rollupData.find(
+      (category) => category.units !== null
+    ).units;
     if (units === 'Percentage') {
       if (this.trueMax < 0.1) {
         return '.1%';

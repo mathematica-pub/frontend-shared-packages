@@ -1,59 +1,40 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnChanges,
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   ChartConfig,
   StackedBarsConfig,
-  VicBarsConfigBuilder,
-  VicBarsModule,
   VicChartConfigBuilder,
-  VicChartModule,
   VicStackedBarsConfigBuilder,
-  VicStackedBarsModule,
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXyAxisModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
 } from '@hsi/viz-components';
 import { max, min } from 'd3';
-import { MlbDatum } from './mlb-stacked-bars.component';
 
-@Component({
-  selector: 'app-mlb-dot-plot',
-  standalone: true,
-  imports: [
-    CommonModule,
-    VicChartModule,
-    VicBarsModule,
-    VicStackedBarsModule,
-    VicXyAxisModule,
-  ],
-  providers: [
-    VicBarsConfigBuilder,
-    VicStackedBarsConfigBuilder,
-    VicXQuantitativeAxisConfigBuilder,
-    VicYOrdinalAxisConfigBuilder,
-    VicChartConfigBuilder,
-  ],
-  templateUrl: 'mlb-dot-plot.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class MlbDotPlotComponent implements OnChanges {
-  @Input() data: MlbDatum[];
+export interface DotPlotDataConfig {
+  data: any[];
+  yDimension: string;
+  isPercentile?: boolean;
+  isMlb?: boolean;
+  getCurrentRollup?: (a: any, b: any) => boolean;
+  bandwidth?: number;
+  labelWidth?: number;
+}
+
+@Injectable()
+export class CaDotPlotService {
+  data: any[];
   chartConfig: ChartConfig;
-  rollupData: MlbDatum[] = [];
+  rollupData: any[] = [];
   rollupDataConfig: StackedBarsConfig<any, string>;
   xAxisConfig: VicXQuantitativeAxisConfig<number>;
   yAxisConfig: VicYOrdinalAxisConfig<string>;
   trueMax: number;
-  labelWidth = Infinity;
-  bandwidth = 15;
+  labelWidth: number;
+  bandwidth: number;
+  isPercentile = false;
+  yDimension: string;
 
   constructor(
     private bars: VicStackedBarsConfigBuilder<any, string>,
@@ -62,53 +43,71 @@ export class MlbDotPlotComponent implements OnChanges {
     private chartConfigBuilder: VicChartConfigBuilder
   ) {}
 
-  ngOnChanges(): void {
-    if (this.data[0]) {
-      console.log('this.data after changes', this.data);
-      this.setData();
-      this.setProperties();
+  onChanges(config: DotPlotDataConfig): void {
+    console.log('data after changes', config.data);
+    this.data = config.data;
+    this.isPercentile = config.isPercentile;
+    this.yDimension = config.yDimension;
+    this.bandwidth = config.bandwidth ?? 15;
+    this.labelWidth = config.labelWidth ?? Infinity;
+    if (config.isMlb) {
+      this.setMlbData();
+    } else {
+      this.setInterimData(config.getCurrentRollup);
     }
   }
 
-  // eslint-disable-next-line
-  getCurrentRollup(x: MlbDatum, plan: MlbDatum): boolean {
-    console.error('override getCurrentRollup');
-    return false;
+  getInvisibleStackValue(d: any) {
+    return this.isPercentile
+      ? (min([d.percentile25, d.percentile75]) ?? null)
+      : d.value;
   }
 
-  getInvisibleStackValue(plan: MlbDatum): number {
-    console.error('override getInvisibleStackValue');
-    return plan.average;
+  getBarValue(d: any): number {
+    return this.isPercentile ? d.percentile75 : d.value;
   }
 
-  getBarValue(plan: MlbDatum): number {
-    console.error('override getBarValue');
-    return plan.value;
+  getYDimension(d: any): string {
+    return d[this.yDimension];
   }
 
-  // eslint-disable-next-line
-  getSortOrder(a: MlbDatum, b: MlbDatum): number {
-    console.error('override getSortOrder');
-    return 0;
+  setInterimData(getCurrentRollup: (a: any, b: any) => boolean): void {
+    this.rollupData = [];
+
+    this.data
+      .filter((plan) => plan.planValue !== null)
+      .forEach((plan) => {
+        const visibleStack = structuredClone(plan);
+        const currentRollup = this.rollupData.find((x) =>
+          getCurrentRollup(x, plan)
+        );
+        if (!currentRollup) {
+          visibleStack.plans = [plan.planValue];
+
+          const invisibleStack = structuredClone(plan);
+          invisibleStack.series = 'invisible';
+          invisibleStack.value = this.getInvisibleStackValue(plan);
+
+          this.rollupData.push(visibleStack);
+          this.rollupData.push(invisibleStack);
+        } else {
+          currentRollup.plans.push(plan.planValue);
+        }
+      });
   }
 
-  getYDimension(plan: MlbDatum): string {
-    console.error('override getYDimension');
-    return plan.stratVal;
-  }
-
-  setData(): void {
+  setMlbData(): void {
     this.rollupData = structuredClone(this.data);
 
-    this.data.forEach((plan) => {
-      const invisibleStack = structuredClone(plan);
+    this.data.forEach((d) => {
+      const invisibleStack = structuredClone(d);
       invisibleStack.series = 'invisible';
-      invisibleStack.value = this.getInvisibleStackValue(plan);
+      invisibleStack.value = this.getInvisibleStackValue(d);
       this.rollupData.push(invisibleStack);
     });
   }
 
-  setProperties(): void {
+  setProperties(getSortOrder: (a: any, b: any) => number): void {
     if (this.rollupData.length > 0) {
       const chartHeight = this.rollupData.length * this.bandwidth * 2;
 
@@ -139,7 +138,7 @@ export class MlbDotPlotComponent implements OnChanges {
         this.trueMax = min([this.trueMax, 1]);
       }
 
-      this.rollupData.sort((a, b) => this.getSortOrder(a, b));
+      this.rollupData.sort((a, b) => getSortOrder(a, b));
 
       this.rollupData.forEach((d) => {
         if ('strat' in d) {
@@ -200,5 +199,47 @@ export class MlbDotPlotComponent implements OnChanges {
     } else {
       return ',.0f';
     }
+  }
+
+  setHeight(dataAccessor: string): void {
+    const uniqueRows = this.rollupData.reduce((set, d) => {
+      set.add(d.series + d[dataAccessor]);
+      return set;
+    }, new Set());
+    this.chartConfig.height = uniqueRows.size * this.bandwidth;
+  }
+
+  setBdaMockCategories(order: any): void {
+    order.race['Race 1 covers two lines'] = 0;
+    order.race['Race 2'] = 1;
+    order.race['Race 3 covers two lines'] = 2;
+    order.race[`Race 4 covers three lines because it's long`] = 3;
+    order.race['Race 5'] = 4;
+    order.race['No Race Selection and Race 1 or Race 2 Ethnicity'] = 5;
+    order.race['Some Other Race'] = 6;
+    order.race['Two or More Races'] = 7;
+    order.ethnicity['Ethnicity 1 covers two lines'] = 9;
+    order.ethnicity['Ethnicity 2 covers two lines'] = 10;
+  }
+
+  getCategoryData(strat: string, stratVal: string): any[] {
+    return this.rollupData.filter(
+      (category) =>
+        category.strat.toLowerCase().includes(strat) &&
+        category.stratVal === stratVal
+    );
+  }
+
+  getMatchingStrat(strat: string): any {
+    return this.rollupData.find(
+      (category) => category.strat.toLowerCase() === strat
+    );
+  }
+
+  addCategory(emptyCategory: any): void {
+    const invisibleCategory = structuredClone(emptyCategory);
+    invisibleCategory.series = 'invisible';
+
+    this.rollupData.push(...[emptyCategory, invisibleCategory]);
   }
 }
