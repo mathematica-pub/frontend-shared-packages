@@ -97,7 +97,11 @@ export class DotsEventsDirective<
       this.setPositionsFromElement();
       this.runActions(this.hoverActions, (a) => a.onStart(this));
     } else if (this.isEventAllowed(EventType.HoverMove)) {
-      this.runActions(this.hoverMoveActions, (a) => a.initialize(this));
+      this.runActions(this.hoverMoveActions, (a) => {
+        if (a.initialize) {
+          a.initialize(this);
+        }
+      });
     }
   }
 

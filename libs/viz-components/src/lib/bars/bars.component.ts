@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, filter } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
 import {
   XyChartComponent,
@@ -92,9 +92,9 @@ export class BarsComponent<
 > extends VicXyPrimaryMarks<Datum, BarsConfig<Datum, TOrdinalValue>> {
   barGroups: BarGroupSelection;
   bars: BehaviorSubject<BarSelection> = new BehaviorSubject(null);
-  bars$ = this.bars.asObservable();
+  bars$ = this.bars.asObservable().pipe(filter((s) => !!s));
   labels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
-  labels$ = this.bars.asObservable();
+  labels$ = this.bars.asObservable().pipe(filter((s) => !!s));
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override scales: { color: GenericScale<any, any> } & XyChartScales = {
     x: undefined,

@@ -112,15 +112,17 @@ export class BarsEventsDirective<
     );
   }
 
-  onEnter(event: PointerEvent, el: Element): void {
+  onEnter(_: PointerEvent, el: Element): void {
     this.initFromElement(el);
     if (this.isEventAllowed(EventType.Hover)) {
       this.setPositionsFromElement();
       this.runActions(this.hoverActions, (a) => a.onStart(this.asHost()));
     } else if (this.isEventAllowed(EventType.HoverMove)) {
-      this.runActions(this.hoverMoveActions, (a) =>
-        a.initialize(this.asHost())
-      );
+      this.runActions(this.hoverMoveActions, (a) => {
+        if (a.initialize) {
+          a.initialize(this.asHost());
+        }
+      });
     }
   }
 
