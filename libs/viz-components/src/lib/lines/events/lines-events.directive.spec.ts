@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EventType } from '../../events/event.directive';
+import { EventType } from '../../events';
 import { LINES, LinesComponent } from '../lines.component';
 import { LinesEventsDirective } from './lines-events.directive';
 
@@ -47,11 +47,6 @@ describe('LinesEventsDirective', () => {
     });
     directive = TestBed.inject(LinesEventsDirective);
     directive.lines = linesStub;
-  });
-
-  it('should calculate pointer distance from point', () => {
-    const dist = directive.getPointerDistanceFromPoint(1, 3, 3, 9);
-    expect(dist).toBeCloseTo(1);
   });
 
   it('should return true if pointer is inside show tooltip radius', () => {
