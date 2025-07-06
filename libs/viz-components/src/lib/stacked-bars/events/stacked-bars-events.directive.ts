@@ -1,5 +1,5 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
-import { select } from 'd3';
+import { pointer, select } from 'd3';
 import { map, Observable } from 'rxjs';
 import { DataValue } from '../../core/types/values';
 import {
@@ -187,6 +187,14 @@ export class StackedBarsEventsDirective<
     this.positionY = barRect.height / 2;
   }
 
+  override setPositionsFromPointer(event: PointerEvent): void {
+    const [positionX, positionY] = pointer(event);
+    this.positionX =
+      positionX - parseFloat(this.origin.getAttribute('x') || '0');
+    this.positionY =
+      positionY - parseFloat(this.origin.getAttribute('y') || '0');
+  }
+
   getInteractionOutput(
     type: EventType
   ): StackedBarsInteractionOutput<Datum, TOrdinalValue> {
@@ -194,14 +202,12 @@ export class StackedBarsEventsDirective<
       this.stackDatum
     );
     const tooltipData = this.stackedBars.getTooltipData(datum);
-    const rectX = parseFloat(this.origin.getAttribute('x') || '0');
-    const rectY = parseFloat(this.origin.getAttribute('y') || '0');
 
     return {
       ...tooltipData,
       origin: this.origin,
-      positionX: this.positionX - rectX,
-      positionY: this.positionY - rectY,
+      positionX: this.positionX,
+      positionY: this.positionY,
       type,
     };
   }

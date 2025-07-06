@@ -90,7 +90,7 @@ export class BarsExampleComponent implements OnInit {
     BarsInteractionOutput<MetroUnemploymentDatum, string>
   >(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveActions: RefactorHoverMoveAction<
+  hoverMoveActions: RefactorHoverMoveAction<
     BarsHost<MetroUnemploymentDatum, string>,
     BarsInteractionOutput<MetroUnemploymentDatum, string>
   >[] = [new RefactorBarsHoverMoveEmitTooltipData()];

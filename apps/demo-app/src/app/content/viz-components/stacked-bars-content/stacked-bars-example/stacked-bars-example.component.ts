@@ -67,7 +67,7 @@ export class StackedBarsExampleComponent implements OnInit {
     left: 64,
   };
   folderName = 'stacked-bars-example';
-  hoverAndMoveActions: RefactorHoverMoveAction<
+  hoverMoveActions: RefactorHoverMoveAction<
     StackedBarsHost<IndustryUnemploymentDatum, string>,
     StackedBarsInteractionOutput<IndustryUnemploymentDatum, string>
   >[] = [new RefactorStackedBarsHoverMoveEmitTooltipData()];
