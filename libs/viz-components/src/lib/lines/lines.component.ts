@@ -20,7 +20,7 @@ import { ValueUtilities } from '../core/utilities/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 import { LinesConfig, LinesMarkerDatum } from './config/lines-config';
-import { LinesEventOutput } from './events/lines-event-output';
+import { LinesInteractionOutput } from './events/lines-interaction-output';
 
 export type LinesGroupSelection = Selection<
   SVGGElement,
@@ -379,7 +379,9 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     this.markers.next(markers);
   }
 
-  getTooltipData(datumIndex: number): LinesEventOutput<Datum> {
+  getTooltipData(
+    datumIndex: number
+  ): Omit<LinesInteractionOutput<Datum>, 'type'> {
     const datum = this.config.data[datumIndex];
     return {
       datum,

@@ -13,22 +13,14 @@ export class RefactorLinesHoverMoveDefaultLinesStyles<Datum>
   implements RefactorEventAction<LinesHost<Datum>>
 {
   onStart(host: LinesHost<Datum>): void {
-    host.marks.lineGroups
-      .filter(
-        ([category]) =>
-          host.marks.config.stroke.color.values[host.getClosestPointIndex()] ===
-          category
-      )
+    host
+      .getClosestLineGroup()
       .raise()
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
       .style('stroke', null);
 
-    host.marks.lineGroups
-      .filter(
-        ([category]) =>
-          host.marks.config.stroke.color.values[host.getClosestPointIndex()] !==
-          category
-      )
+    host
+      .getOtherLineGroups()
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
       .style('stroke', '#ddd');
   }
@@ -51,35 +43,19 @@ export class RefactorLinesHoverMoveDefaultMarkersStyles<Datum>
   implements RefactorEventAction<LinesHost<Datum>>
 {
   onStart(host: LinesHost<Datum>): void {
-    host.marks.lineGroups
-      .filter(
-        ([category]) =>
-          host.marks.config.stroke.color.values[host.getClosestPointIndex()] ===
-          category
-      )
-      .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
-      .style('display', (d) =>
-        host.getClosestPointIndex() === d.index ? 'block' : 'none'
-      )
-      .attr('r', (d) => {
+    host
+      .getClosestMarker()
+      .style('display', 'block')
+      .attr('r', () => {
         let r = host.marks.config.pointMarkers.radius;
-        if (host.getClosestPointIndex() === d.index) {
-          r =
-            host.marks.config.pointMarkers.radius +
-            host.marks.config.pointMarkers.growByOnHover;
-        }
+        r =
+          host.marks.config.pointMarkers.radius +
+          host.marks.config.pointMarkers.growByOnHover;
         return r;
       })
       .raise();
 
-    host.marks.lineGroups
-      .filter(
-        ([category]) =>
-          host.marks.config.stroke.color.values[host.getClosestPointIndex()] !==
-          category
-      )
-      .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
-      .style('display', 'none');
+    host.getOtherMarkers().style('display', 'none');
   }
 
   onEnd(host: LinesHost<Datum>): void {

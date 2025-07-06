@@ -1,14 +1,14 @@
-import { select } from 'd3';
 import { EventType, RefactorEventAction } from '../../../events';
-import { LinesMarkersHost } from '../lines-markers-events.directive';
+import { LinesHost } from '../lines-events.directive';
 
 export class RefactorLinesMarkerClickEmitTooltipData<Datum>
-  implements RefactorEventAction<LinesMarkersHost<Datum>>
+  implements RefactorEventAction<LinesHost<Datum>>
 {
-  onStart(host: LinesMarkersHost<Datum>) {
+  onStart(host: LinesHost<Datum>) {
     const tooltipData = host.getInteractionOutput(EventType.Click);
     host.disableOtherActions(EventType.Click);
-    select(host.getOrigin())
+    host
+      .getClosestMarker()
       .attr('r', (): number => {
         const r =
           host.marks.config.pointMarkers.radius +
@@ -19,11 +19,10 @@ export class RefactorLinesMarkerClickEmitTooltipData<Datum>
     host.emitInteractionOutput(tooltipData);
   }
 
-  onEnd(host: LinesMarkersHost<Datum>) {
-    select(host.getOrigin()).attr(
-      'r',
-      (): number => host.marks.config.pointMarkers.radius
-    );
+  onEnd(host: LinesHost<Datum>) {
+    host
+      .getClosestMarker()
+      .attr('r', (): number => host.marks.config.pointMarkers.radius);
     host.resumeOtherActions(EventType.Click);
     host.emitInteractionOutput(null);
   }

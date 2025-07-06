@@ -13,12 +13,22 @@ import {
   RefactorEventDirective,
   UnlistenFunction,
 } from '../../events/refactor-event.directive';
-import { LINES, LinesComponent } from '../lines.component';
+import { LinesMarkerDatum } from '../config/lines-config';
+import {
+  LINES,
+  LinesComponent,
+  LinesGroupSelection,
+  MarkerSelection,
+} from '../lines.component';
 import { LinesInteractionOutput } from './lines-interaction-output';
 
 export interface LinesHost<Datum>
   extends MarksHost<LinesInteractionOutput<Datum>, LinesComponent<Datum>> {
   getClosestPointIndex(): number;
+  getClosestLineGroup(): LinesGroupSelection;
+  getOtherLineGroups(): LinesGroupSelection;
+  getClosestMarker(): MarkerSelection;
+  getOtherMarkers(): MarkerSelection;
 }
 
 @Directive({
@@ -65,6 +75,34 @@ export class LinesEventsDirective<
 
   getClosestPointIndex(): number {
     return this.closestPointIndex;
+  }
+
+  getClosestLineGroup(): LinesGroupSelection {
+    return this.marks.lineGroups.filter(
+      ([category]) =>
+        this.marks.config.stroke.color.values[this.getClosestPointIndex()] ===
+        category
+    );
+  }
+
+  getOtherLineGroups(): LinesGroupSelection {
+    return this.marks.lineGroups.filter(
+      ([category]) =>
+        this.marks.config.stroke.color.values[this.getClosestPointIndex()] !==
+        category
+    );
+  }
+
+  getClosestMarker(): MarkerSelection {
+    return this.marks.lineGroups
+      .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
+      .filter((d) => d.index === this.getClosestPointIndex());
+  }
+
+  getOtherMarkers(): MarkerSelection {
+    return this.marks.lineGroups
+      .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
+      .filter((d) => d.index !== this.getClosestPointIndex());
   }
 
   setupListeners(elements: Element[]): UnlistenFunction[] {
