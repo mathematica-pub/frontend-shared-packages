@@ -13,7 +13,9 @@ import {
 import {
   ChartConfig,
   ElementSpacing,
+  EventAction,
   EventType,
+  HoverMoveAction,
   HtmlTooltipConfig,
   LinesClickEmitTooltipDataPauseHoverMoveActions,
   LinesConfig,
@@ -21,8 +23,6 @@ import {
   LinesHoverMoveDefaultStyles,
   LinesHoverMoveEmitTooltipData,
   LinesInteractionOutput,
-  RefactorEventAction,
-  RefactorHoverMoveAction,
   VicChartConfigBuilder,
   VicChartModule,
   VicColumnConfig,
@@ -97,13 +97,11 @@ export class LinesExampleComponent implements OnInit {
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
   highlightLineForLabelAction =
     new HighlightLineForLabel<MetroUnemploymentDatum>();
-  hoverMoveActions: RefactorHoverMoveAction<
-    LinesHost<MetroUnemploymentDatum>
-  >[] = [
+  hoverMoveActions: HoverMoveAction<LinesHost<MetroUnemploymentDatum>>[] = [
     new LinesHoverMoveDefaultStyles(),
     new LinesHoverMoveEmitTooltipData(),
   ];
-  clickActions: RefactorEventAction<LinesHost<MetroUnemploymentDatum>>[] = [
+  clickActions: EventAction<LinesHost<MetroUnemploymentDatum>>[] = [
     new LinesClickEmitTooltipDataPauseHoverMoveActions(),
   ];
   includeFiles = includeFiles;

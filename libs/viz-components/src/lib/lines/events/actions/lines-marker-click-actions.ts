@@ -1,8 +1,8 @@
-import { EventType, RefactorEventAction } from '../../../events';
+import { EventAction, EventType } from '../../../events';
 import { LinesHost } from '../lines-events.directive';
 
 export class LinesMarkerClickEmitTooltipData<Datum>
-  implements RefactorEventAction<LinesHost<Datum>>
+  implements EventAction<LinesHost<Datum>>
 {
   onStart(host: LinesHost<Datum>) {
     const tooltipData = host.getInteractionOutput(EventType.Click);

@@ -1,6 +1,5 @@
 import { DataValue } from '../../../core/types/values';
-import { RefactorHoverMoveAction } from '../../../events/refactor-action';
-import { EventType } from '../../../events/refactor-event.directive';
+import { EventType, HoverMoveAction } from '../../../events';
 import { StackedBarsHost } from '../stacked-bars-events.directive';
 import { StackedBarsInteractionOutput } from '../stacked-bars-interaction-output';
 
@@ -8,7 +7,7 @@ export class RefactorStackedBarsHoverMoveEmitTooltipData<
   Datum,
   TOrdinalValue extends DataValue,
 > implements
-    RefactorHoverMoveAction<
+    HoverMoveAction<
       StackedBarsHost<Datum, TOrdinalValue>,
       StackedBarsInteractionOutput<Datum, TOrdinalValue>
     >

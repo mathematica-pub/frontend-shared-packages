@@ -3,10 +3,10 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
   ChartConfig,
   ElementSpacing,
+  EventAction,
   EventType,
+  HoverMoveAction,
   HtmlTooltipConfig,
-  RefactorEventAction,
-  RefactorHoverMoveAction,
   RefactorStackedBarsClickEmitTooltipDataPauseOtherActions,
   RefactorStackedBarsHoverMoveEmitTooltipData,
   StackedBarsConfig,
@@ -66,11 +66,11 @@ export class StackedBarsExampleComponent implements OnInit {
     left: 64,
   };
   folderName = 'stacked-bars-example';
-  hoverMoveActions: RefactorHoverMoveAction<
+  hoverMoveActions: HoverMoveAction<
     StackedBarsHost<IndustryUnemploymentDatum, string>,
     StackedBarsInteractionOutput<IndustryUnemploymentDatum, string>
   >[] = [new RefactorStackedBarsHoverMoveEmitTooltipData()];
-  clickActions: RefactorEventAction<
+  clickActions: EventAction<
     StackedBarsHost<IndustryUnemploymentDatum, string>,
     StackedBarsInteractionOutput<IndustryUnemploymentDatum, string>
   >[] = [new RefactorStackedBarsClickEmitTooltipDataPauseOtherActions()];

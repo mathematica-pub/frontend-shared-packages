@@ -1,5 +1,5 @@
 import { DataValue } from '../../../core/types/values';
-import { EventType, RefactorEventAction } from '../../../events';
+import { EventAction, EventType } from '../../../events';
 import { BarsHost } from '../bars-events.directive';
 import { BarsInteractionOutput } from '../bars-interaction-output';
 
@@ -7,7 +7,7 @@ export class BarsClickEmitTooltipDataPauseOtherActions<
   Datum,
   TOrdinalValue extends DataValue,
 > implements
-    RefactorEventAction<
+    EventAction<
       BarsHost<Datum, TOrdinalValue>,
       BarsInteractionOutput<Datum, TOrdinalValue>
     >

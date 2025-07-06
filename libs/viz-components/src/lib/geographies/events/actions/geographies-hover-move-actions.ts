@@ -1,13 +1,10 @@
-import { EventType, RefactorHoverMoveAction } from '../../../events';
+import { EventType, HoverMoveAction } from '../../../events';
 import { GeographiesHost } from '../geographies-events.directive';
 import { GeographiesInteractionOutput } from '../geographies-interaction-output';
 
 export class GeographiesHoverMoveEmitTooltipData<Datum>
   implements
-    RefactorHoverMoveAction<
-      GeographiesHost<Datum>,
-      GeographiesInteractionOutput<Datum>
-    >
+    HoverMoveAction<GeographiesHost<Datum>, GeographiesInteractionOutput<Datum>>
 {
   onStart(host: GeographiesHost<Datum>): void {
     const outputData = host.getInteractionOutput(EventType.HoverMove);

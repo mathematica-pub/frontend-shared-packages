@@ -1,9 +1,8 @@
-import { EventType } from '../../../events';
-import { RefactorEventAction } from '../../../events/refactor-action';
+import { EventAction, EventType } from '../../../events';
 import { LinesHost } from '../lines-events.directive';
 
 export class LinesClickEmitTooltipDataPauseHoverMoveActions<Datum>
-  implements RefactorEventAction<LinesHost<Datum>>
+  implements EventAction<LinesHost<Datum>>
 {
   onStart(host: LinesHost<Datum>) {
     const outputData = host.getInteractionOutput(EventType.Click);

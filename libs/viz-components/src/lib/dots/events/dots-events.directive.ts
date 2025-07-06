@@ -2,16 +2,14 @@ import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
 import { map, Observable } from 'rxjs';
 import {
-  RefactorEventAction,
-  RefactorHoverMoveAction,
-  RefactorInputEventAction,
-} from '../../events/refactor-action';
-import {
+  EventAction,
+  EventsDirective,
   EventType,
+  HoverMoveAction,
+  InputEventAction,
   MarksHost,
-  RefactorEventDirective,
   UnlistenFunction,
-} from '../../events/refactor-event.directive';
+} from '../../events';
 import { DotDatum, DOTS, DotsComponent } from '../dots.component';
 import { DotsInteractionOutput } from './dots-interaction-output';
 
@@ -26,21 +24,21 @@ export interface DotsHost<Datum>
 export class DotsEventsDirective<
   Datum,
   TDotsComponent extends DotsComponent<Datum> = DotsComponent<Datum>,
-> extends RefactorEventDirective<DotsHost<Datum>> {
+> extends EventsDirective<DotsHost<Datum>> {
   @Input()
   hoverActions:
-    | RefactorEventAction<DotsHost<Datum>, DotsInteractionOutput<Datum>>[]
+    | EventAction<DotsHost<Datum>, DotsInteractionOutput<Datum>>[]
     | null;
   @Input()
   hoverMoveActions:
-    | RefactorHoverMoveAction<DotsHost<Datum>, DotsInteractionOutput<Datum>>[]
+    | HoverMoveAction<DotsHost<Datum>, DotsInteractionOutput<Datum>>[]
     | null;
   @Input()
   clickActions:
-    | RefactorEventAction<DotsHost<Datum>, DotsInteractionOutput<Datum>>[]
+    | EventAction<DotsHost<Datum>, DotsInteractionOutput<Datum>>[]
     | null;
   @Input()
-  inputEventActions: RefactorInputEventAction<
+  inputEventActions: InputEventAction<
     DotsHost<Datum>,
     DotsInteractionOutput<Datum>
   >[];

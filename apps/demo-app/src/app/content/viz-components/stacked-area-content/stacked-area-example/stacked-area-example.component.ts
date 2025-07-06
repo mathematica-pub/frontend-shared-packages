@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import {
   ChartConfig,
   ElementSpacing,
+  HoverMoveAction,
   HtmlTooltipConfig,
-  RefactorHoverMoveAction,
   StackedAreaConfig,
   StackedAreaHost,
   StackedAreaHoverMoveEmitTooltipData,
@@ -71,7 +71,7 @@ export class StackedAreaExampleComponent implements OnInit {
     StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   >(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverMoveActions: RefactorHoverMoveAction<
+  hoverMoveActions: HoverMoveAction<
     StackedAreaHost<IndustryUnemploymentDatum, string>
   >[] = [new StackedAreaHoverMoveEmitTooltipData()];
 

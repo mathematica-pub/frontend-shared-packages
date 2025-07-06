@@ -1,8 +1,8 @@
-import { EventType, RefactorHoverMoveAction } from '../../../events';
+import { EventType, HoverMoveAction } from '../../../events';
 import { DotsHost } from '../dots-events.directive';
 
 export class DotsHoverMoveDefaultStyles<Datum>
-  implements RefactorHoverMoveAction<DotsHost<Datum>>
+  implements HoverMoveAction<DotsHost<Datum>>
 {
   onStart(host: DotsHost<Datum>): void {
     host.marks.dotGroups
@@ -25,7 +25,7 @@ export class DotsHoverMoveDefaultStyles<Datum>
 }
 
 export class DotsHoverMoveEmitTooltipData<Datum>
-  implements RefactorHoverMoveAction<DotsHost<Datum>>
+  implements HoverMoveAction<DotsHost<Datum>>
 {
   onStart(host: DotsHost<Datum>): void {
     const tooltipData = host.getInteractionOutput(EventType.HoverMove);

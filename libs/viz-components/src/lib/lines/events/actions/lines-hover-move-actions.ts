@@ -1,4 +1,4 @@
-import { EventType, RefactorHoverMoveAction } from '../../../events';
+import { EventType, HoverMoveAction } from '../../../events';
 import { LinesMarkerDatum } from '../../config/lines-config';
 import { LinesGroupSelectionDatum } from '../../lines.component';
 import { LinesHost } from '../lines-events.directive';
@@ -10,7 +10,7 @@ import { LinesHost } from '../lines-events.directive';
  *  to a light gray.
  */
 export class LinesHoverMoveDefaultLinesStyles<Datum>
-  implements RefactorHoverMoveAction<LinesHost<Datum>>
+  implements HoverMoveAction<LinesHost<Datum>>
 {
   onStart(host: LinesHost<Datum>): void {
     host
@@ -40,7 +40,7 @@ export class LinesHoverMoveDefaultLinesStyles<Datum>
  *  closest to the pointer by a specified amount.
  */
 export class LinesHoverMoveDefaultMarkersStyles<Datum>
-  implements RefactorHoverMoveAction<LinesHost<Datum>>
+  implements HoverMoveAction<LinesHost<Datum>>
 {
   onStart(host: LinesHost<Datum>): void {
     host
@@ -74,10 +74,10 @@ export class LinesHoverMoveDefaultMarkersStyles<Datum>
  *  whether line markers are used.
  */
 export class LinesHoverMoveDefaultStyles<Datum>
-  implements RefactorHoverMoveAction<LinesHost<Datum>>
+  implements HoverMoveAction<LinesHost<Datum>>
 {
-  linesStyles: RefactorHoverMoveAction<LinesHost<Datum>>;
-  markersStyles: RefactorHoverMoveAction<LinesHost<Datum>>;
+  linesStyles: HoverMoveAction<LinesHost<Datum>>;
+  markersStyles: HoverMoveAction<LinesHost<Datum>>;
 
   constructor() {
     this.linesStyles = new LinesHoverMoveDefaultLinesStyles();
@@ -100,7 +100,7 @@ export class LinesHoverMoveDefaultStyles<Datum>
 }
 
 export class LinesHoverMoveEmitTooltipData<Datum>
-  implements RefactorHoverMoveAction<LinesHost<Datum>>
+  implements HoverMoveAction<LinesHost<Datum>>
 {
   onStart(host: LinesHost<Datum>): void {
     const tooltipData = host.getInteractionOutput(EventType.HoverMove);

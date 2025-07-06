@@ -1,14 +1,14 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { Observable, filter, map } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 import {
+  EventAction,
+  EventsDirective,
   EventType,
+  HoverMoveAction,
+  InputEventAction,
   MarksHost,
-  RefactorEventAction,
-  RefactorEventDirective,
-  RefactorHoverMoveAction,
-  RefactorInputEventAction,
   UnlistenFunction,
 } from '../../events';
 import { GeographiesAttributeDataLayer } from '../config/layers/attribute-data-layer/attribute-data-layer';
@@ -34,30 +34,24 @@ export class GeographiesEventsDirective<
     TProperties,
     TGeometry
   > = GeographiesComponent<Datum, TProperties, TGeometry>,
-> extends RefactorEventDirective<GeographiesHost<Datum>> {
+> extends EventsDirective<GeographiesHost<Datum>> {
   @Input()
   hoverActions:
-    | RefactorEventAction<
-        GeographiesHost<Datum>,
-        GeographiesInteractionOutput<Datum>
-      >[]
+    | EventAction<GeographiesHost<Datum>, GeographiesInteractionOutput<Datum>>[]
     | null;
   @Input()
   hoverMoveActions:
-    | RefactorHoverMoveAction<
+    | HoverMoveAction<
         GeographiesHost<Datum>,
         GeographiesInteractionOutput<Datum>
       >[]
     | null;
   @Input()
   clickActions:
-    | RefactorEventAction<
-        GeographiesHost<Datum>,
-        GeographiesInteractionOutput<Datum>
-      >[]
+    | EventAction<GeographiesHost<Datum>, GeographiesInteractionOutput<Datum>>[]
     | null;
   @Input()
-  inputEventActions: RefactorInputEventAction<
+  inputEventActions: InputEventAction<
     GeographiesHost<Datum>,
     GeographiesInteractionOutput<Datum>
   >[];

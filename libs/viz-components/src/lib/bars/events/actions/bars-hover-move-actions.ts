@@ -1,6 +1,5 @@
 import { DataValue } from '../../../core/types/values';
-import { RefactorHoverMoveAction } from '../../../events/refactor-action';
-import { EventType } from '../../../events/refactor-event.directive';
+import { EventType, HoverMoveAction } from '../../../events';
 import { BarsHost } from '../bars-events.directive';
 import { BarsInteractionOutput } from '../bars-interaction-output';
 
@@ -8,7 +7,7 @@ export class BarsHoverMoveEmitTooltipData<
   Datum,
   TOrdinalValue extends DataValue,
 > implements
-    RefactorHoverMoveAction<
+    HoverMoveAction<
       BarsHost<Datum, TOrdinalValue>,
       BarsInteractionOutput<Datum, TOrdinalValue>
     >

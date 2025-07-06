@@ -3,16 +3,14 @@ import { least } from 'd3';
 import { Observable, of } from 'rxjs';
 import { ContinuousValue } from '../../core/types/values';
 import {
-  RefactorEventAction,
-  RefactorHoverMoveAction,
-  RefactorInputEventAction,
-} from '../../events/refactor-action';
-import {
+  EventAction,
+  EventsDirective,
   EventType,
+  HoverMoveAction,
+  InputEventAction,
   MarksHost,
-  RefactorEventDirective,
   UnlistenFunction,
-} from '../../events/refactor-event.directive';
+} from '../../events';
 import { LinesMarkerDatum } from '../config/lines-config';
 import {
   LINES,
@@ -38,19 +36,19 @@ export class LinesEventsDirective<
     Datum,
     TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
   >
-  extends RefactorEventDirective<LinesHost<Datum>>
+  extends EventsDirective<LinesHost<Datum>>
   implements LinesHost<Datum>
 {
   @Input()
   hoverMoveActions:
-    | RefactorHoverMoveAction<LinesHost<Datum>, LinesInteractionOutput<Datum>>[]
+    | HoverMoveAction<LinesHost<Datum>, LinesInteractionOutput<Datum>>[]
     | null;
   @Input()
   clickActions:
-    | RefactorEventAction<LinesHost<Datum>, LinesInteractionOutput<Datum>>[]
+    | EventAction<LinesHost<Datum>, LinesInteractionOutput<Datum>>[]
     | null;
   @Input()
-  inputEventActions: RefactorInputEventAction<
+  inputEventActions: InputEventAction<
     LinesHost<Datum>,
     LinesInteractionOutput<Datum>
   >[];
@@ -202,7 +200,7 @@ export class LinesEventsDirective<
 
   private callPointerEventActions(
     type: EventType,
-    actions: RefactorEventAction<this>[]
+    actions: EventAction<this>[]
   ): void {
     if (!this.isEventAllowed(type)) return;
 

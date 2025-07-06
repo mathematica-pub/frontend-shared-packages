@@ -2,15 +2,15 @@ import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { pointer, select } from 'd3';
 import { map, Observable } from 'rxjs';
 import { DataValue } from '../../core/types/values';
+import { EventsDirective } from '../../events';
 import {
+  EventAction,
   EventType,
+  HoverMoveAction,
+  InputEventAction,
   MarksHost,
-  RefactorEventAction,
-  RefactorEventDirective,
-  RefactorHoverMoveAction,
-  RefactorInputEventAction,
   UnlistenFunction,
-} from '../../events';
+} from '../../events/events.types';
 import {
   StackDatum,
   STACKED_BARS,
@@ -36,30 +36,30 @@ export class StackedBarsEventsDirective<
     Datum,
     TOrdinalValue
   > = StackedBarsComponent<Datum, TOrdinalValue>,
-> extends RefactorEventDirective<StackedBarsHost<Datum, TOrdinalValue>> {
+> extends EventsDirective<StackedBarsHost<Datum, TOrdinalValue>> {
   @Input()
   hoverActions:
-    | RefactorEventAction<
+    | EventAction<
         StackedBarsHost<Datum, TOrdinalValue>,
         StackedBarsInteractionOutput<Datum, TOrdinalValue>
       >[]
     | null;
   @Input()
   hoverMoveActions:
-    | RefactorHoverMoveAction<
+    | HoverMoveAction<
         StackedBarsHost<Datum, TOrdinalValue>,
         StackedBarsInteractionOutput<Datum, TOrdinalValue>
       >[]
     | null;
   @Input()
   clickActions:
-    | RefactorEventAction<
+    | EventAction<
         StackedBarsHost<Datum, TOrdinalValue>,
         StackedBarsInteractionOutput<Datum, TOrdinalValue>
       >[]
     | null;
   @Input()
-  inputEventActions: RefactorInputEventAction<
+  inputEventActions: InputEventAction<
     StackedBarsHost<Datum, TOrdinalValue>,
     StackedBarsInteractionOutput<Datum, TOrdinalValue>
   >[];

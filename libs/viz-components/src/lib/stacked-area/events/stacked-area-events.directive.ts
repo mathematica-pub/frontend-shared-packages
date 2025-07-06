@@ -4,12 +4,12 @@ import { Observable, map } from 'rxjs';
 import { ContinuousValue, DataValue } from '../../core/types/values';
 import { isDate } from '../../core/utilities/type-guards';
 import {
+  EventAction,
   EventType,
+  EventsDirective,
+  HoverMoveAction,
+  InputEventAction,
   MarksHost,
-  RefactorEventAction,
-  RefactorEventDirective,
-  RefactorHoverMoveAction,
-  RefactorInputEventAction,
   UnlistenFunction,
 } from '../../events';
 import { STACKED_AREA, StackedAreaComponent } from '../stacked-area.component';
@@ -34,25 +34,25 @@ export class StackedAreaEventsDirective<
       TCategoricalValue
     > = StackedAreaComponent<Datum, TCategoricalValue>,
   >
-  extends RefactorEventDirective<StackedAreaHost<Datum, TCategoricalValue>>
+  extends EventsDirective<StackedAreaHost<Datum, TCategoricalValue>>
   implements StackedAreaHost<Datum, TCategoricalValue>
 {
   @Input()
   hoverMoveActions:
-    | RefactorHoverMoveAction<
+    | HoverMoveAction<
         StackedAreaHost<Datum, TCategoricalValue>,
         StackedAreaInteractionOutput<Datum, TCategoricalValue>
       >[]
     | null;
   @Input()
   clickActions:
-    | RefactorEventAction<
+    | EventAction<
         StackedAreaHost<Datum, TCategoricalValue>,
         StackedAreaInteractionOutput<Datum, TCategoricalValue>
       >[]
     | null;
   @Input()
-  inputEventActions: RefactorInputEventAction<
+  inputEventActions: InputEventAction<
     StackedAreaHost<Datum, TCategoricalValue>,
     StackedAreaInteractionOutput<Datum, TCategoricalValue>
   >[];

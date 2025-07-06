@@ -9,6 +9,7 @@ import {
   BinStrategy,
   ChartConfig,
   ElementSpacing,
+  EventAction,
   GeographiesAttributeDataLayerBuilder,
   GeographiesClickEmitTooltipDataPauseOtherActions,
   GeographiesConfig,
@@ -19,7 +20,6 @@ import {
   GeographiesInteractionOutput,
   GeographiesLabelsBuilder,
   HtmlTooltipConfig,
-  RefactorEventAction,
   VicChartConfigBuilder,
   VicChartModule,
   VicGeographiesConfigBuilder,
@@ -95,7 +95,7 @@ export class GeographiesExampleComponent implements OnInit {
   tooltipData: BehaviorSubject<GeographiesInteractionOutput<StateIncomeDatum>> =
     new BehaviorSubject<GeographiesInteractionOutput<StateIncomeDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: RefactorEventAction<GeographiesHost<StateIncomeDatum>>[] = [
+  hoverActions: EventAction<GeographiesHost<StateIncomeDatum>>[] = [
     new GeographiesHoverEmitTooltipData<StateIncomeDatum>(),
   ];
   patternName = 'dotPattern';
@@ -114,7 +114,7 @@ export class GeographiesExampleComponent implements OnInit {
     BinStrategy.customBreaks,
   ];
 
-  clickActions: RefactorEventAction<GeographiesHost<StateIncomeDatum>>[] = [
+  clickActions: EventAction<GeographiesHost<StateIncomeDatum>>[] = [
     new GeographiesClickEmitTooltipDataPauseOtherActions<StateIncomeDatum>(),
   ];
   removeTooltipEvent: Subject<void> = new Subject<void>();

@@ -1,12 +1,12 @@
 import {
+  InputEventAction,
   LinesGroupSelectionDatum,
   LinesHost,
   LinesMarkerDatum,
-  RefactorInputEventAction,
 } from '@hsi/viz-components';
 
 export class HighlightLineForLabel<Datum>
-  implements RefactorInputEventAction<LinesHost<Datum>>
+  implements InputEventAction<LinesHost<Datum>>
 {
   onStart(host: LinesHost<Datum>, label: string): void {
     host.marks.lineGroups

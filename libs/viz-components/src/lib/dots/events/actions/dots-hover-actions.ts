@@ -1,8 +1,8 @@
-import { RefactorEventAction } from '../../../events';
+import { EventAction } from '../../../events';
 import { DotsHost } from '../dots-events.directive';
 
 export class DotsHoverDefaultStyles<Datum>
-  implements RefactorEventAction<DotsHost<Datum>>
+  implements EventAction<DotsHost<Datum>>
 {
   onStart(host: DotsHost<Datum>): void {
     host.marks.dotGroups

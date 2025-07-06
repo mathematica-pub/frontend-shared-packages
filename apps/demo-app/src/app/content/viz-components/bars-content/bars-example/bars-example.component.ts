@@ -9,8 +9,8 @@ import {
   BarsInteractionOutput,
   ChartConfig,
   ElementSpacing,
+  HoverMoveAction,
   HtmlTooltipConfig,
-  RefactorHoverMoveAction,
   VicBarsConfigBuilder,
   VicBarsModule,
   VicChartConfigBuilder,
@@ -90,7 +90,7 @@ export class BarsExampleComponent implements OnInit {
     BarsInteractionOutput<MetroUnemploymentDatum, string>
   >(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverMoveActions: RefactorHoverMoveAction<
+  hoverMoveActions: HoverMoveAction<
     BarsHost<MetroUnemploymentDatum, string>,
     BarsInteractionOutput<MetroUnemploymentDatum, string>
   >[] = [new BarsHoverMoveEmitTooltipData()];

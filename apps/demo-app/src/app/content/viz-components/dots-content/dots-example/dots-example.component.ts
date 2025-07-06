@@ -7,8 +7,8 @@ import {
   DotsHoverMoveDefaultStyles,
   DotsHoverMoveEmitTooltipData,
   DotsInteractionOutput,
+  HoverMoveAction,
   HtmlTooltipConfig,
-  RefactorHoverMoveAction,
   VicChartConfigBuilder,
   VicChartModule,
   VicDotsConfigBuilder,
@@ -62,7 +62,7 @@ export class DotsExampleComponent implements OnInit {
   tooltipData: BehaviorSubject<DotsInteractionOutput<WeatherDatum>> =
     new BehaviorSubject<DotsInteractionOutput<WeatherDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: RefactorHoverMoveAction<DotsHost<WeatherDatum>>[] = [
+  hoverActions: HoverMoveAction<DotsHost<WeatherDatum>>[] = [
     new DotsHoverMoveDefaultStyles(),
     new DotsHoverMoveEmitTooltipData(),
   ];

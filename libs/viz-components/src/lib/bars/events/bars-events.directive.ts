@@ -3,16 +3,14 @@ import { select } from 'd3';
 import { map, Observable } from 'rxjs';
 import { DataValue } from '../../core/types/values';
 import {
-  RefactorEventAction,
-  RefactorHoverMoveAction,
-  RefactorInputEventAction,
-} from '../../events/refactor-action';
-import {
+  EventAction,
+  EventsDirective,
   EventType,
+  HoverMoveAction,
+  InputEventAction,
   MarksHost,
-  RefactorEventDirective,
   UnlistenFunction,
-} from '../../events/refactor-event.directive';
+} from '../../events';
 import { BarDatum, BARS, BarsComponent } from '../bars.component';
 import { BarsInteractionOutput } from './bars-interaction-output';
 
@@ -35,32 +33,32 @@ export class BarsEventsDirective<
       TOrdinalValue
     >,
   >
-  extends RefactorEventDirective<BarsHost<Datum, TOrdinalValue>>
+  extends EventsDirective<BarsHost<Datum, TOrdinalValue>>
   implements BarsHost<Datum, TOrdinalValue>
 {
   @Input()
   hoverActions:
-    | RefactorEventAction<
+    | EventAction<
         BarsHost<Datum, TOrdinalValue>,
         BarsInteractionOutput<Datum, TOrdinalValue>
       >[]
     | null;
   @Input()
   hoverMoveActions:
-    | RefactorHoverMoveAction<
+    | HoverMoveAction<
         BarsHost<Datum, TOrdinalValue>,
         BarsInteractionOutput<Datum, TOrdinalValue>
       >[]
     | null;
   @Input()
   clickActions:
-    | RefactorEventAction<
+    | EventAction<
         BarsHost<Datum, TOrdinalValue>,
         BarsInteractionOutput<Datum, TOrdinalValue>
       >[]
     | null;
   @Input()
-  inputEventActions: RefactorInputEventAction<
+  inputEventActions: InputEventAction<
     BarsHost<Datum, TOrdinalValue>,
     BarsInteractionOutput<Datum, TOrdinalValue>
   >[];
