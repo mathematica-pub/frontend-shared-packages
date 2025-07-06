@@ -3,7 +3,7 @@ import { EventType, RefactorEventAction } from '../../../events';
 import { BarsHost } from '../bars-events.directive';
 import { BarsInteractionOutput } from '../bars-interaction-output';
 
-export class RefactorBarsClickEmitTooltipDataPauseOtherActions<
+export class BarsClickEmitTooltipDataPauseOtherActions<
   Datum,
   TOrdinalValue extends DataValue,
 > implements

@@ -3,7 +3,7 @@ import { EventType, RefactorEventAction } from '../../../events';
 import { BarsHost } from '../bars-events.directive';
 import { BarsInteractionOutput } from '../bars-interaction-output';
 
-export class RefactorBarsHoverShowLabels<Datum, TOrdinalValue extends DataValue>
+export class BarsHoverShowLabels<Datum, TOrdinalValue extends DataValue>
   implements
     RefactorEventAction<
       BarsHost<Datum, TOrdinalValue>,
@@ -25,10 +25,8 @@ export class RefactorBarsHoverShowLabels<Datum, TOrdinalValue extends DataValue>
   }
 }
 
-export class RefactorBarsHoverEmitTooltipData<
-  Datum,
-  TOrdinalValue extends DataValue,
-> implements
+export class BarsHoverEmitTooltipData<Datum, TOrdinalValue extends DataValue>
+  implements
     RefactorEventAction<
       BarsHost<Datum, TOrdinalValue>,
       BarsInteractionOutput<Datum, TOrdinalValue>

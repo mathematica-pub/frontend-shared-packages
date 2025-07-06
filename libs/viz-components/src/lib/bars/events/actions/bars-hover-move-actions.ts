@@ -4,7 +4,7 @@ import { EventType } from '../../../events/refactor-event.directive';
 import { BarsHost } from '../bars-events.directive';
 import { BarsInteractionOutput } from '../bars-interaction-output';
 
-export class RefactorBarsHoverMoveEmitTooltipData<
+export class BarsHoverMoveEmitTooltipData<
   Datum,
   TOrdinalValue extends DataValue,
 > implements

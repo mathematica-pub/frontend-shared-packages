@@ -5,11 +5,11 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {
   BarsConfig,
   BarsHost,
+  BarsHoverMoveEmitTooltipData,
   BarsInteractionOutput,
   ChartConfig,
   ElementSpacing,
   HtmlTooltipConfig,
-  RefactorBarsHoverMoveEmitTooltipData,
   RefactorHoverMoveAction,
   VicBarsConfigBuilder,
   VicBarsModule,
@@ -93,7 +93,7 @@ export class BarsExampleComponent implements OnInit {
   hoverMoveActions: RefactorHoverMoveAction<
     BarsHost<MetroUnemploymentDatum, string>,
     BarsInteractionOutput<MetroUnemploymentDatum, string>
-  >[] = [new RefactorBarsHoverMoveEmitTooltipData()];
+  >[] = [new BarsHoverMoveEmitTooltipData()];
   layoutProperties: BehaviorSubject<LayoutProperties> =
     new BehaviorSubject<LayoutProperties>({
       orientation: Orientation.horizontal,
