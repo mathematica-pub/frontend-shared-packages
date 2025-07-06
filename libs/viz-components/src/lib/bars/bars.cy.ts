@@ -198,8 +198,9 @@ const mountHorizontalBarsComponent = (
         <svg:g
           vic-primary-marks-bars
           [config]="barsConfig"
-          [vicBarsHoverActions]="hoverActions"
-          (vicBarsHoverOutput)="updateTooltipForNewOutput($event)"
+          vicBarsEvents
+          [hoverActions]="hoverActions"
+          (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="tooltipConfig$ | async"
