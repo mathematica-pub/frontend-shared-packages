@@ -1,7 +1,7 @@
 import { EventType, RefactorEventAction } from '../../../events';
 import { LinesHost } from '../lines-events.directive';
 
-export class RefactorLinesMarkerClickEmitTooltipData<Datum>
+export class LinesMarkerClickEmitTooltipData<Datum>
   implements RefactorEventAction<LinesHost<Datum>>
 {
   onStart(host: LinesHost<Datum>) {

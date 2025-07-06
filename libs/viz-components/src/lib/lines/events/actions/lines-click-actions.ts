@@ -2,7 +2,7 @@ import { EventType } from '../../../events';
 import { RefactorEventAction } from '../../../events/refactor-action';
 import { LinesHost } from '../lines-events.directive';
 
-export class RefactorLinesClickEmitTooltipDataPauseHoverMoveActions<Datum>
+export class LinesClickEmitTooltipDataPauseHoverMoveActions<Datum>
   implements RefactorEventAction<LinesHost<Datum>>
 {
   onStart(host: LinesHost<Datum>) {

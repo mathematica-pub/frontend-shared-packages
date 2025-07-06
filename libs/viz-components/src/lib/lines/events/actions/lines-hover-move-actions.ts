@@ -9,7 +9,7 @@ import { LinesHost } from '../lines-events.directive';
  * This action changes the color of the non-closest-to-pointer lines
  *  to a light gray.
  */
-export class RefactorLinesHoverMoveDefaultLinesStyles<Datum>
+export class LinesHoverMoveDefaultLinesStyles<Datum>
   implements RefactorEventAction<LinesHost<Datum>>
 {
   onStart(host: LinesHost<Datum>): void {
@@ -39,7 +39,7 @@ export class RefactorLinesHoverMoveDefaultLinesStyles<Datum>
  *  and at the same time enlarges the marker on the "selected" line that is
  *  closest to the pointer by a specified amount.
  */
-export class RefactorLinesHoverMoveDefaultMarkersStyles<Datum>
+export class LinesHoverMoveDefaultMarkersStyles<Datum>
   implements RefactorEventAction<LinesHost<Datum>>
 {
   onStart(host: LinesHost<Datum>): void {
@@ -73,15 +73,15 @@ export class RefactorLinesHoverMoveDefaultMarkersStyles<Datum>
  * Applies either Line Markers action or a Hover Dot action depending on
  *  whether line markers are used.
  */
-export class RefactorLinesHoverMoveDefaultStyles<Datum>
+export class LinesHoverMoveDefaultStyles<Datum>
   implements RefactorEventAction<LinesHost<Datum>>
 {
   linesStyles: RefactorEventAction<LinesHost<Datum>>;
   markersStyles: RefactorEventAction<LinesHost<Datum>>;
 
   constructor() {
-    this.linesStyles = new RefactorLinesHoverMoveDefaultLinesStyles();
-    this.markersStyles = new RefactorLinesHoverMoveDefaultMarkersStyles();
+    this.linesStyles = new LinesHoverMoveDefaultLinesStyles();
+    this.markersStyles = new LinesHoverMoveDefaultMarkersStyles();
   }
 
   onStart(host: LinesHost<Datum>) {
@@ -99,7 +99,7 @@ export class RefactorLinesHoverMoveDefaultStyles<Datum>
   }
 }
 
-export class RefactorLinesHoverMoveEmitTooltipData<Datum>
+export class LinesHoverMoveEmitTooltipData<Datum>
   implements RefactorEventAction<LinesHost<Datum>>
 {
   onStart(host: LinesHost<Datum>): void {

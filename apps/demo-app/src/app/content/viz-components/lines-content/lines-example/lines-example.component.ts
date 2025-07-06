@@ -15,14 +15,14 @@ import {
   ElementSpacing,
   EventType,
   HtmlTooltipConfig,
+  LinesClickEmitTooltipDataPauseHoverMoveActions,
   LinesConfig,
   LinesHost,
+  LinesHoverMoveDefaultStyles,
+  LinesHoverMoveEmitTooltipData,
   LinesInteractionOutput,
   RefactorEventAction,
   RefactorHoverMoveAction,
-  RefactorLinesClickEmitTooltipDataPauseHoverMoveActions,
-  RefactorLinesHoverMoveDefaultStyles,
-  RefactorLinesHoverMoveEmitTooltipData,
   VicChartConfigBuilder,
   VicChartModule,
   VicColumnConfig,
@@ -98,11 +98,11 @@ export class LinesExampleComponent implements OnInit {
   highlightLineForLabelAction =
     new HighlightLineForLabel<MetroUnemploymentDatum>();
   hoverActions: RefactorHoverMoveAction<LinesHost<MetroUnemploymentDatum>>[] = [
-    new RefactorLinesHoverMoveDefaultStyles(),
-    new RefactorLinesHoverMoveEmitTooltipData(),
+    new LinesHoverMoveDefaultStyles(),
+    new LinesHoverMoveEmitTooltipData(),
   ];
   clickActions: RefactorEventAction<LinesHost<MetroUnemploymentDatum>>[] = [
-    new RefactorLinesClickEmitTooltipDataPauseHoverMoveActions(),
+    new LinesClickEmitTooltipDataPauseHoverMoveActions(),
   ];
   includeFiles = includeFiles;
   folderName = 'lines-example';
