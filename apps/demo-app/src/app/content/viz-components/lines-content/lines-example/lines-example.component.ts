@@ -97,7 +97,9 @@ export class LinesExampleComponent implements OnInit {
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
   highlightLineForLabelAction =
     new HighlightLineForLabel<MetroUnemploymentDatum>();
-  hoverActions: RefactorHoverMoveAction<LinesHost<MetroUnemploymentDatum>>[] = [
+  hoverMoveActions: RefactorHoverMoveAction<
+    LinesHost<MetroUnemploymentDatum>
+  >[] = [
     new LinesHoverMoveDefaultStyles(),
     new LinesHoverMoveEmitTooltipData(),
   ];

@@ -1,42 +1,18 @@
 import { DataValue } from '../../../core/types/values';
-import { HoverMoveAction } from '../../../events/action';
-import { StackedAreaComponent } from '../../stacked-area.component';
-import { StackedAreaHoverMoveDirective } from '../stacked-area-hover-move.directive';
+import { EventType, RefactorHoverMoveAction } from '../../../events';
+import { StackedAreaHost } from '../stacked-area-events.directive';
 
 export class StackedAreaHoverMoveEmitTooltipData<
   Datum,
   TCategoricalValue extends DataValue,
-  TStackedAreaComponent extends StackedAreaComponent<
-    Datum,
-    TCategoricalValue
-  > = StackedAreaComponent<Datum, TCategoricalValue>,
-> implements
-    HoverMoveAction<
-      StackedAreaHoverMoveDirective<
-        Datum,
-        TCategoricalValue,
-        TStackedAreaComponent
-      >
-    >
+> implements RefactorHoverMoveAction<StackedAreaHost<Datum, TCategoricalValue>>
 {
-  onStart(
-    directive: StackedAreaHoverMoveDirective<
-      Datum,
-      TCategoricalValue,
-      TStackedAreaComponent
-    >
-  ): void {
-    const tooltipData = directive.getTooltipData();
-    directive.eventOutput.emit(tooltipData);
+  onStart(host: StackedAreaHost<Datum, TCategoricalValue>): void {
+    const tooltipData = host.getInteractionOutput(EventType.HoverMove);
+    host.emitInteractionOutput(tooltipData);
   }
 
-  onEnd(
-    event: StackedAreaHoverMoveDirective<
-      Datum,
-      TCategoricalValue,
-      TStackedAreaComponent
-    >
-  ): void {
-    event.eventOutput.emit(null);
+  onEnd(host: StackedAreaHost<Datum, TCategoricalValue>): void {
+    host.emitInteractionOutput(null);
   }
 }

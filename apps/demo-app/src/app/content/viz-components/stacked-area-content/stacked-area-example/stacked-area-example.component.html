@@ -5,8 +5,9 @@
       <svg:g
         vic-primary-marks-stacked-area
         [config]="vm.dataConfig"
-        [vicStackedAreaHoverMoveActions]="hoverAndMoveActions"
-        (vicStackedAreaHoverMoveOutput)="updateTooltipForNewOutput($event)"
+        vicStackedAreaEvents
+        [hoverMoveActions]="hoverMoveActions"
+        (interactionOutput)="updateTooltipForNewOutput($event)"
       >
         <vic-html-tooltip
           [config]="tooltipConfig$ | async"

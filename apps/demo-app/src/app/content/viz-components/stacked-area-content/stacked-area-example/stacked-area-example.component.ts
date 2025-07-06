@@ -3,11 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import {
   ChartConfig,
   ElementSpacing,
-  HoverMoveAction,
   HtmlTooltipConfig,
+  RefactorHoverMoveAction,
   StackedAreaConfig,
-  StackedAreaEventOutput,
-  StackedAreaHoverMoveDirective,
+  StackedAreaHost,
   StackedAreaHoverMoveEmitTooltipData,
   VicChartConfigBuilder,
   VicChartModule,
@@ -24,6 +23,7 @@ import {
 } from '@hsi/viz-components';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
+import { StackedAreaInteractionOutput } from 'dist/viz-components/lib/stacked-area/events/stacked-area-interaction-output';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 
 interface ViewModel {
@@ -66,13 +66,13 @@ export class StackedAreaExampleComponent implements OnInit {
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<
-    StackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   > = new BehaviorSubject<
-    StackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   >(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveActions: HoverMoveAction<
-    StackedAreaHoverMoveDirective<IndustryUnemploymentDatum, string>
+  hoverMoveActions: RefactorHoverMoveAction<
+    StackedAreaHost<IndustryUnemploymentDatum, string>
   >[] = [new StackedAreaHoverMoveEmitTooltipData()];
 
   constructor(
@@ -117,20 +117,20 @@ export class StackedAreaExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: StackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    data: StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
   updateTooltipData(
-    data: StackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    data: StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   ): void {
     this.tooltipData.next(data);
   }
 
   updateTooltipConfig(
-    data: StackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    data: StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   ): void {
     const config = this.tooltip
       .size((size) => size.minWidth(130))

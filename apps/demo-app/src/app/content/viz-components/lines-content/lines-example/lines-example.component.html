@@ -42,7 +42,7 @@
             vic-primary-marks-lines
             [config]="vm.dataConfig"
             vicLinesEvents
-            [hoverMoveActions]="hoverActions"
+            [hoverMoveActions]="hoverMoveActions"
             [inputEventActions]="[highlightLineForLabelAction]"
             [inputEvent$]="chartInputEvent$"
             (interactionOutput)="updateTooltipForNewOutput($event)"
@@ -57,7 +57,7 @@
             vic-primary-marks-lines
             [config]="vm.dataConfig"
             vicLinesEvents
-            [hoverMoveActions]="hoverActions"
+            [hoverMoveActions]="hoverMoveActions"
             [clickActions]="clickActions"
             [clickRemoveEvent$]="removeTooltipEvent$"
             [inputEventActions]="[highlightLineForLabelAction]"

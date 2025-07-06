@@ -161,9 +161,7 @@ export class StackedAreaEventsDirective<
   }
 
   setPositionsFromElement(): void {
-    const barRect = this.origin.getBoundingClientRect();
-    this.positionX = barRect.width / 2;
-    this.positionY = barRect.height / 2;
+    return;
   }
 
   pointerIsInChartArea(): boolean {
