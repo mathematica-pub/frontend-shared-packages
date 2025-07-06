@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
   BarsConfig,
-  BarsEventOutput,
-  BarsHoverDirective,
+  BarsHost,
   BarsHoverEmitTooltipData,
-  BarsHoverMoveDirective,
   BarsHoverMoveEmitTooltipData,
+  BarsInteractionOutput,
   ChartConfig,
   EventAction,
   HoverMoveAction,
@@ -117,11 +116,15 @@ class TestHorizontalBarsComponent {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>> =
-    new BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>>(null);
+  tooltipData: BehaviorSubject<
+    BarsInteractionOutput<CountryFactsDatum, string>
+  > = new BehaviorSubject<BarsInteractionOutput<CountryFactsDatum, string>>(
+    null
+  );
   tooltipData$ = this.tooltipData.asObservable();
   hoverAndMoveActions: HoverMoveAction<
-    BarsHoverMoveDirective<CountryFactsDatum, string>
+    BarsHost<CountryFactsDatum, string>,
+    BarsInteractionOutput<CountryFactsDatum, string>
   >[] = [new BarsHoverMoveEmitTooltipData()];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .margin(horizontalMargin)
@@ -132,17 +135,21 @@ class TestHorizontalBarsComponent {
     .getConfig();
 
   updateTooltipForNewOutput(
-    data: BarsEventOutput<CountryFactsDatum, string>
+    data: BarsInteractionOutput<CountryFactsDatum, string>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: BarsEventOutput<CountryFactsDatum, string>): void {
+  updateTooltipData(
+    data: BarsInteractionOutput<CountryFactsDatum, string>
+  ): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: BarsEventOutput<CountryFactsDatum, string>): void {
+  updateTooltipConfig(
+    data: BarsInteractionOutput<CountryFactsDatum, string>
+  ): void {
     const config = new VicHtmlTooltipConfigBuilder()
       .barsPosition(data?.origin, [
         {
@@ -220,10 +227,13 @@ class TestVerticalBarsComponent {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>> =
-    new BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>>(null);
+  tooltipData: BehaviorSubject<
+    BarsInteractionOutput<CountryFactsDatum, string>
+  > = new BehaviorSubject<BarsInteractionOutput<CountryFactsDatum, string>>(
+    null
+  );
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: EventAction<BarsHoverDirective<CountryFactsDatum, string>>[] = [
+  hoverActions: EventAction<BarsHost<CountryFactsDatum, string>>[] = [
     new BarsHoverEmitTooltipData(),
   ];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
@@ -235,17 +245,21 @@ class TestVerticalBarsComponent {
     .getConfig();
 
   updateTooltipForNewOutput(
-    data: BarsEventOutput<CountryFactsDatum, string>
+    data: BarsInteractionOutput<CountryFactsDatum, string>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: BarsEventOutput<CountryFactsDatum, string>): void {
+  updateTooltipData(
+    data: BarsInteractionOutput<CountryFactsDatum, string>
+  ): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: BarsEventOutput<CountryFactsDatum, string>): void {
+  updateTooltipConfig(
+    data: BarsInteractionOutput<CountryFactsDatum, string>
+  ): void {
     const config = new VicHtmlTooltipConfigBuilder()
       .barsPosition(data?.origin, [
         {

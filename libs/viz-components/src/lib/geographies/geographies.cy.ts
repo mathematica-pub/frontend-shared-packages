@@ -5,9 +5,9 @@ import {
   ChartConfig,
   EventAction,
   GeographiesConfig,
-  GeographiesEventOutput,
-  GeographiesHoverDirective,
+  GeographiesHost,
   GeographiesHoverEmitTooltipData,
+  GeographiesInteractionOutput,
   HtmlTooltipConfig,
   VicChartConfigBuilder,
   VicChartModule,
@@ -113,16 +113,11 @@ class TestGeographiesComponent {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>> =
-    new BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>>(null);
+  tooltipData: BehaviorSubject<GeographiesInteractionOutput<StateIncomeDatum>> =
+    new BehaviorSubject<GeographiesInteractionOutput<StateIncomeDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: EventAction<
-    GeographiesHoverDirective<StateIncomeDatum, TestMapGeometryProperties>
-  >[] = [
-    new GeographiesHoverEmitTooltipData<
-      StateIncomeDatum,
-      TestMapGeometryProperties
-    >(),
+  hoverActions: EventAction<GeographiesHost<StateIncomeDatum>>[] = [
+    new GeographiesHoverEmitTooltipData<StateIncomeDatum>(),
   ];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .margin(margin)
@@ -132,17 +127,21 @@ class TestGeographiesComponent {
     .getConfig();
 
   updateTooltipForNewOutput(
-    data: GeographiesEventOutput<StateIncomeDatum>
+    data: GeographiesInteractionOutput<StateIncomeDatum>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: GeographiesEventOutput<StateIncomeDatum>): void {
+  updateTooltipData(
+    data: GeographiesInteractionOutput<StateIncomeDatum>
+  ): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: GeographiesEventOutput<StateIncomeDatum>): void {
+  updateTooltipConfig(
+    data: GeographiesInteractionOutput<StateIncomeDatum>
+  ): void {
     const config = new VicHtmlTooltipConfigBuilder()
       .size((size) => size.minWidth(80))
       .geographiesPosition(data?.origin, [

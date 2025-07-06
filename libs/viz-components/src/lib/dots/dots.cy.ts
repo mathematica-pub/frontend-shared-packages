@@ -7,9 +7,9 @@ import { Component, Input } from '@angular/core';
 import {
   ChartConfig,
   DotsConfig,
-  DotsEventOutput,
-  DotsHoverMoveDirective,
+  DotsHost,
   DotsHoverMoveEmitTooltipData,
+  DotsInteractionOutput,
   HoverMoveAction,
   HtmlTooltipConfig,
   VicChartConfigBuilder,
@@ -125,11 +125,10 @@ class TestDotsQuantQuantComponent<Datum> {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<DotsEventOutput<Datum>> = new BehaviorSubject<
-    DotsEventOutput<Datum>
-  >(null);
+  tooltipData: BehaviorSubject<DotsInteractionOutput<Datum>> =
+    new BehaviorSubject<DotsInteractionOutput<Datum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: HoverMoveAction<DotsHoverMoveDirective<Datum>>[] = [
+  hoverActions: HoverMoveAction<DotsHost<Datum>>[] = [
     new DotsHoverMoveEmitTooltipData(),
   ];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
@@ -139,16 +138,16 @@ class TestDotsQuantQuantComponent<Datum> {
     .scalingStrategy('responsive-width')
     .getConfig();
 
-  updateTooltipForNewOutput(data: DotsEventOutput<Datum>): void {
+  updateTooltipForNewOutput(data: DotsInteractionOutput<Datum>): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: DotsEventOutput<Datum>): void {
+  updateTooltipData(data: DotsInteractionOutput<Datum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: DotsEventOutput<Datum>): void {
+  updateTooltipConfig(data: DotsInteractionOutput<Datum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
       .dotsPosition(data?.origin, [
         {

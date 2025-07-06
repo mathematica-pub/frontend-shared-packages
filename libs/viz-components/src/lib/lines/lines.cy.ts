@@ -6,9 +6,9 @@ import {
   HoverMoveAction,
   HtmlTooltipConfig,
   LinesConfig,
-  LinesEventOutput,
-  LinesHoverMoveDirective,
+  LinesHost,
   LinesHoverMoveEmitTooltipData,
+  LinesInteractionOutput,
   VicChartConfigBuilder,
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
@@ -105,11 +105,10 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<LinesEventOutput<Datum>> = new BehaviorSubject<
-    LinesEventOutput<Datum>
-  >(null);
+  tooltipData: BehaviorSubject<LinesInteractionOutput<Datum>> =
+    new BehaviorSubject<LinesInteractionOutput<Datum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: HoverMoveAction<LinesHoverMoveDirective<Datum>>[] = [
+  hoverActions: HoverMoveAction<LinesHost<Datum>>[] = [
     new LinesHoverMoveEmitTooltipData(),
   ];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
@@ -119,16 +118,16 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
     .scalingStrategy('responsive-width')
     .getConfig();
 
-  updateTooltipForNewOutput(data: LinesEventOutput<Datum>): void {
+  updateTooltipForNewOutput(data: LinesInteractionOutput<Datum>): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: LinesEventOutput<Datum>): void {
+  updateTooltipData(data: LinesInteractionOutput<Datum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: LinesEventOutput<Datum>): void {
+  updateTooltipConfig(data: LinesInteractionOutput<Datum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
       .size((size) => size.minWidth(100))
       .linesPosition([
