@@ -69,8 +69,9 @@ const dotGSelector = '.vic-dots-group';
         <svg:g
           vic-primary-marks-dots
           [config]="dotsConfig"
-          [vicDotsHoverMoveActions]="hoverActions"
-          (vicDotsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+          vicDotsEvents
+          [hoverMoveActions]="hoverActions"
+          (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="tooltipConfig$ | async"
@@ -128,7 +129,7 @@ class TestDotsQuantQuantComponent<Datum> {
   tooltipData: BehaviorSubject<DotsInteractionOutput<Datum>> =
     new BehaviorSubject<DotsInteractionOutput<Datum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: HoverMoveAction<DotsHost<Datum>>[] = [
+  hoverMoveActions: HoverMoveAction<DotsHost<Datum>>[] = [
     new DotsHoverMoveEmitTooltipData(),
   ];
   chartConfig: ChartConfig = new VicChartConfigBuilder()

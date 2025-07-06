@@ -85,8 +85,9 @@ const labelSelector = '.vic-bars-label';
         <svg:g
           vic-primary-marks-bars
           [config]="barsConfig"
-          [vicBarsHoverActions]="hoverAndMoveActions"
-          (vicBarsHoverOutput)="updateTooltipForNewOutput($event)"
+          vicBarsEvents
+          [hoverMoveActions]="hoverAndMoveActions"
+          (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="tooltipConfig$ | async"

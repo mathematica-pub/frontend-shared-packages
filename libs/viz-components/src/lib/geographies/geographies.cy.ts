@@ -71,8 +71,9 @@ type TestUsMapTopology = Topology<TestMapObjects>;
         vic-primary-marks-geographies
         svg-elements
         [config]="geographiesConfig"
-        [vicGeographiesHoverActions]="hoverActions"
-        (vicGeographiesHoverOutput)="updateTooltipForNewOutput($event)"
+        vicGeographiesEvents
+        [hoverActions]="hoverActions"
+        (interactionOutput)="updateTooltipForNewOutput($event)"
       >
         <vic-html-tooltip
           [config]="tooltipConfig$ | async"

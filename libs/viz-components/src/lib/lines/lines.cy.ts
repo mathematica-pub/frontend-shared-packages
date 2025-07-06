@@ -68,8 +68,9 @@ const markerSelector = '.vic-lines-marker';
         <svg:g
           vic-primary-marks-lines
           [config]="linesConfig"
-          [vicLinesHoverMoveActions]="hoverActions"
-          (vicLinesHoverMoveOutput)="updateTooltipForNewOutput($event)"
+          vicLinesEvents
+          [hoverMoveActions]="hoverActions"
+          (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="tooltipConfig$ | async"
