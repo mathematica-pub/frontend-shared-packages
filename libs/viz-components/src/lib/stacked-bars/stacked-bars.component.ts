@@ -24,6 +24,19 @@ export type StackedBarGroupSelection = Selection<
   StackDatum[]
 >;
 
+export interface StackedBarsTooltipDatum<
+  Datum,
+  TOrdinalValue extends DataValue,
+> {
+  datum: Datum;
+  color: string;
+  values: {
+    x: TOrdinalValue | string;
+    y: TOrdinalValue | string;
+    category: string;
+  };
+}
+
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use "unknown"
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
 export const STACKED_BARS = new InjectionToken<

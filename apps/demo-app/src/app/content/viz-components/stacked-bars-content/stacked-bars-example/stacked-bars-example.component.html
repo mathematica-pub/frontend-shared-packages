@@ -7,13 +7,11 @@
       <svg:g
         vic-primary-marks-stacked-bars
         [config]="vm.dataConfig"
-        [vicStackedBarsHoverMoveActions]="hoverAndMoveActions"
-        [vicStackedBarsClickActions]="clickActions"
-        [vicStackedBarsClickRemoveEvent$]="removeTooltipEvent$"
-        (vicStackedBarsHoverMoveOutput)="
-          updateTooltipForNewOutput($event, 'hover')
-        "
-        (vicStackedBarsClickOutput)="updateTooltipForNewOutput($event, 'click')"
+        vicStackedBarsEvents
+        [hoverMoveActions]="hoverAndMoveActions"
+        [clickActions]="clickActions"
+        [clickRemoveEvent$]="removeTooltipEvent$"
+        (interactionOutput)="updateTooltipForNewOutput($event)"
       >
         <vic-html-tooltip
           [config]="tooltipConfig$ | async"

@@ -1,7 +1,8 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
-import { ContinuousValue, DataValue, isDate } from '@hsi/viz-components';
 import { InternSet, least } from 'd3';
 import { Observable, map } from 'rxjs';
+import { ContinuousValue, DataValue } from '../../core/types/values';
+import { isDate } from '../../core/utilities/type-guards';
 import {
   EventType,
   MarksHost,
@@ -100,9 +101,11 @@ export class StackedAreaEventsDirective<
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onEnter(_: PointerEvent, __: Element): void {
     if (this.isEventAllowed(EventType.HoverMove)) {
-      this.runActions(this.hoverMoveActions, (a) =>
-        a.initialize(this.asHost())
-      );
+      this.runActions(this.hoverMoveActions, (a) => {
+        if (a.initialize) {
+          a.initialize(this.asHost());
+        }
+      });
     }
   }
 
@@ -128,7 +131,8 @@ export class StackedAreaEventsDirective<
     this.resetDirective();
   }
 
-  onClick(event: PointerEvent, el: Element): void {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onClick(event: PointerEvent, _: Element): void {
     if (this.isEventAllowed(EventType.Click)) {
       this.setPositionsFromPointer(event);
       this.runActions(this.clickActions, (a) => a.onStart(this.asHost()));
@@ -154,6 +158,12 @@ export class StackedAreaEventsDirective<
       this.runActions(this.clickActions, (a) => a.onEnd(this.asHost()));
       this.resetDirective();
     }
+  }
+
+  setPositionsFromElement(): void {
+    const barRect = this.origin.getBoundingClientRect();
+    this.positionX = barRect.width / 2;
+    this.positionY = barRect.height / 2;
   }
 
   pointerIsInChartArea(): boolean {

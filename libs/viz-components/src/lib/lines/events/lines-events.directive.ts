@@ -90,7 +90,11 @@ export class LinesEventsDirective<
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onEnter(_: PointerEvent, __: Element): void {
     if (this.isEventAllowed(EventType.HoverMove)) {
-      this.runActions(this.hoverMoveActions, (a) => a.initialize(this));
+      this.runActions(this.hoverMoveActions, (a) => {
+        if (a.initialize) {
+          a.initialize(this);
+        }
+      });
     }
   }
 
@@ -114,7 +118,7 @@ export class LinesEventsDirective<
         this.hoverMoveActions.forEach((action) => action.onEnd(this));
         this.actionActive = false;
       }
-      this.closestPointIndex = null;
+      this.resetDirective();
     }
   }
 
@@ -236,5 +240,11 @@ export class LinesEventsDirective<
 
   emitInteractionOutput(output: LinesInteractionOutput<Datum>): void {
     this.interactionOutput.emit(output);
+  }
+
+  private resetDirective(): void {
+    this.closestPointIndex = undefined;
+    this.positionX = undefined;
+    this.positionY = undefined;
   }
 }

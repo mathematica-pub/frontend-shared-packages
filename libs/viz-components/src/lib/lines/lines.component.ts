@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { area, line, map, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, filter } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
 import {
   XyChartComponent,
@@ -88,7 +88,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   lineLabelsRef: ElementRef<SVGSVGElement>;
   markerIndexAttr = 'index';
   markers: BehaviorSubject<MarkerSelection> = new BehaviorSubject(null);
-  markers$ = this.markers.asObservable();
+  markers$ = this.markers.asObservable().pipe(filter((d) => !!d));
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override scales: { color: GenericScale<any, any> } & XyChartScales = {
     x: undefined,

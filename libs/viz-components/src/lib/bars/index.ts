@@ -8,6 +8,8 @@ export * from './config/labels/bars-labels-options';
 export * from './events/actions/bars-click-actions';
 export * from './events/actions/bars-hover-actions';
 export * from './events/actions/bars-hover-move-actions';
+export * from './events/actions/refactor-bars-click-actions';
+export * from './events/actions/refactor-bars-hover-actions';
 export * from './events/actions/refactor-bars-hover-move-actions';
 export * from './events/bars-click.directive';
 export * from './events/bars-event-output';

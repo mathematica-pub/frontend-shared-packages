@@ -1,7 +1,7 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
-import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { Observable, filter, map } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { DataValue } from '../../core/types/values';
 import {
   EventType,
   MarksHost,
@@ -11,79 +11,80 @@ import {
   RefactorInputEventAction,
   UnlistenFunction,
 } from '../../events';
-import { GeographiesAttributeDataLayer } from '../config/layers/attribute-data-layer/attribute-data-layer';
-import { GeographiesGeojsonPropertiesLayer } from '../config/layers/geojson-properties-layer/geojson-properties-layer';
-import { GeographiesFeature } from '../geographies-feature';
-import { GEOGRAPHIES, GeographiesComponent } from '../geographies.component';
-import { GeographiesInteractionOutput } from './geographies-interaction-output';
+import {
+  StackDatum,
+  STACKED_BARS,
+  StackedBarsComponent,
+} from '../stacked-bars.component';
+import { StackedBarsInteractionOutput } from './stacked-bars-interaction-output';
 
-export type GeographiesHost<Datum> = MarksHost<
-  GeographiesInteractionOutput<Datum>,
-  GeographiesComponent<Datum>
->;
+export interface StackedBarsHost<Datum, TOrdinalValue extends DataValue>
+  extends MarksHost<
+    StackedBarsInteractionOutput<Datum, TOrdinalValue>,
+    StackedBarsComponent<Datum, TOrdinalValue>
+  > {
+  getStackDatum(): StackDatum | null;
+}
 
 @Directive({
-  selector: '[vicGeographiesEvents]',
+  selector: '[vicStackedBarsEvents]',
 })
-export class GeographiesEventsDirective<
+export class StackedBarsEventsDirective<
   Datum,
-  TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon,
-  TComponent extends GeographiesComponent<
+  TOrdinalValue extends DataValue,
+  TStackedBarsComponent extends StackedBarsComponent<
     Datum,
-    TProperties,
-    TGeometry
-  > = GeographiesComponent<Datum, TProperties, TGeometry>,
-> extends RefactorEventDirective<GeographiesHost<Datum>> {
+    TOrdinalValue
+  > = StackedBarsComponent<Datum, TOrdinalValue>,
+> extends RefactorEventDirective<StackedBarsHost<Datum, TOrdinalValue>> {
   @Input()
   hoverActions:
     | RefactorEventAction<
-        GeographiesHost<Datum>,
-        GeographiesInteractionOutput<Datum>
+        StackedBarsHost<Datum, TOrdinalValue>,
+        StackedBarsInteractionOutput<Datum, TOrdinalValue>
       >[]
     | null;
   @Input()
   hoverMoveActions:
     | RefactorHoverMoveAction<
-        GeographiesHost<Datum>,
-        GeographiesInteractionOutput<Datum>
+        StackedBarsHost<Datum, TOrdinalValue>,
+        StackedBarsInteractionOutput<Datum, TOrdinalValue>
       >[]
     | null;
   @Input()
   clickActions:
     | RefactorEventAction<
-        GeographiesHost<Datum>,
-        GeographiesInteractionOutput<Datum>
+        StackedBarsHost<Datum, TOrdinalValue>,
+        StackedBarsInteractionOutput<Datum, TOrdinalValue>
       >[]
     | null;
   @Input()
   inputEventActions: RefactorInputEventAction<
-    GeographiesHost<Datum>,
-    GeographiesInteractionOutput<Datum>
+    StackedBarsHost<Datum, TOrdinalValue>,
+    StackedBarsInteractionOutput<Datum, TOrdinalValue>
   >[];
-  @Output() interactionOutput = new EventEmitter<
-    GeographiesInteractionOutput<Datum>
-  >();
+  @Output() interactionOutput = new EventEmitter<StackedBarsInteractionOutput<
+    Datum,
+    TOrdinalValue
+  > | null>();
 
-  bounds: [[number, number], [number, number]];
-  layer:
-    | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
-    | GeographiesGeojsonPropertiesLayer<TProperties, TGeometry>;
-  path: SVGPathElement;
+  stackDatum: StackDatum | null = null;
+  origin: SVGRectElement;
 
-  constructor(@Inject(GEOGRAPHIES) public geographies: TComponent) {
+  constructor(@Inject(STACKED_BARS) public stackedBars: TStackedBarsComponent) {
     super();
   }
 
-  get marks(): GeographiesComponent<Datum, TProperties, TGeometry> {
-    return this.geographies;
+  get marks(): StackedBarsComponent<Datum, TOrdinalValue> {
+    return this.stackedBars;
   }
 
   getElements(): Observable<Element[]> {
-    return this.geographies.pathsByLayer$.pipe(
-      filter((layers) => !!layers),
-      map((layers) => layers.flatMap((selections) => selections.nodes()))
-    );
+    return this.stackedBars.bars$.pipe(map((sel) => sel.nodes()));
+  }
+
+  getStackDatum(): StackDatum | null {
+    return this.stackDatum ?? null;
   }
 
   setupListeners(elements: Element[]): UnlistenFunction[] {
@@ -112,7 +113,6 @@ export class GeographiesEventsDirective<
 
   onEnter(_: PointerEvent, el: Element): void {
     this.initFromElement(el);
-
     if (this.isEventAllowed(EventType.Hover)) {
       this.setPositionsFromElement();
       this.runActions(this.hoverActions, (a) => a.onStart(this.asHost()));
@@ -166,57 +166,56 @@ export class GeographiesEventsDirective<
     if (this.isEventAllowed(EventType.Input)) {
       if (inputValue === null || inputValue === undefined) {
         this.inputEventActions.forEach((action) =>
-          action.onEnd(this.asHost(), inputValue)
+          action.onEnd(this, inputValue)
         );
       } else {
         this.inputEventActions.forEach((action) =>
-          action.onStart(this.asHost(), inputValue)
+          action.onStart(this, inputValue)
         );
       }
     }
   }
 
   initFromElement(el: Element): void {
-    this.path = el as SVGPathElement;
-    const layerIndex = parseFloat(this.path.dataset['layerIndex']);
-    this.layer =
-      layerIndex === 0
-        ? this.geographies.config.attributeDataLayer
-        : this.geographies.config.geojsonPropertiesLayers[layerIndex - 1];
-    const d = select(this.path).datum() as GeographiesFeature<
-      TProperties,
-      TGeometry
-    >;
-    this.bounds = this.geographies.path.bounds(d);
+    this.origin = el as SVGRectElement;
+    this.stackDatum = select(el as SVGRectElement).datum() as StackDatum;
   }
 
   setPositionsFromElement(): void {
-    this.positionX = (this.bounds[1][0] - this.bounds[0][0]) / 2;
-    this.positionY = (this.bounds[1][1] - this.bounds[0][1]) / 2;
+    const barRect = this.origin.getBoundingClientRect();
+    this.positionX = barRect.width / 2;
+    this.positionY = barRect.height / 2;
   }
 
-  getInteractionOutput(type: EventType): GeographiesInteractionOutput<Datum> {
-    const tooltipData = this.layer.getTooltipData(this.path);
+  getInteractionOutput(
+    type: EventType
+  ): StackedBarsInteractionOutput<Datum, TOrdinalValue> {
+    const datum = this.stackedBars.getSourceDatumFromStackedBarDatum(
+      this.stackDatum
+    );
+    const tooltipData = this.stackedBars.getTooltipData(datum);
+    const rectX = parseFloat(this.origin.getAttribute('x') || '0');
+    const rectY = parseFloat(this.origin.getAttribute('y') || '0');
+
     return {
       ...tooltipData,
-      origin: this.path,
-      positionX: this.positionX,
-      positionY: this.positionY,
+      origin: this.origin,
+      positionX: this.positionX - rectX,
+      positionY: this.positionY - rectY,
       type,
     };
   }
 
   emitInteractionOutput(
-    output: GeographiesInteractionOutput<Datum> | null
+    output: StackedBarsInteractionOutput<Datum, TOrdinalValue> | null
   ): void {
     this.interactionOutput.emit(output);
   }
 
   private resetDirective(): void {
-    this.path = undefined;
-    this.bounds = undefined;
+    this.stackDatum = undefined;
+    this.origin = undefined;
     this.positionX = undefined;
     this.positionY = undefined;
-    this.layer = undefined;
   }
 }

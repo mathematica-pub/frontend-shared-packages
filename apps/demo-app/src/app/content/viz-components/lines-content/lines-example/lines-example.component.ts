@@ -185,7 +185,7 @@ export class LinesExampleComponent implements OnInit {
     data: LinesInteractionOutput<MetroUnemploymentDatum>
   ): void {
     this.updateTooltipData(data);
-    this.updateTooltipConfig(data.type);
+    this.updateTooltipConfig(data?.type);
   }
 
   updateTooltipData(
@@ -194,7 +194,7 @@ export class LinesExampleComponent implements OnInit {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(eventType: EventType): void {
+  updateTooltipConfig(eventType: EventType | undefined): void {
     const data = this.tooltipData.getValue();
     const config = this.tooltip
       .size((size) => size.minWidth(340))
