@@ -18,10 +18,16 @@ import {
 } from '../stacked-bars.component';
 import { StackedBarsInteractionOutput } from './stacked-bars-interaction-output';
 
-export interface StackedBarsHost<Datum, TOrdinalValue extends DataValue>
-  extends MarksHost<
+export interface StackedBarsHost<
+  Datum,
+  TOrdinalValue extends DataValue,
+  TStackedBarsComponent extends StackedBarsComponent<
+    Datum,
+    TOrdinalValue
+  > = StackedBarsComponent<Datum, TOrdinalValue>,
+> extends MarksHost<
     StackedBarsInteractionOutput<Datum, TOrdinalValue>,
-    StackedBarsComponent<Datum, TOrdinalValue>
+    TStackedBarsComponent
   > {
   getStackDatum(): StackDatum | null;
 }

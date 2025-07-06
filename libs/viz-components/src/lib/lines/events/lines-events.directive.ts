@@ -20,8 +20,10 @@ import {
 } from '../lines.component';
 import { LinesInteractionOutput } from './lines-interaction-output';
 
-export interface LinesHost<Datum>
-  extends MarksHost<LinesInteractionOutput<Datum>, LinesComponent<Datum>> {
+export interface LinesHost<
+  Datum,
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
+> extends MarksHost<LinesInteractionOutput<Datum>, TLinesComponent> {
   getClosestPointIndex(): number;
   getClosestLineGroup(): LinesGroupSelection;
   getOtherLineGroups(): LinesGroupSelection;

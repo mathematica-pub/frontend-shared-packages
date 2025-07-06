@@ -13,8 +13,10 @@ import {
 import { DotDatum, DOTS, DotsComponent } from '../dots.component';
 import { DotsInteractionOutput } from './dots-interaction-output';
 
-export interface DotsHost<Datum>
-  extends MarksHost<DotsInteractionOutput<Datum>, DotsComponent<Datum>> {
+export interface DotsHost<
+  Datum,
+  TDotsComponent extends DotsComponent<Datum> = DotsComponent<Datum>,
+> extends MarksHost<DotsInteractionOutput<Datum>, TDotsComponent> {
   getDotDatum(): DotDatum | null;
 }
 

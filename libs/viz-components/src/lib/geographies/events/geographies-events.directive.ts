@@ -17,10 +17,11 @@ import { GeographiesFeature } from '../geographies-feature';
 import { GEOGRAPHIES, GeographiesComponent } from '../geographies.component';
 import { GeographiesInteractionOutput } from './geographies-interaction-output';
 
-export type GeographiesHost<Datum> = MarksHost<
-  GeographiesInteractionOutput<Datum>,
-  GeographiesComponent<Datum>
->;
+export type GeographiesHost<
+  Datum,
+  TGeographiesComponent extends
+    GeographiesComponent<Datum> = GeographiesComponent<Datum>,
+> = MarksHost<GeographiesInteractionOutput<Datum>, TGeographiesComponent>;
 
 @Directive({
   selector: '[vicGeographiesEvents]',

@@ -14,10 +14,16 @@ import {
 import { BarDatum, BARS, BarsComponent } from '../bars.component';
 import { BarsInteractionOutput } from './bars-interaction-output';
 
-export interface BarsHost<Datum, TOrdinalValue extends DataValue>
-  extends MarksHost<
+export interface BarsHost<
+  Datum,
+  TOrdinalValue extends DataValue,
+  TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
+    Datum,
+    TOrdinalValue
+  >,
+> extends MarksHost<
     BarsInteractionOutput<Datum, TOrdinalValue>,
-    BarsComponent<Datum, TOrdinalValue>
+    TBarsComponent
   > {
   getBarDatum(): BarDatum<TOrdinalValue> | null;
 }

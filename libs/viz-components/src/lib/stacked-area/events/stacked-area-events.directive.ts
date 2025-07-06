@@ -18,9 +18,13 @@ import { StackedAreaInteractionOutput } from './stacked-area-interaction-output'
 export type StackedAreaHost<
   Datum,
   TCategoricalValue extends DataValue,
+  TStackedAreaComponent extends StackedAreaComponent<
+    Datum,
+    TCategoricalValue
+  > = StackedAreaComponent<Datum, TCategoricalValue>,
 > = MarksHost<
   StackedAreaInteractionOutput<Datum, TCategoricalValue>,
-  StackedAreaComponent<Datum, TCategoricalValue>
+  TStackedAreaComponent
 >;
 
 @Directive({
