@@ -63,18 +63,23 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Update version and beta release package
+      - name: Get current beta version
+        id: beta_version
+        env:
+          REFERENCED_PACKAGE: ${{ env.REFERENCED_PACKAGE }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/get_beta_version.sh
+
+      - name: Beta release package
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_REGION: us-east-1
-        run: npx nx beta-version $REFERENCED_PACKAGE
-
-      - name: Extract version from tag
         run: |
-          git fetch --tags
-          LATEST_TAG=$(git tag --list "beta/${REFERENCED_PACKAGE}@*" | sort -V | tail -n 1)
-          VERSION=$(echo $LATEST_TAG | sed "s/^beta\/${REFERENCED_PACKAGE}@//")
-          echo "NEW_VERSION=$VERSION" >> $GITHUB_ENV
+          npx nx build $REFERENCED_PACKAGE
+          cd dist/$REFERENCED_PACKAGE
+          npm version $beta_version --no-git-tag-version
+          npm publish --tag beta
 
       - name: Add comment to PR
         uses: actions/github-script@v6
@@ -85,7 +90,7 @@ jobs:
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const success = '${{ job.status }}' === 'success';
             const pkg = process.env.REFERENCED_PACKAGE;
-            const version = process.env.NEW_VERSION;
+            const version = process.env.beta_version;
             let body = `[${workflow} (${pkg})](${url}): ${success ? 'Succeeded ✅' : 'Failed ❌'}`;
             if (success) {
               body = body + `\n\nTo install, run \`npm install @hsi/${pkg}@${version}\``;

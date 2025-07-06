@@ -19,7 +19,9 @@
         }
       },
       "defaultConfiguration": "production",
-      "outputs": ["{workspaceRoot}/dist/app-dev-kit"]
+      "outputs": [
+        "{workspaceRoot}/dist/app-dev-kit"
+      ]
     },
     "build-release": {
       "executor": "nx:run-commands",
@@ -44,7 +46,10 @@
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
         "tsConfig": "libs/app-dev-kit/tsconfig.spec.json",
-        "polyfills": ["zone.js", "zone.js/testing"],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
         "browsers": "ChromeHeadlessNoSandbox",
         "watch": false
       }
@@ -57,7 +62,9 @@
           "libs/app-dev-kit/**/*.html"
         ]
       },
-      "outputs": ["{options.outputFile}"]
+      "outputs": [
+        "{options.outputFile}"
+      ]
     },
     "create-changelog": {
       "executor": "nx:run-commands",
@@ -71,21 +78,19 @@
         "preset": "angular",
         "skipCommit": true,
         "skipRootChangelog": true,
-        "postTargets": ["build-release", "publish", "github-release"],
-        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
-      }
-    },
-    "beta-version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "preset": "angular",
-        "skipCommit": true,
-        "skipRootChangelog": true,
-        "releaseAs": "prerelease",
-        "tagPrefix": "beta/{projectName}@",
-        "preid": "beta",
-        "postTargets": ["build-release", "publish"],
-        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
+        "postTargets": [
+          "build-release",
+          "publish",
+          "github-release"
+        ],
+        "skipCommitTypes": [
+          "build",
+          "ci",
+          "docs",
+          "refactor",
+          "style",
+          "test"
+        ]
       }
     }
   }
