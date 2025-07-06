@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
-  BarsEventOutput,
   ChartConfig,
   ElementSpacing,
   EventType,
@@ -79,10 +78,10 @@ export class StackedBarsExampleComponent implements OnInit {
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<
-    BarsEventOutput<IndustryUnemploymentDatum, string>
-  > = new BehaviorSubject<BarsEventOutput<IndustryUnemploymentDatum, string>>(
-    null
-  );
+    StackedBarsInteractionOutput<IndustryUnemploymentDatum, string>
+  > = new BehaviorSubject<
+    StackedBarsInteractionOutput<IndustryUnemploymentDatum, string>
+  >(null);
   tooltipData$ = this.tooltipData.asObservable();
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
