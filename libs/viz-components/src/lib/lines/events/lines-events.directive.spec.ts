@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EventType } from '../../events/refactor-event.directive';
+import { EventType } from '../../events/event.directive';
 import { LINES, LinesComponent } from '../lines.component';
 import { LinesEventsDirective } from './lines-events.directive';
 

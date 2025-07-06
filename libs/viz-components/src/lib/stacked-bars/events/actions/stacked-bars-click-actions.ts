@@ -3,7 +3,7 @@ import { EventAction, EventType } from '../../../events';
 import { StackedBarsHost } from '../stacked-bars-events.directive';
 import { StackedBarsInteractionOutput } from '../stacked-bars-interaction-output';
 
-export class RefactorStackedBarsClickEmitTooltipDataPauseOtherActions<
+export class StackedBarsClickEmitTooltipDataPauseOtherActions<
   Datum,
   TOrdinalValue extends DataValue,
 > implements

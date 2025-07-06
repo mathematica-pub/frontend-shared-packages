@@ -1,5 +1,5 @@
 import { DataValue } from '../../core/types/values';
-import { EventType } from '../../events/refactor-event.directive';
+import { EventType } from '../../events';
 import { BarsTooltipDatum } from '../bars.component';
 
 export interface BarsInteractionOutput<Datum, TOrdinalValue extends DataValue>

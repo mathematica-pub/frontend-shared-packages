@@ -4,7 +4,7 @@ import { EventAction, EventType } from '../../../events';
 import { StackedBarsHost } from '../stacked-bars-events.directive';
 import { StackedBarsInteractionOutput } from '../stacked-bars-interaction-output';
 
-export class RefactorStackedBarsHoverEmitTooltipData<
+export class StackedBarsHoverEmitTooltipData<
   Datum,
   TOrdinalValue extends DataValue,
 > implements

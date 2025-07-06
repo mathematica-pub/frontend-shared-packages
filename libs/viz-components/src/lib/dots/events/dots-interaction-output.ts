@@ -1,4 +1,4 @@
-import { EventType } from '../../events/refactor-event.directive';
+import { EventType } from '../../events';
 import { DotsTooltipDatum } from '../dots.component';
 
 export interface DotsInteractionOutput<Datum> extends DotsTooltipDatum<Datum> {

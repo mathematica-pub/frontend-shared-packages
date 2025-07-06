@@ -7,10 +7,10 @@ import {
   EventType,
   HoverMoveAction,
   HtmlTooltipConfig,
-  RefactorStackedBarsClickEmitTooltipDataPauseOtherActions,
-  RefactorStackedBarsHoverMoveEmitTooltipData,
+  StackedBarsClickEmitTooltipDataPauseOtherActions,
   StackedBarsConfig,
   StackedBarsHost,
+  StackedBarsHoverMoveEmitTooltipData,
   StackedBarsInteractionOutput,
   VicChartConfigBuilder,
   VicChartModule,
@@ -69,11 +69,11 @@ export class StackedBarsExampleComponent implements OnInit {
   hoverMoveActions: HoverMoveAction<
     StackedBarsHost<IndustryUnemploymentDatum, string>,
     StackedBarsInteractionOutput<IndustryUnemploymentDatum, string>
-  >[] = [new RefactorStackedBarsHoverMoveEmitTooltipData()];
+  >[] = [new StackedBarsHoverMoveEmitTooltipData()];
   clickActions: EventAction<
     StackedBarsHost<IndustryUnemploymentDatum, string>,
     StackedBarsInteractionOutput<IndustryUnemploymentDatum, string>
-  >[] = [new RefactorStackedBarsClickEmitTooltipDataPauseOtherActions()];
+  >[] = [new StackedBarsClickEmitTooltipDataPauseOtherActions()];
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();

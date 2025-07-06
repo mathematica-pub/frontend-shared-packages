@@ -1,4 +1,4 @@
-import { EventType } from '../../events/refactor-event.directive';
+import { EventType } from '../../events';
 import { LinesTooltipDatum } from '../lines.component';
 
 export interface LinesInteractionOutput<Datum>
