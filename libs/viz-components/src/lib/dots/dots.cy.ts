@@ -48,6 +48,7 @@ const chartWidth = 600;
 const data = countryFactsData;
 
 const dotGSelector = '.vic-dots-group';
+const dotCircleSelector = `.vic-dots-dot`;
 
 // ***********************************************************
 // Dots Component with Continuous Quantitative X and Y Axes
@@ -70,7 +71,7 @@ const dotGSelector = '.vic-dots-group';
           vic-primary-marks-dots
           [config]="dotsConfig"
           vicDotsEvents
-          [hoverMoveActions]="hoverActions"
+          [hoverMoveActions]="hoverMoveActions"
           (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
@@ -149,11 +150,12 @@ class TestDotsQuantQuantComponent<Datum> {
   }
 
   updateTooltipConfig(data: DotsInteractionOutput<Datum>): void {
+    console.log('updateTooltipConfig', data);
     const config = new VicHtmlTooltipConfigBuilder()
       .dotsPosition(data?.origin, [
         {
-          offsetY: data ? data.positionY - 12 : undefined,
           offsetX: data?.positionX,
+          offsetY: data ? data.positionY - 12 : undefined,
         },
       ])
       .show(!!data)
@@ -184,7 +186,7 @@ function mountDotsXQuantYQuantComponent(
 // ***********************************************************
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'app-test-lines',
+  selector: 'app-test-dots-ordinal-quant',
   template: `
     <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
@@ -450,11 +452,14 @@ describe('displays a tooltips with correct data on each dot', () => {
       )
       .getConfig();
     mountDotsXQuantYQuantComponent(dotsConfig);
+    cy.wait(1000);
   });
   data.forEach((datum) => {
     describe(`when hovering over the dot for ${datum.country}`, () => {
       beforeEach(() => {
-        cy.get(`${dotGSelector}.${datum.country.split(' ')[0]}`).realHover();
+        cy.get(
+          `${dotGSelector}.${datum.country.split(' ')[0]} ${dotCircleSelector}`
+        ).realHover();
       });
       it('should display a tooltip with the correct data', () => {
         cy.get('.vic-html-tooltip-overlay').should('exist');

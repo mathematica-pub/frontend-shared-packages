@@ -135,8 +135,8 @@ export class DotsExampleComponent implements OnInit {
     const config = this.tooltip
       .dotsPosition(data?.origin, [
         {
-          offsetY: data ? data.positionY - 12 : undefined,
           offsetX: data?.positionX,
+          offsetY: data ? data.positionY - 12 : undefined,
         },
       ])
       .show(!!data)

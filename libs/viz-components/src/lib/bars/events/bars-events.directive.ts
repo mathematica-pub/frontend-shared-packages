@@ -198,7 +198,7 @@ export class BarsEventsDirective<
     type: EventType
   ): BarsInteractionOutput<Datum, TOrdinalValue> {
     const datum = this.bars.getSourceDatumFromBarDatum(this.barDatum);
-    const tooltipData = this.bars.getTooltipData(datum);
+    const tooltipData = datum ? this.bars.getTooltipData(datum) : undefined;
 
     return {
       ...tooltipData,

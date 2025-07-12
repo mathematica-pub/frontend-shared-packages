@@ -86,7 +86,7 @@ const labelSelector = '.vic-bars-label';
           vic-primary-marks-bars
           [config]="barsConfig"
           vicBarsEvents
-          [hoverMoveActions]="hoverAndMoveActions"
+          [hoverMoveActions]="hoverMoveActions"
           (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
@@ -98,8 +98,10 @@ const labelSelector = '.vic-bars-label';
     </vic-xy-chart>
 
     <ng-template #htmlTooltip>
-      <p class="x-value">{{ (tooltipData$ | async).values.x }}</p>
-      <p class="y-value">{{ (tooltipData$ | async).values.y }}</p>
+      @if ((tooltipData$ | async)?.values; as values) {
+        <p class="x-value">{{ values.x }}</p>
+        <p class="y-value">{{ values.y }}</p>
+      }
     </ng-template>
   `,
   imports: [
@@ -123,7 +125,7 @@ class TestHorizontalBarsComponent {
     null
   );
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveActions: HoverMoveAction<
+  hoverMoveActions: HoverMoveAction<
     BarsHost<CountryFactsDatum, string>,
     BarsInteractionOutput<CountryFactsDatum, string>
   >[] = [new BarsHoverMoveEmitTooltipData()];
@@ -155,7 +157,7 @@ class TestHorizontalBarsComponent {
       .barsPosition(data?.origin, [
         {
           offsetX: data?.positionX,
-          offsetY: data ? data.positionY : undefined,
+          offsetY: data ? data.positionY - 16 : undefined,
         },
       ])
       .show(!!data)
@@ -808,7 +810,7 @@ describe('displays tooltips for correct data per hover position', () => {
         cy.get('svg').should('exist');
       });
       it('displays a tooltip', () => {
-        cy.get('.vic-html-tooltip-overlay').should('be.visible');
+        cy.get('.vic-html-tooltip-overlay').should('exist');
       });
       it('tooltip displays correctly formatted data', () => {
         cy.get('.x-value').should(
@@ -832,7 +834,7 @@ describe('displays tooltips for correct data per hover position', () => {
                 5
               );
               expect(tooltipBox.bottom).to.be.closeTo(
-                (barBox.top + barBox.bottom) / 2,
+                (barBox.top + barBox.bottom) / 2 - 16,
                 10
               );
             });

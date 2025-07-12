@@ -168,7 +168,9 @@ export class DotsEventsDirective<
   }
 
   getInteractionOutput(type: EventType): DotsInteractionOutput<Datum> {
-    const tooltipData = this.dots.getTooltipData(this.dotDatum);
+    const tooltipData = this.dotDatum
+      ? this.dots.getTooltipData(this.dotDatum)
+      : undefined;
 
     return {
       ...tooltipData,
