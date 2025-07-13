@@ -18,7 +18,7 @@ import {
   StackedAreaConfig,
   StackedAreaDatum,
 } from './config/stacked-area-config';
-import { StackedAreaInteractionOutput } from './events/stacked-area-interaction-output';
+import { StackedAreaInteractionAnchor } from './events/stacked-area-interaction-output';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
@@ -164,7 +164,12 @@ export class StackedAreaComponent<
     categoryYMin: number,
     categoryYMax: number,
     categoryIndex: number
-  ): Omit<StackedAreaInteractionOutput<Datum, TCategoricalValue>, 'type'> {
+  ): {
+    anchor: StackedAreaInteractionAnchor;
+    data: StackedAreaTooltipDatum<Datum, TCategoricalValue>[];
+    hoveredAreaDatum: StackedAreaTooltipDatum<Datum, TCategoricalValue>;
+    origin: SVGGraphicsElement;
+  } {
     const data: StackedAreaTooltipDatum<Datum, TCategoricalValue>[] =
       closestXIndicies.map((i) => {
         const datum = this.getDatumFromIndex(i);
@@ -182,12 +187,18 @@ export class StackedAreaComponent<
       this.sortTooltipDataByCategoricalSortOrder(data);
       categoryIndex = closestXIndicies.length - categoryIndex;
     }
+
     return {
       data,
-      positionX: this.scales.x(this.config.x.values[closestXIndicies[0]]),
-      hoveredAreaTop: categoryYMin,
-      hoveredAreaBottom: categoryYMax,
-      hoveredDatum: data[categoryIndex],
+      anchor: {
+        x: this.scales.x(this.config.x.values[closestXIndicies[0]]),
+        yAreaTop: categoryYMin,
+        yAreaBottom: categoryYMax,
+        yChartTop: this.scales.y.range()[0],
+        yChartBottom: this.scales.y.range()[1],
+      },
+      hoveredAreaDatum: data[categoryIndex],
+      origin: this.chart.svgRef.nativeElement,
     };
   }
 

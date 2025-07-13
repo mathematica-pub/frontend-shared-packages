@@ -57,12 +57,12 @@ export type BarDatum<T> = {
   color: string;
 };
 
-export interface BarsTooltipDatum<Datum, TOrdinalValue extends DataValue> {
+export interface BarsTooltipDatum<Datum> {
   datum: Datum;
   color: string;
   values: {
-    x: TOrdinalValue | string;
-    y: TOrdinalValue | string;
+    ordinal: string;
+    quantitative: string;
     category: string;
   };
 }
@@ -673,10 +673,10 @@ export class BarsComponent<
     this.labels.next(labels);
   }
 
-  getTooltipData(datum: Datum): BarsTooltipDatum<Datum, TOrdinalValue> {
+  getTooltipData(datum: Datum): BarsTooltipDatum<Datum> {
     const ordinalValue = this.config.ordinal.formatFunction
       ? ValueUtilities.customFormat(datum, this.config.ordinal.formatFunction)
-      : this.config.ordinal.valueAccessor(datum);
+      : this.config.ordinal.valueAccessor(datum).toString();
     const quantitativeValue = this.config.quantitative.formatFunction
       ? ValueUtilities.customFormat(
           datum,
@@ -687,18 +687,12 @@ export class BarsComponent<
           this.config.quantitative.formatSpecifier
         );
     const category = this.config.color.valueAccessor(datum);
-    const tooltipData: BarsTooltipDatum<Datum, TOrdinalValue> = {
+    const tooltipData: BarsTooltipDatum<Datum> = {
       datum,
       color: this.scales.color(category),
       values: {
-        x:
-          this.config.dimensions.x === 'ordinal'
-            ? ordinalValue
-            : quantitativeValue,
-        y:
-          this.config.dimensions.y === 'ordinal'
-            ? ordinalValue
-            : quantitativeValue,
+        ordinal: ordinalValue,
+        quantitative: quantitativeValue,
         category,
       },
     };

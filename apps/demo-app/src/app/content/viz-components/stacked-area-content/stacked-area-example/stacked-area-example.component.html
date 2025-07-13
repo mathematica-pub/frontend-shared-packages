@@ -18,10 +18,10 @@
         <line
           *ngIf="tooltipData$ | async as tooltipData"
           class="tooltip-line"
-          [attr.x1]="tooltipData.positionX"
-          [attr.x2]="tooltipData.positionX"
-          [attr.y1]="tooltipData.hoveredAreaTop"
-          [attr.y2]="tooltipData.hoveredAreaBottom"
+          [attr.x1]="tooltipData.anchor.x"
+          [attr.x2]="tooltipData.anchor.x"
+          [attr.y1]="tooltipData.anchor.yAreaTop"
+          [attr.y2]="tooltipData.anchor.yAreaBottom"
         ></line>
       </svg:g>
       <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
@@ -33,7 +33,7 @@
 
 <ng-template #htmlTooltip>
   <div
-    *ngIf="(tooltipData$ | async).hoveredDatum as data"
+    *ngIf="(tooltipData$ | async).hoveredAreaDatum as data"
     [style.--color]="data.color"
     class="stacked-area-example-tooltip-container"
   >

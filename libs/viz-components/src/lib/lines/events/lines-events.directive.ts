@@ -9,8 +9,10 @@ import {
   HoverMoveAction,
   InputEventAction,
   MarksHost,
+  TooltipPosition,
   UnlistenFunction,
 } from '../../events';
+import { DEFAULT_TOOLTIP_Y_OFFSET } from '../../tooltips';
 import { LinesMarkerDatum } from '../config/lines-config';
 import {
   LINES,
@@ -19,6 +21,7 @@ import {
   MarkerSelection,
 } from '../lines.component';
 import { LinesInteractionOutput } from './lines-interaction-output';
+import { LinesTooltipPositioner } from './lines-tooltip-positioner';
 
 export interface LinesHost<
   Datum,
@@ -272,8 +275,29 @@ export class LinesEventsDirective<
   }
 
   getInteractionOutput(type: EventType): LinesInteractionOutput<Datum> {
-    const data = this.lines.getTooltipData(this.closestPointIndex);
-    return { ...data, type };
+    const tooltipData = this.lines.getTooltipData(this.closestPointIndex);
+    const position = new LinesTooltipPositioner({
+      x: this.positionX,
+      y: this.positionY,
+    });
+
+    return {
+      ...tooltipData,
+      defaultPosition: position.fromAnchor({
+        x: 0,
+        y: DEFAULT_TOOLTIP_Y_OFFSET,
+      }),
+      fromAnchor: (offset?: Partial<{ x: number; y: number }>) => {
+        return position.fromAnchor({
+          x: offset?.x ?? 0,
+          y: offset?.y ?? DEFAULT_TOOLTIP_Y_OFFSET,
+        });
+      },
+      customPosition: (positions: TooltipPosition[]) => {
+        return position.customPosition(positions);
+      },
+      type,
+    };
   }
 
   emitInteractionOutput(output: LinesInteractionOutput<Datum>): void {

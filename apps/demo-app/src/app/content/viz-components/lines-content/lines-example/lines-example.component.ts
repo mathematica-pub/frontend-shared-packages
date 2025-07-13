@@ -182,30 +182,25 @@ export class LinesExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: LinesInteractionOutput<MetroUnemploymentDatum>
+    output: LinesInteractionOutput<MetroUnemploymentDatum> | null
   ): void {
-    this.updateTooltipData(data);
-    this.updateTooltipConfig(data?.type);
+    this.updateTooltipData(output);
+    this.updateTooltipConfig(output?.type);
   }
 
   updateTooltipData(
-    data: LinesInteractionOutput<MetroUnemploymentDatum>
+    output: LinesInteractionOutput<MetroUnemploymentDatum> | null
   ): void {
-    this.tooltipData.next(data);
+    this.tooltipData.next(output);
   }
 
   updateTooltipConfig(eventType: EventType | undefined): void {
-    const data = this.tooltipData.getValue();
+    const output = this.tooltipData.getValue();
     const config = this.tooltip
       .size((size) => size.minWidth(340))
-      .linesPosition([
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 16 : 0,
-        },
-      ])
+      .positionFromOutput(output)
       .hasBackdrop(eventType === 'click')
-      .show(!!data)
+      .show(!!output)
       .getConfig();
     this.tooltipConfig.next(config);
   }

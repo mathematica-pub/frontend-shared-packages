@@ -1,68 +1,157 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
-import { safeAssign } from '@hsi/app-dev-kit';
 
-export class RelativeToCenterLeftTooltipPosition implements ConnectedPosition {
-  originX: 'start' | 'end' | 'center';
-  originY: 'center' | 'bottom' | 'top';
-  overlayX: 'start' | 'end' | 'center';
-  overlayY: 'center' | 'bottom' | 'top';
+type TooltipPositionConfig = {
+  originX: 'start' | 'center' | 'end';
+  originY: 'top' | 'center' | 'bottom';
+  overlayX: 'start' | 'center' | 'end';
+  overlayY: 'top' | 'center' | 'bottom';
+};
+
+export class TooltipPosition implements ConnectedPosition {
+  originX: TooltipPositionConfig['originX'];
+  originY: TooltipPositionConfig['originY'];
+  overlayX: TooltipPositionConfig['overlayX'];
+  overlayY: TooltipPositionConfig['overlayY'];
   weight?: number;
   offsetX?: number;
   offsetY?: number;
   panelClass?: string | string[];
 
-  constructor(private position?: Partial<ConnectedPosition>) {
-    this.originX = 'start';
-    this.originY = 'center';
-    this.overlayX = 'center';
-    this.overlayY = 'bottom';
-
-    if (position) {
-      safeAssign(this, position);
-    }
+  constructor(config: TooltipPositionConfig & Partial<ConnectedPosition>) {
+    this.originX = config.originX;
+    this.originY = config.originY;
+    this.overlayX = config.overlayX;
+    this.overlayY = config.overlayY;
+    Object.assign(this, config); // Merge any additional overrides
   }
 }
 
-export class RelativeToTopLeftTooltipPosition implements ConnectedPosition {
-  originX: 'start' | 'end' | 'center';
-  originY: 'center' | 'bottom' | 'top';
-  overlayX: 'start' | 'end' | 'center';
-  overlayY: 'center' | 'bottom' | 'top';
-  weight?: number;
-  offsetX?: number;
-  offsetY?: number;
-  panelClass?: string | string[];
+export class TooltipPositionBuilder {
+  private defaultOverlayX: TooltipPositionConfig['overlayX'] = 'center';
+  private defaultOverlayY: TooltipPositionConfig['overlayY'] = 'bottom';
 
-  constructor(private position?: Partial<ConnectedPosition>) {
-    this.originX = 'start';
-    this.originY = 'top';
-    this.overlayX = 'center';
-    this.overlayY = 'bottom';
-
-    if (position) {
-      safeAssign(this, position);
-    }
+  // Set default overlay positioning
+  withDefaultOverlay(
+    overlayX: TooltipPositionConfig['overlayX'],
+    overlayY: TooltipPositionConfig['overlayY']
+  ) {
+    this.defaultOverlayX = overlayX;
+    this.defaultOverlayY = overlayY;
+    return this;
   }
-}
 
-export class RelativeToCenterTooltipPosition implements ConnectedPosition {
-  originX: 'start' | 'end' | 'center';
-  originY: 'center' | 'bottom' | 'top';
-  overlayX: 'start' | 'end' | 'center';
-  overlayY: 'center' | 'bottom' | 'top';
-  weight?: number;
-  offsetX?: number;
-  offsetY?: number;
-  panelClass?: string | string[];
+  // Create a position with origin coordinates
+  position(
+    originX: TooltipPositionConfig['originX'],
+    originY: TooltipPositionConfig['originY'],
+    overlayOverrides?: Partial<
+      Pick<TooltipPositionConfig, 'overlayX' | 'overlayY'>
+    >,
+    additionalConfig?: Partial<ConnectedPosition>
+  ): TooltipPosition {
+    return new TooltipPosition({
+      originX,
+      originY,
+      overlayX: overlayOverrides?.overlayX ?? this.defaultOverlayX,
+      overlayY: overlayOverrides?.overlayY ?? this.defaultOverlayY,
+      ...additionalConfig,
+    });
+  }
 
-  constructor(private position?: Partial<ConnectedPosition>) {
-    this.originX = 'center';
-    this.originY = 'center';
-    this.overlayX = 'center';
-    this.overlayY = 'bottom';
+  applyOffsets(
+    positions: TooltipPosition[],
+    offsetX: number,
+    offsetY: number
+  ): TooltipPosition[] {
+    return positions.map(
+      (pos) =>
+        new TooltipPosition({
+          ...pos,
+          offsetX: (pos.offsetX || 0) + offsetX,
+          offsetY: (pos.offsetY || 0) + offsetY,
+        })
+    );
+  }
 
-    if (position) {
-      safeAssign(this, position);
-    }
+  // Convenience methods for common origin positions
+  fromTopLeft(
+    overlayOverrides?: Partial<
+      Pick<TooltipPositionConfig, 'overlayX' | 'overlayY'>
+    >,
+    config?: Partial<ConnectedPosition>
+  ) {
+    return this.position('start', 'top', overlayOverrides, config);
+  }
+
+  fromTopCenter(
+    overlayOverrides?: Partial<
+      Pick<TooltipPositionConfig, 'overlayX' | 'overlayY'>
+    >,
+    config?: Partial<ConnectedPosition>
+  ) {
+    return this.position('center', 'top', overlayOverrides, config);
+  }
+
+  fromTopRight(
+    overlayOverrides?: Partial<
+      Pick<TooltipPositionConfig, 'overlayX' | 'overlayY'>
+    >,
+    config?: Partial<ConnectedPosition>
+  ) {
+    return this.position('end', 'top', overlayOverrides, config);
+  }
+
+  fromCenterLeft(
+    overlayOverrides?: Partial<
+      Pick<TooltipPositionConfig, 'overlayX' | 'overlayY'>
+    >,
+    config?: Partial<ConnectedPosition>
+  ) {
+    return this.position('start', 'center', overlayOverrides, config);
+  }
+
+  fromCenter(
+    overlayOverrides?: Partial<
+      Pick<TooltipPositionConfig, 'overlayX' | 'overlayY'>
+    >,
+    config?: Partial<ConnectedPosition>
+  ) {
+    return this.position('center', 'center', overlayOverrides, config);
+  }
+
+  fromCenterRight(
+    overlayOverrides?: Partial<
+      Pick<TooltipPositionConfig, 'overlayX' | 'overlayY'>
+    >,
+    config?: Partial<ConnectedPosition>
+  ) {
+    return this.position('end', 'center', overlayOverrides, config);
+  }
+
+  fromBottomLeft(
+    overlayOverrides?: Partial<
+      Pick<TooltipPositionConfig, 'overlayX' | 'overlayY'>
+    >,
+    config?: Partial<ConnectedPosition>
+  ) {
+    return this.position('start', 'bottom', overlayOverrides, config);
+  }
+
+  fromBottomCenter(
+    overlayOverrides?: Partial<
+      Pick<TooltipPositionConfig, 'overlayX' | 'overlayY'>
+    >,
+    config?: Partial<ConnectedPosition>
+  ) {
+    return this.position('center', 'bottom', overlayOverrides, config);
+  }
+
+  fromBottomRight(
+    overlayOverrides?: Partial<
+      Pick<TooltipPositionConfig, 'overlayX' | 'overlayY'>
+    >,
+    config?: Partial<ConnectedPosition>
+  ) {
+    return this.position('end', 'bottom', overlayOverrides, config);
   }
 }

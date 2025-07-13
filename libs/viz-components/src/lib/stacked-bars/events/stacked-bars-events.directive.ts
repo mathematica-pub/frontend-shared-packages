@@ -1,8 +1,9 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { pointer, select } from 'd3';
 import { map, Observable } from 'rxjs';
+import { BarsTooltipPositioner } from '../../bars/events/bars-tooltip-positioner';
 import { DataValue } from '../../core/types/values';
-import { EventsDirective } from '../../events';
+import { EventsDirective, TooltipPosition } from '../../events';
 import {
   EventAction,
   EventType,
@@ -11,6 +12,7 @@ import {
   MarksHost,
   UnlistenFunction,
 } from '../../events/events.types';
+import { DEFAULT_TOOLTIP_Y_OFFSET } from '../../tooltips';
 import {
   StackDatum,
   STACKED_BARS,
@@ -208,12 +210,31 @@ export class StackedBarsEventsDirective<
       this.stackDatum
     );
     const tooltipData = this.stackedBars.getTooltipData(datum);
+    const position = new BarsTooltipPositioner({
+      x: this.positionX,
+      y: this.positionY,
+    });
 
     return {
       ...tooltipData,
       origin: this.origin,
-      positionX: this.positionX,
-      positionY: this.positionY,
+      anchor: {
+        x: this.positionX,
+        y: this.positionY,
+      },
+      defaultPosition: position.fromAnchor({
+        x: 0,
+        y: DEFAULT_TOOLTIP_Y_OFFSET,
+      }),
+      fromAnchor: (offset?: Partial<{ x: number; y: number }>) => {
+        return position.fromAnchor({
+          x: offset?.x ?? 0,
+          y: offset?.y ?? DEFAULT_TOOLTIP_Y_OFFSET,
+        });
+      },
+      customPosition: (positions: TooltipPosition[]) => {
+        return position.customPosition(positions);
+      },
       type,
     };
   }

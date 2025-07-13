@@ -7,10 +7,7 @@ export class BarsClickEmitTooltipDataPauseOtherActions<
   Datum,
   TOrdinalValue extends DataValue,
 > implements
-    EventAction<
-      BarsHost<Datum, TOrdinalValue>,
-      BarsInteractionOutput<Datum, TOrdinalValue>
-    >
+    EventAction<BarsHost<Datum, TOrdinalValue>, BarsInteractionOutput<Datum>>
 {
   onStart(host: BarsHost<Datum, TOrdinalValue>) {
     const outputData = host.getInteractionOutput(EventType.Click);

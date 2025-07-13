@@ -8,10 +8,13 @@ import {
   HoverMoveAction,
   InputEventAction,
   MarksHost,
+  TooltipPosition,
   UnlistenFunction,
 } from '../../events';
+import { DEFAULT_TOOLTIP_Y_OFFSET } from '../../tooltips';
 import { DotDatum, DOTS, DotsComponent } from '../dots.component';
 import { DotsInteractionOutput } from './dots-interaction-output';
+import { DotsTooltipPositioner } from './dots-tooltip-positioner';
 
 export interface DotsHost<
   Datum,
@@ -171,12 +174,31 @@ export class DotsEventsDirective<
     const tooltipData = this.dotDatum
       ? this.dots.getTooltipData(this.dotDatum)
       : undefined;
+    const position = new DotsTooltipPositioner({
+      x: this.positionX,
+      y: this.positionY,
+    });
 
     return {
       ...tooltipData,
       origin: this.origin,
-      positionX: this.positionX,
-      positionY: this.positionY,
+      anchor: {
+        x: this.positionX,
+        y: this.positionY,
+      },
+      defaultPosition: position.fromAnchor({
+        x: 0,
+        y: DEFAULT_TOOLTIP_Y_OFFSET,
+      }),
+      fromAnchor: (offset?: Partial<{ x: number; y: number }>) => {
+        return position.fromAnchor({
+          x: offset?.x ?? 0,
+          y: offset?.y ?? DEFAULT_TOOLTIP_Y_OFFSET,
+        });
+      },
+      customPosition: (positions: TooltipPosition[]) => {
+        return position.customPosition(positions);
+      },
       type,
     };
   }

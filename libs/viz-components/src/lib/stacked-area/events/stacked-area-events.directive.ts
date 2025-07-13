@@ -10,10 +10,13 @@ import {
   HoverMoveAction,
   InputEventAction,
   MarksHost,
+  TooltipPosition,
   UnlistenFunction,
 } from '../../events';
+import { DEFAULT_TOOLTIP_Y_OFFSET } from '../../tooltips';
 import { STACKED_AREA, StackedAreaComponent } from '../stacked-area.component';
 import { StackedAreaInteractionOutput } from './stacked-area-interaction-output';
+import { StackedAreaTooltipPositioner } from './stacked-area-tooltip-positioner';
 
 export type StackedAreaHost<
   Datum,
@@ -228,9 +231,34 @@ export class StackedAreaEventsDirective<
       this.categoryYMax,
       this.categoryIndex
     );
+    const position = new StackedAreaTooltipPositioner(tooltipData.anchor);
+
     return {
       ...tooltipData,
-      svgHeight: this.stackedArea.chart.svgRef.nativeElement.getBBox().height,
+      defaultPosition: position.fromAnchor('area', {
+        x: 0,
+        y: DEFAULT_TOOLTIP_Y_OFFSET,
+      }),
+      defaultPositionFromArea: position.fromAnchor('area', {
+        x: 0,
+        y: DEFAULT_TOOLTIP_Y_OFFSET,
+      }),
+      defaultPositionFromChart: position.fromAnchor('chart', {
+        x: 0,
+        y: DEFAULT_TOOLTIP_Y_OFFSET,
+      }),
+      fromAnchor: (
+        relativeTo: 'area' | 'chart',
+        offset?: Partial<{ x: number; y: number }>
+      ) => {
+        return position.fromAnchor(relativeTo, {
+          x: offset?.x ?? 0,
+          y: offset?.y ?? DEFAULT_TOOLTIP_Y_OFFSET,
+        });
+      },
+      customPosition: (positions: TooltipPosition[]) => {
+        return position.customPosition(positions);
+      },
       type,
     };
   }

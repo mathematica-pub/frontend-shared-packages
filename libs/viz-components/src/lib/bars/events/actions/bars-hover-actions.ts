@@ -5,10 +5,7 @@ import { BarsInteractionOutput } from '../bars-interaction-output';
 
 export class BarsHoverShowLabels<Datum, TOrdinalValue extends DataValue>
   implements
-    EventAction<
-      BarsHost<Datum, TOrdinalValue>,
-      BarsInteractionOutput<Datum, TOrdinalValue>
-    >
+    EventAction<BarsHost<Datum, TOrdinalValue>, BarsInteractionOutput<Datum>>
 {
   onStart(host: BarsHost<Datum, TOrdinalValue>): void {
     host.marks.barGroups
@@ -27,10 +24,7 @@ export class BarsHoverShowLabels<Datum, TOrdinalValue extends DataValue>
 
 export class BarsHoverEmitTooltipData<Datum, TOrdinalValue extends DataValue>
   implements
-    EventAction<
-      BarsHost<Datum, TOrdinalValue>,
-      BarsInteractionOutput<Datum, TOrdinalValue>
-    >
+    EventAction<BarsHost<Datum, TOrdinalValue>, BarsInteractionOutput<Datum>>
 {
   onStart(host: BarsHost<Datum, TOrdinalValue>): void {
     const tooltipData = host.getInteractionOutput(EventType.Hover);

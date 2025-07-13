@@ -84,8 +84,7 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
     const origin = this.config.origin ?? this.chart.svgRef;
     return this.config.position.getPositionStrategy(
       origin.nativeElement,
-      this.overlayPositionBuilder,
-      this.document
+      this.overlayPositionBuilder
     );
   }
 

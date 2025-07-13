@@ -154,12 +154,7 @@ class TestHorizontalBarsComponent {
     data: BarsInteractionOutput<CountryFactsDatum, string>
   ): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .barsPosition(data?.origin, [
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 16 : undefined,
-        },
-      ])
+      .positionFromOutput(data, data.defaultPosition)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
@@ -265,12 +260,7 @@ class TestVerticalBarsComponent {
     data: BarsInteractionOutput<CountryFactsDatum, string>
   ): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .barsPosition(data?.origin, [
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - tooltipYOffset : undefined,
-        },
-      ])
+      .positionFromOrigin(data?.origin, data.defaultPosition)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
@@ -834,7 +824,7 @@ describe('displays tooltips for correct data per hover position', () => {
                 5
               );
               expect(tooltipBox.bottom).to.be.closeTo(
-                (barBox.top + barBox.bottom) / 2 - 16,
+                (barBox.top + barBox.bottom) / 2 - 12,
                 10
               );
             });

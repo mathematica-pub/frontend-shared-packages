@@ -1,13 +1,26 @@
 import { DataValue } from '../../core/types/values';
-import { EventType } from '../../events';
+import { TooltipPosition } from '../../events';
+import { MarksInteractionOutput } from '../../events/interaction-output';
+import { HtmlTooltipCdkManagedPosition } from '../../tooltips';
 import { StackedBarsTooltipDatum } from '../stacked-bars.component';
 
 export interface StackedBarsInteractionOutput<
   Datum,
   TOrdinalValue extends DataValue,
-> extends StackedBarsTooltipDatum<Datum, TOrdinalValue> {
-  origin: SVGRectElement;
-  positionX: number;
-  positionY: number;
-  type: EventType;
+> extends StackedBarsTooltipDatum<Datum, TOrdinalValue>,
+    MarksInteractionOutput {
+  /**
+   * A method that returns a position for the tooltip above the pointer for HoverMove or Click actions or above the center of the dot for Hover actions.
+   *
+   * @param yOffset - Optional offset from the pointer's y position.
+   */
+  fromAnchor: (
+    offset?: Partial<{ x: number; y: number }>
+  ) => HtmlTooltipCdkManagedPosition;
+  /**
+   * A method that allows a user to define custom positions for the tooltip.
+   */
+  customPosition: (
+    positions: TooltipPosition[]
+  ) => HtmlTooltipCdkManagedPosition;
 }

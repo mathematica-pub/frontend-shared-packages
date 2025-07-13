@@ -157,12 +157,7 @@ export class StackedBarsExampleComponent implements OnInit {
   updateTooltipConfig(eventType: EventType | undefined): void {
     const data = this.tooltipData.getValue();
     const config = this.tooltip
-      .barsPosition(data?.origin, [
-        {
-          offsetX: data?.positionX,
-          offsetY: data?.positionY - 12,
-        },
-      ])
+      .positionFromOutput(data)
       .hasBackdrop(eventType === 'click')
       .show(!!data)
       .getConfig();

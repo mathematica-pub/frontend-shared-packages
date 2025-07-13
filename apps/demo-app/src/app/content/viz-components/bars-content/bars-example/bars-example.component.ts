@@ -84,15 +84,12 @@ export class BarsExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<
-    BarsInteractionOutput<MetroUnemploymentDatum, string>
-  > = new BehaviorSubject<
-    BarsInteractionOutput<MetroUnemploymentDatum, string>
-  >(null);
+  tooltipData: BehaviorSubject<BarsInteractionOutput<MetroUnemploymentDatum>> =
+    new BehaviorSubject<BarsInteractionOutput<MetroUnemploymentDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverMoveActions: HoverMoveAction<
     BarsHost<MetroUnemploymentDatum, string>,
-    BarsInteractionOutput<MetroUnemploymentDatum, string>
+    BarsInteractionOutput<MetroUnemploymentDatum>
   >[] = [new BarsHoverMoveEmitTooltipData()];
   layoutProperties: BehaviorSubject<LayoutProperties> =
     new BehaviorSubject<LayoutProperties>({
@@ -212,29 +209,24 @@ export class BarsExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: BarsInteractionOutput<MetroUnemploymentDatum, string>
+    output: BarsInteractionOutput<MetroUnemploymentDatum> | null
   ): void {
-    this.updateTooltipData(data);
-    this.updateTooltipConfig(data);
+    this.updateTooltipData(output);
+    this.updateTooltipConfig(output);
   }
 
   updateTooltipData(
-    data: BarsInteractionOutput<MetroUnemploymentDatum, string>
+    output: BarsInteractionOutput<MetroUnemploymentDatum> | null
   ): void {
-    this.tooltipData.next(data);
+    this.tooltipData.next(output);
   }
 
   updateTooltipConfig(
-    data: BarsInteractionOutput<MetroUnemploymentDatum, string>
+    output: BarsInteractionOutput<MetroUnemploymentDatum> | null
   ): void {
     const config = this.tooltip
-      .barsPosition(data?.origin, [
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 12 : undefined,
-        },
-      ])
-      .show(!!data)
+      .positionFromOutput(output)
+      .show(!!output)
       .getConfig();
     this.tooltipConfig.next(config);
   }

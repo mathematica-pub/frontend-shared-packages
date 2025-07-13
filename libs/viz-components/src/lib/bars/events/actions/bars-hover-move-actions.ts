@@ -9,7 +9,7 @@ export class BarsHoverMoveEmitTooltipData<
 > implements
     HoverMoveAction<
       BarsHost<Datum, TOrdinalValue>,
-      BarsInteractionOutput<Datum, TOrdinalValue>
+      BarsInteractionOutput<Datum>
     >
 {
   onStart(host: BarsHost<Datum, TOrdinalValue>): void {

@@ -158,10 +158,11 @@ describe('StackedAreaEventsDirective', () => {
       hoveredAreaTop: 10,
       hoveredAreaBottom: 0,
       hoveredDatum: {} as any,
-      svgHeight: 100,
       type: EventType.HoverMove,
     };
     directive.emitInteractionOutput(output as any);
-    expect(directive.interactionOutput.emit).toHaveBeenCalledWith(output);
+    expect(directive.interactionOutput.emit).toHaveBeenCalledWith(
+      output as any
+    );
   });
 });

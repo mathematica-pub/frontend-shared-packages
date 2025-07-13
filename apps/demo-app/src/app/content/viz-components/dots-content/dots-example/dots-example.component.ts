@@ -122,24 +122,19 @@ export class DotsExampleComponent implements OnInit {
     };
   }
 
-  updateTooltipForNewOutput(data: DotsInteractionOutput<WeatherDatum>): void {
-    this.updateTooltipData(data);
-    this.updateTooltipConfig(data);
+  updateTooltipForNewOutput(output: DotsInteractionOutput<WeatherDatum>): void {
+    this.updateTooltipData(output);
+    this.updateTooltipConfig(output);
   }
 
-  updateTooltipData(data: DotsInteractionOutput<WeatherDatum>): void {
-    this.tooltipData.next(data);
+  updateTooltipData(output: DotsInteractionOutput<WeatherDatum>): void {
+    this.tooltipData.next(output);
   }
 
-  updateTooltipConfig(data: DotsInteractionOutput<WeatherDatum>): void {
+  updateTooltipConfig(output: DotsInteractionOutput<WeatherDatum>): void {
     const config = this.tooltip
-      .dotsPosition(data?.origin, [
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 12 : undefined,
-        },
-      ])
-      .show(!!data)
+      .positionFromOutput(output)
+      .show(!!output)
       .getConfig();
     this.tooltipConfig.next(config);
   }

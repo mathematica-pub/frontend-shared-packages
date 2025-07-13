@@ -9,10 +9,13 @@ import {
   HoverMoveAction,
   InputEventAction,
   MarksHost,
+  TooltipPosition,
   UnlistenFunction,
 } from '../../events';
+import { DEFAULT_TOOLTIP_Y_OFFSET } from '../../tooltips';
 import { BarDatum, BARS, BarsComponent } from '../bars.component';
 import { BarsInteractionOutput } from './bars-interaction-output';
+import { BarsTooltipPositioner } from './bars-tooltip-positioner';
 
 export interface BarsHost<
   Datum,
@@ -21,10 +24,7 @@ export interface BarsHost<
     Datum,
     TOrdinalValue
   >,
-> extends MarksHost<
-    BarsInteractionOutput<Datum, TOrdinalValue>,
-    TBarsComponent
-  > {
+> extends MarksHost<BarsInteractionOutput<Datum>, TBarsComponent> {
   getBarDatum(): BarDatum<TOrdinalValue> | null;
 }
 
@@ -40,38 +40,36 @@ export class BarsEventsDirective<
     >,
   >
   extends EventsDirective<BarsHost<Datum, TOrdinalValue>>
-  implements BarsHost<Datum, TOrdinalValue>
+  implements BarsHost<Datum, TOrdinalValue, TBarsComponent>
 {
   @Input()
   hoverActions:
     | EventAction<
         BarsHost<Datum, TOrdinalValue>,
-        BarsInteractionOutput<Datum, TOrdinalValue>
+        BarsInteractionOutput<Datum>
       >[]
     | null;
   @Input()
   hoverMoveActions:
     | HoverMoveAction<
         BarsHost<Datum, TOrdinalValue>,
-        BarsInteractionOutput<Datum, TOrdinalValue>
+        BarsInteractionOutput<Datum>
       >[]
     | null;
   @Input()
   clickActions:
     | EventAction<
         BarsHost<Datum, TOrdinalValue>,
-        BarsInteractionOutput<Datum, TOrdinalValue>
+        BarsInteractionOutput<Datum>
       >[]
     | null;
   @Input()
   inputEventActions: InputEventAction<
     BarsHost<Datum, TOrdinalValue>,
-    BarsInteractionOutput<Datum, TOrdinalValue>
+    BarsInteractionOutput<Datum>
   >[];
-  @Output() interactionOutput = new EventEmitter<BarsInteractionOutput<
-    Datum,
-    TOrdinalValue
-  > | null>();
+  @Output() interactionOutput =
+    new EventEmitter<BarsInteractionOutput<Datum> | null>();
 
   barDatum: BarDatum<TOrdinalValue>;
   origin: SVGRectElement;
@@ -80,7 +78,7 @@ export class BarsEventsDirective<
     super();
   }
 
-  get marks(): BarsComponent<Datum, TOrdinalValue> {
+  get marks(): TBarsComponent {
     return this.bars;
   }
 
@@ -194,24 +192,39 @@ export class BarsEventsDirective<
     this.positionY = barRect.height / 2;
   }
 
-  getInteractionOutput(
-    type: EventType
-  ): BarsInteractionOutput<Datum, TOrdinalValue> {
+  getInteractionOutput(type: EventType): BarsInteractionOutput<Datum> {
     const datum = this.bars.getSourceDatumFromBarDatum(this.barDatum);
     const tooltipData = datum ? this.bars.getTooltipData(datum) : undefined;
+    const position = new BarsTooltipPositioner({
+      x: this.positionX,
+      y: this.positionY,
+    });
 
     return {
       ...tooltipData,
       origin: this.origin,
-      positionX: this.positionX,
-      positionY: this.positionY,
+      anchor: {
+        x: this.positionX,
+        y: this.positionY,
+      },
+      defaultPosition: position.fromAnchor({
+        x: 0,
+        y: DEFAULT_TOOLTIP_Y_OFFSET,
+      }),
+      fromAnchor: (offset?: Partial<{ x: number; y: number }>) => {
+        return position.fromAnchor({
+          x: offset?.x ?? 0,
+          y: offset?.y ?? DEFAULT_TOOLTIP_Y_OFFSET,
+        });
+      },
+      customPosition: (positions: TooltipPosition[]) => {
+        return position.customPosition(positions);
+      },
       type,
     };
   }
 
-  emitInteractionOutput(
-    output: BarsInteractionOutput<Datum, TOrdinalValue> | null
-  ): void {
+  emitInteractionOutput(output: BarsInteractionOutput<Datum> | null): void {
     this.interactionOutput.emit(output);
   }
 

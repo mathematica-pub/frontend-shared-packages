@@ -381,7 +381,10 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
 
   getTooltipData(
     datumIndex: number
-  ): Omit<LinesInteractionOutput<Datum>, 'type'> {
+  ): Omit<
+    LinesInteractionOutput<Datum>,
+    'type' | 'fromAnchor' | 'customPosition' | 'defaultPosition'
+  > {
     const datum = this.config.data[datumIndex];
     return {
       datum,
@@ -401,8 +404,11 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
               this.config.y.formatSpecifier
             ),
       },
-      positionX: this.scales.x(this.config.x.values[datumIndex]),
-      positionY: this.scales.y(this.config.y.values[datumIndex]),
+      anchor: {
+        x: this.scales.x(this.config.x.values[datumIndex]),
+        y: this.scales.y(this.config.y.values[datumIndex]),
+      },
+      origin: this.chart.svgRef.nativeElement,
     };
   }
 }

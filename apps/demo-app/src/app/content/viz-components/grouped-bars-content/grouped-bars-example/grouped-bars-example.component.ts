@@ -1,13 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  BarsHost,
+  BarsHoverMoveEmitTooltipData,
+  BarsInteractionOutput,
   ChartConfig,
   ElementSpacing,
   GroupedBarsConfig,
+  HoverMoveAction,
+  HtmlTooltipConfig,
   VicChartConfigBuilder,
   VicChartModule,
   VicGroupedBarsConfigBuilder,
   VicGroupedBarsModule,
+  VicHtmlTooltipConfigBuilder,
+  VicHtmlTooltipModule,
   VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
   VicXyAxisModule,
@@ -15,9 +22,12 @@ import {
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
 } from '@hsi/viz-components';
-import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
+import {
+  IndustryUnemploymentDatum,
+  MetroUnemploymentDatum,
+} from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
-import { filter, map, Observable } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 
 interface ViewModel {
   chartConfig: ChartConfig;
@@ -34,6 +44,7 @@ interface ViewModel {
     VicGroupedBarsModule,
     VicXyBackgroundModule,
     VicXyAxisModule,
+    VicHtmlTooltipModule,
   ],
   templateUrl: './grouped-bars-example.component.html',
   styleUrl: './grouped-bars-example.component.scss',
@@ -42,18 +53,29 @@ interface ViewModel {
     VicGroupedBarsConfigBuilder,
     VicXOrdinalAxisConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
+    VicHtmlTooltipConfigBuilder,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupedBarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
+  folderName = 'stacked-bars-example';
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
+  tooltipConfig$ = this.tooltipConfig.asObservable();
+  tooltipData: BehaviorSubject<BarsInteractionOutput<MetroUnemploymentDatum>> =
+    new BehaviorSubject<BarsInteractionOutput<MetroUnemploymentDatum>>(null);
+  tooltipData$ = this.tooltipData.asObservable();
+  hoverMoveActions: HoverMoveAction<
+    BarsHost<MetroUnemploymentDatum, Date>,
+    BarsInteractionOutput<MetroUnemploymentDatum>
+  >[] = [new BarsHoverMoveEmitTooltipData()];
   margin: ElementSpacing = {
     top: 8,
     right: 0,
     bottom: 36,
     left: 64,
   };
-  folderName = 'stacked-bars-example';
 
   constructor(
     private dataService: DataService,
@@ -63,7 +85,8 @@ export class GroupedBarsExampleComponent implements OnInit {
       Date
     >,
     private xAxisOrdinal: VicXOrdinalAxisConfigBuilder<Date>,
-    private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>
+    private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
+    private tooltip: VicHtmlTooltipConfigBuilder
   ) {}
 
   ngOnInit(): void {
@@ -106,5 +129,28 @@ export class GroupedBarsExampleComponent implements OnInit {
       xAxisConfig,
       yAxisConfig,
     };
+  }
+
+  updateTooltipForNewOutput(
+    output: BarsInteractionOutput<MetroUnemploymentDatum> | null
+  ): void {
+    this.updateTooltipData(output);
+    this.updateTooltipConfig(output);
+  }
+
+  updateTooltipData(
+    output: BarsInteractionOutput<MetroUnemploymentDatum> | null
+  ): void {
+    this.tooltipData.next(output);
+  }
+
+  updateTooltipConfig(
+    output: BarsInteractionOutput<MetroUnemploymentDatum> | null
+  ): void {
+    const config = this.tooltip
+      .positionFromOutput(output)
+      .show(!!output)
+      .getConfig();
+    this.tooltipConfig.next(config);
   }
 }

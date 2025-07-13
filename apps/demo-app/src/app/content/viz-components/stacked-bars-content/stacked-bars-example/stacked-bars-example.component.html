@@ -32,10 +32,13 @@
     <p class="tooltip-label category">
       {{ (tooltipData$ | async).values.category }}
     </p>
+    <p class="tooltip-label category">
+      {{ (tooltipData$ | async).values.ordinal }}
+    </p>
     <div class="values-container">
       <p class="tooltip-label y">
         <span class="value-label">Value</span>
-        {{ (tooltipData$ | async).values.y }}
+        {{ (tooltipData$ | async).values.quantitative }}
       </p>
     </div>
   </div>

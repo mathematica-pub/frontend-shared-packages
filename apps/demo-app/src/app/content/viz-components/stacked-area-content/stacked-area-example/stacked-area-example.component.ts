@@ -117,30 +117,25 @@ export class StackedAreaExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
+    output: StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   ): void {
-    this.updateTooltipData(data);
-    this.updateTooltipConfig(data);
+    this.updateTooltipData(output);
+    this.updateTooltipConfig(output);
   }
 
   updateTooltipData(
-    data: StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
+    output: StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   ): void {
-    this.tooltipData.next(data);
+    this.tooltipData.next(output);
   }
 
   updateTooltipConfig(
-    data: StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
+    output: StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   ): void {
     const config = this.tooltip
       .size((size) => size.minWidth(130))
-      .stackedAreaPosition([
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.hoveredAreaTop - 8 : undefined,
-        },
-      ])
-      .show(data?.hoveredDatum !== undefined)
+      .positionFromOutput(output)
+      .show(output?.hoveredAreaDatum !== undefined)
       .getConfig();
     this.tooltipConfig.next(config);
   }

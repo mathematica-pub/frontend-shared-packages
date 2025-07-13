@@ -1,16 +1,15 @@
 import {
   ConnectedPosition,
-  FlexibleConnectedPositionStrategy,
-  GlobalPositionStrategy,
   OverlayPositionBuilder,
   PositionStrategy,
 } from '@angular/cdk/overlay';
 import { safeAssign } from '@hsi/app-dev-kit';
 import { HtmlTooltipOffsetFromOriginPositionOptions } from './tooltip-position-options';
 
+export const DEFAULT_TOOLTIP_Y_OFFSET = 16;
+
 export abstract class HtmlTooltipPosition {
   type: 'connected' | 'global';
-  strategy: GlobalPositionStrategy | FlexibleConnectedPositionStrategy;
 
   abstract getPositionStrategy(
     origin: Element,

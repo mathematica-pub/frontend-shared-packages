@@ -353,12 +353,7 @@ export class GeographiesExampleComponent implements OnInit {
   ): void {
     const config = this.tooltip
       .size((size) => size.minWidth(130))
-      .geographiesPosition(data?.origin, [
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 16 : undefined,
-        },
-      ])
+      .positionFromOutput(data)
       .hasBackdrop(data?.type === 'click')
       .show(!!data)
       .getConfig();

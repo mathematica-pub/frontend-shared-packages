@@ -31,8 +31,8 @@ export interface StackedBarsTooltipDatum<
   datum: Datum;
   color: string;
   values: {
-    x: TOrdinalValue | string;
-    y: TOrdinalValue | string;
+    ordinal: TOrdinalValue | string;
+    quantitative: string;
     category: string;
   };
 }
