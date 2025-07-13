@@ -26,15 +26,20 @@
     [style.--color]="(tooltipData$ | async).color"
     class="grouped-bars-example-tooltip-container"
   >
-    <p class="tooltip-label category">
-      {{ (tooltipData$ | async).values.category }}
-    </p>
-    <p class="tooltip-label x"> Year: {{ (tooltipData$ | async).values.x }} </p>
-    <div class="values-container">
-      <p class="tooltip-label y">
-        <span class="value-label">Value</span>
-        {{ (tooltipData$ | async).values.y }}
+    <div class="tooltip-body">
+      <p class="tooltip-label category">
+        {{ (tooltipData$ | async).values.category }}
       </p>
-    </div>
+      <p class="tooltip-label x">
+        Year: {{ (tooltipData$ | async).values.x }}
+      </p>
+      <div class="values-container">
+        <p class="tooltip-label y">
+          <span class="value-label">Value</span>
+          {{ (tooltipData$ | async).values.y }}
+        </p>
+      </div></div
+    >
+    <vic-tooltip-triangle></vic-tooltip-triangle>
   </div>
 </ng-template>

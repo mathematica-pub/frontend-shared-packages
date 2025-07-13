@@ -26,23 +26,26 @@
       [style.--color]="tooltipData.color"
       class="dots-example-tooltip-container"
     >
-      <p class="tooltip-label category">
-        {{ tooltipData.values.fill }}
-      </p>
-      <div class="values-container">
-        <p class="tooltip-label x">
-          <span class="value-label">Max Temperature</span>
-          {{ tooltipData.values.x }}
+      <div class="tooltip-body">
+        <p class="tooltip-label category">
+          {{ tooltipData.values.fill }}
         </p>
-        <p class="tooltip-label y">
-          <span class="value-label">Precipitation</span>
-          {{ tooltipData.values.y }}
-        </p>
-        <p class="tooltip-label radius">
-          <span class="value-label">Wind</span>
-          {{ tooltipData.values.radius }}
-        </p>
-      </div>
+        <div class="values-container">
+          <p class="tooltip-label x">
+            <span class="value-label">Max Temperature</span>
+            {{ tooltipData.values.x }}
+          </p>
+          <p class="tooltip-label y">
+            <span class="value-label">Precipitation</span>
+            {{ tooltipData.values.y }}
+          </p>
+          <p class="tooltip-label radius">
+            <span class="value-label">Wind</span>
+            {{ tooltipData.values.radius }}
+          </p>
+        </div></div
+      >
+      <vic-tooltip-triangle></vic-tooltip-triangle>
     </div>
   }
 </ng-template>

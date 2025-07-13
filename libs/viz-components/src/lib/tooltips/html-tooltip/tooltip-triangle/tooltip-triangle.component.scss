@@ -1,0 +1,11 @@
+.vic-tooltip-svg-triangle {
+  $x-offset: calc(50% - (var(--width) / 2));
+  display: block;
+  transform: translate(#{$x-offset}, -2px);
+
+  .triangle-path {
+    stroke: var(--tooltip-triangle-stroke, gray);
+    fill: var(--tooltip-triangle-fill, white);
+    fill-opacity: var(--tooltip-triangle-fill-opacity, 1);
+  }
+}

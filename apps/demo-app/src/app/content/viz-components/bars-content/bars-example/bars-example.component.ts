@@ -65,9 +65,6 @@ interface LayoutProperties {
     MatButtonModule,
     MatButtonToggleModule,
   ],
-  templateUrl: './bars-example.component.html',
-  styleUrls: ['./bars-example.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   providers: [
     VicChartConfigBuilder,
     VicBarsConfigBuilder,
@@ -77,6 +74,9 @@ interface LayoutProperties {
     VicYQuantitativeAxisConfigBuilder,
     VicHtmlTooltipConfigBuilder,
   ],
+  templateUrl: './bars-example.component.html',
+  styleUrls: ['./bars-example.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class BarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;

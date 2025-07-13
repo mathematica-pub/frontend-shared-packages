@@ -85,19 +85,22 @@
       [style.--color]="tooltipData.color"
       class="lines-example-tooltip-container"
     >
-      <p class="tooltip-label category">
-        {{ tooltipData.values.strokeColor }}
-      </p>
-      <div class="values-container">
-        <p class="tooltip-label x">
-          <span class="value-label">Date</span>
-          {{ tooltipData.values.x }}
+      <div class="tooltip-body">
+        <p class="tooltip-label category">
+          {{ tooltipData.values.strokeColor }}
         </p>
-        <p class="tooltip-label y">
-          <span class="value-label">Value</span>
-          {{ tooltipData.values.y }}
-        </p>
-      </div>
+        <div class="values-container">
+          <p class="tooltip-label x">
+            <span class="value-label">Date</span>
+            {{ tooltipData.values.x }}
+          </p>
+          <p class="tooltip-label y">
+            <span class="value-label">Value</span>
+            {{ tooltipData.values.y }}
+          </p>
+        </div></div
+      >
+      <vic-tooltip-triangle></vic-tooltip-triangle>
     </div>
   </ng-container>
 </ng-template>

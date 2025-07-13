@@ -94,19 +94,23 @@
 <ng-template #loading>Loading...</ng-template>
 
 <ng-template #htmlTooltip>
-  <div class="geographies-example-tooltip-container">
-    <p class="tooltip-label category">
-      {{ (tooltipData$ | async).geography }}
-    </p>
-    <div class="values-container">
-      <p class="tooltip-label x">
-        <span class="value-label">Income</span>
-        @if ((tooltipData$ | async).datum) {
-          {{ (tooltipData$ | async).attributeValue }}
-        } @else {
-          No data available
-        }
-      </p>
+  @if (tooltipData$ | async; as tooltipData) {
+    <div class="geographies-example-tooltip-container">
+      <div class="tooltip-body">
+        <p class="tooltip-label category">
+          {{ tooltipData.geography }}
+        </p>
+        <div class="values-container">
+          <p class="tooltip-label x">
+            <span class="value-label">Income</span>
+            @if (tooltipData.datum) {
+              {{ tooltipData.attributeValue }}
+            } @else {
+              No data available
+            }
+          </p>
+        </div></div
+      >
     </div>
-  </div>
+  }
 </ng-template>

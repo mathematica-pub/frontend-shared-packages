@@ -5,6 +5,7 @@ import {
   inject,
   OnInit,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   MatButtonToggleChange,
@@ -75,6 +76,7 @@ const includeFiles = ['line-input-actions.ts'];
     VicXQuantitativeAxisConfigBuilder,
     VicHtmlTooltipConfigBuilder,
   ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class LinesExampleComponent implements OnInit {
   @ViewChild('imageNode') imageNode: ElementRef<HTMLElement>;

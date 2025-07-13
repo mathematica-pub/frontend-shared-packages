@@ -8,3 +8,4 @@ export * from './html-tooltip/config/size/tooltip-size-builder';
 export * from './html-tooltip/config/size/tooltip-size-options';
 export * from './html-tooltip/html-tooltip.directive';
 export * from './html-tooltip/html-tooltip.module';
+export * from './html-tooltip/tooltip-triangle/tooltip-triangle.component';

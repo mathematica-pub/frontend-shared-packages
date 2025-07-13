@@ -1,0 +1,13 @@
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'vic-tooltip-triangle',
+  imports: [],
+  templateUrl: './tooltip-triangle.component.html',
+  styleUrl: './tooltip-triangle.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class TooltipTriangleComponent {
+  @Input() height: number = 12;
+  @Input() width: number = 20;
+}

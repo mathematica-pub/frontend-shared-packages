@@ -39,26 +39,29 @@
     [style.--color]="(tooltipData$ | async).color"
     class="bars-example-tooltip-container"
   >
-    @if ((layoutProperties$ | async).orientation === 'horizontal') {
-      <p class="tooltip-label category">
-        {{ (tooltipData$ | async).values.y }}
-      </p>
-      <div class="values-container">
-        <p class="tooltip-label quantitative">
-          <span class="value-label">Value</span>
-          {{ (tooltipData$ | async).values.x }}
-        </p>
-      </div>
-    } @else {
-      <p class="tooltip-label category">
-        {{ (tooltipData$ | async).values.x }}
-      </p>
-      <div class="values-container">
-        <p class="tooltip-label quantitative">
-          <span class="value-label">Value</span>
+    <div class="tooltip-body">
+      @if ((layoutProperties$ | async).orientation === 'horizontal') {
+        <p class="tooltip-label category">
           {{ (tooltipData$ | async).values.y }}
         </p>
-      </div>
-    }
+        <div class="values-container">
+          <p class="tooltip-label quantitative">
+            <span class="value-label">Value</span>
+            {{ (tooltipData$ | async).values.x }}
+          </p>
+        </div>
+      } @else {
+        <p class="tooltip-label category">
+          {{ (tooltipData$ | async).values.x }}
+        </p>
+        <div class="values-container">
+          <p class="tooltip-label quantitative">
+            <span class="value-label">Value</span>
+            {{ (tooltipData$ | async).values.y }}
+          </p>
+        </div>
+      }
+    </div>
+    <vic-tooltip-triangle></vic-tooltip-triangle>
   </div>
 </ng-template>

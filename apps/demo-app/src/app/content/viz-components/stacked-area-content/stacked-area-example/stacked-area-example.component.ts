@@ -134,7 +134,7 @@ export class StackedAreaExampleComponent implements OnInit {
   ): void {
     const config = this.tooltip
       .size((size) => size.minWidth(130))
-      .positionFromOutput(output)
+      .positionFromOutput(output, output?.fromAnchor('area', { y: 8 }))
       .show(output?.hoveredAreaDatum !== undefined)
       .getConfig();
     this.tooltipConfig.next(config);

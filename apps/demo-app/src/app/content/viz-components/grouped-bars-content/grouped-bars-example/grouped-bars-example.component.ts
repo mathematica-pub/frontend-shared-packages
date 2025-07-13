@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   BarsHost,
   BarsHoverMoveEmitTooltipData,
@@ -46,8 +51,6 @@ interface ViewModel {
     VicXyAxisModule,
     VicHtmlTooltipModule,
   ],
-  templateUrl: './grouped-bars-example.component.html',
-  styleUrl: './grouped-bars-example.component.scss',
   providers: [
     VicChartConfigBuilder,
     VicGroupedBarsConfigBuilder,
@@ -55,7 +58,10 @@ interface ViewModel {
     VicYQuantitativeAxisConfigBuilder,
     VicHtmlTooltipConfigBuilder,
   ],
+  templateUrl: './grouped-bars-example.component.html',
+  styleUrl: './grouped-bars-example.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class GroupedBarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;

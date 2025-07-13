@@ -37,12 +37,15 @@
     [style.--color]="data.color"
     class="stacked-area-example-tooltip-container"
   >
-    <p class="tooltip-label category">{{ data.values.color }}</p>
-    <div class="values-container">
-      <p class="tooltip-label y">
-        <span class="value-label">Value</span>
-        {{ data.datum.value }}
-      </p>
+    <div class="tooltip-body">
+      <p class="tooltip-label category">{{ data.values.color }}</p>
+      <p class="tooltip-label x">{{ data.values.x }}</p>
+      <div class="values-container">
+        <p class="tooltip-label y">
+          <span class="value-label">Value</span>
+          {{ data.datum.value }}
+        </p>
+      </div>
     </div>
   </div>
 </ng-template>

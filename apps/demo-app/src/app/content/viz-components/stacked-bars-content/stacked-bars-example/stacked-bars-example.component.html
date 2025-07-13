@@ -25,21 +25,26 @@
 <ng-template #loading>Loading...</ng-template>
 
 <ng-template #htmlTooltip>
-  <div
-    [style.--color]="(tooltipData$ | async).color"
-    class="stacked-bars-example-tooltip-container"
-  >
-    <p class="tooltip-label category">
-      {{ (tooltipData$ | async).values.category }}
-    </p>
-    <p class="tooltip-label category">
-      {{ (tooltipData$ | async).values.ordinal }}
-    </p>
-    <div class="values-container">
-      <p class="tooltip-label y">
-        <span class="value-label">Value</span>
-        {{ (tooltipData$ | async).values.quantitative }}
-      </p>
+  @if (tooltipData$ | async; as tooltipData) {
+    <div
+      [style.--color]="tooltipData.color"
+      class="stacked-bars-example-tooltip-container"
+    >
+      <div class="tooltip-body">
+        <p class="tooltip-label category">
+          {{ tooltipData.values.category }}
+        </p>
+        <p class="tooltip-label category">
+          {{ tooltipData.values.x }}
+        </p>
+        <div class="values-container">
+          <p class="tooltip-label y">
+            <span class="value-label">Value</span>
+            {{ tooltipData.values.y }}
+          </p>
+        </div></div
+      >
+      <vic-tooltip-triangle></vic-tooltip-triangle>
     </div>
-  </div>
+  }
 </ng-template>

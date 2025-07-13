@@ -75,13 +75,13 @@ interface ViewModel {
     VicHtmlTooltipModule,
     MatButtonToggleModule,
   ],
-  templateUrl: './geographies-example.component.html',
-  styleUrls: ['./geographies-example.component.scss'],
   providers: [
     VicChartConfigBuilder,
     VicGeographiesConfigBuilder,
     VicHtmlTooltipConfigBuilder,
   ],
+  templateUrl: './geographies-example.component.html',
+  styleUrls: ['./geographies-example.component.scss'],
 })
 export class GeographiesExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
@@ -353,7 +353,7 @@ export class GeographiesExampleComponent implements OnInit {
   ): void {
     const config = this.tooltip
       .size((size) => size.minWidth(130))
-      .positionFromOutput(data)
+      .positionFromOutput(data, data?.fromAnchor({ y: 12 }))
       .hasBackdrop(data?.type === 'click')
       .show(!!data)
       .getConfig();

@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   ChartConfig,
   DotsConfig,
@@ -43,9 +48,6 @@ interface ViewModel {
     VicXyAxisModule,
     VicHtmlTooltipModule,
   ],
-  templateUrl: './dots-example.component.html',
-  styleUrl: './dots-example.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     VicChartConfigBuilder,
     VicDotsConfigBuilder,
@@ -53,6 +55,10 @@ interface ViewModel {
     VicYQuantitativeAxisConfigBuilder,
     VicHtmlTooltipConfigBuilder,
   ],
+  templateUrl: './dots-example.component.html',
+  styleUrl: './dots-example.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class DotsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;

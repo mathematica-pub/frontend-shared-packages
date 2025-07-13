@@ -127,7 +127,11 @@ export class StackedBarsExampleComponent implements OnInit {
       .data(yearlyData)
       .vertical((bars) =>
         bars
-          .x((dimension) => dimension.valueAccessor((d) => d.date))
+          .x((dimension) =>
+            dimension
+              .valueAccessor((d) => d.date)
+              .formatFunction((d) => d.date.getFullYear().toString())
+          )
           .y((dimension) => dimension.valueAccessor((d) => d.value))
       )
       .color((dimension) => dimension.valueAccessor((d) => d.industry))

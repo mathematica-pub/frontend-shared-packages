@@ -7,6 +7,7 @@ import { HtmlTooltipSizeBuilder } from './size/tooltip-size-builder';
 
 const DEFAULT = {
   _minWidth: 300,
+  _applyEventsDisabledClass: true,
 };
 
 @Injectable()
@@ -22,12 +23,13 @@ export class VicHtmlTooltipConfigBuilder {
   constructor() {
     safeAssign(this, DEFAULT);
     this.sizeBuilder = new HtmlTooltipSizeBuilder();
-    this._applyEventsDisabledClass = false;
   }
 
   /**
    * OPTIONAL. If set to true, the tooltip will have a class that disables pointer events.
    * This is useful when the tooltip should not interfere with user interactions, such as when it is used for informational purposes only.
+   *
+   * Default is true, meaning the class will be applied.
    *
    * @param apply - Whether to apply the events-disabled class or not.
    */

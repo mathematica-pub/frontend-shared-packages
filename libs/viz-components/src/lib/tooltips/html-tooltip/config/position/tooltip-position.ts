@@ -4,7 +4,7 @@ import {
   PositionStrategy,
 } from '@angular/cdk/overlay';
 
-export const DEFAULT_TOOLTIP_Y_OFFSET = 16;
+export const DEFAULT_TOOLTIP_Y_OFFSET = 2;
 
 export type TooltipPositionConfig = {
   originX: 'start' | 'center' | 'end';
