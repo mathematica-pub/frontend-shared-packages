@@ -1,5 +1,5 @@
 import { MarksInteractionOutput } from '../../events/interaction-output';
-import { HtmlTooltipCdkManagedPosition, TooltipPosition } from '../../tooltips';
+import { HtmlTooltipCdkManagedPosition } from '../../tooltips';
 import { DotsTooltipDatum } from '../dots.component';
 
 export interface DotsInteractionOutput<Datum>
@@ -12,11 +12,5 @@ export interface DotsInteractionOutput<Datum>
    */
   fromAnchor: (
     offset?: Partial<{ x: number; y: number }>
-  ) => HtmlTooltipCdkManagedPosition;
-  /**
-   * A method that allows a user to define custom positions for the tooltip.
-   */
-  customPosition: (
-    positions: TooltipPosition[]
   ) => HtmlTooltipCdkManagedPosition;
 }

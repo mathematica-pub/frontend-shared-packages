@@ -46,7 +46,6 @@ const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 80 };
 const verticalMargin = { top: 20, right: 20, bottom: 4, left: 40 };
 const chartHeight = 400;
 const chartWidth = 600;
-const tooltipYOffset = 30;
 const getXTransform = ($barGroup) => {
   const [x] = $barGroup
     .attr('transform')
@@ -260,7 +259,7 @@ class TestVerticalBarsComponent {
     data: BarsInteractionOutput<CountryFactsDatum, string>
   ): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .positionFromOrigin(data?.origin, data.defaultPosition)
+      .positionFromOutput(data)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);

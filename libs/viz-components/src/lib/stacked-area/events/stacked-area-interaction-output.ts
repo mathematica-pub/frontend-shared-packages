@@ -1,6 +1,6 @@
 import { DataValue } from '../../core/types/values';
 import { BaseInteractionOutput } from '../../events/interaction-output';
-import { HtmlTooltipCdkManagedPosition, TooltipPosition } from '../../tooltips';
+import { HtmlTooltipCdkManagedPosition } from '../../tooltips';
 import { StackedAreaTooltipDatum } from '../stacked-area.component';
 
 export interface StackedAreaInteractionAnchor {
@@ -30,11 +30,5 @@ export interface StackedAreaInteractionOutput<
   fromAnchor: (
     relativeTo: 'area' | 'chart',
     offset?: Partial<{ x: number; y: number }>
-  ) => HtmlTooltipCdkManagedPosition;
-  /**
-   * A method that allows a user to provide custom positions for the tooltip.
-   */
-  customPosition: (
-    positions: TooltipPosition[]
   ) => HtmlTooltipCdkManagedPosition;
 }
