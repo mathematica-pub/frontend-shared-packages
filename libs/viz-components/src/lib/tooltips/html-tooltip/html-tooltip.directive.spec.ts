@@ -5,10 +5,31 @@ import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { Subject } from 'rxjs';
 import { ChartComponent } from '../../charts';
+import { EventType } from '../../events';
 import { ChartComponentStub } from '../../testing/stubs/chart.component.stub';
 import { MainServiceStub } from '../../testing/stubs/services/main.service.stub';
 import { VicHtmlTooltipConfigBuilder } from './config/html-tooltip-builder';
+import { HtmlTooltipCdkManagedPosition } from './config/position/tooltip-position';
+import { TooltipPositionBuilder } from './config/position/tooltip-position-builder';
 import { HtmlTooltipDirective } from './html-tooltip.directive';
+
+const fakeOuput = {
+  origin: document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
+  customPosition: () =>
+    new HtmlTooltipCdkManagedPosition([
+      new TooltipPositionBuilder()
+        .fromTopLeft()
+        .attachBottomCenter()
+        .getPosition(),
+    ]),
+  defaultPosition: new HtmlTooltipCdkManagedPosition([
+    new TooltipPositionBuilder()
+      .fromTopLeft()
+      .attachBottomCenter()
+      .getPosition(),
+  ]),
+  type: EventType.HoverMove,
+};
 
 describe('HtmlTooltipDirective', () => {
   let directive: HtmlTooltipDirective;
@@ -95,7 +116,7 @@ describe('HtmlTooltipDirective', () => {
       mainServiceStub.overlayStub.create.and.returnValue('test ref' as any);
       directive.config = new VicHtmlTooltipConfigBuilder()
         .hasBackdrop(true)
-        .offsetFromOriginPosition()
+        .positionFromOutput(fakeOuput)
         .applyEventsDisabledClass(true)
         .size((size) => size.width(100))
         .getConfig();
@@ -138,15 +159,9 @@ describe('HtmlTooltipDirective', () => {
   describe('getPositionStrategy', () => {
     beforeEach(() => {
       (directive as any).overlayPositionBuilder = 'builder' as any;
-      (directive as any).document = 'document' as any;
-      (directive as any).chart = {
-        svgRef: {
-          nativeElement: 'element' as any,
-        },
-      };
       directive.config = new VicHtmlTooltipConfigBuilder()
         .hasBackdrop(true)
-        .offsetFromOriginPosition()
+        .positionFromOutput(fakeOuput)
         .applyEventsDisabledClass(true)
         .size((size) => size.width(100))
         .getConfig();
@@ -158,11 +173,7 @@ describe('HtmlTooltipDirective', () => {
       directive.getPositionStrategy();
       expect(
         directive.config.position.getPositionStrategy
-      ).toHaveBeenCalledOnceWith(
-        'element' as any,
-        'builder' as any,
-        'document' as any
-      );
+      ).toHaveBeenCalledOnceWith(fakeOuput.origin, 'builder' as any);
     });
   });
 

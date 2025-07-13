@@ -61,8 +61,8 @@ export interface BarsTooltipDatum<Datum> {
   datum: Datum;
   color: string;
   values: {
-    ordinal: string;
-    quantitative: string;
+    x: string;
+    y: string;
     category: string;
   };
 }
@@ -691,8 +691,14 @@ export class BarsComponent<
       datum,
       color: this.scales.color(category),
       values: {
-        ordinal: ordinalValue,
-        quantitative: quantitativeValue,
+        x:
+          this.config.dimensions.x === 'ordinal'
+            ? ordinalValue
+            : quantitativeValue,
+        y:
+          this.config.dimensions.y === 'ordinal'
+            ? ordinalValue
+            : quantitativeValue,
         category,
       },
     };

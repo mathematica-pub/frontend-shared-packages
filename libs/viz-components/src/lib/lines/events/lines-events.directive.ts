@@ -9,10 +9,9 @@ import {
   HoverMoveAction,
   InputEventAction,
   MarksHost,
-  TooltipPosition,
   UnlistenFunction,
 } from '../../events';
-import { DEFAULT_TOOLTIP_Y_OFFSET } from '../../tooltips';
+import { DEFAULT_TOOLTIP_Y_OFFSET, TooltipPosition } from '../../tooltips';
 import { LinesMarkerDatum } from '../config/lines-config';
 import {
   LINES,

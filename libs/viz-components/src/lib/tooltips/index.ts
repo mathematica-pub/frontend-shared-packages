@@ -3,7 +3,6 @@ export * from './html-tooltip/config/html-tooltip-config';
 export * from './html-tooltip/config/html-tooltip-options';
 export * from './html-tooltip/config/position/tooltip-position';
 export * from './html-tooltip/config/position/tooltip-position-builder';
-export * from './html-tooltip/config/position/tooltip-position-options';
 export * from './html-tooltip/config/size/tooltip-size';
 export * from './html-tooltip/config/size/tooltip-size-builder';
 export * from './html-tooltip/config/size/tooltip-size-options';

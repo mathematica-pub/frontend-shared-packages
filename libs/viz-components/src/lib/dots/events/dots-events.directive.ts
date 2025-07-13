@@ -8,10 +8,9 @@ import {
   HoverMoveAction,
   InputEventAction,
   MarksHost,
-  TooltipPosition,
   UnlistenFunction,
 } from '../../events';
-import { DEFAULT_TOOLTIP_Y_OFFSET } from '../../tooltips';
+import { DEFAULT_TOOLTIP_Y_OFFSET, TooltipPosition } from '../../tooltips';
 import { DotDatum, DOTS, DotsComponent } from '../dots.component';
 import { DotsInteractionOutput } from './dots-interaction-output';
 import { DotsTooltipPositioner } from './dots-tooltip-positioner';

@@ -7,9 +7,9 @@ export class GeographiesClickEmitTooltipDataPauseOtherActions<Datum>
     EventAction<GeographiesHost<Datum>, GeographiesInteractionOutput<Datum>>
 {
   onStart(host: GeographiesHost<Datum>): void {
-    const outputData = host.getInteractionOutput(EventType.Click);
+    const output = host.getInteractionOutput(EventType.Click);
     host.disableOtherActions(EventType.Click);
-    host.emitInteractionOutput(outputData);
+    host.emitInteractionOutput(output);
   }
 
   onEnd(host: GeographiesHost<Datum>): void {

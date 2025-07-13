@@ -179,6 +179,8 @@ describe('BarsEventsDirective', () => {
       values: { x: '1', y: '2', category: 'red' },
     };
     directive.emitInteractionOutput(output as any);
-    expect(directive.interactionOutput.emit).toHaveBeenCalledWith(output);
+    expect(directive.interactionOutput.emit).toHaveBeenCalledWith(
+      output as any
+    );
   });
 });

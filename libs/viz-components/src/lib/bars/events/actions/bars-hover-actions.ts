@@ -27,8 +27,8 @@ export class BarsHoverEmitTooltipData<Datum, TOrdinalValue extends DataValue>
     EventAction<BarsHost<Datum, TOrdinalValue>, BarsInteractionOutput<Datum>>
 {
   onStart(host: BarsHost<Datum, TOrdinalValue>): void {
-    const tooltipData = host.getInteractionOutput(EventType.Hover);
-    host.emitInteractionOutput(tooltipData);
+    const output = host.getInteractionOutput(EventType.Hover);
+    host.emitInteractionOutput(output);
   }
 
   onEnd(host: BarsHost<Datum, TOrdinalValue>): void {

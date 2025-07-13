@@ -10,10 +10,9 @@ import {
   HoverMoveAction,
   InputEventAction,
   MarksHost,
-  TooltipPosition,
   UnlistenFunction,
 } from '../../events';
-import { DEFAULT_TOOLTIP_Y_OFFSET } from '../../tooltips';
+import { DEFAULT_TOOLTIP_Y_OFFSET, TooltipPosition } from '../../tooltips';
 import { STACKED_AREA, StackedAreaComponent } from '../stacked-area.component';
 import { StackedAreaInteractionOutput } from './stacked-area-interaction-output';
 import { StackedAreaTooltipPositioner } from './stacked-area-tooltip-positioner';

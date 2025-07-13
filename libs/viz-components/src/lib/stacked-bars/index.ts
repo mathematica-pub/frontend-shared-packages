@@ -5,6 +5,5 @@ export * from './events/actions/stacked-bars-click-actions';
 export * from './events/actions/stacked-bars-hover-actions';
 export * from './events/actions/stacked-bars-hover-move-actions';
 export * from './events/stacked-bars-events.directive';
-export * from './events/stacked-bars-interaction-output';
 export * from './stacked-bars.component';
 export * from './stacked-bars.module';

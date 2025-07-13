@@ -10,9 +10,9 @@ export class BarsClickEmitTooltipDataPauseOtherActions<
     EventAction<BarsHost<Datum, TOrdinalValue>, BarsInteractionOutput<Datum>>
 {
   onStart(host: BarsHost<Datum, TOrdinalValue>) {
-    const outputData = host.getInteractionOutput(EventType.Click);
+    const output = host.getInteractionOutput(EventType.Click);
     host.disableOtherActions(EventType.Click);
-    host.emitInteractionOutput(outputData);
+    host.emitInteractionOutput(output);
   }
 
   onEnd(host: BarsHost<Datum, TOrdinalValue>) {

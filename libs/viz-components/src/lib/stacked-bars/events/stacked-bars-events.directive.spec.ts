@@ -124,7 +124,7 @@ describe('StackedBarsEventsDirective', () => {
       expect(val).toEqual(output);
       done();
     });
-    directive.emitInteractionOutput(output);
+    directive.emitInteractionOutput(output as any);
   });
 
   it('should handle onEnter for hover', () => {
@@ -251,8 +251,10 @@ describe('StackedBarsEventsDirective', () => {
       jasmine.objectContaining({
         tooltip: 'data',
         origin: barElement,
-        positionX: 1,
-        positionY: 2,
+        anchor: {
+          x: 1,
+          y: 2,
+        },
         type: EventType.Hover,
       })
     );

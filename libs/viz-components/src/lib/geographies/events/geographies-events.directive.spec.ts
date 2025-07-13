@@ -218,6 +218,8 @@ describe('GeographiesEventsDirective', () => {
       values: { id: 1 },
     };
     directive.emitInteractionOutput(output as any);
-    expect(directive.interactionOutput.emit).toHaveBeenCalledWith(output);
+    expect(directive.interactionOutput.emit).toHaveBeenCalledWith(
+      output as any
+    );
   });
 });

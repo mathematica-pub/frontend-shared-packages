@@ -9,10 +9,9 @@ import {
   HoverMoveAction,
   InputEventAction,
   MarksHost,
-  TooltipPosition,
   UnlistenFunction,
 } from '../../events';
-import { DEFAULT_TOOLTIP_Y_OFFSET } from '../../tooltips';
+import { DEFAULT_TOOLTIP_Y_OFFSET, TooltipPosition } from '../../tooltips';
 import { GeographiesAttributeDataLayer } from '../config/layers/attribute-data-layer/attribute-data-layer';
 import { GeographiesGeojsonPropertiesLayer } from '../config/layers/geojson-properties-layer/geojson-properties-layer';
 import { GeographiesFeature } from '../geographies-feature';

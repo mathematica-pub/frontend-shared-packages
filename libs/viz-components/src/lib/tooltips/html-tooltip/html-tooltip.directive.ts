@@ -7,11 +7,9 @@ import {
   PositionStrategy,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { DOCUMENT } from '@angular/common';
 import {
   Directive,
   EventEmitter,
-  Inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -22,7 +20,6 @@ import {
 } from '@angular/core';
 import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { Subject, takeUntil } from 'rxjs';
-import { ChartComponent } from '../../charts';
 import { HtmlTooltipConfig } from './config/html-tooltip-config';
 
 @Directive({
@@ -41,9 +38,7 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
   constructor(
     private viewContainerRef: ViewContainerRef,
     private overlay: Overlay,
-    private overlayPositionBuilder: OverlayPositionBuilder,
-    private chart: ChartComponent,
-    @Inject(DOCUMENT) private document: Document
+    private overlayPositionBuilder: OverlayPositionBuilder
   ) {}
 
   init(): void {
@@ -81,9 +76,8 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
   }
 
   getPositionStrategy(): PositionStrategy {
-    const origin = this.config.origin ?? this.chart.svgRef;
     return this.config.position.getPositionStrategy(
-      origin.nativeElement,
+      this.config.origin.nativeElement,
       this.overlayPositionBuilder
     );
   }

@@ -1,7 +1,7 @@
+import { BarsInteractionOutput } from '../../../bars';
 import { DataValue } from '../../../core/types/values';
 import { EventAction, EventType } from '../../../events';
 import { StackedBarsHost } from '../stacked-bars-events.directive';
-import { StackedBarsInteractionOutput } from '../stacked-bars-interaction-output';
 
 export class StackedBarsClickEmitTooltipDataPauseOtherActions<
   Datum,
@@ -9,7 +9,7 @@ export class StackedBarsClickEmitTooltipDataPauseOtherActions<
 > implements
     EventAction<
       StackedBarsHost<Datum, TOrdinalValue>,
-      StackedBarsInteractionOutput<Datum, TOrdinalValue>
+      BarsInteractionOutput<Datum>
     >
 {
   onStart(host: StackedBarsHost<Datum, TOrdinalValue>) {

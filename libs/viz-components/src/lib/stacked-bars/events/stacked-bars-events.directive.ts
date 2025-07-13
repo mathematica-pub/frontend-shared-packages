@@ -1,9 +1,10 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { pointer, select } from 'd3';
 import { map, Observable } from 'rxjs';
+import { BarsInteractionOutput } from '../../bars';
 import { BarsTooltipPositioner } from '../../bars/events/bars-tooltip-positioner';
 import { DataValue } from '../../core/types/values';
-import { EventsDirective, TooltipPosition } from '../../events';
+import { EventsDirective } from '../../events';
 import {
   EventAction,
   EventType,
@@ -12,13 +13,12 @@ import {
   MarksHost,
   UnlistenFunction,
 } from '../../events/events.types';
-import { DEFAULT_TOOLTIP_Y_OFFSET } from '../../tooltips';
+import { DEFAULT_TOOLTIP_Y_OFFSET, TooltipPosition } from '../../tooltips';
 import {
   StackDatum,
   STACKED_BARS,
   StackedBarsComponent,
 } from '../stacked-bars.component';
-import { StackedBarsInteractionOutput } from './stacked-bars-interaction-output';
 
 export interface StackedBarsHost<
   Datum,
@@ -27,10 +27,7 @@ export interface StackedBarsHost<
     Datum,
     TOrdinalValue
   > = StackedBarsComponent<Datum, TOrdinalValue>,
-> extends MarksHost<
-    StackedBarsInteractionOutput<Datum, TOrdinalValue>,
-    TStackedBarsComponent
-  > {
+> extends MarksHost<BarsInteractionOutput<Datum>, TStackedBarsComponent> {
   getStackDatum(): StackDatum | null;
 }
 
@@ -49,32 +46,30 @@ export class StackedBarsEventsDirective<
   hoverActions:
     | EventAction<
         StackedBarsHost<Datum, TOrdinalValue>,
-        StackedBarsInteractionOutput<Datum, TOrdinalValue>
+        BarsInteractionOutput<Datum>
       >[]
     | null;
   @Input()
   hoverMoveActions:
     | HoverMoveAction<
         StackedBarsHost<Datum, TOrdinalValue>,
-        StackedBarsInteractionOutput<Datum, TOrdinalValue>
+        BarsInteractionOutput<Datum>
       >[]
     | null;
   @Input()
   clickActions:
     | EventAction<
         StackedBarsHost<Datum, TOrdinalValue>,
-        StackedBarsInteractionOutput<Datum, TOrdinalValue>
+        BarsInteractionOutput<Datum>
       >[]
     | null;
   @Input()
   inputEventActions: InputEventAction<
     StackedBarsHost<Datum, TOrdinalValue>,
-    StackedBarsInteractionOutput<Datum, TOrdinalValue>
+    BarsInteractionOutput<Datum>
   >[];
-  @Output() interactionOutput = new EventEmitter<StackedBarsInteractionOutput<
-    Datum,
-    TOrdinalValue
-  > | null>();
+  @Output() interactionOutput =
+    new EventEmitter<BarsInteractionOutput<Datum> | null>();
 
   stackDatum: StackDatum | null = null;
   origin: SVGRectElement;
@@ -83,7 +78,7 @@ export class StackedBarsEventsDirective<
     super();
   }
 
-  get marks(): StackedBarsComponent<Datum, TOrdinalValue> {
+  get marks(): TStackedBarsComponent {
     return this.stackedBars;
   }
 
@@ -203,9 +198,7 @@ export class StackedBarsEventsDirective<
       positionY - parseFloat(this.origin.getAttribute('y') || '0');
   }
 
-  getInteractionOutput(
-    type: EventType
-  ): StackedBarsInteractionOutput<Datum, TOrdinalValue> {
+  getInteractionOutput(type: EventType): BarsInteractionOutput<Datum> {
     const datum = this.stackedBars.getSourceDatumFromStackedBarDatum(
       this.stackDatum
     );
@@ -239,9 +232,7 @@ export class StackedBarsEventsDirective<
     };
   }
 
-  emitInteractionOutput(
-    output: StackedBarsInteractionOutput<Datum, TOrdinalValue> | null
-  ): void {
+  emitInteractionOutput(output: BarsInteractionOutput<Datum> | null): void {
     this.interactionOutput.emit(output);
   }
 

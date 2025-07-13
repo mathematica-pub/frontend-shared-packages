@@ -1,5 +1,5 @@
-import { EventType, TooltipPosition } from '../events';
-import { HtmlTooltipCdkManagedPosition } from '../tooltips';
+import { EventType } from '../events';
+import { HtmlTooltipCdkManagedPosition, TooltipPosition } from '../tooltips';
 
 export interface BaseInteractionOutput {
   /**

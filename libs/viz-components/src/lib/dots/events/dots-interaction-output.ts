@@ -1,6 +1,5 @@
-import { TooltipPosition } from '../../events';
 import { MarksInteractionOutput } from '../../events/interaction-output';
-import { HtmlTooltipCdkManagedPosition } from '../../tooltips';
+import { HtmlTooltipCdkManagedPosition, TooltipPosition } from '../../tooltips';
 import { DotsTooltipDatum } from '../dots.component';
 
 export interface DotsInteractionOutput<Datum>

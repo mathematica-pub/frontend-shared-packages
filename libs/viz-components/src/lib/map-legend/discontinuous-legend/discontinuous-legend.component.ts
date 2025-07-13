@@ -11,9 +11,6 @@ export type DiscontinuousAttributeDataDimensionConfig<Datum> = Exclude<
   NoBinsAttributeDataDimension<Datum>
 >;
 
-/**
- * @internal
- */
 @Component({
   selector: 'vic-discontinuous-legend',
   templateUrl: './discontinuous-legend.component.html',

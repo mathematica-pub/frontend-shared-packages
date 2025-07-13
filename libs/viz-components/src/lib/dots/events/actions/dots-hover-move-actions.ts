@@ -28,8 +28,8 @@ export class DotsHoverMoveEmitTooltipData<Datum>
   implements HoverMoveAction<DotsHost<Datum>>
 {
   onStart(host: DotsHost<Datum>): void {
-    const tooltipData = host.getInteractionOutput(EventType.HoverMove);
-    host.emitInteractionOutput(tooltipData);
+    const output = host.getInteractionOutput(EventType.HoverMove);
+    host.emitInteractionOutput(output);
   }
 
   onEnd(host: DotsHost<Datum>): void {

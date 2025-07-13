@@ -10,10 +10,9 @@ import {
   EventType,
   HoverMoveAction,
   InputEventAction,
-  TooltipPosition,
   UnlistenFunction,
 } from '../../events';
-import { DEFAULT_TOOLTIP_Y_OFFSET } from '../../tooltips';
+import { DEFAULT_TOOLTIP_Y_OFFSET, TooltipPosition } from '../../tooltips';
 import { GroupedBarsComponent } from '../grouped-bars.component';
 
 @Directive({

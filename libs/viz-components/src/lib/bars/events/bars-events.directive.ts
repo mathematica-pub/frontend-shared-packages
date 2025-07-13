@@ -9,10 +9,9 @@ import {
   HoverMoveAction,
   InputEventAction,
   MarksHost,
-  TooltipPosition,
   UnlistenFunction,
 } from '../../events';
-import { DEFAULT_TOOLTIP_Y_OFFSET } from '../../tooltips';
+import { DEFAULT_TOOLTIP_Y_OFFSET, TooltipPosition } from '../../tooltips';
 import { BarDatum, BARS, BarsComponent } from '../bars.component';
 import { BarsInteractionOutput } from './bars-interaction-output';
 import { BarsTooltipPositioner } from './bars-tooltip-positioner';

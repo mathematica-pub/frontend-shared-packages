@@ -13,8 +13,8 @@ export class BarsHoverMoveEmitTooltipData<
     >
 {
   onStart(host: BarsHost<Datum, TOrdinalValue>): void {
-    const tooltipData = host.getInteractionOutput(EventType.HoverMove);
-    host.emitInteractionOutput(tooltipData);
+    const output = host.getInteractionOutput(EventType.HoverMove);
+    host.emitInteractionOutput(output);
   }
 
   onEnd(host: BarsHost<Datum, TOrdinalValue>): void {
