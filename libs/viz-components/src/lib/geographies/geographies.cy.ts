@@ -145,12 +145,7 @@ class TestGeographiesComponent {
   ): void {
     const config = new VicHtmlTooltipConfigBuilder()
       .size((size) => size.minWidth(80))
-      .geographiesPosition(data?.origin, [
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - tooltipYOffset : undefined,
-        },
-      ])
+      .positionFromOutput(data)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);

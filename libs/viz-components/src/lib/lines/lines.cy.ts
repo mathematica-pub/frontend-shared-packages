@@ -131,12 +131,7 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   updateTooltipConfig(data: LinesInteractionOutput<Datum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
       .size((size) => size.minWidth(100))
-      .linesPosition([
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - tooltipYOffset : 0,
-        },
-      ])
+      .positionFromOutput(data)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
