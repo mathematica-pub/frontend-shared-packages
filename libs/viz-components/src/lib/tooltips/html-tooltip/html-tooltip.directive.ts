@@ -77,7 +77,7 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
   }
 
   getPositionStrategy(): PositionStrategy | null {
-    if (!this.config.show || !this.config.origin || !this.config.position) {
+    if (!this.config.origin || !this.config.position) {
       return null;
     }
 
