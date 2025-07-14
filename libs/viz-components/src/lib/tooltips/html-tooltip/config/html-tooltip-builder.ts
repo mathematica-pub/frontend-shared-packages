@@ -114,11 +114,6 @@ export class VicHtmlTooltipConfigBuilder {
   }
 
   private validateBuilder(): void {
-    console.log(
-      'validating builder with position',
-      this._position,
-      this._origin
-    );
     if (!this.sizeBuilder) {
       this.initSizeBuilder();
     }
