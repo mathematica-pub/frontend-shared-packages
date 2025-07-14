@@ -61,7 +61,8 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
       ...this.config.size,
       panelClass: this.config.panelClass,
       scrollStrategy: this.overlay.scrollStrategies.close(),
-      positionStrategy: this.getPositionStrategy(),
+      positionStrategy:
+        this.getPositionStrategy() || this.overlayPositionBuilder.global(),
       hasBackdrop: this.config.hasBackdrop,
       backdropClass: 'vic-html-tooltip-backdrop',
     });
@@ -75,7 +76,11 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
     this.updateVisibility();
   }
 
-  getPositionStrategy(): PositionStrategy {
+  getPositionStrategy(): PositionStrategy | null {
+    if (!this.config.show || !this.config.origin || !this.config.position) {
+      return null;
+    }
+
     return this.config.position.getPositionStrategy(
       this.config.origin.nativeElement,
       this.overlayPositionBuilder
@@ -137,7 +142,10 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
 
   updatePosition(): void {
     const strategy = this.getPositionStrategy();
-    this.overlayRef.updatePositionStrategy(strategy);
+    if (strategy) {
+      // Only update if we have a valid strategy
+      this.overlayRef.updatePositionStrategy(strategy);
+    }
   }
 
   updateClasses(prevClass: string[]): void {

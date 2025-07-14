@@ -150,7 +150,6 @@ class TestDotsQuantQuantComponent<Datum> {
   }
 
   updateTooltipConfig(data: DotsInteractionOutput<Datum>): void {
-    console.log('updateTooltipConfig', data);
     const config = new VicHtmlTooltipConfigBuilder()
       .positionFromOutput(data)
       .show(!!data)
