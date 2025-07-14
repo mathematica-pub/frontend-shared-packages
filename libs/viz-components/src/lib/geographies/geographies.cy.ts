@@ -82,20 +82,19 @@ type TestUsMapTopology = Topology<TestMapObjects>;
       </svg:g>
     </vic-map-chart>
     <ng-template #htmlTooltip>
-      <div
-        [style.--color]="(tooltipData$ | async).color"
-        class="tooltip-container"
-      >
-        <p class="tooltip-label geography">
-          {{ (tooltipData$ | async).geography }}
-        </p>
-        <div class="values-container">
-          <p class="tooltip-label x">
-            <span class="value-label">Income</span>
-            {{ (tooltipData$ | async).attributeValue }}
+      @if (tooltipData$ | async; as tooltipData) {
+        <div [style.--color]="tooltipData.color" class="tooltip-container">
+          <p class="tooltip-label geography">
+            {{ tooltipData.geography }}
           </p>
+          <div class="values-container">
+            <p class="tooltip-label x">
+              <span class="value-label">Income</span>
+              {{ tooltipData.attributeValue }}
+            </p>
+          </div>
         </div>
-      </div>
+      }
     </ng-template>
   `,
   styles: ['.tooltip-container { font-size: 12px; }'],

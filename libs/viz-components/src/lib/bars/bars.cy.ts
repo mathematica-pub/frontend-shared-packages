@@ -8,6 +8,7 @@ import {
   BarsHoverMoveEmitTooltipData,
   BarsInteractionOutput,
   ChartConfig,
+  DEFAULT_TOOLTIP_Y_OFFSET,
   EventAction,
   HoverMoveAction,
   HtmlTooltipConfig,
@@ -42,7 +43,7 @@ import {
 // This wait time is necessary to ensure that the text value of the tick elements has been set by d3.
 const axisTickTextWaitTime = 1000;
 
-const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 80 };
+const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 120 };
 const verticalMargin = { top: 20, right: 20, bottom: 4, left: 40 };
 const chartHeight = 400;
 const chartWidth = 600;
@@ -823,7 +824,7 @@ describe('displays tooltips for correct data per hover position', () => {
                 5
               );
               expect(tooltipBox.bottom).to.be.closeTo(
-                (barBox.top + barBox.bottom) / 2 - 12,
+                (barBox.top + barBox.bottom) / 2 - DEFAULT_TOOLTIP_Y_OFFSET,
                 10
               );
             });

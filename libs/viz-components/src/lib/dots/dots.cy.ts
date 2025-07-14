@@ -443,7 +443,7 @@ describe('displays a tooltips with correct data on each dot', () => {
         fill.valueAccessor((d) => d.continent).range(colors)
       )
       .radiusNumeric((radius) =>
-        radius.valueAccessor((d) => d.popGrowth).range([2, 10])
+        radius.valueAccessor((d) => d.popGrowth).range([4, 16])
       )
       .getConfig();
     mountDotsXQuantYQuantComponent(dotsConfig);
