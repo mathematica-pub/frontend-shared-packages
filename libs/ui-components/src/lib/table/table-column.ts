@@ -60,7 +60,7 @@ export class TableColumn<Datum> {
   sortedOnInit = false;
   constructor(init?: Partial<TableColumn<Datum>>) {
     this.sortDirection = SortDirection.asc;
-    this.getAlignment = () => 'left';
+    // this.getAlignment = () => 'left';
     safeAssign(this, init);
     this.initialSortDirection = this.sortDirection;
     if (this.ascendingSortFunction === undefined) {
