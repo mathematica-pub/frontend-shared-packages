@@ -3,8 +3,22 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnInit,
   signal,
 } from '@angular/core';
+import {
+  ChartConfig,
+  LinesConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
+  VicLinesConfigBuilder,
+  VicLinesModule,
+  VicXQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfigBuilder,
+  VicXyAxisModule,
+  VicYQuantitativeAxisConfig,
+  VicYQuantitativeAxisConfigBuilder,
+} from '@hsi/viz-components';
 import {
   ColumnDef,
   createAngularTable,
@@ -13,49 +27,53 @@ import {
   getSortedRowModel,
   SortingState,
 } from '@tanstack/angular-table';
-import { BarsSimpleStatesExampleComponent } from '../../../viz-components/bars-content/bars-simple-states-example/bars-simple-states-example.component';
 
+type PerformanceReview = {
+  year: number;
+  hrAppraisal: number;
+  employeeAppraisal: number;
+};
 type Person = {
   firstName: string;
   lastName: string;
   age: number;
-  performance: {
-    visits: number;
-    status: string;
-    progress: number;
-  };
+  performance: PerformanceReview[];
+};
+
+type PersonWithCharts = Person & {
+  chartConfig: LinesConfig<PerformanceReview>;
 };
 
 const defaultData: Person[] = [
   {
-    firstName: 'tanner',
-    lastName: 'linsley',
-    age: 24,
-    performance: {
-      visits: 100,
-      status: 'In Relationship',
-      progress: 50,
-    },
+    firstName: 'first',
+    lastName: 'last',
+    age: 106,
+    performance: [
+      { year: 2020, hrAppraisal: 9, employeeAppraisal: 4 },
+      { year: 2023, hrAppraisal: 10, employeeAppraisal: 2 },
+      { year: 2025, hrAppraisal: 10, employeeAppraisal: -10 },
+    ],
   },
   {
-    firstName: 'joe',
-    lastName: 'dirte',
+    firstName: 'person',
+    lastName: 'name',
     age: 45,
-    performance: {
-      visits: 20,
-      status: 'Single',
-      progress: 10,
-    },
+    performance: [
+      { year: 2020, hrAppraisal: 8, employeeAppraisal: 9 },
+      { year: 2023, hrAppraisal: 10, employeeAppraisal: 10 },
+      { year: 2025, hrAppraisal: 0, employeeAppraisal: 10 },
+    ],
   },
   {
-    firstName: 'tandy',
-    lastName: 'miller',
+    firstName: 'another',
+    lastName: 'name',
     age: 40,
-    performance: {
-      visits: 40,
-      status: 'Single',
-      progress: 80,
-    },
+    performance: [
+      { year: 2020, hrAppraisal: 8, employeeAppraisal: 5 },
+      { year: 2023, hrAppraisal: 6, employeeAppraisal: 3 },
+      { year: 2025, hrAppraisal: 7, employeeAppraisal: 1 },
+    ],
   },
 ];
 
@@ -82,19 +100,8 @@ const defaultColumns: ColumnDef<Person>[] = [
     enableSorting: true,
   },
   {
-    accessorKey: 'performance.visits',
-    header: () => `Visits`,
-    footer: (info) => info.column.id,
-  },
-  {
-    accessorKey: 'performance.status',
-    header: 'Status',
-    footer: (info) => info.column.id,
-    sortingFn: 'basic',
-  },
-  {
-    accessorKey: 'performance.progress',
-    header: () => `Progress`,
+    accessorKey: 'chartConfig',
+    header: () => `performance appraisal`,
     footer: (info) => info.column.id,
   },
 ];
@@ -105,13 +112,21 @@ const defaultColumns: ColumnDef<Person>[] = [
   imports: [
     FlexRenderDirective,
     CommonModule,
-    BarsSimpleStatesExampleComponent,
+    VicChartModule,
+    VicLinesModule,
+    VicXyAxisModule,
+  ],
+  providers: [
+    VicChartConfigBuilder,
+    VicLinesConfigBuilder,
+    VicYQuantitativeAxisConfigBuilder,
+    VicXQuantitativeAxisConfigBuilder,
   ],
   templateUrl: './tanstack-example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./tanstack-example.component.scss'],
 })
-export class TanstackExampleComponent {
+export class TanstackExampleComponent implements OnInit {
   @Input() sortIcon: string = 'arrow_upward';
   readonly sorting = signal<SortingState>([
     {
@@ -120,7 +135,8 @@ export class TanstackExampleComponent {
     },
   ]);
 
-  readonly data = signal(defaultData);
+  data = signal(null);
+
   table = createAngularTable(() => ({
     data: this.data(),
     columns: defaultColumns,
@@ -139,4 +155,29 @@ export class TanstackExampleComponent {
       }
     },
   }));
+
+  chartConfig: ChartConfig;
+  xAxisQuantitativeConfig: VicXQuantitativeAxisConfig<Date>;
+  yAxisConfig: VicYQuantitativeAxisConfig<number>;
+
+  ngOnInit(): void {
+    this.data.set(this.addChartsToData(defaultData));
+    this.chartConfig = new VicChartConfigBuilder().getConfig();
+    this.xAxisQuantitativeConfig = new VicXQuantitativeAxisConfigBuilder()
+      .ticks((ticks) => ticks.format('%Y'))
+      .getConfig();
+    this.yAxisConfig = new VicYQuantitativeAxisConfigBuilder().getConfig();
+  }
+
+  addChartsToData(data: Person[]): PersonWithCharts[] {
+    return data.map((person) => {
+      const chartConfig = new VicLinesConfigBuilder<PerformanceReview>()
+        .data(person.performance)
+        .xDate((xDate) => xDate.valueAccessor((d) => new Date(d.year)))
+        .y((yValue) => yValue.valueAccessor((d) => d.employeeAppraisal))
+        .pointMarkers((markers) => markers.radius(2).growByOnHover(3))
+        .getConfig();
+      return { ...person, chartConfig };
+    });
+  }
 }
