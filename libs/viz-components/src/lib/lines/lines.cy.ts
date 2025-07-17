@@ -69,7 +69,7 @@ const markerSelector = '.vic-lines-marker';
           vic-primary-marks-lines
           [config]="linesConfig"
           vicLinesEvents
-          [hoverMoveActions]="hoverActions"
+          [hoverMoveActions]="hoverMoveActions"
           (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
@@ -109,7 +109,7 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   tooltipData: BehaviorSubject<LinesInteractionOutput<Datum>> =
     new BehaviorSubject<LinesInteractionOutput<Datum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: HoverMoveAction<LinesHost<Datum>>[] = [
+  hoverMoveActions: HoverMoveAction<LinesHost<Datum>>[] = [
     new LinesHoverMoveEmitTooltipData(),
   ];
   chartConfig: ChartConfig = new VicChartConfigBuilder()

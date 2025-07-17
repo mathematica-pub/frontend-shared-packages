@@ -26,7 +26,7 @@ export class VicHtmlTooltipConfigBuilder {
   }
 
   /**
-   * OPTIONAL. If set to true, the tooltip will have a class that disables pointer events.
+   * OPTIONAL. If set to true, the tooltip will have the class 'events-disabled' that can be used to disable pointer events.
    * This is useful when the tooltip should not interfere with user interactions, such as when it is used for informational purposes only.
    *
    * Default is true, meaning the class will be applied.
