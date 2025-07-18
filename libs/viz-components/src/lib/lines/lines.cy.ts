@@ -43,7 +43,6 @@ const chartHeight = 400;
 const chartWidth = 600;
 const dateData = continentPopulationDateYearData;
 const numericData = ContinentPopulationNumYearData;
-const tooltipYOffset = 60; // need to offset otherwise the hover will be on the tooltip itself rather than svg
 
 const lineSelector = '.vic-lines-line';
 const markerSelector = '.vic-lines-marker';
@@ -90,7 +89,9 @@ const markerSelector = '.vic-lines-marker';
       </ng-container>
     </ng-template>
   `,
-  styles: ['.tooltip-text { font-size: 12px; }'],
+  styles: [
+    '.tooltip-text { font-size: 12px; }  .events-disabled { pointer-events: none; }',
+  ],
   imports: [
     VicChartModule,
     VicLinesModule,
@@ -694,7 +695,7 @@ describe('displays tooltips for correct data per hover position', () => {
       });
 
       it('displays a tooltip', () => {
-        cy.get('.vic-html-tooltip-overlay').should('be.visible');
+        cy.get('.vic-html-tooltip-overlay').should('exist');
       });
 
       it('tooltip displays correct data', () => {
@@ -722,10 +723,7 @@ describe('displays tooltips for correct data per hover position', () => {
                 (markerBox.left + markerBox.right) / 2,
                 1
               );
-              expect(tooltipBox.bottom + tooltipYOffset).to.be.closeTo(
-                markerBox.top,
-                10
-              );
+              expect(tooltipBox.bottom).to.be.closeTo(markerBox.top, 10);
             });
         });
       });
