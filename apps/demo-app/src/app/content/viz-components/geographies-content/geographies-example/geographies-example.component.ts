@@ -92,9 +92,10 @@ export class GeographiesExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<GeographiesInteractionOutput<StateIncomeDatum>> =
-    new BehaviorSubject<GeographiesInteractionOutput<StateIncomeDatum>>(null);
-  tooltipData$ = this.tooltipData.asObservable();
+  interactionOutput: BehaviorSubject<
+    GeographiesInteractionOutput<StateIncomeDatum>
+  > = new BehaviorSubject<GeographiesInteractionOutput<StateIncomeDatum>>(null);
+  interactionOutput$ = this.interactionOutput.asObservable();
   hoverActions: EventAction<GeographiesHost<StateIncomeDatum>>[] = [
     new GeographiesHoverEmitTooltipData<StateIncomeDatum>(),
   ];
@@ -336,28 +337,21 @@ export class GeographiesExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: GeographiesInteractionOutput<StateIncomeDatum>
+    output: GeographiesInteractionOutput<StateIncomeDatum>
   ): void {
-    this.updateTooltipData(data);
-    this.updateTooltipConfig(data);
-  }
-
-  updateTooltipData(
-    data: GeographiesInteractionOutput<StateIncomeDatum>
-  ): void {
-    this.tooltipData.next(data);
+    this.interactionOutput.next(output);
+    this.updateTooltipConfig(output);
   }
 
   updateTooltipConfig(
-    data: GeographiesInteractionOutput<StateIncomeDatum>
+    output: GeographiesInteractionOutput<StateIncomeDatum> | null
   ): void {
     const config = this.tooltip
       .size((size) => size.minWidth(130))
-      .positionFromOutput(data, data?.fromAnchor({ y: 12 }))
-      .hasBackdrop(data?.type === 'click')
-      .show(!!data)
+      .positionFromOutput(output, output?.fromAnchor({ y: 12 }))
+      .hasBackdrop(output?.type === 'click')
+      .show(!!output)
       .getConfig();
-
     this.tooltipConfig.next(config);
   }
 

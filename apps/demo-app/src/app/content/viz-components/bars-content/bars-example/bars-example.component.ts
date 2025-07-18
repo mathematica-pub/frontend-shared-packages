@@ -84,9 +84,10 @@ export class BarsExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<BarsInteractionOutput<MetroUnemploymentDatum>> =
-    new BehaviorSubject<BarsInteractionOutput<MetroUnemploymentDatum>>(null);
-  tooltipData$ = this.tooltipData.asObservable();
+  interactionOutput: BehaviorSubject<
+    BarsInteractionOutput<MetroUnemploymentDatum>
+  > = new BehaviorSubject<BarsInteractionOutput<MetroUnemploymentDatum>>(null);
+  interactionOutput$ = this.interactionOutput.asObservable();
   hoverMoveActions: HoverMoveAction<
     BarsHost<MetroUnemploymentDatum, string>,
     BarsInteractionOutput<MetroUnemploymentDatum>
@@ -211,14 +212,8 @@ export class BarsExampleComponent implements OnInit {
   updateTooltipForNewOutput(
     output: BarsInteractionOutput<MetroUnemploymentDatum> | null
   ): void {
-    this.updateTooltipData(output);
+    this.interactionOutput.next(output);
     this.updateTooltipConfig(output);
-  }
-
-  updateTooltipData(
-    output: BarsInteractionOutput<MetroUnemploymentDatum> | null
-  ): void {
-    this.tooltipData.next(output);
   }
 
   updateTooltipConfig(

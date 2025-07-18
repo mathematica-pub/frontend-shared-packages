@@ -80,23 +80,23 @@
 <ng-template #loading>Loading...</ng-template>
 
 <ng-template #htmlTooltip>
-  <ng-container *ngIf="tooltipData$ | async as tooltipData">
+  <ng-container *ngIf="interactionOutput$ | async as interactionOutput">
     <div
-      [style.--color]="tooltipData.color"
+      [style.--color]="interactionOutput.color"
       class="lines-example-tooltip-container"
     >
       <div class="tooltip-body">
         <p class="tooltip-label category">
-          {{ tooltipData.values.strokeColor }}
+          {{ interactionOutput.values.strokeColor }}
         </p>
         <div class="values-container">
           <p class="tooltip-label x">
             <span class="value-label">Date</span>
-            {{ tooltipData.values.x }}
+            {{ interactionOutput.values.x }}
           </p>
           <p class="tooltip-label y">
             <span class="value-label">Value</span>
-            {{ tooltipData.values.y }}
+            {{ interactionOutput.values.y }}
           </p>
         </div></div
       >

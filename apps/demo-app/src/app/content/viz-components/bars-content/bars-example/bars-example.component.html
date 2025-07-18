@@ -36,28 +36,28 @@
 <ng-template #loading>Loading...</ng-template>
 <ng-template #htmlTooltip>
   <div
-    [style.--color]="(tooltipData$ | async).color"
+    [style.--color]="(interactionOutput$ | async).color"
     class="bars-example-tooltip-container"
   >
     <div class="tooltip-body">
       @if ((layoutProperties$ | async).orientation === 'horizontal') {
         <p class="tooltip-label category">
-          {{ (tooltipData$ | async).values.y }}
+          {{ (interactionOutput$ | async).values.y }}
         </p>
         <div class="values-container">
           <p class="tooltip-label quantitative">
             <span class="value-label">Value</span>
-            {{ (tooltipData$ | async).values.x }}
+            {{ (interactionOutput$ | async).values.x }}
           </p>
         </div>
       } @else {
         <p class="tooltip-label category">
-          {{ (tooltipData$ | async).values.x }}
+          {{ (interactionOutput$ | async).values.x }}
         </p>
         <div class="values-container">
           <p class="tooltip-label quantitative">
             <span class="value-label">Value</span>
-            {{ (tooltipData$ | async).values.y }}
+            {{ (interactionOutput$ | async).values.y }}
           </p>
         </div>
       }

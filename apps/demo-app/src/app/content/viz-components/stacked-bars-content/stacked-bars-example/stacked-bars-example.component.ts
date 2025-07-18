@@ -77,12 +77,12 @@ export class StackedBarsExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<
+  interactionOutput: BehaviorSubject<
     StackedBarsInteractionOutput<IndustryUnemploymentDatum>
   > = new BehaviorSubject<
     StackedBarsInteractionOutput<IndustryUnemploymentDatum>
   >(null);
-  tooltipData$ = this.tooltipData.asObservable();
+  interactionOutput$ = this.interactionOutput.asObservable();
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
 
@@ -148,18 +148,12 @@ export class StackedBarsExampleComponent implements OnInit {
   updateTooltipForNewOutput(
     data: StackedBarsInteractionOutput<IndustryUnemploymentDatum>
   ): void {
-    this.updateTooltipData(data);
+    this.interactionOutput.next(data);
     this.updateTooltipConfig(data?.type);
   }
 
-  updateTooltipData(
-    data: StackedBarsInteractionOutput<IndustryUnemploymentDatum>
-  ): void {
-    this.tooltipData.next(data);
-  }
-
   updateTooltipConfig(eventType: EventType | undefined): void {
-    const data = this.tooltipData.getValue();
+    const data = this.interactionOutput.getValue();
     const config = this.tooltip
       .positionFromOutput(data)
       .hasBackdrop(eventType === 'click')

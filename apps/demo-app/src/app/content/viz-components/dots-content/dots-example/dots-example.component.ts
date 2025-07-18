@@ -65,9 +65,9 @@ export class DotsExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<DotsInteractionOutput<WeatherDatum>> =
+  interactionOutput: BehaviorSubject<DotsInteractionOutput<WeatherDatum>> =
     new BehaviorSubject<DotsInteractionOutput<WeatherDatum>>(null);
-  tooltipData$ = this.tooltipData.asObservable();
+  interactionOutput$ = this.interactionOutput.asObservable();
   hoverActions: HoverMoveAction<DotsHost<WeatherDatum>>[] = [
     new DotsHoverMoveDefaultStyles(),
     new DotsHoverMoveEmitTooltipData(),
@@ -128,16 +128,16 @@ export class DotsExampleComponent implements OnInit {
     };
   }
 
-  updateTooltipForNewOutput(output: DotsInteractionOutput<WeatherDatum>): void {
-    this.updateTooltipData(output);
+  updateTooltipForNewOutput(
+    output: DotsInteractionOutput<WeatherDatum> | null
+  ): void {
+    this.interactionOutput.next(output);
     this.updateTooltipConfig(output);
   }
 
-  updateTooltipData(output: DotsInteractionOutput<WeatherDatum>): void {
-    this.tooltipData.next(output);
-  }
-
-  updateTooltipConfig(output: DotsInteractionOutput<WeatherDatum>): void {
+  updateTooltipConfig(
+    output: DotsInteractionOutput<WeatherDatum> | null
+  ): void {
     const config = this.tooltip
       .positionFromOutput(output)
       .show(!!output)

@@ -277,8 +277,8 @@ export class LinesEventsDirective<
   getInteractionOutput(type: EventType): LinesInteractionOutput<Datum> {
     const tooltipData = this.lines.getTooltipData(this.closestPointIndex);
     const position = new LinesTooltipPositioner({
-      x: this.positionX,
-      y: this.positionY,
+      x: tooltipData.anchor.x,
+      y: tooltipData.anchor.y,
     });
 
     return {

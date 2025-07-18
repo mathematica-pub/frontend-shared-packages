@@ -65,12 +65,12 @@ export class StackedAreaExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<
+  interactionOutput: BehaviorSubject<
     StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   > = new BehaviorSubject<
     StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   >(null);
-  tooltipData$ = this.tooltipData.asObservable();
+  interactionOutput$ = this.interactionOutput.asObservable();
   hoverMoveActions: HoverMoveAction<
     StackedAreaHost<IndustryUnemploymentDatum, string>
   >[] = [new StackedAreaHoverMoveEmitTooltipData()];
@@ -119,23 +119,20 @@ export class StackedAreaExampleComponent implements OnInit {
   updateTooltipForNewOutput(
     output: StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   ): void {
-    this.updateTooltipData(output);
+    this.interactionOutput.next(output);
     this.updateTooltipConfig(output);
   }
 
-  updateTooltipData(
-    output: StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
-  ): void {
-    this.tooltipData.next(output);
-  }
-
   updateTooltipConfig(
-    output: StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
+    output: StackedAreaInteractionOutput<
+      IndustryUnemploymentDatum,
+      string
+    > | null
   ): void {
     const config = this.tooltip
       .size((size) => size.minWidth(130))
       .positionFromOutput(output, output?.fromAnchor('area', { y: 8 }))
-      .show(output?.hoveredAreaDatum !== undefined)
+      .show(!!output?.hoveredAreaDatum)
       .getConfig();
     this.tooltipConfig.next(config);
   }

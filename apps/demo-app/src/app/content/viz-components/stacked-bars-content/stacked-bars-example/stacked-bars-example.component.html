@@ -25,22 +25,22 @@
 <ng-template #loading>Loading...</ng-template>
 
 <ng-template #htmlTooltip>
-  @if (tooltipData$ | async; as tooltipData) {
+  @if (interactionOutput$ | async; as interactionOutput) {
     <div
-      [style.--color]="tooltipData.color"
+      [style.--color]="interactionOutput.color"
       class="stacked-bars-example-tooltip-container"
     >
       <div class="tooltip-body">
         <p class="tooltip-label category">
-          {{ tooltipData.values.category }}
+          {{ interactionOutput.values.category }}
         </p>
         <p class="tooltip-label category">
-          {{ tooltipData.values.x }}
+          {{ interactionOutput.values.x }}
         </p>
         <div class="values-container">
           <p class="tooltip-label y">
             <span class="value-label">Value</span>
-            {{ tooltipData.values.y }}
+            {{ interactionOutput.values.y }}
           </p>
         </div></div
       >

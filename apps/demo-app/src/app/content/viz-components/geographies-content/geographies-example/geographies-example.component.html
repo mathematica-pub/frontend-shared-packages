@@ -94,17 +94,17 @@
 <ng-template #loading>Loading...</ng-template>
 
 <ng-template #htmlTooltip>
-  @if (tooltipData$ | async; as tooltipData) {
+  @if (interactionOutput$ | async; as interactionOutput) {
     <div class="geographies-example-tooltip-container">
       <div class="tooltip-body">
         <p class="tooltip-label category">
-          {{ tooltipData.geography }}
+          {{ interactionOutput.geography }}
         </p>
         <div class="values-container">
           <p class="tooltip-label x">
             <span class="value-label">Income</span>
-            @if (tooltipData.datum) {
-              {{ tooltipData.attributeValue }}
+            @if (interactionOutput.datum) {
+              {{ interactionOutput.attributeValue }}
             } @else {
               No data available
             }

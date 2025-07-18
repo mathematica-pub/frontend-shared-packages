@@ -16,7 +16,7 @@
       </svg:g>
       <svg:g>
         <line
-          *ngIf="tooltipData$ | async as tooltipData"
+          *ngIf="interactionOutput$ | async as tooltipData"
           class="tooltip-line"
           [attr.x1]="tooltipData.anchor.x"
           [attr.x2]="tooltipData.anchor.x"
@@ -33,17 +33,17 @@
 
 <ng-template #htmlTooltip>
   <div
-    *ngIf="(tooltipData$ | async).hoveredAreaDatum as data"
-    [style.--color]="data.color"
+    *ngIf="(interactionOutput$ | async).hoveredAreaDatum as interactionOutput"
+    [style.--color]="interactionOutput.color"
     class="stacked-area-example-tooltip-container"
   >
     <div class="tooltip-body">
-      <p class="tooltip-label category">{{ data.values.color }}</p>
-      <p class="tooltip-label x">{{ data.values.x }}</p>
+      <p class="tooltip-label category">{{ interactionOutput.values.color }}</p>
+      <p class="tooltip-label x">{{ interactionOutput.values.x }}</p>
       <div class="values-container">
         <p class="tooltip-label y">
           <span class="value-label">Value</span>
-          {{ data.datum.value }}
+          {{ interactionOutput.datum.value }}
         </p>
       </div>
     </div>

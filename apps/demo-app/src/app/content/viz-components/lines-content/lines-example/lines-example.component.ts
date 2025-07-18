@@ -90,9 +90,10 @@ export class LinesExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<LinesInteractionOutput<MetroUnemploymentDatum>> =
-    new BehaviorSubject<LinesInteractionOutput<MetroUnemploymentDatum>>(null);
-  tooltipData$ = this.tooltipData.asObservable();
+  interactionOutput: BehaviorSubject<
+    LinesInteractionOutput<MetroUnemploymentDatum>
+  > = new BehaviorSubject<LinesInteractionOutput<MetroUnemploymentDatum>>(null);
+  interactionOutput$ = this.interactionOutput.asObservable();
   chartInputEvent: Subject<string> = new Subject<string>();
   chartInputEvent$ = this.chartInputEvent.asObservable();
   removeTooltipEvent: Subject<void> = new Subject<void>();
@@ -186,22 +187,16 @@ export class LinesExampleComponent implements OnInit {
   updateTooltipForNewOutput(
     output: LinesInteractionOutput<MetroUnemploymentDatum> | null
   ): void {
-    this.updateTooltipData(output);
+    this.interactionOutput.next(output);
     this.updateTooltipConfig(output?.type);
   }
 
-  updateTooltipData(
-    output: LinesInteractionOutput<MetroUnemploymentDatum> | null
-  ): void {
-    this.tooltipData.next(output);
-  }
-
   updateTooltipConfig(eventType: EventType | undefined): void {
-    const output = this.tooltipData.getValue();
+    const output = this.interactionOutput.getValue();
     const config = this.tooltip
       .size((size) => size.minWidth(340))
       .positionFromOutput(output)
-      .hasBackdrop(eventType === 'click')
+      .hasBackdrop(eventType === EventType.Click)
       .show(!!output)
       .getConfig();
     this.tooltipConfig.next(config);

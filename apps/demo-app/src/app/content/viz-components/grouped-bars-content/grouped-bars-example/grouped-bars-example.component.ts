@@ -69,12 +69,12 @@ export class GroupedBarsExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<
+  interactionOutput: BehaviorSubject<
     GroupedBarsInteractionOutput<MetroUnemploymentDatum>
   > = new BehaviorSubject<GroupedBarsInteractionOutput<MetroUnemploymentDatum>>(
     null
   );
-  tooltipData$ = this.tooltipData.asObservable();
+  tooltipData$ = this.interactionOutput.asObservable();
   hoverMoveActions: HoverMoveAction<
     GroupedBarsHost<MetroUnemploymentDatum, Date>,
     GroupedBarsInteractionOutput<MetroUnemploymentDatum>
@@ -147,14 +147,8 @@ export class GroupedBarsExampleComponent implements OnInit {
   updateTooltipForNewOutput(
     output: GroupedBarsInteractionOutput<MetroUnemploymentDatum> | null
   ): void {
-    this.updateTooltipData(output);
+    this.interactionOutput.next(output);
     this.updateTooltipConfig(output);
-  }
-
-  updateTooltipData(
-    output: GroupedBarsInteractionOutput<MetroUnemploymentDatum> | null
-  ): void {
-    this.tooltipData.next(output);
   }
 
   updateTooltipConfig(
