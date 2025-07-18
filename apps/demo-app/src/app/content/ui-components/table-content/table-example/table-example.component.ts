@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { GetValueByKeyPipe } from '@hsi/app-dev-kit';
 import {
   HsiUiTableDataSource,
   TableColumnsBuilder,
@@ -38,7 +39,7 @@ class FruitType {
 @Component({
   selector: 'app-table-example',
   standalone: true,
-  imports: [CommonModule, TableModule],
+  imports: [CommonModule, TableModule, GetValueByKeyPipe],
   templateUrl: './table-example.component.html',
   styleUrls: ['../../../examples.scss', './table-example.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
