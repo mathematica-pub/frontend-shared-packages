@@ -14,6 +14,7 @@ import { TooltipPositionBuilder } from './config/position/tooltip-position-build
 import { HtmlTooltipDirective } from './html-tooltip.directive';
 
 const fakeOuput = {
+  anchor: { x: 2, y: 4 },
   origin: document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
   customPosition: () =>
     new HtmlTooltipCdkManagedPosition([
@@ -28,6 +29,13 @@ const fakeOuput = {
       .attachBottomCenter()
       .getPosition(),
   ]),
+  fromAnchor: () =>
+    new HtmlTooltipCdkManagedPosition([
+      new TooltipPositionBuilder()
+        .fromTopLeft()
+        .attachBottomCenter()
+        .getPosition(),
+    ]),
   type: EventType.HoverMove,
 };
 
