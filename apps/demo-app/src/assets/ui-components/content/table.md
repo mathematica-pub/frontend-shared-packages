@@ -114,7 +114,6 @@ export class TableExampleComponent implements OnInit {
           (column) =>
             column
               .label(ColumnNames.fruit)
-              .cssClass('left')
               .displayKey(FruitInfo.fruit)
               .ascendingSortFunction((a, b) => a.fruit.localeCompare(b.fruit))
               .sortOrder(1)
@@ -125,7 +124,6 @@ export class TableExampleComponent implements OnInit {
           column
             .displayKey(FruitInfo.colorName)
             .label(ColumnNames.colorName)
-            .cssClass('left')
             .sortable(true)
             .ascendingSortFunction((a, b) => a.color.localeCompare(b.color))
         )
@@ -133,7 +131,6 @@ export class TableExampleComponent implements OnInit {
           column
             .displayKey(FruitInfo.inventory)
             .label(ColumnNames.inventory)
-            .cssClass('right')
             .sortable(true)
             .getSortValue((x) => x.metrics.inventory)
         )
@@ -156,7 +153,7 @@ export class TableExampleComponent implements OnInit {
       *cdkHeaderCellDef="let element"
       (click)="dataSource.sort(column)"
     >
-      <div [ngClass]="['header-cell-sort', column.cssClass]">
+      <div class="header-cell-sort">
         {{ column.label }}
         <span
           [ngClass]="[
@@ -173,15 +170,7 @@ export class TableExampleComponent implements OnInit {
     } @else {
     <th cdk-header-cell *cdkHeaderCellDef="let element"> {{ column.label }} </th>
     }
-    <td
-      [ngClass]="[
-            'table-cell',
-            column.cssClass,
-            column.sortable ? 'sorted-cell' : '',
-          ]"
-      cdk-cell
-      *cdkCellDef="let element"
-    >
+    <td class="table-cell" [class.sorted-cell]="column.sortable" cdk-cell *cdkCellDef="let element">
       {{ element | getValueByKey: column.key }}
     </td>
   </ng-container>
@@ -344,17 +333,7 @@ params:
   - name: label
     type: string
     description:
-      - 'The label to be used by the table column.'
-```
-
-```builder-method
-name: cssClass
-description: 'Sets the CSS class of the table column.'
-params:
-  - name: cssClass
-    type: string
-    description:
-      - 'The CSS class to be used by the table column.'
+      - 'The label to be used by the table column'
 ```
 
 ```builder-method
@@ -471,16 +450,10 @@ $icon-right-margin: 0.4rem;
 
 .header-cell-sort {
   display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
   &:hover {
     cursor: pointer;
-  }
-  &.left {
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  &.right {
-    align-items: flex-end;
-    justify-content: flex-end;
   }
 }
 
@@ -508,15 +481,9 @@ $icon-right-margin: 0.4rem;
   transform: rotate(180deg);
 }
 
-.right {
-  text-align: right;
-}
-
-.left {
-  text-align: left;
-}
-
 .table-cell {
+  text-align: right;
+
   &.sorted-cell {
     padding-right: $icon-left-margin + $icon-width + $icon-right-margin;
   }

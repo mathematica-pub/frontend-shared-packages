@@ -6,7 +6,6 @@ import {
 } from './table-column';
 
 const DEFAULT = {
-  _cssClass: '',
   _sortable: false,
   _sortedOnInit: false,
   _sortOrder: Number.MAX_SAFE_INTEGER,
@@ -17,7 +16,6 @@ const DEFAULT = {
  * An internal builder class for a single table column.
  */
 export class TableColumnBuilder<Datum> {
-  private _cssClass: string;
   private _id: string;
   private _key: string;
   private _label: string;
@@ -29,16 +27,6 @@ export class TableColumnBuilder<Datum> {
 
   constructor() {
     Object.assign(this, DEFAULT);
-  }
-
-  /**
-   * OPTIONAL. Determines additional CSS classes to be applied to the table column.
-   *
-   * @param cssClass A string to use as the CSS class of the table column.
-   */
-  cssClass(cssClass: string): this {
-    this._cssClass = cssClass;
-    return this;
   }
 
   /**
@@ -157,7 +145,6 @@ export class TableColumnBuilder<Datum> {
       id: this._id,
       label: this._label,
       key: this._key,
-      cssClass: this._cssClass,
       getSortValue: this._getSortValue,
       ascendingSortFunction: this._ascendingSortFunction,
       sortDirection: this._sortDirection,

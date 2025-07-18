@@ -7,16 +7,10 @@ $icon-right-margin: 0.4rem;
 
 .header-cell-sort {
   display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
   &:hover {
     cursor: pointer;
-  }
-  &.left {
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  &.right {
-    align-items: flex-end;
-    justify-content: flex-end;
   }
 }
 
@@ -44,15 +38,9 @@ $icon-right-margin: 0.4rem;
   transform: rotate(180deg);
 }
 
-.right {
-  text-align: right;
-}
-
-.left {
-  text-align: left;
-}
-
 .table-cell {
+  text-align: right;
+
   &.sorted-cell {
     padding-right: $icon-left-margin + $icon-width + $icon-right-margin;
   }
