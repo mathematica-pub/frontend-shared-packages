@@ -663,6 +663,7 @@ describe('it creates lines with the correct properties per config', () => {
 // ***********************************************************
 describe('displays tooltips for correct data per hover position', () => {
   beforeEach(() => {
+    cy.viewport(800, 600); // ensure that tts don't get repositioned at the edges of the chart
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
