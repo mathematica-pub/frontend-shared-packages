@@ -1,6 +1,8 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { TooltipPosition, TooltipPositionConfig } from './tooltip-position';
 
+// Primarily used internally in the library, though a user could use it to make custom positions
+
 export class TooltipPositionBuilder {
   private originX?: TooltipPositionConfig['originX'];
   private originY?: TooltipPositionConfig['originY'];

@@ -1,3 +1,7 @@
+export type {
+  BarsHost as GroupedBarsHost,
+  BarsInteractionOutput as GroupedBarsInteractionOutput,
+} from '../bars';
 export * from './config/grouped-bars-builder';
 export * from './config/grouped-bars-config';
 export * from './config/grouped-bars-options';

@@ -5,6 +5,7 @@ import { BarDatum, BARS, BarsHost, BarsInteractionOutput } from '../../bars';
 import { BarsTooltipPositioner } from '../../bars/events/bars-tooltip-positioner';
 import { DataValue } from '../../core';
 import {
+  DEFAULT_TOOLTIP_Y_OFFSET,
   EventAction,
   EventsDirective,
   EventType,
@@ -12,7 +13,7 @@ import {
   InputEventAction,
   UnlistenFunction,
 } from '../../events';
-import { DEFAULT_TOOLTIP_Y_OFFSET, TooltipPosition } from '../../tooltips';
+import { TooltipPosition } from '../../tooltips';
 import { GroupedBarsComponent } from '../grouped-bars.component';
 
 @Directive({

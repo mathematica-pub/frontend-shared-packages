@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
-  BarsInteractionOutput,
   ChartConfig,
   ElementSpacing,
   EventAction,
@@ -12,6 +11,7 @@ import {
   StackedBarsConfig,
   StackedBarsHost,
   StackedBarsHoverMoveEmitTooltipData,
+  StackedBarsInteractionOutput,
   VicChartConfigBuilder,
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
@@ -68,20 +68,20 @@ export class StackedBarsExampleComponent implements OnInit {
   folderName = 'stacked-bars-example';
   hoverMoveActions: HoverMoveAction<
     StackedBarsHost<IndustryUnemploymentDatum, string>,
-    BarsInteractionOutput<IndustryUnemploymentDatum>
+    StackedBarsInteractionOutput<IndustryUnemploymentDatum>
   >[] = [new StackedBarsHoverMoveEmitTooltipData()];
   clickActions: EventAction<
     StackedBarsHost<IndustryUnemploymentDatum, string>,
-    BarsInteractionOutput<IndustryUnemploymentDatum>
+    StackedBarsInteractionOutput<IndustryUnemploymentDatum>
   >[] = [new StackedBarsClickEmitTooltipDataPauseOtherActions()];
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<
-    BarsInteractionOutput<IndustryUnemploymentDatum>
-  > = new BehaviorSubject<BarsInteractionOutput<IndustryUnemploymentDatum>>(
-    null
-  );
+    StackedBarsInteractionOutput<IndustryUnemploymentDatum>
+  > = new BehaviorSubject<
+    StackedBarsInteractionOutput<IndustryUnemploymentDatum>
+  >(null);
   tooltipData$ = this.tooltipData.asObservable();
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
@@ -146,14 +146,14 @@ export class StackedBarsExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: BarsInteractionOutput<IndustryUnemploymentDatum>
+    data: StackedBarsInteractionOutput<IndustryUnemploymentDatum>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data?.type);
   }
 
   updateTooltipData(
-    data: BarsInteractionOutput<IndustryUnemploymentDatum>
+    data: StackedBarsInteractionOutput<IndustryUnemploymentDatum>
   ): void {
     this.tooltipData.next(data);
   }

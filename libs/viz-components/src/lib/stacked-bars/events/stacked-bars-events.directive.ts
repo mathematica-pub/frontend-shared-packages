@@ -4,16 +4,17 @@ import { map, Observable } from 'rxjs';
 import { BarsInteractionOutput } from '../../bars';
 import { BarsTooltipPositioner } from '../../bars/events/bars-tooltip-positioner';
 import { DataValue } from '../../core/types/values';
-import { EventsDirective } from '../../events';
 import {
+  DEFAULT_TOOLTIP_Y_OFFSET,
   EventAction,
+  EventsDirective,
   EventType,
   HoverMoveAction,
   InputEventAction,
   MarksHost,
   UnlistenFunction,
-} from '../../events/events.types';
-import { DEFAULT_TOOLTIP_Y_OFFSET, TooltipPosition } from '../../tooltips';
+} from '../../events';
+import { TooltipPosition } from '../../tooltips';
 import {
   StackDatum,
   STACKED_BARS,

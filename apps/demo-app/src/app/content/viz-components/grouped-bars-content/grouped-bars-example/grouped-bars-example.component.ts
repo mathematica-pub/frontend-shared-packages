@@ -6,12 +6,12 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  BarsHost,
   BarsHoverMoveEmitTooltipData,
-  BarsInteractionOutput,
   ChartConfig,
   ElementSpacing,
   GroupedBarsConfig,
+  GroupedBarsHost,
+  GroupedBarsInteractionOutput,
   HoverMoveAction,
   HtmlTooltipConfig,
   VicChartConfigBuilder,
@@ -69,12 +69,15 @@ export class GroupedBarsExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<BarsInteractionOutput<MetroUnemploymentDatum>> =
-    new BehaviorSubject<BarsInteractionOutput<MetroUnemploymentDatum>>(null);
+  tooltipData: BehaviorSubject<
+    GroupedBarsInteractionOutput<MetroUnemploymentDatum>
+  > = new BehaviorSubject<GroupedBarsInteractionOutput<MetroUnemploymentDatum>>(
+    null
+  );
   tooltipData$ = this.tooltipData.asObservable();
   hoverMoveActions: HoverMoveAction<
-    BarsHost<MetroUnemploymentDatum, Date>,
-    BarsInteractionOutput<MetroUnemploymentDatum>
+    GroupedBarsHost<MetroUnemploymentDatum, Date>,
+    GroupedBarsInteractionOutput<MetroUnemploymentDatum>
   >[] = [new BarsHoverMoveEmitTooltipData()];
   margin: ElementSpacing = {
     top: 8,
@@ -142,20 +145,20 @@ export class GroupedBarsExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    output: BarsInteractionOutput<MetroUnemploymentDatum> | null
+    output: GroupedBarsInteractionOutput<MetroUnemploymentDatum> | null
   ): void {
     this.updateTooltipData(output);
     this.updateTooltipConfig(output);
   }
 
   updateTooltipData(
-    output: BarsInteractionOutput<MetroUnemploymentDatum> | null
+    output: GroupedBarsInteractionOutput<MetroUnemploymentDatum> | null
   ): void {
     this.tooltipData.next(output);
   }
 
   updateTooltipConfig(
-    output: BarsInteractionOutput<MetroUnemploymentDatum> | null
+    output: GroupedBarsInteractionOutput<MetroUnemploymentDatum> | null
   ): void {
     const config = this.tooltip
       .positionFromOutput(output)

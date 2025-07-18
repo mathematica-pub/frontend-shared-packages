@@ -1,7 +1,9 @@
 import {
   HtmlTooltipCdkManagedPosition,
   TooltipPosition,
-} from './tooltip-position';
+} from '../tooltips/html-tooltip/config/position/tooltip-position';
+
+export const DEFAULT_TOOLTIP_Y_OFFSET = 2;
 
 export abstract class TooltipPositioner {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

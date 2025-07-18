@@ -3,6 +3,7 @@ import { least } from 'd3';
 import { Observable, of } from 'rxjs';
 import { ContinuousValue } from '../../core/types/values';
 import {
+  DEFAULT_TOOLTIP_Y_OFFSET,
   EventAction,
   EventsDirective,
   EventType,
@@ -11,7 +12,7 @@ import {
   MarksHost,
   UnlistenFunction,
 } from '../../events';
-import { DEFAULT_TOOLTIP_Y_OFFSET, TooltipPosition } from '../../tooltips';
+import { TooltipPosition } from '../../tooltips';
 import { LinesMarkerDatum } from '../config/lines-config';
 import {
   LINES,

@@ -2,6 +2,7 @@ import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
 import { map, Observable } from 'rxjs';
 import {
+  DEFAULT_TOOLTIP_Y_OFFSET,
   EventAction,
   EventsDirective,
   EventType,
@@ -10,7 +11,7 @@ import {
   MarksHost,
   UnlistenFunction,
 } from '../../events';
-import { DEFAULT_TOOLTIP_Y_OFFSET, TooltipPosition } from '../../tooltips';
+import { TooltipPosition } from '../../tooltips';
 import { DotDatum, DOTS, DotsComponent } from '../dots.component';
 import { DotsInteractionOutput } from './dots-interaction-output';
 import { DotsTooltipPositioner } from './dots-tooltip-positioner';

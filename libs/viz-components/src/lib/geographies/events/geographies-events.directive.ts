@@ -3,6 +3,7 @@ import { select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { filter, map, Observable } from 'rxjs';
 import {
+  DEFAULT_TOOLTIP_Y_OFFSET,
   EventAction,
   EventsDirective,
   EventType,
@@ -11,7 +12,7 @@ import {
   MarksHost,
   UnlistenFunction,
 } from '../../events';
-import { DEFAULT_TOOLTIP_Y_OFFSET, TooltipPosition } from '../../tooltips';
+import { TooltipPosition } from '../../tooltips';
 import { GeographiesAttributeDataLayer } from '../config/layers/attribute-data-layer/attribute-data-layer';
 import { GeographiesGeojsonPropertiesLayer } from '../config/layers/geojson-properties-layer/geojson-properties-layer';
 import { GeographiesFeature } from '../geographies-feature';

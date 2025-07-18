@@ -3,6 +3,7 @@ import { select } from 'd3';
 import { map, Observable } from 'rxjs';
 import { DataValue } from '../../core/types/values';
 import {
+  DEFAULT_TOOLTIP_Y_OFFSET,
   EventAction,
   EventsDirective,
   EventType,
@@ -11,7 +12,7 @@ import {
   MarksHost,
   UnlistenFunction,
 } from '../../events';
-import { DEFAULT_TOOLTIP_Y_OFFSET, TooltipPosition } from '../../tooltips';
+import { TooltipPosition } from '../../tooltips';
 import { BarDatum, BARS, BarsComponent } from '../bars.component';
 import { BarsInteractionOutput } from './bars-interaction-output';
 import { BarsTooltipPositioner } from './bars-tooltip-positioner';

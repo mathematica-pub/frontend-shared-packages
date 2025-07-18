@@ -65,7 +65,8 @@ export class VicHtmlTooltipConfigBuilder {
    * @param position - Optional position configuration. If not provided, the default position from the output will be used. Note that the output has several methods to return a position that can be used here.
    */
   positionFromOutput(
-    output: InteractionOutput,
+    // intentionally using InteractionOutput<unknown> to allow flexibility in the type of output
+    output: InteractionOutput<unknown>,
     position?: HtmlTooltipCdkManagedPosition
   ): this {
     if (output) {

@@ -1,6 +1,6 @@
+import { TooltipPositioner } from '../../events/tooltip-positioner';
 import { HtmlTooltipCdkManagedPosition } from '../../tooltips';
 import { TooltipPositionBuilder } from '../../tooltips/html-tooltip/config/position/tooltip-position-builder';
-import { TooltipPositioner } from '../../tooltips/html-tooltip/config/position/tooltip-positioner';
 
 const DEFAULT_POSITIONS = [
   new TooltipPositionBuilder().fromTopLeft().attachBottomCenter().getPosition(),
