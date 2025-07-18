@@ -1,11 +1,63 @@
-.vic-tooltip-svg-triangle {
-  $x-offset: calc(50% - (var(--width) / 2));
-  display: block;
-  transform: translate(#{$x-offset}, -2px);
+.cdk-overlay-container {
+  .position-bottom-center {
+    .vic-tooltip-svg-triangle {
+      &.center {
+        $x-offset: calc(50% - (var(--width) / 2));
+        transform: translate(#{$x-offset}, -2px);
+      }
 
-  .triangle-path {
-    stroke: var(--tooltip-triangle-stroke, gray);
-    fill: var(--tooltip-triangle-fill, white);
-    fill-opacity: var(--tooltip-triangle-fill-opacity, 1);
+      &.right {
+        display: none;
+      }
+
+      &.left {
+        display: none;
+      }
+    }
+  }
+  .position-bottom-left {
+    .vic-tooltip-svg-triangle {
+      &.center {
+        display: none;
+      }
+
+      &.right {
+        display: none;
+      }
+
+      &.left {
+        $x-offset: calc(0% - (var(--width) / 2));
+        transform: translate(0, -2px);
+      }
+    }
+  }
+
+  .position-bottom-right {
+    .vic-tooltip-svg-triangle {
+      &.center {
+        display: none;
+      }
+
+      &.right {
+        $x-offset: calc(100% - (var(--width) / 2));
+        transform: translate(#{$x-offset}, -2px);
+      }
+
+      &.left {
+        display: none;
+      }
+    }
+  }
+
+  .vic-tooltip-svg-triangle {
+    display: block;
+    $x-offset: calc(50% - (var(--width) / 2));
+    transform: translate(#{$x-offset}, -2px);
+
+    .triangle-path {
+      stroke: var(--tooltip-triangle-stroke, gray);
+      fill: var(--tooltip-triangle-fill, white);
+      fill-opacity: var(--tooltip-triangle-fill-opacity, 1);
+    }
   }
 }

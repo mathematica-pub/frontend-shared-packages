@@ -71,54 +71,63 @@ export class TooltipPositionBuilder {
   attachTopLeft(): this {
     this.overlayX = 'start';
     this.overlayY = 'top';
+    this.additionalConfig = { panelClass: 'position-top-left' };
     return this;
   }
 
   attachTopCenter(): this {
     this.overlayX = 'center';
     this.overlayY = 'top';
+    this.additionalConfig = { panelClass: 'position-top-center' };
     return this;
   }
 
   attachTopRight(): this {
     this.overlayX = 'end';
     this.overlayY = 'top';
+    this.additionalConfig = { panelClass: 'position-top-right' };
     return this;
   }
 
   attachCenterLeft(): this {
     this.overlayX = 'start';
     this.overlayY = 'center';
+    this.additionalConfig = { panelClass: 'position-center-left' };
     return this;
   }
 
   attachCenter(): this {
     this.overlayX = 'center';
     this.overlayY = 'center';
+    this.additionalConfig = { panelClass: 'position-center' };
     return this;
   }
 
   attachCenterRight(): this {
     this.overlayX = 'end';
     this.overlayY = 'center';
+    this.additionalConfig = { panelClass: 'position-center-right' };
     return this;
   }
 
   attachBottomLeft(): this {
     this.overlayX = 'start';
     this.overlayY = 'bottom';
+    this.additionalConfig = { panelClass: 'position-bottom-left' };
     return this;
   }
 
   attachBottomCenter(): this {
     this.overlayX = 'center';
     this.overlayY = 'bottom';
+    this.additionalConfig = { panelClass: 'position-bottom-center' };
     return this;
   }
 
   attachBottomRight(): this {
     this.overlayX = 'end';
     this.overlayY = 'bottom';
+    this.additionalConfig = { panelClass: 'position-bottom-right' };
     return this;
   }
 

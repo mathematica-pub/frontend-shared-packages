@@ -2,12 +2,40 @@
   width="100%"
   [attr.height]="height"
   [style.--width]="width + 'px'"
-  class="vic-tooltip-svg-triangle"
+  class="vic-tooltip-svg-triangle center"
 >
   <g class="svg-g">
     <path
       class="triangle-path"
       [attr.d]="'M 0,0 ' + (width / 2) + ',' + height + ' ' + width + ',0'"
+    ></path>
+  </g>
+</svg>
+
+<svg
+  width="100%"
+  [attr.height]="height"
+  [style.--width]="width + 'px'"
+  class="vic-tooltip-svg-triangle right"
+>
+  <g class="svg-g">
+    <path
+      class="triangle-path"
+      [attr.d]="'M 0,0 ' + (width / 2) + ',' + height + ' ' + (width / 2) + ',0'"
+    ></path>
+  </g>
+</svg>
+
+<svg
+  width="100%"
+  [attr.height]="height"
+  [style.--width]="width + 'px'"
+  class="vic-tooltip-svg-triangle left"
+>
+  <g class="svg-g">
+    <path
+      class="triangle-path"
+      [attr.d]="'M 0,0 ' + '0,' + height + ' ' + (width / 2) + ',0'"
     ></path>
   </g>
 </svg>
