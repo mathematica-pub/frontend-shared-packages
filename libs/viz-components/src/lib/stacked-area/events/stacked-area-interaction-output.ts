@@ -1,5 +1,5 @@
 import { DataValue } from '../../core/types/values';
-import { BaseInteractionOutput } from '../../events/interaction-output';
+import { InteractionOutput } from '../../events/interaction-output';
 import { HtmlTooltipCdkManagedPosition } from '../../tooltips';
 import { StackedAreaTooltipDatum } from '../stacked-area.component';
 
@@ -14,8 +14,7 @@ export interface StackedAreaInteractionAnchor {
 export interface StackedAreaInteractionOutput<
   Datum,
   TCategoricalValue extends DataValue,
-> extends BaseInteractionOutput {
-  anchor: StackedAreaInteractionAnchor;
+> extends InteractionOutput<StackedAreaInteractionAnchor> {
   data: StackedAreaTooltipDatum<Datum, TCategoricalValue>[];
   hoveredAreaDatum: StackedAreaTooltipDatum<Datum, TCategoricalValue>;
   defaultPositionFromArea: HtmlTooltipCdkManagedPosition;

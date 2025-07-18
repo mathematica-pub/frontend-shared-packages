@@ -1,6 +1,6 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { safeAssign } from '@hsi/app-dev-kit';
-import { BaseInteractionOutput } from '../../../events/interaction-output';
+import { InteractionOutput } from '../../../events/interaction-output';
 import { HtmlTooltipConfig } from './html-tooltip-config';
 import { HtmlTooltipCdkManagedPosition } from './position/tooltip-position';
 import { HtmlTooltipSizeBuilder } from './size/tooltip-size-builder';
@@ -65,7 +65,7 @@ export class VicHtmlTooltipConfigBuilder {
    * @param position - Optional position configuration. If not provided, the default position from the output will be used. Note that the output has several methods to return a position that can be used here.
    */
   positionFromOutput(
-    output: BaseInteractionOutput,
+    output: InteractionOutput,
     position?: HtmlTooltipCdkManagedPosition
   ): this {
     if (output) {

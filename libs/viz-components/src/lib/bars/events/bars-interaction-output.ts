@@ -1,10 +1,10 @@
-import { MarksInteractionOutput } from '../../events/interaction-output';
+import { InteractionOutput } from '../../events/interaction-output';
 import { HtmlTooltipCdkManagedPosition } from '../../tooltips';
 import { BarsTooltipDatum } from '../bars.component';
 
 export interface BarsInteractionOutput<Datum>
   extends BarsTooltipDatum<Datum>,
-    MarksInteractionOutput {
+    InteractionOutput {
   /**
    * A method that positions the tooltip with a user specified offset from the tooltip's anchor point.
    *

@@ -1,9 +1,9 @@
-import { MarksInteractionOutput } from '../../events/interaction-output';
+import { InteractionOutput } from '../../events/interaction-output';
 import { HtmlTooltipCdkManagedPosition } from '../../tooltips';
 import { GeographiesTooltipDatum } from '../config/layers/geographies-layer/geographies-layer';
 
 export interface GeographiesInteractionOutput<Datum>
-  extends MarksInteractionOutput,
+  extends InteractionOutput,
     GeographiesTooltipDatum<Datum> {
   /**
    * A method that positions the tooltip with a user specified offset from the tooltip's anchor point.

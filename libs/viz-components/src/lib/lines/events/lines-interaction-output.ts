@@ -1,10 +1,10 @@
-import { MarksInteractionOutput } from '../../events/interaction-output';
+import { InteractionOutput } from '../../events/interaction-output';
 import { HtmlTooltipCdkManagedPosition } from '../../tooltips';
 import { LinesTooltipDatum } from '../lines.component';
 
 export interface LinesInteractionOutput<Datum>
   extends LinesTooltipDatum<Datum>,
-    MarksInteractionOutput {
+    InteractionOutput {
   /**
    * A method that positions the tooltip with a user specified offset from the tooltip's anchor point.
    *

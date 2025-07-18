@@ -1,33 +1,24 @@
-import { HtmlTooltipCdkManagedPosition, TooltipPosition } from '../../tooltips';
+import { HtmlTooltipCdkManagedPosition } from '../../tooltips';
 import { TooltipPositionBuilder } from '../../tooltips/html-tooltip/config/position/tooltip-position-builder';
+import { TooltipPositioner } from '../../tooltips/html-tooltip/config/position/tooltip-positioner';
 
-export class DotsTooltipPositioner {
-  constructor(private anchor: { x: number; y: number }) {}
+const DEFAULT_POSITIONS = [
+  new TooltipPositionBuilder().fromCenter().attachBottomCenter().getPosition(),
+  new TooltipPositionBuilder().fromCenter().attachBottomLeft().getPosition(),
+  new TooltipPositionBuilder().fromCenter().attachBottomRight().getPosition(),
+];
+
+export class DotsTooltipPositioner extends TooltipPositioner {
+  constructor(private anchor: { x: number; y: number }) {
+    super();
+  }
 
   fromAnchor(offset: { x: number; y: number }): HtmlTooltipCdkManagedPosition {
-    const positions = [
-      new TooltipPositionBuilder()
-        .fromCenter()
-        .attachBottomCenter()
-        .getPosition(),
-      new TooltipPositionBuilder()
-        .fromCenter()
-        .attachBottomLeft()
-        .getPosition(),
-      new TooltipPositionBuilder()
-        .fromCenter()
-        .attachBottomRight()
-        .getPosition(),
-    ];
     const positionsWithOffsets = new TooltipPositionBuilder().applyOffsets(
-      positions,
+      DEFAULT_POSITIONS,
       this.anchor.x + offset.x,
       this.anchor.y - offset.y
     );
     return new HtmlTooltipCdkManagedPosition(positionsWithOffsets);
-  }
-
-  customPosition(positions: TooltipPosition[]): HtmlTooltipCdkManagedPosition {
-    return new HtmlTooltipCdkManagedPosition(positions);
   }
 }

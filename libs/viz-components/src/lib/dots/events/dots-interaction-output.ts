@@ -1,10 +1,10 @@
-import { MarksInteractionOutput } from '../../events/interaction-output';
+import { InteractionOutput } from '../../events/interaction-output';
 import { HtmlTooltipCdkManagedPosition } from '../../tooltips';
 import { DotsTooltipDatum } from '../dots.component';
 
 export interface DotsInteractionOutput<Datum>
   extends DotsTooltipDatum<Datum>,
-    MarksInteractionOutput {
+    InteractionOutput {
   /**
    * A method that returns a position for the tooltip above the pointer for HoverMove or Click actions or above the center of the dot for Hover actions.
    *
