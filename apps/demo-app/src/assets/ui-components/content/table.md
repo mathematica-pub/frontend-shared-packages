@@ -10,8 +10,8 @@ table using the TanStack Angular Table package are outlined below.
 
 ## Library Installation
 
-Run the following terminal command from your project to install the most recent Angular Table
-version:
+Run the following terminal command from your project to install the most recent Tanstack Table
+Angular adapter version:
 
 ```
 npm install @tanstack/angular-table
@@ -19,17 +19,104 @@ npm install @tanstack/angular-table
 
 ## Composing a Table
 
+Tanstack Table has a basic Angular table implementation
+[here](https://tanstack.com/table/latest/docs/framework/angular/examples/basic).
+
+### HTML Component Requirements
+
 A Tanstack table is minimally composed of the following HTML components:
 
 - `table` &mdash; A component that is an outer wrapper for other components in the table.
-- `thead` &mdash; A component that represents a header in the table.
+- `thead` &mdash; A component that represents the header of the table.
+- `tbody` &mdash; A component that is a container for the content of the table.
 - `tr` &mdash; A component that represents a row of cells in the table.
-- `tbody` &mdash; A component that represents the in the table.
+- `th` &mdash; A component that represents a header cell in the table (nested in the `thead`
+  component).
+- `td` &mdash; A component that represents a data cell in the table (nested in the `tbody`
+  component).
 
-In addition, the table must also be given data through an `HsiUiTableDataSource` instance.
+### Table Configuration
 
-Tanstack Table has a basic Angular table implementation
-[here](https://tanstack.com/table/latest/docs/framework/angular/examples/basic).
+In addition, the table must also be given data and column definitions through a `createTable`
+instance, which requires column definitions and the data to be displayed in the table.
+
+The Tanstack Table adapter requires data to be defined typically as an array of objects, with each
+object representing a row of data. Additional guidance on defining table data can be found
+[here](https://tanstack.com/table/latest/docs/guide/data).
+
+```ts
+// basic table data definition
+type Person = {
+  name: {
+    first: string,
+    last: string,
+  };
+  age: number;
+}
+
+const defaultData: Person[] = [
+  {
+    name: {
+      first: "James",
+      last: "Madison",
+    },
+    age: 20,
+  },
+  ...
+]
+```
+
+The Tanstack Table adapter also requires an array of column defs. Columns defs determine what data
+will be displayed and accessed in the table component. Column defs are also where you can feed
+metadata pertaining to each table column, including sortability. Additional guidance on defining
+table data can be found [here](https://tanstack.com/table/latest/docs/guide/column-defs).
+
+```ts
+import { ColumnDef } from '@tanstack/angular-table';
+...
+const columnDefs: ColumnDef<Person>[] = [
+  {
+    accessorKey: 'firstName',
+    ...
+  },
+  {
+    accessorFn: (row) => row.lastName,
+    id: 'lastName',
+    ...
+  },
+  {
+    accessorKey: 'age',
+    header: () => 'Age',
+    ...
+  },
+];
+```
+
+After defining your data and column defs, create a `createAngularTable` instance. Note that the
+Tanstack Angular Table adapter uses `signal` instances as opposed to Rxjs Observables. See the
+example below:
+
+```ts
+import { toSignal } from '@angular/core';
+import { createAngularTable } from '@tanstack/angular-table';
+
+...
+@Component({
+  selector: 'app-tanstack-example',
+  standalone: true,
+  ...
+})
+export class TanstackExampleComponent {
+  ...
+  readonly data = toSignal(defaultData);
+  table = createAngularTable(() => {
+    return {
+      data: data(),
+      columns: columnDefs,
+    };
+  });
+}
+```
 
 The following is a minimal implementation with sorting and embedded data visualizations from our
 `viz-components` library:
@@ -64,7 +151,7 @@ import {
 } from '@tanstack/angular-table';
 
 type PerformanceReview = {
-  year: number;
+  year: Date;
   hrAppraisal: number;
   employeeAppraisal: number;
 };
@@ -85,9 +172,9 @@ const defaultData: Person[] = [
     lastName: 'last',
     age: 106,
     performance: [
-      { year: 2020, hrAppraisal: 9, employeeAppraisal: 4 },
-      { year: 2023, hrAppraisal: 10, employeeAppraisal: 2 },
-      { year: 2025, hrAppraisal: 10, employeeAppraisal: -10 },
+      { year: new Date(2020, 1, 1), hrAppraisal: 9, employeeAppraisal: 4 },
+      { year: new Date(2023, 1, 1), hrAppraisal: 10, employeeAppraisal: 2 },
+      { year: new Date(2025, 1, 1), hrAppraisal: 10, employeeAppraisal: -10 },
     ],
   },
   {
@@ -95,9 +182,9 @@ const defaultData: Person[] = [
     lastName: 'name',
     age: 45,
     performance: [
-      { year: 2020, hrAppraisal: 8, employeeAppraisal: 9 },
-      { year: 2023, hrAppraisal: 10, employeeAppraisal: 10 },
-      { year: 2025, hrAppraisal: 0, employeeAppraisal: 10 },
+      { year: new Date(2020, 1, 1), hrAppraisal: 8, employeeAppraisal: 9 },
+      { year: new Date(2023, 1, 1), hrAppraisal: 10, employeeAppraisal: 10 },
+      { year: new Date(2025, 1, 1), hrAppraisal: 0, employeeAppraisal: 10 },
     ],
   },
   {
@@ -105,9 +192,9 @@ const defaultData: Person[] = [
     lastName: 'name',
     age: 40,
     performance: [
-      { year: 2020, hrAppraisal: 8, employeeAppraisal: 5 },
-      { year: 2023, hrAppraisal: 6, employeeAppraisal: 3 },
-      { year: 2025, hrAppraisal: 7, employeeAppraisal: 1 },
+      { year: new Date(2020, 1, 1), hrAppraisal: 8, employeeAppraisal: 5 },
+      { year: new Date(2023, 1, 1), hrAppraisal: 6, employeeAppraisal: 3 },
+      { year: new Date(2025, 1, 1), hrAppraisal: 7, employeeAppraisal: 1 },
     ],
   },
 ];
@@ -294,60 +381,91 @@ export class TanstackExampleComponent implements OnInit {
 
 ## Features
 
-## Configuration
+## Additional Table Configuration Notes
 
-To provide a column configuration for the `HsiUiTableDataSource`, you can use the
-`TableColumnsBuilder`.
+### Row Models
 
-**Required imports from @hsi/ui-components**
+In order to add functionality to your Tanstack table instance, you must pass a row model to your
+`createAngularTable` instance. See the Tanstack Row Models
+[documentation](https://tanstack.com/table/latest/docs/guide/row-models) for futher information.
+
+```ts
+import { getCoreRowModel } from '@tanstack/angular-table';
+...
+const table = useAngularTable({
+  data,
+  columns,
+  getCoreRowModel: getCoreRowModel(), // row model
+});
+```
+
+### Angular State
+
+Tanstack creates and tracks an underlying state of the table component. In order to access and
+further customize the table's internal state, see this
+[guide](https://tanstack.com/table/latest/docs/framework/angular/guide/table-state).
+
+### Sorting with Tanstack
+
+Row sorting can be quickly implemented with Tanstack Table. First, define a `SortingState`. This
+tracks the current .... it can also be used to apply sorting to your table upon initialization.
+
+include a sorted row model in your `createAngularTable` instance.
 
 ```ts
 import {
-  HsiUiTableDataSource,
-  TableColumn,
-  TableColumnsBuilder,
-  TableModule,
-} from '@hsi/ui-components';
+  createAngularTable,
+  getCoreRowModel,
+  getSortedRowModel,
+  SortingState,
+} from '@tanstack/angular-table';
+
 ...
 @Component({
-  ...
-  imports: [
-    TableModule
-    ...
-  ],
+  selector: 'app-tanstack-example',
+  standalone: true,
   ...
 })
+export class TanstackExampleComponent {
+  ...
+  table = createAngularTable(() => {
+    return {
+      data: data(),
+      columns: columnDefs,
+          getCoreRowModel: getCoreRowModel(),
+      getSortedRowModel: getSortedRowModel(),
+      state: {
+        sorting: this.sorting(),
+      },
+      enableSorting: true,
+      onSortingChange: (updater) => {
+        if (updater instanceof Function) {
+          this.sorting.update(updater);
+        } else {
+          this.sorting.set(updater);
+        }
+      },
+    };
+  });
+}
 ```
 
-**Minimal example of creating a `HsiUiTableDataSource`**
+In your column defs, enable sorting for a specific column by adding `enableSorting: true` to the
+def's options. This is also where functions determining how the rows are sorted will be included.
+Tanstack will default to .... A custom sorting fn can be created here as well.
 
 ```ts
-...
-dataSource: HsiUiTableDataSource<>;
-data$: Observable<Datum[]> = of([
-      { fruit: 'lemon', color: 'yellow' },
-      { fruit: 'mango', color: 'orange' },
-    ]);
-columns$: Observable<TableColumn<Datum>[];> = of(
-      new TableColumnsBuilder<{ fruit: string; color: string }>()
-        .addColumn((column) =>
-          column
-            .label(ColumnNames.fruit)
-        )
-        .addColumn((column) =>
-          column
-            .label(ColumnNames.color)
-        )
-        .getConfig());
-...
-this.dataSource = new HsiUiTableDataSource(this.data$, this.columns$);
+......
 ```
 
-### Handling tiebreaks
+In the HTML for your table component:
 
-Tiebreaks can be handled through setting a `sortOrder` on the `TableColumn` objects. When data in
-cells of the column currently being sorted are of the same sort value, cell data from the inactive
-columns are then compared to determine an ordering of the rows.
+```html
+.....
+```
+
+For more information, see the Tanstack Table sorting documentation
+[here](https://tanstack.com/table/latest/docs/guide/sorting).
 
 ## Customizing with icons
 
@@ -356,19 +474,41 @@ Icons of the user's choice can also be included like so:
 In the `th` element:
 
 ```html
-<th scope="col" cdk-header-cell *cdkHeaderCellDef="let element" (click)="dataSource.sort(column)">
-  <span
-    [ngClass]="[
-                'material-sort-icon',
-                column.sortDirection,
-                column.activelySorted ? 'actively-sorted' : '',
-                'material-symbols-outlined',
-              ]"
-    [attr.aria-hidden]="true"
-    >{{ sortIcon }}</span
+<th>
+  <ng-container
+    *flexRender="
+      header.column.columnDef.header;
+      props: header.getContext();
+      let headerCell
+    "
   >
-  {{ column.label }}</th
->
+    <div
+      class="header-cell-sort"
+      (click)="header.column.toggleSorting()"
+      [class.sorting-asc]="
+        header.column.getIsSorted() === 'asc'
+      "
+      [class.sorting-desc]="
+        header.column.getIsSorted() === 'desc'
+      "
+    >
+      {{ headerCell }}
+      <span
+        [ngClass]="[
+          'material-sort-icon',
+          'material-symbols-outlined',
+        ]"
+        [class.desc]="header.column.getIsSorted() === 'desc'"
+        [class.asc]="header.column.getIsSorted() === 'asc'"
+        [class.actively-sorted]="
+          header.column.getIsSorted() !== false
+        "
+        [attr.aria-hidden]="true"
+        >{{ sortIcon }}</span
+      >
+    </div>
+  </ng-container>
+</th>
 ```
 
 Example CSS code for styling icons in a table:
@@ -383,10 +523,16 @@ $icon-right-margin: 0.4rem;
 
 .header-cell-sort {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
   &:hover {
     cursor: pointer;
+  }
+  &.left {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  &.right {
+    align-items: flex-end;
+    justify-content: flex-end;
   }
 }
 
@@ -414,9 +560,15 @@ $icon-right-margin: 0.4rem;
   transform: rotate(180deg);
 }
 
-.table-cell {
+.right {
   text-align: right;
+}
 
+.left {
+  text-align: left;
+}
+
+.table-cell {
   &.sorted-cell {
     padding-right: $icon-left-margin + $icon-width + $icon-right-margin;
   }
@@ -448,7 +600,16 @@ $icon-right-margin: 0.4rem;
 ## Additional Features
 
 Tanstack Table includes additional functionality for tables, such as pagination, column filtering,
-...
+editable cell data, using signal input, etc.
 
-- Pagination: Documentation | Example
-- Filtering: Documentation | Example
+- Pagination: [Documentation](https://tanstack.com/table/latest/docs/guide/pagination) |
+  [Example](https://tanstack.com/table/latest/docs/framework/angular/examples/signal-input)
+- Column Filtering: [Documentation](https://tanstack.com/table/latest/docs/guide/column-filtering) |
+  [Example](https://tanstack.com/table/latest/docs/framework/angular/examples/filters)
+
+### More Examples
+
+- Creating tables with editable data cells:
+  [Example](https://tanstack.com/table/latest/docs/framework/angular/examples/editable)
+- Working with signal input:
+  [Example](https://tanstack.com/table/latest/docs/framework/angular/examples/signal-input)
