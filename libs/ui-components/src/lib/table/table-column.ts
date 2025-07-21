@@ -9,6 +9,9 @@ export enum SortDirection {
 export type SortDirectionType = keyof typeof SortDirection;
 export type TableValue = string | number | boolean | Date;
 
+/**
+ * @deprecated This class is deprecated. See use of `ColumnDef` in `tanstack-example.component.ts` for the recommended implementation.
+ */
 export class TableColumn<Datum> {
   /**
    * The unique id of the column.

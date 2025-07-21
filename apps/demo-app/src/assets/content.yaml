@@ -24,7 +24,9 @@ ui-components:
   title: UI Components
   items:
     overview: overview.md
-    table: table.md
+    table:
+      tanstack-table: table.md
+      deprecated-simple-table: deprecated-table.md
     combobox:
       overview: combobox.md
       filtering-options: filtering-options.md

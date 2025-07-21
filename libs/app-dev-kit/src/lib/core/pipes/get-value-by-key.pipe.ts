@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 /**
  * Retrieves the key in the object.
+ * @deprecated This pipe is deprecated. See `tanstack-example.component.ts` for the recommended table implementation.
  */
 @Pipe({
   name: 'getValueByKey',
