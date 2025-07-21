@@ -30,7 +30,7 @@ import {
   caDataFolder,
   mlbDataPath,
 } from '../../ca-access/data-paths.constants';
-import { CaChartService } from '../../ca/ca-chart.service';
+import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { MlbCountyDatum } from '../mlb-county-plot/mlb-county-plot.component';
 import { MlbDatum } from '../mlb-stacked-bars.component';
 
@@ -108,12 +108,13 @@ export class MlbMapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.caChartService.init(
-      this.filters,
-      this.filterTypes,
-      this.mlbDataPath,
-      this.getTransformedData.bind(this)
-    );
+    const caChartDataConfig: CaChartDataConfig = {
+      filters: this.filters,
+      filterTypes: this.filterTypes,
+      dataPath: this.mlbDataPath,
+      getTransformedData: this.getTransformedData.bind(this),
+    };
+    this.caChartService.init(caChartDataConfig);
     this.setMapObjects();
     this.setVm();
   }

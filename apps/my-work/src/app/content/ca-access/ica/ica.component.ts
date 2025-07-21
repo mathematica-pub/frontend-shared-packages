@@ -13,7 +13,7 @@ import {
 } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { Observable } from 'rxjs';
-import { CaChartService } from '../../ca/ca-chart.service';
+import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { dataPath } from '../data-paths.constants';
 import {
   IcaDatum,
@@ -57,12 +57,13 @@ export class IcaComponent implements OnInit {
   constructor(public caChartService: CaChartService) {}
 
   ngOnInit(): void {
-    this.caChartService.init(
-      this.filters,
-      this.filterTypes,
-      this.dataPath,
-      this.getTransformedData.bind(this)
-    );
+    const caChartDataConfig: CaChartDataConfig = {
+      filters: this.filters,
+      filterTypes: this.filterTypes,
+      dataPath: this.dataPath,
+      getTransformedData: this.getTransformedData.bind(this),
+    };
+    this.caChartService.init(caChartDataConfig);
   }
 
   getTransformedData(x: IcaDatum[]): IcaDatum[] {

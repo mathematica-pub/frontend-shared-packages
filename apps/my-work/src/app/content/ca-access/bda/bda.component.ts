@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
-import { CaChartService } from '../../ca/ca-chart.service';
+import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { CaStackedBarsService } from '../../ca/ca-stacked-bars.service';
 import { CaDatum } from '../ca-access-stacked-bars.component';
 import { dataPath } from '../data-paths.constants';
@@ -39,12 +39,13 @@ export class BdaComponent implements OnInit {
   constructor(public caChartService: CaChartService) {}
 
   ngOnInit(): void {
-    this.caChartService.init(
-      this.filters,
-      this.filterTypes,
-      this.dataPath,
-      this.getTransformedData.bind(this)
-    );
+    const caChartDataConfig: CaChartDataConfig = {
+      filters: this.filters,
+      filterTypes: this.filterTypes,
+      dataPath: this.dataPath,
+      getTransformedData: this.getTransformedData.bind(this),
+    };
+    this.caChartService.init(caChartDataConfig);
   }
 
   getTransformedData(data: BdaDatum[]): BdaDatum[] {

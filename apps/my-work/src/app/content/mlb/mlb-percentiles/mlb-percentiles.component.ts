@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { VicChartConfigBuilder } from '@hsi/viz-components';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { mlbDataPath } from '../../ca-access/data-paths.constants';
-import { CaChartService } from '../../ca/ca-chart.service';
+import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { MlbDatum } from '../mlb-stacked-bars.component';
 import { MlbPercentilesDotPlotComponent } from './mlb-percentiles-dot-plot/mlb-percentiles-dot-plot.component';
 
@@ -40,12 +40,13 @@ export class MlbPercentilesComponent implements OnInit {
   constructor(public caChartService: CaChartService) {}
 
   ngOnInit(): void {
-    this.caChartService.init(
-      this.filters,
-      this.filterTypes,
-      this.mlbDataPath,
-      this.getTransformedData.bind(this)
-    );
+    const caChartDataConfig: CaChartDataConfig = {
+      filters: this.filters,
+      filterTypes: this.filterTypes,
+      dataPath: this.mlbDataPath,
+      getTransformedData: this.getTransformedData.bind(this),
+    };
+    this.caChartService.init(caChartDataConfig);
   }
 
   getTransformedData(data: MlbPercentilesDatum[]): MlbPercentilesDatum[] {

@@ -16,6 +16,20 @@ interface Option {
   disabled: boolean;
 }
 
+export interface CaChartDataConfig {
+  // data: any[];
+  // yDimension: string;
+  // isPercentile?: boolean;
+  // isMlb?: boolean;
+  // getCurrentRollup?: (a: any, b: any) => boolean;
+  // bandwidth?: number;
+  // labelWidth?: number;
+  filters: Record<string, Option[]>;
+  filterTypes: string[];
+  dataPath: string;
+  getTransformedData: (data: any[]) => any[];
+}
+
 @Injectable()
 export class CaChartService {
   data$: Observable<any[]>;
@@ -27,15 +41,10 @@ export class CaChartService {
 
   constructor(private dataService: DataService) {}
 
-  init(
-    filters: Record<string, Option[]>,
-    filterTypes: string[],
-    dataPath: string,
-    getTransformedData: (data: any[]) => any[]
-  ): void {
-    this.setData(dataPath, getTransformedData);
-    this.filters = filters;
-    this.filterTypes = filterTypes;
+  init(config: CaChartDataConfig): void {
+    this.setData(config.dataPath, config.getTransformedData);
+    this.filters = config.filters;
+    this.filterTypes = config.filterTypes;
     this.setForm();
   }
 

@@ -4,7 +4,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { mlbDataPath } from '../../ca-access/data-paths.constants';
-import { CaChartService } from '../../ca/ca-chart.service';
+import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { CaStackedBarsService } from '../../ca/ca-stacked-bars.service';
 import { MlbDatum } from '../mlb-stacked-bars.component';
 import { MlbCountyPlotDotPlotComponent } from './mlb-county-plot-dot-plot/mlb-county-plot-dot-plot.component';
@@ -39,12 +39,13 @@ export class MlbCountyPlotComponent implements OnInit {
   constructor(public caChartService: CaChartService) {}
 
   ngOnInit(): void {
-    this.caChartService.init(
-      this.filters,
-      this.filterTypes,
-      this.mlbDataPath,
-      this.getTransformedData.bind(this)
-    );
+    const caChartDataConfig: CaChartDataConfig = {
+      filters: this.filters,
+      filterTypes: this.filterTypes,
+      dataPath: this.mlbDataPath,
+      getTransformedData: this.getTransformedData.bind(this),
+    };
+    this.caChartService.init(caChartDataConfig);
   }
 
   getTransformedData(data: MlbCountyDatum[]): MlbCountyDatum[] {
