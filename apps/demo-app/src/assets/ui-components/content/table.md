@@ -1,29 +1,126 @@
 # Table Component
 
-## TANSTACK EXAMPLE
+## Simple Example
 
-```custom-angular
-simple table
+HSI UI Components employs the
+[Tanstack Table library](https://tanstack.com/table/latest/docs/introduction) to create table
+components. Navigate to Tanstack Table's online documentation for additional information on features
+such as pagination, input fields, column filtering, etc. The basic requirements for setting up a
+table using the TanStack Angular Table package are outlined below.
+
+## Library Installation
+
+Run the following terminal command from your project to install the most recent Tanstack Table
+Angular adapter version:
+
 ```
-
-HSI UI Components provides a set of Angular components and configuration classes that can be used to
-create tables. These components can be imported via the `TableModule`.
-
-The HSI UI Components table uses the
-[Angular Material CDK Table](https://material.angular.io/cdk/table/overview) as a reference.
+npm install @tanstack/angular-table
+```
 
 ## Composing a Table
 
-A table is minimally composed of the following HTML components:
+Tanstack Table has a basic Angular table implementation
+[here](https://tanstack.com/table/latest/docs/framework/angular/examples/basic).
+
+### HTML Component Requirements
+
+A Tanstack table is minimally composed of the following HTML components:
 
 - `table` &mdash; A component that is an outer wrapper for other components in the table.
-- `th` &mdash; A component that represents a header cell in the table.
-- `td` &mdash; A component that represents a data cell in the table.
+- `thead` &mdash; A component that represents the header of the table.
+- `tbody` &mdash; A component that is a container for the content of the table.
 - `tr` &mdash; A component that represents a row of cells in the table.
+- `th` &mdash; A component that represents a header cell in the table (nested in the `thead`
+  component).
+- `td` &mdash; A component that represents a data cell in the table (nested in the `tbody`
+  component).
 
-In addition, the table must also be given data through an `HsiUiTableDataSource` instance.
+### Table Configuration
 
-The following is a minimal implementation:
+In addition, the table must also be given data and column definitions through a `createTable`
+instance, which requires column definitions and the data to be displayed in the table.
+
+The Tanstack Table adapter requires data to be defined typically as an array of objects, with each
+object representing a row of data. Additional guidance on defining table data can be found
+[here](https://tanstack.com/table/latest/docs/guide/data).
+
+```ts
+// basic table data definition
+type Person = {
+  name: {
+    first: string,
+    last: string,
+  };
+  age: number;
+}
+
+const defaultData: Person[] = [
+  {
+    name: {
+      first: "James",
+      last: "Madison",
+    },
+    age: 20,
+  },
+  ...
+]
+```
+
+The Tanstack Table adapter also requires an array of column defs. Columns defs determine what data
+will be displayed and accessed in the table component. Column defs are also where you can feed
+metadata pertaining to each table column, including sortability. Additional guidance on defining
+table data can be found [here](https://tanstack.com/table/latest/docs/guide/column-defs).
+
+```ts
+import { ColumnDef } from '@tanstack/angular-table';
+...
+const columnDefs: ColumnDef<Person>[] = [
+  {
+    accessorFn: (row) => row.name.first,
+    id: 'firstName',
+    ...
+  },
+  {
+    accessorFn: (row) => row.name.last,
+    id: 'lastName',
+    ...
+  },
+  {
+    accessorKey: 'age',
+    header: () => 'Age',
+    ...
+  },
+];
+```
+
+After defining your data and column defs, create a `createAngularTable` instance. Note that the
+Tanstack Angular Table adapter uses `signal` instances as opposed to Rxjs Observables. See the
+example below:
+
+```ts
+import { toSignal } from '@angular/core';
+import { createAngularTable } from '@tanstack/angular-table';
+
+...
+@Component({
+  selector: 'app-tanstack-example',
+  standalone: true,
+  ...
+})
+export class TanstackExampleComponent {
+  ...
+  readonly data = toSignal(defaultData);
+  table = createAngularTable(() => {
+    return {
+      data: data(),
+      columns: columnDefs,
+    };
+  });
+}
+```
+
+The following is a minimal implementation with sorting and embedded data visualizations from our
+`viz-components` library:
 
 ```custom-angular
 simple table
@@ -31,390 +128,415 @@ simple table
 
 ```ts
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { GetValueByKeyPipe } from '@hsi/app-dev-kit';
-import { HsiUiTableDataSource, TableColumnsBuilder, TableModule } from '@hsi/ui-components';
-import { of } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Input, OnInit, signal } from '@angular/core';
+import {
+  ChartConfig,
+  LinesConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
+  VicLinesConfigBuilder,
+  VicLinesModule,
+  VicXQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfigBuilder,
+  VicXyAxisModule,
+  VicYQuantitativeAxisConfig,
+  VicYQuantitativeAxisConfigBuilder,
+} from '@hsi/viz-components';
+import {
+  ColumnDef,
+  createAngularTable,
+  FlexRenderDirective,
+  getCoreRowModel,
+  getSortedRowModel,
+  SortingState,
+} from '@tanstack/angular-table';
 
-enum ColumnNames {
-  fruit = 'Fruit',
-  colorName = 'Color',
-  inventory = 'Inventory',
-  price = 'Sell price',
-}
+type PerformanceReview = {
+  year: Date;
+  hrAppraisal: number;
+  employeeAppraisal: number;
+};
+type Person = {
+  firstName: string;
+  lastName: string;
+  age: number;
+  performance: PerformanceReview[];
+};
 
-enum FruitInfo {
-  fruit = 'fruit',
-  colorName = 'color',
-  inventory = 'metrics.inventory',
-  price = 'metrics.price',
-}
+type PersonWithCharts = Person & {
+  chartConfig: LinesConfig<PerformanceReview>;
+};
 
-class FruitType {
-  fruit: string;
-  color: string;
-  metrics: {
-    inventory: number;
-    price: number;
-  };
-}
+const defaultData: Person[] = [
+  {
+    firstName: 'first',
+    lastName: 'last',
+    age: 106,
+    performance: [
+      { year: new Date(2020, 1, 1), hrAppraisal: 9, employeeAppraisal: 4 },
+      { year: new Date(2023, 1, 1), hrAppraisal: 10, employeeAppraisal: 2 },
+      { year: new Date(2025, 1, 1), hrAppraisal: 10, employeeAppraisal: -10 },
+    ],
+  },
+  {
+    firstName: 'person',
+    lastName: 'name',
+    age: 45,
+    performance: [
+      { year: new Date(2020, 1, 1), hrAppraisal: 8, employeeAppraisal: 9 },
+      { year: new Date(2023, 1, 1), hrAppraisal: 10, employeeAppraisal: 10 },
+      { year: new Date(2025, 1, 1), hrAppraisal: 0, employeeAppraisal: 10 },
+    ],
+  },
+  {
+    firstName: 'another',
+    lastName: 'name',
+    age: 40,
+    performance: [
+      { year: new Date(2020, 1, 1), hrAppraisal: 8, employeeAppraisal: 5 },
+      { year: new Date(2023, 1, 1), hrAppraisal: 6, employeeAppraisal: 3 },
+      { year: new Date(2025, 1, 1), hrAppraisal: 7, employeeAppraisal: 1 },
+    ],
+  },
+];
+
+const defaultColumns: ColumnDef<Person>[] = [
+  {
+    accessorKey: 'firstName',
+    cell: (info) => info.getValue(),
+    footer: (info) => info.column.id,
+    enableSorting: false,
+  },
+  {
+    accessorFn: (row) => row.lastName,
+    id: 'lastName',
+    cell: (info) => `<i>${info.getValue<string>()}</i>`,
+    header: () => `Last Name`,
+    footer: (info) => info.column.id,
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'age',
+    header: () => 'Age',
+    footer: (info) => info.column.id,
+    sortingFn: 'basic',
+    enableSorting: true,
+  },
+  {
+    accessorKey: 'chartConfig',
+    header: () => `performance appraisal`,
+    footer: (info) => info.column.id,
+  },
+];
 
 @Component({
-  selector: 'app-table-example',
+  selector: 'app-tanstack-example',
   standalone: true,
-  imports: [CommonModule, TableModule, GetValueByKeyPipe],
-  templateUrl: './table-example.component.html',
-  styleUrls: ['../../../examples.scss', './table-example.component.scss'],
+  imports: [FlexRenderDirective, CommonModule, VicChartModule, VicLinesModule, VicXyAxisModule],
+  providers: [
+    VicChartConfigBuilder,
+    VicLinesConfigBuilder,
+    VicYQuantitativeAxisConfigBuilder,
+    VicXQuantitativeAxisConfigBuilder,
+  ],
+  templateUrl: './tanstack-example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./tanstack-example.component.scss'],
 })
-export class TableExampleComponent implements OnInit {
+export class TanstackExampleComponent implements OnInit {
   @Input() sortIcon: string = 'arrow_upward';
-  dataSource: HsiUiTableDataSource<FruitType>;
+  readonly sorting = signal<SortingState>([
+    {
+      id: 'age',
+      desc: false,
+    },
+  ]);
+
+  data = signal(null);
+
+  table = createAngularTable(() => ({
+    data: this.data(),
+    columns: defaultColumns,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting: this.sorting(),
+    },
+    debugAll: true,
+    enableSorting: true,
+    onSortingChange: (updater) => {
+      if (updater instanceof Function) {
+        this.sorting.update(updater);
+      } else {
+        this.sorting.set(updater);
+      }
+    },
+  }));
+
+  chartConfig: ChartConfig;
+  xAxisQuantitativeConfig: VicXQuantitativeAxisConfig<Date>;
+  yAxisConfig: VicYQuantitativeAxisConfig<number>;
 
   ngOnInit(): void {
-    this.setTableData();
+    this.data.set(this.addChartsToData(defaultData));
+    this.chartConfig = new VicChartConfigBuilder().getConfig();
+    this.xAxisQuantitativeConfig = new VicXQuantitativeAxisConfigBuilder()
+      .ticks((ticks) => ticks.format('%Y'))
+      .getConfig();
+    this.yAxisConfig = new VicYQuantitativeAxisConfigBuilder().getConfig();
   }
 
-  setTableData() {
-    const initData$ = of([
-      {
-        fruit: 'lemon',
-        color: 'yellow',
-        metrics: { inventory: 10, price: 1.2 },
-      },
-      {
-        fruit: 'mango',
-        color: 'orange',
-        metrics: { inventory: 5, price: 2.5 },
-      },
-      {
-        fruit: 'avocado',
-        color: 'green',
-        metrics: { inventory: 20, price: 3.0 },
-      },
-      {
-        fruit: 'apple',
-        color: 'red',
-        metrics: { inventory: 15, price: 1.5 },
-      },
-      {
-        fruit: 'orange',
-        color: 'orange',
-        metrics: { inventory: 20, price: 1.8 },
-      },
-      {
-        fruit: 'banana',
-        color: 'yellow',
-        metrics: { inventory: 5, price: 1.0 },
-      },
-    ]);
-    const initColumns$ = of(
-      new TableColumnsBuilder<FruitType>()
-        .addColumn(
-          (column) =>
-            column
-              .label(ColumnNames.fruit)
-              .displayKey(FruitInfo.fruit)
-              .ascendingSortFunction((a, b) => a.fruit.localeCompare(b.fruit))
-              .sortOrder(1)
-              .sortable(true)
-              .sortDirection('asc') // initial sort direction
-        )
-        .addColumn((column) =>
-          column
-            .displayKey(FruitInfo.colorName)
-            .label(ColumnNames.colorName)
-            .sortable(true)
-            .ascendingSortFunction((a, b) => a.color.localeCompare(b.color))
-        )
-        .addColumn((column) =>
-          column
-            .displayKey(FruitInfo.inventory)
-            .label(ColumnNames.inventory)
-            .sortable(true)
-            .getSortValue((x) => x.metrics.inventory)
-        )
-        .getConfig()
-    );
-    this.dataSource = new HsiUiTableDataSource(initData$, initColumns$);
+  addChartsToData(data: Person[]): PersonWithCharts[] {
+    return data.map((person) => {
+      const chartConfig = new VicLinesConfigBuilder<PerformanceReview>()
+        .data(person.performance)
+        .xDate((xDate) => xDate.valueAccessor((d) => new Date(d.year)))
+        .y((yValue) => yValue.valueAccessor((d) => d.employeeAppraisal))
+        .pointMarkers((markers) => markers.radius(2).growByOnHover(3))
+        .getConfig();
+      return { ...person, chartConfig };
+    });
   }
 }
 ```
 
 ```html
-@if (dataSource.columns$ | async; as columns) {
-<table cdk-table [dataSource]="dataSource" class="table-container">
-  @for (column of columns; track column.id) {
-  <ng-container [cdkColumnDef]="column.id">
-    @if (column.sortable) {
-    <th
-      scope="col"
-      cdk-header-cell
-      *cdkHeaderCellDef="let element"
-      (click)="dataSource.sort(column)"
-    >
-      <div class="header-cell-sort">
-        {{ column.label }}
-        <span
-          [ngClass]="[
-                  'material-sort-icon',
-                  column.sortDirection,
-                  column.activelySorted ? 'actively-sorted' : '',
-                  'material-symbols-outlined',
-                ]"
-          [attr.aria-hidden]="true"
-          >{{ sortIcon }}</span
-        >
-      </div></th
-    >
-    } @else {
-    <th cdk-header-cell *cdkHeaderCellDef="let element"> {{ column.label }} </th>
-    }
-    <td class="table-cell" [class.sorted-cell]="column.sortable" cdk-cell *cdkCellDef="let element">
-      {{ element | getValueByKey: column.key }}
-    </td>
-  </ng-container>
-  }
-  <tr cdk-header-row *cdkHeaderRowDef="dataSource.columnIds$ | async"></tr>
-  <tr cdk-row *cdkRowDef="let row; columns: dataSource.columnIds$ | async"></tr>
-</table>
-}
+<div class="p-2">
+  <table>
+    <thead>
+      @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+      <tr>
+        @for (header of headerGroup.headers; track header.id) { @if (!header.isPlaceholder) { @if
+        (header.column.getCanSort()) {
+        <th>
+          <ng-container
+            *flexRender="
+                      header.column.columnDef.header;
+                      props: header.getContext();
+                      let headerCell
+                    "
+          >
+            <div
+              class="header-cell-sort"
+              (click)="header.column.toggleSorting()"
+              [class.sorting-asc]="
+                        header.column.getIsSorted() === 'asc'
+                      "
+              [class.sorting-desc]="
+                        header.column.getIsSorted() === 'desc'
+                      "
+            >
+              {{ headerCell }}
+              <span
+                [ngClass]="[
+                          'material-sort-icon',
+                          'material-symbols-outlined',
+                        ]"
+                [class.desc]="header.column.getIsSorted() === 'desc'"
+                [class.asc]="header.column.getIsSorted() === 'asc'"
+                [class.actively-sorted]="
+                          header.column.getIsSorted() !== false
+                        "
+                [attr.aria-hidden]="true"
+                >{{ sortIcon }}</span
+              >
+            </div>
+          </ng-container>
+        </th>
+        } @else {
+        <th>
+          <ng-container
+            *flexRender="
+                      header.column.columnDef.header;
+                      props: header.getContext();
+                      let header
+                    "
+          >
+            <div [innerHTML]="header"></div>
+          </ng-container>
+        </th>
+        } } }
+      </tr>
+      }
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of table.getRowModel().rows">
+        <td *ngFor="let cell of row.getVisibleCells()">
+          <ng-container *ngIf="cell.column.id === 'chartConfig'; else defaultCell">
+            <vic-xy-chart [config]="chartConfig">
+              <ng-container svg-elements>
+                <svg:g vic-xy-background></svg:g>
+                <svg:g vic-primary-marks-lines [config]="$any(cell.getValue())"></svg:g>
+                <svg:g vic-x-quantitative-axis [config]="xAxisQuantitativeConfig"></svg:g>
+                <svg:g vic-y-quantitative-axis [config]="yAxisConfig"></svg:g>
+              </ng-container>
+            </vic-xy-chart>
+          </ng-container>
+          <ng-template #defaultCell> {{ cell.getValue() }} </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 ```
 
 ## Features
 
-## Configuration
+## Additional Table Configuration Notes
 
-To provide a column configuration for the `HsiUiTableDataSource`, you can use the
-`TableColumnsBuilder`.
+### Row Models
 
-**Required imports from @hsi/ui-components**
+In order to add functionality to your Tanstack table instance, you must pass a row model to your
+`createAngularTable` instance. See the Tanstack Row Models
+[documentation](https://tanstack.com/table/latest/docs/guide/row-models) for futher information.
+
+```ts
+import { getCoreRowModel } from '@tanstack/angular-table';
+...
+const table = useAngularTable({
+  data,
+  columns,
+  getCoreRowModel: getCoreRowModel(), // row model
+});
+```
+
+### Angular State
+
+Tanstack creates and tracks an underlying state of the table component. In order to access and
+further customize the table's internal state, see this
+[guide](https://tanstack.com/table/latest/docs/framework/angular/guide/table-state).
+
+### Sorting with Tanstack
+
+Row sorting can be quickly implemented with Tanstack Table. First, define a `SortingState`. This
+tracks the current state of sorting within your table. You can also pass an initial sorting state of
+your `createAngularTable` instance to apply sorting to data in the table upon initialization.
+
+```ts
+import { SortingState } from '@tanstack/angular-table';
+...
+readonly sorting = signal<SortingState>([
+  {
+    id: 'age',
+    desc: false,
+  },
+]);
+
+```
+
+Then, include your `SortingState` instance, a sorted row model (for client-side sorting, call
+`getSortedRowModel()` to quickly create a sorted row model), and an `onSortingChange` handler in
+your `createAngularTable` instance.
 
 ```ts
 import {
-  HsiUiTableDataSource,
-  TableColumn,
-  TableColumnsBuilder,
-  TableModule,
-} from '@hsi/ui-components';
+  createAngularTable,
+  getCoreRowModel,
+  getSortedRowModel,
+  SortingState,
+} from '@tanstack/angular-table';
+
 ...
 @Component({
-  ...
-  imports: [
-    TableModule
-    ...
-  ],
+  selector: 'app-tanstack-example',
+  standalone: true,
   ...
 })
+export class TanstackExampleComponent {
+  ...
+  table = createAngularTable(() => {
+    return {
+      data: data(),
+      columns: columnDefs,
+          getCoreRowModel: getCoreRowModel(),
+      getSortedRowModel: getSortedRowModel(),
+      state: {
+        sorting: this.sorting(),
+      },
+      enableSorting: true,
+      onSortingChange: (updater) => {
+        if (updater instanceof Function) {
+          this.sorting.update(updater);
+        } else {
+          this.sorting.set(updater);
+        }
+      },
+    };
+  });
+}
 ```
 
-**Minimal example of creating a `HsiUiTableDataSource`**
+In your column defs, enable sorting for a specific column by adding `enableSorting: true` to the
+def's options. This is also where you can pass sorting functions for the data being represented by
+the column def. Tanstack provides built-in sorting fns, such as `'alphanumeric'` and `'datetime'`.
+If you do not provide a value for `sortingFn`, Tanstack will infer a sort function based on the date
+type of the column. Custom sorting functions can also be created and passed to your column defs as
+well.
 
 ```ts
-...
-dataSource: HsiUiTableDataSource<>;
-data$: Observable<Datum[]> = of([
-      { fruit: 'lemon', color: 'yellow' },
-      { fruit: 'mango', color: 'orange' },
-    ]);
-columns$: Observable<TableColumn<Datum>[];> = of(
-      new TableColumnsBuilder<{ fruit: string; color: string }>()
-        .addColumn((column) =>
-          column
-            .label(ColumnNames.fruit)
-        )
-        .addColumn((column) =>
-          column
-            .label(ColumnNames.color)
-        )
-        .getConfig());
-...
-this.dataSource = new HsiUiTableDataSource(this.data$, this.columns$);
-```
-
-### Handling tiebreaks
-
-Tiebreaks can be handled through setting a `sortOrder` on the `TableColumn` objects. When data in
-cells of the column currently being sorted are of the same sort value, cell data from the inactive
-columns are then compared to determine an ordering of the rows.
-
-### `TableColumnsBuilder` Methods
-
-#### Required Methods
-
-There are no required methods for `TableColumnsBuilder`.
-
-#### Optional Methods
-
-The `TableColumm` class contains data that states whether or not the column is sortable, and, if so,
-how to sort the column.
-
-The following methods can be called on `TableColumnsBuilder` to create a list of validated
-`TableColumn`s.
-
-```builder-method
-name: addColumn
-description: 'Specifies a new column to be added to the end of the list of columns.'
-params:
-  - name: applyToColumn
-    type: '(column: TableColumnBuilder<Datum>) => TableColumnBuilder<Datum>'
-    description:
-      - 'Table column configuration for the column to be added, with all desired builder methods applied. See required methods below in the `TableColumnBuilder` section.'
-```
-
-```builder-method
-name: getConfig
-description: 'Validates and builds the configuration object for the table columns that can be passed to `HsiUiTableDataSource`.'
-params:
-- ''
-```
-
-### `TableColumnBuilder` Methods
-
-#### Required Methods
-
-```builder-method
-name: id
-description: 'Sets the id of the table column.'
-params:
-  - name: id
-    type: string
-    description:
-      - 'The assigned id of the table column.'
-```
-
-```builder-method
-name: displayKey
-description: 'Sets the property key in the datum that is to be displayed in the table column. See the `metrics.cost` display key is set in the example below.'
-params:
-  - name: key
-    type: string
-    description:
-      - 'The display key of the table column. Nested object data can be accessed using dot notation (e.g. `metrics.cost`, `metrics.inventory`).'
-```
-
-```ts
-// Datum
-fruits = [{
-  fruit: 'apple',
-  color: 'green',
-  metrics: {
-    cost: 21,
-    quantity: 2
+const defaultColumns: ColumnDef<Person>[] = [
+  {
+    accessorKey: 'firstName',
+    cell: (info) => info.getValue(),
+    footer: (info) => info.column.id,
+    enableSorting: false, // disables for this particular column
+  },
+  {
+    accessorKey: 'age',
+    header: () => 'Age',
+    footer: (info) => info.column.id,
+    sortingFn: 'basic',
+    enableSorting: true,
   },
   ...
-}]
-
-// Builder
-builder = new TableColumnsBuilder<{
-fruit: string;
-color: string;
-metrics: {
-  inventory: number;
-  price: number;
-}
-}>()
-...
-      .addColumn(
-        (column) =>
-          column
-            .label('Cost')
-            .displayKey('metrics.cost')
-      )
-      ...
+];
 ```
 
-#### Optional Methods
-
-```builder-method
-name: label
-description: 'Sets the label of the table column. Useful for storing the desired header text for the column.'
-params:
-  - name: label
-    type: string
-    description:
-      - 'The label to be used by the table column'
-```
-
-```builder-method
-name: getSortValue
-description: 'Specifies how to extract the datum property to be sorted on for cells in the table column.'
-params:
-  - name: getSortValue
-    type: '(x: Datum) => TableValue | null'
-    description:
-      - 'A function to extract the datum property to be sorted on for cells in the table column, or `null` to not set this property.'
-```
-
-```builder-method
-name: ascendingSortFunction
-description: 'Specifies how datum are to be sorted in ascending order for the table column. If not provided, the column will use `d3.ascending` on the getSortValue output.'
-params:
-  - name: ascendingSortFunction
-    type: '(a: Datum, b: Datum) => number | null'
-    description:
-      - 'The function that sorts datum in ascending order for the table column.'
-```
-
-```builder-method
-name: sortDirection
-description: Sets the direction the table column is sorted in.
-params:
-  - name: sortDirection
-    type: SortDirectionType
-    description:
-      - 'The sort direction of the table column.'
-```
-
-```builder-method
-name: sortable
-description: 'Sets whether or not the table column can be sorted.'
-params:
-  - name: sortable
-    type: boolean
-    description:
-      - 'Whether the column can be sorted.'
-```
-
-```builder-method
-name: sortOrder
-description: 'Sets the order in which the table column is to be sorted by in the case of tiebreaks'
-params:
-  - name: sortOrder
-    type: number
-    description:
-      - 'The sort order of the table column.'
-```
-
-### Accessing data values using `GetValueByKeyPipe`
-
-In order to access data from the `Datum` objects in HTML, import the `GetValueByKeyPipe` from the
-`AppDevKitModule`.
-
-```ts
-import { GetValueByKeyPipe } from '@hsi/app-dev-kit';
-...
-@Component({
-  selector: 'app-table-example',
-  standalone: true,
-  imports: [CommonModule, TableModule, GetValueByKeyPipe],
-  templateUrl: './table-example.component.html',
-  styleUrls: ['../../../examples.scss', './table-example.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-...
-```
-
-The appropriate display key should then be passed to the pipe in the HTML table implementation like
-so:
+In the HTML for your table component, within your `<th>` components, you can call functions such as
+`toggleSorting()` and `getIsSorted()` on your column defs to sort by a particular column or get a
+column's sortability:
 
 ```html
-<table cdk-table [dataSource]="dataSource" class="table-container">
+<table>
   ...
-  <td cdk-cell *cdkCellDef="let element"> {{ element | getValueByKey: column.key }} </td>
+  <thead>
+    ...
+    <tr>
+      ... @if (header.column.getCanSort()) {
+      <th>
+        ...
+        <div
+          class="header-cell-sort"
+          (click)="header.column.toggleSorting()"
+          [class.sorting-asc]="
+                        header.column.getIsSorted() === 'asc'
+                      "
+          [class.sorting-desc]="
+                        header.column.getIsSorted() === 'desc'
+                      "
+        >
+          {{ headerCell }}
+          <span
+            [class.desc]="header.column.getIsSorted() === 'desc'"
+            [class.asc]="header.column.getIsSorted() === 'asc'"
+            [class.actively-sorted]="
+                          header.column.getIsSorted() !== false
+                        "
+            >{{ sortIcon }}</span
+          >
+        </div>
+        ...
+      </th>
+      }
+    </tr>
+    ...
+  </thead>
   ...
 </table>
 ```
+
+For more information, see the Tanstack Table sorting documentation
+[here](https://tanstack.com/table/latest/docs/guide/sorting).
 
 ## Customizing with icons
 
@@ -423,19 +545,41 @@ Icons of the user's choice can also be included like so:
 In the `th` element:
 
 ```html
-<th scope="col" cdk-header-cell *cdkHeaderCellDef="let element" (click)="dataSource.sort(column)">
-  <span
-    [ngClass]="[
-                'material-sort-icon',
-                column.sortDirection,
-                column.activelySorted ? 'actively-sorted' : '',
-                'material-symbols-outlined',
-              ]"
-    [attr.aria-hidden]="true"
-    >{{ sortIcon }}</span
+<th>
+  <ng-container
+    *flexRender="
+      header.column.columnDef.header;
+      props: header.getContext();
+      let headerCell
+    "
   >
-  {{ column.label }}</th
->
+    <div
+      class="header-cell-sort"
+      (click)="header.column.toggleSorting()"
+      [class.sorting-asc]="
+        header.column.getIsSorted() === 'asc'
+      "
+      [class.sorting-desc]="
+        header.column.getIsSorted() === 'desc'
+      "
+    >
+      {{ headerCell }}
+      <span
+        [ngClass]="[
+          'material-sort-icon',
+          'material-symbols-outlined',
+        ]"
+        [class.desc]="header.column.getIsSorted() === 'desc'"
+        [class.asc]="header.column.getIsSorted() === 'asc'"
+        [class.actively-sorted]="
+          header.column.getIsSorted() !== false
+        "
+        [attr.aria-hidden]="true"
+        >{{ sortIcon }}</span
+      >
+    </div>
+  </ng-container>
+</th>
 ```
 
 Example CSS code for styling icons in a table:
@@ -450,10 +594,16 @@ $icon-right-margin: 0.4rem;
 
 .header-cell-sort {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
   &:hover {
     cursor: pointer;
+  }
+  &.left {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  &.right {
+    align-items: flex-end;
+    justify-content: flex-end;
   }
 }
 
@@ -481,9 +631,15 @@ $icon-right-margin: 0.4rem;
   transform: rotate(180deg);
 }
 
-.table-cell {
+.right {
   text-align: right;
+}
 
+.left {
+  text-align: left;
+}
+
+.table-cell {
   &.sorted-cell {
     padding-right: $icon-left-margin + $icon-width + $icon-right-margin;
   }
@@ -511,3 +667,20 @@ $icon-right-margin: 0.4rem;
   }
 }
 ```
+
+## Additional Features
+
+Tanstack Table includes additional functionality for tables, such as pagination, column filtering,
+editable cell data, using signal input, etc.
+
+- Pagination: [Documentation](https://tanstack.com/table/latest/docs/guide/pagination) |
+  [Example](https://tanstack.com/table/latest/docs/framework/angular/examples/signal-input)
+- Column Filtering: [Documentation](https://tanstack.com/table/latest/docs/guide/column-filtering) |
+  [Example](https://tanstack.com/table/latest/docs/framework/angular/examples/filters)
+
+### More Examples
+
+- Creating tables with editable data cells:
+  [Example](https://tanstack.com/table/latest/docs/framework/angular/examples/editable)
+- Working with signal input:
+  [Example](https://tanstack.com/table/latest/docs/framework/angular/examples/signal-input)
