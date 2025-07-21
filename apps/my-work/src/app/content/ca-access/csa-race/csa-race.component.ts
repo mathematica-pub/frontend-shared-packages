@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { VicChartConfigBuilder } from '@hsi/viz-components';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { CaChartService } from '../../ca/ca-chart.service';
+import { CaStackedBarsService } from '../../ca/ca-stacked-bars.service';
 import { CsaDatum } from '../csa/csa.component';
 import { dataPath } from '../data-paths.constants';
 import { CsaRaceDotPlotComponent } from './csa-race-dot-plot/csa-race-dot-plot.component';
@@ -23,7 +24,7 @@ export interface CsaRaceDatum extends CsaDatum {
     CsaRaceDotPlotComponent,
     ReactiveFormsModule,
   ],
-  providers: [VicChartConfigBuilder, CaChartService],
+  providers: [VicChartConfigBuilder, CaChartService, CaStackedBarsService],
   templateUrl: './csa-race.component.html',
   styleUrl: './csa-race.component.scss',
   encapsulation: ViewEncapsulation.None,

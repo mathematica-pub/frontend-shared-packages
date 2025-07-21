@@ -7,7 +7,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
-import { select, Selection } from 'd3';
+import { Selection } from 'd3';
+import { CaStackedBarsService } from '../ca/ca-stacked-bars.service';
 import { lobNames } from './mlb.constants';
 
 export interface MlbDatum {
@@ -29,6 +30,7 @@ export interface MlbDatum {
   templateUrl: 'mlb-stacked-bars.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
+  providers: [CaStackedBarsService],
 })
 export class MlbStackedBarsComponent
   extends StackedBarsComponent<any, string>
@@ -46,11 +48,20 @@ export class MlbStackedBarsComponent
   highlightedRadius = 3;
   percentOffset: string;
 
+  constructor(private stackedBarsService: CaStackedBarsService) {
+    super();
+  }
+
   override ngOnInit(): void {
-    this.createCircleGroup();
-    this.createDirectionLabel();
-    this.createXLabel();
-    this.createHeaderGroup();
+    this.circleGroup = this.stackedBarsService.createCircleGroup(this.chart);
+    this.directionLabel = this.stackedBarsService.createDirectionLabel(
+      this.chart
+    );
+    this.xLabel = this.stackedBarsService.createXLabel(this.chart);
+    this.headerGroup = this.stackedBarsService.createHeaderGroup(
+      this.chart,
+      this.headerOffset
+    );
     this.createAverageHeaderGroup();
     super.ngOnInit();
   }
@@ -63,34 +74,12 @@ export class MlbStackedBarsComponent
     }
     this.updateBarElements();
     this.updateCircleElements();
-    this.updateDirectionLabel();
-    this.updateXLabel();
-  }
-
-  createCircleGroup(): void {
-    this.circleGroup = select(this.chart.svgRef.nativeElement)
-      .append('g')
-      .attr('class', 'plans');
-  }
-
-  createDirectionLabel(): void {
-    this.directionLabel = select(this.chart.svgRef.nativeElement)
-      .append('text')
-      .attr('class', 'direction-label');
-  }
-
-  createXLabel(): void {
-    this.xLabel = select(this.chart.svgRef.nativeElement)
-      .append('text')
-      .attr('class', 'x-label')
-      .attr('x', this.chart.config.width);
-  }
-
-  createHeaderGroup(): void {
-    this.headerGroup = select(this.chart.svgRef.nativeElement)
-      .append('g')
-      .attr('class', 'headers')
-      .attr('transform', `translate(0, ${this.headerOffset})`);
+    this.stackedBarsService.updateDirectionLabel(
+      this.directionLabel,
+      this.config,
+      this.chart
+    );
+    this.stackedBarsService.updateXLabel(this.xLabel, this.config, this.chart);
   }
 
   createAverageHeaderGroup(): void {
@@ -153,43 +142,16 @@ export class MlbStackedBarsComponent
     return null;
   }
 
-  getDirection(): string {
-    return this.config.data
-      .find((lob) => lob.directionality !== null)
-      .directionality.toLowerCase()
-      .includes('higher')
-      ? 'below'
-      : 'above';
-  }
-
-  updateDirectionLabel(): void {
-    this.directionLabel
-      .text(
-        this.config.data.find((lob) => lob.directionality !== null)
-          .directionality
-      )
-      .attr('y', this.chart.config.height + 40);
-  }
-
-  updateXLabel(): void {
-    this.xLabel
-      .text(() => {
-        const units = this.config.data.find((lob) => lob.units !== null).units;
-        return units === 'Percentage' ? null : units;
-      })
-      .attr('y', this.chart.config.height + 40);
-  }
-
   override getStackElementY(datum: StackDatum): number {
-    return (
-      this.scales.y(this.config[this.config.dimensions.y].values[datum.i]) +
-      (this.scales.y as any).bandwidth() / 4
+    return this.stackedBarsService.getStackElementY(
+      datum,
+      this.scales,
+      this.config
     );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override getStackElementHeight(datum: StackDatum): number {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (this.scales.y as any).bandwidth() / 2;
+    return this.stackedBarsService.getStackElementHeight(this.scales);
   }
 }

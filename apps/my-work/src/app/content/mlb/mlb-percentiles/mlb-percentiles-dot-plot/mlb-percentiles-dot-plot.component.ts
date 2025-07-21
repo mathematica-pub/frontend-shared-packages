@@ -10,6 +10,7 @@ import {
   CaDotPlotService,
   DotPlotDataConfig,
 } from '../../../ca/ca-dot-plot.service';
+import { CaStackedBarsService } from '../../../ca/ca-stacked-bars.service';
 import { MlbPercentilesDatum } from '../mlb-percentiles.component';
 import { MlbPercentilesStackedBarsComponent } from './mlb-percentiles-stacked-bars/mlb-percentiles-stacked-bars.component';
 
@@ -26,6 +27,7 @@ import { MlbPercentilesStackedBarsComponent } from './mlb-percentiles-stacked-ba
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
     CaDotPlotService,
+    CaStackedBarsService,
   ],
   templateUrl: './mlb-percentiles-dot-plot.component.html',
   styleUrl: './mlb-percentiles-dot-plot.component.scss',

@@ -4,6 +4,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { CaChartService } from '../../ca/ca-chart.service';
+import { CaStackedBarsService } from '../../ca/ca-stacked-bars.service';
 import { CaDatum } from '../ca-access-stacked-bars.component';
 import { dataPath } from '../data-paths.constants';
 import { BdaDotPlotComponent } from './bda-dot-plot/bda-dot-plot.component';
@@ -22,7 +23,7 @@ export interface BdaDatum extends CaDatum {
     ReactiveFormsModule,
     BdaDotPlotComponent,
   ],
-  providers: [CaChartService],
+  providers: [CaChartService, CaStackedBarsService],
   templateUrl: 'bda.component.html',
   styleUrl: './bda.component.scss',
   encapsulation: ViewEncapsulation.None,

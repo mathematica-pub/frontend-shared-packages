@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { mlbDataPath } from '../../ca-access/data-paths.constants';
 import { CaChartService } from '../../ca/ca-chart.service';
+import { CaStackedBarsService } from '../../ca/ca-stacked-bars.service';
 import { MlbDatum } from '../mlb-stacked-bars.component';
 import { MlbBdaDotPlotComponent } from './mlb-bda-dot-plot/mlb-bda-dot-plot.component';
 
@@ -21,7 +22,7 @@ export interface MlbBdaDatum extends MlbDatum {
     ReactiveFormsModule,
     MlbBdaDotPlotComponent,
   ],
-  providers: [CaChartService],
+  providers: [CaChartService, CaStackedBarsService],
   templateUrl: 'mlb-bda.component.html',
   styleUrl: './mlb-bda.component.scss',
   encapsulation: ViewEncapsulation.None,

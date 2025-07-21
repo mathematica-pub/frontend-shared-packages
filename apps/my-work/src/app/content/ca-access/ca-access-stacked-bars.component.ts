@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
 import { format, select, Selection } from 'd3';
+import { CaStackedBarsService } from '../ca/ca-stacked-bars.service';
 
 export interface CaDatum {
   series: string;
@@ -31,6 +32,7 @@ export interface CaDatum {
   templateUrl: 'ca-access-stacked-bars.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
+  providers: [CaStackedBarsService],
 })
 export class CaAccessStackedBarsComponent
   extends StackedBarsComponent<any, string>
@@ -53,11 +55,20 @@ export class CaAccessStackedBarsComponent
   radius = 5;
   percentOffset: string;
 
+  constructor(private stackedBarsService: CaStackedBarsService) {
+    super();
+  }
+
   override ngOnInit(): void {
-    this.createCircleGroup();
-    this.createDirectionLabel();
-    this.createXLabel();
-    this.createHeaderGroup();
+    this.circleGroup = this.stackedBarsService.createCircleGroup(this.chart);
+    this.directionLabel = this.stackedBarsService.createDirectionLabel(
+      this.chart
+    );
+    this.xLabel = this.stackedBarsService.createXLabel(this.chart);
+    this.headerGroup = this.stackedBarsService.createHeaderGroup(
+      this.chart,
+      this.headerOffset
+    );
     this.createSizeHeaderGroup();
     this.createPlanHeaderGroup();
     super.ngOnInit();
@@ -75,35 +86,13 @@ export class CaAccessStackedBarsComponent
     this.updateCircleElements();
     this.updateComparison();
     this.updatePercentLabels();
-    this.updateDirectionLabel();
-    this.updateXLabel();
+    this.stackedBarsService.updateDirectionLabel(
+      this.directionLabel,
+      this.config,
+      this.chart
+    );
+    this.stackedBarsService.updateXLabel(this.xLabel, this.config, this.chart);
     this.updatePlanHeader();
-  }
-
-  createCircleGroup(): void {
-    this.circleGroup = select(this.chart.svgRef.nativeElement)
-      .append('g')
-      .attr('class', 'plans');
-  }
-
-  createDirectionLabel(): void {
-    this.directionLabel = select(this.chart.svgRef.nativeElement)
-      .append('text')
-      .attr('class', 'direction-label');
-  }
-
-  createXLabel(): void {
-    this.xLabel = select(this.chart.svgRef.nativeElement)
-      .append('text')
-      .attr('class', 'x-label')
-      .attr('x', this.chart.config.width);
-  }
-
-  createHeaderGroup(): void {
-    this.headerGroup = select(this.chart.svgRef.nativeElement)
-      .append('g')
-      .attr('class', 'headers')
-      .attr('transform', `translate(0, ${this.headerOffset})`);
   }
 
   createSizeHeaderGroup(): void {
@@ -299,26 +288,6 @@ export class CaAccessStackedBarsComponent
       : 'above';
   }
 
-  updateDirectionLabel(): void {
-    this.directionLabel
-      .text(
-        this.config.data.find((category) => category.directionality !== null)
-          .directionality
-      )
-      .attr('y', this.chart.config.height + 40);
-  }
-
-  updateXLabel(): void {
-    this.xLabel
-      .text(() => {
-        const units = this.config.data.find(
-          (category) => category.units !== null
-        ).units;
-        return units === 'Percentage' ? null : units;
-      })
-      .attr('y', this.chart.config.height + 40);
-  }
-
   updatePlanHeader(): void {
     this.headerGroup.select('.plan-header').attr('transform', () => {
       return `translate(${this.planLabelPosition}, 0)`;
@@ -326,15 +295,15 @@ export class CaAccessStackedBarsComponent
   }
 
   override getStackElementY(datum: StackDatum): number {
-    return (
-      this.scales.y(this.config[this.config.dimensions.y].values[datum.i]) +
-      (this.scales.y as any).bandwidth() / 4
+    return this.stackedBarsService.getStackElementY(
+      datum,
+      this.scales,
+      this.config
     );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override getStackElementHeight(datum: StackDatum): number {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (this.scales.y as any).bandwidth() / 2;
+    return this.stackedBarsService.getStackElementHeight(this.scales);
   }
 }
