@@ -29,7 +29,7 @@ import {
 } from '@tanstack/angular-table';
 
 type PerformanceReview = {
-  year: number;
+  year: Date;
   hrAppraisal: number;
   employeeAppraisal: number;
 };
@@ -50,9 +50,9 @@ const defaultData: Person[] = [
     lastName: 'last',
     age: 106,
     performance: [
-      { year: 2020, hrAppraisal: 9, employeeAppraisal: 4 },
-      { year: 2023, hrAppraisal: 10, employeeAppraisal: 2 },
-      { year: 2025, hrAppraisal: 10, employeeAppraisal: -10 },
+      { year: new Date(2020, 1, 1), hrAppraisal: 9, employeeAppraisal: 4 },
+      { year: new Date(2023, 1, 1), hrAppraisal: 10, employeeAppraisal: 2 },
+      { year: new Date(2025, 1, 1), hrAppraisal: 10, employeeAppraisal: -10 },
     ],
   },
   {
@@ -60,9 +60,9 @@ const defaultData: Person[] = [
     lastName: 'name',
     age: 45,
     performance: [
-      { year: 2020, hrAppraisal: 8, employeeAppraisal: 9 },
-      { year: 2023, hrAppraisal: 10, employeeAppraisal: 10 },
-      { year: 2025, hrAppraisal: 0, employeeAppraisal: 10 },
+      { year: new Date(2020, 1, 1), hrAppraisal: 8, employeeAppraisal: 9 },
+      { year: new Date(2023, 1, 1), hrAppraisal: 10, employeeAppraisal: 10 },
+      { year: new Date(2025, 1, 1), hrAppraisal: 0, employeeAppraisal: 10 },
     ],
   },
   {
@@ -70,9 +70,9 @@ const defaultData: Person[] = [
     lastName: 'name',
     age: 40,
     performance: [
-      { year: 2020, hrAppraisal: 8, employeeAppraisal: 5 },
-      { year: 2023, hrAppraisal: 6, employeeAppraisal: 3 },
-      { year: 2025, hrAppraisal: 7, employeeAppraisal: 1 },
+      { year: new Date(2020, 1, 1), hrAppraisal: 8, employeeAppraisal: 5 },
+      { year: new Date(2023, 1, 1), hrAppraisal: 6, employeeAppraisal: 3 },
+      { year: new Date(2025, 1, 1), hrAppraisal: 7, employeeAppraisal: 1 },
     ],
   },
 ];
