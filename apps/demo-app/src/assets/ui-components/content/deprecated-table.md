@@ -1,6 +1,6 @@
 # Table Component (Deprecated)
 
-### Deprecation Notice
+## Deprecation Notice
 
 We have moved away from providing our own table, preferring to use the Tanstack Table library
 instead. Tanstack's headless UI approach allows for styling flexibility while letting us take
