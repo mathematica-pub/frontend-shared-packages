@@ -76,11 +76,12 @@ import { ColumnDef } from '@tanstack/angular-table';
 ...
 const columnDefs: ColumnDef<Person>[] = [
   {
-    accessorKey: 'firstName',
+    accessorFn: (row) => row.name.first,
+    id: 'firstName',
     ...
   },
   {
-    accessorFn: (row) => row.lastName,
+    accessorFn: (row) => row.name.last,
     id: 'lastName',
     ...
   },
@@ -408,9 +409,24 @@ further customize the table's internal state, see this
 ### Sorting with Tanstack
 
 Row sorting can be quickly implemented with Tanstack Table. First, define a `SortingState`. This
-tracks the current .... it can also be used to apply sorting to your table upon initialization.
+tracks the current state of sorting within your table. You can also pass an initial sorting state of
+your `createAngularTable` instance to apply sorting to data in the table upon initialization.
 
-include a sorted row model in your `createAngularTable` instance.
+```ts
+import { SortingState } from '@tanstack/angular-table';
+...
+readonly sorting = signal<SortingState>([
+  {
+    id: 'age',
+    desc: false,
+  },
+]);
+
+```
+
+Then, include your `SortingState` instance, a sorted row model (for client-side sorting, call
+`getSortedRowModel()` to quickly create a sorted row model), and an `onSortingChange` handler in
+your `createAngularTable` instance.
 
 ```ts
 import {
@@ -451,17 +467,72 @@ export class TanstackExampleComponent {
 ```
 
 In your column defs, enable sorting for a specific column by adding `enableSorting: true` to the
-def's options. This is also where functions determining how the rows are sorted will be included.
-Tanstack will default to .... A custom sorting fn can be created here as well.
+def's options. This is also where you can pass sorting functions for the data being represented by
+the column def. Tanstack provides built-in sorting fns, such as `'alphanumeric'` and `'datetime'`.
+If you do not provide a value for `sortingFn`, Tanstack will infer a sort function based on the date
+type of the column. Custom sorting functions can also be created and passed to your column defs as
+well.
 
 ```ts
-......
+const defaultColumns: ColumnDef<Person>[] = [
+  {
+    accessorKey: 'firstName',
+    cell: (info) => info.getValue(),
+    footer: (info) => info.column.id,
+    enableSorting: false, // disables for this particular column
+  },
+  {
+    accessorKey: 'age',
+    header: () => 'Age',
+    footer: (info) => info.column.id,
+    sortingFn: 'basic',
+    enableSorting: true,
+  },
+  ...
+];
 ```
 
-In the HTML for your table component:
+In the HTML for your table component, within your `<th>` components, you can call functions such as
+`toggleSorting()` and `getIsSorted()` on your column defs to sort by a particular column or get a
+column's sortability:
 
 ```html
-.....
+<table>
+  ...
+  <thead>
+    ...
+    <tr>
+      ... @if (header.column.getCanSort()) {
+      <th>
+        ...
+        <div
+          class="header-cell-sort"
+          (click)="header.column.toggleSorting()"
+          [class.sorting-asc]="
+                        header.column.getIsSorted() === 'asc'
+                      "
+          [class.sorting-desc]="
+                        header.column.getIsSorted() === 'desc'
+                      "
+        >
+          {{ headerCell }}
+          <span
+            [class.desc]="header.column.getIsSorted() === 'desc'"
+            [class.asc]="header.column.getIsSorted() === 'asc'"
+            [class.actively-sorted]="
+                          header.column.getIsSorted() !== false
+                        "
+            >{{ sortIcon }}</span
+          >
+        </div>
+        ...
+      </th>
+      }
+    </tr>
+    ...
+  </thead>
+  ...
+</table>
 ```
 
 For more information, see the Tanstack Table sorting documentation
