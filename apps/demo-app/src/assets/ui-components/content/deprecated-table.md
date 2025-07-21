@@ -1,4 +1,12 @@
-# Table Component
+# Table Component (Deprecated)
+
+### Deprecation Notice
+
+We have moved away from providing our own table, preferring to use the Tanstack Table library
+instead. Tanstack's headless UI approach allows for styling flexibility while letting us take
+advantage of open-source solutions to filtering, pagination, sorting, and more.
+
+## Overview
 
 HSI UI Components provides a set of Angular components and configuration classes that can be used to
 create tables. These components can be imported via the `TableModule`.
