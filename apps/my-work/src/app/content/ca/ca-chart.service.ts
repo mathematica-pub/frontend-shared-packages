@@ -17,13 +17,6 @@ interface Option {
 }
 
 export interface CaChartDataConfig {
-  // data: any[];
-  // yDimension: string;
-  // isPercentile?: boolean;
-  // isMlb?: boolean;
-  // getCurrentRollup?: (a: any, b: any) => boolean;
-  // bandwidth?: number;
-  // labelWidth?: number;
   filters: Record<string, Option[]>;
   filterTypes: string[];
   dataPath: string;
