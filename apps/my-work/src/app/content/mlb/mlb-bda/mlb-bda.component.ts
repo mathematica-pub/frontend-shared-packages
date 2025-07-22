@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
-import { mlbDataPath } from '../../ca-access/data-paths.constants';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { CaStackedBarsService } from '../../ca/ca-stacked-bars.service';
+import { mlbDataPath } from '../../ca/data-paths.constants';
 import { MlbDatum } from '../mlb-stacked-bars.component';
 import { MlbBdaDotPlotComponent } from './mlb-bda-dot-plot/mlb-bda-dot-plot.component';
 

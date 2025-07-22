@@ -8,7 +8,7 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { CaChartService } from '../../ca/ca-chart.service';
-import { dataPath } from '../data-paths.constants';
+import { dataPath } from '../../ca/data-paths.constants';
 import { IcaDotPlotComponent } from '../ica/ica-dot-plot/ica-dot-plot.component';
 import { IcaComponent } from '../ica/ica.component';
 

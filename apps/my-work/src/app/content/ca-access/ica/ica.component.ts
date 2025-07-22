@@ -14,7 +14,7 @@ import {
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { Observable } from 'rxjs';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
-import { dataPath } from '../data-paths.constants';
+import { dataPath } from '../../ca/data-paths.constants';
 import {
   IcaDatum,
   IcaDotPlotComponent,

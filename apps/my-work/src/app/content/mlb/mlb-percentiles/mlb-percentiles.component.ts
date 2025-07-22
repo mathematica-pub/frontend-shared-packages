@@ -4,8 +4,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VicChartConfigBuilder } from '@hsi/viz-components';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
-import { mlbDataPath } from '../../ca-access/data-paths.constants';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
+import { mlbDataPath } from '../../ca/data-paths.constants';
 import { MlbDatum } from '../mlb-stacked-bars.component';
 import { MlbPercentilesDotPlotComponent } from './mlb-percentiles-dot-plot/mlb-percentiles-dot-plot.component';
 

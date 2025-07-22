@@ -26,11 +26,8 @@ import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import { map, Observable, shareReplay } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { Topology } from 'topojson-specification';
-import {
-  caDataFolder,
-  mlbDataPath,
-} from '../../ca-access/data-paths.constants';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
+import { caDataFolder, mlbDataPath } from '../../ca/data-paths.constants';
 import { MlbCountyDatum } from '../mlb-county-plot/mlb-county-plot.component';
 import { MlbDatum } from '../mlb-stacked-bars.component';
 

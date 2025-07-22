@@ -5,8 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { CaStackedBarsService } from '../../ca/ca-stacked-bars.service';
+import { dataPath } from '../../ca/data-paths.constants';
 import { CaDatum } from '../ca-access-stacked-bars.component';
-import { dataPath } from '../data-paths.constants';
 import { BdaDotPlotComponent } from './bda-dot-plot/bda-dot-plot.component';
 
 export interface BdaDatum extends CaDatum {

@@ -6,8 +6,8 @@ import { VicChartConfigBuilder } from '@hsi/viz-components';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { CaStackedBarsService } from '../../ca/ca-stacked-bars.service';
+import { dataPath } from '../../ca/data-paths.constants';
 import { CsaDatum } from '../csa/csa.component';
-import { dataPath } from '../data-paths.constants';
 import { CsaRaceDotPlotComponent } from './csa-race-dot-plot/csa-race-dot-plot.component';
 
 export interface CsaRaceDatum extends CsaDatum {
