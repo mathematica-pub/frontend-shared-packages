@@ -130,7 +130,6 @@ export class MlbMapComponent implements OnInit {
           comparison: x.Comparison === 'TRUE',
           value: x.Value && !isNaN(x.Value) ? +x.Value : null,
           average: null,
-          range: x.Range && !isNaN(x.Range) ? +x.Range : null,
         };
         return obj;
       })

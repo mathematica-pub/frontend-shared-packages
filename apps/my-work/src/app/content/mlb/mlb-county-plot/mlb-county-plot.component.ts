@@ -11,7 +11,6 @@ import { MlbCountyPlotDotPlotComponent } from './mlb-county-plot-dot-plot/mlb-co
 
 export interface MlbCountyDatum extends MlbDatum {
   county: string;
-  range: number;
 }
 
 @Component({
@@ -62,7 +61,6 @@ export class MlbCountyPlotComponent implements OnInit {
           comparison: x.Comparison === 'TRUE',
           value: null, // null to avoid bars
           average: x.Value && !isNaN(x.Value) ? +x.Value : null,
-          range: x.Range && !isNaN(x.Range) ? +x.Range : null,
         };
         return obj;
       })
