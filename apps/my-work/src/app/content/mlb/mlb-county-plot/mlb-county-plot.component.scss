@@ -1,10 +1,6 @@
 @use '../mlb-bda/mlb-bda.component.scss';
 @use '../../ca/color.scss';
 
-.image {
-  padding-right: 68px !important;
-}
-
 .bar {
   fill: color.$bars;
 }
