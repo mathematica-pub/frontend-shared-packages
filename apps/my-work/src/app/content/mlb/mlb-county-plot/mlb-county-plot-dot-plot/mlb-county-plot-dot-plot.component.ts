@@ -67,10 +67,8 @@ export class MlbCountyPlotDotPlotComponent implements OnChanges {
       sort = -1;
     } else if ((isBMax && !isAMax) || (isAMin && !isBMin)) {
       sort = 1;
-    } else if (a.county.localeCompare(b.county) < 0) {
-      sort = -1;
-    } else if (a.county.localeCompare(b.county) > 0) {
-      sort = 1;
+    } else {
+      sort = bState.average - aState.average;
     }
     return sort;
   }
