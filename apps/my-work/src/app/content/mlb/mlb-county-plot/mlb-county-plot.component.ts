@@ -3,14 +3,18 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
+import { extent } from 'd3';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { CaStackedBarsService } from '../../ca/ca-stacked-bars.service';
 import { mlbDataPath } from '../../ca/data-paths.constants';
 import { MlbDatum } from '../mlb-stacked-bars.component';
+import { lobNames } from '../mlb.constants';
 import { MlbCountyPlotDotPlotComponent } from './mlb-county-plot-dot-plot/mlb-county-plot-dot-plot.component';
 
 export interface MlbCountyDatum extends MlbDatum {
   county: string;
+  isStateHighest?: boolean;
+  isStateLowest?: boolean;
 }
 
 @Component({
@@ -61,10 +65,35 @@ export class MlbCountyPlotComponent implements OnInit {
           comparison: x.Comparison === 'TRUE',
           value: null, // null to avoid bars
           average: x.Value && !isNaN(x.Value) ? +x.Value : null,
+          isStateHighest: false,
+          isStateLowest: false,
         };
         return obj;
       })
       .filter((x: any) => x.comparison === false && x.average !== null);
+    transformed.forEach((x: MlbCountyDatum) => {
+      const state = transformed.find(
+        (lob) =>
+          lob.county === x.county &&
+          (lob.lob === lobNames.mock || lob.lob === lobNames.real) &&
+          lob.measureCode === x.measureCode &&
+          lob.stratVal === x.stratVal
+      );
+      if (state) {
+        const countyRow = transformed.filter(
+          (lob) =>
+            lob.county === x.county &&
+            lob.measureCode === x.measureCode &&
+            lob.stratVal === x.stratVal
+        );
+        const countyExtents = extent(countyRow.map((lob) => lob.average));
+        if (countyExtents[0] === state.average) {
+          x.isStateLowest = true;
+        } else if (countyExtents[1] === state.average) {
+          x.isStateHighest = true;
+        }
+      }
+    });
     return transformed;
   }
 }

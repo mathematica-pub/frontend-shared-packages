@@ -41,6 +41,7 @@ export class MlbCountyPlotDotPlotComponent implements OnChanges {
         data: this.data,
         yDimension: 'county',
         isMlb: true,
+        labelWidth: 130,
       };
       this.caDotPlotService.onChanges(dotPlotDataConfig);
       this.caDotPlotService.setProperties(this.getSortOrder.bind(this));
