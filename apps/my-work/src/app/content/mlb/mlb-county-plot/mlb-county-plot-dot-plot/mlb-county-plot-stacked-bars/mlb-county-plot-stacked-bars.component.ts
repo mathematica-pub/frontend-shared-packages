@@ -125,17 +125,23 @@ export class MlbCountyPlotStackedBarsComponent
       .join('g')
       .attr('class', 'strat-label');
     const offset = -this.labelWidth - 30;
-    strats
+    const lineHeight = 20;
+    const text = strats
       .selectAll('text')
       .data((d) => [d])
       .join('text')
-      .text((d) => `${stateName.abbreviation} is ${d.text}`)
-      .attr('x', offset)
-      .attr('y', (d) => this.getAverageY(d))
+      .attr('y', (d) => this.getAverageY(d) - lineHeight)
       .attr('transform', (d) => {
         const y = this.getAverageY(d);
         return `rotate(-90, ${offset}, ${y})`;
       });
+    text
+      .selectAll('tspan')
+      .data((d) => [`${stateName.abbreviation} is `, d.text])
+      .join('tspan')
+      .text((d) => d)
+      .attr('x', offset)
+      .attr('dy', (d, i) => (i === 0 ? 0 : lineHeight));
     strats
       .selectAll('line')
       .data((d) => [d])
