@@ -12,7 +12,7 @@ import {
   CaDotPlotService,
   DotPlotDataConfig,
 } from '../../../ca/ca-dot-plot.service';
-import { lobNames } from '../../mlb.constants';
+import { stateName } from '../../mlb.constants';
 import { MlbCountyDatum } from '../mlb-county-plot.component';
 import { MlbCountyPlotStackedBarsComponent } from './mlb-county-plot-stacked-bars/mlb-county-plot-stacked-bars.component';
 
@@ -53,10 +53,10 @@ export class MlbCountyPlotDotPlotComponent implements OnChanges {
     const aRow = this.data.filter((lob) => lob.county === a.county);
     const bRow = this.data.filter((lob) => lob.county === b.county);
     const aState = aRow.find(
-      (lob) => lob.lob === lobNames.mock || lob.lob === lobNames.real
+      (lob) => lob.lob === stateName.mock || lob.lob === stateName.real
     );
     const bState = bRow.find(
-      (lob) => lob.lob === lobNames.mock || lob.lob === lobNames.real
+      (lob) => lob.lob === stateName.mock || lob.lob === stateName.real
     );
     const isAMin = aState.average === min(aRow.map((lob) => lob.average));
     const isBMin = bState.average === min(bRow.map((lob) => lob.average));

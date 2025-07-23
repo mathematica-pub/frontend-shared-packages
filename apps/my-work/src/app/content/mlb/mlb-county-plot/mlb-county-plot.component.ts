@@ -8,7 +8,7 @@ import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { CaStackedBarsService } from '../../ca/ca-stacked-bars.service';
 import { mlbDataPath } from '../../ca/data-paths.constants';
 import { MlbDatum } from '../mlb-stacked-bars.component';
-import { lobNames } from '../mlb.constants';
+import { stateName } from '../mlb.constants';
 import { MlbCountyPlotDotPlotComponent } from './mlb-county-plot-dot-plot/mlb-county-plot-dot-plot.component';
 
 export interface MlbCountyDatum extends MlbDatum {
@@ -75,7 +75,7 @@ export class MlbCountyPlotComponent implements OnInit {
       const state = transformed.find(
         (lob) =>
           lob.county === x.county &&
-          (lob.lob === lobNames.mock || lob.lob === lobNames.real) &&
+          (lob.lob === stateName.mock || lob.lob === stateName.real) &&
           lob.measureCode === x.measureCode &&
           lob.stratVal === x.stratVal
       );

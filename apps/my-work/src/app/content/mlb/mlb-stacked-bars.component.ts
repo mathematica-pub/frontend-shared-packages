@@ -9,7 +9,7 @@ import {
 import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
 import { Selection } from 'd3';
 import { CaStackedBarsService } from '../ca/ca-stacked-bars.service';
-import { lobNames } from './mlb.constants';
+import { stateName } from './mlb.constants';
 
 export interface MlbDatum {
   lob: string;
@@ -129,7 +129,7 @@ export class MlbStackedBarsComponent
   }
 
   isHighlighted(lob: string): boolean {
-    return lob === lobNames.mock || lob === lobNames.real;
+    return lob === stateName.mock || lob === stateName.real;
   }
 
   getCategory(lob: MlbDatum): string {

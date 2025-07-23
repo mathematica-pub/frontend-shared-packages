@@ -1,4 +1,4 @@
-export const lobNames = {
+export const stateName = {
   mock: 'state',
   real: 'Medi-Cal Managed Care',
   abbreviation: 'MCMC',

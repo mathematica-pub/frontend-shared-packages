@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ScaleOrdinal, scaleOrdinal, select, Selection } from 'd3';
 import { MlbStackedBarsComponent } from '../../../mlb-stacked-bars.component';
-import { lobNames, mlbColorRange } from '../../../mlb.constants';
+import { mlbColorRange, stateName } from '../../../mlb.constants';
 import { MlbCountyDatum } from '../../mlb-county-plot.component';
 
 interface StratLabelDatum {
@@ -48,7 +48,7 @@ export class MlbCountyPlotStackedBarsComponent
     const domain = [
       ...new Set(this.config.data.map((d) => d.lob).filter((d) => d !== null)),
     ].sort((a) => {
-      return a === lobNames.mock || a === lobNames.real ? 1 : -1;
+      return a === stateName.mock || a === stateName.real ? 1 : -1;
     });
     this.colorScale = scaleOrdinal().domain(domain).range(mlbColorRange);
   }
@@ -129,7 +129,7 @@ export class MlbCountyPlotStackedBarsComponent
       .selectAll('text')
       .data((d) => [d])
       .join('text')
-      .text((d) => `${lobNames.abbreviation} is ${d.text}`)
+      .text((d) => `${stateName.abbreviation} is ${d.text}`)
       .attr('x', offset)
       .attr('y', (d) => this.getAverageY(d))
       .attr('transform', (d) => {
