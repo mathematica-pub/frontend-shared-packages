@@ -1,5 +1,13 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
+import {
+  ChartConfig,
+  GeographiesConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
+  VicGeographiesConfigBuilder,
+  VicGeographiesModule,
+} from '@hsi/viz-components';
 import { geoMercator } from 'd3';
 import {
   FeatureCollection,
@@ -11,17 +19,9 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
-  ChartConfig,
-  VicChartConfigBuilder,
-  VicChartModule,
-  VicGeographiesConfigBuilder,
-  VicGeographiesModule,
-} from '../../../../../../../public-api';
-import {
   StateIncomePopulationYearDatum,
   stateIncomePopulationYearData,
 } from '../../../../../../testing/data/state-population-income-year-data';
-import { GeographiesConfig } from '../../../../geographies-config';
 
 const margin = { top: 36, right: 36, bottom: 36, left: 36 };
 const chartHeight = 400;
@@ -60,7 +60,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
     </vic-map-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [VicChartModule, VicGeographiesModule],
 })
 class TestGeographiesComponent {
   @Input() geographiesConfig: GeographiesConfig<
@@ -69,9 +69,9 @@ class TestGeographiesComponent {
   >;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .margin(margin)
-    .width(chartWidth)
-    .height(chartHeight)
-    .resize({ useViewbox: false })
+    .maxWidth(chartWidth)
+    .maxHeight(chartHeight)
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
 
@@ -81,12 +81,7 @@ const mountGeographiesComponent = (
     TestMapGeometryProperties
   >
 ): void => {
-  const declarations = [TestGeographiesComponent];
-  const imports = [VicChartModule, VicGeographiesModule];
-
   cy.mount(TestGeographiesComponent, {
-    declarations,
-    imports,
     componentProperties: {
       geographiesConfig: geographiesConfig,
     },

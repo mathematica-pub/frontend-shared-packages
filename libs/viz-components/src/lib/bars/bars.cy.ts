@@ -1,11 +1,23 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import 'cypress-real-events';
-import { format, max } from 'd3';
-import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { cloneDeep } from 'lodash-es';
-import { BehaviorSubject } from 'rxjs';
 import {
+  BarsConfig,
+  BarsEventOutput,
+  BarsHoverDirective,
+  BarsHoverEmitTooltipData,
+  BarsHoverMoveDirective,
+  BarsHoverMoveEmitTooltipData,
+  ChartConfig,
+  EventAction,
+  HoverMoveAction,
+  HtmlTooltipConfig,
+  VicBarsConfigBuilder,
+  VicBarsModule,
+  VicChartConfigBuilder,
+  VicChartModule,
+  VicHtmlTooltipConfigBuilder,
+  VicHtmlTooltipModule,
   VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
   VicXQuantitativeAxisConfig,
@@ -15,25 +27,16 @@ import {
   VicYOrdinalAxisConfigBuilder,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '../axes';
-import { ChartConfig, VicChartConfigBuilder } from '../charts';
-import { VicChartModule } from '../charts/chart.module';
-import { EventAction, HoverMoveAction } from '../events/action';
+} from '@hsi/viz-components';
+import 'cypress-real-events';
+import { format, max } from 'd3';
+import { beforeEach, cy, describe, expect, it } from 'local-cypress';
+import { cloneDeep } from 'lodash-es';
+import { BehaviorSubject } from 'rxjs';
 import {
   countryFactsData,
   CountryFactsDatum,
 } from '../testing/data/country-area-continent';
-import { VicHtmlTooltipConfigBuilder } from '../tooltips/html-tooltip/config/html-tooltip-builder';
-import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
-import { VicHtmlTooltipModule } from '../tooltips/html-tooltip/html-tooltip.module';
-import { VicBarsModule } from './bars.module';
-import { VicBarsConfigBuilder } from './config/bars-builder';
-import { BarsConfig } from './config/bars-config';
-import { BarsHoverEmitTooltipData } from './events/actions/bars-hover-actions';
-import { BarsHoverMoveEmitTooltipData } from './events/actions/bars-hover-move-actions';
-import { BarsEventOutput } from './events/bars-event-output';
-import { BarsHoverMoveDirective } from './events/bars-hover-move.directive';
-import { BarsHoverDirective } from './events/bars-hover.directive';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).
@@ -99,7 +102,13 @@ const labelSelector = '.vic-bars-label';
       <p class="y-value">{{ (tooltipData$ | async).values.y }}</p>
     </ng-template>
   `,
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+    CommonModule,
+  ],
 })
 class TestHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
@@ -116,10 +125,10 @@ class TestHorizontalBarsComponent {
   >[] = [new BarsHoverMoveEmitTooltipData()];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .margin(horizontalMargin)
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .transitionDuration(0)
-    .resize({ useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 
   updateTooltipForNewOutput(
@@ -154,17 +163,8 @@ const mountHorizontalBarsComponent = (
     .ticks((ticks) => ticks.format(',.0f'))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
-  const declarations = [TestHorizontalBarsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-    VicHtmlTooltipModule,
-  ];
 
   cy.mount(TestHorizontalBarsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       xQuantitativeAxisConfig: xAxisConfig,
@@ -205,7 +205,13 @@ const mountHorizontalBarsComponent = (
     </vic-xy-chart>
   `,
   styles: [],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+    CommonModule,
+  ],
 })
 class TestVerticalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
@@ -222,10 +228,10 @@ class TestVerticalBarsComponent {
   ];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .margin(verticalMargin)
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .transitionDuration(0)
-    .resize({ useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 
   updateTooltipForNewOutput(
@@ -261,17 +267,7 @@ const mountVerticalBarsComponent = (
     .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
 
-  const declarations = [TestVerticalBarsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXyAxisModule,
-    VicHtmlTooltipModule,
-  ];
-
   cy.mount(TestVerticalBarsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       xOrdinalAxisConfig: xAxisConfig,

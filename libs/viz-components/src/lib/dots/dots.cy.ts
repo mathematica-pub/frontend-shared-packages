@@ -2,13 +2,22 @@
 // ***********************************************************
 // Set up Lines component -- can use with Date or numeric values for x axis
 
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import 'cypress-real-events';
-import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { cloneDeep } from 'lodash-es';
-import { BehaviorSubject } from 'rxjs';
-import { DotsHoverMoveEmitTooltipData } from '../../public-api';
 import {
+  ChartConfig,
+  DotsConfig,
+  DotsEventOutput,
+  DotsHoverMoveDirective,
+  DotsHoverMoveEmitTooltipData,
+  HoverMoveAction,
+  HtmlTooltipConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
+  VicDotsConfigBuilder,
+  VicDotsModule,
+  VicHtmlTooltipConfigBuilder,
+  VicHtmlTooltipModule,
   VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
   VicXQuantitativeAxisConfig,
@@ -18,23 +27,15 @@ import {
   VicYOrdinalAxisConfigBuilder,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '../axes';
-import { ChartConfig, VicChartConfigBuilder, VicChartModule } from '../charts';
-import { HoverMoveAction } from '../events';
+} from '@hsi/viz-components';
+import 'cypress-real-events';
+import { beforeEach, cy, describe, expect, it } from 'local-cypress';
+import { cloneDeep } from 'lodash-es';
+import { BehaviorSubject } from 'rxjs';
 import {
   countryFactsData,
   CountryFactsDatum,
 } from '../testing/data/country-area-continent';
-import {
-  HtmlTooltipConfig,
-  VicHtmlTooltipConfigBuilder,
-  VicHtmlTooltipModule,
-} from '../tooltips';
-import { VicDotsConfigBuilder } from './config/dots-builder';
-import { DotsConfig } from './config/dots-config';
-import { VicDotsModule } from './dots.module';
-import { DotsEventOutput } from './events/dots-event-output';
-import { DotsHoverMoveDirective } from './events/dots-hover-move.directive';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).
@@ -53,7 +54,7 @@ const dotGSelector = '.vic-dots-group';
 // ***********************************************************
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'app-test-lines',
+  selector: 'app-test-dots-quant-quant',
   template: `
     <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
@@ -109,7 +110,13 @@ const dotGSelector = '.vic-dots-group';
     </ng-template>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicDotsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+    CommonModule,
+  ],
 })
 class TestDotsQuantQuantComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
@@ -126,10 +133,10 @@ class TestDotsQuantQuantComponent<Datum> {
     new DotsHoverMoveEmitTooltipData(),
   ];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .margin(margin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 
   updateTooltipForNewOutput(data: DotsEventOutput<Datum>): void {
@@ -155,13 +162,6 @@ class TestDotsQuantQuantComponent<Datum> {
   }
 }
 
-const quantQuantImports = [
-  VicChartModule,
-  VicDotsModule,
-  VicXyAxisModule,
-  VicHtmlTooltipModule,
-];
-
 function mountDotsXQuantYQuantComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
 ): void {
@@ -170,10 +170,7 @@ function mountDotsXQuantYQuantComponent(
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
-  const declarations = [TestDotsQuantQuantComponent<CountryFactsDatum>];
   cy.mount(TestDotsQuantQuantComponent<CountryFactsDatum>, {
-    declarations,
-    imports: quantQuantImports,
     componentProperties: {
       dotsConfig: dotsConfig,
       xQuantitativeAxisConfig: xAxisConfig,
@@ -201,7 +198,12 @@ function mountDotsXQuantYQuantComponent(
     </vic-xy-chart>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicDotsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+  ],
 })
 class TestDotsXQuantYOrdinalComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
@@ -211,19 +213,12 @@ class TestDotsXQuantYOrdinalComponent<Datum> {
   chartHeight = chartHeight;
   chartWidth = chartWidth;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .margin(margin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
-
-const quantOrdinalImports = [
-  VicChartModule,
-  VicDotsModule,
-  VicXyAxisModule,
-  VicHtmlTooltipModule,
-];
 
 function mountDotsXQuantYOrdinalComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
@@ -232,10 +227,7 @@ function mountDotsXQuantYOrdinalComponent(
     .ticks((ticks) => ticks.format('.0f').count(5))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder<string>().getConfig();
-  const declarations = [TestDotsXQuantYOrdinalComponent<CountryFactsDatum>];
   cy.mount(TestDotsXQuantYOrdinalComponent<CountryFactsDatum>, {
-    declarations,
-    imports: quantOrdinalImports,
     componentProperties: {
       dotsConfig: dotsConfig,
       xQuantitativeAxisConfig: xAxisConfig,
@@ -263,26 +255,24 @@ function mountDotsXQuantYOrdinalComponent(
     </vic-xy-chart>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
-  standalone: false,
+  imports: [
+    VicChartModule,
+    VicDotsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+  ],
 })
 class TestDotsXOrdinalYQuantComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
   @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
   @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
   chartConfig: ChartConfig = new VicChartConfigBuilder()
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .margin(margin)
-    .resize({ height: false, useViewbox: false })
+    .scalingStrategy('responsive-width')
     .getConfig();
 }
-
-const ordinalQuantImports = [
-  VicChartModule,
-  VicDotsModule,
-  VicXyAxisModule,
-  VicHtmlTooltipModule,
-];
 
 function mountDotsXOrdinalYQuantComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
@@ -291,10 +281,7 @@ function mountDotsXOrdinalYQuantComponent(
     .ticks((ticks) => ticks.format('.0f').count(5))
     .getConfig();
   const xAxisConfig = new VicXOrdinalAxisConfigBuilder<string>().getConfig();
-  const declarations = [TestDotsXOrdinalYQuantComponent<CountryFactsDatum>];
   cy.mount(TestDotsXOrdinalYQuantComponent<CountryFactsDatum>, {
-    declarations,
-    imports: ordinalQuantImports,
     componentProperties: {
       dotsConfig: dotsConfig,
       yQuantitativeAxisConfig: yAxisConfig,

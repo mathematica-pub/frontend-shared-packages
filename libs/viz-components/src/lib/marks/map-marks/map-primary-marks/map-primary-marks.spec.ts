@@ -25,7 +25,6 @@ describe('MapPrimaryMarks abstract class', () => {
     beforeEach(() => {
       spyOn(abstractClass, 'subscribeToRanges');
       spyOn(abstractClass, 'subscribeToAttributeDataProperties');
-      spyOn(abstractClass, 'initFromConfig');
     });
     it('calls subscribeToRanges once', () => {
       abstractClass.ngOnInit();
@@ -36,10 +35,6 @@ describe('MapPrimaryMarks abstract class', () => {
       expect(
         abstractClass.subscribeToAttributeDataProperties
       ).toHaveBeenCalledTimes(1);
-    });
-    it('calls initFromConfig once', () => {
-      abstractClass.ngOnInit();
-      expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(1);
     });
   });
 

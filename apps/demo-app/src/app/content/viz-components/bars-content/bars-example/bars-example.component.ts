@@ -138,12 +138,9 @@ export class BarsExampleComponent implements OnInit {
 
     const chartConfig = this.chart
       .margin(layout.margin)
-      .width(layout.orientation === 'horizontal' ? 800 : 960)
-      .height(layout.orientation === 'horizontal' ? 800 : 500)
-      .resize({
-        height: false,
-        width: true,
-      })
+      .maxWidth(layout.orientation === 'horizontal' ? 800 : 960)
+      .maxHeight(layout.orientation === 'horizontal' ? 800 : 500)
+      .scalingStrategy('responsive-width')
       .getConfig();
 
     const xAxisConfig =
@@ -153,11 +150,13 @@ export class BarsExampleComponent implements OnInit {
             .ticks((ticks) => ticks.format('.0f'))
             .getConfig()
         : this.xOrdinalAxis
-            .ticks((ticks) => ticks.size(0).rotate(30))
+            .ticks((ticks) => ticks.marksDisplay(false).rotate(30))
             .getConfig();
     const yAxisConfig =
       layout.orientation === Orientation.horizontal
-        ? this.yOrdinalAxis.ticks((ticks) => ticks.size(0)).getConfig()
+        ? this.yOrdinalAxis
+            .ticks((ticks) => ticks.marksDisplay(false))
+            .getConfig()
         : this.yQuantitativeAxis
             .ticks((ticks) => ticks.format('.0f'))
             .getConfig();

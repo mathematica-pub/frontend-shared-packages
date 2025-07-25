@@ -13,7 +13,7 @@ If the `ticks` method is never called, the default settings will be applied.
 
 ```ts
 // example: to specify that the x-axis should have ~10 ticks, tick labels formatted as floating point numbers with one decimal place, and not show any tick marks.
-this.xQuantitativeAxis.ticks((ticks) => ticks.format('.1f').size(0).count(10)).getConfig();
+this.xQuantitativeAxis.ticks((ticks) => ticks.format('.1f').marksDisplay(false).count(10)).getConfig();
 
 // example: to specify the exact tick values to show on the y-axis.
 this.yQuantitativeAxis.ticks((ticks) => ticks.values([0, 10, 20, 30]).getConfig();
@@ -94,6 +94,17 @@ params:
 ```
 
 ```builder-method
+name: marksDisplay
+description: Determines whether tick marks will be displayed.
+params:
+  - name: value
+    type: 'boolean'
+    description:
+      - '`true` to retain all tick marks, `false` to remove all tick marks.'
+      - 'If not called, the default value is `true`.'
+```
+
+```builder-method
 name: rotate
 description: Determines the rotation of tick labels. Often used on vertical bar charts or when the tick labels are long.
 params:
@@ -107,7 +118,7 @@ params:
 
 ```builder-method
 name: size
-description: 'Sets the size of the inner and outer tick marks. To show no tick marks, set the size to 0.'
+description: 'Sets the size of the inner and outer tick marks.'
 params:
   - name: value
     type: 'number | null'
@@ -160,6 +171,7 @@ params:
     description:
       - "The number of ticks to pass to D3's axis.ticks(), or a time-based frequency of ticks for axes with `Date` values, or null to unset the number of ticks."
       - "Note that this number will be passed to D3's `ticks()` method and therefore it can be an approximate number of ticks."
+      - "If this method is called, the passed in number of ticks will be validated against the data domain and the value formatter for the axis. If the number of ticks is not valid—for example, if the ticks are formatted with %Y and there are three years of values in the data, and this method is called with 10, a valid number will be used instead."
 ```
 
 ```builder-method

@@ -13,7 +13,8 @@ export interface AxisSpecificQuantitativeTickBuilderOptions<Tick>
 }
 
 const DEFAULT = {
-  _display: true,
+  _labelsDisplay: true,
+  _marksDisplay: true,
   _remove: false,
   _stroke: 'none',
   _strokeOpacity: 1,
@@ -32,6 +33,7 @@ export class TicksBuilder<Tick> {
   protected _labelsStroke: string;
   protected _labelsStrokeOpacity: number;
   protected _labelsStrokeWidth: number;
+  protected _marksDisplay: boolean;
   protected _size: number;
   protected _sizeInner: number;
   protected _sizeOuter: number;
@@ -138,6 +140,18 @@ export class TicksBuilder<Tick> {
   }
 
   /**
+   * OPTIONAL. If false, tick marks (lines) will be removed.
+   *
+   * @param value - `true` to retain all tick marks, `false` to remove all tick marks.
+   *
+   * If not called, the default value is `true`.
+   */
+  marksDisplay(value: boolean): this {
+    this._marksDisplay = value;
+    return this;
+  }
+
+  /**
    * OPTIONAL. Determines the rotation of tick labels.
    *
    * @param value - The rotation of the tick labels in degrees, or `null` to unset the rotation.
@@ -157,7 +171,7 @@ export class TicksBuilder<Tick> {
   }
 
   /**
-   * OPTIONAL. Sets the size of inner and outer tick marks. To show no tick marks, set the size to 0.
+   * OPTIONAL. Sets the size of inner and outer tick marks.
    *
    * @param value - The size of the ticks, in px.
    *
@@ -234,6 +248,7 @@ export class TicksBuilder<Tick> {
       labelsStroke: this._labelsStroke,
       labelsStrokeOpacity: this._labelsStrokeOpacity,
       labelsStrokeWidth: this._labelsStrokeWidth,
+      marksDisplay: this._marksDisplay,
       rotate: this._rotate,
       size: this._size,
       sizeInner: this._sizeInner,
@@ -264,6 +279,8 @@ export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
    * If not called, a reasonable and valid default will be used based on the size of the chart.
    *
    * Note that this number will be passed to D3's `ticks()` method and therefore it can be an approximate number of ticks.
+   *
+   * If this method is called, the passed in number of ticks will be validated against the data domain and the value formatter for the axis. If the number of ticks is not valid—for example, if the ticks are formatted with %Y and there are three years of values in the data, and this method is called with 10, a valid number will be used instead.
    */
   count(value: number | AxisTimeInterval | null): this {
     if (value === null) {
@@ -307,13 +324,14 @@ export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
 
   override _build(dimension: 'x' | 'y'): QuantitativeTicks<Tick> {
     return new QuantitativeTicks({
+      count: this._count,
       fontSize: this._fontSize,
       format: this._format,
       labelsDisplay: this._labelsDisplay,
       labelsStroke: this._labelsStroke,
       labelsStrokeOpacity: this._labelsStrokeOpacity,
       labelsStrokeWidth: this._labelsStrokeWidth,
-      count: this._count,
+      marksDisplay: this._marksDisplay,
       rotate: this._rotate,
       size: this._size,
       sizeInner: this._sizeInner,

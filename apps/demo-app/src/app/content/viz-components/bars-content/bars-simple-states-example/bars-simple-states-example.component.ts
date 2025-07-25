@@ -102,13 +102,13 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
 
     const chartConfig = this.chart
       .margin(this.margin)
-      .height(this.height)
-      .width(this.width)
-      .resize({ height: false, width: !this.useLongLabelsAndWrap })
+      .maxHeight(this.height)
+      .maxWidth(this.width)
+      .scalingStrategy(this.useLongLabelsAndWrap ? 'fixed' : 'responsive-width')
       .getConfig();
 
     if (this.orientation === 'horizontal') {
-      this.yOrdinalAxis.ticks((ticks) => ticks.size(0));
+      this.yOrdinalAxis.ticks((ticks) => ticks.marksDisplay(false));
       if (this.useLongLabelsAndWrap) {
         this.yOrdinalAxis.ticks((ticks) =>
           ticks.wrap((wrap) => wrap.width(120))
@@ -125,7 +125,7 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
         )
         .getConfig();
     } else {
-      this.xOrdinalAxis.ticks((ticks) => ticks.size(0));
+      this.xOrdinalAxis.ticks((ticks) => ticks.marksDisplay(false));
       if (!this.useLongLabelsAndWrap) {
         this.xOrdinalAxis.ticks((ticks) =>
           ticks.format((state) => this.getStateAbbreviation(state))
