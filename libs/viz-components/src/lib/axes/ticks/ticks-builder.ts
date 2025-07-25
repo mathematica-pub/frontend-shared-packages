@@ -13,6 +13,7 @@ export interface AxisSpecificQuantitativeTickBuilderOptions<Tick>
 }
 
 const DEFAULT = {
+  _class: () => '',
   _labelsDisplay: true,
   _marksDisplay: true,
   _remove: false,
@@ -26,6 +27,7 @@ const QUANT_DEFAULT = {
 };
 
 export class TicksBuilder<Tick> {
+  protected _class: (d: Tick) => string;
   protected _fontSize: number;
   protected _format: string | ((value: Tick) => string);
   protected _labelsDisplay: boolean;
@@ -42,6 +44,22 @@ export class TicksBuilder<Tick> {
   constructor(options: Partial<AxisSpecificTickBuilderOptions>) {
     safeAssign(this, DEFAULT);
     safeAssign(this, options);
+  }
+
+  class(value: null): this;
+  class(value: string): this;
+  class(value: (d: Tick) => string): this;
+  class(value: ((d: Tick) => string) | string | null): this {
+    if (value === null) {
+      this._class = DEFAULT._class;
+      return this;
+    }
+    if (typeof value === 'string') {
+      this._class = () => value;
+      return this;
+    }
+    this._class = value;
+    return this;
   }
 
   /**
@@ -242,6 +260,7 @@ export class TicksBuilder<Tick> {
 
   _build(dimension: 'x' | 'y'): Ticks<Tick> {
     return new Ticks({
+      class: this._class,
       fontSize: this._fontSize,
       format: this._format,
       labelsDisplay: this._labelsDisplay,
@@ -324,6 +343,7 @@ export class QuantitativeTicksBuilder<Tick> extends TicksBuilder<Tick> {
 
   override _build(dimension: 'x' | 'y'): QuantitativeTicks<Tick> {
     return new QuantitativeTicks({
+      class: this._class,
       count: this._count,
       fontSize: this._fontSize,
       format: this._format,
