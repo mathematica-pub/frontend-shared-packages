@@ -48,7 +48,7 @@ export class MlbStackedBarsComponent
   highlightedRadius = 3;
   percentOffset: string;
 
-  constructor(private stackedBarsService: CaStackedBarsService) {
+  constructor(public stackedBarsService: CaStackedBarsService) {
     super();
   }
 

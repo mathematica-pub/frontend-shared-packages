@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ScaleOrdinal, scaleOrdinal, select, Selection } from 'd3';
+import { ScaleOrdinal, select, Selection } from 'd3';
 import { MlbStackedBarsComponent } from '../../../mlb-stacked-bars.component';
-import { mlbColorRange, stateName } from '../../../mlb.constants';
+import { stateName } from '../../../mlb.constants';
 import { MlbCountyDatum } from '../../mlb-county-plot.component';
 
 interface StratLabelDatum {
@@ -29,7 +29,7 @@ export class MlbCountyPlotStackedBarsComponent
 
   override ngOnInit(): void {
     this.createStratGroup();
-    this.setColorScale();
+    this.colorScale = this.stackedBarsService.getMlbColorScale(this.config);
     super.ngOnInit();
   }
 
@@ -42,15 +42,6 @@ export class MlbCountyPlotStackedBarsComponent
     this.stratGroup = select(this.chart.svgRef.nativeElement)
       .append('g')
       .attr('class', 'strat-labels');
-  }
-
-  setColorScale(): void {
-    const domain = [
-      ...new Set(this.config.data.map((d) => d.lob).filter((d) => d !== null)),
-    ].sort((a) => {
-      return a === stateName.mock || a === stateName.real ? 1 : -1;
-    });
-    this.colorScale = scaleOrdinal().domain(domain).range(mlbColorRange);
   }
 
   override getCategory(lob: MlbCountyDatum): string {

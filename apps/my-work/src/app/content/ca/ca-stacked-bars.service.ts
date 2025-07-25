@@ -6,7 +6,8 @@ import {
   XyChartComponent,
   XyChartScales,
 } from '@hsi/viz-components';
-import { select, Selection } from 'd3';
+import { scaleOrdinal, ScaleOrdinal, select, Selection } from 'd3';
+import { mlbColorRange, stateName } from '../mlb/mlb.constants';
 
 @Injectable()
 export class CaStackedBarsService {
@@ -86,5 +87,20 @@ export class CaStackedBarsService {
 
   getStackElementHeight(scales: XyChartScales): number {
     return (scales.y as any).bandwidth() / 2;
+  }
+
+  getMlbColorScale(
+    config: StackedBarsConfig<any, string>
+  ): ScaleOrdinal<string, unknown, never> {
+    const domain = [
+      ...new Set(config.data.map((d) => d.lob).filter((d) => d !== null)),
+    ].sort((a) => {
+      return a === stateName.mock || a === stateName.real ? 1 : -1;
+    });
+    const colorRange = structuredClone(mlbColorRange);
+    if (domain.length === 2) {
+      colorRange.splice(0, 1);
+    }
+    return scaleOrdinal().domain(domain).range(colorRange);
   }
 }

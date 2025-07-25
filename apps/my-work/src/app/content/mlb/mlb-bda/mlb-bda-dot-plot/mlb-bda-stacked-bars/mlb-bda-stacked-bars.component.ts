@@ -2,12 +2,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { StackDatum } from '@hsi/viz-components';
-import { ScaleOrdinal, scaleOrdinal, select, Selection } from 'd3';
+import { ScaleOrdinal, select, Selection } from 'd3';
 import {
   MlbDatum,
   MlbStackedBarsComponent,
 } from '../../../mlb-stacked-bars.component';
-import { mlbColorRange } from '../../../mlb.constants';
 import { MlbBdaDatum } from '../../mlb-bda.component';
 
 @Component({
@@ -30,7 +29,7 @@ export class MlbBdaStackedBarsComponent
 
   override ngOnInit(): void {
     this.createStratGroup();
-    this.setColorScale();
+    this.colorScale = this.stackedBarsService.getMlbColorScale(this.config);
     super.ngOnInit();
   }
 
@@ -43,13 +42,6 @@ export class MlbBdaStackedBarsComponent
     this.stratGroup = select(this.chart.svgRef.nativeElement)
       .append('g')
       .attr('class', 'strat-labels');
-  }
-
-  setColorScale(): void {
-    const domain = [
-      ...new Set(this.config.data.map((d) => d.lob).filter((d) => d !== null)),
-    ];
-    this.colorScale = scaleOrdinal().domain(domain).range(mlbColorRange);
   }
 
   override getCategory(lob: MlbBdaDatum): string {
