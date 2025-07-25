@@ -1,7 +1,7 @@
 export const stateName = {
-  mock: 'state',
-  real: 'Medi-Cal Managed Care',
-  abbreviation: 'MCMC',
+  mock: 'Medi-Cal',
+  real: 'Medi-Cal',
+  abbreviation: 'Medi-Cal',
 };
 
 export const mlbColorRange = ['#2D6E8D', '#17315A', '#F9A71C'];
