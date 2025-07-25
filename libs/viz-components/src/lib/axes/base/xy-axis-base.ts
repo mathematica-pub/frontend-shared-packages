@@ -47,10 +47,10 @@ export abstract class XyAxis<
 
   get class(): Record<AxisSvgElements, string> {
     return {
-      gridGroup: this.config.marksClass + '-grid-group',
-      gridLine: this.config.marksClass + '-grid-line',
-      axisGroup: this.config.marksClass + '-axis-group',
-      label: this.config.marksClass + '-axis-label',
+      gridGroup: 'vic-grid-group',
+      gridLine: 'vic-grid-line',
+      axisGroup: 'vic-axis-group',
+      label: 'vic-axis-label',
     };
   }
 
@@ -127,8 +127,7 @@ export abstract class XyAxis<
             select(nodes[i]).classed(labelClass, true);
           } else {
             ///remove any previous class
-            select(nodes[i]).attr('class', '');
-            select(nodes[i]).classed('tick', true);
+            select(nodes[i]).attr('class', 'tick');
           }
         });
     }
