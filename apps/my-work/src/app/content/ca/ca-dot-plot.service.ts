@@ -118,13 +118,10 @@ export class CaDotPlotService {
           bottom: 0,
           left: 0,
         })
-        .height(chartHeight)
-        .width(700)
-        .resize({
-          width: false,
-          height: false,
-          useViewbox: false,
-        })
+        .maxHeight(chartHeight)
+        .maxWidth(700)
+        .scalingStrategy('fixed')
+        .fixedHeight(true)
         .transitionDuration(0)
         .getConfig();
 

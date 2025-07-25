@@ -151,9 +151,10 @@ export class MlbMapComponent implements OnInit {
   getChartConfig(): ChartConfig {
     return this.chart
       .margin(this.margin)
-      .height(this.height)
-      .width(this.width)
-      .resize({ useViewbox: false, width: false, height: false })
+      .maxHeight(this.height)
+      .maxWidth(this.width)
+      .scalingStrategy('fixed')
+      .fixedHeight(true)
       .getConfig();
   }
 
