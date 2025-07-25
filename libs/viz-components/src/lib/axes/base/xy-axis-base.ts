@@ -118,6 +118,20 @@ export abstract class XyAxis<
 
   processTicks(): void {
     const tickText = select(this.elRef.nativeElement).selectAll('.tick text');
+    if (this.config.ticks.class) {
+      select(this.elRef.nativeElement)
+        .selectAll<SVGGElement, Tick>('.tick')
+        .each((d, i, nodes) => {
+          const labelClass = this.config.ticks.class(d);
+          if (labelClass) {
+            select(nodes[i]).classed(labelClass, true);
+          } else {
+            ///remove any previous class
+            select(nodes[i]).attr('class', '');
+            select(nodes[i]).classed('tick', true);
+          }
+        });
+    }
     if (this.config.ticks.fontSize) {
       this.setTickFontSize(tickText);
     }
