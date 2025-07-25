@@ -46,6 +46,11 @@ export class TicksBuilder<Tick> {
     safeAssign(this, options);
   }
 
+  /**
+   * OPTIONAL. Provides a class on the SVG G element that corresponds to a single tick.
+   *
+   * Note that if the resultant string has spaces in the name, multiple classes will be applied. For example, if the class is 'North Carolina', the element will have the classes 'North' and 'Carolina'.
+   */
   class(value: null): this;
   class(value: string): this;
   class(value: (d: Tick) => string): this;
