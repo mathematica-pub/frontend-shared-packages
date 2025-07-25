@@ -47,10 +47,10 @@ export abstract class XyAxis<
 
   get class(): Record<AxisSvgElements, string> {
     return {
-      gridGroup: 'vic-grid-group',
-      gridLine: 'vic-grid-line',
-      axisGroup: 'vic-axis-group',
-      label: 'vic-axis-label',
+      gridGroup: this.config.marksClass + '-grid-group',
+      gridLine: this.config.marksClass + '-grid-line',
+      axisGroup: this.config.marksClass + '-axis-group',
+      label: this.config.marksClass + '-axis-label',
     };
   }
 
