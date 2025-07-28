@@ -28,6 +28,19 @@ There are no required methods.
 #### All axes
 
 ```builder-method
+name: 'class'
+description: 'Provides a class on the SVG `<g>` element that corresponds to a single tick.'
+params:
+  - name: value
+    type: '((d: Tick) => string) | string | null'
+    description:
+      - 'If a function is provided, it will be called for each tick value and should return a string.'
+      - 'If a string is provided, it will be used as the class for all ticks.'
+      - "If the resultant string has spaces in the name, multiple classes will be applied. For example, if the class is 'North Carolina', the element will have the classes 'North' and 'Carolina'."
+      - 'If not called or if called with `null`, no class will be applied and former classes made with this method will be removed.'
+```
+
+```builder-method
 name: fontSize
 description: Sets the font size of the tick labels.
 params:

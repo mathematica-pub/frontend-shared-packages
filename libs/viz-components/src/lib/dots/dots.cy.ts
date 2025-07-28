@@ -298,7 +298,7 @@ describe('it creates one dot for each valid value in the data with the expected 
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.population))
       .yNumeric((y) => y.valueAccessor((d) => d.gdpPerCapita))
       .fillCategorical((fill) =>
@@ -368,7 +368,7 @@ describe('it handles negative y-dimension values', () => {
     dataWithNegatives[0].gdpPerCapita = -10000;
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(dataWithNegatives)
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.population))
       .yNumeric((y) => y.valueAccessor((d) => d.gdpPerCapita))
       .fillCategorical((fill) =>
@@ -403,7 +403,7 @@ describe('it handles negative x-dimension values', () => {
     dataWithNegatives[0].gdpPerCapita = -10000;
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(dataWithNegatives)
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.gdpPerCapita))
       .yNumeric((y) => y.valueAccessor((d) => d.population))
       .fillCategorical((fill) =>
@@ -439,7 +439,7 @@ describe('displays a tooltips with correct data on each dot', () => {
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.population))
       .yNumeric((y) => y.valueAccessor((d) => d.gdpPerCapita))
       .fillCategorical((fill) =>
@@ -475,7 +475,7 @@ describe('it creates one dot for each valid value in the data with the expected 
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.population))
       .yOrdinal((y) => y.valueAccessor((d) => d.continent))
       .fillNumeric((fill) =>
@@ -485,7 +485,7 @@ describe('it creates one dot for each valid value in the data with the expected 
         radius.valueAccessor((d) => d.popGrowth).range([2, 10])
       )
       .stroke((stroke) => stroke.color('black').width(1))
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .getConfig();
     mountDotsXQuantYOrdinalComponent(dotsConfig);
     cy.wait(axisTickTextWaitTime);
@@ -536,7 +536,7 @@ describe('it creates one dot for each valid value in the data with the expected 
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .yNumeric((x) => x.valueAccessor((d) => d.population))
       .xOrdinal((y) => y.valueAccessor((d) => d.continent))
       .fillNumeric((fill) =>
@@ -546,7 +546,7 @@ describe('it creates one dot for each valid value in the data with the expected 
         radius.valueAccessor((d) => d.popGrowth).range([2, 10])
       )
       .stroke((stroke) => stroke.color('black').width(1))
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .getConfig();
     mountDotsXOrdinalYQuantComponent(dotsConfig);
     cy.wait(axisTickTextWaitTime);
