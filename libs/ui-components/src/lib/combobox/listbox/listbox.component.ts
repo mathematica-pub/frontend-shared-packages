@@ -56,10 +56,10 @@ export type SelectedCountLabel = {
   ],
   templateUrl: './listbox.component.html',
   styleUrls: ['./listbox.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'hsi-ui-listbox-component',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListboxComponent
   implements OnChanges, AfterContentInit, AfterViewInit

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Input,
@@ -26,6 +27,7 @@ let nextUniqueId = 0;
   imports: [CommonModule],
   templateUrl: './listbox-option.component.html',
   styleUrls: ['./listbox-option.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListboxOptionComponent implements OnChanges {
   @ViewChild('label') label: ElementRef<HTMLDivElement>;

@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { ComboboxService } from '../combobox.service';
 
 let nextUniqueId = 0;
@@ -9,6 +15,7 @@ let nextUniqueId = 0;
   imports: [CommonModule],
   templateUrl: './listbox-label.component.html',
   styleUrls: ['./listbox-label.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'hsi-ui-listbox-label',
   },

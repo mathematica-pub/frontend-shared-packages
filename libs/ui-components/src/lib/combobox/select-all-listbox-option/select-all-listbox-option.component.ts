@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   forwardRef,
@@ -33,6 +34,7 @@ import { ListboxComponent } from '../listbox/listbox.component';
   ],
   templateUrl: '../listbox-option/listbox-option.component.html',
   styleUrls: ['../listbox-option/listbox-option.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectAllListboxOptionComponent
   extends ListboxOptionComponent

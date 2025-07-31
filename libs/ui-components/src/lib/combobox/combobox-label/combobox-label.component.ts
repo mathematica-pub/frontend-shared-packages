@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   TemplateRef,
   ViewChild,
@@ -12,6 +13,7 @@ import { ComboboxService } from '../combobox.service';
     ><p class="combobox-label" [id]="service.comboboxLabelId"
       ><ng-content></ng-content></p
   ></ng-template>`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComboboxLabelComponent implements AfterViewInit {
   @ViewChild(TemplateRef) labelContent: TemplateRef<unknown>;
