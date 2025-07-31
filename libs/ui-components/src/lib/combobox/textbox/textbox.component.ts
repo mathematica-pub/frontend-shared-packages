@@ -2,7 +2,6 @@ import { Platform } from '@angular/cdk/platform';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ElementRef,
@@ -32,7 +31,6 @@ import { SelectedCountLabel } from '../listbox/listbox.component';
   imports: [CommonModule],
   styleUrls: ['./textbox.component.scss'],
   templateUrl: './textbox.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'hsi-ui-textbox',
   },

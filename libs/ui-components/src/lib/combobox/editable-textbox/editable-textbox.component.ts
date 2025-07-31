@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -28,7 +27,6 @@ import { TextboxComponent } from '../textbox/textbox.component';
   imports: [CommonModule, FormsModule],
   templateUrl: './editable-textbox.component.html',
   styleUrls: ['./editable-textbox.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'hsi-ui-editable-textbox',
   },

@@ -1,7 +1,6 @@
 import { Platform } from '@angular/cdk/platform';
 import { AsyncPipe, CommonModule, DOCUMENT } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   ContentChild,
   DestroyRef,
@@ -24,7 +23,6 @@ import { ComboboxService, FocusTextbox } from './combobox.service';
   templateUrl: './combobox.component.html',
   styleUrls: ['./styles/styles.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'hsi-ui-combobox' },
 })
 export class ComboboxComponent implements OnInit, OnDestroy {
