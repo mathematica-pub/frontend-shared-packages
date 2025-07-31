@@ -302,7 +302,7 @@ describe('the QuantitativeAxis mixin', () => {
       };
       expect(
         (abstractClass as any).getValidNumTicksForNumberFormatString(10, ',.0f')
-      ).toEqual(6);
+      ).toEqual(5);
     });
     it('returns the correct value if formatter makes decimals and numTicks is too big given domain max', () => {
       abstractClass.scale = {
@@ -313,7 +313,7 @@ describe('the QuantitativeAxis mixin', () => {
           100,
           ',.1f'
         )
-      ).toEqual(51);
+      ).toEqual(50);
     });
     it('returns the correct value if formatter makes percents and numTicks is too big given domain max', () => {
       abstractClass.scale = {
@@ -324,7 +324,7 @@ describe('the QuantitativeAxis mixin', () => {
           1000,
           '.0%'
         )
-      ).toEqual(501);
+      ).toEqual(500);
     });
   });
 

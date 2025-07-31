@@ -2,6 +2,7 @@ import { AxisTimeInterval } from 'd3';
 import { TickWrap } from './tick-wrap/tick-wrap';
 
 export interface TicksOptions<Tick> {
+  class: (d: Tick) => string;
   fontSize: number;
   format: string | ((value: Tick) => string);
   labelsDisplay: boolean;

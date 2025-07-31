@@ -1,5 +1,5 @@
 import { DataValue } from '../../../core/types/values';
-import { MarksConfig } from '../../../marks/config/marks-config';
+import { AuxMarksConfig } from '../../../marks';
 import { AxisBaseline } from '../../baseline/axis-baseline';
 import { Grid } from '../../grid/grid-config';
 import { AxisLabel } from '../../label/axis-label';
@@ -10,7 +10,7 @@ export abstract class XyAxisConfig<
     Tick extends DataValue,
     TicksConfig extends Ticks<Tick>,
   >
-  extends MarksConfig
+  extends AuxMarksConfig
   implements XyAxisBaseOptions
 {
   baseline: AxisBaseline;
