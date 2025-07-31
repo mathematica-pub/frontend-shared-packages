@@ -3,17 +3,17 @@
 <div
   #div
   class="vic-chart-container"
-  [ngClass]="'vic-scaling-' + config.scalingStrategy"
-  [style.maxWidth.px]="config.width"
-  [style.maxHeight.px]="config.height"
+  [ngClass]="'vic-scaling-' + (scalingStrategy$ | async)"
+  [style.maxWidth.px]="widthFromConfig$ | async"
+  [style.maxHeight.px]="heightFromConfig$ | async"
 >
   <svg
     #svg
     class="vic-chart-svg"
-    [class.vic-chart-viewbox]="config.scalingStrategy === 'viewbox'"
-    [attr.width]="config.scalingStrategy !== 'viewbox' ? (svgDimensions$ | async)?.width : null"
-    [attr.height]="config.scalingStrategy !== 'viewbox' ? (svgDimensions$ | async)?.height : null"
-    [attr.viewBox]="config.scalingStrategy === 'viewbox' ? '0 0 ' + config.width + ' ' + config.height : null"
+    [class.vic-chart-viewbox]="(scalingStrategy$ | async) === 'viewbox'"
+    [attr.width]="(scalingStrategy$ | async) !== 'viewbox' ? (svgDimensions$ | async)?.width : null"
+    [attr.height]="(scalingStrategy$ | async) !== 'viewbox' ? (svgDimensions$ | async)?.height : null"
+    [attr.viewBox]="(scalingStrategy$ | async) === 'viewbox' ? '0 0 ' + (widthFromConfig$ | async) + ' ' + (heightFromConfig$ | async) : null"
   >
     <defs>
       <ng-container *ngTemplateOutlet="svgDefs"></ng-container>
