@@ -168,12 +168,12 @@ describe('integer formatted ticks', () => {
       .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder()
-      .ticks((ticks) => ticks.format('.0f'))
+      .ticks((ticks) => ticks.format('.0f').count(2))
       .getConfig();
     validFormatRegex = /^\d+$/;
   });
   describe('only tickFormat is specified by the user', () => {
-    beforeEach(() => {
+    it('has ticks that are formatted as specified -- case .0f', () => {
       cy.mount(TestXQuantitativeAxisComponent, {
         componentProperties: {
           barsConfig: barsConfig,
@@ -181,12 +181,67 @@ describe('integer formatted ticks', () => {
         },
       });
       cy.wait(axisTickTextWaitTime);
-    });
-    it('has ticks that are formatted as specified -- case .0f', () => {
       cy.get(tickTextSelector).then((ticks) => {
         ticks.each((i, tick) => {
           expect(tick.textContent).to.match(validFormatRegex);
         });
+      });
+    });
+
+    it('has no duplicate tick values', () => {
+      barsConfig = new VicBarsConfigBuilder<
+        { state: string; value: number },
+        string
+      >()
+        .data([
+          { state: 'Alabama', value: 0.3 },
+          { state: 'Alaska', value: 1.2 },
+          { state: 'Arizona', value: 0.7 },
+        ])
+        .horizontal((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.value))
+            .y((dimension) => dimension.valueAccessor((d) => d.state))
+        )
+        .labels((labels) => labels.display(true))
+        .getConfig();
+      cy.mount(TestXQuantitativeAxisComponent, {
+        componentProperties: {
+          barsConfig: barsConfig,
+          xQuantitativeAxisConfig: axisConfig,
+        },
+      });
+      cy.wait(axisTickTextWaitTime);
+      cy.get(tickTextSelector).then((ticks) => {
+        const tickValues = ticks.toArray().map((tick) => tick.textContent);
+        expect(tickValues).to.deep.equal(['0', '1']);
+      });
+      barsConfig = new VicBarsConfigBuilder<
+        { state: string; value: number },
+        string
+      >()
+        .data([
+          { state: 'Alabama', value: 0.3 },
+          { state: 'Alaska', value: 1.9 },
+          { state: 'Arizona', value: 0.7 },
+        ])
+        .horizontal((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.value))
+            .y((dimension) => dimension.valueAccessor((d) => d.state))
+        )
+        .labels((labels) => labels.display(true))
+        .getConfig();
+      cy.mount(TestXQuantitativeAxisComponent, {
+        componentProperties: {
+          barsConfig: barsConfig,
+          xQuantitativeAxisConfig: axisConfig,
+        },
+      });
+      cy.wait(axisTickTextWaitTime);
+      cy.get(tickTextSelector).then((ticks) => {
+        const tickValues = ticks.toArray().map((tick) => tick.textContent);
+        expect(tickValues).to.deep.equal(['0', '1']);
       });
     });
   });

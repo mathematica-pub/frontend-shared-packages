@@ -1,5 +1,6 @@
 export * from './aux-marks/aux-marks';
 export * from './aux-marks/config/aux-marks-builder';
+export * from './aux-marks/config/aux-marks-config';
 export * from './config/marks-config';
 export * from './config/marks-options';
 export * from './map-marks/map-aux-marks/map-aux-marks';

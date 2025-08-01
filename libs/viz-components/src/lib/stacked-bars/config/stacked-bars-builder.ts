@@ -92,7 +92,7 @@ export class VicStackedBarsConfigBuilder<
       color: this.colorDimensionBuilder._build('Color'),
       customFills: this._customFills,
       data: this._data,
-      datumClass: this._class,
+      datumClass: this._datumClass,
       mixBlendMode: this._mixBlendMode,
       ordinal: this.ordinalDimensionBuilder._build(
         'band',

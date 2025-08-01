@@ -106,22 +106,14 @@ export function quantitativeAxisMixin<
         numDecimalPlaces = numDecimalPlaces + 2;
       }
       const [start, end] = this.scale.domain();
-      const firstPossibleInferredTick = // The first tick that could be created AFTER the start of the domain
-        start + Math.pow(10, -1 * numDecimalPlaces);
-      if (firstPossibleInferredTick > end) {
-        return 1;
+      const range = end - start;
+      const minStep = Math.pow(10, -1 * numDecimalPlaces);
+      const rawCount = range / minStep;
+      const numValidTicks = Math.round(rawCount);
+      if (numTicks < numValidTicks) {
+        return numTicks;
       } else {
-        let numValidTicks = 1; // tick for first value in domain
-        if (numDecimalPlaces > 0) {
-          numValidTicks += (end - start) * Math.pow(10, numDecimalPlaces);
-        } else {
-          numValidTicks += Math.floor(end - start);
-        }
-        if (numTicks < numValidTicks) {
-          return numTicks;
-        } else {
-          return numValidTicks;
-        }
+        return numValidTicks;
       }
     }
 

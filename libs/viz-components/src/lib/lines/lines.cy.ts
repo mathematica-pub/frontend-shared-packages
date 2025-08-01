@@ -189,7 +189,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xDate((xDate) => xDate.valueAccessor((d) => d.year))
         .y((y) => y.valueAccessor((d) => d.population))
         .stroke((stroke) =>
@@ -223,7 +223,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(testData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xDate((xDate) => xDate.valueAccessor((d) => d.year))
         .y((y) => y.valueAccessor((d) => d.population))
         .stroke((stroke) =>
@@ -265,7 +265,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(testData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) => dimension.valueAccessor((d) => d.population))
         .stroke((stroke) =>
@@ -307,7 +307,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(testData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) => dimension.valueAccessor((d) => d.population))
         .stroke((stroke) =>
@@ -339,7 +339,7 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationNumYearDatum>()
         .data(numericData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xNumeric((dimension) =>
           dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
         )
@@ -366,7 +366,7 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationNumYearDatum>()
           .data(numericData)
-          .class((d) => d.continent.split(' ').join('-'))
+          .datumClass((d) => d.continent.split(' ').join('-'))
           .xNumeric((dimension) =>
             dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
           )
@@ -393,7 +393,7 @@ describe('if the user specifies a y domain that is smaller than max value', () =
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -429,7 +429,7 @@ describe('if the user specifies an x domain that is smaller than max value', () 
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationNumYearDatum>()
         .data(numericData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xNumeric((dimension) =>
           dimension
             .valueAccessor((d) => d.year)
@@ -470,7 +470,7 @@ describe('it creates lines with the correct properties per config', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) => dimension.valueAccessor((d) => d.population))
         .stroke((stroke) =>
@@ -486,7 +486,7 @@ describe('it creates lines with the correct properties per config', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .curve(curveBasis)
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) =>
@@ -505,7 +505,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
-          .class((d) => d.continent.split(' ').join('-'))
+          .datumClass((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -528,7 +528,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
-          .class((d) => d.continent.split(' ').join('-'))
+          .datumClass((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -557,7 +557,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
-          .class((d) => d.continent.split(' ').join('-'))
+          .datumClass((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -589,7 +589,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
-          .class((d) => d.continent.split(' ').join('-'))
+          .datumClass((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -611,7 +611,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
-          .class((d) => d.continent.split(' ').join('-'))
+          .datumClass((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -637,7 +637,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
-          .class((d) => d.continent.split(' ').join('-'))
+          .datumClass((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -670,7 +670,7 @@ describe('displays tooltips for correct data per hover position', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xDate((xDate) =>
           // When running in headless mode, realHover is finicky with point markers that are on the edge of the svg container
           // Padded the x and y domains to avoid this issue

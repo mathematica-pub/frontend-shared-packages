@@ -3,6 +3,7 @@ import { TickWrap } from './tick-wrap/tick-wrap';
 import { QuantitativeTicksOptions, TicksOptions } from './ticks-options';
 
 export class Ticks<Tick> implements TicksOptions<Tick> {
+  class: (d: Tick) => string;
   fontSize: number;
   format: string | ((value: Tick) => string);
   labelsDisplay: boolean;

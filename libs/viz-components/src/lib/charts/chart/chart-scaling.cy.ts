@@ -221,7 +221,7 @@ describe('ChartComponent scaling strategies', () => {
       .xNumeric((x) => x.valueAccessor((d) => d.population))
       .yNumeric((y) => y.valueAccessor((d) => d.gdpPerCapita))
       .radiusNumeric((r) => r.valueAccessor((d) => d.popGrowth).range([4, 10]))
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .getConfig();
 
     cy.mount(ScalingStrategyTestComponent, {
@@ -472,7 +472,7 @@ describe('ChartComponent scaling strategies', () => {
         .radiusNumeric((r) =>
           r.valueAccessor((d) => d.popGrowth).range([4, 10])
         )
-        .class((d) => d.country)
+        .datumClass((d) => d.country)
         .getConfig();
 
       cy.mount(ScalingStrategyTestComponent, {

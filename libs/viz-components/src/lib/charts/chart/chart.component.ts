@@ -20,13 +20,13 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  of,
   shareReplay,
+  switchMap,
 } from 'rxjs';
 import { Dimensions, ElementSpacing } from '../../core/types/layout';
 import { Chart } from './chart';
 import { CHART } from './chart.token';
-import { VicChartConfigBuilder } from './config/chart-builder';
+import { ScalingStrategy, VicChartConfigBuilder } from './config/chart-builder';
 import { ChartConfig } from './config/chart-config';
 
 export interface Ranges {
@@ -38,6 +38,13 @@ export interface ChartResizing {
   width: boolean;
   height: boolean;
   useViewbox: boolean;
+}
+
+export interface ReactiveConfig {
+  margin: ElementSpacing;
+  height: number;
+  width: number;
+  scalingStrategy: ScalingStrategy;
 }
 
 /**
@@ -74,43 +81,55 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   svgDimensions$: Observable<Dimensions>;
   ranges$: Observable<Ranges>;
   private heightFromConfig = new BehaviorSubject<number>(null);
+  protected heightFromConfig$ = this.heightFromConfig.asObservable();
   private marginFromConfig = new BehaviorSubject<ElementSpacing>(null);
+  private marginFromConfig$ = this.marginFromConfig.asObservable();
+  private scalingStrategy = new BehaviorSubject<ScalingStrategy | null>(null);
+  protected scalingStrategy$ = this.scalingStrategy.asObservable();
+  private widthFromConfig = new BehaviorSubject<number>(null);
+  protected widthFromConfig$ = this.widthFromConfig.asObservable();
   protected destroyRef = inject(DestroyRef);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
       NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
     ) {
-      this.initFromConfig();
+      this.updateFromConfig();
     }
   }
 
   ngOnInit(): void {
-    this.initFromConfig();
-  }
-
-  private initFromConfig(): void {
     this.updateUserDimensionProperties();
     this.createDimensionObservables();
+  }
+
+  private updateFromConfig(): void {
+    this.updateUserDimensionProperties();
   }
 
   updateUserDimensionProperties(): void {
     this.heightFromConfig.next(this.config.height);
     this.marginFromConfig.next(this.config.margin);
+    this.widthFromConfig.next(this.config.width);
+    this.scalingStrategy.next(this.config.scalingStrategy);
   }
 
   createDimensionObservables() {
-    const strategy = this.config.scalingStrategy;
+    const width$ = this.scalingStrategy$.pipe(
+      switchMap((strategy) =>
+        strategy === 'responsive-width'
+          ? this.observeElementWidth(this.divRef.nativeElement)
+          : this.widthFromConfig$
+      )
+    );
 
-    const width$ =
-      strategy === 'responsive-width'
-        ? this.observeElementWidth(this.divRef.nativeElement)
-        : of(this.config.width);
-
-    const height$ =
-      strategy === 'responsive-width' && this.config.aspectRatio !== undefined
-        ? width$.pipe(map((w) => w / this.config.aspectRatio))
-        : of(this.config.height);
+    const height$ = this.scalingStrategy$.pipe(
+      switchMap((strategy) =>
+        strategy === 'responsive-width' && !!this.config.aspectRatio
+          ? width$.pipe(map((w) => w / this.config.aspectRatio))
+          : this.heightFromConfig$
+      )
+    );
 
     this.svgDimensions$ = combineLatest([width$, height$]).pipe(
       filter(([w, h]) => w > 0 && h > 0),
@@ -121,7 +140,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
 
     this.ranges$ = combineLatest([
       this.svgDimensions$,
-      this.marginFromConfig,
+      this.marginFromConfig$,
     ]).pipe(
       map(([dimensions, margin]) =>
         this.getRangesFromSvgDimensions(dimensions, margin)
