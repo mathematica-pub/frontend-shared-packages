@@ -8,7 +8,10 @@ import {
 } from '@angular/core';
 import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
 import { Selection } from 'd3';
-import { CaStackedBarsService } from '../ca/ca-stacked-bars.service';
+import {
+  barbellStackElementHeight,
+  CaStackedBarsService,
+} from '../ca/ca-stacked-bars.service';
 import { stateName } from './mlb.constants';
 
 export interface MlbDatum {
@@ -143,15 +146,27 @@ export class MlbStackedBarsComponent
   }
 
   override getStackElementY(datum: StackDatum): number {
-    return this.stackedBarsService.getStackElementY(
-      datum,
-      this.scales,
-      this.config
-    );
+    if ('percentile25' in this.config.data[0]) {
+      return this.stackedBarsService.getStackElementY(
+        datum,
+        this.scales,
+        this.config
+      );
+    } else {
+      return this.stackedBarsService.getBarbellStackElementY(
+        datum,
+        this.scales,
+        this.config
+      );
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override getStackElementHeight(datum: StackDatum): number {
-    return this.stackedBarsService.getStackElementHeight(this.scales);
+    if ('percentile25' in this.config.data[0]) {
+      return this.stackedBarsService.getStackElementHeight(this.scales);
+    } else {
+      return barbellStackElementHeight;
+    }
   }
 }

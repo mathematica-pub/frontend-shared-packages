@@ -46,6 +46,7 @@ export class MlbBdaDotPlotComponent implements OnChanges {
       };
       this.caDotPlotService.onChanges(dotPlotDataConfig);
       this.injectMissingCategories();
+      this.caDotPlotService.setExtents();
       this.caDotPlotService.setProperties(this.getSortOrder.bind(this));
       this.caDotPlotService.setHeight(dotPlotDataConfig.yDimension);
     }

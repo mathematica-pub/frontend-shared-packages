@@ -9,6 +9,8 @@ import {
 import { scaleOrdinal, ScaleOrdinal, select, Selection } from 'd3';
 import { mlbColorRange, stateName } from '../mlb/mlb.constants';
 
+export const barbellStackElementHeight = 3;
+
 @Injectable()
 export class CaStackedBarsService {
   createCircleGroup(
@@ -80,9 +82,28 @@ export class CaStackedBarsService {
     config: StackedBarsConfig<any, string>
   ): number {
     return (
-      scales.y(config[config.dimensions.y].values[datum.i]) +
-      (scales.y as any).bandwidth() / 4
+      this.getStackY(datum, scales, config) + (scales.y as any).bandwidth() / 4
     );
+  }
+
+  getBarbellStackElementY(
+    datum: StackDatum,
+    scales: XyChartScales,
+    config: StackedBarsConfig<any, string>
+  ): number {
+    return (
+      this.getStackY(datum, scales, config) +
+      (scales.y as any).bandwidth() / 2 -
+      barbellStackElementHeight / 2
+    );
+  }
+
+  getStackY(
+    datum: StackDatum,
+    scales: XyChartScales,
+    config: StackedBarsConfig<any, string>
+  ): number {
+    return scales.y(config[config.dimensions.y].values[datum.i]);
   }
 
   getStackElementHeight(scales: XyChartScales): number {

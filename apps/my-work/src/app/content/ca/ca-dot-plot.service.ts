@@ -10,7 +10,7 @@ import {
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
 } from '@hsi/viz-components';
-import { max, min } from 'd3';
+import { extent, max, min } from 'd3';
 
 export interface DotPlotDataConfig {
   data: any[];
@@ -238,5 +238,24 @@ export class CaDotPlotService {
     invisibleCategory.series = 'invisible';
 
     this.rollupData.push(...[emptyCategory, invisibleCategory]);
+  }
+
+  setExtents(): void {
+    this.rollupData.forEach((d) => {
+      const row = this.rollupData.filter((category) => {
+        const categoryValue = category.strat ? 'stratVal' : 'county';
+        return (
+          category[categoryValue] === d[categoryValue] &&
+          category.series === d.series &&
+          category.strat === d.strat
+        );
+      });
+      if (d.series === 'invisible') {
+        d.value = min(row.map((lob) => lob.average)) || null;
+      } else {
+        const extents = extent(row.map((lob) => lob.average));
+        d.value = extents[1] - extents[0] || null;
+      }
+    });
   }
 }

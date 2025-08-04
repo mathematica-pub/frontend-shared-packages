@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { StackDatum } from '@hsi/viz-components';
 import { ScaleOrdinal, select, Selection } from 'd3';
+import { barbellStackElementHeight } from '../../../../ca/ca-stacked-bars.service';
 import {
   MlbDatum,
   MlbStackedBarsComponent,
@@ -22,7 +23,6 @@ export class MlbBdaStackedBarsComponent
 {
   stratGroup: Selection<SVGGElement, unknown, null, undefined>;
   override additionalYAxisOffset = `${this.yAxisOffset - 2.8}em`;
-  goalThickness = 6;
   stratPadding = 3;
   override percentOffset = '0.07em';
   colorScale: ScaleOrdinal<string, unknown>;
@@ -105,25 +105,20 @@ export class MlbBdaStackedBarsComponent
   }
 
   override getStackElementX(datum: StackDatum): number {
-    return (
-      Math.min(this.scales.x(datum[0]), this.scales.x(datum[1])) -
-      this.goalThickness / 2
-    );
-  }
-
-  override getStackElementWidth(): number {
-    return this.goalThickness;
+    return Math.min(this.scales.x(datum[0]), this.scales.x(datum[1]));
   }
 
   override getStackElementY(datum: StackDatum): number {
-    return this.scales.y(this.config[this.config.dimensions.y].values[datum.i]);
+    return this.stackedBarsService.getBarbellStackElementY(
+      datum,
+      this.scales,
+      this.config
+    );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override getStackElementHeight(datum: StackDatum): number {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const height = (this.scales.y as any).bandwidth();
-    // hide empty categories
-    return datum[0] === 0 && datum[1] === 0 ? 0 : height;
+    return barbellStackElementHeight;
   }
 
   override createAverageHeaderGroup(): void {

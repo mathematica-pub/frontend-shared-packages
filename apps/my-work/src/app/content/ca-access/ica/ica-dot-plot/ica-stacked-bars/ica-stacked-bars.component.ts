@@ -3,6 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
 import { extent, format, max, select, Selection } from 'd3';
+import {
+  barbellStackElementHeight,
+  CaStackedBarsService,
+} from '../../../../ca/ca-stacked-bars.service';
 import { sizeCategories } from '../../../ca-access.constants';
 import { IcaDatum } from '../ica-dot-plot.component';
 
@@ -13,6 +17,7 @@ import { IcaDatum } from '../ica-dot-plot.component';
   templateUrl: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
+  providers: [CaStackedBarsService],
 })
 export class IcaStackedBarsComponent
   extends StackedBarsComponent<IcaDatum, string>
@@ -31,8 +36,11 @@ export class IcaStackedBarsComponent
   headerOffset = -50;
   yAxisOffset = -0.8;
   radius = 4;
-  barThickness = 3;
   rangeOffset = '3em';
+
+  constructor(private stackedBarsService: CaStackedBarsService) {
+    super();
+  }
 
   override ngOnInit(): void {
     this.createSizeGroup();
@@ -347,15 +355,15 @@ export class IcaStackedBarsComponent
   }
 
   override getStackElementY(datum: StackDatum): number {
-    return (
-      this.scales.y(this.config[this.config.dimensions.y].values[datum.i]) +
-      (this.scales.y as any).bandwidth() / 2 -
-      this.barThickness / 2
+    return this.stackedBarsService.getBarbellStackElementY(
+      datum,
+      this.scales,
+      this.config
     );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override getStackElementHeight(datum: StackDatum): number {
-    return this.barThickness;
+    return barbellStackElementHeight;
   }
 }
