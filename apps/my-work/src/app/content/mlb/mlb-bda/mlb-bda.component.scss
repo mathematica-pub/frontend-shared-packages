@@ -29,3 +29,7 @@
 .vic-axis-y-ordinal text {
   transform: none;
 }
+
+.vic-stacked-bars-category-group {
+  fill: color.$goal; // final color in mlbColorRange
+}
