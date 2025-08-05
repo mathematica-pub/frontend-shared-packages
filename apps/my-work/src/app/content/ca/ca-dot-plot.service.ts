@@ -11,6 +11,7 @@ import {
   VicYOrdinalAxisConfigBuilder,
 } from '@hsi/viz-components';
 import { extent, max, min } from 'd3';
+import { chartWidth } from './ca.constants';
 
 export interface DotPlotDataConfig {
   data: any[];
@@ -119,7 +120,7 @@ export class CaDotPlotService {
           left: 0,
         })
         .maxHeight(chartHeight)
-        .maxWidth(700)
+        .maxWidth(chartWidth)
         .scalingStrategy('fixed')
         .fixedHeight(true)
         .transitionDuration(0)
@@ -181,21 +182,21 @@ export class CaDotPlotService {
     }
   }
 
-  getTickFormat(): string {
-    const units = this.rollupData.find(
-      (category) => category.units !== null
-    ).units;
+  getTickFormat(nonRollupData?: any[]): string {
+    const data = nonRollupData || this.rollupData;
+    const units = data.find((category) => category.units !== null).units;
+    const trueMax = this.trueMax || max(data, (d) => d.value);
+    let format = ',.0f';
     if (units === 'Percentage') {
-      if (this.trueMax < 0.1) {
-        return '.1%';
+      if (trueMax < 0.1) {
+        format = '.1%';
       } else {
-        return '.0%';
+        format = '.0%';
       }
-    } else if (this.trueMax < 10) {
-      return ',.1f';
-    } else {
-      return ',.0f';
+    } else if (trueMax < 10) {
+      format = ',.1f';
     }
+    return format;
   }
 
   setHeight(dataAccessor: string): void {

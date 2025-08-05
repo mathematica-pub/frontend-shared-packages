@@ -1,0 +1,44 @@
+<div class="title">MLB {{ chartName }}</div>
+<form [formGroup]="caChartService.myForm">
+  <div class="selection">
+    <label for="measureCode">Measure Code</label>
+    <select id="measureCode" formControlName="measureCode">
+      <option
+        *ngFor="let code of filters.measureCodes"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+</form>
+@if (vm$ | async; as vm) {
+  <app-export-content
+    [fileName]="
+      'MLB ' + chartName + ' ' + caChartService.myForm.value[filterTypes[0]]
+    "
+  >
+    <div class="legend">
+      @for (legend of vm.dataConfig.color.calculatedDomain; track $index) {
+        <div class="legend-item">
+          <div
+            class="color-box"
+            [style.backgroundColor]="vm.dataConfig.color.range[$index]"
+          ></div>
+          <p class="label">{{ legend }}</p>
+        </div>
+      }
+    </div>
+    <vic-xy-chart [config]="vm.chartConfig">
+      <ng-container svg-elements>
+        <svg:g vic-xy-background></svg:g>
+        <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig"></svg:g>
+        <svg:g vic-primary-grouped-bars [config]="vm.dataConfig"></svg:g>
+      </ng-container>
+    </vic-xy-chart>
+    <p class="direction-label">
+      {{ vm.dataConfig.data[0].directionality }}
+    </p>
+  </app-export-content>
+}

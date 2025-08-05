@@ -42,7 +42,7 @@ export class MlbBdaDotPlotComponent implements OnChanges {
         yDimension: 'stratVal',
         isMlb: true,
         bandwidth: 26,
-        labelWidth: 140,
+        labelWidth: this.data[0].strat.includes('shortage') ? 170 : 140,
       };
       this.caDotPlotService.onChanges(dotPlotDataConfig);
       this.injectMissingCategories();

@@ -16,3 +16,5 @@ export const raceCategories = {
     'Asked But No Answer/Unknown': 11,
   },
 };
+
+export const chartWidth = 700;

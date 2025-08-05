@@ -13,5 +13,6 @@ items:
     - mlb-percentiles
     - mlb-bda
     - mlb-shortage
+    - mlb-shortage-bar
     - mlb-county-plot
     - mlb-map
