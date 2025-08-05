@@ -1,6 +1,5 @@
 @use '../../ca/color.scss';
-
-$font-family: Segoe UI;
+@use '../../ca/vars.scss' as *;
 
 svg {
   font-family: $font-family;

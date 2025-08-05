@@ -1,8 +1,9 @@
 @use '../../ca/ca.scss';
+@use '../../ca/vars.scss' as *;
 
 .image {
   padding: 10px 0 10px 200px !important;
-  font-family: Segoe UI;
+  font-family: $font-family;
 }
 
 .vic-axis-y-ordinal text {
