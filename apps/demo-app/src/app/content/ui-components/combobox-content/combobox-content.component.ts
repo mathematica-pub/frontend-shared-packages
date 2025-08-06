@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ListboxOptionComponent } from '@hsi/ui-components';
+import { ListboxOptionComponent, SelectedCountLabel } from '@hsi/ui-components';
 import { ContentContainerComponent } from '../../content-container/content-container.component';
 import { ExternalSelectionsComponent } from './external-selections/external-selections.component';
 import { FilterableOptionsMultiSelectFormControlComboboxComponent } from './filterable-options/filterable-options-multi-form-control/filterable-options-multi-form-control.component';
@@ -28,10 +28,13 @@ import { MinimalImplementationComboboxComponent } from './minimal-implementation
 export class ComboboxContentComponent {
   exampleHeight = '370px';
 
-  customLabel(selectedOptions: ListboxOptionComponent[]): string {
+  customLabel(
+    selectedOptions: ListboxOptionComponent[],
+    selectedCountLabel?: SelectedCountLabel
+  ): string {
     if (selectedOptions.length === 0) {
       return 'No states selected';
     }
-    return `${selectedOptions.length} states selected (${selectedOptions.map((option) => option.valueToEmit).join(', ')})`;
+    return `${selectedOptions.length} ${selectedCountLabel ? (selectedOptions.length === 1 ? selectedCountLabel.singular : selectedCountLabel.plural) : 'state'} selected (${selectedOptions.map((option) => option.valueToEmit).join(', ')})`;
   }
 }

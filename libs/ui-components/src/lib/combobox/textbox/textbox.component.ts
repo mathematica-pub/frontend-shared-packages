@@ -38,7 +38,10 @@ import { SelectedCountLabel } from '../listbox/listbox.component';
 export class TextboxComponent implements OnInit, AfterViewInit {
   @Input() ariaLabel: string;
   @Input() selectedCountLabel?: SelectedCountLabel;
-  @Input() customLabel: (selectedOptions: ListboxOptionComponent[]) => string;
+  @Input() customLabel: (
+    selectedOptions: ListboxOptionComponent[],
+    selectedCountLabel?: SelectedCountLabel
+  ) => string;
   /*
    * Whether the textbox label responds to selections in any way.
    *
@@ -286,7 +289,9 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     const numSelected = selectedOptions?.length;
     if (touched || numSelected) {
       if (this.customLabel && !this.service.hasEditableTextbox) {
-        label = this.customLabel(selectedOptions);
+        label = this.selectedCountLabel
+          ? this.customLabel(selectedOptions, this.selectedCountLabel)
+          : this.customLabel(selectedOptions);
       } else if (this.selectedCountLabel && !this.service.hasEditableTextbox) {
         if (numSelected === 1) {
           label = `${numSelected} ${this.selectedCountLabel.singular} selected`;
