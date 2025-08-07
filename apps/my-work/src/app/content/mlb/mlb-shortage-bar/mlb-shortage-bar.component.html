@@ -37,13 +37,9 @@
         <svg:g vic-primary-grouped-bars [config]="vm.dataConfig"></svg:g>
       </ng-container>
     </vic-xy-chart>
-    <div class="notes">
-      <p class="direction-label">
-        {{ vm.dataConfig.data[0].directionality }}
-      </p>
-      @if (vm.dataConfig.data[0].units !== 'Percentage') {
-        <p class="units">{{ vm.dataConfig.data[0].units }}</p>
-      }
-    </div>
+    <app-notes
+      [directionality]="vm.dataConfig.data[0].directionality"
+      [units]="vm.dataConfig.data[0].units"
+    ></app-notes>
   </app-export-content>
 }

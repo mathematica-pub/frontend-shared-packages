@@ -23,6 +23,7 @@ import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { CaDotPlotService } from '../../ca/ca-dot-plot.service';
 import { chartWidth } from '../../ca/ca.constants';
 import { mlbDataPath } from '../../ca/data-paths.constants';
+import { NotesComponent } from '../../ca/notes/notes.component';
 import { MlbBdaDatum } from '../mlb-bda/mlb-bda.component';
 import { mlbColorRange } from '../mlb.constants';
 
@@ -42,6 +43,7 @@ interface ViewModel {
     VicChartModule,
     VicGroupedBarsModule,
     VicXyAxisModule,
+    NotesComponent,
   ],
   templateUrl: 'mlb-shortage-bar.component.html',
   styleUrl: './mlb-shortage-bar.component.scss',

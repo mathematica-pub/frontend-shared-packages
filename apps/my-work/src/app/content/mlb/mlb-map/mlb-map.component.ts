@@ -28,6 +28,7 @@ import * as topojson from 'topojson-client';
 import { Topology } from 'topojson-specification';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { caDataFolder, mlbDataPath } from '../../ca/data-paths.constants';
+import { NotesComponent } from '../../ca/notes/notes.component';
 import { MlbCountyDatum } from '../mlb-county-plot/mlb-county-plot.component';
 import { MlbDatum } from '../mlb-stacked-bars.component';
 
@@ -35,6 +36,8 @@ interface ViewModel {
   chartConfig: ChartConfig;
   geographiesConfig: GeographiesConfig<MlbCountyDatum, MapGeometryProperties>;
   isNoData: boolean;
+  units: string;
+  directionality: string;
 }
 
 type CaMapTopology = Topology<MapObjects>;
@@ -49,6 +52,7 @@ type CaMapTopology = Topology<MapObjects>;
     VicChartModule,
     VicGeographiesModule,
     VicMapLegendModule,
+    NotesComponent,
   ],
   templateUrl: 'mlb-map.component.html',
   styleUrl: './mlb-map.component.scss',
@@ -143,6 +147,8 @@ export class MlbMapComponent implements OnInit {
         chartConfig: this.getChartConfig(),
         geographiesConfig: this.getPrimaryMarksConfig(data as MlbCountyDatum[]),
         isNoData: data.some((d: MlbDatum) => d.value === null),
+        units: data[0]?.units,
+        directionality: data[0]?.directionality,
       })),
       shareReplay(1)
     );
