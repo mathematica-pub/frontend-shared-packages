@@ -5,15 +5,16 @@ export const raceCategories = {
     'Black or African American': 2,
     'Native Hawaiian or Other Pacific Islander': 3,
     White: 4,
-    'No Race Selection and Hispanic or Latino Ethnicity': 5,
-    'Some Other Race': 6,
-    'Two or More Races': 7,
-    'Asked But No Answer/Unknown': 8,
+    'Some Other Race': 5,
+    'Two or More Races': 6,
+    'Asked But No Answer': 7,
+    Unknown: 8,
   },
   ethnicity: {
     'Hispanic or Latino': 9,
     'Not Hispanic or Latino': 10,
-    'Asked But No Answer/Unknown': 11,
+    'Asked But No Answer': 11,
+    Unknown: 12,
   },
 };
 
