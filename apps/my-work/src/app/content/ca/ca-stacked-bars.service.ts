@@ -58,7 +58,7 @@ export class CaStackedBarsService {
         config.data.find((category) => category.directionality !== null)
           .directionality
       )
-      .attr('y', chart.config.height + 40);
+      .attr('y', this.getLabelY(chart));
   }
 
   updateXLabel(
@@ -73,7 +73,11 @@ export class CaStackedBarsService {
         ).units;
         return units === 'Percentage' ? null : units;
       })
-      .attr('y', chart.config.height + 40);
+      .attr('y', this.getLabelY(chart));
+  }
+
+  getLabelY(chart: XyChartComponent): number {
+    return chart.config.height + 40;
   }
 
   getStackElementY(

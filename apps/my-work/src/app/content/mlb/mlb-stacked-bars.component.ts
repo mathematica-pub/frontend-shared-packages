@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
-import { Selection } from 'd3';
+import { select, Selection } from 'd3';
 import {
   barbellStackElementHeight,
   CaStackedBarsService,
@@ -66,6 +66,7 @@ export class MlbStackedBarsComponent
       this.headerOffset
     );
     this.createAverageHeaderGroup();
+    this.createNoDataGroup();
     super.ngOnInit();
   }
 
@@ -77,6 +78,7 @@ export class MlbStackedBarsComponent
     }
     this.updateBarElements();
     this.updateCircleElements();
+    this.updateNoDataLabels();
     this.stackedBarsService.updateDirectionLabel(
       this.directionLabel,
       this.config,
@@ -103,6 +105,12 @@ export class MlbStackedBarsComponent
       .attr('cy', this.radius - 13);
   }
 
+  createNoDataGroup(): void {
+    select(this.chart.svgRef.nativeElement)
+      .append('g')
+      .attr('class', 'no-data-labels');
+  }
+
   updateCircleElements(): void {
     this.circleGroup
       .selectAll('.average')
@@ -124,6 +132,28 @@ export class MlbStackedBarsComponent
       .style('fill', (lob: MlbDatum) => this.getColor(lob))
       .filter((lob: MlbDatum) => this.isHighlighted(lob.lob))
       .lower();
+  }
+
+  updateNoDataLabels(): void {
+    select(this.chart.svgRef.nativeElement)
+      .select('.no-data-labels')
+      .selectAll('.no-data-label')
+      .data(
+        this.config.data.filter(
+          (lob: MlbDatum) => lob.lob === null && lob.series === 'percentile'
+        )
+      )
+      .join('text')
+      .attr('class', 'no-data-label')
+      .text('no data available')
+      .attr('dx', `${-this.yAxisOffset}em`)
+      .attr('dy', this.percentOffset)
+      .attr(
+        'y',
+        (category: MlbDatum) =>
+          this.scales.y(this.getCategory(category)) +
+          (this.scales.y as any).bandwidth() / 2
+      );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

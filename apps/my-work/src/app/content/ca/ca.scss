@@ -97,7 +97,8 @@ circle {
 
 $axisFontSize: 16px;
 
-.percent-label {
+.percent-label,
+.no-data-label {
   alignment-baseline: middle;
   font-size: $axisFontSize;
 }
