@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { StackDatum } from '@hsi/viz-components';
 import { ScaleOrdinal, select, Selection } from 'd3';
 import { barbellStackElementHeight } from '../../../../ca/ca-stacked-bars.service';
+import { stratLinePadding } from '../../../../ca/ca.constants';
 import {
   MlbDatum,
   MlbStackedBarsComponent,
@@ -74,13 +75,25 @@ export class MlbBdaStackedBarsComponent
         return `rotate(-90, ${offset}, ${y})`;
       });
     strats
-      .selectAll('line')
+      .selectAll('.strat-line')
       .data((d) => [d])
       .join('line')
-      .attr('x1', offset + 8)
-      .attr('x2', offset + 8)
+      .attr('class', 'strat-line')
+      .attr('x1', offset + stratLinePadding)
+      .attr('x2', offset + stratLinePadding)
       .attr('y1', (d) => this.getY1(d))
       .attr('y2', (d) => this.getY2(d, reverseData));
+
+    strats
+      .filter((_, i) => i > 0)
+      .selectAll('.strat-separator')
+      .data((d) => [d])
+      .join('line')
+      .attr('class', 'strat-separator')
+      .attr('x1', offset + stratLinePadding * 2)
+      .attr('x2', this.chart.config.width - this.stratPadding * 2)
+      .attr('y1', (d) => this.getY1(d) - this.stratPadding * 2)
+      .attr('y2', (d) => this.getY1(d) - this.stratPadding * 2);
   }
 
   getY1(d: any): number {

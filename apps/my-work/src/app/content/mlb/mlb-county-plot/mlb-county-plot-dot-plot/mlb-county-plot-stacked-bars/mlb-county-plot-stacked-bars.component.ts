@@ -2,6 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ScaleOrdinal, select, Selection } from 'd3';
+import { stratLinePadding } from '../../../../ca/ca.constants';
 import { MlbStackedBarsComponent } from '../../../mlb-stacked-bars.component';
 import { stateName } from '../../../mlb.constants';
 import { MlbCountyDatum } from '../../mlb-county-plot.component';
@@ -137,10 +138,20 @@ export class MlbCountyPlotStackedBarsComponent
       .selectAll('line')
       .data((d) => [d])
       .join('line')
-      .attr('x1', offset + 8)
-      .attr('x2', offset + 8)
+      .attr('x1', offset + stratLinePadding)
+      .attr('x2', offset + stratLinePadding)
       .attr('y1', (d) => this.getY1(d))
       .attr('y2', (d) => this.getY2(d));
+    strats
+      .filter((_, i) => i > 0)
+      .selectAll('.strat-separator')
+      .data((d) => [d])
+      .join('line')
+      .attr('class', 'strat-separator')
+      .attr('x1', offset + stratLinePadding * 2)
+      .attr('x2', this.chart.config.width - this.stratPadding * 2)
+      .attr('y1', (d) => this.getY1(d) - this.stratPadding)
+      .attr('y2', (d) => this.getY1(d) - this.stratPadding);
   }
 
   getY1(d: StratLabelDatum): number {

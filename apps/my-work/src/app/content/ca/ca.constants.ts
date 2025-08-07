@@ -19,3 +19,4 @@ export const raceCategories = {
 };
 
 export const chartWidth = 700;
+export const stratLinePadding = 8;
