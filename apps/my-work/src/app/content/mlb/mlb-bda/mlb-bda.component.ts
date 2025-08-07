@@ -33,7 +33,7 @@ export class MlbBdaComponent implements OnInit {
     measureCodes: [],
   };
   filterTypes = ['measureCode'];
-  chartName = 'BDA';
+  chartName = 'Race Ethnicity';
 
   constructor(public caChartService: CaChartService) {}
 
