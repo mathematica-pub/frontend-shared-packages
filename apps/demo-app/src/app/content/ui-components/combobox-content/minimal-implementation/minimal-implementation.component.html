@@ -4,26 +4,7 @@
       >Select New England states to view data</hsi-ui-combobox-label
     >
   }
-  @if (countLabel && customLabel) {
-    <hsi-ui-textbox
-      [dynamicLabel]="dynamicLabel"
-      [customLabel]="customLabel"
-      [selectedCountLabel]="countLabel"
-    >
-      @if (multiSelect) {
-        <p boxLabel>Select states</p>
-      } @else {
-        <p boxLabel>Select a state</p>
-      }
-      <span
-        aria-hidden="true"
-        class="material-symbols-outlined expand-more"
-        boxIcon
-      >
-        expand_more
-      </span>
-    </hsi-ui-textbox>
-  } @else if (countLabel) {
+  @if (countLabel) {
     <hsi-ui-textbox [selectedCountLabel]="countLabel">
       <p boxLabel>Select states</p>
       <span
