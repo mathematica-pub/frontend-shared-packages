@@ -6,7 +6,6 @@ import {
   Subject,
   combineLatest,
   distinctUntilChanged,
-  firstValueFrom,
   map,
   merge,
   mergeAll,
@@ -187,8 +186,8 @@ export class ComboboxService {
   setProjectedContent(
     groups: QueryList<ListboxGroupComponent>,
     options: QueryList<ListboxOptionComponent>
-  ): Promise<ListboxGroupComponent[]> {
-    const groupsPromise = this.setGroups(groups);
+  ): void {
+    this.setGroups(groups);
     this.setAllOptions(groups, options);
 
     this.optionPropertyChanges$ = this.allOptions$.pipe(
@@ -197,17 +196,13 @@ export class ComboboxService {
       ),
       mergeAll()
     );
-    return groupsPromise;
   }
 
-  setGroups(
-    groups: QueryList<ListboxGroupComponent>
-  ): Promise<ListboxGroupComponent[]> {
+  setGroups(groups: QueryList<ListboxGroupComponent>): void {
     this.groups$ = groups.changes.pipe(
       startWith(''),
       map(() => groups.toArray())
     );
-    return firstValueFrom(this.groups$);
   }
 
   setAllOptions(
