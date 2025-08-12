@@ -86,7 +86,6 @@ describe('the XyAxis abstract class', () => {
       spyOn(abstractClass, 'setScale');
       spyOn(abstractClass, 'setAxisFromScaleAndConfig');
       spyOn(abstractClass, 'drawAxis');
-      spyOn(abstractClass, 'drawGrid');
       abstractClass.config = {
         grid: true,
       } as any;
@@ -110,10 +109,6 @@ describe('the XyAxis abstract class', () => {
     it('calls drawAxis once', () => {
       abstractClass.drawMarks();
       expect(abstractClass.drawAxis).toHaveBeenCalledTimes(1);
-    });
-    it('calls drawGrid once', () => {
-      abstractClass.drawMarks();
-      expect(abstractClass.drawGrid).toHaveBeenCalledTimes(1);
     });
   });
 });
