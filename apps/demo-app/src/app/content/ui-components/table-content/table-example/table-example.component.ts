@@ -36,6 +36,9 @@ class FruitType {
   };
 }
 
+/**
+ * @deprecated This component is deprecated. See `tanstack-example.component.ts` for the recommended implementation.
+ */
 @Component({
   selector: 'app-table-example',
   standalone: true,

@@ -12,6 +12,9 @@ import {
 } from 'rxjs';
 import { SortDirection, TableColumn } from './table-column';
 
+/**
+ * @deprecated This class is deprecated. See `tanstack-example.component.ts` for the recommended implementation.
+ */
 export class HsiUiTableDataSource<Datum> extends DataSource<Datum> {
   private sortedData$: Observable<Datum[]>;
 
