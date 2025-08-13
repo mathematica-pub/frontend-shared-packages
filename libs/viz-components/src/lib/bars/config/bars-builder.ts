@@ -291,7 +291,7 @@ export class VicBarsConfigBuilder<
       color: this.colorDimensionBuilder._build('Color'),
       customFills: this._customFills,
       data: this._data,
-      datumClass: this._class,
+      datumClass: this._datumClass,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
       ordinal: this.ordinalDimensionBuilder._build(

@@ -210,7 +210,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
       marksClass: 'vic-lines',
       curve: this._curve,
       data: this._data,
-      datumClass: this._class,
+      datumClass: this._datumClass,
       labelLines: this._labelLines,
       lineLabelsFormat: this._lineLabelsFormat,
       mixBlendMode: this._mixBlendMode,

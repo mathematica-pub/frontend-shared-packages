@@ -234,7 +234,7 @@ export class VicStackedAreaConfigBuilder<
       categoricalOrder: this._categoricalOrder,
       curve: this._curve,
       data: this._data,
-      datumClass: this._class,
+      datumClass: this._datumClass,
       mixBlendMode: this._mixBlendMode,
       stackOrder: this._stackOrder,
       stackOffset: this._stackOffset,

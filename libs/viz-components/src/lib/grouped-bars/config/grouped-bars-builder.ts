@@ -50,7 +50,7 @@ export class VicGroupedBarsConfigBuilder<
       color: this.colorDimensionBuilder._build('Color'),
       customFills: this._customFills,
       data: this._data,
-      datumClass: this._class,
+      datumClass: this._datumClass,
       intraGroupPadding: this._intraGroupPadding,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
