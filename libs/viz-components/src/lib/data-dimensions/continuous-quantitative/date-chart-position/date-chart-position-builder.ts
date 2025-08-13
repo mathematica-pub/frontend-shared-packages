@@ -24,9 +24,11 @@ export class DateChartPositionDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets the domain of the scale.
+   * OPTIONAL. Specifies the domain of the dimension.
    *
    * If not provided, the domain will be determined by the data.
+   *
+   * @param domain A two-item array of `Date` values specifying the minimum and maximum values of the domain.
    */
   domain(domain: null): this;
   domain(domain: [Date, Date]): this;
@@ -42,7 +44,9 @@ export class DateChartPositionDimensionBuilder<
   /**
    * OPTIONAL. Sets a format specifier that will be applied to values from this dimension for display purposes, for example, in a tooltip.
    *
-   * This is a string that is passed to D3's timeFormat function.
+   * This is a string that is passed to D3's utcFormat function.
+   *
+   * @param formatSpecifier A D3 date format string (e.g., "%m/%d/%Y").
    *
    * @default '%Y %m'
    */
@@ -58,7 +62,11 @@ export class DateChartPositionDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. This is a D3 scale function that maps values from the dimension's domain to the dimension's range.
+   * OPTIONAL. Maps values from the dimension's domain to the dimension's range.
+   *
+   * If the user provides a custom scale function through the `scale` method, this will be ignored.
+   *
+   * @param scaleFn A D3 scale function.
    *
    * @default d3.scaleUtc
    */

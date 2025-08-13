@@ -124,7 +124,7 @@ params:
 
 ```builder-method
 name: includeZeroInDomain
-description: Sets a boolean that indicates whether the domain of the dimension's scale should include zero. Defaults to `true`.
+description: Sets a boolean that indicates whether the domain of the dimension's scale should include zero.
 params:
   - name: includeZeroInDomain
     type: 'boolean'

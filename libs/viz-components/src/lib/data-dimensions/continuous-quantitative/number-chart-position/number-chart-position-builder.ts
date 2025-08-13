@@ -38,11 +38,11 @@ export class NumberChartPositionDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets the domain of the scale.
-   *
-   * Should be in the form of [min, max].
+   * OPTIONAL. Specifies the domain of the dimension.
    *
    * If not provided, the domain will be determined by the data.
+   *
+   * @param domain A two-item array of `number` values specifying the minimum and maximum values of the domain.
    */
   domain(domain: [number, number]): this;
   domain(domain: null): this;
@@ -60,6 +60,8 @@ export class NumberChartPositionDimensionBuilder<
    *
    * For example, if the domain is [0, 100] and the percent is 0.1, the new domain will be [0, 110].
    *
+   * @param percentOver A `number` representing a decimal proportion.
+   *
    * @default 0.1
    */
   domainPaddingPercentOver(
@@ -74,6 +76,8 @@ export class NumberChartPositionDimensionBuilder<
   /**
    * OPTIONAL. Adds additional space between data values and the edge of a chart by increasing the max value of the quantitative domain so that it exceeds its original value by the specified number of pixels.
    *
+   * @param numPixels A `number` representing a number of pixels.
+   *
    * @default 40
    */
   domainPaddingPixels(numPixels: number = DEFAULT_PADDING.pixels): this {
@@ -83,6 +87,8 @@ export class NumberChartPositionDimensionBuilder<
 
   /**
    * OPTIONAL. Adds additional space between data values and the edge of a chart by increasing the max value to a number that is rounded up to the specified interval.
+   *
+   * @param interval A function that takes a `number` and returns a `number`.
    *
    * @default () => 1
    */
@@ -98,6 +104,8 @@ export class NumberChartPositionDimensionBuilder<
   /**
    * OPTIONAL. Adds additional space between data values and the edge of a chart by increasing the max value to a number that is rounded up to the specified number of significant figures.
    *
+   * @param sigFigures A function that takes a `number` value and maps it to a `number` representing number of significant figures.
+   *
    * @default () => 1
    */
   domainPaddingRoundUpToSigFig(
@@ -110,7 +118,9 @@ export class NumberChartPositionDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets a format specifier that will be applied to the value of this dimension for display purposes.
+   * OPTIONAL. Sets a format specifier that will be applied to values from this dimension for display purposes, for example, in a tooltip.
+   *
+   * @param formatSpecifier A D3 format string (e.g., ".2f" for two decimal places or "%m/%d/%Y" for a date).
    */
   formatSpecifier(formatSpecifier: string): this;
   formatSpecifier(formatSpecifier: null): this;
@@ -126,6 +136,8 @@ export class NumberChartPositionDimensionBuilder<
   /**
    * OPTIONAL. Sets a boolean that indicates whether the domain of the dimension's scale should include zero.
    *
+   * @param includeZeroInDomain A `boolean` indicating whether the domain should include zero.
+   *
    * @default true
    */
   includeZeroInDomain(includeZeroInDomain: boolean): this {
@@ -134,7 +146,9 @@ export class NumberChartPositionDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. This is a D3 scale function that maps values from the dimension's domain to the dimension's range.
+   * OPTIONAL. Maps values from the dimension's domain to the dimension's range.
+   *
+   * @param scaleFn A D3 scale function.
    *
    * @default d3.scaleLinear
    */

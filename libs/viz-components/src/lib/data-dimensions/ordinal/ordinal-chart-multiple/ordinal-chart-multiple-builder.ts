@@ -18,18 +18,19 @@ export class OrdinalChartMultipleDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Determines the array of categorical values that is used as the domain of the scale.
-   *
-   * @param value - An array of categorical values, or `null` to unset the domain.
+   * OPTIONAL. Specifies the domain of the dimension.
    *
    * If not provided, the domain will be determined by the data.
+   *
+   * @param domain - An array of categorical values, or `null` to unset the domain.
+   *
    */
-  domain(value: Domain[] | null): this {
-    if (value === null) {
+  domain(domain: Domain[] | null): this {
+    if (domain === null) {
       this._domain = undefined;
       return this;
     }
-    this._domain = value;
+    this._domain = domain;
     return this;
   }
 
