@@ -362,7 +362,7 @@ export class VicDotsConfigBuilder<
     return new DotsConfig<Datum, XOrdinalDomain, YOrdinalDomain>({
       marksClass: 'vic-dots',
       data: this._data,
-      datumClass: this._class,
+      datumClass: this._datumClass,
       fill: fillBuilder._build(fillName),
       mixBlendMode: this._mixBlendMode,
       opacity: this._opacity,
