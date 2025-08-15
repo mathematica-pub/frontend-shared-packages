@@ -14,6 +14,7 @@ const DEFAULT = {
 
 /**
  * An internal builder class for a single table column.
+ * @deprecated This class is deprecated. See `tanstack-example.component.ts` for the recommended implementation.
  */
 export class TableColumnBuilder<Datum> {
   private _id: string;

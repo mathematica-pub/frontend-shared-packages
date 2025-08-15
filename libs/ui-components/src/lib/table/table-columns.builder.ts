@@ -3,6 +3,7 @@ import { TableColumnBuilder } from './table-column-builder';
 
 /**
  * User-facing builder class for a list of table columns.
+ * @deprecated This class is deprecated. See `tanstack-example.component.ts` for the recommended implementation.
  */
 export class TableColumnsBuilder<Datum> {
   private _columnBuilders: TableColumnBuilder<Datum>[] = [];
