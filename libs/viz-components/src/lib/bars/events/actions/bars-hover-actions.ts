@@ -1,46 +1,37 @@
 import { DataValue } from '../../../core/types/values';
-import { EventAction } from '../../../events/action';
-import { BarsComponent } from '../../bars.component';
-import { BarsHoverDirective } from '../bars-hover.directive';
+import { EventAction, EventType } from '../../../events';
+import { BarsHost } from '../bars-events.directive';
+import { BarsInteractionOutput } from '../bars-interaction-output';
 
-export class BarsHoverShowLabels<
-  Datum,
-  TOrdinalValue extends DataValue,
-  TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
-    Datum,
-    TOrdinalValue
-  >,
-> implements
-    EventAction<BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>>
+export class BarsHoverShowLabels<Datum, TOrdinalValue extends DataValue>
+  implements
+    EventAction<BarsHost<Datum, TOrdinalValue>, BarsInteractionOutput<Datum>>
 {
-  onStart(
-    directive: BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>
-  ): void {
-    directive.bars.barGroups
-      .filter((d) => d === directive.barDatum.index)
+  onStart(host: BarsHost<Datum, TOrdinalValue>): void {
+    host.marks.barGroups
+      .filter((d) => d === host.getBarDatum().index)
       .select('text')
       .style('display', null);
   }
 
-  onEnd(
-    directive: BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>
-  ): void {
-    directive.bars.barGroups
-      .filter((d) => d === directive.barDatum.index)
+  onEnd(host: BarsHost<Datum, TOrdinalValue>): void {
+    host.marks.barGroups
+      .filter((d) => d === host.getBarDatum().index)
       .select('text')
       .style('display', 'none');
   }
 }
 
 export class BarsHoverEmitTooltipData<Datum, TOrdinalValue extends DataValue>
-  implements EventAction<BarsHoverDirective<Datum, TOrdinalValue>>
+  implements
+    EventAction<BarsHost<Datum, TOrdinalValue>, BarsInteractionOutput<Datum>>
 {
-  onStart(directive: BarsHoverDirective<Datum, TOrdinalValue>): void {
-    const tooltipData = directive.getEventOutput();
-    directive.eventOutput.emit(tooltipData);
+  onStart(host: BarsHost<Datum, TOrdinalValue>): void {
+    const output = host.getInteractionOutput(EventType.Hover);
+    host.emitInteractionOutput(output);
   }
 
-  onEnd(directive: BarsHoverDirective<Datum, TOrdinalValue>): void {
-    directive.eventOutput.emit(null);
+  onEnd(host: BarsHost<Datum, TOrdinalValue>): void {
+    host.emitInteractionOutput(null);
   }
 }

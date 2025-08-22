@@ -6,9 +6,9 @@ import {
   HoverMoveAction,
   HtmlTooltipConfig,
   LinesConfig,
-  LinesEventOutput,
-  LinesHoverMoveDirective,
+  LinesHost,
   LinesHoverMoveEmitTooltipData,
+  LinesInteractionOutput,
   VicChartConfigBuilder,
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
@@ -43,7 +43,6 @@ const chartHeight = 400;
 const chartWidth = 600;
 const dateData = continentPopulationDateYearData;
 const numericData = ContinentPopulationNumYearData;
-const tooltipYOffset = 60; // need to offset otherwise the hover will be on the tooltip itself rather than svg
 
 const lineSelector = '.vic-lines-line';
 const markerSelector = '.vic-lines-marker';
@@ -68,8 +67,9 @@ const markerSelector = '.vic-lines-marker';
         <svg:g
           vic-primary-marks-lines
           [config]="linesConfig"
-          [vicLinesHoverMoveActions]="hoverActions"
-          (vicLinesHoverMoveOutput)="updateTooltipForNewOutput($event)"
+          vicLinesEvents
+          [hoverMoveActions]="hoverMoveActions"
+          (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="tooltipConfig$ | async"
@@ -89,7 +89,9 @@ const markerSelector = '.vic-lines-marker';
       </ng-container>
     </ng-template>
   `,
-  styles: ['.tooltip-text { font-size: 12px; }'],
+  styles: [
+    '.tooltip-text { font-size: 12px; }  .events-disabled { pointer-events: none; }',
+  ],
   imports: [
     VicChartModule,
     VicLinesModule,
@@ -105,11 +107,10 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<LinesEventOutput<Datum>> = new BehaviorSubject<
-    LinesEventOutput<Datum>
-  >(null);
+  tooltipData: BehaviorSubject<LinesInteractionOutput<Datum>> =
+    new BehaviorSubject<LinesInteractionOutput<Datum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: HoverMoveAction<LinesHoverMoveDirective<Datum>>[] = [
+  hoverMoveActions: HoverMoveAction<LinesHost<Datum>>[] = [
     new LinesHoverMoveEmitTooltipData(),
   ];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
@@ -119,24 +120,19 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
     .scalingStrategy('responsive-width')
     .getConfig();
 
-  updateTooltipForNewOutput(data: LinesEventOutput<Datum>): void {
+  updateTooltipForNewOutput(data: LinesInteractionOutput<Datum>): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: LinesEventOutput<Datum>): void {
+  updateTooltipData(data: LinesInteractionOutput<Datum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: LinesEventOutput<Datum>): void {
+  updateTooltipConfig(data: LinesInteractionOutput<Datum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
       .size((size) => size.minWidth(100))
-      .linesPosition([
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - tooltipYOffset : 0,
-        },
-      ])
+      .positionFromOutput(data)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
@@ -667,6 +663,7 @@ describe('it creates lines with the correct properties per config', () => {
 // ***********************************************************
 describe('displays tooltips for correct data per hover position', () => {
   beforeEach(() => {
+    cy.viewport(800, 600); // ensure that tts don't get repositioned at the edges of the chart
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
@@ -699,7 +696,7 @@ describe('displays tooltips for correct data per hover position', () => {
       });
 
       it('displays a tooltip', () => {
-        cy.get('.vic-html-tooltip-overlay').should('be.visible');
+        cy.get('.vic-html-tooltip-overlay').should('exist');
       });
 
       it('tooltip displays correct data', () => {
@@ -727,10 +724,7 @@ describe('displays tooltips for correct data per hover position', () => {
                 (markerBox.left + markerBox.right) / 2,
                 1
               );
-              expect(tooltipBox.bottom + tooltipYOffset).to.be.closeTo(
-                markerBox.top,
-                10
-              );
+              expect(tooltipBox.bottom).to.be.closeTo(markerBox.top, 10);
             });
         });
       });

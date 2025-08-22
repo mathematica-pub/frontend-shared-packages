@@ -7,13 +7,11 @@
       <svg:g
         vic-primary-marks-stacked-bars
         [config]="vm.dataConfig"
-        [vicStackedBarsHoverMoveActions]="hoverAndMoveActions"
-        [vicStackedBarsClickActions]="clickActions"
-        [vicStackedBarsClickRemoveEvent$]="removeTooltipEvent$"
-        (vicStackedBarsHoverMoveOutput)="
-          updateTooltipForNewOutput($event, 'hover')
-        "
-        (vicStackedBarsClickOutput)="updateTooltipForNewOutput($event, 'click')"
+        vicStackedBarsEvents
+        [hoverMoveActions]="hoverMoveActions"
+        [clickActions]="clickActions"
+        [clickRemoveEvent$]="removeTooltipEvent$"
+        (interactionOutput)="updateTooltipForNewOutput($event)"
       >
         <vic-html-tooltip
           [config]="tooltipConfig$ | async"
@@ -27,18 +25,26 @@
 <ng-template #loading>Loading...</ng-template>
 
 <ng-template #htmlTooltip>
-  <div
-    [style.--color]="(tooltipData$ | async).color"
-    class="stacked-bars-example-tooltip-container"
-  >
-    <p class="tooltip-label category">
-      {{ (tooltipData$ | async).values.category }}
-    </p>
-    <div class="values-container">
-      <p class="tooltip-label y">
-        <span class="value-label">Value</span>
-        {{ (tooltipData$ | async).values.y }}
-      </p>
+  @if (interactionOutput$ | async; as interactionOutput) {
+    <div
+      [style.--color]="interactionOutput.color"
+      class="stacked-bars-example-tooltip-container"
+    >
+      <div class="tooltip-body">
+        <p class="tooltip-label category">
+          {{ interactionOutput.values.category }}
+        </p>
+        <p class="tooltip-label category">
+          {{ interactionOutput.values.x }}
+        </p>
+        <div class="values-container">
+          <p class="tooltip-label y">
+            <span class="value-label">Value</span>
+            {{ interactionOutput.values.y }}
+          </p>
+        </div></div
+      >
+      <vic-tooltip-triangle></vic-tooltip-triangle>
     </div>
-  </div>
+  }
 </ng-template>

@@ -6,15 +6,19 @@ import {
   InjectionToken,
   NgZone,
 } from '@angular/core';
-import { area, select, Transition } from 'd3';
+import { area, select, Selection, Transition } from 'd3';
+import { BehaviorSubject, filter } from 'rxjs';
 import { ChartComponent, XyChartComponent, XyChartScales } from '../charts';
 import { GenericScale } from '../core';
 import { DataValue } from '../core/types/values';
 import { ValueUtilities } from '../core/utilities/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
-import { StackedAreaConfig } from './config/stacked-area-config';
-import { StackedAreaEventOutput } from './events/stacked-area-event-output';
+import {
+  StackedAreaConfig,
+  StackedAreaDatum,
+} from './config/stacked-area-config';
+import { StackedAreaInteractionAnchor } from './events/stacked-area-interaction-output';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
@@ -36,6 +40,13 @@ export interface StackedAreaTooltipDatum<
 }
 
 type StackedAreaSvgElements = 'area';
+
+export type StackedAreaSelection<CategoricalDomain> = Selection<
+  SVGPathElement,
+  StackedAreaDatum<CategoricalDomain>,
+  SVGGElement,
+  unknown
+>;
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -61,6 +72,9 @@ export class StackedAreaComponent<
 > {
   area;
   areas;
+  stackedAreas: BehaviorSubject<StackedAreaSelection<TCategoricalValue>> =
+    new BehaviorSubject(null);
+  stackedAreas$ = this.stackedAreas.asObservable().pipe(filter((s) => !!s));
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override scales: { color: GenericScale<any, any> } & XyChartScales = {
     x: undefined,
@@ -96,6 +110,7 @@ export class StackedAreaComponent<
     const transitionDuration = this.getTransitionDuration();
     this.setArea();
     this.drawAreas(transitionDuration);
+    this.updateStackedAreaElements();
   }
 
   setArea(): void {
@@ -149,7 +164,12 @@ export class StackedAreaComponent<
     categoryYMin: number,
     categoryYMax: number,
     categoryIndex: number
-  ): StackedAreaEventOutput<Datum, TCategoricalValue> {
+  ): {
+    anchor: StackedAreaInteractionAnchor;
+    data: StackedAreaTooltipDatum<Datum, TCategoricalValue>[];
+    hoveredAreaDatum: StackedAreaTooltipDatum<Datum, TCategoricalValue>;
+    origin: SVGGraphicsElement;
+  } {
     const data: StackedAreaTooltipDatum<Datum, TCategoricalValue>[] =
       closestXIndicies.map((i) => {
         const datum = this.getDatumFromIndex(i);
@@ -167,12 +187,18 @@ export class StackedAreaComponent<
       this.sortTooltipDataByCategoricalSortOrder(data);
       categoryIndex = closestXIndicies.length - categoryIndex;
     }
+
     return {
       data,
-      positionX: this.scales.x(this.config.x.values[closestXIndicies[0]]),
-      hoveredAreaTop: categoryYMin,
-      hoveredAreaBottom: categoryYMax,
-      hoveredDatum: data[categoryIndex],
+      anchor: {
+        x: this.scales.x(this.config.x.values[closestXIndicies[0]]),
+        yAreaTop: categoryYMin,
+        yAreaBottom: categoryYMax,
+        yChartTop: this.scales.y.range()[0],
+        yChartBottom: this.scales.y.range()[1],
+      },
+      hoveredAreaDatum: data[categoryIndex],
+      origin: this.chart.svgRef.nativeElement,
     };
   }
 
@@ -207,5 +233,9 @@ export class StackedAreaComponent<
         );
       });
     }
+  }
+
+  updateStackedAreaElements(): void {
+    this.stackedAreas.next(this.areas);
   }
 }

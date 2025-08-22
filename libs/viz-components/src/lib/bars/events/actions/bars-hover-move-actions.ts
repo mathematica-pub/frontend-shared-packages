@@ -1,18 +1,23 @@
 import { DataValue } from '../../../core/types/values';
-import { HoverMoveAction } from '../../../events/action';
-import { BarsHoverMoveDirective } from '../bars-hover-move.directive';
+import { EventType, HoverMoveAction } from '../../../events';
+import { BarsHost } from '../bars-events.directive';
+import { BarsInteractionOutput } from '../bars-interaction-output';
 
 export class BarsHoverMoveEmitTooltipData<
   Datum,
   TOrdinalValue extends DataValue,
-> implements HoverMoveAction<BarsHoverMoveDirective<Datum, TOrdinalValue>>
+> implements
+    HoverMoveAction<
+      BarsHost<Datum, TOrdinalValue>,
+      BarsInteractionOutput<Datum>
+    >
 {
-  onStart(directive: BarsHoverMoveDirective<Datum, TOrdinalValue>): void {
-    const tooltipData = directive.getEventOutput();
-    directive.eventOutput.emit(tooltipData);
+  onStart(host: BarsHost<Datum, TOrdinalValue>): void {
+    const output = host.getInteractionOutput(EventType.HoverMove);
+    host.emitInteractionOutput(output);
   }
 
-  onEnd(directive: BarsHoverMoveDirective<Datum, TOrdinalValue>): void {
-    directive.eventOutput.emit(null);
+  onEnd(host: BarsHost<Datum, TOrdinalValue>): void {
+    host.emitInteractionOutput(null);
   }
 }

@@ -1,42 +1,17 @@
-import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { EventAction } from '../../../events/action';
-import { GeographiesComponent } from '../../geographies.component';
-import { GeographiesHoverDirective } from '../geographies-hover.directive';
+import { EventAction, EventType } from '../../../events';
+import { GeographiesHost } from '../geographies-events.directive';
+import { GeographiesInteractionOutput } from '../geographies-interaction-output';
 
-export class GeographiesHoverEmitTooltipData<
-  Datum,
-  TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon,
-  TComponent extends GeographiesComponent<
-    Datum,
-    TProperties,
-    TGeometry
-  > = GeographiesComponent<Datum, TProperties, TGeometry>,
-> implements
-    EventAction<
-      GeographiesHoverDirective<Datum, TProperties, TGeometry, TComponent>
-    >
+export class GeographiesHoverEmitTooltipData<Datum>
+  implements
+    EventAction<GeographiesHost<Datum>, GeographiesInteractionOutput<Datum>>
 {
-  onStart(
-    directive: GeographiesHoverDirective<
-      Datum,
-      TProperties,
-      TGeometry,
-      TComponent
-    >
-  ): void {
-    const tooltipData = directive.getEventOutput();
-    directive.eventOutput.emit(tooltipData);
+  onStart(host: GeographiesHost<Datum>): void {
+    const outputData = host.getInteractionOutput(EventType.Hover);
+    host.emitInteractionOutput(outputData);
   }
 
-  onEnd(
-    directive: GeographiesHoverDirective<
-      Datum,
-      TProperties,
-      TGeometry,
-      TComponent
-    >
-  ): void {
-    directive.eventOutput.emit(null);
+  onEnd(host: GeographiesHost<Datum>): void {
+    host.emitInteractionOutput(null);
   }
 }

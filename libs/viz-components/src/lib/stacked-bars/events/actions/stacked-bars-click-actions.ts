@@ -1,20 +1,25 @@
+import { BarsInteractionOutput } from '../../../bars';
 import { DataValue } from '../../../core/types/values';
-import { EventAction } from '../../../events/action';
-import { StackedBarsClickDirective } from '../stacked-bars-click.directive';
+import { EventAction, EventType } from '../../../events';
+import { StackedBarsHost } from '../stacked-bars-events.directive';
 
-export class StackedBarsClickEmitTooltipDataPauseHoverMoveActions<
+export class StackedBarsClickEmitTooltipDataPauseOtherActions<
   Datum,
   TOrdinalValue extends DataValue,
-> implements EventAction<StackedBarsClickDirective<Datum, TOrdinalValue>>
+> implements
+    EventAction<
+      StackedBarsHost<Datum, TOrdinalValue>,
+      BarsInteractionOutput<Datum>
+    >
 {
-  onStart(directive: StackedBarsClickDirective<Datum, TOrdinalValue>) {
-    const outputData = directive.getEventOutput();
-    directive.disableHoverActions();
-    directive.eventOutput.emit(outputData);
+  onStart(host: StackedBarsHost<Datum, TOrdinalValue>) {
+    const outputData = host.getInteractionOutput(EventType.Click);
+    host.disableOtherActions(EventType.Click);
+    host.emitInteractionOutput(outputData);
   }
 
-  onEnd(directive: StackedBarsClickDirective<Datum, TOrdinalValue>) {
-    directive.resumeHoverActions();
-    directive.eventOutput.emit(null);
+  onEnd(host: StackedBarsHost<Datum, TOrdinalValue>) {
+    host.resumeOtherActions(EventType.Click);
+    host.emitInteractionOutput(null);
   }
 }
