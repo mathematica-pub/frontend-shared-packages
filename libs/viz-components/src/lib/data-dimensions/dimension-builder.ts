@@ -8,9 +8,11 @@ export abstract class DataDimensionBuilder<
   protected _valueAccessor: (d: Datum) => TDataValue;
 
   /**
-   * OPTIONAL. Sets a function that will be applied to the value of this dimension for display purposes.
+   * OPTIONAL. A function that will be called to format the values of the dimension.
    *
    * If provided, this function will be used instead of the format specifier (available only for quantitative dimensions)
+   *
+   * @param formatFunction A function that takes a `Datum` and returns a value of type `string`.
    */
   formatFunction(formatFunction: null): this;
   formatFunction(formatFunction: (d: Datum) => string): this;
@@ -24,11 +26,13 @@ export abstract class DataDimensionBuilder<
   }
 
   /**
-   * Sets a user-provided method that extracts the value for this dimension from a datum.
+   * Specifies how values are derived from `Datum` to be used for establishing properties of the chart.
    *
    * REQUIRED. for quantitative dimensions.
    *
    * OPTIONAL. for categorical and ordinal dimensions, though if not provided, the properties of those dimensions cannot reflect the data values.
+   *
+   * @param valueAccessor A function that takes a `Datum` and returns a value of type `number`, `string`, or `Date`.
    */
   valueAccessor(valueAccessor: (d: Datum) => TDataValue): this {
     this._valueAccessor = valueAccessor;

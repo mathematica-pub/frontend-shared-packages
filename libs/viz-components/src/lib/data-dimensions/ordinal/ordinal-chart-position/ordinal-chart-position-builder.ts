@@ -25,9 +25,9 @@ export class OrdinalChartPositionDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets the alignment of the ordinal scale and is provided to [D3's align method](https://d3js.org/d3-scale/band#band_align)
+   * OPTIONAL. Sets the alignment of the ordinal scale and is provided to [D3's align method](https://d3js.org/d3-scale/band#band_align).
    *
-   * The value must be between 0 and 1.
+   * @param align A number between 0 and 1.
    *
    * @default 0.5.
    */
@@ -43,9 +43,12 @@ export class OrdinalChartPositionDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets an array of ordinal values that will be used to define the domain of the scale.
+   * OPTIONAL. Specifies the domain of the dimension.
    *
    * If not provided, the domain will be determined by the data.
+   *
+   * @param domain - An array of categorical values, or `null` to unset the domain.
+   *
    */
   domain(domain: null): this;
   domain(domain: Domain[]): this;
@@ -63,7 +66,7 @@ export class OrdinalChartPositionDimensionBuilder<
    *
    * Will have no effect if the scale is a point scale.
    *
-   * The value must be between 0 and 1.
+   * @param paddingInner A number between 0 and 1.
    *
    * @default 0.1.
    */
@@ -79,9 +82,9 @@ export class OrdinalChartPositionDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets the outer padding of the ordinal scale and is provided to [D3's paddingOuter method](https://d3js.org/d3-scale/band#band_paddingOuter)
+   * OPTIONAL. Sets the outer padding of the ordinal scale and is provided to [D3's paddingOuter method](https://d3js.org/d3-scale/band#band_paddingOuter).
    *
-   * The value must be between 0 and 1.
+   * @param paddingOuter A number between 0 and 1.
    *
    * @default 0.1.
    */

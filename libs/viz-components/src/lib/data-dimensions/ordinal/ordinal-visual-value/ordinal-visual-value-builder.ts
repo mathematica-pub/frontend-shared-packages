@@ -24,29 +24,32 @@ export class OrdinalVisualValueDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Determines the array of categorical values that is used as the domain of the scale.
-   *
-   * @param value - An array of categorical values, or `null` to unset the domain.
+   * OPTIONAL. Specifies the domain of the dimension.
    *
    * If not provided, the domain will be determined by the data.
+   *
+   * @param domain - An array of categorical values, or `null` to unset the domain.
+   *
    */
-  domain(value: Domain[] | null): this {
-    if (value === null) {
+  domain(domain: Domain[] | null): this {
+    if (domain === null) {
       this._domain = undefined;
       return this;
     }
-    this._domain = value;
+    this._domain = domain;
     return this;
   }
 
   /**
-   * OPTIONAL. Sets an array of visual values that will be the output from D3 scale ordinal.
+   * OPTIONAL. Sets an array of visual values that will be the output from [D3's scaleOrdinal method](https://d3js.org/d3-scale/ordinal#scaleOrdinal).
    *
    * For example, this could be an array of colors or sizes.
    *
    * To have all marks use the same visual value, use an array with a single element.
    *
    * Will not be used if `scale` is set by the user.
+   *
+   * @param range An array of values of type `string` or `number`
    *
    * @default d3.schemeTableau10
    */
@@ -64,9 +67,11 @@ export class OrdinalVisualValueDimensionBuilder<
   /**
    * OPTIONAL. Sets a user-defined function that transforms a categorical value into a visual value.
    *
-   * User must also provide their own implementation of `valueAccessor`.
+   * Requires the user to provide their own implementation of `valueAccessor`.
    *
-   * If a custom valueAccessor function is not provided, this function will not be used even if provided (due to default value of `valueAccessor`).
+   * If a custom `valueAccessor` function is not provided, this function will not be used even if provided (due to default value of `valueAccessor`).
+   *
+   * @param scale A function that takes a `number`, `Date`, or `string` and returns a value of type `number` or `string`.
    */
   scale(scale: null): this;
   scale(scale: (category: Domain) => Range): this;

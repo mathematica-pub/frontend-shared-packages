@@ -29,11 +29,11 @@ export class NumberVisualValueDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets the domain of the scale.
-   *
-   * Should be in the form of [min, max].
+   * OPTIONAL. Specifies the domain of the dimension.
    *
    * If not provided, the domain will be determined by the data.
+   *
+   * @param domain A two-item array of `number` values specifying the minimum and maximum values of the domain.
    */
   domain(domain: null): this;
   domain(domain: [number, number]): this;
@@ -47,7 +47,9 @@ export class NumberVisualValueDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets a format specifier that will be applied to the value of this dimension for display purposes.
+   * OPTIONAL. Sets a format specifier that will be applied to values from this dimension for display purposes, for example, in a tooltip.
+   *
+   * @param formatSpecifier A D3 format string (e.g., ".2f" for two decimal places or "%m/%d/%Y" for a date).
    */
   formatSpecifier(formatSpecifier: null): this;
   formatSpecifier(formatSpecifier: string): this;
@@ -63,6 +65,8 @@ export class NumberVisualValueDimensionBuilder<
   /**
    * OPTIONAL. Sets a boolean that indicates whether the domain of the dimension's scale should include zero.
    *
+   * @param includeZeroInDomain A `boolean` indicating whether the domain should include zero.
+   *
    * @default false
    */
   includeZeroInDomain(includeZeroInDomain: boolean): this {
@@ -71,13 +75,15 @@ export class NumberVisualValueDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets a range of visual values that will be the output from D3 scale linear.
+   * OPTIONAL. Sets a range of visual values that will be the output from [D3's scaleLinear](https://d3js.org/d3-scale/linear#scaleLinear)
    *
    * If not provided, a scale must be provided.
    *
    * For example, this could be a range of colors or sizes.
    *
    * To have all marks use the same visual value, use an array with a single element.
+   *
+   * @param range A two-item array specifying the minimum and maximum values of the range.
    */
   range(range: null): this;
   range(range: [Range, Range]): this;
@@ -91,9 +97,31 @@ export class NumberVisualValueDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. This is a D3 scale function that maps values from the dimension's domain to the dimension's range.
+   * OPTIONAL. Allows a user to set a completely custom scale that transforms the value returned by this dimension's `valueAccessor` into a visual value (`string` or `number`).
+   *
+   * If not provided, a range must be provided.
+   *
+   * If provided, this will override any values provided to `domain`, `range`, and `scaleFn`.
+   *
+   * @param scale A function mapping a `number` value to a visual value `number` or `string`.
+   */
+  scale(scale: null): this;
+  scale(scale: (value: number) => Range): this;
+  scale(scale: (value: number) => Range): this {
+    if (scale === null) {
+      this._scale = undefined;
+      return this;
+    }
+    this._scale = scale;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Maps values from the dimension's domain to the dimension's range.
    *
    * If the user provides a custom scale function through the `scale` method, this will be ignored.
+   *
+   * @param scaleFn A D3 scale function.
    *
    * @default d3.scaleLinear
    */
@@ -115,24 +143,6 @@ export class NumberVisualValueDimensionBuilder<
       return this;
     }
     this._scaleFn = scaleFn;
-    return this;
-  }
-
-  /**
-   * OPTIONAL. Allows a user to set a completely custom scale that transforms the value returned by this dimension's valueAccessor into a visual value (string or number).
-   *
-   * If not provided, a range must be provided.
-   *
-   * If provided, this will override any values provided to domain, range, and scaleFn.
-   */
-  scale(scale: null): this;
-  scale(scale: (value: number) => Range): this;
-  scale(scale: (value: number) => Range): this {
-    if (scale === null) {
-      this._scale = undefined;
-      return this;
-    }
-    this._scale = scale;
     return this;
   }
 
