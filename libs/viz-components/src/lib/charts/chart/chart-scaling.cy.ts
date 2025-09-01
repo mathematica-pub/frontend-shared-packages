@@ -81,8 +81,8 @@ describe('ChartComponent SVG attributes by scalingStrategy', () => {
   it('applies fixed scaling with static width and height', () => {
     mountWithStrategy('fixed');
     cy.get('svg')
-      .should('have.attr', 'width', '400')
-      .and('have.attr', 'height', '300')
+      .should('have.style', 'width', '400')
+      .and('have.style', 'height', '300')
       .and('not.have.attr', 'viewBox');
   });
 
@@ -90,12 +90,12 @@ describe('ChartComponent SVG attributes by scalingStrategy', () => {
     mountWithStrategy('responsive-width');
     cy.get('svg').should('not.have.attr', 'viewBox');
     cy.get('svg')
-      .invoke('attr', 'width')
+      .invoke('style', 'width')
       .should('not.be.null')
       .then(Number)
       .should('be.lte', 400);
     cy.get('svg')
-      .invoke('attr', 'height')
+      .invoke('style', 'height')
       .should('not.be.null')
       .then(Number)
       .should('be.gt', 0);
@@ -105,11 +105,11 @@ describe('ChartComponent SVG attributes by scalingStrategy', () => {
     mountWithStrategy('viewbox');
     cy.get('svg')
       .should('have.attr', 'viewBox', '0 0 400 300')
-      .and('not.have.attr', 'width');
+      .and('not.have.style', 'width');
     cy.get('svg')
-      .invoke('attr', 'height')
+      .invoke('style', 'height')
       .should('be.oneOf', [null, undefined]);
-    cy.get('svg').should('have.class', 'vic-chart-viewbox');
+    cy.get('svg').should('have.class', 'viewbox');
   });
 
   it('respects user-supplied aspectRatio override in responsive-width mode', () => {
@@ -124,12 +124,12 @@ describe('ChartComponent SVG attributes by scalingStrategy', () => {
 
     cy.wait(50);
     cy.get('svg')
-      .invoke('attr', 'width')
+      .invoke('style', 'width')
       .should('not.be.null')
       .then(Number)
       .then((width) => {
         cy.get('svg')
-          .invoke('attr', 'height')
+          .invoke('style', 'height')
           .should('not.be.null')
           .then(Number)
           .should('be.closeTo', width / 2, 1);
@@ -155,7 +155,7 @@ describe('ChartComponent SVG attributes by scalingStrategy', () => {
     });
 
     cy.wait(100);
-    cy.get('svg').should('have.attr', 'height', '200');
+    cy.get('svg').should('have.style', 'height', '200');
   });
 });
 
@@ -239,8 +239,8 @@ describe('ChartComponent scaling strategies', () => {
   it('applies fixed scaling with static width and height', () => {
     mountWithStrategy('fixed');
     cy.get('svg')
-      .should('have.attr', 'width', '400')
-      .and('have.attr', 'height', '300')
+      .should('have.style', 'width', '400')
+      .and('have.style', 'height', '300')
       .and('not.have.attr', 'viewBox');
   });
 
@@ -330,8 +330,8 @@ describe('ChartComponent scaling strategies', () => {
     it('applies fixed scaling with static width and height', () => {
       mountWithStrategy('fixed');
       cy.get('svg')
-        .should('have.attr', 'width', '400')
-        .and('have.attr', 'height', '300')
+        .should('have.style', 'width', '400')
+        .and('have.style', 'height', '300')
         .and('not.have.attr', 'viewBox');
     });
 
@@ -339,12 +339,12 @@ describe('ChartComponent scaling strategies', () => {
       mountWithStrategy('responsive-width');
       cy.get('svg').should('not.have.attr', 'viewBox');
       cy.get('svg')
-        .invoke('attr', 'width')
+        .invoke('style', 'width')
         .should('not.be.null')
         .then(Number)
         .should('be.lte', 400);
       cy.get('svg')
-        .invoke('attr', 'height')
+        .invoke('style', 'height')
         .should('not.be.null')
         .then(Number)
         .should('be.gt', 0);
@@ -354,11 +354,11 @@ describe('ChartComponent scaling strategies', () => {
       mountWithStrategy('viewbox');
       cy.get('svg')
         .should('have.attr', 'viewBox', '0 0 400 300')
-        .and('not.have.attr', 'width');
+        .and('not.have.style', 'width');
       cy.get('svg')
-        .invoke('attr', 'height')
+        .invoke('style', 'height')
         .should('be.oneOf', [null, undefined]);
-      cy.get('svg').should('have.class', 'vic-chart-viewbox');
+      cy.get('svg').should('have.class', 'viewbox');
     });
 
     it('respects user-supplied aspectRatio override in responsive-width mode', () => {
@@ -373,12 +373,12 @@ describe('ChartComponent scaling strategies', () => {
 
       cy.wait(50);
       cy.get('svg')
-        .invoke('attr', 'width')
+        .invoke('style', 'width')
         .should('not.be.null')
         .then(Number)
         .then((width) => {
           cy.get('svg')
-            .invoke('attr', 'height')
+            .invoke('style', 'height')
             .should('not.be.null')
             .then(Number)
             .should('be.closeTo', width / 2, 1);
@@ -404,7 +404,7 @@ describe('ChartComponent scaling strategies', () => {
       });
 
       cy.wait(100);
-      cy.get('svg').should('have.attr', 'height', '200');
+      cy.get('svg').should('have.style', 'height', '200');
     });
   });
 
@@ -490,8 +490,8 @@ describe('ChartComponent scaling strategies', () => {
     it('applies fixed scaling with static width and height', () => {
       mountWithStrategy('fixed');
       cy.get('svg')
-        .should('have.attr', 'width', '400')
-        .and('have.attr', 'height', '300')
+        .should('have.style', 'width', '400')
+        .and('have.style', 'height', '300')
         .and('not.have.attr', 'viewBox');
     });
 
