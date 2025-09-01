@@ -26,7 +26,6 @@ import {
   of,
   shareReplay,
   switchMap,
-  tap,
 } from 'rxjs';
 import { Dimensions, ElementSpacing } from '../../core/types/layout';
 import { Chart } from './chart';
@@ -150,8 +149,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
           ? this.config.viewBoxY
           : hCfg
     ),
-    distinctUntilChanged(),
-    tap((h) => console.log('height', h))
+    distinctUntilChanged()
   );
 
   protected readonly svgDimensions$ = combineLatest([
@@ -221,6 +219,18 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
     return {
       x: [margin.left, dim.width - margin.right],
       y: [dim.height - margin.bottom, margin.top],
+    };
+  }
+
+  getViewBoxScale(): { x: number; y: number } {
+    if (!this.svgRef?.nativeElement?.viewBox?.baseVal) {
+      return { x: 1, y: 1 };
+    }
+    const rect = this.svgRef.nativeElement.getBoundingClientRect();
+    const vb = this.svgRef.nativeElement.viewBox.baseVal;
+    return {
+      x: vb.width / rect.width,
+      y: vb.height / rect.height,
     };
   }
 }

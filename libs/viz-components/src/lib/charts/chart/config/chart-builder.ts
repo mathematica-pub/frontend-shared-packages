@@ -5,15 +5,14 @@ import { ChartConfig } from './chart-config';
 
 export type ScalingStrategy = 'fixed' | 'responsive-width' | 'viewbox';
 
-const SCALES_DEFAULT_WIDTH = 800;
-
-// use smaller values for viewbox so that the labels don't get so small
-// downside to this is that this is the max chart size, even when in a flex container
-const VIEWBOX_DEFAULT_WIDTH = 800;
-const MIN_WIDTH = 320;
+export const CHART_SIZE = {
+  scaledWidth: 800,
+  viewBoxWidth: 800,
+  minWidth: 320,
+  aspectRatio: 16 / 9,
+};
 
 const DEFAULT = {
-  _aspectRatio: 16 / 9,
   _fixedHeight: false,
   _margin: { top: 36, right: 36, bottom: 36, left: 36 },
   _scalingStrategy: 'responsive-width' as ScalingStrategy,
@@ -159,25 +158,26 @@ export class VicChartConfigBuilder {
       scalingStrategy: this._scalingStrategy,
       transitionDuration: this._transitionDuration,
       width: this._width,
-      viewBoxX: VIEWBOX_DEFAULT_WIDTH,
+      viewBoxX: CHART_SIZE.viewBoxWidth,
       viewBoxY:
-        VIEWBOX_DEFAULT_WIDTH / (this._aspectRatio ?? DEFAULT._aspectRatio),
+        CHART_SIZE.viewBoxWidth / (this._aspectRatio ?? CHART_SIZE.aspectRatio),
     });
   }
 
   private validateBuilder(): void {
     if (this._width === undefined || this._width === null) {
       this._width =
-        this._scalingStrategy === 'viewbox' ? null : SCALES_DEFAULT_WIDTH;
+        this._scalingStrategy === 'viewbox' ? null : CHART_SIZE.scaledWidth;
     }
     if (this._height === undefined || this._height === null) {
       this._height =
         this._scalingStrategy === 'viewbox'
           ? null
-          : this._width / this._aspectRatio;
+          : this._width / (this._aspectRatio ?? CHART_SIZE.aspectRatio);
     }
     if (this._minWidth === undefined || this._minWidth === null) {
-      this._minWidth = this._scalingStrategy === 'viewbox' ? null : MIN_WIDTH;
+      this._minWidth =
+        this._scalingStrategy === 'viewbox' ? null : CHART_SIZE.minWidth;
     }
     if (this._scalingStrategy !== 'viewbox' && this._minWidth > this._width) {
       const [oldMin, oldWidth] = [this._minWidth, this._width];

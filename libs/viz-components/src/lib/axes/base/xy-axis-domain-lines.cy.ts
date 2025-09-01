@@ -179,8 +179,8 @@ class TestZeroAxisHorizontalBarsComponent<Datum> {
   @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
   chartConfig = new VicChartConfigBuilder()
     .margin(margin)
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .getConfig();
 }
 
@@ -298,8 +298,8 @@ class TestZeroAxisVerticalBarsComponent<Datum> {
   @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
   chartConfig = new VicChartConfigBuilder()
     .margin(margin)
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .getConfig();
 }
 

@@ -6,7 +6,7 @@
   [ngClass]="(strategy$ | async)"
   [style.maxWidth.px]="widthCfg$ | async"
   [style.minWidth.px]="minWidthCfg$ | async"
-  [style.maxHeight.px]="(strategy$ | async) === 'fixed' ? (heightCfg$ | async) : null"
+  [style.maxHeight.px]="heightCfg$ | async"
   [style.aspectRatio]="(strategy$ | async) === 'viewbox' ? (config.viewBoxX / config.viewBoxY) : null"
   [style.width.%]="(strategy$ | async) === 'viewbox' ? 100 : null"
 >
