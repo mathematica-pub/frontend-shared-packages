@@ -4,6 +4,7 @@ import {
   DestroyRef,
   ElementRef,
   Input,
+  NgZone,
   OnChanges,
   OnInit,
   SimpleChanges,
@@ -16,12 +17,16 @@ import { isEqual } from 'lodash-es';
 import {
   BehaviorSubject,
   Observable,
+  auditTime,
   combineLatest,
+  defer,
   distinctUntilChanged,
   filter,
   map,
+  of,
   shareReplay,
   switchMap,
+  tap,
 } from 'rxjs';
 import { Dimensions, ElementSpacing } from '../../core/types/layout';
 import { Chart } from './chart';
@@ -78,92 +83,135 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   @Input() config: ChartConfig = new VicChartConfigBuilder().getConfig();
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;
   @ViewChild('svg', { static: true }) svgRef: ElementRef<SVGSVGElement>;
-  svgDimensions$: Observable<Dimensions>;
-  ranges$: Observable<Ranges>;
-  private heightFromConfig = new BehaviorSubject<number>(null);
-  protected heightFromConfig$ = this.heightFromConfig.asObservable();
-  private marginFromConfig = new BehaviorSubject<ElementSpacing>(null);
-  private marginFromConfig$ = this.marginFromConfig.asObservable();
-  private scalingStrategy = new BehaviorSubject<ScalingStrategy | null>(null);
-  protected scalingStrategy$ = this.scalingStrategy.asObservable();
-  private widthFromConfig = new BehaviorSubject<number>(null);
-  protected widthFromConfig$ = this.widthFromConfig.asObservable();
+
+  private _config: BehaviorSubject<ChartConfig> = new BehaviorSubject(null);
+  config$: Observable<ChartConfig> = this._config.asObservable().pipe(
+    filter((c) => !!c),
+    distinctUntilChanged((a, b) => isEqual(a, b)),
+    shareReplay(1)
+  );
+
+  protected readonly strategy$ = this.config$.pipe(
+    map((c) => c.scalingStrategy),
+    distinctUntilChanged()
+  );
+
+  protected readonly widthCfg$ = this.config$.pipe(
+    map((c) => c.width),
+    distinctUntilChanged()
+  );
+
+  protected readonly minWidthCfg$ = this.config$.pipe(
+    map((c) => c.minWidth),
+    distinctUntilChanged()
+  );
+
+  protected readonly heightCfg$ = this.config$.pipe(
+    map((c) => c.height),
+    distinctUntilChanged()
+  );
+
+  private readonly aspectRatioCfg$ = this.config$.pipe(
+    map((c) => c.aspectRatio ?? c.width / c.height),
+    distinctUntilChanged()
+  );
+
+  private readonly isFixedHeight$ = this.config$.pipe(
+    map((c) => c.isFixedHeight),
+    distinctUntilChanged()
+  );
+
+  protected readonly marginCfg$ = this.config$.pipe(
+    map((c) => c.margin),
+    distinctUntilChanged((a, b) => isEqual(a, b))
+  );
+
+  private readonly width$ = this.strategy$.pipe(
+    switchMap((strategy) =>
+      strategy === 'responsive-width'
+        ? defer(() => this.observeElementWidth(this.divRef.nativeElement))
+        : strategy === 'viewbox'
+          ? of(this.config.viewBoxX)
+          : this.widthCfg$
+    )
+  );
+
+  private readonly height$ = combineLatest([
+    this.strategy$,
+    this.width$,
+    this.heightCfg$,
+    this.aspectRatioCfg$,
+    this.isFixedHeight$,
+  ]).pipe(
+    map(([strategy, w, hCfg, ar, isFixedHeight]) =>
+      strategy === 'responsive-width' && !isFixedHeight
+        ? w / ar
+        : strategy === 'viewbox'
+          ? this.config.viewBoxY
+          : hCfg
+    ),
+    distinctUntilChanged(),
+    tap((h) => console.log('height', h))
+  );
+
+  protected readonly svgDimensions$ = combineLatest([
+    this.width$,
+    this.height$,
+  ]).pipe(
+    filter(([w, h]) => w > 0 && h > 0),
+    map(([width, height]) => ({ width, height })),
+    distinctUntilChanged((a, b) => isEqual(a, b)),
+    shareReplay(1)
+  );
+
+  readonly ranges$ = combineLatest([this.svgDimensions$, this.marginCfg$]).pipe(
+    map(([dimensions, margin]) =>
+      this.getRangesFromSvgDimensions(dimensions, margin)
+    ),
+    distinctUntilChanged((a, b) => isEqual(a, b)),
+    shareReplay(1)
+  );
+
   protected destroyRef = inject(DestroyRef);
 
+  constructor(private ngZone: NgZone) {}
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
-    ) {
-      this.updateFromConfig();
+    if (NgOnChangesUtilities.inputObjectChanged(changes, 'config')) {
+      this._config.next(this.config);
     }
   }
 
   ngOnInit(): void {
-    this.updateUserDimensionProperties();
-    this.createDimensionObservables();
-  }
-
-  private updateFromConfig(): void {
-    this.updateUserDimensionProperties();
-  }
-
-  updateUserDimensionProperties(): void {
-    this.heightFromConfig.next(this.config.height);
-    this.marginFromConfig.next(this.config.margin);
-    this.widthFromConfig.next(this.config.width);
-    this.scalingStrategy.next(this.config.scalingStrategy);
-  }
-
-  createDimensionObservables() {
-    const width$ = this.scalingStrategy$.pipe(
-      switchMap((strategy) =>
-        strategy === 'responsive-width'
-          ? this.observeElementWidth(this.divRef.nativeElement)
-          : this.widthFromConfig$
-      )
-    );
-
-    const height$ = this.scalingStrategy$.pipe(
-      switchMap((strategy) =>
-        strategy === 'responsive-width' && !!this.config.aspectRatio
-          ? width$.pipe(map((w) => w / this.config.aspectRatio))
-          : this.heightFromConfig$
-      )
-    );
-
-    this.svgDimensions$ = combineLatest([width$, height$]).pipe(
-      filter(([w, h]) => w > 0 && h > 0),
-      map(([width, height]) => ({ width, height })),
-      distinctUntilChanged((a, b) => isEqual(a, b)),
-      shareReplay(1)
-    );
-
-    this.ranges$ = combineLatest([
-      this.svgDimensions$,
-      this.marginFromConfig$,
-    ]).pipe(
-      map(([dimensions, margin]) =>
-        this.getRangesFromSvgDimensions(dimensions, margin)
-      ),
-      distinctUntilChanged((a, b) => isEqual(a, b)),
-      shareReplay(1)
-    );
-
     // ensure that values are pulled through
     this.ranges$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 
   private observeElementWidth(element: HTMLElement): Observable<number> {
     return new Observable<number>((subscriber) => {
-      const observer = new ResizeObserver((entries) => {
-        subscriber.next(entries[0].contentRect.width);
+      let ro: ResizeObserver;
+      this.ngZone.runOutsideAngular(() => {
+        ro = new ResizeObserver((entries) => {
+          const e = entries[0];
+          const w =
+            (Array.isArray(e.borderBoxSize)
+              ? e.borderBoxSize[0]?.inlineSize
+              : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (e as any).borderBoxSize?.inlineSize) ?? e.contentRect.width;
+          this.ngZone.run(() => subscriber.next(w));
+        });
       });
-      observer.observe(element);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ro.observe(element, { box: 'border-box' as any });
       return () => {
-        observer.unobserve(element);
-        observer.disconnect();
+        ro.unobserve(element);
+        ro.disconnect();
       };
-    }).pipe(distinctUntilChanged());
+    }).pipe(
+      map((w) => Math.round(w)),
+      auditTime(0),
+      distinctUntilChanged()
+    );
   }
 
   private getRangesFromSvgDimensions(

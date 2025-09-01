@@ -3,17 +3,20 @@
 <div
   #div
   class="vic-chart-container"
-  [ngClass]="'vic-scaling-' + (scalingStrategy$ | async)"
-  [style.maxWidth.px]="widthFromConfig$ | async"
-  [style.maxHeight.px]="heightFromConfig$ | async"
+  [ngClass]="(strategy$ | async)"
+  [style.maxWidth.px]="widthCfg$ | async"
+  [style.minWidth.px]="minWidthCfg$ | async"
+  [style.maxHeight.px]="(strategy$ | async) === 'fixed' ? (heightCfg$ | async) : null"
+  [style.aspectRatio]="(strategy$ | async) === 'viewbox' ? (config.viewBoxX / config.viewBoxY) : null"
+  [style.width.%]="(strategy$ | async) === 'viewbox' ? 100 : null"
 >
   <svg
     #svg
     class="vic-chart-svg"
-    [class.vic-chart-viewbox]="(scalingStrategy$ | async) === 'viewbox'"
-    [attr.width]="(scalingStrategy$ | async) !== 'viewbox' ? (svgDimensions$ | async)?.width : null"
-    [attr.height]="(scalingStrategy$ | async) !== 'viewbox' ? (svgDimensions$ | async)?.height : null"
-    [attr.viewBox]="(scalingStrategy$ | async) === 'viewbox' ? '0 0 ' + (widthFromConfig$ | async) + ' ' + (heightFromConfig$ | async) : null"
+    [ngClass]="(strategy$ | async)"
+    [style.width.px]="(strategy$ | async) !== 'viewbox' ? (svgDimensions$ | async)?.width : null"
+    [style.height.px]="(strategy$ | async) !== 'viewbox' ? (svgDimensions$ | async)?.height : null"
+    [attr.viewBox]="(strategy$ | async) === 'viewbox' ? '0 0 ' + config.viewBoxX + ' ' + config.viewBoxY : null"
   >
     <defs>
       <ng-container *ngTemplateOutlet="svgDefs"></ng-container>
