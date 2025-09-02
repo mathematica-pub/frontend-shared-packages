@@ -93,10 +93,6 @@ export function yAxisMixin<
             ? this.chart.config.margin.left
             : this.chart.config.width;
         anchor = config.anchor || 'middle';
-        // otherwise will separate lines if wrapped
-        if (config.wrap) {
-          config.wrap.maintainXPosition = true;
-        }
         alignmentBaseline =
           this.config.side === 'left' ? 'hanging' : 'baseline';
       } else {
@@ -124,6 +120,7 @@ export function yAxisMixin<
         if (config.wrap) {
           requestAnimationFrame(() => {
             label.attr('x', x).attr('y', y);
+            this.config.label.wrap.maintainXPosition = false;
             this.config.label.wrap.wrap(label);
             label.attr('transform', rotate).style('visibility', 'visible');
 
@@ -133,7 +130,7 @@ export function yAxisMixin<
               .attr('text-anchor', anchor)
               .attr('alignment-baseline', alignmentBaseline);
 
-            label.select('tspan').attr('y', rotatedY + edgeOffset);
+            label.selectAll('tspan').attr('y', rotatedY + edgeOffset);
           });
         } else {
           label

@@ -20,17 +20,18 @@ export class SvgTextWrap {
       const words =
         allTspans.size() > 0
           ? Array.from(allTspans)
-              .map((tspan) => tspan.textContent.split(/\s+/))
+              .map((tspan) => tspan.textContent.trim().split(/\s+/))
               .flat()
               .reverse()
-          : text.text().split(/\s+/).reverse();
+          : text.text().trim().split(/\s+/).reverse();
       let word;
       let line = [];
       let lineNumber = 0;
       const y = parseFloat(text.attr('y')) || 0;
       const x = this.maintainXPosition ? parseFloat(text.attr('x')) : 0;
-      const maxWidth = this.width + x;
+      const maxWidth = this.width;
       const dy = parseFloat(text.attr('dy')) || 0;
+      let isFirstTspan = true;
       let tspan = text
         .text(null)
         .append('tspan')
@@ -40,29 +41,42 @@ export class SvgTextWrap {
       while ((word = words.pop())) {
         line.push(word);
         tspan.text(line.join(' '));
+
         if (tspan.node().getComputedTextLength() > maxWidth) {
           line.pop();
-          tspan.text(line.join(' '));
+          if (line.length > 0) {
+            tspan.text(line.join(' '));
+            isFirstTspan = false;
+          } else {
+            // Remove the empty tspan since it has no content
+            // This happens if a single word is longer than the maxWidth
+            tspan.remove();
+          }
           line = [word];
           tspan = text
             .append('tspan')
             .attr('x', x)
-            .attr('dy', ++lineNumber * this.lineHeight + dy + 'em')
+            .attr('y', y)
+            .attr(
+              'dy',
+              isFirstTspan
+                ? dy + 'em'
+                : ++lineNumber * this.lineHeight + dy + 'em'
+            )
             .text(word);
+          isFirstTspan = false;
         }
       }
       if (this.maintainYPosition && lineNumber > 0) {
-        text.attr('dominant-baseline', 'text-after-edge');
-        const lastText = text
-          .selectAll('tspan')
-          .filter((d, i, nodes) => i === nodes.length - 1);
-        const lastDy = lastText.attr('dy')
-          ? lastText.attr('dy').slice(0, -2)
-          : '0';
-        const firstDy = text.attr('dy') ? text.attr('dy').slice(0, -2) : '0';
-        const offsetY =
-          ((parseFloat(lastDy) - parseFloat(firstDy) - 0.5) / 2) * 16;
+        const fontSize = parseFloat(text.style('font-size')) || 16;
+        const totalLines = lineNumber + 1;
+        const totalHeight = (totalLines - 1) * this.lineHeight; // in em units
+
+        // Convert to pixels and center
+        const offsetY = (totalHeight / 2) * fontSize;
+
         text.selectAll('tspan').attr('y', y - offsetY);
+        text.attr('dominant-baseline', 'text-after-edge');
       } else {
         text.attr('dominant-baseline', null);
       }
