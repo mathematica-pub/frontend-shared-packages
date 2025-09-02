@@ -2,10 +2,7 @@ import { ElementRef } from '@angular/core';
 import { safeAssign } from '@hsi/app-dev-kit';
 import { Tooltip } from '../../config/tooltip';
 import { HtmlTooltipOptions } from './html-tooltip-options';
-import {
-  HtmlTooltipCdkManagedPosition,
-  HtmlTooltipOffsetFromOriginPosition,
-} from './position/tooltip-position';
+import { HtmlTooltipCdkManagedPosition } from './position/tooltip-position';
 import { HtmlTooltipSize } from './size/tooltip-size';
 
 export class HtmlTooltipConfig extends Tooltip implements HtmlTooltipOptions {
@@ -14,7 +11,7 @@ export class HtmlTooltipConfig extends Tooltip implements HtmlTooltipOptions {
   hasBackdrop: boolean;
   origin: ElementRef<Element>;
   panelClass: string[];
-  position: HtmlTooltipOffsetFromOriginPosition | HtmlTooltipCdkManagedPosition;
+  position: HtmlTooltipCdkManagedPosition;
   size: HtmlTooltipSize;
 
   constructor(options: HtmlTooltipOptions) {

@@ -1,10 +1,7 @@
-import { HoverMoveAction } from '../../../events/action';
+import { EventType, HoverMoveAction } from '../../../events';
 import { LinesMarkerDatum } from '../../config/lines-config';
-import {
-  LinesComponent,
-  LinesGroupSelectionDatum,
-} from '../../lines.component';
-import { LinesHoverMoveDirective } from '../lines-hover-move.directive';
+import { LinesGroupSelectionDatum } from '../../lines.component';
+import { LinesHost } from '../lines-events.directive';
 
 /**
  * A suggested default action for the hover and move event on lines.
@@ -12,36 +9,24 @@ import { LinesHoverMoveDirective } from '../lines-hover-move.directive';
  * This action changes the color of the non-closest-to-pointer lines
  *  to a light gray.
  */
-export class LinesHoverMoveDefaultLinesStyles<
-  Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> implements HoverMoveAction<LinesHoverMoveDirective<Datum, TLinesComponent>>
+export class LinesHoverMoveDefaultLinesStyles<Datum>
+  implements HoverMoveAction<LinesHost<Datum>>
 {
-  onStart(directive: LinesHoverMoveDirective<Datum, TLinesComponent>): void {
-    directive.lines.lineGroups
-      .filter(
-        ([category]) =>
-          directive.lines.config.stroke.color.values[
-            directive.closestPointIndex
-          ] === category
-      )
+  onStart(host: LinesHost<Datum>): void {
+    host
+      .getClosestLineGroup()
       .raise()
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
       .style('stroke', null);
 
-    directive.lines.lineGroups
-      .filter(
-        ([category]) =>
-          directive.lines.config.stroke.color.values[
-            directive.closestPointIndex
-          ] !== category
-      )
+    host
+      .getOtherLineGroups()
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
       .style('stroke', '#ddd');
   }
 
-  onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>): void {
-    directive.lines.lineGroups
+  onEnd(directive: LinesHost<Datum>): void {
+    directive.marks.lineGroups
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
       .style('stroke', null);
   }
@@ -54,50 +39,30 @@ export class LinesHoverMoveDefaultLinesStyles<
  *  and at the same time enlarges the marker on the "selected" line that is
  *  closest to the pointer by a specified amount.
  */
-export class LinesHoverMoveDefaultMarkersStyles<
-  Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> implements HoverMoveAction<LinesHoverMoveDirective<Datum, TLinesComponent>>
+export class LinesHoverMoveDefaultMarkersStyles<Datum>
+  implements HoverMoveAction<LinesHost<Datum>>
 {
-  onStart(directive: LinesHoverMoveDirective<Datum, TLinesComponent>): void {
-    directive.lines.lineGroups
-      .filter(
-        ([category]) =>
-          directive.lines.config.stroke.color.values[
-            directive.closestPointIndex
-          ] === category
-      )
-      .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
-      .style('display', (d) =>
-        directive.closestPointIndex === d.index ? 'block' : 'none'
-      )
-      .attr('r', (d) => {
-        let r = directive.lines.config.pointMarkers.radius;
-        if (directive.closestPointIndex === d.index) {
-          r =
-            directive.lines.config.pointMarkers.radius +
-            directive.lines.config.pointMarkers.growByOnHover;
-        }
+  onStart(host: LinesHost<Datum>): void {
+    host
+      .getClosestMarker()
+      .style('display', 'block')
+      .attr('r', () => {
+        let r = host.marks.config.pointMarkers.radius;
+        r =
+          host.marks.config.pointMarkers.radius +
+          host.marks.config.pointMarkers.growByOnHover;
         return r;
       })
       .raise();
 
-    directive.lines.lineGroups
-      .filter(
-        ([category]) =>
-          directive.lines.config.stroke.color.values[
-            directive.closestPointIndex
-          ] !== category
-      )
-      .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
-      .style('display', 'none');
+    host.getOtherMarkers().style('display', 'none');
   }
 
-  onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>): void {
-    directive.lines.lineGroups
+  onEnd(host: LinesHost<Datum>): void {
+    host.marks.lineGroups
       .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
       .style('display', (d) => d.display)
-      .attr('r', () => directive.lines.config.pointMarkers.radius);
+      .attr('r', () => host.marks.config.pointMarkers.radius);
   }
 }
 
@@ -108,47 +73,41 @@ export class LinesHoverMoveDefaultMarkersStyles<
  * Applies either Line Markers action or a Hover Dot action depending on
  *  whether line markers are used.
  */
-export class LinesHoverMoveDefaultStyles<
-  Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> implements HoverMoveAction<LinesHoverMoveDirective<Datum, TLinesComponent>>
+export class LinesHoverMoveDefaultStyles<Datum>
+  implements HoverMoveAction<LinesHost<Datum>>
 {
-  linesStyles: HoverMoveAction<LinesHoverMoveDirective<Datum, TLinesComponent>>;
-  markersStyles: HoverMoveAction<
-    LinesHoverMoveDirective<Datum, TLinesComponent>
-  >;
+  linesStyles: HoverMoveAction<LinesHost<Datum>>;
+  markersStyles: HoverMoveAction<LinesHost<Datum>>;
 
   constructor() {
     this.linesStyles = new LinesHoverMoveDefaultLinesStyles();
     this.markersStyles = new LinesHoverMoveDefaultMarkersStyles();
   }
 
-  onStart(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
-    this.linesStyles.onStart(directive);
-    if (directive.lines.config.pointMarkers) {
-      this.markersStyles.onStart(directive);
+  onStart(host: LinesHost<Datum>) {
+    this.linesStyles.onStart(host);
+    if (host.marks.config.pointMarkers) {
+      this.markersStyles.onStart(host);
     }
   }
 
-  onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
-    this.linesStyles.onEnd(directive);
-    if (directive.lines.config.pointMarkers) {
-      this.markersStyles.onEnd(directive);
+  onEnd(host: LinesHost<Datum>) {
+    this.linesStyles.onEnd(host);
+    if (host.marks.config.pointMarkers) {
+      this.markersStyles.onEnd(host);
     }
   }
 }
 
-export class LinesHoverMoveEmitTooltipData<
-  Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> implements HoverMoveAction<LinesHoverMoveDirective<Datum, TLinesComponent>>
+export class LinesHoverMoveEmitTooltipData<Datum>
+  implements HoverMoveAction<LinesHost<Datum>>
 {
-  onStart(directive: LinesHoverMoveDirective<Datum, TLinesComponent>): void {
-    const tooltipData = directive.getEventOutput();
-    directive.eventOutput.emit(tooltipData);
+  onStart(host: LinesHost<Datum>): void {
+    const tooltipData = host.getInteractionOutput(EventType.HoverMove);
+    host.emitInteractionOutput(tooltipData);
   }
 
-  onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>): void {
-    directive.eventOutput.emit(null);
+  onEnd(host: LinesHost<Datum>): void {
+    host.emitInteractionOutput(null);
   }
 }

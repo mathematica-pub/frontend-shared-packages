@@ -94,6 +94,16 @@ export class ListboxComponent
 
   ngAfterContentInit(): void {
     this.service.setProjectedContent(this.groups, this.options);
+    this.options
+      .toArray()
+      .concat(
+        this.groups.toArray().flatMap((group) => group.options?.toArray() ?? [])
+      )
+      .filter((option) => option instanceof SelectAllListboxOptionComponent)
+      .forEach((option) => {
+        option.setControlledOptions();
+        option.listenForOptionSelections();
+      });
     this.activeIndex.init(this.service.allOptions$, this.destroyRef);
     this.setSelectedEmitting();
     this.setOnBlurEvent();

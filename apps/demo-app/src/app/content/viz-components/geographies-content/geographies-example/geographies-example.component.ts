@@ -11,14 +11,13 @@ import {
   ElementSpacing,
   EventAction,
   GeographiesAttributeDataLayerBuilder,
-  GeographiesClickDirective,
-  GeographiesClickEmitTooltipDataPauseHoverMoveActions,
+  GeographiesClickEmitTooltipDataPauseOtherActions,
   GeographiesConfig,
-  GeographiesEventOutput,
   GeographiesFeature,
   GeographiesGeojsonPropertiesLayerBuilder,
-  GeographiesHoverDirective,
+  GeographiesHost,
   GeographiesHoverEmitTooltipData,
+  GeographiesInteractionOutput,
   GeographiesLabelsBuilder,
   HtmlTooltipConfig,
   VicChartConfigBuilder,
@@ -76,13 +75,13 @@ interface ViewModel {
     VicHtmlTooltipModule,
     MatButtonToggleModule,
   ],
-  templateUrl: './geographies-example.component.html',
-  styleUrls: ['./geographies-example.component.scss'],
   providers: [
     VicChartConfigBuilder,
     VicGeographiesConfigBuilder,
     VicHtmlTooltipConfigBuilder,
   ],
+  templateUrl: './geographies-example.component.html',
+  styleUrls: ['./geographies-example.component.scss'],
 })
 export class GeographiesExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
@@ -93,16 +92,12 @@ export class GeographiesExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>> =
-    new BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>>(null);
-  tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: EventAction<
-    GeographiesHoverDirective<StateIncomeDatum, MapGeometryProperties>
-  >[] = [
-    new GeographiesHoverEmitTooltipData<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >(),
+  interactionOutput: BehaviorSubject<
+    GeographiesInteractionOutput<StateIncomeDatum>
+  > = new BehaviorSubject<GeographiesInteractionOutput<StateIncomeDatum>>(null);
+  interactionOutput$ = this.interactionOutput.asObservable();
+  hoverActions: EventAction<GeographiesHost<StateIncomeDatum>>[] = [
+    new GeographiesHoverEmitTooltipData<StateIncomeDatum>(),
   ];
   patternName = 'dotPattern';
   folderName = 'geographies-example';
@@ -120,13 +115,8 @@ export class GeographiesExampleComponent implements OnInit {
     BinStrategy.customBreaks,
   ];
 
-  clickActions: EventAction<
-    GeographiesClickDirective<StateIncomeDatum, MapGeometryProperties>
-  >[] = [
-    new GeographiesClickEmitTooltipDataPauseHoverMoveActions<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >(),
+  clickActions: EventAction<GeographiesHost<StateIncomeDatum>>[] = [
+    new GeographiesClickEmitTooltipDataPauseOtherActions<StateIncomeDatum>(),
   ];
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
@@ -347,33 +337,21 @@ export class GeographiesExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: GeographiesEventOutput<StateIncomeDatum>,
-    tooltipEvent: 'hover' | 'click'
+    output: GeographiesInteractionOutput<StateIncomeDatum>
   ): void {
-    this.updateTooltipData(data);
-    this.updateTooltipConfig(data, tooltipEvent);
-  }
-
-  updateTooltipData(data: GeographiesEventOutput<StateIncomeDatum>): void {
-    this.tooltipData.next(data);
+    this.interactionOutput.next(output);
+    this.updateTooltipConfig(output);
   }
 
   updateTooltipConfig(
-    data: GeographiesEventOutput<StateIncomeDatum>,
-    eventContext: 'hover' | 'click'
+    output: GeographiesInteractionOutput<StateIncomeDatum> | null
   ): void {
     const config = this.tooltip
       .size((size) => size.minWidth(130))
-      .geographiesPosition(data?.origin, [
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 16 : undefined,
-        },
-      ])
-      .hasBackdrop(eventContext === 'click')
-      .show(!!data)
+      .positionFromOutput(output, output?.fromAnchor({ y: 12 }))
+      .hasBackdrop(output?.type === 'click')
+      .show(!!output)
       .getConfig();
-
     this.tooltipConfig.next(config);
   }
 

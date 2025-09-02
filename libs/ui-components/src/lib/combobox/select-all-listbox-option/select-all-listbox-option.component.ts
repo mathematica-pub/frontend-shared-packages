@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
   DestroyRef,
   forwardRef,
@@ -36,7 +35,7 @@ import { ListboxComponent } from '../listbox/listbox.component';
 })
 export class SelectAllListboxOptionComponent
   extends ListboxOptionComponent
-  implements OnChanges, AfterViewInit
+  implements OnChanges
 {
   @Input() override boxDisplayLabel = 'Select all';
   controlledOptions$: Observable<ListboxOptionComponent[]>;
@@ -55,11 +54,6 @@ export class SelectAllListboxOptionComponent
   // TODO: better architecture for this
   override ngOnChanges(): void {
     return;
-  }
-
-  ngAfterViewInit(): void {
-    this.setControlledOptions();
-    this.listenForOptionSelections();
   }
 
   protected override updateSelected(selected: boolean): void {

@@ -1,24 +1,9 @@
 import { NgModule } from '@angular/core';
 import { DotsComponent } from './dots.component';
-import { DotsClickDirective } from './events/dots-click.directive';
-import { DotsHoverMoveDirective } from './events/dots-hover-move.directive';
-import { DotsHoverDirective } from './events/dots-hover.directive';
-import { DotsInputEventDirective } from './events/dots-input.directive';
+import { DotsEventsDirective } from './events/dots-events.directive';
 
 @NgModule({
-  imports: [
-    DotsComponent,
-    DotsClickDirective,
-    DotsHoverDirective,
-    DotsHoverMoveDirective,
-    DotsInputEventDirective,
-  ],
-  exports: [
-    DotsComponent,
-    DotsClickDirective,
-    DotsHoverDirective,
-    DotsHoverMoveDirective,
-    DotsInputEventDirective,
-  ],
+  imports: [DotsComponent, DotsEventsDirective],
+  exports: [DotsComponent, DotsEventsDirective],
 })
 export class VicDotsModule {}

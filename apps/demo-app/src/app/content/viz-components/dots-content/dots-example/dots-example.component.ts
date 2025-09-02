@@ -1,12 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   ChartConfig,
   DotsConfig,
-  DotsEventOutput,
+  DotsHost,
   DotsHoverMoveDefaultStyles,
-  DotsHoverMoveDirective,
   DotsHoverMoveEmitTooltipData,
+  DotsInteractionOutput,
   HoverMoveAction,
   HtmlTooltipConfig,
   VicChartConfigBuilder,
@@ -43,9 +48,6 @@ interface ViewModel {
     VicXyAxisModule,
     VicHtmlTooltipModule,
   ],
-  templateUrl: './dots-example.component.html',
-  styleUrl: './dots-example.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     VicChartConfigBuilder,
     VicDotsConfigBuilder,
@@ -53,16 +55,20 @@ interface ViewModel {
     VicYQuantitativeAxisConfigBuilder,
     VicHtmlTooltipConfigBuilder,
   ],
+  templateUrl: './dots-example.component.html',
+  styleUrl: './dots-example.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class DotsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<DotsEventOutput<WeatherDatum>> =
-    new BehaviorSubject<DotsEventOutput<WeatherDatum>>(null);
-  tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: HoverMoveAction<DotsHoverMoveDirective<WeatherDatum>>[] = [
+  interactionOutput: BehaviorSubject<DotsInteractionOutput<WeatherDatum>> =
+    new BehaviorSubject<DotsInteractionOutput<WeatherDatum>>(null);
+  interactionOutput$ = this.interactionOutput.asObservable();
+  hoverActions: HoverMoveAction<DotsHost<WeatherDatum>>[] = [
     new DotsHoverMoveDefaultStyles(),
     new DotsHoverMoveEmitTooltipData(),
   ];
@@ -122,24 +128,19 @@ export class DotsExampleComponent implements OnInit {
     };
   }
 
-  updateTooltipForNewOutput(data: DotsEventOutput<WeatherDatum>): void {
-    this.updateTooltipData(data);
-    this.updateTooltipConfig(data);
+  updateTooltipForNewOutput(
+    output: DotsInteractionOutput<WeatherDatum> | null
+  ): void {
+    this.interactionOutput.next(output);
+    this.updateTooltipConfig(output);
   }
 
-  updateTooltipData(data: DotsEventOutput<WeatherDatum>): void {
-    this.tooltipData.next(data);
-  }
-
-  updateTooltipConfig(data: DotsEventOutput<WeatherDatum>): void {
+  updateTooltipConfig(
+    output: DotsInteractionOutput<WeatherDatum> | null
+  ): void {
     const config = this.tooltip
-      .dotsPosition(data?.origin, [
-        {
-          offsetY: data ? data.positionY - 12 : undefined,
-          offsetX: data?.positionX,
-        },
-      ])
-      .show(!!data)
+      .positionFromOutput(output)
+      .show(!!output)
       .getConfig();
     this.tooltipConfig.next(config);
   }

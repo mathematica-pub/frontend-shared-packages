@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, filter } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
 import {
   XyChartComponent,
@@ -57,12 +57,12 @@ export type BarDatum<T> = {
   color: string;
 };
 
-export interface BarsTooltipDatum<Datum, TOrdinalValue extends DataValue> {
+export interface BarsTooltipDatum<Datum> {
   datum: Datum;
   color: string;
   values: {
-    x: TOrdinalValue | string;
-    y: TOrdinalValue | string;
+    x: string;
+    y: string;
     category: string;
   };
 }
@@ -92,9 +92,9 @@ export class BarsComponent<
 > extends VicXyPrimaryMarks<Datum, BarsConfig<Datum, TOrdinalValue>> {
   barGroups: BarGroupSelection;
   bars: BehaviorSubject<BarSelection> = new BehaviorSubject(null);
-  bars$ = this.bars.asObservable();
+  bars$ = this.bars.asObservable().pipe(filter((s) => !!s));
   labels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
-  labels$ = this.bars.asObservable();
+  labels$ = this.bars.asObservable().pipe(filter((s) => !!s));
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override scales: { color: GenericScale<any, any> } & XyChartScales = {
     x: undefined,
@@ -673,10 +673,10 @@ export class BarsComponent<
     this.labels.next(labels);
   }
 
-  getTooltipData(datum: Datum): BarsTooltipDatum<Datum, TOrdinalValue> {
+  getTooltipData(datum: Datum): BarsTooltipDatum<Datum> {
     const ordinalValue = this.config.ordinal.formatFunction
       ? ValueUtilities.customFormat(datum, this.config.ordinal.formatFunction)
-      : this.config.ordinal.valueAccessor(datum);
+      : this.config.ordinal.valueAccessor(datum).toString();
     const quantitativeValue = this.config.quantitative.formatFunction
       ? ValueUtilities.customFormat(
           datum,
@@ -687,7 +687,7 @@ export class BarsComponent<
           this.config.quantitative.formatSpecifier
         );
     const category = this.config.color.valueAccessor(datum);
-    const tooltipData: BarsTooltipDatum<Datum, TOrdinalValue> = {
+    const tooltipData: BarsTooltipDatum<Datum> = {
       datum,
       color: this.scales.color(category),
       values: {
