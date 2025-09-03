@@ -74,11 +74,7 @@ export class SvgTextWrap {
 
         // Convert to pixels and center
         const offsetY = (totalHeight / 2) * fontSize;
-
         text.selectAll('tspan').attr('y', y - offsetY);
-        text.attr('dominant-baseline', 'text-after-edge');
-      } else {
-        text.attr('dominant-baseline', null);
       }
     });
   }
