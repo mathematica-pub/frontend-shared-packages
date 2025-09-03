@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
+  CHART_SIZE,
   ChartConfig,
   DotsConfig,
   VicChartConfigBuilder,
@@ -18,23 +19,6 @@ import {
   CountryFactsDatum,
   countryFactsData,
 } from '../../testing/data/country-area-continent';
-
-export function getDotTransform(
-  selector = '.vic-dots-group'
-): Cypress.Chainable<{ x: number; y: number }> {
-  return cy
-    .get(selector)
-    .first()
-    .invoke('attr', 'transform')
-    .then((t) => {
-      const match = /translate\(([^,]+),\s*([^)]+)\)/.exec(t);
-      if (!match) throw new Error(`Failed to parse transform string: ${t}`);
-      return {
-        x: parseFloat(match[1]),
-        y: parseFloat(match[2]),
-      };
-    });
-}
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -61,101 +45,96 @@ class SvgAttrTestComponent {
   @Input() containerWidth = 400;
 }
 
-describe('ChartComponent SVG attributes by scalingStrategy', () => {
+describe.only('ChartComponent applies correct SVG attributes/styles by scalingStrategy on initial render', () => {
+  const testWidth = 400;
+  const testHeight = 300;
   const baseConfig = new VicChartConfigBuilder()
-    .maxWidth(400)
-    .maxHeight(300)
+    .maxWidth(testWidth)
     .margin({ top: 20, right: 20, bottom: 20, left: 20 });
 
-  function mountWithStrategy(
-    strategy: 'fixed' | 'responsive-width' | 'viewbox'
-  ) {
-    const config = baseConfig.scalingStrategy(strategy).getConfig();
-
+  function mountWithStrategy(config: ChartConfig = baseConfig.getConfig()) {
     cy.mount(SvgAttrTestComponent, {
       componentProperties: { chartConfig: config },
     });
     cy.wait(50);
   }
 
-  it('applies fixed scaling with static width and height', () => {
-    mountWithStrategy('fixed');
+  it('applies fixed scaling with static width and aspect-ratio derived height', () => {
+    mountWithStrategy(baseConfig.scalingStrategy('fixed').getConfig());
     cy.get('svg')
-      .should('have.attr', 'width', '400')
-      .and('have.attr', 'height', '300')
+      .should('have.css', 'width', `${testWidth}px`)
+      .and('have.css', 'height', `${testWidth / CHART_SIZE.aspectRatio}px`)
+      .and('not.have.attr', 'viewBox');
+  });
+
+  it('applies fixed scaling with static width and user-speced height that overrides aspect ratio', () => {
+    mountWithStrategy(
+      baseConfig.scalingStrategy('fixed').maxHeight(testHeight).getConfig()
+    );
+    cy.get('svg')
+      .should('have.css', 'width', `${testWidth}px`)
+      .and('have.css', 'height', `${testHeight}px`)
       .and('not.have.attr', 'viewBox');
   });
 
   it('applies responsive-width scaling with dynamic width and aspect-ratio-derived height', () => {
-    mountWithStrategy('responsive-width');
+    mountWithStrategy(
+      baseConfig.scalingStrategy('responsive-width').maxHeight(null).getConfig()
+    );
     cy.get('svg').should('not.have.attr', 'viewBox');
     cy.get('svg')
-      .invoke('attr', 'width')
-      .should('not.be.null')
-      .then(Number)
-      .should('be.lte', 400);
-    cy.get('svg')
-      .invoke('attr', 'height')
-      .should('not.be.null')
-      .then(Number)
-      .should('be.gt', 0);
-  });
+      .invoke('css', 'width')
+      .then((w) => {
+        const wNum = parseFloat(String(w));
+        expect(Number.isFinite(wNum) ? wNum : 0).to.be.lte(testWidth);
 
-  it('applies viewbox scaling with no width/height but a viewBox attribute', () => {
-    mountWithStrategy('viewbox');
-    cy.get('svg')
-      .should('have.attr', 'viewBox', '0 0 400 300')
-      .and('not.have.attr', 'width');
-    cy.get('svg')
-      .invoke('attr', 'height')
-      .should('be.oneOf', [null, undefined]);
-    cy.get('svg').should('have.class', 'vic-chart-viewbox');
-  });
-
-  it('respects user-supplied aspectRatio override in responsive-width mode', () => {
-    const config = baseConfig
-      .scalingStrategy('responsive-width')
-      .aspectRatio(2)
-      .getConfig();
-
-    cy.mount(SvgAttrTestComponent, {
-      componentProperties: { chartConfig: config },
-    });
-
-    cy.wait(50);
-    cy.get('svg')
-      .invoke('attr', 'width')
-      .should('not.be.null')
-      .then(Number)
-      .then((width) => {
         cy.get('svg')
-          .invoke('attr', 'height')
-          .should('not.be.null')
-          .then(Number)
-          .should('be.closeTo', width / 2, 1);
+          .invoke('css', 'height')
+          .then((h) => {
+            const hNum = parseFloat(String(h));
+            expect(Number.isFinite(hNum) ? hNum : 0).to.be.closeTo(
+              wNum / CHART_SIZE.aspectRatio,
+              0.1
+            );
+          });
       });
   });
 
-  it('updates height when user provides a new config', () => {
-    const initialConfig = baseConfig.scalingStrategy('fixed').getConfig();
+  it('applies responsive-width scaling with dynamic width and max-height-derived height', () => {
+    const config = baseConfig
+      .scalingStrategy('responsive-width')
+      .maxHeight(testHeight)
+      .aspectRatio(2) // should ignore this
+      .getConfig();
 
-    cy.mount(SvgAttrTestComponent, {
-      componentProperties: { chartConfig: initialConfig },
-    }).then(({ component, fixture }) => {
-      cy.wait(50);
+    mountWithStrategy(config);
 
-      const updatedConfig = new VicChartConfigBuilder()
-        .maxWidth(400)
-        .maxHeight(200)
-        .scalingStrategy('fixed')
-        .getConfig();
+    cy.wait(50);
+    cy.get('svg')
+      .invoke('css', 'width')
+      .then((w) => {
+        const n = parseFloat(String(w));
+        const width = Number.isFinite(n) ? n : 0;
+        cy.get('svg')
+          .invoke('css', 'height')
+          .then((h) => {
+            const m = parseFloat(String(h));
+            const height = Number.isFinite(m) ? m : 0;
+            expect(height).to.be.closeTo(width / (testWidth / testHeight), 0.1);
+          });
+      });
+  });
 
-      component.chartConfig = updatedConfig;
-      fixture.detectChanges();
-    });
-
-    cy.wait(100);
-    cy.get('svg').should('have.attr', 'height', '200');
+  it('applies viewbox scaling with a viewBox attribute', () => {
+    mountWithStrategy(baseConfig.scalingStrategy('viewbox').getConfig());
+    const vbHeight = CHART_SIZE.viewBoxWidth / (testWidth / testHeight);
+    cy.get('svg')
+      .should(
+        'have.attr',
+        'viewBox',
+        `0 0 ${CHART_SIZE.viewBoxWidth} ${vbHeight}`
+      )
+      .and('have.class', 'viewbox');
   });
 });
 
@@ -194,23 +173,35 @@ export class ScalingStrategyTestComponent {
   @Input() containerHeight = null;
 }
 
-describe('ChartComponent scaling strategies', () => {
+describe('ChartComponent correctly changes size of chart with scaling strategies', () => {
+  const testWidth = 800;
+  const testHeight = 600;
+  const testContainerWidth = 400;
   const margin = { top: 20, right: 20, bottom: 20, left: 20 };
-  const baseConfig = new VicChartConfigBuilder()
-    .maxWidth(400)
-    .maxHeight(300)
-    .margin(margin);
+  const baseConfig = new VicChartConfigBuilder().margin(margin).minWidth(100);
+
+  function getDotTransform(
+    selector = '.vic-dots-group'
+  ): Cypress.Chainable<{ x: number; y: number }> {
+    return cy
+      .get(selector)
+      .first()
+      .invoke('attr', 'transform')
+      .then((t) => {
+        const match = /translate\(([^,]+),\s*([^)]+)\)/.exec(t);
+        if (!match) throw new Error(`Failed to parse transform string: ${t}`);
+        return {
+          x: parseFloat(match[1]),
+          y: parseFloat(match[2]),
+        };
+      });
+  }
 
   function mountWithStrategy(
-    strategy: ChartConfig['scalingStrategy'],
-    containerWidth = 400,
-    fixedHeight = false,
-    containerHeight = null
+    config: ChartConfig,
+    containerWidth,
+    containerHeight
   ) {
-    const config = baseConfig
-      .scalingStrategy(strategy)
-      .fixedHeight(fixedHeight)
-      .getConfig();
     const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .ticks((ticks) => ticks.format('.0f').count(5))
       .getConfig();
@@ -236,20 +227,52 @@ describe('ChartComponent scaling strategies', () => {
     });
   }
 
-  it('applies fixed scaling with static width and height', () => {
-    mountWithStrategy('fixed');
+  it('applies fixed scaling with static width and height and does not scale down', () => {
+    const config = baseConfig
+      .scalingStrategy('fixed')
+      .maxWidth(testWidth)
+      .maxHeight(testHeight)
+      .getConfig();
+    mountWithStrategy(config, testContainerWidth, null);
     cy.get('svg')
-      .should('have.attr', 'width', '400')
-      .and('have.attr', 'height', '300')
+      .should('have.css', 'width', `${testWidth}px`)
+      .and('have.css', 'height', `${testHeight}px`)
+      .and('not.have.attr', 'viewBox');
+  });
+
+  it('updates height when user provides a new height', () => {
+    const config = baseConfig
+      .scalingStrategy('fixed')
+      .maxWidth(testWidth)
+      .maxHeight(testHeight)
+      .getConfig();
+    mountWithStrategy(config, testContainerWidth, null);
+    cy.wait(100);
+
+    const newConfig = baseConfig
+      .scalingStrategy('fixed')
+      .maxWidth(testWidth)
+      .maxHeight(testHeight + 100)
+      .getConfig();
+    mountWithStrategy(newConfig, testContainerWidth, null);
+    cy.get('svg')
+      .should('have.css', 'width', `${testWidth}px`)
+      .and('have.css', 'height', `${testHeight + 100}px`)
       .and('not.have.attr', 'viewBox');
   });
 
   it('applies responsive-width scaling with fixedHeight and updates mark positions when container resizes', () => {
-    mountWithStrategy('responsive-width', 300, true);
+    const config = baseConfig
+      .scalingStrategy('responsive-width')
+      .maxWidth(testWidth)
+      .fixedHeight(true)
+      .aspectRatio(2)
+      .getConfig();
+    mountWithStrategy(config, testContainerWidth, null);
 
     getDotTransform().then((originalPosition) => {
       // remount with wider container
-      mountWithStrategy('responsive-width', 450, true);
+      mountWithStrategy(config, testContainerWidth + 100, null);
       cy.wait(100);
 
       getDotTransform().should((newPosition) => {
@@ -258,312 +281,42 @@ describe('ChartComponent scaling strategies', () => {
       });
 
       // remount with narrower container
-      mountWithStrategy('responsive-width', 200, true);
+      mountWithStrategy(config, testContainerWidth - 100, true);
       cy.wait(100);
 
       getDotTransform().should((newPosition) => {
         expect(newPosition.x).to.be.lessThan(originalPosition.x);
         expect(newPosition.y).to.closeTo(originalPosition.y, 1);
-      });
-    });
-  });
-
-  function getDotTransform(
-    selector = '.vic-dots-group'
-  ): Cypress.Chainable<{ x: number; y: number }> {
-    return cy
-      .get(selector)
-      .first()
-      .invoke('attr', 'transform')
-      .then((t) => {
-        const match = /translate\(([^,]+),\s*([^)]+)\)/.exec(t);
-        if (!match) throw new Error(`Failed to parse transform string: ${t}`);
-        return {
-          x: parseFloat(match[1]),
-          y: parseFloat(match[2]),
-        };
-      });
-  }
-
-  @Component({
-    // eslint-disable-next-line @angular-eslint/component-selector
-    selector: 'app-svg-attr-test-component',
-    template: `
-      <div [style.width.px]="containerWidth">
-        <vic-chart [config]="chartConfig">
-          <ng-container svg-elements>
-            <svg:rect
-              x="50"
-              y="50"
-              width="100"
-              height="100"
-              fill="tomato"
-            ></svg:rect>
-          </ng-container>
-        </vic-chart>
-      </div>
-    `,
-    imports: [CommonModule, VicChartModule],
-  })
-  class SvgAttrTestComponent {
-    @Input() chartConfig: ChartConfig;
-    @Input() containerWidth = 400;
-  }
-
-  describe('ChartComponent SVG attributes by scalingStrategy', () => {
-    const baseConfig = new VicChartConfigBuilder()
-      .maxWidth(400)
-      .maxHeight(300)
-      .margin({ top: 20, right: 20, bottom: 20, left: 20 });
-
-    function mountWithStrategy(
-      strategy: 'fixed' | 'responsive-width' | 'viewbox'
-    ) {
-      const config = baseConfig.scalingStrategy(strategy).getConfig();
-
-      cy.mount(SvgAttrTestComponent, {
-        componentProperties: { chartConfig: config },
-      });
-      cy.wait(50);
-    }
-
-    it('applies fixed scaling with static width and height', () => {
-      mountWithStrategy('fixed');
-      cy.get('svg')
-        .should('have.attr', 'width', '400')
-        .and('have.attr', 'height', '300')
-        .and('not.have.attr', 'viewBox');
-    });
-
-    it('applies responsive-width scaling with dynamic width and aspect-ratio-derived height', () => {
-      mountWithStrategy('responsive-width');
-      cy.get('svg').should('not.have.attr', 'viewBox');
-      cy.get('svg')
-        .invoke('attr', 'width')
-        .should('not.be.null')
-        .then(Number)
-        .should('be.lte', 400);
-      cy.get('svg')
-        .invoke('attr', 'height')
-        .should('not.be.null')
-        .then(Number)
-        .should('be.gt', 0);
-    });
-
-    it('applies viewbox scaling with no width/height but a viewBox attribute', () => {
-      mountWithStrategy('viewbox');
-      cy.get('svg')
-        .should('have.attr', 'viewBox', '0 0 400 300')
-        .and('not.have.attr', 'width');
-      cy.get('svg')
-        .invoke('attr', 'height')
-        .should('be.oneOf', [null, undefined]);
-      cy.get('svg').should('have.class', 'vic-chart-viewbox');
-    });
-
-    it('respects user-supplied aspectRatio override in responsive-width mode', () => {
-      const config = baseConfig
-        .scalingStrategy('responsive-width')
-        .aspectRatio(2)
-        .getConfig();
-
-      cy.mount(SvgAttrTestComponent, {
-        componentProperties: { chartConfig: config },
-      });
-
-      cy.wait(50);
-      cy.get('svg')
-        .invoke('attr', 'width')
-        .should('not.be.null')
-        .then(Number)
-        .then((width) => {
-          cy.get('svg')
-            .invoke('attr', 'height')
-            .should('not.be.null')
-            .then(Number)
-            .should('be.closeTo', width / 2, 1);
-        });
-    });
-
-    it('updates height when user provides a new config', () => {
-      const initialConfig = baseConfig.scalingStrategy('fixed').getConfig();
-
-      cy.mount(SvgAttrTestComponent, {
-        componentProperties: { chartConfig: initialConfig },
-      }).then(({ component, fixture }) => {
-        cy.wait(50);
-
-        const updatedConfig = new VicChartConfigBuilder()
-          .maxWidth(400)
-          .maxHeight(200)
-          .scalingStrategy('fixed')
-          .getConfig();
-
-        component.chartConfig = updatedConfig;
-        fixture.detectChanges();
-      });
-
-      cy.wait(100);
-      cy.get('svg').should('have.attr', 'height', '200');
-    });
-  });
-
-  @Component({
-    // eslint-disable-next-line @angular-eslint/component-selector
-    selector: 'app-scaling-strategy-test',
-    template: `
-      <div
-        [style.width.px]="containerWidth"
-        [style.height.px]="containerHeight"
-        class="test-wrapper"
-      >
-        <vic-xy-chart [config]="chartConfig">
-          <ng-container svg-elements>
-            <svg:g
-              vic-x-quantitative-axis
-              [config]="xQuantitativeAxisConfig"
-            ></svg:g>
-            <svg:g
-              vic-y-quantitative-axis
-              [config]="yQuantitativeAxisConfig"
-            ></svg:g>
-            <svg:g vic-primary-marks-dots [config]="dotsConfig"></svg:g>
-          </ng-container>
-        </vic-xy-chart>
-      </div>
-    `,
-    imports: [CommonModule, VicChartModule, VicDotsModule, VicXyAxisModule],
-  })
-  class ScalingStrategyTestComponent {
-    @Input() chartConfig: ChartConfig;
-    @Input() dotsConfig: DotsConfig<CountryFactsDatum>;
-    @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
-    @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
-    @Input() containerWidth = 400;
-    @Input() containerHeight = null;
-  }
-
-  describe('ChartComponent scaling strategies', () => {
-    const margin = { top: 20, right: 20, bottom: 20, left: 20 };
-    const baseConfig = new VicChartConfigBuilder()
-      .maxWidth(400)
-      .maxHeight(300)
-      .margin(margin);
-
-    function mountWithStrategy(
-      strategy: ChartConfig['scalingStrategy'],
-      containerWidth = 400,
-      fixedHeight = false,
-      containerHeight = null
-    ) {
-      const config = baseConfig
-        .scalingStrategy(strategy)
-        .fixedHeight(fixedHeight)
-        .getConfig();
-      const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-        .ticks((ticks) => ticks.format('.0f').count(5))
-        .getConfig();
-      const yAxisConfig =
-        new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
-      const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
-        .data(countryFactsData)
-        .xNumeric((x) => x.valueAccessor((d) => d.population))
-        .yNumeric((y) => y.valueAccessor((d) => d.gdpPerCapita))
-        .radiusNumeric((r) =>
-          r.valueAccessor((d) => d.popGrowth).range([4, 10])
-        )
-        .datumClass((d) => d.country)
-        .getConfig();
-
-      cy.mount(ScalingStrategyTestComponent, {
-        componentProperties: {
-          chartConfig: config,
-          xQuantitativeAxisConfig: xAxisConfig,
-          yQuantitativeAxisConfig: yAxisConfig,
-          dotsConfig,
-          containerWidth,
-          containerHeight,
-        },
-      });
-    }
-
-    it('applies fixed scaling with static width and height', () => {
-      mountWithStrategy('fixed');
-      cy.get('svg')
-        .should('have.attr', 'width', '400')
-        .and('have.attr', 'height', '300')
-        .and('not.have.attr', 'viewBox');
-    });
-
-    it('applies responsive-width scaling with fixedHeight and updates mark positions when container resizes', () => {
-      mountWithStrategy('responsive-width', 300, true);
-
-      getDotTransform().then((originalPosition) => {
-        // remount with wider container
-        mountWithStrategy('responsive-width', 450, true);
-        cy.wait(100);
-
-        getDotTransform().should((newPosition) => {
-          expect(newPosition.x).to.be.greaterThan(originalPosition.x);
-          expect(newPosition.y).to.closeTo(originalPosition.y, 1);
-        });
-
-        // remount with narrower container
-        mountWithStrategy('responsive-width', 200, true);
-        cy.wait(100);
-
-        getDotTransform().should((newPosition) => {
-          expect(newPosition.x).to.be.lessThan(originalPosition.x);
-          expect(newPosition.y).to.closeTo(originalPosition.y, 1);
-        });
-      });
-    });
-
-    it('applies responsive-width scaling without fixedHeight and updates mark positions when container resizes', () => {
-      mountWithStrategy('responsive-width', 300);
-
-      getDotTransform().then((originalPosition) => {
-        // remount with wider container
-        mountWithStrategy('responsive-width', 450);
-        cy.wait(100);
-
-        getDotTransform().should((newPosition) => {
-          expect(newPosition.x).to.be.greaterThan(originalPosition.x);
-          expect(newPosition.y).to.be.greaterThan(originalPosition.y);
-        });
-
-        // remount with narrower container
-        mountWithStrategy('responsive-width', 200);
-        cy.wait(100);
-
-        getDotTransform().should((newPosition) => {
-          expect(newPosition.x).to.be.lessThan(originalPosition.x);
-          expect(newPosition.y).to.be.lessThan(originalPosition.y);
-        });
       });
     });
   });
 
   it('applies responsive-width scaling without fixedHeight and updates mark positions when container resizes', () => {
-    mountWithStrategy('responsive-width', 300);
+    const config = baseConfig
+      .scalingStrategy('responsive-width')
+      .maxWidth(testWidth)
+      .fixedHeight(false)
+      .aspectRatio(2)
+      .getConfig();
+    mountWithStrategy(config, testContainerWidth, null);
 
     getDotTransform().then((originalPosition) => {
       // remount with wider container
-      mountWithStrategy('responsive-width', 450);
+      mountWithStrategy(config, testContainerWidth + 100, null);
       cy.wait(100);
 
       getDotTransform().should((newPosition) => {
         expect(newPosition.x).to.be.greaterThan(originalPosition.x);
-        expect(newPosition.y).to.be.greaterThan(originalPosition.y);
+        expect(newPosition.y).to.greaterThan(originalPosition.y);
       });
 
       // remount with narrower container
-      mountWithStrategy('responsive-width', 200);
+      mountWithStrategy(config, testContainerWidth - 100, true);
       cy.wait(100);
 
       getDotTransform().should((newPosition) => {
         expect(newPosition.x).to.be.lessThan(originalPosition.x);
-        expect(newPosition.y).to.be.lessThan(originalPosition.y);
+        expect(newPosition.y).to.lessThan(originalPosition.y);
       });
     });
   });

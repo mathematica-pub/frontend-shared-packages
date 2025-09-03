@@ -25,7 +25,7 @@
 .line-labels-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  width: 800px; // match chart width
+  max-width: 800px;
 }
 
 .line-label {
