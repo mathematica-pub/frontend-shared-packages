@@ -277,7 +277,7 @@ describe('ChartComponent correctly changes size of chart with scaling strategies
 
       getDotTransform().should((newPosition) => {
         expect(newPosition.x).to.be.greaterThan(originalPosition.x);
-        expect(newPosition.y).to.closeTo(originalPosition.y, 1);
+        expect(newPosition.y).to.be.closeTo(originalPosition.y, 1);
       });
 
       // remount with narrower container
@@ -286,7 +286,7 @@ describe('ChartComponent correctly changes size of chart with scaling strategies
 
       getDotTransform().should((newPosition) => {
         expect(newPosition.x).to.be.lessThan(originalPosition.x);
-        expect(newPosition.y).to.closeTo(originalPosition.y, 1);
+        expect(newPosition.y).to.be.closeTo(originalPosition.y, 1);
       });
     });
   });
@@ -307,7 +307,7 @@ describe('ChartComponent correctly changes size of chart with scaling strategies
 
       getDotTransform().should((newPosition) => {
         expect(newPosition.x).to.be.greaterThan(originalPosition.x);
-        expect(newPosition.y).to.greaterThan(originalPosition.y);
+        expect(newPosition.y).to.be.greaterThan(originalPosition.y);
       });
 
       // remount with narrower container
@@ -316,7 +316,7 @@ describe('ChartComponent correctly changes size of chart with scaling strategies
 
       getDotTransform().should((newPosition) => {
         expect(newPosition.x).to.be.lessThan(originalPosition.x);
-        expect(newPosition.y).to.lessThan(originalPosition.y);
+        expect(newPosition.y).to.be.lessThan(originalPosition.y);
       });
     });
   });

@@ -111,7 +111,15 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   );
 
   private readonly aspectRatioCfg$ = this.config$.pipe(
-    map((c) => c.aspectRatio ?? c.width / c.height),
+    map(
+      (c) =>
+        c.aspectRatio ??
+        (typeof c.width === 'number' &&
+        typeof c.height === 'number' &&
+        c.height !== 0
+          ? c.width / c.height
+          : undefined)
+    ),
     distinctUntilChanged()
   );
 
