@@ -14,5 +14,6 @@ items:
     - mlb-bda
     - mlb-shortage
     - mlb-shortage-bar
+    - mlb-network
     - mlb-county-plot
     - mlb-map

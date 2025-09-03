@@ -19,7 +19,7 @@ import { NotesComponent } from '../../ca/notes/notes.component';
 import { MlbBarComponent } from '../mlb-bar/mlb-bar.component';
 
 @Component({
-  selector: 'app-mlb-shortage-bar',
+  selector: 'app-mlb-network',
   standalone: true,
   imports: [
     CommonModule,
@@ -43,6 +43,6 @@ import { MlbBarComponent } from '../mlb-bar/mlb-bar.component';
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class MlbShortageBarComponent extends MlbBarComponent implements OnInit {
-  override stratKeyword = 'shortage';
+export class MlbNetworkComponent extends MlbBarComponent implements OnInit {
+  override stratKeyword = 'network';
 }
