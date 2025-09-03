@@ -44,5 +44,6 @@ import { MlbBarComponent } from '../mlb-bar/mlb-bar.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class MlbNetworkComponent extends MlbBarComponent implements OnInit {
+  override chartName = 'Network';
   override stratKeyword = 'network';
 }

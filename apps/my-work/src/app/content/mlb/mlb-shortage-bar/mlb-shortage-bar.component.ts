@@ -44,5 +44,6 @@ import { MlbBarComponent } from '../mlb-bar/mlb-bar.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class MlbShortageBarComponent extends MlbBarComponent implements OnInit {
+  override chartName = 'Provider Shortage';
   override stratKeyword = 'shortage';
 }
