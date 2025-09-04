@@ -6,12 +6,16 @@ const DEFAULT = {
   _maintainYPosition: false,
   _lineHeight: 1.1,
   _width: 100,
+  _breakOnChars: [],
+  _spaceAroundBreakChars: false,
 };
 export class SvgTextWrapBuilder {
   protected _width: number;
   protected _maintainXPosition: boolean;
   protected _maintainYPosition: boolean;
   protected _lineHeight: number;
+  protected _breakOnChars: string[];
+  protected _spaceAroundBreakChars: boolean;
 
   constructor() {
     safeAssign(this, DEFAULT);
@@ -62,6 +66,30 @@ export class SvgTextWrapBuilder {
   }
 
   /**
+   * OPTIONAL. Sets the characters to break on when wrapping text.
+   * By default, text will only break on spaces.
+   *
+   * @default []
+   */
+  breakOnChars(breakOnChars: string[]) {
+    this._breakOnChars = breakOnChars;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. If true, spaces will be added around break characters.
+   *
+   * This is useful when breaking on punctuation characters, to avoid words being stuck to punctuation.
+   * For example, breaking on commas without spaces around them would result in "word," at the end of one line and "word" at the start of the next line.
+   *
+   * @default false
+   */
+  spaceAroundBreakChars(spaceAroundBreakChars: boolean) {
+    this._spaceAroundBreakChars = spaceAroundBreakChars;
+    return this;
+  }
+
+  /**
    * @internal Not meant to be called by consumers of the library.
    */
   build(): SvgTextWrap {
@@ -70,6 +98,8 @@ export class SvgTextWrapBuilder {
       maintainXPosition: this._maintainXPosition,
       maintainYPosition: this._maintainYPosition,
       lineHeight: this._lineHeight,
+      breakOnChars: this._breakOnChars,
+      spaceAroundBreakChars: this._spaceAroundBreakChars,
     });
   }
 }

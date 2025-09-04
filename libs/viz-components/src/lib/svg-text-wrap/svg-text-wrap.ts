@@ -2,11 +2,13 @@ import { safeAssign } from '@hsi/app-dev-kit';
 import { select, Selection } from 'd3';
 import { SvgTextWrapOptions } from './svg-text-wrap-options';
 
-export class SvgTextWrap {
+export class SvgTextWrap implements SvgTextWrapOptions {
   width: number;
   maintainXPosition: boolean;
   maintainYPosition: boolean;
   lineHeight: number;
+  breakOnChars: string[];
+  spaceAroundBreakChars: boolean;
 
   constructor(options: SvgTextWrapOptions) {
     safeAssign(this, options);
@@ -16,14 +18,11 @@ export class SvgTextWrap {
   wrap(textSelection: Selection<SVGTextElement, any, any, any>): void {
     textSelection.each((d, i, nodes) => {
       const text = select(nodes[i]);
-      const allTspans = text.selectAll<SVGTSpanElement, unknown>('tspan');
-      const words =
-        allTspans.size() > 0
-          ? Array.from(allTspans)
-              .map((tspan) => tspan.textContent.trim().split(/\s+/))
-              .flat()
-              .reverse()
-          : text.text().trim().split(/\s+/).reverse();
+      const tokens = this.buildTokens(
+        text,
+        this.breakOnChars ?? [],
+        this.spaceAroundBreakChars ?? false
+      ).reverse();
       let word;
       let line = [];
       let lineNumber = 0;
@@ -38,14 +37,14 @@ export class SvgTextWrap {
         .attr('x', x)
         .attr('y', y)
         .attr('dy', dy + 'em');
-      while ((word = words.pop())) {
+      while ((word = tokens.pop())) {
         line.push(word);
-        tspan.text(line.join(' '));
+        tspan.text(line.join('').trimEnd());
 
         if (tspan.node().getComputedTextLength() > maxWidth) {
           line.pop();
           if (line.length > 0) {
-            tspan.text(line.join(' '));
+            tspan.text(line.join('').trimEnd());
             isFirstTspan = false;
           } else {
             // Remove the empty tspan since it has no content
@@ -77,5 +76,63 @@ export class SvgTextWrap {
         text.selectAll('tspan').attr('y', y - offsetY);
       }
     });
+  }
+
+  private buildTokens(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    textSel: Selection<SVGTextElement, unknown, any, any>,
+    breakOnChars: string[] = [],
+    spaceAroundBreakChars = false
+  ): string[] {
+    const allTspans = textSel.selectAll<SVGTSpanElement, unknown>('tspan');
+    const chunks: string[] =
+      allTspans.size() > 0
+        ? Array.from(allTspans, (t) => t.textContent ?? '')
+        : [textSel.text() ?? ''];
+
+    // Escape regex specials in delimiters and prebuild a splitter
+    const escaped = breakOnChars.map((c) =>
+      c.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    );
+    const delimRe = escaped.length
+      ? new RegExp(`(${escaped.join('|')})`, 'g')
+      : null;
+
+    const tokens: string[] = [];
+
+    const splitByDelims = (s: string): string[] => {
+      if (!delimRe) return [s];
+      return s.split(delimRe).filter(Boolean); // keeps delimiters as their own elements
+    };
+
+    chunks.forEach((chunk, chunkIdx) => {
+      const wordsInChunk = chunk.trim().split(/\s+/).filter(Boolean); // matches your current split semantics
+
+      wordsInChunk.forEach((w, wIdx) => {
+        // Split the "word" on delimiter characters, preserving them as tokens
+        const parts = splitByDelims(w);
+        for (const p of parts) {
+          if (breakOnChars.includes(p)) {
+            // Delimiter token
+            if (spaceAroundBreakChars) {
+              tokens.push(' ', p, ' ');
+            } else {
+              tokens.push(p);
+            }
+          } else {
+            // Normal text segment
+            tokens.push(p);
+          }
+        }
+        // Add a single space between words that came from the same chunk (mirrors your split/join)
+        if (wIdx < wordsInChunk.length - 1) tokens.push(' ');
+      });
+
+      // Add a single space between tspans (your current flattening effectively does this)
+      if (allTspans.size() > 0 && chunkIdx < chunks.length - 1)
+        tokens.push(' ');
+    });
+
+    return tokens;
   }
 }
