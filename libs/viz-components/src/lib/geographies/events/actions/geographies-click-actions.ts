@@ -1,44 +1,19 @@
-import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { EventAction } from '../../../events/action';
-import { GeographiesComponent } from '../../geographies.component';
-import { GeographiesClickDirective } from '../geographies-click.directive';
+import { EventAction, EventType } from '../../../events';
+import { GeographiesHost } from '../geographies-events.directive';
+import { GeographiesInteractionOutput } from '../geographies-interaction-output';
 
-export class GeographiesClickEmitTooltipDataPauseHoverMoveActions<
-  Datum,
-  TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon,
-  TComponent extends GeographiesComponent<
-    Datum,
-    TProperties,
-    TGeometry
-  > = GeographiesComponent<Datum, TProperties, TGeometry>,
-> implements
-    EventAction<
-      GeographiesClickDirective<Datum, TProperties, TGeometry, TComponent>
-    >
+export class GeographiesClickEmitTooltipDataPauseOtherActions<Datum>
+  implements
+    EventAction<GeographiesHost<Datum>, GeographiesInteractionOutput<Datum>>
 {
-  onStart(
-    directive: GeographiesClickDirective<
-      Datum,
-      TProperties,
-      TGeometry,
-      TComponent
-    >
-  ) {
-    const tooltipData = directive.getOutputData();
-    directive.preventHoverActions();
-    directive.eventOutput.emit(tooltipData);
+  onStart(host: GeographiesHost<Datum>): void {
+    const output = host.getInteractionOutput(EventType.Click);
+    host.disableOtherActions(EventType.Click);
+    host.emitInteractionOutput(output);
   }
 
-  onEnd(
-    directive: GeographiesClickDirective<
-      Datum,
-      TProperties,
-      TGeometry,
-      TComponent
-    >
-  ) {
-    directive.resumeHoverActions();
-    directive.eventOutput.emit(null);
+  onEnd(host: GeographiesHost<Datum>): void {
+    host.resumeOtherActions(EventType.Click);
+    host.emitInteractionOutput(null);
   }
 }

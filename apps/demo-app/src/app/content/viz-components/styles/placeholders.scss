@@ -4,10 +4,12 @@
 @use 'colors';
 
 %vic-examples-tooltip-container-styles {
-  background: rgba(white, 0.9);
-  padding: grid(2);
-  border: 1px solid colors.$muted-primary-80;
-  width: 100%;
+  .tooltip-body {
+    background: rgba(white, 0.9);
+    padding: grid(2);
+    border: 1px solid colors.$muted-primary-80;
+    width: 100%;
+  }
 
   .tooltip-label {
     display: flex;
@@ -27,5 +29,10 @@
 
   .value-label {
     @include hsi-adk.label-2xs-caps;
+  }
+
+  .vic-tooltip-svg-triangle {
+    --tooltip-triangle-stroke: #{colors.$muted-primary-80};
+    --tooltip-triangle-fill-opacity: 0.9;
   }
 }
