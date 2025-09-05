@@ -14,10 +14,9 @@ directory:
   directory-item: 'interfaces/HsiUiDirectoryItem.html'
   directory-selection: 'interfaces/HsiUiDirectorySelection.html'
 table:
-  table: 'components/TableComponent.html'
   table-config: 'classes/HsiUiTableConfig.html'
+  table-data-source: 'classes/HsiUiTableDataSource.html'
   table-column: 'classes/TableColumn.html'
-  single-sort-header: 'components/SingleSortHeaderComponent.html'
 tabs:
   service: 'injectables/TabsService.html'
   tabs: 'components/TabsComponent.html'

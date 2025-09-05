@@ -8,12 +8,24 @@ export enum SortDirection {
 
 export type SortDirectionType = keyof typeof SortDirection;
 export type TableValue = string | number | boolean | Date;
-export type TableCellAlignment = 'left' | 'center' | 'right';
 
+/**
+ * @deprecated This class is deprecated. See use of `ColumnDef` in `tanstack-example.component.ts` for the recommended implementation.
+ */
 export class TableColumn<Datum> {
   /**
-   * The label of the column. Used in the table header.
+   * The unique id of the column.
    * */
+  readonly id: string;
+  /**
+   * The unique key of the column. Used for sorting and accessing the column data.
+   *
+   */
+  readonly key: string;
+  /**
+   * The label of the column. Used in the table header.
+   * This field is required when using the `single-sort-header` component.
+   */
   label: string;
   /**
    * Function to extract the value to be sorted on from the datum.
@@ -21,23 +33,15 @@ export class TableColumn<Datum> {
    */
   getSortValue: (x: Datum) => TableValue;
   /**
-   * Function to format the value for display in the table.
-   */
-  getFormattedValue: (x: Datum) => string;
-  /**
-   * Function to determine the alignment of the cell content.
-   */
-  getAlignment: (x: Datum) => TableCellAlignment;
-  /**
-   * Width of the column. Can be a percentage or pixel value.
-   */
-  width: string;
-  /**
    * Function to determine the sort order of the column.
    * If not provided, sort with use d3.ascending on the getSortValue or getFormattedValue.
    */
   ascendingSortFunction: (a: Datum, b: Datum) => number;
-  sortDirection: SortDirectionType;
+  /**
+   * The direction to start sorting this column in.
+   * @default SortDirection.asc
+   */
+  sortDirection: SortDirectionType = SortDirection.asc;
   /**
    * Whether the column is sortable.
    */
@@ -48,15 +52,14 @@ export class TableColumn<Datum> {
    * Sorting tiebreaks are determined by increasing sortOrder number.
    **/
   sortOrder: number = Number.MAX_SAFE_INTEGER;
-  /**
-   * Whether the column is a row header.
-   */
-  isRowHeader = false;
   readonly initialSortDirection: SortDirectionType;
-
+  /**
+   * Whether the column data has been sorted since initialization.
+   */
+  sortedOnInit = false;
   constructor(init?: Partial<TableColumn<Datum>>) {
     this.sortDirection = SortDirection.asc;
-    this.getAlignment = () => 'left';
+    // this.getAlignment = () => 'left';
     safeAssign(this, init);
     this.initialSortDirection = this.sortDirection;
     if (this.ascendingSortFunction === undefined) {
@@ -65,7 +68,7 @@ export class TableColumn<Datum> {
   }
 
   defaultSort(a: Datum, b: Datum): number {
-    const accessor = this.getSortValue || this.getFormattedValue;
+    const accessor = this.getSortValue;
     return ascending(accessor(a), accessor(b));
   }
 }
