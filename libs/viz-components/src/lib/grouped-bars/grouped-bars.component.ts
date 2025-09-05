@@ -5,7 +5,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { scaleBand } from 'd3';
-import { BarDatum, BarsComponent } from '../bars/bars.component';
+import { BarDatum, BARS, BarsComponent } from '../bars/bars.component';
+import { ChartComponent, XyChartComponent } from '../charts';
 import { DataValue } from '../core/types/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { GroupedBarsConfig } from './config/grouped-bars-config';
@@ -19,6 +20,8 @@ import { GroupedBarsConfig } from './config/grouped-bars-config';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: VIC_PRIMARY_MARKS, useExisting: GroupedBarsComponent },
+    { provide: BARS, useExisting: GroupedBarsComponent },
+    { provide: ChartComponent, useExisting: XyChartComponent },
   ],
   host: {
     '[class]': 'config.marksClass',

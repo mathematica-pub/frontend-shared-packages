@@ -4,9 +4,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {
   BarsConfig,
-  BarsEventOutput,
-  BarsHoverMoveDirective,
+  BarsHost,
   BarsHoverMoveEmitTooltipData,
+  BarsInteractionOutput,
   ChartConfig,
   ElementSpacing,
   HoverMoveAction,
@@ -65,9 +65,6 @@ interface LayoutProperties {
     MatButtonModule,
     MatButtonToggleModule,
   ],
-  templateUrl: './bars-example.component.html',
-  styleUrls: ['./bars-example.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   providers: [
     VicChartConfigBuilder,
     VicBarsConfigBuilder,
@@ -77,6 +74,9 @@ interface LayoutProperties {
     VicYQuantitativeAxisConfigBuilder,
     VicHtmlTooltipConfigBuilder,
   ],
+  templateUrl: './bars-example.component.html',
+  styleUrls: ['./bars-example.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class BarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
@@ -84,14 +84,13 @@ export class BarsExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<
-    BarsEventOutput<MetroUnemploymentDatum, string>
-  > = new BehaviorSubject<BarsEventOutput<MetroUnemploymentDatum, string>>(
-    null
-  );
-  tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveActions: HoverMoveAction<
-    BarsHoverMoveDirective<MetroUnemploymentDatum, string>
+  interactionOutput: BehaviorSubject<
+    BarsInteractionOutput<MetroUnemploymentDatum>
+  > = new BehaviorSubject<BarsInteractionOutput<MetroUnemploymentDatum>>(null);
+  interactionOutput$ = this.interactionOutput.asObservable();
+  hoverMoveActions: HoverMoveAction<
+    BarsHost<MetroUnemploymentDatum, string>,
+    BarsInteractionOutput<MetroUnemploymentDatum>
   >[] = [new BarsHoverMoveEmitTooltipData()];
   layoutProperties: BehaviorSubject<LayoutProperties> =
     new BehaviorSubject<LayoutProperties>({
@@ -211,29 +210,18 @@ export class BarsExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: BarsEventOutput<MetroUnemploymentDatum, string>
+    output: BarsInteractionOutput<MetroUnemploymentDatum> | null
   ): void {
-    this.updateTooltipData(data);
-    this.updateTooltipConfig(data);
-  }
-
-  updateTooltipData(
-    data: BarsEventOutput<MetroUnemploymentDatum, string>
-  ): void {
-    this.tooltipData.next(data);
+    this.interactionOutput.next(output);
+    this.updateTooltipConfig(output);
   }
 
   updateTooltipConfig(
-    data: BarsEventOutput<MetroUnemploymentDatum, string>
+    output: BarsInteractionOutput<MetroUnemploymentDatum> | null
   ): void {
     const config = this.tooltip
-      .barsPosition(data?.origin, [
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 12 : undefined,
-        },
-      ])
-      .show(!!data)
+      .positionFromOutput(output)
+      .show(!!output)
       .getConfig();
     this.tooltipConfig.next(config);
   }

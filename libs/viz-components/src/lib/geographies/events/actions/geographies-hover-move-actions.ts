@@ -1,42 +1,17 @@
-import { Geometry } from 'geojson';
-import { HoverMoveAction } from '../../../events/action';
-import { GeographiesComponent } from '../../geographies.component';
-import { GeographiesHoverMoveDirective } from '../geographies-hover-move.directive';
+import { EventType, HoverMoveAction } from '../../../events';
+import { GeographiesHost } from '../geographies-events.directive';
+import { GeographiesInteractionOutput } from '../geographies-interaction-output';
 
-export class GeographiesHoverMoveEmitTooltipData<
-  Datum,
-  TProperties,
-  TGeometry extends Geometry,
-  TComponent extends GeographiesComponent<
-    Datum,
-    TProperties,
-    TGeometry
-  > = GeographiesComponent<Datum, TProperties, TGeometry>,
-> implements
-    HoverMoveAction<
-      GeographiesHoverMoveDirective<Datum, TProperties, TGeometry, TComponent>
-    >
+export class GeographiesHoverMoveEmitTooltipData<Datum>
+  implements
+    HoverMoveAction<GeographiesHost<Datum>, GeographiesInteractionOutput<Datum>>
 {
-  onStart(
-    directive: GeographiesHoverMoveDirective<
-      Datum,
-      TProperties,
-      TGeometry,
-      TComponent
-    >
-  ): void {
-    const tooltipData = directive.getEventOutput();
-    directive.eventOutput.emit(tooltipData);
+  onStart(host: GeographiesHost<Datum>): void {
+    const outputData = host.getInteractionOutput(EventType.HoverMove);
+    host.emitInteractionOutput(outputData);
   }
 
-  onEnd(
-    directive: GeographiesHoverMoveDirective<
-      Datum,
-      TProperties,
-      TGeometry,
-      TComponent
-    >
-  ): void {
-    directive.eventOutput.emit(null);
+  onEnd(host: GeographiesHost<Datum>): void {
+    host.emitInteractionOutput(null);
   }
 }

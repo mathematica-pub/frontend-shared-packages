@@ -7,9 +7,9 @@ import { Component, Input } from '@angular/core';
 import {
   ChartConfig,
   DotsConfig,
-  DotsEventOutput,
-  DotsHoverMoveDirective,
+  DotsHost,
   DotsHoverMoveEmitTooltipData,
+  DotsInteractionOutput,
   HoverMoveAction,
   HtmlTooltipConfig,
   VicChartConfigBuilder,
@@ -48,6 +48,7 @@ const chartWidth = 600;
 const data = countryFactsData;
 
 const dotGSelector = '.vic-dots-group';
+const dotCircleSelector = `.vic-dots-dot`;
 
 // ***********************************************************
 // Dots Component with Continuous Quantitative X and Y Axes
@@ -69,8 +70,9 @@ const dotGSelector = '.vic-dots-group';
         <svg:g
           vic-primary-marks-dots
           [config]="dotsConfig"
-          [vicDotsHoverMoveActions]="hoverActions"
-          (vicDotsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+          vicDotsEvents
+          [hoverMoveActions]="hoverMoveActions"
+          (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="tooltipConfig$ | async"
@@ -125,11 +127,10 @@ class TestDotsQuantQuantComponent<Datum> {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<DotsEventOutput<Datum>> = new BehaviorSubject<
-    DotsEventOutput<Datum>
-  >(null);
+  tooltipData: BehaviorSubject<DotsInteractionOutput<Datum>> =
+    new BehaviorSubject<DotsInteractionOutput<Datum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: HoverMoveAction<DotsHoverMoveDirective<Datum>>[] = [
+  hoverMoveActions: HoverMoveAction<DotsHost<Datum>>[] = [
     new DotsHoverMoveEmitTooltipData(),
   ];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
@@ -139,23 +140,18 @@ class TestDotsQuantQuantComponent<Datum> {
     .scalingStrategy('responsive-width')
     .getConfig();
 
-  updateTooltipForNewOutput(data: DotsEventOutput<Datum>): void {
+  updateTooltipForNewOutput(data: DotsInteractionOutput<Datum>): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: DotsEventOutput<Datum>): void {
+  updateTooltipData(data: DotsInteractionOutput<Datum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: DotsEventOutput<Datum>): void {
+  updateTooltipConfig(data: DotsInteractionOutput<Datum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .dotsPosition(data?.origin, [
-        {
-          offsetY: data ? data.positionY - 12 : undefined,
-          offsetX: data?.positionX,
-        },
-      ])
+      .positionFromOutput(data)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
@@ -184,7 +180,7 @@ function mountDotsXQuantYQuantComponent(
 // ***********************************************************
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'app-test-lines',
+  selector: 'app-test-dots-ordinal-quant',
   template: `
     <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
@@ -446,15 +442,18 @@ describe('displays a tooltips with correct data on each dot', () => {
         fill.valueAccessor((d) => d.continent).range(colors)
       )
       .radiusNumeric((radius) =>
-        radius.valueAccessor((d) => d.popGrowth).range([2, 10])
+        radius.valueAccessor((d) => d.popGrowth).range([4, 16])
       )
       .getConfig();
     mountDotsXQuantYQuantComponent(dotsConfig);
+    cy.wait(1000);
   });
   data.forEach((datum) => {
     describe(`when hovering over the dot for ${datum.country}`, () => {
       beforeEach(() => {
-        cy.get(`${dotGSelector}.${datum.country.split(' ')[0]}`).realHover();
+        cy.get(
+          `${dotGSelector}.${datum.country.split(' ')[0]} ${dotCircleSelector}`
+        ).realHover();
       });
       it('should display a tooltip with the correct data', () => {
         cy.get('.vic-html-tooltip-overlay').should('exist');
