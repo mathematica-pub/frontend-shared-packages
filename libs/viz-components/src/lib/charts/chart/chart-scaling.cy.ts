@@ -45,7 +45,7 @@ class SvgAttrTestComponent {
   @Input() containerWidth = 400;
 }
 
-describe.only('ChartComponent applies correct SVG attributes/styles by scalingStrategy on initial render', () => {
+describe('ChartComponent applies correct SVG attributes/styles by scalingStrategy on initial render', () => {
   const testWidth = 400;
   const testHeight = 300;
   const baseConfig = new VicChartConfigBuilder()
