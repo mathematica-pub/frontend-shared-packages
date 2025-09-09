@@ -1,3 +1,4 @@
+import 'cypress-axe';
 import { mount } from 'cypress/angular';
 // ***********************************************************
 // This example support/component.ts is processed and

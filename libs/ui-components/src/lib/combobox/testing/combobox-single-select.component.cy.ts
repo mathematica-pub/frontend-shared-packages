@@ -54,6 +54,12 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxSingleTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   describe('click behavior after load', () => {
     it('should not emit a value on load', () => {
       cy.get('.combobox-value').should('have.text', '');
@@ -162,6 +168,12 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxSingleSelectDisabledOptionsComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('can select non-disabled options', () => {
     cy.get('.hsi-ui-textbox').click();
     cy.get('.hsi-ui-listbox-option').first().realClick();
@@ -219,6 +231,12 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxSelectFromOutsideSingleTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('should display the selected option in the textbox on load', () => {
     cy.wait(1000);
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Coconuts');
@@ -303,6 +321,12 @@ describe('ComboboxGroupedSingleTestComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxGroupedSingleTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('can select values from different groups', () => {
     cy.get('.hsi-ui-textbox').realClick();
     cy.get('.hsi-ui-listbox-option').first().realClick();
@@ -368,6 +392,12 @@ describe('NgFormListboxSingleTestComponent', () => {
   beforeEach(() => {
     cy.mount(NgFormListboxSingleTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('can make one selection', () => {
     cy.get('.hsi-ui-textbox').click();
     cy.get('.hsi-ui-listbox-option').eq(1).realClick();

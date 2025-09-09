@@ -291,6 +291,12 @@ class EditableTextboxFormControlTestComponent
         });
       }
     });
+
+    it('should not have accessibility violations', () => {
+      cy.injectAxe();
+      cy.checkA11y();
+    });
+
     it('displays the placeholder text', () => {
       cy.get('.hsi-ui-textbox').should(
         'have.attr',
@@ -349,6 +355,12 @@ class EditableTextboxFormControlTestComponent
         });
       }
     });
+
+    it('should not have accessibility violations', () => {
+      cy.injectAxe();
+      cy.checkA11y();
+    });
+
     // see behavior here: https://ariakit.org/examples/combobox-multiple
     it('displays the nothing in the textbox input when an option is clicked and filtering is removed', () => {
       cy.get('.hsi-ui-editable-textbox-input').click();
@@ -385,6 +397,12 @@ class EditableTextboxFormControlTestComponent
             });
           }
         });
+
+        it('should not have accessibility violations', () => {
+          cy.injectAxe();
+          cy.checkA11y();
+        });
+
         it('selects the first item if textbox is clicked on and closed', () => {
           cy.get('.fruits-dropdown').find('input').click();
           cy.get('.hsi-ui-listbox').should('be.visible');
@@ -451,6 +469,12 @@ class EditableTextboxFormControlTestComponent
               });
             }
           });
+
+          it('should not have accessibility violations', () => {
+            cy.injectAxe();
+            cy.checkA11y();
+          });
+
           it('does not make a selection if textbox is clicked on and closed', () => {
             cy.get('.fruits-dropdown').find('input').click();
             cy.get('.hsi-ui-listbox').should('be.visible');
@@ -522,6 +546,12 @@ class EditableTextboxFormControlTestComponent
               });
             }
           });
+
+          it('should not have accessibility violations', () => {
+            cy.injectAxe();
+            cy.checkA11y();
+          });
+
           it('does not make any selections if the textbox is clicked and then there is a blur event / it is closed', () => {
             cy.get('.fruits-dropdown').find('input').click();
             cy.get('.hsi-ui-listbox').should('be.visible');

@@ -67,6 +67,12 @@ describe('Default multi-select combobox', () => {
   beforeEach(() => {
     cy.mount(ComboboxSimpleMultiSelectTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('the current class is on the first selected option if there is one or on the 0th option once opened', () => {
     cy.get('.hsi-ui-textbox').realClick();
     cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
@@ -216,6 +222,11 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
     cy.mount(ComboboxExternalLabelChangeTestComponent);
   });
 
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('the textbox has the correct label and it changes with change in input selected property', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit, A-E');
     cy.get('.hsi-ui-textbox').click();
@@ -344,6 +355,12 @@ describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxMultiSelectDisabledOptionsComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('can select non-disabled options', () => {
     cy.get('.hsi-ui-textbox').click();
     cy.get('.hsi-ui-listbox-option').eq(0).realClick();
@@ -431,6 +448,12 @@ describe('NgFormListboxMultiTestComponent', () => {
   beforeEach(() => {
     cy.mount(NgFormListboxMultiTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('can make more than one selection', () => {
     cy.get('.hsi-ui-textbox').click();
     cy.get('.hsi-ui-listbox-option').first().realClick();

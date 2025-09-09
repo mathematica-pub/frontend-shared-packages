@@ -74,6 +74,12 @@ describe('ComboboxSelectAllMultiComponent', () => {
         componentProperties: { dynamicLabel: true },
       });
     });
+
+    it('should not have accessibility violations', () => {
+      cy.injectAxe();
+      cy.checkA11y();
+    });
+
     it('correctly selects and deselects options when toggled', () => {
       cy.get('.hsi-ui-textbox').click();
       [1, 2, 3, 4, 5].forEach((i) => {
@@ -210,6 +216,11 @@ describe('ComboboxExternalSelectedTestComponent', () => {
     cy.mount(ComboboxExternalSelectedTestComponent, {
       componentProperties: { dynamicLabel: true },
     });
+  });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
   });
 
   it('the select all option should respond to the selected property of an option being changed from outside - deselection', () => {
@@ -351,6 +362,11 @@ describe('ComboboxExternalDisableTestComponent', () => {
     cy.mount(ComboboxExternalDisableTestComponent, {
       componentProperties: { dynamicLabel: true },
     });
+  });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
   });
 
   it('the select all option should not change with a change to the disabled property of options from the outside', () => {

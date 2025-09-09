@@ -50,6 +50,12 @@ describe('keyboard navigation with a generic listbox', () => {
     cy.mount(ComboboxSingleKeyboardTestComponent);
     cy.get('.hsi-ui-textbox').trigger('focus');
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   describe('correctly opens the combobox with the open keys ', () => {
     it('opens the listbox on enter and first option is current, then arrows through', () => {
       cy.get('.hsi-ui-textbox').trigger('keydown', { key: 'Enter' });
@@ -75,6 +81,12 @@ describe('keyboard navigation with a single select listbox', () => {
   beforeEach(() => {
     cy.mount(ComboboxSingleKeyboardTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('correctly responds to keyboard navigation and selection', () => {
     cy.get('.hsi-ui-textbox').should('be.visible');
     cy.get('.hsi-ui-textbox-container').focus();
@@ -158,6 +170,12 @@ describe('keyboard navigation with a multi select listbox', () => {
   beforeEach(() => {
     cy.mount(ComboboxMultiKeyboardTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('correctly responds to keyboard navigation and selection', () => {
     // textbox receives focus on tab
     cy.realPress('Tab');

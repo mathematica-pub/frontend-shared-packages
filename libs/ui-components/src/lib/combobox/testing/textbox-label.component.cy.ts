@@ -61,6 +61,12 @@ describe('Single-select combobox with a default (dynamic) label', () => {
   beforeEach(() => {
     cy.mount(ComboboxDynamicLabelTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('textbox label shows the boxLabel before there is a selection, and the selected value afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
     cy.get('.hsi-ui-textbox').click();
@@ -108,6 +114,12 @@ describe('Single-select combobox with a default label / no boxLabel', () => {
   beforeEach(() => {
     cy.mount(ComboboxNoBoxLabelTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('textbox label is empty before there is a selection, and the selected value afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', '');
     cy.get('.hsi-ui-textbox').click();
@@ -162,6 +174,12 @@ describe('Multi-select combobox with a default (dynamic) label', () => {
   beforeEach(() => {
     cy.mount(ComboboxDynamicLabelMultiTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('textbox label shows the boxLabel before there is a selection, and the selected values afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
     cy.get('.hsi-ui-textbox').click();
@@ -217,6 +235,12 @@ describe('Textbox with a static label', () => {
   beforeEach(() => {
     cy.mount(ComboboxStaticLabelTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('textbox label does not change with a selection', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit, A-E');
     cy.get('.hsi-ui-textbox').click();
@@ -273,6 +297,12 @@ describe('Multi-select combobox with a show selected count label', () => {
   beforeEach(() => {
     cy.mount(ComboboCountLabelMultiTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select fruits');
     cy.get('.hsi-ui-textbox').realClick();
@@ -361,6 +391,11 @@ describe('Grouped multi-select combobox with a show selected count label', () =>
     cy.mount(ComboboxGroupedMultiTestComponent);
   });
 
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('can select from multiple groups', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select fruits');
     cy.get('.hsi-ui-textbox').click();
@@ -429,6 +464,12 @@ describe('Multi-select combobox with a custom label', () => {
   beforeEach(() => {
     cy.mount(ComboboCustomLabelMultiTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select fruits');
     cy.get('.hsi-ui-textbox').realClick();
@@ -503,6 +544,12 @@ describe('Multi-select combobox with a dynamic label and initial selections', ()
   beforeEach(() => {
     cy.mount(ComboboInitialSelectionsMultiTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should(
       'have.text',
@@ -566,6 +613,12 @@ describe('Multi-select combobox with a count label and initial selections', () =
   beforeEach(() => {
     cy.mount(ComboboInitialSelectionsCountMultiTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', '2 fruits selected');
     cy.get('.hsi-ui-textbox').click();

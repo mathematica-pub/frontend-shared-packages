@@ -81,6 +81,12 @@ describe('Single-select grouped combobox with a default (dynamic) label', () => 
       componentProperties: { isMulti: false },
     });
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('textbox label shows the boxLabel before there is a selection, and the selected value afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
     cy.get('.hsi-ui-textbox').click();
@@ -116,6 +122,12 @@ describe('Multi-select grouped combobox with a default (dynamic) label', () => {
       componentProperties: { isMulti: true },
     });
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('textbox label shows the boxLabel before there is a selection, and the selected values afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
     cy.get('.hsi-ui-textbox').click();
@@ -216,6 +228,12 @@ describe('Multi-select grouped combobox with external selections', () => {
   beforeEach(() => {
     cy.mount(ComboboxGroupedCountLabelTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('textbox label shows the boxLabel before there is a selection, and the count label afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
     cy.get('.hsi-ui-textbox').click();
@@ -303,6 +321,12 @@ describe('Multi-select grouped combobox with external selections', () => {
   beforeEach(() => {
     cy.mount(ComboboxGroupedExternalSelectionsTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('textbox label shows externally selected options on load', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Bananas, Durians');
     cy.get('.hsi-ui-textbox').click();
@@ -425,6 +449,12 @@ describe('Multi-select grouped combobox with dynamic options', () => {
   beforeEach(() => {
     cy.mount(ComboboxGroupedDynamicOptionsTestComponent);
   });
+
+  it('should not have accessibility violations', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('combobox correctly changes options when options are changed externally', () => {
     cy.get('.hsi-ui-textbox').click();
     cy.get('.hsi-ui-listbox-option').should('have.length', 5);
