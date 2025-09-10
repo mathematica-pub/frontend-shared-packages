@@ -31,14 +31,26 @@ export class HighlightLineForLabel<Datum>
         (d): boolean => label === host.marks.config.stroke.color.values[d.index]
       )
       .raise();
+
+    host.marks.areaFills
+      .filter(([category]) => label === category)
+      .style('display', ([category]) =>
+        host.marks.config.areaFills.display(category) ? null : 'none'
+      );
+    host.marks.areaFills
+      .filter(([category]) => label !== category)
+      .style('display', 'none');
   }
 
-  onEnd(event: LinesHost<Datum>): void {
-    event.marks.lineGroups
+  onEnd(host: LinesHost<Datum>): void {
+    host.marks.lineGroups
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
       .style('stroke', null);
-    event.marks.lineGroups
+    host.marks.lineGroups
       .selectAll<SVGPathElement, LinesMarkerDatum>('circle')
       .style('fill', null);
+    host.marks.areaFills.style('display', ([category]) =>
+      host.marks.config.areaFills.display(category) ? null : 'none'
+    );
   }
 }

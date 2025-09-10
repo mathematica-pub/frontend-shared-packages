@@ -54,8 +54,13 @@ export class LinesHoverMoveDefaultMarkersStyles<Datum>
         return r;
       })
       .raise();
-
+    host
+      .getClosestAreaFill()
+      .style('display', ([category]) =>
+        host.marks.config.areaFills.display(category) ? null : 'none'
+      );
     host.getOtherMarkers().style('display', 'none');
+    host.getOtherAreaFills().style('display', 'none');
   }
 
   onEnd(host: LinesHost<Datum>): void {
@@ -63,6 +68,9 @@ export class LinesHoverMoveDefaultMarkersStyles<Datum>
       .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
       .style('display', (d) => d.display)
       .attr('r', () => host.marks.config.pointMarkers.radius);
+    host.marks.areaFills.style('display', ([category]) =>
+      host.marks.config.areaFills.display(category) ? null : 'none'
+    );
   }
 }
 

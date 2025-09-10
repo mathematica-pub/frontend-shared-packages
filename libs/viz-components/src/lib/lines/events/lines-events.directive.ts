@@ -15,6 +15,7 @@ import {
 import { TooltipPosition } from '../../tooltips';
 import { LinesMarkerDatum } from '../config/lines-config';
 import {
+  AreaGroupSelection,
   LINES,
   LinesComponent,
   LinesGroupSelection,
@@ -32,6 +33,8 @@ export interface LinesHost<
   getOtherLineGroups(): LinesGroupSelection;
   getClosestMarker(): MarkerSelection;
   getOtherMarkers(): MarkerSelection;
+  getClosestAreaFill(): AreaGroupSelection;
+  getOtherAreaFills(): AreaGroupSelection;
 }
 
 @Directive({
@@ -106,6 +109,22 @@ export class LinesEventsDirective<
     return this.marks.lineGroups
       .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
       .filter((d) => d.index !== this.getClosestPointIndex());
+  }
+
+  getClosestAreaFill(): AreaGroupSelection {
+    return this.marks.areaFills.filter(
+      ([category]) =>
+        this.marks.config.stroke.color.values[this.getClosestPointIndex()] ===
+        category
+    );
+  }
+
+  getOtherAreaFills(): AreaGroupSelection {
+    return this.marks.areaFills.filter(
+      ([category]) =>
+        this.marks.config.stroke.color.values[this.getClosestPointIndex()] !==
+        category
+    );
   }
 
   setupListeners(elements: Element[]): UnlistenFunction[] {

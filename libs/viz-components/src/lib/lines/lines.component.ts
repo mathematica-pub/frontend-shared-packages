@@ -29,6 +29,13 @@ export type LinesGroupSelection = Selection<
   unknown
 >;
 
+export type AreaGroupSelection = Selection<
+  SVGPathElement,
+  LinesGroupSelectionDatum,
+  SVGGElement,
+  unknown
+>;
+
 export type LinesGroupSelectionDatum = [string, number[]];
 
 export const LINES = new InjectionToken<LinesComponent<unknown>>(
@@ -85,6 +92,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   lineArea: (x: any[]) => any;
   lineGroups: LinesGroupSelection;
+  areaFills: AreaGroupSelection;
   lineLabelsRef: ElementRef<SVGSVGElement>;
   markerIndexAttr = 'index';
   markers: BehaviorSubject<MarkerSelection> = new BehaviorSubject(null);
@@ -226,7 +234,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.lineGroups
+    this.areaFills = this.lineGroups
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>(
         `.${this.class.area}`
       )
