@@ -93,7 +93,7 @@ export class MlbStackedBarsComponent
       .append('g')
       .attr('class', 'average-header')
       .attr('transform', `translate(${400}, 26)`);
-    group.append('text').attr('dy', -40);
+    group.append('text').attr('class', 'average-header-label').attr('dy', -40);
     group
       .append('line')
       .attr('y1', this.radius - 13)
@@ -107,7 +107,7 @@ export class MlbStackedBarsComponent
 
   updateAverageHeaderGroup(): void {
     this.headerGroup
-      .select('.average-header text')
+      .select('.average-header-label')
       .text(this.config.data[0].type);
   }
 
