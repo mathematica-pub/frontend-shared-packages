@@ -13,6 +13,7 @@ export interface MlbPercentilesDatum extends MlbDatum {
   strat: string;
   percentile25: number;
   percentile75: number;
+  type: string;
 }
 
 @Component({
@@ -64,6 +65,7 @@ export class MlbPercentilesComponent implements OnInit {
             ? Math.abs(x.MLB_75 - x.MLB_25)
             : null,
         average: x.Value && !isNaN(x.Value) ? +x.Value : null,
+        type: x.Type,
         percentile25: x.MLB_25 && !isNaN(x.MLB_25) ? +x.MLB_25 : null,
         percentile75: x.MLB_75 && !isNaN(x.MLB_75) ? +x.MLB_75 : null,
         directionality: x.Directionality,

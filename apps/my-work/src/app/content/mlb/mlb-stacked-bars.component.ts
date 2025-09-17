@@ -85,6 +85,7 @@ export class MlbStackedBarsComponent
       this.chart
     );
     this.stackedBarsService.updateXLabel(this.xLabel, this.config, this.chart);
+    this.updateAverageHeaderGroup();
   }
 
   createAverageHeaderGroup(): void {
@@ -92,17 +93,22 @@ export class MlbStackedBarsComponent
       .append('g')
       .attr('class', 'average-header')
       .attr('transform', `translate(${400}, 26)`);
-    group.append('text').attr('dy', -40).text('Average');
+    group.append('text').attr('dy', -40);
     group
       .append('line')
       .attr('y1', this.radius - 13)
-      .attr('y2', -35)
-      .text('Average');
+      .attr('y2', -35);
     group
       .append('circle')
       .attr('class', 'average')
       .attr('r', this.radius)
       .attr('cy', this.radius - 13);
+  }
+
+  updateAverageHeaderGroup(): void {
+    this.headerGroup
+      .select('.average-header text')
+      .text(this.config.data[0].type);
   }
 
   createNoDataGroup(): void {
