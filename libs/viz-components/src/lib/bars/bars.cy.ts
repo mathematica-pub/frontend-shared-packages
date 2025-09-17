@@ -788,6 +788,10 @@ describe('displays tooltips for correct data per hover position', () => {
       it('displays a tooltip', () => {
         cy.get('.vic-html-tooltip-overlay').should('exist');
       });
+      it('hides the tooltip on Esc button press', () => {
+        cy.get('body').focus().type('{esc}');
+        cy.get('.vic-html-tooltip-overlay').should('not.exist');
+      });
       it('tooltip displays correctly formatted data', () => {
         cy.get('.x-value').should(
           'have.text',
