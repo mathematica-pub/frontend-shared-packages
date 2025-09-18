@@ -207,7 +207,7 @@ export class CaDotPlotService {
     this.chartConfig.height = uniqueRows.size * this.bandwidth;
   }
 
-  setBdaMockCategories(order: any): void {
+  setRaceEthnicityMockCategories(order: any): void {
     order.race['Race 1 covers two lines'] = 0;
     order.race['Race 2'] = 1;
     order.race['Race 3 covers two lines'] = 2;

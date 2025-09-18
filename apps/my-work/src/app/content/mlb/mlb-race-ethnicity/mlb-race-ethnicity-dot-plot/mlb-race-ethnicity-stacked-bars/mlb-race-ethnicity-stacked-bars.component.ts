@@ -9,16 +9,16 @@ import {
   MlbDatum,
   MlbStackedBarsComponent,
 } from '../../../mlb-stacked-bars.component';
-import { MlbBdaDatum } from '../../mlb-bda.component';
+import { MlbBdaDatum } from '../../mlb-race-ethnicity.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[app-mlb-bda-stacked-bars]',
+  selector: '[app-mlb-race-ethnicity-stacked-bars]',
   standalone: true,
   templateUrl: '',
   imports: [CommonModule],
 })
-export class MlbBdaStackedBarsComponent
+export class MlbRaceEthnicityStackedBarsComponent
   extends MlbStackedBarsComponent
   implements OnInit
 {

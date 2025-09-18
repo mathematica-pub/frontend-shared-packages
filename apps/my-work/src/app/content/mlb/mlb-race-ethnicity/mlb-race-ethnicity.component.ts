@@ -7,27 +7,27 @@ import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { CaStackedBarsService } from '../../ca/ca-stacked-bars.service';
 import { mlbDataPath } from '../../ca/data-paths.constants';
 import { MlbDatum } from '../mlb-stacked-bars.component';
-import { MlbBdaDotPlotComponent } from './mlb-bda-dot-plot/mlb-bda-dot-plot.component';
+import { MlbRaceEthnicityDotPlotComponent } from './mlb-race-ethnicity-dot-plot/mlb-race-ethnicity-dot-plot.component';
 
 export interface MlbBdaDatum extends MlbDatum {
   strat: string;
 }
 
 @Component({
-  selector: 'app-mlb-bda',
+  selector: 'app-mlb-race-ethnicity',
   standalone: true,
   imports: [
     CommonModule,
     ExportContentComponent,
     ReactiveFormsModule,
-    MlbBdaDotPlotComponent,
+    MlbRaceEthnicityDotPlotComponent,
   ],
   providers: [CaChartService, CaStackedBarsService],
-  templateUrl: 'mlb-bda.component.html',
-  styleUrl: './mlb-bda.component.scss',
+  templateUrl: 'mlb-race-ethnicity.component.html',
+  styleUrl: './mlb-race-ethnicity.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class MlbBdaComponent implements OnInit {
+export class MlbRaceEthnicityComponent implements OnInit {
   mlbDataPath = mlbDataPath.mlb;
   filters = {
     measureCodes: [],

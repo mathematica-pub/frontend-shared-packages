@@ -24,7 +24,7 @@ import { CaDotPlotService } from '../../ca/ca-dot-plot.service';
 import { chartWidth } from '../../ca/ca.constants';
 import { mlbDataPath } from '../../ca/data-paths.constants';
 import { NotesComponent } from '../../ca/notes/notes.component';
-import { MlbBdaDatum } from '../mlb-bda/mlb-bda.component';
+import { MlbBdaDatum } from '../mlb-race-ethnicity/mlb-race-ethnicity.component';
 import { mlbColorRange } from '../mlb.constants';
 
 interface ViewModel {

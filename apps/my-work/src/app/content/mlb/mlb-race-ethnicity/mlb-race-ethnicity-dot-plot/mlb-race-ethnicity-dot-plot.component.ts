@@ -12,13 +12,17 @@ import {
   DotPlotDataConfig,
 } from '../../../ca/ca-dot-plot.service';
 import { raceCategories } from '../../../ca/ca.constants';
-import { MlbBdaDatum } from '../mlb-bda.component';
-import { MlbBdaStackedBarsComponent } from './mlb-bda-stacked-bars/mlb-bda-stacked-bars.component';
+import { MlbBdaDatum } from '../mlb-race-ethnicity.component';
+import { MlbRaceEthnicityStackedBarsComponent } from './mlb-race-ethnicity-stacked-bars/mlb-race-ethnicity-stacked-bars.component';
 
 @Component({
-  selector: 'app-mlb-bda-dot-plot',
+  selector: 'app-mlb-race-ethnicity-dot-plot',
   standalone: true,
-  imports: [VicChartModule, VicXyAxisModule, MlbBdaStackedBarsComponent],
+  imports: [
+    VicChartModule,
+    VicXyAxisModule,
+    MlbRaceEthnicityStackedBarsComponent,
+  ],
   providers: [
     VicStackedBarsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
@@ -26,10 +30,10 @@ import { MlbBdaStackedBarsComponent } from './mlb-bda-stacked-bars/mlb-bda-stack
     VicChartConfigBuilder,
     CaDotPlotService,
   ],
-  templateUrl: './mlb-bda-dot-plot.component.html',
-  styleUrl: './mlb-bda-dot-plot.component.scss',
+  templateUrl: './mlb-race-ethnicity-dot-plot.component.html',
+  styleUrl: './mlb-race-ethnicity-dot-plot.component.scss',
 })
-export class MlbBdaDotPlotComponent implements OnChanges {
+export class MlbRaceEthnicityDotPlotComponent implements OnChanges {
   @Input() data: MlbBdaDatum[];
   categories = raceCategories;
 
@@ -54,7 +58,7 @@ export class MlbBdaDotPlotComponent implements OnChanges {
 
   getSortOrder(a: MlbBdaDatum, b: MlbBdaDatum): number {
     const order = structuredClone(this.categories);
-    this.caDotPlotService.setBdaMockCategories(order);
+    this.caDotPlotService.setRaceEthnicityMockCategories(order);
 
     const stratA = a.strat.toLowerCase() === 'ethnicity' ? 'ethnicity' : 'race';
     const stratB = b.strat.toLowerCase() === 'ethnicity' ? 'ethnicity' : 'race';

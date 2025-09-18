@@ -59,7 +59,7 @@ export class BdaDotPlotComponent implements OnChanges {
 
   getSortOrder(a: BdaDatum, b: BdaDatum): number {
     const order = structuredClone(this.categories);
-    this.caDotPlotService.setBdaMockCategories(order);
+    this.caDotPlotService.setRaceEthnicityMockCategories(order);
 
     const stratA = a.strat.toLowerCase() === 'ethnicity' ? 'ethnicity' : 'race';
     const stratB = b.strat.toLowerCase() === 'ethnicity' ? 'ethnicity' : 'race';

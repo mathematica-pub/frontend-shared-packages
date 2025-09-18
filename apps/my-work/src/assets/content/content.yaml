@@ -11,7 +11,7 @@ items:
     - ica-race
   mlb:
     - mlb-percentiles
-    - mlb-bda
+    - mlb-race-ethnicity
     - mlb-shortage
     - mlb-shortage-bar
     - mlb-network
