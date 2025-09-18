@@ -28,7 +28,7 @@ export interface MlbBdaDatum extends MlbDatum {
   encapsulation: ViewEncapsulation.None,
 })
 export class MlbBdaComponent implements OnInit {
-  mlbDataPath = mlbDataPath.bda;
+  mlbDataPath = mlbDataPath.mlb;
   filters = {
     measureCodes: [],
   };

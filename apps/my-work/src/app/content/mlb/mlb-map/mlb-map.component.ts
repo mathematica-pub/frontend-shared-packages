@@ -64,7 +64,7 @@ type CaMapTopology = Topology<MapObjects>;
   encapsulation: ViewEncapsulation.None,
 })
 export class MlbMapComponent implements OnInit {
-  mlbDataPath = mlbDataPath.lob;
+  mlbDataPath = mlbDataPath.county;
   filters = {
     measureCodes: [],
     lobs: [],

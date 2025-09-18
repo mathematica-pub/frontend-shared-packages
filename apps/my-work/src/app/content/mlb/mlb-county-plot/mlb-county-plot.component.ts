@@ -32,7 +32,7 @@ export interface MlbCountyDatum extends MlbDatum {
   encapsulation: ViewEncapsulation.None,
 })
 export class MlbCountyPlotComponent implements OnInit {
-  mlbDataPath = mlbDataPath.lob;
+  mlbDataPath = mlbDataPath.county;
   filters = {
     measureCodes: [],
     stratVals: [],

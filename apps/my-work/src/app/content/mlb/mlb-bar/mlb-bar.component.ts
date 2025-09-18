@@ -60,7 +60,7 @@ interface ViewModel {
 })
 export class MlbBarComponent implements OnInit {
   vm$: Observable<ViewModel>;
-  mlbDataPath = mlbDataPath.bda;
+  mlbDataPath = mlbDataPath.mlb;
   filters = {
     measureCodes: [],
   };

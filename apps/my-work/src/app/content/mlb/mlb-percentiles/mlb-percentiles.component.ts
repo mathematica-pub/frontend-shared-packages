@@ -31,7 +31,7 @@ export interface MlbPercentilesDatum extends MlbDatum {
   encapsulation: ViewEncapsulation.None,
 })
 export class MlbPercentilesComponent implements OnInit {
-  mlbDataPath = mlbDataPath.bda;
+  mlbDataPath = mlbDataPath.mlb;
   filters = {
     measureCodes: [],
     stratVals: [],
