@@ -9,7 +9,7 @@ import {
   MlbDatum,
   MlbStackedBarsComponent,
 } from '../../../mlb-stacked-bars.component';
-import { MlbBdaDatum } from '../../mlb-race-ethnicity.component';
+import { MlbRaceDatum } from '../../mlb-race-ethnicity.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -45,7 +45,7 @@ export class MlbRaceEthnicityStackedBarsComponent
       .attr('class', 'strat-labels');
   }
 
-  override getCategory(lob: MlbBdaDatum): string {
+  override getCategory(lob: MlbRaceDatum): string {
     return lob.stratVal;
   }
 
@@ -101,7 +101,7 @@ export class MlbRaceEthnicityStackedBarsComponent
     return this.scales.y(strat.stratVal) + this.stratPadding;
   }
 
-  getY2(d: any, reverseData: MlbBdaDatum[]): number {
+  getY2(d: any, reverseData: MlbRaceDatum[]): number {
     const strat = reverseData.find((x) => x.strat === d);
     return (
       this.scales.y(strat.stratVal) +
@@ -110,7 +110,7 @@ export class MlbRaceEthnicityStackedBarsComponent
     );
   }
 
-  getAverageY(d: any, reverseData: MlbBdaDatum[]): number {
+  getAverageY(d: any, reverseData: MlbRaceDatum[]): number {
     const y1 = this.getY1(d);
     const y2 = this.getY2(d, reverseData);
     const average = (y1 + y2) / 2;

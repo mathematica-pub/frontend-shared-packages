@@ -24,12 +24,12 @@ import { CaDotPlotService } from '../../ca/ca-dot-plot.service';
 import { chartWidth } from '../../ca/ca.constants';
 import { mlbDataPath } from '../../ca/data-paths.constants';
 import { NotesComponent } from '../../ca/notes/notes.component';
-import { MlbBdaDatum } from '../mlb-race-ethnicity/mlb-race-ethnicity.component';
+import { MlbRaceDatum } from '../mlb-race-ethnicity/mlb-race-ethnicity.component';
 import { mlbColorRange } from '../mlb.constants';
 
 interface ViewModel {
   chartConfig: ChartConfig;
-  dataConfig: GroupedBarsConfig<MlbBdaDatum, string>;
+  dataConfig: GroupedBarsConfig<MlbRaceDatum, string>;
   yAxisConfig: VicYOrdinalAxisConfig<string>;
 }
 
@@ -75,7 +75,7 @@ export class MlbBarComponent implements OnInit {
     public caChartService: CaChartService,
     private caDotPlotService: CaDotPlotService,
     private chart: VicChartConfigBuilder,
-    private groupedBars: VicGroupedBarsConfigBuilder<MlbBdaDatum, string>,
+    private groupedBars: VicGroupedBarsConfigBuilder<MlbRaceDatum, string>,
     private yAxisQuantitative: VicYOrdinalAxisConfigBuilder<string>
   ) {}
 
@@ -90,9 +90,9 @@ export class MlbBarComponent implements OnInit {
     this.setVm();
   }
 
-  getTransformedData(data: MlbBdaDatum[]): MlbBdaDatum[] {
-    const transformed: MlbBdaDatum[] = data.map((x: any) => {
-      const obj: MlbBdaDatum = {
+  getTransformedData(data: MlbRaceDatum[]): MlbRaceDatum[] {
+    const transformed: MlbRaceDatum[] = data.map((x: any) => {
+      const obj: MlbRaceDatum = {
         series: 'percentile',
         measureCode: x.Measure_Code,
         units: x.Units,
@@ -106,7 +106,7 @@ export class MlbBarComponent implements OnInit {
       };
       return obj;
     });
-    return transformed.filter((x: MlbBdaDatum) => {
+    return transformed.filter((x: MlbRaceDatum) => {
       const strat = x.strat.toLowerCase();
       return strat.includes(this.stratKeyword) && x.comparison === false;
     });
@@ -116,7 +116,7 @@ export class MlbBarComponent implements OnInit {
     this.vm$ = this.caChartService.filteredData$.pipe(
       map((data) => ({
         chartConfig: this.getChartConfig(),
-        dataConfig: this.getDataConfig(data as MlbBdaDatum[]),
+        dataConfig: this.getDataConfig(data as MlbRaceDatum[]),
         yAxisConfig: this.yAxisQuantitative.getConfig(),
       }))
     );
@@ -132,7 +132,7 @@ export class MlbBarComponent implements OnInit {
       .getConfig();
   }
 
-  getDataConfig(data: MlbBdaDatum[]): GroupedBarsConfig<MlbBdaDatum, string> {
+  getDataConfig(data: MlbRaceDatum[]): GroupedBarsConfig<MlbRaceDatum, string> {
     const trueMax = max(data, (d) => d.value) * 1.1;
     return this.groupedBars
       .data(data.reverse())

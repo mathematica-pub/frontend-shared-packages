@@ -12,7 +12,7 @@ import {
   DotPlotDataConfig,
 } from '../../../ca/ca-dot-plot.service';
 import { raceCategories } from '../../../ca/ca.constants';
-import { MlbBdaDatum } from '../mlb-race-ethnicity.component';
+import { MlbRaceDatum } from '../mlb-race-ethnicity.component';
 import { MlbRaceEthnicityStackedBarsComponent } from './mlb-race-ethnicity-stacked-bars/mlb-race-ethnicity-stacked-bars.component';
 
 @Component({
@@ -34,7 +34,7 @@ import { MlbRaceEthnicityStackedBarsComponent } from './mlb-race-ethnicity-stack
   styleUrl: './mlb-race-ethnicity-dot-plot.component.scss',
 })
 export class MlbRaceEthnicityDotPlotComponent implements OnChanges {
-  @Input() data: MlbBdaDatum[];
+  @Input() data: MlbRaceDatum[];
   categories = raceCategories;
 
   constructor(public caDotPlotService: CaDotPlotService) {}
@@ -56,7 +56,7 @@ export class MlbRaceEthnicityDotPlotComponent implements OnChanges {
     }
   }
 
-  getSortOrder(a: MlbBdaDatum, b: MlbBdaDatum): number {
+  getSortOrder(a: MlbRaceDatum, b: MlbRaceDatum): number {
     const order = structuredClone(this.categories);
     this.caDotPlotService.setRaceEthnicityMockCategories(order);
 
@@ -76,7 +76,7 @@ export class MlbRaceEthnicityDotPlotComponent implements OnChanges {
         if (categoryData.length === 0) {
           const matchingStrat = this.caDotPlotService.getMatchingStrat(strat);
           if (matchingStrat) {
-            const emptyCategory: MlbBdaDatum = {
+            const emptyCategory: MlbRaceDatum = {
               directionality: null,
               measureCode: null,
               series: 'percentile',

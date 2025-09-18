@@ -9,7 +9,7 @@ import { mlbDataPath } from '../../ca/data-paths.constants';
 import { MlbDatum } from '../mlb-stacked-bars.component';
 import { MlbRaceEthnicityDotPlotComponent } from './mlb-race-ethnicity-dot-plot/mlb-race-ethnicity-dot-plot.component';
 
-export interface MlbBdaDatum extends MlbDatum {
+export interface MlbRaceDatum extends MlbDatum {
   strat: string;
 }
 
@@ -47,9 +47,9 @@ export class MlbRaceEthnicityComponent implements OnInit {
     this.caChartService.init(caChartDataConfig);
   }
 
-  getTransformedData(data: MlbBdaDatum[]): MlbBdaDatum[] {
-    const transformed: MlbBdaDatum[] = data.map((x: any) => {
-      const obj: MlbBdaDatum = {
+  getTransformedData(data: MlbRaceDatum[]): MlbRaceDatum[] {
+    const transformed: MlbRaceDatum[] = data.map((x: any) => {
+      const obj: MlbRaceDatum = {
         series: 'percentile',
         measureCode: x.Measure_Code,
         units: x.Units,
@@ -63,7 +63,7 @@ export class MlbRaceEthnicityComponent implements OnInit {
       };
       return obj;
     });
-    return transformed.filter((x: MlbBdaDatum) => {
+    return transformed.filter((x: MlbRaceDatum) => {
       const strat = x.strat.toLowerCase();
       return this.isMatchingStrat(strat) && x.comparison === false;
     });
