@@ -1,4 +1,4 @@
-<div class="title">MLB percentiles</div>
+<div class="title">MLB Percentiles</div>
 <form [formGroup]="caChartService.myForm">
   <div class="selection">
     <label for="measureCode">Measure Code</label>
@@ -28,7 +28,7 @@
 @if (caChartService.filteredData$ | async; as data) {
   <app-export-content
     [fileName]="
-      'MLB percentiles ' +
+      'MLB Percentiles ' +
       caChartService.myForm.value[filterTypes[0]] +
       ' ' +
       caChartService.myForm.value[filterTypes[1]]
