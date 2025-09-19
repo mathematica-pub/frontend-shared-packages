@@ -90,7 +90,6 @@ export abstract class XyAxis<
     this.setScale();
     this.setAxisFromScaleAndConfig();
     this.drawAxis();
-    this.drawGrid();
     this.isFirstDraw = false;
   }
 
@@ -107,6 +106,7 @@ export abstract class XyAxis<
       .call(this.axis)
       .on('end', () => {
         this.processTicks();
+        this.drawGrid();
       });
     this.processDomain();
 

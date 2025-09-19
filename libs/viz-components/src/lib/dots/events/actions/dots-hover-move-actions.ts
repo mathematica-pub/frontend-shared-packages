@@ -1,43 +1,38 @@
-import { HoverMoveAction } from '../../../events';
-import { DotsComponent } from '../../dots.component';
-import { DotsHoverMoveDirective } from '../dots-hover-move.directive';
+import { EventType, HoverMoveAction } from '../../../events';
+import { DotsHost } from '../dots-events.directive';
 
-export class DotsHoverMoveDefaultStyles<
-  Datum,
-  TDotsComponent extends DotsComponent<Datum> = DotsComponent<Datum>,
-> implements HoverMoveAction<DotsHoverMoveDirective<Datum, TDotsComponent>>
+export class DotsHoverMoveDefaultStyles<Datum>
+  implements HoverMoveAction<DotsHost<Datum>>
 {
-  onStart(directive: DotsHoverMoveDirective<Datum, TDotsComponent>): void {
-    directive.dots.dotGroups
-      .filter((d) => d.index !== directive.dotDatum.index)
+  onStart(host: DotsHost<Datum>): void {
+    host.marks.dotGroups
+      .filter((d) => d.index !== host.getDotDatum().index)
       .selectAll<SVGCircleElement, number>('circle')
       .style('fill', '#ccc');
 
-    directive.dots.dotGroups
-      .filter((d) => d.index === directive.dotDatum.index)
+    host.marks.dotGroups
+      .filter((d) => d.index === host.getDotDatum().index)
       .selectAll<SVGCircleElement, number>('circle')
       .select((d, i, nodes) => nodes[i].parentElement)
       .raise();
   }
 
-  onEnd(directive: DotsHoverMoveDirective<Datum, TDotsComponent>): void {
-    directive.dots.dotGroups
+  onEnd(host: DotsHost<Datum>): void {
+    host.marks.dotGroups
       .selectAll<SVGCircleElement, number>('circle')
       .style('fill', null);
   }
 }
 
-export class DotsHoverMoveEmitTooltipData<
-  Datum,
-  TDotsComponent extends DotsComponent<Datum> = DotsComponent<Datum>,
-> implements HoverMoveAction<DotsHoverMoveDirective<Datum, TDotsComponent>>
+export class DotsHoverMoveEmitTooltipData<Datum>
+  implements HoverMoveAction<DotsHost<Datum>>
 {
-  onStart(directive: DotsHoverMoveDirective<Datum, TDotsComponent>): void {
-    const tooltipData = directive.getEventOutput();
-    directive.eventOutput.emit(tooltipData);
+  onStart(host: DotsHost<Datum>): void {
+    const output = host.getInteractionOutput(EventType.HoverMove);
+    host.emitInteractionOutput(output);
   }
 
-  onEnd(directive: DotsHoverMoveDirective<Datum, TDotsComponent>): void {
-    directive.eventOutput.emit(null);
+  onEnd(host: DotsHost<Datum>): void {
+    host.emitInteractionOutput(null);
   }
 }

@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { select } from 'd3';
 import { Selection } from 'd3-selection';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, filter } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
 import {
   XyChartComponent,
@@ -86,7 +86,7 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
 > {
   dotGroups: DotGroupSelection;
   dots: BehaviorSubject<DotSelection> = new BehaviorSubject(null);
-  dots$ = this.dots.asObservable();
+  dots$ = this.dots.asObservable().pipe(filter((s) => !!s));
   override scales: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fill: GenericScale<any, any>;

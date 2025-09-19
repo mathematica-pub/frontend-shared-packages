@@ -1,32 +1,33 @@
 import {
   ConnectedPosition,
-  FlexibleConnectedPositionStrategy,
-  GlobalPositionStrategy,
   OverlayPositionBuilder,
   PositionStrategy,
 } from '@angular/cdk/overlay';
-import { safeAssign } from '@hsi/app-dev-kit';
-import { HtmlTooltipOffsetFromOriginPositionOptions } from './tooltip-position-options';
 
-export abstract class HtmlTooltipPosition {
-  type: 'connected' | 'global';
-  strategy: GlobalPositionStrategy | FlexibleConnectedPositionStrategy;
+export type TooltipPositionConfig = {
+  originX: 'start' | 'center' | 'end';
+  originY: 'top' | 'center' | 'bottom';
+  overlayX: 'start' | 'center' | 'end';
+  overlayY: 'top' | 'center' | 'bottom';
+};
 
-  abstract getPositionStrategy(
-    origin: Element,
-    overlayPositionBuilder: OverlayPositionBuilder,
-    document?: Document
-  ): PositionStrategy;
+export class TooltipPosition implements ConnectedPosition {
+  originX: TooltipPositionConfig['originX'];
+  originY: TooltipPositionConfig['originY'];
+  overlayX: TooltipPositionConfig['overlayX'];
+  overlayY: TooltipPositionConfig['overlayY'];
+  weight?: number;
+  offsetX?: number;
+  offsetY?: number;
+  panelClass?: string | string[];
+
+  constructor(config: TooltipPositionConfig & Partial<ConnectedPosition>) {
+    Object.assign(this, config); // Merge any additional overrides
+  }
 }
 
-export class HtmlTooltipCdkManagedPosition extends HtmlTooltipPosition {
-  positions: ConnectedPosition[];
-
-  constructor(positions: ConnectedPosition[]) {
-    super();
-    this.type = 'connected';
-    this.positions = positions;
-  }
+export class HtmlTooltipCdkManagedPosition {
+  constructor(public positions: ConnectedPosition[]) {}
 
   getPositionStrategy(
     origin: Element,
@@ -35,42 +36,5 @@ export class HtmlTooltipCdkManagedPosition extends HtmlTooltipPosition {
     return overlayPositionBuilder
       .flexibleConnectedTo(origin)
       .withPositions(this.positions);
-  }
-}
-
-export class HtmlTooltipOffsetFromOriginPosition
-  extends HtmlTooltipPosition
-  implements HtmlTooltipOffsetFromOriginPositionOptions
-{
-  offsetY: number;
-  offsetX: number;
-  tooltipOriginX: 'center';
-  tooltipOriginY: 'bottom';
-
-  constructor(options: HtmlTooltipOffsetFromOriginPositionOptions) {
-    super();
-    this.type = 'global';
-    this.tooltipOriginX = 'center';
-    this.tooltipOriginY = 'bottom';
-    safeAssign(this, options);
-  }
-
-  getPositionStrategy(
-    origin: Element,
-    overlayPositionBuilder: OverlayPositionBuilder,
-    document: Document
-  ): PositionStrategy {
-    const _window = document.defaultView || window;
-    const viewport = {
-      width: _window.document.body.clientWidth,
-      height: _window.document.body.clientHeight,
-    };
-    const originDims = origin.getBoundingClientRect();
-    return overlayPositionBuilder
-      .global()
-      .bottom(`${viewport.height - originDims.top - this.offsetY}px`)
-      .centerHorizontally(
-        `${-2 * (viewport.width / 2 - originDims.left - this.offsetX)}px`
-      );
   }
 }

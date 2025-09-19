@@ -5,6 +5,7 @@ import {
   inject,
   OnInit,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   MatButtonToggleChange,
@@ -14,15 +15,15 @@ import {
   ChartConfig,
   ElementSpacing,
   EventAction,
+  EventType,
   HoverMoveAction,
   HtmlTooltipConfig,
-  LinesClickDirective,
   LinesClickEmitTooltipDataPauseHoverMoveActions,
   LinesConfig,
-  LinesEventOutput,
+  LinesHost,
   LinesHoverMoveDefaultStyles,
-  LinesHoverMoveDirective,
   LinesHoverMoveEmitTooltipData,
+  LinesInteractionOutput,
   VicChartConfigBuilder,
   VicChartModule,
   VicColumnConfig,
@@ -75,6 +76,7 @@ const includeFiles = ['line-input-actions.ts'];
     VicXQuantitativeAxisConfigBuilder,
     VicHtmlTooltipConfigBuilder,
   ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class LinesExampleComponent implements OnInit {
   @ViewChild('imageNode') imageNode: ElementRef<HTMLElement>;
@@ -88,21 +90,21 @@ export class LinesExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<LinesEventOutput<MetroUnemploymentDatum>> =
-    new BehaviorSubject<LinesEventOutput<MetroUnemploymentDatum>>(null);
-  tooltipData$ = this.tooltipData.asObservable();
-  chartInputEvent: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  interactionOutput: BehaviorSubject<
+    LinesInteractionOutput<MetroUnemploymentDatum>
+  > = new BehaviorSubject<LinesInteractionOutput<MetroUnemploymentDatum>>(null);
+  interactionOutput$ = this.interactionOutput.asObservable();
+  chartInputEvent: Subject<string> = new Subject<string>();
   chartInputEvent$ = this.chartInputEvent.asObservable();
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
-  highlightLineForLabelAction = new HighlightLineForLabel();
-  hoverActions: HoverMoveAction<
-    LinesHoverMoveDirective<MetroUnemploymentDatum>
-  >[] = [
+  highlightLineForLabelAction =
+    new HighlightLineForLabel<MetroUnemploymentDatum>();
+  hoverMoveActions: HoverMoveAction<LinesHost<MetroUnemploymentDatum>>[] = [
     new LinesHoverMoveDefaultStyles(),
     new LinesHoverMoveEmitTooltipData(),
   ];
-  clickActions: EventAction<LinesClickDirective<MetroUnemploymentDatum>>[] = [
+  clickActions: EventAction<LinesHost<MetroUnemploymentDatum>>[] = [
     new LinesClickEmitTooltipDataPauseHoverMoveActions(),
   ];
   includeFiles = includeFiles;
@@ -183,29 +185,19 @@ export class LinesExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: LinesEventOutput<MetroUnemploymentDatum>,
-    tooltipEvent: 'hover' | 'click'
+    output: LinesInteractionOutput<MetroUnemploymentDatum> | null
   ): void {
-    this.updateTooltipData(data);
-    this.updateTooltipConfig(tooltipEvent);
+    this.interactionOutput.next(output);
+    this.updateTooltipConfig(output?.type);
   }
 
-  updateTooltipData(data: LinesEventOutput<MetroUnemploymentDatum>): void {
-    this.tooltipData.next(data);
-  }
-
-  updateTooltipConfig(eventContext: 'click' | 'hover'): void {
-    const data = this.tooltipData.getValue();
+  updateTooltipConfig(eventType: EventType | undefined): void {
+    const output = this.interactionOutput.getValue();
     const config = this.tooltip
       .size((size) => size.minWidth(340))
-      .linesPosition([
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 16 : 0,
-        },
-      ])
-      .hasBackdrop(eventContext === 'click')
-      .show(!!data)
+      .positionFromOutput(output)
+      .hasBackdrop(eventType === EventType.Click)
+      .show(!!output)
       .getConfig();
     this.tooltipConfig.next(config);
   }
@@ -216,7 +208,7 @@ export class LinesExampleComponent implements OnInit {
 
   onBackdropClick(): void {
     this.removeTooltipEvent.next();
-    this.updateTooltipConfig('hover');
+    this.updateTooltipConfig(EventType.Hover);
   }
 
   async downloadImage(): Promise<void> {

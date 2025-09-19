@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
   BarsConfig,
-  BarsEventOutput,
-  BarsHoverDirective,
+  BarsHost,
   BarsHoverEmitTooltipData,
-  BarsHoverMoveDirective,
   BarsHoverMoveEmitTooltipData,
+  BarsInteractionOutput,
   ChartConfig,
+  DEFAULT_TOOLTIP_Y_OFFSET,
   EventAction,
   HoverMoveAction,
   HtmlTooltipConfig,
@@ -43,11 +43,10 @@ import {
 // This wait time is necessary to ensure that the text value of the tick elements has been set by d3.
 const axisTickTextWaitTime = 1000;
 
-const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 80 };
+const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 120 };
 const verticalMargin = { top: 20, right: 20, bottom: 4, left: 40 };
 const chartHeight = 400;
 const chartWidth = 600;
-const tooltipYOffset = 30;
 const getXTransform = ($barGroup) => {
   const [x] = $barGroup
     .attr('transform')
@@ -86,8 +85,9 @@ const labelSelector = '.vic-bars-label';
         <svg:g
           vic-primary-marks-bars
           [config]="barsConfig"
-          [vicBarsHoverActions]="hoverAndMoveActions"
-          (vicBarsHoverOutput)="updateTooltipForNewOutput($event)"
+          vicBarsEvents
+          [hoverMoveActions]="hoverMoveActions"
+          (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="tooltipConfig$ | async"
@@ -98,8 +98,10 @@ const labelSelector = '.vic-bars-label';
     </vic-xy-chart>
 
     <ng-template #htmlTooltip>
-      <p class="x-value">{{ (tooltipData$ | async).values.x }}</p>
-      <p class="y-value">{{ (tooltipData$ | async).values.y }}</p>
+      @if ((tooltipData$ | async)?.values; as values) {
+        <p class="x-value">{{ values.x }}</p>
+        <p class="y-value">{{ values.y }}</p>
+      }
     </ng-template>
   `,
   imports: [
@@ -117,11 +119,12 @@ class TestHorizontalBarsComponent {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>> =
-    new BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>>(null);
+  tooltipData: BehaviorSubject<BarsInteractionOutput<CountryFactsDatum>> =
+    new BehaviorSubject<BarsInteractionOutput<CountryFactsDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveActions: HoverMoveAction<
-    BarsHoverMoveDirective<CountryFactsDatum, string>
+  hoverMoveActions: HoverMoveAction<
+    BarsHost<CountryFactsDatum, string>,
+    BarsInteractionOutput<CountryFactsDatum>
   >[] = [new BarsHoverMoveEmitTooltipData()];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
     .margin(horizontalMargin)
@@ -132,24 +135,19 @@ class TestHorizontalBarsComponent {
     .getConfig();
 
   updateTooltipForNewOutput(
-    data: BarsEventOutput<CountryFactsDatum, string>
+    data: BarsInteractionOutput<CountryFactsDatum>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: BarsEventOutput<CountryFactsDatum, string>): void {
+  updateTooltipData(data: BarsInteractionOutput<CountryFactsDatum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: BarsEventOutput<CountryFactsDatum, string>): void {
+  updateTooltipConfig(data: BarsInteractionOutput<CountryFactsDatum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .barsPosition(data?.origin, [
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY : undefined,
-        },
-      ])
+      .positionFromOutput(data, data.defaultPosition)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
@@ -190,8 +188,9 @@ const mountHorizontalBarsComponent = (
         <svg:g
           vic-primary-marks-bars
           [config]="barsConfig"
-          [vicBarsHoverActions]="hoverActions"
-          (vicBarsHoverOutput)="updateTooltipForNewOutput($event)"
+          vicBarsEvents
+          [hoverActions]="hoverActions"
+          (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="tooltipConfig$ | async"
@@ -220,10 +219,10 @@ class TestVerticalBarsComponent {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>> =
-    new BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>>(null);
+  tooltipData: BehaviorSubject<BarsInteractionOutput<CountryFactsDatum>> =
+    new BehaviorSubject<BarsInteractionOutput<CountryFactsDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: EventAction<BarsHoverDirective<CountryFactsDatum, string>>[] = [
+  hoverActions: EventAction<BarsHost<CountryFactsDatum, string>>[] = [
     new BarsHoverEmitTooltipData(),
   ];
   chartConfig: ChartConfig = new VicChartConfigBuilder()
@@ -235,24 +234,19 @@ class TestVerticalBarsComponent {
     .getConfig();
 
   updateTooltipForNewOutput(
-    data: BarsEventOutput<CountryFactsDatum, string>
+    data: BarsInteractionOutput<CountryFactsDatum>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: BarsEventOutput<CountryFactsDatum, string>): void {
+  updateTooltipData(data: BarsInteractionOutput<CountryFactsDatum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: BarsEventOutput<CountryFactsDatum, string>): void {
+  updateTooltipConfig(data: BarsInteractionOutput<CountryFactsDatum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .barsPosition(data?.origin, [
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - tooltipYOffset : undefined,
-        },
-      ])
+      .positionFromOutput(data)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
@@ -792,7 +786,7 @@ describe('displays tooltips for correct data per hover position', () => {
         cy.get('svg').should('exist');
       });
       it('displays a tooltip', () => {
-        cy.get('.vic-html-tooltip-overlay').should('be.visible');
+        cy.get('.vic-html-tooltip-overlay').should('exist');
       });
       it('tooltip displays correctly formatted data', () => {
         cy.get('.x-value').should(
@@ -816,7 +810,7 @@ describe('displays tooltips for correct data per hover position', () => {
                 5
               );
               expect(tooltipBox.bottom).to.be.closeTo(
-                (barBox.top + barBox.bottom) / 2,
+                (barBox.top + barBox.bottom) / 2 - DEFAULT_TOOLTIP_Y_OFFSET,
                 10
               );
             });

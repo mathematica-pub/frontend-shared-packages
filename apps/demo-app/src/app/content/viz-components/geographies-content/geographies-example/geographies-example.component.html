@@ -77,11 +77,11 @@
       vic-primary-marks-geographies
       svg-elements
       [config]="vm.geographiesConfig"
-      [vicGeographiesHoverActions]="hoverActions"
-      (vicGeographiesHoverOutput)="updateTooltipForNewOutput($event, 'hover')"
-      [vicGeographiesClickActions]="clickActions"
-      [vicGeographiesClickRemoveEvent$]="removeTooltipEvent$"
-      (vicGeographiesClickOutput)="updateTooltipForNewOutput($event, 'click')"
+      vicGeographiesEvents
+      [hoverActions]="hoverActions"
+      [clickActions]="clickActions"
+      [clickRemoveEvent$]="removeTooltipEvent$"
+      (interactionOutput)="updateTooltipForNewOutput($event)"
     >
       <vic-html-tooltip
         [config]="tooltipConfig$ | async"
@@ -94,19 +94,23 @@
 <ng-template #loading>Loading...</ng-template>
 
 <ng-template #htmlTooltip>
-  <div class="geographies-example-tooltip-container">
-    <p class="tooltip-label category">
-      {{ (tooltipData$ | async).geography }}
-    </p>
-    <div class="values-container">
-      <p class="tooltip-label x">
-        <span class="value-label">Income</span>
-        @if ((tooltipData$ | async).datum) {
-          {{ (tooltipData$ | async).attributeValue }}
-        } @else {
-          No data available
-        }
-      </p>
+  @if (interactionOutput$ | async; as interactionOutput) {
+    <div class="geographies-example-tooltip-container">
+      <div class="tooltip-body">
+        <p class="tooltip-label category">
+          {{ interactionOutput.geography }}
+        </p>
+        <div class="values-container">
+          <p class="tooltip-label x">
+            <span class="value-label">Income</span>
+            @if (interactionOutput.datum) {
+              {{ interactionOutput.attributeValue }}
+            } @else {
+              No data available
+            }
+          </p>
+        </div></div
+      >
     </div>
-  </div>
+  }
 </ng-template>
