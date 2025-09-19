@@ -1,4 +1,5 @@
-import { select } from 'd3';
+import { safeAssign } from '@hsi/app-dev-kit';
+import { select, Selection } from 'd3';
 import { SvgTextWrapOptions } from './svg-text-wrap-options';
 
 export class SvgTextWrap {
@@ -8,13 +9,21 @@ export class SvgTextWrap {
   lineHeight: number;
 
   constructor(options: SvgTextWrapOptions) {
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 
-  wrap(textSelection) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  wrap(textSelection: Selection<SVGTextElement, any, any, any>): void {
     textSelection.each((d, i, nodes) => {
       const text = select(nodes[i]);
-      const words = text.text().split(/\s+/).reverse();
+      const allTspans = text.selectAll<SVGTSpanElement, unknown>('tspan');
+      const words =
+        allTspans.size() > 0
+          ? Array.from(allTspans)
+              .map((tspan) => tspan.textContent.split(/\s+/))
+              .flat()
+              .reverse()
+          : text.text().split(/\s+/).reverse();
       let word;
       let line = [];
       let lineNumber = 0;
@@ -38,9 +47,9 @@ export class SvgTextWrap {
           tspan = text
             .append('tspan')
             .attr('x', x)
-            .attr('y', y)
-            .attr('dy', ++lineNumber * this.lineHeight + dy + 'em')
+            .attr('dy', this.lineHeight + dy + 'em')
             .text(word);
+          ++lineNumber;
         }
       }
       if (this.maintainYPosition && lineNumber > 0) {

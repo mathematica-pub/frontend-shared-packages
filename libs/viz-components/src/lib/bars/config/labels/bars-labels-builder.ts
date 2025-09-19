@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { BarsLabels } from './bars-labels';
 
 const DEFAULT = {
@@ -17,7 +18,7 @@ export class BarsLabelsBuilder<Datum> {
   private _offset: number;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

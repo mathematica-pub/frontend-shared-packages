@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { Stroke } from './stroke';
 
 const DEFAULT = {
@@ -17,7 +18,7 @@ export class StrokeBuilder {
   private _width: number;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

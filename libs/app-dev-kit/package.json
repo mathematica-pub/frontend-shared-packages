@@ -4,8 +4,8 @@
     "build": "ng build"
   },
   "peerDependencies": {
-    "@angular/common": "^18.2.0",
-    "@angular/core": "^18.2.0",
+    "@angular/common": "^19.2.2",
+    "@angular/core": "^19.2.2",
     "hast-util-from-parse5": "^8.0.1",
     "html-entities": "^2.5.2",
     "lodash-es": "^4.17.21",

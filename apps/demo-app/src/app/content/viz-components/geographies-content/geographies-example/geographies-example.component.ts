@@ -7,24 +7,25 @@ import {
 import { MatSelectModule } from '@angular/material/select';
 import {
   BinStrategy,
+  ChartConfig,
   ElementSpacing,
   EventAction,
   GeographiesAttributeDataLayerBuilder,
-  GeographiesClickDirective,
-  GeographiesClickEmitTooltipDataPauseHoverMoveActions,
+  GeographiesClickEmitTooltipDataPauseOtherActions,
   GeographiesConfig,
-  GeographiesEventOutput,
   GeographiesFeature,
   GeographiesGeojsonPropertiesLayerBuilder,
-  GeographiesHoverDirective,
+  GeographiesHost,
   GeographiesHoverEmitTooltipData,
+  GeographiesInteractionOutput,
   GeographiesLabelsBuilder,
   HtmlTooltipConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
   VicGeographiesConfigBuilder,
   VicGeographiesModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicMapChartModule,
   VicMapLegendModule,
   valueFormat,
 } from '@hsi/viz-components';
@@ -58,26 +59,32 @@ const smallSquareStates = [
   'VT',
 ];
 
+interface ViewModel {
+  chartConfig: ChartConfig;
+  geographiesConfig: GeographiesConfig<StateIncomeDatum, MapGeometryProperties>;
+}
+
 @Component({
   selector: 'app-geographies-example',
-  standalone: true,
   imports: [
     CommonModule,
-    VicMapChartModule,
+    VicChartModule,
     VicGeographiesModule,
     VicMapLegendModule,
     MatSelectModule,
     VicHtmlTooltipModule,
     MatButtonToggleModule,
   ],
+  providers: [
+    VicChartConfigBuilder,
+    VicGeographiesConfigBuilder,
+    VicHtmlTooltipConfigBuilder,
+  ],
   templateUrl: './geographies-example.component.html',
   styleUrls: ['./geographies-example.component.scss'],
-  providers: [VicGeographiesConfigBuilder, VicHtmlTooltipConfigBuilder],
 })
 export class GeographiesExampleComponent implements OnInit {
-  primaryMarksConfig$: Observable<
-    GeographiesConfig<StateIncomeDatum, MapGeometryProperties>
-  >;
+  vm$: Observable<ViewModel>;
   width = 700;
   height = 400;
   margin: ElementSpacing = { top: 16, right: 40, bottom: 0, left: 40 };
@@ -85,16 +92,12 @@ export class GeographiesExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>> =
-    new BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>>(null);
-  tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: EventAction<
-    GeographiesHoverDirective<StateIncomeDatum, MapGeometryProperties>
-  >[] = [
-    new GeographiesHoverEmitTooltipData<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >(),
+  interactionOutput: BehaviorSubject<
+    GeographiesInteractionOutput<StateIncomeDatum>
+  > = new BehaviorSubject<GeographiesInteractionOutput<StateIncomeDatum>>(null);
+  interactionOutput$ = this.interactionOutput.asObservable();
+  hoverActions: EventAction<GeographiesHost<StateIncomeDatum>>[] = [
+    new GeographiesHoverEmitTooltipData<StateIncomeDatum>(),
   ];
   patternName = 'dotPattern';
   folderName = 'geographies-example';
@@ -112,13 +115,8 @@ export class GeographiesExampleComponent implements OnInit {
     BinStrategy.customBreaks,
   ];
 
-  clickActions: EventAction<
-    GeographiesClickDirective<StateIncomeDatum, MapGeometryProperties>
-  >[] = [
-    new GeographiesClickEmitTooltipDataPauseHoverMoveActions<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >(),
+  clickActions: EventAction<GeographiesHost<StateIncomeDatum>>[] = [
+    new GeographiesClickEmitTooltipDataPauseOtherActions<StateIncomeDatum>(),
   ];
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
@@ -128,6 +126,7 @@ export class GeographiesExampleComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private basemap: BasemapService,
+    private chart: VicChartConfigBuilder,
     private geographies: VicGeographiesConfigBuilder<
       StateIncomeDatum,
       MapGeometryProperties
@@ -145,13 +144,21 @@ export class GeographiesExampleComponent implements OnInit {
       )
     );
 
-    this.primaryMarksConfig$ = combineLatest([
-      this.attributeDataBinType$,
-      filteredData$,
-    ]).pipe(
-      map(([, data]) => this.getPrimaryMarksConfig(data)),
+    this.vm$ = combineLatest([this.attributeDataBinType$, filteredData$]).pipe(
+      map(([, data]) => ({
+        chartConfig: this.getChartConfig(),
+        geographiesConfig: this.getPrimaryMarksConfig(data),
+      })),
       shareReplay(1)
     );
+  }
+
+  getChartConfig(): ChartConfig {
+    return this.chart
+      .margin(this.margin)
+      .maxHeight(this.height)
+      .maxWidth(this.width)
+      .getConfig();
   }
 
   getPrimaryMarksConfig(
@@ -330,33 +337,21 @@ export class GeographiesExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: GeographiesEventOutput<StateIncomeDatum>,
-    tooltipEvent: 'hover' | 'click'
+    output: GeographiesInteractionOutput<StateIncomeDatum>
   ): void {
-    this.updateTooltipData(data);
-    this.updateTooltipConfig(data, tooltipEvent);
-  }
-
-  updateTooltipData(data: GeographiesEventOutput<StateIncomeDatum>): void {
-    this.tooltipData.next(data);
+    this.interactionOutput.next(output);
+    this.updateTooltipConfig(output);
   }
 
   updateTooltipConfig(
-    data: GeographiesEventOutput<StateIncomeDatum>,
-    eventContext: 'hover' | 'click'
+    output: GeographiesInteractionOutput<StateIncomeDatum> | null
   ): void {
     const config = this.tooltip
       .size((size) => size.minWidth(130))
-      .geographiesPosition(data?.origin, [
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 16 : undefined,
-        },
-      ])
-      .hasBackdrop(eventContext === 'click')
-      .show(!!data)
+      .positionFromOutput(output, output?.fromAnchor({ y: 12 }))
+      .hasBackdrop(output?.type === 'click')
+      .show(!!output)
       .getConfig();
-
     this.tooltipConfig.next(config);
   }
 

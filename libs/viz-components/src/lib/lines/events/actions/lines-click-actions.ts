@@ -1,20 +1,17 @@
-import { EventAction } from '../../../events/action';
-import { LinesComponent } from '../../lines.component';
-import { LinesClickDirective } from '../lines-click.directive';
+import { EventAction, EventType } from '../../../events';
+import { LinesHost } from '../lines-events.directive';
 
-export class LinesClickEmitTooltipDataPauseHoverMoveActions<
-  Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> implements EventAction<LinesClickDirective<Datum, ExtendedLinesComponent>>
+export class LinesClickEmitTooltipDataPauseHoverMoveActions<Datum>
+  implements EventAction<LinesHost<Datum>>
 {
-  onStart(directive: LinesClickDirective<Datum, ExtendedLinesComponent>) {
-    const outputData = directive.getOutputData();
-    directive.preventHoverActions();
-    directive.eventOutput.emit(outputData);
+  onStart(host: LinesHost<Datum>) {
+    const outputData = host.getInteractionOutput(EventType.Click);
+    host.disableOtherActions(EventType.Click);
+    host.emitInteractionOutput(outputData);
   }
 
-  onEnd(directive: LinesClickDirective<Datum, ExtendedLinesComponent>) {
-    directive.resumeHoverActions();
-    directive.eventOutput.emit(null);
+  onEnd(host: LinesHost<Datum>) {
+    host.resumeOtherActions(EventType.Click);
+    host.emitInteractionOutput(null);
   }
 }

@@ -1,29 +1,30 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
-import 'cypress-real-events';
-import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
+  BarsConfig,
+  ChartConfig,
+  LinesConfig,
+  QuantitativeRulesConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
+  VicChartConfigBuilder,
   VicChartModule,
   VicLinesConfigBuilder,
   VicLinesModule,
+  VicQuantitativeRulesConfigBuilder,
   VicQuantitativeRulesModule,
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
-} from '../../public-api';
-import { VicOrdinalAxisConfig } from '../axes/ordinal/ordinal-axis-config';
-import { VicQuantitativeAxisConfig } from '../axes/quantitative/quantitative-axis-config';
-import { XQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
-import { YQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
-import { BarsConfig } from '../bars/config/bars-config';
-import { LinesConfig } from '../lines/config/lines-config';
+} from '@hsi/viz-components';
+import 'cypress-real-events';
+import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
   continentPopulationDateYearData,
   ContinentPopulationDateYearDatum,
@@ -34,8 +35,6 @@ import {
   countryFactsData,
   CountryFactsDatum,
 } from '../testing/data/country-area-continent';
-import { VicQuantitativeRulesConfigBuilder } from './config/quantitative-rules-builder';
-import { QuantitativeRulesConfig } from './config/quantitative-rules-config';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).
@@ -62,12 +61,7 @@ const labelSelector = '.vic-quantitative-rules-label';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-quantitative-rules-horizontal-bar',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -84,22 +78,31 @@ const labelSelector = '.vic-quantitative-rules-label';
     </vic-xy-chart>
   `,
   styles: [],
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicQuantitativeRulesModule,
+  ],
 })
 class TestQuantitativeRulesHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
   @Input() rulesConfig: QuantitativeRulesConfig<number>;
-  @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  margin = barsHorizontalMargin;
-  chartHeight = barsChartHeight;
-  chartWidth = barsChartWidth;
+  @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .maxHeight(barsChartHeight)
+    .maxWidth(barsChartWidth)
+    .margin(barsHorizontalMargin)
+    .scalingStrategy('responsive-width')
+    .getConfig();
 }
 
 const mountHorizontalBarsComponent = (
   rulesConfig: QuantitativeRulesConfig<number>
 ): void => {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder()
-    .tickFormat(',.0f')
+    .ticks((ticks) => ticks.format(',.0f'))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
   const barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
@@ -113,19 +116,8 @@ const mountHorizontalBarsComponent = (
     )
     .labels((labels) => labels.display(true))
     .getConfig();
-  const declarations = [TestQuantitativeRulesHorizontalBarsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    VicXyChartModule,
-    VicQuantitativeRulesModule,
-  ];
 
   cy.mount(TestQuantitativeRulesHorizontalBarsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       rulesConfig: rulesConfig,
@@ -143,12 +135,7 @@ const mountHorizontalBarsComponent = (
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-quantitative-rules-vertical-bar',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
         <svg:g
@@ -166,15 +153,25 @@ const mountHorizontalBarsComponent = (
     </vic-xy-chart>
   `,
   styles: [],
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicQuantitativeRulesModule,
+  ],
 })
 class TestVerticalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
   @Input() rulesConfig: QuantitativeRulesConfig<number>;
-  @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  margin = barsVerticalMargin;
-  chartHeight = barsChartHeight;
-  chartWidth = barsChartWidth;
+  @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .maxHeight(barsChartHeight)
+    .maxWidth(barsChartWidth)
+    .margin(barsVerticalMargin)
+    .scalingStrategy('responsive-width')
+    .getConfig();
 }
 
 const mountVerticalBarsComponent = (
@@ -182,7 +179,7 @@ const mountVerticalBarsComponent = (
 ): void => {
   const xAxisConfig = new VicXOrdinalAxisConfigBuilder().getConfig();
   const yAxisConfig = new VicYQuantitativeAxisConfigBuilder()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
   const barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
     .data(countryFactsData)
@@ -196,19 +193,7 @@ const mountVerticalBarsComponent = (
     .labels((labels) => labels.display(true))
     .getConfig();
 
-  const declarations = [TestVerticalBarsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXOrdinalAxisModule,
-    VicYQuantitativeAxisModule,
-    VicXyChartModule,
-    VicQuantitativeRulesModule,
-  ];
-
   cy.mount(TestVerticalBarsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       rulesConfig: rulesConfig,
@@ -232,12 +217,7 @@ const linesNumericData = ContinentPopulationNumYearData;
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-lines',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -258,6 +238,12 @@ const linesNumericData = ContinentPopulationNumYearData;
     </vic-xy-chart>
   `,
   styles: [],
+  imports: [
+    VicChartModule,
+    VicLinesModule,
+    VicXyAxisModule,
+    VicQuantitativeRulesModule,
+  ],
 })
 class TestLinesComponent<
   Datum,
@@ -266,27 +252,21 @@ class TestLinesComponent<
 > {
   @Input() linesConfig: LinesConfig<Datum>;
   @Input() rulesConfig: QuantitativeRulesConfig<RuleDatum>;
-  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
-  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<QuantAxisType>;
-  margin = linesMargin;
-  chartHeight = linesChartHeight;
-  chartWidth = linesChartWidth;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<QuantAxisType>;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .maxHeight(linesChartHeight)
+    .maxWidth(linesChartWidth)
+    .margin(linesMargin)
+    .scalingStrategy('responsive-width')
+    .getConfig();
 }
-
-const lineImports = [
-  VicChartModule,
-  VicLinesModule,
-  VicXQuantitativeAxisModule,
-  VicYQuantitativeAxisModule,
-  VicXyChartModule,
-  VicQuantitativeRulesModule,
-];
 
 function mountDateLinesComponent<RuleDatum extends number | Date>(
   rulesConfig: QuantitativeRulesConfig<RuleDatum>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<Date>()
-    .tickFormat('%Y')
+    .ticks((ticks) => ticks.format('%Y'))
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
@@ -299,14 +279,9 @@ function mountDateLinesComponent<RuleDatum extends number | Date>(
         stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
       .getConfig();
-  const declarations = [
-    TestLinesComponent<ContinentPopulationDateYearDatum, Date, RuleDatum>,
-  ];
   cy.mount(
     TestLinesComponent<ContinentPopulationDateYearDatum, Date, RuleDatum>,
     {
-      declarations,
-      imports: lineImports,
       componentProperties: {
         linesConfig: linesConfig,
         rulesConfig: rulesConfig,
@@ -322,7 +297,7 @@ function mountNumberLinesComponent(
   rulesConfig: QuantitativeRulesConfig<number>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
@@ -337,14 +312,9 @@ function mountNumberLinesComponent(
         stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
       .getConfig();
-  const declarations = [
-    TestLinesComponent<ContinentPopulationNumYearDatum, number, number>,
-  ];
   cy.mount(
     TestLinesComponent<ContinentPopulationNumYearDatum, number, number>,
     {
-      declarations,
-      imports: lineImports,
       componentProperties: {
         linesConfig: linesConfig,
         rulesConfig: rulesConfig,

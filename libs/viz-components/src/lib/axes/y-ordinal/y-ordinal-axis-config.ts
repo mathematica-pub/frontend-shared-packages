@@ -1,22 +1,29 @@
-import { DataValue } from '../../core/types/values';
+import { safeAssign } from '@hsi/app-dev-kit';
+import { DataValue } from '../../core';
+import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxisConfig } from '../base/config/xy-axis-config';
 import {
   VicOrdinalAxisOptions,
   mixinOrdinalAxisConfig,
 } from '../ordinal/ordinal-axis-config';
+import { Ticks } from '../ticks/ticks';
 import { YAxisOptions, mixinYAxisConfig } from '../y/y-axis-config';
 
-const AbstractYOrdinalAxis = mixinYAxisConfig(
-  mixinOrdinalAxisConfig(XyAxisConfig)
-);
+type XyAxisConfigType<T extends DataValue> = AbstractConstructor<
+  XyAxisConfig<T, Ticks<T>>
+>;
 
-export class YOrdinalAxisConfig<
-  TickValue extends DataValue,
-> extends AbstractYOrdinalAxis<TickValue> {
-  constructor(
-    options: YAxisOptions<TickValue> & VicOrdinalAxisOptions<TickValue>
-  ) {
+const AbstractYOrdinalAxis = mixinYAxisConfig<
+  DataValue,
+  Ticks<DataValue>,
+  XyAxisConfigType<DataValue>
+>(mixinOrdinalAxisConfig<DataValue, XyAxisConfigType<DataValue>>(XyAxisConfig));
+
+export class VicYOrdinalAxisConfig<
+  Tick extends DataValue,
+> extends AbstractYOrdinalAxis {
+  constructor(options: YAxisOptions & VicOrdinalAxisOptions<Tick>) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
   }
 }

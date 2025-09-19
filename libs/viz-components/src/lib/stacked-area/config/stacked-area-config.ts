@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import {
   CurveFactory,
   extent,
@@ -15,6 +16,12 @@ import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordin
 import { DataMarksOptions } from '../../marks/config/marks-options';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { StackedAreaOptions } from './stacked-area-options';
+
+export type StackedAreaDatum<CategoricalDomain> = (SeriesPoint<
+  [ContinuousValue, InternMap<CategoricalDomain, number>]
+> & {
+  i: number;
+})[];
 
 export class StackedAreaConfig<Datum, CategoricalDomain extends DataValue>
   extends XyPrimaryMarksConfig<Datum>
@@ -38,15 +45,11 @@ export class StackedAreaConfig<Datum, CategoricalDomain extends DataValue>
   ) => void;
   x: DateChartPositionDimension<Datum> | NumberChartPositionDimension<Datum>;
   y: NumberChartPositionDimension<Datum>;
-  series: (SeriesPoint<
-    [ContinuousValue, InternMap<CategoricalDomain, number>]
-  > & {
-    i: number;
-  })[][];
+  series: StackedAreaDatum<CategoricalDomain>[];
 
   constructor(options: StackedAreaOptions<Datum, CategoricalDomain>) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
     this.initPropertiesFromData();
   }
 

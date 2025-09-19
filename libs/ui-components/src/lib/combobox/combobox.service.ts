@@ -24,12 +24,10 @@ import { SelectAllListboxOptionComponent } from './select-all-listbox-option/sel
 
 let nextUniqueId = 0;
 
-export enum VisualFocus {
-  textbox = 'textbox',
-  listbox = 'listbox',
+export enum FocusTextbox {
+  default = 'default',
+  includeMobile = 'includeMobile',
 }
-
-// export type VisualFocusType = keyof typeof VisualFocus;
 
 export interface KeyboardEventWithAutocomplete {
   event: KeyboardEvent;
@@ -103,11 +101,15 @@ export class ComboboxService {
   scrollWhenOpened = false;
   shouldAutoSelectOnListboxClose = false;
   activeDescendant$: Observable<string>;
-  private blurEvent: Subject<void> = new Subject();
-  blurEvent$ = this.blurEvent.asObservable();
-  private projectedContentIsInDOM: BehaviorSubject<boolean> =
-    new BehaviorSubject(false);
-  projectedContentIsInDOM$ = this.projectedContentIsInDOM.asObservable();
+  allOptions: ListboxOptionComponent[];
+  allOptions$: Observable<ListboxOptionComponent[]>;
+  destroy$ = new Subject<void>();
+  groups$: Observable<ListboxGroupComponent[]>;
+  optionPropertyChanges$: Observable<ListboxOptionPropertyChange>;
+  private focusTextbox: Subject<FocusTextbox> = new Subject<FocusTextbox>();
+  focusTextbox$ = this.focusTextbox.asObservable();
+  private isKeyboardEvent = new BehaviorSubject(false);
+  isKeyboardEvent$ = this.isKeyboardEvent.asObservable();
   private _isOpen: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isOpen$ = this._isOpen.asObservable().pipe(distinctUntilChanged());
   private label: BehaviorSubject<ComboboxLabelComponent> = new BehaviorSubject(
@@ -116,29 +118,21 @@ export class ComboboxService {
   label$ = this.label.asObservable();
   private optionAction: Subject<OptionAction | string> = new Subject();
   optionAction$ = this.optionAction.asObservable();
-  private _visualFocus: BehaviorSubject<VisualFocus> =
-    new BehaviorSubject<VisualFocus>(VisualFocus.textbox);
-  private touched: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  touched$ = this.touched.asObservable();
-  visualFocus$ = this._visualFocus.asObservable();
-  allOptions$: Observable<ListboxOptionComponent[]>;
-  groups$: Observable<ListboxGroupComponent[]>;
-  optionPropertyChanges$: Observable<ListboxOptionPropertyChange>;
+  private projectedContentIsInDOM: BehaviorSubject<boolean> =
+    new BehaviorSubject(false);
+  projectedContentIsInDOM$ = this.projectedContentIsInDOM.asObservable();
   private selectedOptionsToEmit: BehaviorSubject<ListboxOptionComponent[]> =
     new BehaviorSubject([]);
   selectedOptionsToEmit$ = this.selectedOptionsToEmit.asObservable();
-  allOptions: ListboxOptionComponent[];
-  private isKeyboardEvent = new BehaviorSubject(false);
-  isKeyboardEvent$ = this.isKeyboardEvent.asObservable();
+  private textboxBlur: Subject<void> = new Subject();
+  textboxBlur$ = this.textboxBlur.asObservable();
+  private touched: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  touched$ = this.touched.asObservable();
 
   constructor(private platform: Platform) {}
 
   get isOpen(): boolean {
     return this._isOpen.value;
-  }
-
-  get visualFocus(): VisualFocus {
-    return this._visualFocus.value;
   }
 
   initActiveDescendant(source$?: Observable<string>): void {
@@ -169,16 +163,16 @@ export class ComboboxService {
     this.projectedContentIsInDOM.next(true);
   }
 
-  emitBlurEvent(): void {
-    this.blurEvent.next();
+  emitTextboxBlur(): void {
+    this.textboxBlur.next();
   }
 
   setTouched(): void {
     this.touched.next(true);
   }
 
-  setVisualFocus(focus: VisualFocus): void {
-    this._visualFocus.next(focus);
+  emitTextboxFocus(focus: FocusTextbox = FocusTextbox.default): void {
+    this.focusTextbox.next(focus);
   }
 
   emitOptionAction(action: OptionAction | string): void {
@@ -253,5 +247,20 @@ export class ComboboxService {
 
   setIsKeyboardEvent(isKeyboardEvent: boolean): void {
     this.isKeyboardEvent.next(isKeyboardEvent);
+  }
+
+  destroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+
+    this.focusTextbox.complete();
+    this.isKeyboardEvent.complete();
+    this._isOpen.complete();
+    this.label.complete();
+    this.optionAction.complete();
+    this.projectedContentIsInDOM.complete();
+    this.selectedOptionsToEmit.complete();
+    this.textboxBlur.complete();
+    this.touched.complete();
   }
 }

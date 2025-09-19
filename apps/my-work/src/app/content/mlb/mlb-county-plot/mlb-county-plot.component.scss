@@ -1,0 +1,10 @@
+@use '../mlb-race-ethnicity/mlb-race-ethnicity.component.scss';
+@use '../../ca/color.scss';
+
+.bar {
+  fill: color.$bars;
+}
+
+.range-label {
+  font-size: 16px;
+}

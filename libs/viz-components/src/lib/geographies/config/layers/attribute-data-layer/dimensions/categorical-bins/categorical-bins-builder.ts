@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { scaleOrdinal } from 'd3';
 import { AttributeDataDimensionBuilder } from '../attribute-data/attribute-data-dimension-builder';
 import { CategoricalBinsAttributeDataDimension } from './categorical-bins';
@@ -17,7 +18,7 @@ export class CategoricalBinsBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

@@ -1,8 +1,9 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { InternMap, select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { FillDefinition } from 'libs/viz-components/src/public-api';
 import { FillUtilities } from '../../../../core/utilities/fill-utilities';
 import { ValueUtilities } from '../../../../core/utilities/values';
+import { FillDefinition } from '../../../../fill-definitions/fill-definitions';
 import { GeographiesFeature } from '../../../geographies-feature';
 import {
   GeographiesLayer,
@@ -29,8 +30,7 @@ export class GeographiesAttributeDataLayer<
     TGeometry extends Geometry = MultiPolygon | Polygon,
   >
   extends GeographiesLayer<Datum, TProperties, TGeometry>
-  implements
-    GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
+  implements GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
 {
   readonly attributeDimension:
     | CategoricalBinsAttributeDataDimension<Datum>
@@ -52,7 +52,8 @@ export class GeographiesAttributeDataLayer<
     options: GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
   ) {
     super();
-    Object.assign(this, DEFAULT, options);
+    safeAssign(this, DEFAULT);
+    safeAssign(this, options);
     if (this.attributeDimension === undefined) {
       console.error('Attribute dimension is required for data layers');
     }

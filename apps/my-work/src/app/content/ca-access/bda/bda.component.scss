@@ -1,0 +1,23 @@
+@use '../../ca/ca.scss';
+@use '../../ca/color.scss';
+
+.image {
+  padding-left: 250px !important;
+}
+
+.vic-stacked-bars-bar,
+.goal rect {
+  fill: color.$goal;
+}
+
+.strat-label {
+  text {
+    text-transform: uppercase;
+    text-anchor: middle;
+  }
+
+  line {
+    stroke: black;
+    stroke-width: 2px;
+  }
+}

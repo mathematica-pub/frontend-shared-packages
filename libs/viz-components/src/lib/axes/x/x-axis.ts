@@ -1,17 +1,19 @@
 import { Directive, Input } from '@angular/core';
 import { axisBottom, axisTop } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { DataValue } from '../../core/types/values';
+import { ContinuousValue, DataValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
+import { Ticks } from '../ticks/ticks';
 import { XAxisConfig } from './x-axis-config';
 
 export function xAxisMixin<
-  TickValue extends DataValue,
-  T extends AbstractConstructor<XyAxis<TickValue>>,
+  Tick extends DataValue | ContinuousValue,
+  TicksConfig extends Ticks<Tick>,
+  T extends AbstractConstructor<XyAxis<Tick, TicksConfig>>,
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base {
-    @Input() override config: XAxisConfig<TickValue>;
+    @Input() override config: XAxisConfig<Tick, TicksConfig>;
     translate: string;
 
     setTranslate(): void {
@@ -20,18 +22,27 @@ export function xAxisMixin<
     }
 
     getTranslateDistance(): number {
-      const range = this.scales.y.range();
       return this.config.side === 'top'
-        ? this.getTopTranslate(range)
-        : this.getBottomTranslate(range);
+        ? this.getTopTranslate()
+        : this.getBottomTranslate();
     }
 
-    getTopTranslate(range: [number, number]): number {
-      return range[1];
+    getTopTranslate(): number {
+      return this.scales.y.range()[1];
     }
 
-    getBottomTranslate(range: [number, number]): number {
-      return range[0] - range[1] + this.chart.margin.top;
+    getBottomTranslate(): number {
+      return this.scales.y.range()[0];
+    }
+
+    getBaselineTranslate(): string | null {
+      if (this.otherAxisHasPosAndNegValues('x')) {
+        const rangeIndexForSide = this.config.side === 'top' ? 1 : 0;
+        const translateDistance =
+          this.scales.y(0) - this.scales.y.range()[rangeIndexForSide];
+        return `translate(0, ${translateDistance})`;
+      }
+      return null;
     }
 
     setScale(): void {
@@ -49,10 +60,12 @@ export function xAxisMixin<
       const spaceFromMarginEdge = 4;
       let x = config.offset.x;
       let y = config.offset.y;
+
       y +=
         this.config.side === 'top'
-          ? this.chart.margin.top * -1 + spaceFromMarginEdge
-          : this.chart.margin.bottom - spaceFromMarginEdge;
+          ? this.chart.config.margin.top * -1 + spaceFromMarginEdge
+          : this.chart.config.margin.bottom - spaceFromMarginEdge;
+
       let anchor: 'start' | 'middle' | 'end';
       const range = this.scales.x.range();
 
@@ -67,24 +80,30 @@ export function xAxisMixin<
         anchor = config.anchor || 'end';
       }
 
-      this.axisGroup.selectAll(`.${this.class.label}`).remove();
+      let label = this.axisGroup.select<SVGTextElement>(`.${this.class.label}`);
+      const needsInit = label.empty();
 
-      this.axisGroup.call((g) =>
-        g
-          .append('text')
-          .attr('class', this.class.label)
-          .attr('x', x)
-          .attr('y', y)
-          .attr('text-anchor', anchor)
-          .text(this.config.label.text)
-      );
+      if (needsInit) {
+        label = this.axisGroup
+          .append<SVGTextElement>('text')
+          .attr('class', this.class.label);
+      }
+
+      label
+        .text(this.config.label.text)
+        .attr('text-anchor', anchor)
+        .attr('y', y)
+        .style('visibility', config.wrap ? 'hidden' : 'visible');
 
       if (config.wrap) {
-        this.config.label.wrap.wrap(
-          this.axisGroup.select(`.${this.class.label}`)
-        );
+        requestAnimationFrame(() => {
+          this.config.label.wrap.wrap(label);
+          label.attr('x', x).style('visibility', 'visible');
 
-        this.axisGroup.selectAll(`.${this.class.label} tspan`).attr('x', x);
+          label.selectAll('tspan').attr('x', x);
+        });
+      } else {
+        label.attr('x', x);
       }
     }
   }

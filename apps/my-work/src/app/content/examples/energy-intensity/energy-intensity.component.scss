@@ -1,4 +1,5 @@
 @use 'index' as hsi-adk;
+@use 'vars' as *;
 
 .title {
   @include hsi-adk.title-large;

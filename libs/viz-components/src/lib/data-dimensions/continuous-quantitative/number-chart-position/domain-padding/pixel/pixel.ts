@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { ScaleContinuousNumeric } from 'd3';
 import {
   DomainPadding,
@@ -15,7 +16,7 @@ export class PixelDomainPadding
 
   constructor(options: PixelDomainPaddingOptions) {
     super();
-    Object.assign(this, options);
+    safeAssign(this, options);
     this.type = DomainPaddingType.numPixels;
   }
 

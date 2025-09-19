@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { extent } from 'd3';
 import { BinStrategy } from '../attribute-data-bin-enums';
 import { CalculatedBinsAttributeDataDimension } from '../calculated-bins/calculated-bins';
@@ -25,7 +26,7 @@ export class EqualValueRangesAttributeDataDimension<
   ) {
     super('number');
     this.binType = BinStrategy.equalValueRanges;
-    Object.assign(this, options);
+    safeAssign(this, options);
     if (!this.valueAccessor) {
       console.error(
         'Value accessor is required for EqualValuesAttributeDataDimension'

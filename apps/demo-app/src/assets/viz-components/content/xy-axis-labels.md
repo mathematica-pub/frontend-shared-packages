@@ -2,7 +2,7 @@
 
 ## Overview
 
-User can use the `labels` method on one of the axis builders to add and configure labels for that
+User can use the `labels` method on an x- or y-axis builder to add and configure labels for that
 axis.
 
 Axis labels are centered on their respective axes by default, with the y-axis label rotated 90
@@ -13,6 +13,10 @@ to multiple lines using the `wrap` method.
 ```custom-angular
 small axis labels examples
 ```
+
+## Configuration
+
+**Examples of configuration for `label`**
 
 ```ts
 // x-axis label with default settings
@@ -39,8 +43,6 @@ this.yQuantitativeAxis
   .getConfig();
 ```
 
-## Configuration
-
 ### Required Methods
 
 ```builder-method
@@ -55,7 +57,7 @@ params:
 
 ```builder-method
 name: anchor
-description: Positions the text relative to the label position. If not specified, the default value is 'middle'.
+description: Positions the text relative to the label position. If not provided or if called with null, the anchor will be determined by the position.
 params:
   - name: anchor
     type: "'start' | 'middle' | 'end'"
@@ -88,7 +90,7 @@ params:
 
 ```builder-method
 name: wrap
-description: Wraps the text of the label to fit within the specified width. If not specified, the default value is false.
+description: Wraps the text of the label to fit within the specified width. If not specified, the default value is false. Note that `maintainYPosition` will have no effect on rotated labels.
 params:
   - name: wrap
     type: '(wrap: SvgTextWrapBuilder) => void'

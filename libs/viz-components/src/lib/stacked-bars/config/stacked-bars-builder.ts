@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import { Series, stackOffsetDiverging, stackOrderNone } from 'd3';
 import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
 import { DataValue } from '../../core/types/values';
@@ -33,7 +34,7 @@ export class VicStackedBarsConfigBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   stackOffset(stackOffset: null): this;
@@ -87,10 +88,11 @@ export class VicStackedBarsConfigBuilder<
     this.validateBuilder('Stacked Bars');
     return new StackedBarsConfig(this.dimensions, {
       marksClass: 'vic-stacked-bars',
+      backgrounds: this.backgroundsBuilder?._build(),
       color: this.colorDimensionBuilder._build('Color'),
       customFills: this._customFills,
       data: this._data,
-      datumClass: this._class,
+      datumClass: this._datumClass,
       mixBlendMode: this._mixBlendMode,
       ordinal: this.ordinalDimensionBuilder._build(
         'band',

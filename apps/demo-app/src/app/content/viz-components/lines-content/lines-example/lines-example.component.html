@@ -33,21 +33,19 @@
         >
       </div>
     </div>
-    <vic-xy-chart [margin]="margin" #tooltipOrigin>
+    <vic-xy-chart [config]="vm.chartConfig" #tooltipOrigin>
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
-        <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
-        <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig"></svg:g>
+
         @if ((tooltipEvent$ | async) === 'hover') {
           <svg:g
             vic-primary-marks-lines
             [config]="vm.dataConfig"
-            [vicLinesHoverMoveActions]="hoverActions"
-            (vicLinesHoverMoveOutput)="
-              updateTooltipForNewOutput($event, 'hover')
-            "
-            [vicLinesInputActions]="[highlightLineForLabelAction]"
-            [vicLinesInputEvent$]="chartInputEvent$"
+            vicLinesEvents
+            [hoverMoveActions]="hoverMoveActions"
+            [inputEventActions]="[highlightLineForLabelAction]"
+            [inputEvent$]="chartInputEvent$"
+            (interactionOutput)="updateTooltipForNewOutput($event)"
           >
             <vic-html-tooltip
               [config]="tooltipConfig$ | async"
@@ -58,17 +56,13 @@
           <svg:g
             vic-primary-marks-lines
             [config]="vm.dataConfig"
-            [vicLinesHoverMoveActions]="hoverActions"
-            (vicLinesHoverMoveOutput)="
-              updateTooltipForNewOutput($event, 'hover')
-            "
-            [vicLinesChartClickActions]="clickActions"
-            [vicLinesChartClickRemoveEvent$]="removeTooltipEvent$"
-            (vicLinesChartClickOutput)="
-              updateTooltipForNewOutput($event, 'click')
-            "
-            [vicLinesInputActions]="[highlightLineForLabelAction]"
-            [vicLinesInputEvent$]="chartInputEvent$"
+            vicLinesEvents
+            [hoverMoveActions]="hoverMoveActions"
+            [clickActions]="clickActions"
+            [clickRemoveEvent$]="removeTooltipEvent$"
+            [inputEventActions]="[highlightLineForLabelAction]"
+            [inputEvent$]="chartInputEvent$"
+            (interactionOutput)="updateTooltipForNewOutput($event)"
           >
             <vic-html-tooltip
               [config]="tooltipConfig$ | async"
@@ -77,6 +71,8 @@
             ></vic-html-tooltip>
           </svg:g>
         }
+        <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
+        <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig"></svg:g>
       </ng-container>
     </vic-xy-chart>
   </div>
@@ -84,24 +80,27 @@
 <ng-template #loading>Loading...</ng-template>
 
 <ng-template #htmlTooltip>
-  <ng-container *ngIf="tooltipData$ | async as tooltipData">
+  <ng-container *ngIf="interactionOutput$ | async as interactionOutput">
     <div
-      [style.--color]="tooltipData.color"
+      [style.--color]="interactionOutput.color"
       class="lines-example-tooltip-container"
     >
-      <p class="tooltip-label category">
-        {{ tooltipData.values.strokeColor }}
-      </p>
-      <div class="values-container">
-        <p class="tooltip-label x">
-          <span class="value-label">Date</span>
-          {{ tooltipData.values.x }}
+      <div class="tooltip-body">
+        <p class="tooltip-label category">
+          {{ interactionOutput.values.strokeColor }}
         </p>
-        <p class="tooltip-label y">
-          <span class="value-label">Value</span>
-          {{ tooltipData.values.y }}
-        </p>
-      </div>
+        <div class="values-container">
+          <p class="tooltip-label x">
+            <span class="value-label">Date</span>
+            {{ interactionOutput.values.x }}
+          </p>
+          <p class="tooltip-label y">
+            <span class="value-label">Value</span>
+            {{ interactionOutput.values.y }}
+          </p>
+        </div></div
+      >
+      <vic-tooltip-triangle></vic-tooltip-triangle>
     </div>
   </ng-container>
 </ng-template>

@@ -1,0 +1,35 @@
+@use '../../ca/ca.scss';
+@use '../../ca/color.scss';
+
+.image {
+  padding-top: 40px !important;
+  padding-left: 200px !important;
+}
+
+.strat-label {
+  text {
+    text-transform: uppercase;
+    text-anchor: middle;
+  }
+
+  line {
+    stroke: black;
+    stroke-width: 2px;
+  }
+}
+
+.average {
+  stroke: white;
+}
+
+.average-label text {
+  alignment-baseline: middle;
+}
+
+.vic-axis-y-ordinal text {
+  transform: none;
+}
+
+.vic-stacked-bars-category-group {
+  fill: color.$goal; // final color in mlbColorRange
+}

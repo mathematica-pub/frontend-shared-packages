@@ -5,8 +5,7 @@ on: [push]
 permissions: write-all
 
 jobs:
-
-  runs-on-local-files: 
+  runs-on-local-files:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -98,7 +97,7 @@ jobs:
           npm ci
 
       - name: Run cypress component tests
-        run: npx nx affected -t component-test --base=remotes/origin/main --head=HEAD --parallel=false
+        run: npx nx affected -t component-test --base=remotes/origin/main --head=HEAD --parallel=false --verbose --output-style=stream
 
   build:
     runs-on: ubuntu-latest

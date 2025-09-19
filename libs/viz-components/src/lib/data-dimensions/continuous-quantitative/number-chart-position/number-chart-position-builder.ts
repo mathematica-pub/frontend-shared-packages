@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { ScaleContinuousNumeric, scaleLinear } from 'd3';
 import { DataDimensionBuilder } from '../../dimension-builder';
 import { ConcreteDomainPadding } from './domain-padding/concrete-domain-padding';
@@ -33,7 +34,7 @@ export class NumberChartPositionDimensionBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**
@@ -43,9 +44,9 @@ export class NumberChartPositionDimensionBuilder<
    *
    * If not provided, the domain will be determined by the data.
    */
-  domain(domain: null): this;
   domain(domain: [number, number]): this;
-  domain(domain: [number, number]): this {
+  domain(domain: null): this;
+  domain(domain: [number, number] | null): this {
     if (domain === null) {
       this._domain = undefined;
       return this;
@@ -57,9 +58,9 @@ export class NumberChartPositionDimensionBuilder<
   /**
    * OPTIONAL. Sets a format specifier that will be applied to the value of this dimension for display purposes.
    */
-  formatSpecifier(formatSpecifier: null): this;
   formatSpecifier(formatSpecifier: string): this;
-  formatSpecifier(formatSpecifier: string): this {
+  formatSpecifier(formatSpecifier: null): this;
+  formatSpecifier(formatSpecifier: string | null): this {
     if (formatSpecifier === null) {
       this._formatSpecifier = undefined;
       return this;

@@ -4,13 +4,7 @@
       ><p class="variable">{{ sortVar }}</p
       ><p class="units">{{ sortVarUnits }}</p></div
     >
-    <vic-xy-chart
-      class="sorted-chart"
-      [margin]="{ top: 30, right: 0, bottom: 36, left: 200 }"
-      [height]="chartHeight"
-      [width]="600"
-      [scaleChartWithContainerWidth]="{ width: false, height: false }"
-    >
+    <vic-xy-chart class="sorted-chart" [config]="sortedChartConfig">
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
         <svg:g vic-x-quantitative-axis [config]="xAxisConfig"></svg:g>
@@ -24,13 +18,7 @@
       ><p class="variable">{{ followVar }}</p
       ><p class="units">{{ followVarUnits }}</p></div
     >
-    <vic-xy-chart
-      class="follow-chart"
-      [margin]="{ top: 30, right: 36, bottom: 36, left: 24 }"
-      [height]="chartHeight"
-      [width]="460"
-      [scaleChartWithContainerWidth]="{ width: false, height: false }"
-    >
+    <vic-xy-chart class="follow-chart" [config]="followingChartConfig">
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
         <svg:g vic-x-quantitative-axis [config]="xAxisConfig"></svg:g>

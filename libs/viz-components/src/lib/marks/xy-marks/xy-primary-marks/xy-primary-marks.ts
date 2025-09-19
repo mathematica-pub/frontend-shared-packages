@@ -35,7 +35,10 @@ export abstract class VicXyPrimaryMarks<
 
   subscribeToRanges(): void {
     this.chart.ranges$
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((ranges) => !!ranges)
+      )
       .subscribe((ranges) => {
         this.ranges = ranges;
         if (
@@ -64,6 +67,6 @@ export abstract class VicXyPrimaryMarks<
   }
 
   getTransitionDuration(): number {
-    return this.scales.useTransition ? this.chart.transitionDuration : 0;
+    return this.scales.useTransition ? this.chart.config.transitionDuration : 0;
   }
 }

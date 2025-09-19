@@ -1,10 +1,11 @@
-<div class="toc">
+<nav class="toc">
   @if (headings.length > 0) {
     <p class="index-title">On this page</p>
     <ul class="links-container">
       @for (heading of headings; track $index) {
         <li class="toc-item">
-          <a
+          <button
+            type="button"
             class="toc-link"
             [style.--level]="heading.level"
             (click)="setActiveHeading($event, heading)"
@@ -12,14 +13,13 @@
             [class.active]="
               heading.id === (activeHeadingTracker.activeHeadingId$ | async)
             "
-            >{{ heading.text }}</a
+            >{{ heading.text }}</button
           >
         </li>
       }
     </ul>
-    <div
-      role="button"
-      [tabIndex]="0"
+    <button
+      type="button"
       class="back-to-top"
       (click)="scrollToTop()"
       (keydown.enter)="scrollToTop()"
@@ -29,6 +29,6 @@
         class="material-symbols-outlined arrow"
         >arrow_upward</span
       >
-    </div>
+    </button>
   }
-</div>
+</nav>

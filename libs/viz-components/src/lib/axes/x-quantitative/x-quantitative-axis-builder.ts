@@ -1,82 +1,74 @@
 import { Injectable } from '@angular/core';
-import { DataValue } from '../../core/types/values';
+import { safeAssign } from '@hsi/app-dev-kit';
+import { ContinuousValue } from '../../core/types/values';
 import { XyAxisBaseBuilder } from '../base/config/xy-axis-builder';
-import { XQuantitativeAxisConfig } from './x-quantitative-axis-config';
+import { QuantitativeTicksBuilder } from '../ticks/ticks-builder';
+import { VicXQuantitativeAxisConfig } from './x-quantitative-axis-config';
 
 const DEFAULT = {
   _side: 'bottom',
-  _tickFormat: ',.1f',
+  _removeDomainLine: false,
+  _zeroAxis: { strokeDasharray: '2', useZeroAxis: true },
+};
+
+const TICK_DEFAULT = {
+  _format: ',.1f',
 };
 
 @Injectable()
 export class VicXQuantitativeAxisConfigBuilder<
-  TickValue extends DataValue,
-> extends XyAxisBaseBuilder<TickValue> {
-  private _numTicks: number;
+  Tick extends ContinuousValue,
+> extends XyAxisBaseBuilder {
+  private ticksBuilder: QuantitativeTicksBuilder<Tick>;
   private _side: 'top' | 'bottom';
-  private _tickValues: TickValue[];
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
+    this.ticksBuilder = this.getTicksBuilder();
   }
 
   /**
-   * OPTIONAL. The number of ticks to pass to D3's axis.ticks().
+   * OPTIONAL. Specifies the location of the axis on the chart.
    *
-   * If not provided, D3 will determine the number of ticks.
+   * @param value - The side of the chart where the axis will be placed.
    *
-   * To unset the number of ticks, call with null.
+   * If not called, the default value is `bottom`.
    */
-  numTicks(numTicks: number | null): this {
-    if (numTicks === null) {
-      this._numTicks = undefined;
+  side(value: 'top' | 'bottom'): this {
+    this._side = value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Specifies properties for axis ticks.
+   *
+   * @param ticks - A function that specifies properties for axis ticks.
+   */
+  ticks(ticks: (ticks: QuantitativeTicksBuilder<Tick>) => void): this;
+  ticks(ticks: null): this;
+  ticks(ticks: ((ticks: QuantitativeTicksBuilder<Tick>) => void) | null): this {
+    this.ticksBuilder = this.getTicksBuilder();
+    if (ticks === null) {
       return this;
     }
-    this._numTicks = numTicks;
+    ticks?.(this.ticksBuilder);
     return this;
   }
 
-  /**
-   * OPTIONAL. The side of the chart where the axis will be placed.
-   *
-   * @default 'bottom'
-   */
-  side(side: 'top' | 'bottom'): this {
-    this._side = side;
-    return this;
+  private getTicksBuilder(): QuantitativeTicksBuilder<Tick> {
+    return new QuantitativeTicksBuilder<Tick>(TICK_DEFAULT);
   }
 
-  /**
-   * OPTIONAL. The tick values to pass to D3's axis.tickValues().
-   *
-   * To unset the tick values, call with null.
-   */
-  tickValues(tickValues: TickValue[] | null): this {
-    if (tickValues === null) {
-      this._tickValues = undefined;
-      return this;
-    }
-    this._tickValues = tickValues;
-    return this;
-  }
-
-  getConfig(): XQuantitativeAxisConfig<TickValue> {
-    return new XQuantitativeAxisConfig<TickValue>({
-      grid: this.gridBuilder?._build('x'),
+  getConfig(): VicXQuantitativeAxisConfig<Tick> {
+    return new VicXQuantitativeAxisConfig<Tick>({
+      baseline: this.baselineBuilder._build('quantitative'),
+      grid: this.gridBuilder?._build('x', 'quantitative'),
       label: this.labelBuilder?._build('x'),
       marksClass: 'vic-axis-x-quantitative',
       mixBlendMode: this._mixBlendMode,
-      numTicks: this._numTicks,
-      removeDomainLine: this._removeDomainLine,
-      removeTickLabels: this._removeTickLabels,
-      removeTickMarks: this._removeTickMarks,
       side: this._side,
-      tickFormat: this._tickFormat,
-      tickLabelFontSize: this._tickLabelFontSize,
-      tickSizeOuter: this._tickSizeOuter,
-      tickValues: this._tickValues,
-      wrap: this.tickWrapBuilder?._build(),
+      ticks: this.ticksBuilder._build('x'),
     });
   }
 }

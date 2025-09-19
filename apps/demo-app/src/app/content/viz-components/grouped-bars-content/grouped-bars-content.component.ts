@@ -6,7 +6,6 @@ import { GroupedBarsExampleComponent } from './grouped-bars-example/grouped-bars
 
 @Component({
   selector: 'app-grouped-bars-content',
-  standalone: true,
   imports: [
     CommonModule,
     SinglePanelExampleDisplayComponent,

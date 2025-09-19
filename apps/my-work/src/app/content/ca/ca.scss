@@ -1,0 +1,129 @@
+@use '../ca/color.scss';
+@use '../ca/vars.scss' as *;
+
+svg {
+  font-family: $font-family;
+  font-size: 20px;
+}
+
+form {
+  display: flex;
+  gap: 2em;
+  padding-top: 1.5em;
+}
+
+option {
+  &:checked {
+    background: color.$bars;
+  }
+
+  &[disabled] {
+    color: lightgrey;
+  }
+}
+
+.title {
+  font-size: 2rem;
+}
+
+.selection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+
+.image-container,
+.header {
+  width: fit-content;
+}
+
+.image {
+  padding: 80px 20px 50px 190px !important;
+}
+
+line,
+rect {
+  shape-rendering: crispedges;
+}
+
+.comparison line {
+  shape-rendering: auto;
+}
+
+circle {
+  fill: none;
+  stroke: black;
+  stroke-opacity: 70%;
+}
+
+.vic-stacked-bars-category-group:last-child {
+  display: none;
+}
+
+.tick line {
+  stroke: color.$gridLine;
+}
+
+.vic-axis-group .tick {
+  text {
+    font-family: $font-family;
+  }
+
+  line {
+    display: none;
+  }
+}
+
+.domain {
+  stroke: color.$domainLine;
+}
+
+.comparison {
+  line {
+    stroke: color.$comparison;
+    stroke-dasharray: 1 6;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+
+  text {
+    text-transform: capitalize;
+  }
+}
+
+.percent-labels line {
+  stroke: black;
+}
+
+$axisFontSize: 16px;
+
+.percent-label,
+.no-data-label {
+  alignment-baseline: middle;
+  font-size: $axisFontSize;
+}
+
+.vic-axis-group,
+.size-headers,
+.comparison-label,
+.comparison,
+.direction-label,
+.x-label {
+  font-size: $axisFontSize;
+}
+
+.x-label {
+  text-anchor: end;
+}
+
+.comparison-label {
+  font-weight: bold;
+}
+
+.size-headers {
+  text-anchor: end;
+}
+
+.vic-axis-y-ordinal text {
+  transform: translateX(-3.3em);
+}

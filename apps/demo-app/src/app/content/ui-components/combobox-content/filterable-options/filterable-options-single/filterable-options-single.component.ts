@@ -6,7 +6,6 @@ import { FilterableOptionsSingle } from '../filterable-options-single';
 
 @Component({
   selector: 'app-filterable-options-single-select-combobox',
-  standalone: true,
   imports: [CommonModule, HsiUiComboboxModule],
   templateUrl: './filterable-options-single.component.html',
   styleUrl: './filterable-options-single.component.scss',

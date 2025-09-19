@@ -1,0 +1,18 @@
+@if (caDotPlotService.rollupData.length === 0) {
+  <p>The current selections are not a valid combination.</p>
+} @else {
+  <vic-xy-chart [config]="caDotPlotService.chartConfig">
+    <ng-container svg-elements>
+      <svg:g
+        vic-x-quantitative-axis
+        [config]="caDotPlotService.xAxisConfig"
+      ></svg:g>
+      <svg:g vic-y-ordinal-axis [config]="caDotPlotService.yAxisConfig"></svg:g>
+      <svg:g
+        app-mlb-race-ethnicity-stacked-bars
+        [config]="caDotPlotService.rollupDataConfig"
+        [labelWidth]="caDotPlotService.labelWidth"
+      ></svg:g>
+    </ng-container>
+  </vic-xy-chart>
+}

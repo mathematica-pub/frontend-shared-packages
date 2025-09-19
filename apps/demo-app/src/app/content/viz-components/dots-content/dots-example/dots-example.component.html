@@ -1,9 +1,5 @@
 <div class="dots-example" *ngIf="vm$ | async as vm">
-  <vic-xy-chart
-    [margin]="margin"
-    [height]="600"
-    [scaleChartWithContainerWidth]="{ width: true, height: false }"
-  >
+  <vic-xy-chart [config]="vm.chartConfig">
     <ng-container svg-elements>
       <svg:g vic-xy-background></svg:g>
       <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig" />
@@ -11,8 +7,9 @@
       <svg:g
         vic-primary-marks-dots
         [config]="vm.dataConfig"
-        [vicDotsHoverMoveActions]="hoverActions"
-        (vicDotsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+        vicDotsEvents
+        [hoverMoveActions]="hoverActions"
+        (interactionOutput)="updateTooltipForNewOutput($event)"
       >
         <vic-html-tooltip
           [config]="tooltipConfig$ | async"
@@ -24,28 +21,31 @@
 </div>
 
 <ng-template #htmlTooltip>
-  @if (tooltipData$ | async; as tooltipData) {
+  @if (interactionOutput$ | async; as interactionOutput) {
     <div
-      [style.--color]="tooltipData.color"
+      [style.--color]="interactionOutput.color"
       class="dots-example-tooltip-container"
     >
-      <p class="tooltip-label category">
-        {{ tooltipData.values.fill }}
-      </p>
-      <div class="values-container">
-        <p class="tooltip-label x">
-          <span class="value-label">Max Temperature</span>
-          {{ tooltipData.values.x }}
+      <div class="tooltip-body">
+        <p class="tooltip-label category">
+          {{ interactionOutput.values.fill }}
         </p>
-        <p class="tooltip-label y">
-          <span class="value-label">Precipitation</span>
-          {{ tooltipData.values.y }}
-        </p>
-        <p class="tooltip-label radius">
-          <span class="value-label">Wind</span>
-          {{ tooltipData.values.radius }}
-        </p>
-      </div>
+        <div class="values-container">
+          <p class="tooltip-label x">
+            <span class="value-label">Max Temperature</span>
+            {{ interactionOutput.values.x }}
+          </p>
+          <p class="tooltip-label y">
+            <span class="value-label">Precipitation</span>
+            {{ interactionOutput.values.y }}
+          </p>
+          <p class="tooltip-label radius">
+            <span class="value-label">Wind</span>
+            {{ interactionOutput.values.radius }}
+          </p>
+        </div></div
+      >
+      <vic-tooltip-triangle></vic-tooltip-triangle>
     </div>
   }
 </ng-template>

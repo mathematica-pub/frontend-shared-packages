@@ -1,12 +1,13 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { ComboboxService, HsiUiComboboxModule } from '@hsi/ui-components';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
-import { HsiUiComboboxModule } from '../combobox.module';
-import { ComboboxService } from '../combobox.service';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
 @Component({
@@ -58,15 +59,13 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxSimpleMultiSelectTestComponent extends ComboboxBaseTestComponent {}
 
 describe('Default multi-select combobox', () => {
   beforeEach(() => {
-    cy.mount(ComboboxSimpleMultiSelectTestComponent, {
-      declarations: [ComboboxSimpleMultiSelectTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxSimpleMultiSelectTestComponent);
   });
   it('the current class is on the first selected option if there is one or on the 0th option once opened', () => {
     cy.get('.hsi-ui-textbox').realClick();
@@ -152,6 +151,8 @@ describe('Default multi-select combobox', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
+  providers: [ComboboxService],
 })
 class ComboboxExternalLabelChangeTestComponent {
   options = [
@@ -212,11 +213,7 @@ class ComboboxExternalLabelChangeTestComponent {
 
 describe('ComboboxExternalLabelChangeTestComponent', () => {
   beforeEach(() => {
-    cy.mount(ComboboxExternalLabelChangeTestComponent, {
-      declarations: [ComboboxExternalLabelChangeTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-      providers: [ComboboxService],
-    });
+    cy.mount(ComboboxExternalLabelChangeTestComponent);
   });
 
   it('the textbox has the correct label and it changes with change in input selected property', () => {
@@ -325,6 +322,7 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxMultiSelectDisabledOptionsComponent extends ComboboxBaseTestComponent {
   selected = new BehaviorSubject<string[]>([]);
@@ -344,10 +342,7 @@ class ComboboxMultiSelectDisabledOptionsComponent extends ComboboxBaseTestCompon
 
 describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
   beforeEach(() => {
-    cy.mount(ComboboxMultiSelectDisabledOptionsComponent, {
-      declarations: [ComboboxMultiSelectDisabledOptionsComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxMultiSelectDisabledOptionsComponent);
   });
   it('can select non-disabled options', () => {
     cy.get('.hsi-ui-textbox').click();
@@ -411,6 +406,7 @@ describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class NgFormListboxMultiTestComponent implements OnInit {
   options = [
@@ -433,10 +429,7 @@ class NgFormListboxMultiTestComponent implements OnInit {
 
 describe('NgFormListboxMultiTestComponent', () => {
   beforeEach(() => {
-    cy.mount(NgFormListboxMultiTestComponent, {
-      declarations: [NgFormListboxMultiTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(NgFormListboxMultiTestComponent);
   });
   it('can make more than one selection', () => {
     cy.get('.hsi-ui-textbox').click();

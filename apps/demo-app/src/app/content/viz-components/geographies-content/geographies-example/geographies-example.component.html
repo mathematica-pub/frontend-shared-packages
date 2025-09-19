@@ -1,7 +1,4 @@
-<div
-  class="geographies-example"
-  *ngIf="primaryMarksConfig$ | async as primaryMarksConfig; else loading"
->
+<div class="geographies-example" *ngIf="vm$ | async as vm; else loading">
   <div class="user-selections">
     <div class="user-selection year">
       <p class="selection-title effect-title">Select a year</p>
@@ -56,12 +53,7 @@
   <p class="fill-description"
     >Gray states: missing data; state is part of NoDataGeographies</p
   >
-  <vic-map-chart
-    class="chart-component"
-    [margin]="margin"
-    [height]="height"
-    [width]="width"
-  >
+  <vic-map-chart class="chart-component" [config]="vm.chartConfig">
     <ng-container html-elements-after>
       <vic-map-legend
         class="legend-component"
@@ -84,12 +76,12 @@
     <svg:g
       vic-primary-marks-geographies
       svg-elements
-      [config]="primaryMarksConfig"
-      [vicGeographiesHoverActions]="hoverActions"
-      (vicGeographiesHoverOutput)="updateTooltipForNewOutput($event, 'hover')"
-      [vicGeographiesClickActions]="clickActions"
-      [vicGeographiesClickRemoveEvent$]="removeTooltipEvent$"
-      (vicGeographiesClickOutput)="updateTooltipForNewOutput($event, 'click')"
+      [config]="vm.geographiesConfig"
+      vicGeographiesEvents
+      [hoverActions]="hoverActions"
+      [clickActions]="clickActions"
+      [clickRemoveEvent$]="removeTooltipEvent$"
+      (interactionOutput)="updateTooltipForNewOutput($event)"
     >
       <vic-html-tooltip
         [config]="tooltipConfig$ | async"
@@ -102,19 +94,23 @@
 <ng-template #loading>Loading...</ng-template>
 
 <ng-template #htmlTooltip>
-  <div class="geographies-example-tooltip-container">
-    <p class="tooltip-label category">
-      {{ (tooltipData$ | async).geography }}
-    </p>
-    <div class="values-container">
-      <p class="tooltip-label x">
-        <span class="value-label">Income</span>
-        @if ((tooltipData$ | async).datum) {
-          {{ (tooltipData$ | async).attributeValue }}
-        } @else {
-          No data available
-        }
-      </p>
+  @if (interactionOutput$ | async; as interactionOutput) {
+    <div class="geographies-example-tooltip-container">
+      <div class="tooltip-body">
+        <p class="tooltip-label category">
+          {{ interactionOutput.geography }}
+        </p>
+        <div class="values-container">
+          <p class="tooltip-label x">
+            <span class="value-label">Income</span>
+            @if (interactionOutput.datum) {
+              {{ interactionOutput.attributeValue }}
+            } @else {
+              No data available
+            }
+          </p>
+        </div></div
+      >
     </div>
-  </div>
+  }
 </ng-template>

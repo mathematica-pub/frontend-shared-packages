@@ -1,10 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { GroupedBarsEventsDirective } from './events/grouped-bars-events.directive';
 import { GroupedBarsComponent } from './grouped-bars.component';
 
 @NgModule({
-  declarations: [GroupedBarsComponent],
-  imports: [CommonModule],
-  exports: [GroupedBarsComponent],
+  imports: [GroupedBarsComponent, GroupedBarsEventsDirective],
+  exports: [GroupedBarsComponent, GroupedBarsEventsDirective],
 })
 export class VicGroupedBarsModule {}

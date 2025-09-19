@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import { schemeTableau10 } from 'd3';
 import { DataValue } from '../../core';
 import { DateChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position-builder';
@@ -63,7 +64,7 @@ export class VicDotsConfigBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**
@@ -361,7 +362,7 @@ export class VicDotsConfigBuilder<
     return new DotsConfig<Datum, XOrdinalDomain, YOrdinalDomain>({
       marksClass: 'vic-dots',
       data: this._data,
-      datumClass: this._class,
+      datumClass: this._datumClass,
       fill: fillBuilder._build(fillName),
       mixBlendMode: this._mixBlendMode,
       opacity: this._opacity,

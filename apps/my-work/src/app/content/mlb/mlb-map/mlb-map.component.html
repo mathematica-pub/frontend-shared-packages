@@ -1,0 +1,78 @@
+<div class="title">MLB Map</div>
+<form [formGroup]="caChartService.myForm">
+  <div class="selection">
+    <label for="measureCode">Measure Code</label>
+    <select id="measureCode" formControlName="measureCode">
+      <option
+        *ngFor="let code of filters.measureCodes"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+  <div class="selection">
+    <label for="lob">Line of Business</label>
+    <select id="lob" formControlName="lob">
+      <option
+        *ngFor="let code of filters.lobs"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+  <div class="selection">
+    <label for="stratVal">Stratification</label>
+    <select id="stratVal" formControlName="stratVal">
+      <option
+        *ngFor="let code of filters.stratVals"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+</form>
+@if (caChartService.filteredData$ | async; as data) {
+  <app-export-content
+    [fileName]="'MLB Map ' + caChartService.myForm.value[filterTypes[0]]"
+  >
+    @if (vm$ | async; as vm) {
+      <vic-map-chart class="chart-component" [config]="vm.chartConfig">
+        <ng-container html-elements-after>
+          <vic-map-legend
+            class="legend-component"
+            [width]="legendWidth"
+            [height]="legendHeight"
+            [outlineColor]="colors.outline"
+          ></vic-map-legend>
+          @if (vm.isNoData) {
+            <div
+              class="no-data-legend"
+              [style.--no-data-color]="colors.noData"
+              [style.--value-width]="legendWidth / 7 + 'px'"
+              [style.--legend-height]="legendHeight + 'px'"
+            >
+              <div class="legend-color"></div>
+              <p class="legend-value">No data</p>
+            </div>
+          }
+        </ng-container>
+        <svg:g
+          vic-primary-marks-geographies
+          svg-elements
+          [config]="vm.geographiesConfig"
+        ></svg:g>
+      </vic-map-chart>
+      <app-notes
+        class="notes"
+        [directionality]="vm.directionality"
+        [units]="vm.units"
+      ></app-notes>
+    }
+  </app-export-content>
+}

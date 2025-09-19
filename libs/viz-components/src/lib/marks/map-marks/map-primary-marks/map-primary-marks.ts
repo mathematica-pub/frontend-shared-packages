@@ -25,17 +25,21 @@ export abstract class MapPrimaryMarks<
   ngOnInit(): void {
     this.subscribeToRanges();
     this.subscribeToAttributeDataProperties();
-    this.initFromConfig();
   }
 
   subscribeToRanges(): void {
     this.chart.ranges$
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((ranges) => !!ranges)
+      )
       .subscribe((ranges) => {
         this.ranges = ranges;
         if (this.attributeDataScale && this.attributeDataConfig) {
           this.setChartScalesFromRanges(false);
           this.drawMarks();
+        } else {
+          this.initFromConfig();
         }
       });
   }
@@ -54,6 +58,6 @@ export abstract class MapPrimaryMarks<
   }
 
   getTransitionDuration(): number {
-    return this.chart.transitionDuration;
+    return this.chart.config.transitionDuration;
   }
 }

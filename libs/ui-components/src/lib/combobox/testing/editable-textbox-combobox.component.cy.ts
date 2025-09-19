@@ -1,7 +1,10 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { HsiUiComboboxModule } from '@hsi/ui-components';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import {
@@ -11,7 +14,6 @@ import {
   Observable,
   startWith,
 } from 'rxjs';
-import { HsiUiComboboxModule } from '../combobox.module';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
 interface ViewModel<ListboxSelection> {
@@ -65,6 +67,7 @@ interface ViewModel<ListboxSelection> {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class EditableTextboxTestComponent
   extends ComboboxBaseTestComponent
@@ -184,6 +187,7 @@ class EditableTextboxTestComponent
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class EditableTextboxFormControlTestComponent
   extends ComboboxBaseTestComponent
@@ -273,8 +277,6 @@ class EditableTextboxFormControlTestComponent
     beforeEach(() => {
       if (useFormControls) {
         cy.mount(EditableTextboxFormControlTestComponent, {
-          declarations: [EditableTextboxFormControlTestComponent],
-          imports: [HsiUiComboboxModule, MatIconModule],
           componentProperties: {
             autoSelect: true,
             autoSelectTrigger: 'any',
@@ -282,8 +284,6 @@ class EditableTextboxFormControlTestComponent
         });
       } else {
         cy.mount(EditableTextboxTestComponent, {
-          declarations: [EditableTextboxTestComponent],
-          imports: [HsiUiComboboxModule, MatIconModule],
           componentProperties: {
             autoSelect: true,
             autoSelectTrigger: 'any',
@@ -333,8 +333,6 @@ class EditableTextboxFormControlTestComponent
     beforeEach(() => {
       if (useFormControls) {
         cy.mount(EditableTextboxFormControlTestComponent, {
-          declarations: [EditableTextboxFormControlTestComponent],
-          imports: [HsiUiComboboxModule, MatIconModule],
           componentProperties: {
             autoSelect: true,
             autoSelectTrigger: 'any',
@@ -343,8 +341,6 @@ class EditableTextboxFormControlTestComponent
         });
       } else {
         cy.mount(EditableTextboxTestComponent, {
-          declarations: [EditableTextboxTestComponent],
-          imports: [HsiUiComboboxModule, MatIconModule],
           componentProperties: {
             autoSelect: true,
             autoSelectTrigger: 'any',
@@ -373,8 +369,6 @@ class EditableTextboxFormControlTestComponent
         beforeEach(() => {
           if (useFormControls) {
             cy.mount(EditableTextboxFormControlTestComponent, {
-              declarations: [EditableTextboxFormControlTestComponent],
-              imports: [HsiUiComboboxModule, MatIconModule],
               componentProperties: {
                 autoSelect: true,
                 autoSelectTrigger: 'any',
@@ -383,8 +377,6 @@ class EditableTextboxFormControlTestComponent
             });
           } else {
             cy.mount(EditableTextboxTestComponent, {
-              declarations: [EditableTextboxTestComponent],
-              imports: [HsiUiComboboxModule, MatIconModule],
               componentProperties: {
                 autoSelect: true,
                 autoSelectTrigger: 'any',
@@ -443,8 +435,6 @@ class EditableTextboxFormControlTestComponent
           beforeEach(() => {
             if (useFormControls) {
               cy.mount(EditableTextboxFormControlTestComponent, {
-                declarations: [EditableTextboxFormControlTestComponent],
-                imports: [HsiUiComboboxModule, MatIconModule],
                 componentProperties: {
                   autoSelect: true,
                   autoSelectTrigger: 'character',
@@ -453,8 +443,6 @@ class EditableTextboxFormControlTestComponent
               });
             } else {
               cy.mount(EditableTextboxTestComponent, {
-                declarations: [EditableTextboxTestComponent],
-                imports: [HsiUiComboboxModule, MatIconModule],
                 componentProperties: {
                   autoSelect: true,
                   autoSelectTrigger: 'character',
@@ -518,8 +506,6 @@ class EditableTextboxFormControlTestComponent
           beforeEach(() => {
             if (useFormControls) {
               cy.mount(EditableTextboxFormControlTestComponent, {
-                declarations: [EditableTextboxFormControlTestComponent],
-                imports: [HsiUiComboboxModule, MatIconModule],
                 componentProperties: {
                   autoSelect: false,
                   autoSelectTrigger: 'any',
@@ -528,8 +514,6 @@ class EditableTextboxFormControlTestComponent
               });
             } else {
               cy.mount(EditableTextboxTestComponent, {
-                declarations: [EditableTextboxTestComponent],
-                imports: [HsiUiComboboxModule, MatIconModule],
                 componentProperties: {
                   autoSelect: false,
                   autoSelectTrigger: 'any',

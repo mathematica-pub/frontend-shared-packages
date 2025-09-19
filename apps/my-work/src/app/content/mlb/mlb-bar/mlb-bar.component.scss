@@ -1,0 +1,37 @@
+@use '../../ca/ca.scss';
+@use '../../ca/vars.scss' as *;
+
+.image {
+  padding: 10px 0 10px 200px !important;
+  font-family: $font-family;
+}
+
+.vic-axis-y-ordinal text {
+  transform: none;
+}
+
+.vic-grouped-bars-label {
+  font-size: 16px;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 2px;
+  padding-bottom: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+
+  .label {
+    line-height: 1;
+  }
+}
+
+.color-box {
+  width: 18px;
+  height: 18px;
+}

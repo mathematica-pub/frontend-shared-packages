@@ -1,81 +1,81 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
+import {
+  ChartConfig,
   DotsConfig,
-  DotsEventOutput,
+  DotsHost,
   DotsHoverMoveDefaultStyles,
-  DotsHoverMoveDirective,
   DotsHoverMoveEmitTooltipData,
-  ElementSpacing,
+  DotsInteractionOutput,
   HoverMoveAction,
   HtmlTooltipConfig,
+  VicChartConfigBuilder,
   VicChartModule,
   VicDotsConfigBuilder,
   VicDotsModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 import { WeatherDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: DotsConfig<WeatherDatum>;
-  xAxisConfig: VicQuantitativeAxisConfig<number>;
-  yAxisConfig: VicQuantitativeAxisConfig<number>;
+  xAxisConfig: VicXQuantitativeAxisConfig<number>;
+  yAxisConfig: VicYQuantitativeAxisConfig<number>;
 }
 
 @Component({
   selector: 'app-dots-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
     VicDotsModule,
-    VicXyChartModule,
     VicXyBackgroundModule,
-    VicXQuantitativeAxisModule,
-    VicYQuantitativeAxisModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
   ],
-  templateUrl: './dots-example.component.html',
-  styleUrl: './dots-example.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    VicChartConfigBuilder,
     VicDotsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
     VicHtmlTooltipConfigBuilder,
   ],
+  templateUrl: './dots-example.component.html',
+  styleUrl: './dots-example.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class DotsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
-  margin: ElementSpacing = {
-    top: 36,
-    right: 0,
-    bottom: 8,
-    left: 60,
-  };
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<DotsEventOutput<WeatherDatum>> =
-    new BehaviorSubject<DotsEventOutput<WeatherDatum>>(null);
-  tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: HoverMoveAction<DotsHoverMoveDirective<WeatherDatum>>[] = [
+  interactionOutput: BehaviorSubject<DotsInteractionOutput<WeatherDatum>> =
+    new BehaviorSubject<DotsInteractionOutput<WeatherDatum>>(null);
+  interactionOutput$ = this.interactionOutput.asObservable();
+  hoverActions: HoverMoveAction<DotsHost<WeatherDatum>>[] = [
     new DotsHoverMoveDefaultStyles(),
     new DotsHoverMoveEmitTooltipData(),
   ];
 
   constructor(
     private dataService: DataService,
+    private chart: VicChartConfigBuilder,
     private dots: VicDotsConfigBuilder<WeatherDatum>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
@@ -89,46 +89,58 @@ export class DotsExampleComponent implements OnInit {
   }
 
   getViewModel(data: WeatherDatum[]): ViewModel {
-    const xAxisConfig = this.xQuantitativeAxis.tickFormat('.1f').getConfig();
-    const yAxisConfig = this.yQuantitativeAxis.tickFormat('.1f').getConfig();
+    const chartConfig = this.chart
+      .margin({
+        top: 36,
+        right: 0,
+        bottom: 32,
+        left: 60,
+      })
+      .getConfig();
+
+    const xAxisConfig = this.xQuantitativeAxis
+      .ticks((ticks) => ticks.format('.1f'))
+      .getConfig();
+    const yAxisConfig = this.yQuantitativeAxis
+      .ticks((ticks) => ticks.format('.1f'))
+      .baseline((baseline) => baseline.zeroBaseline({ dasharray: 'none' }))
+      .getConfig();
 
     const dataConfig = this.dots
       .data(data.filter((x) => x.date.getFullYear() === 2012))
-      .fillCategorical((dimension) =>
-        dimension.valueAccessor((d) => d.location).range(['#2cafb0', '#a560cc'])
+      .fillCategorical((fillCategorical) =>
+        fillCategorical
+          .valueAccessor((d) => d.location)
+          .range(['#2cafb0', '#a560cc'])
       )
-      .radiusNumeric((dimension) =>
-        dimension.valueAccessor((d) => d.wind).range([2, 8])
+      .radiusNumeric((radiusNumeric) =>
+        radiusNumeric.valueAccessor((d) => d.wind).range([2, 8])
       )
-      .xNumeric((dimension) => dimension.valueAccessor((d) => d.tempMax))
-      .yNumeric((dimension) => dimension.valueAccessor((d) => d.precipitation))
+      .xNumeric((xNumeric) => xNumeric.valueAccessor((d) => d.tempMax))
+      .yNumeric((yNumeric) => yNumeric.valueAccessor((d) => d.precipitation))
       .getConfig();
 
     return {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,
     };
   }
 
-  updateTooltipForNewOutput(data: DotsEventOutput<WeatherDatum>): void {
-    this.updateTooltipData(data);
-    this.updateTooltipConfig(data);
+  updateTooltipForNewOutput(
+    output: DotsInteractionOutput<WeatherDatum> | null
+  ): void {
+    this.interactionOutput.next(output);
+    this.updateTooltipConfig(output);
   }
 
-  updateTooltipData(data: DotsEventOutput<WeatherDatum>): void {
-    this.tooltipData.next(data);
-  }
-
-  updateTooltipConfig(data: DotsEventOutput<WeatherDatum>): void {
+  updateTooltipConfig(
+    output: DotsInteractionOutput<WeatherDatum> | null
+  ): void {
     const config = this.tooltip
-      .dotsPosition(data?.origin, [
-        {
-          offsetY: data ? data.positionY - 12 : undefined,
-          offsetX: data?.positionX,
-        },
-      ])
-      .show(!!data)
+      .positionFromOutput(output)
+      .show(!!output)
       .getConfig();
     this.tooltipConfig.next(config);
   }

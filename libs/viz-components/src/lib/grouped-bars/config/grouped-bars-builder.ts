@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { safeAssign } from '@hsi/app-dev-kit';
 import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
 import { DataValue } from '../../core/types/values';
 import { GroupedBarsConfig } from './grouped-bars-config';
@@ -25,7 +26,7 @@ export class VicGroupedBarsConfigBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**
@@ -45,10 +46,11 @@ export class VicGroupedBarsConfigBuilder<
     this.validateBuilder('Grouped Bars');
     return new GroupedBarsConfig(this.dimensions, {
       marksClass: 'vic-grouped-bars',
+      backgrounds: this.backgroundsBuilder?._build(),
       color: this.colorDimensionBuilder._build('Color'),
       customFills: this._customFills,
       data: this._data,
-      datumClass: this._class,
+      datumClass: this._datumClass,
       intraGroupPadding: this._intraGroupPadding,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,

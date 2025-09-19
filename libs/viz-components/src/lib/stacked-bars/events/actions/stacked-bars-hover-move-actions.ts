@@ -1,21 +1,23 @@
+import { BarsInteractionOutput } from '../../../bars';
 import { DataValue } from '../../../core/types/values';
-import { HoverMoveAction } from '../../../events/action';
-import { StackedBarsHoverMoveDirective } from '../stacked-bars-hover-move.directive';
+import { EventType, HoverMoveAction } from '../../../events';
+import { StackedBarsHost } from '../stacked-bars-events.directive';
 
 export class StackedBarsHoverMoveEmitTooltipData<
   Datum,
   TOrdinalValue extends DataValue,
 > implements
-    HoverMoveAction<StackedBarsHoverMoveDirective<Datum, TOrdinalValue>>
+    HoverMoveAction<
+      StackedBarsHost<Datum, TOrdinalValue>,
+      BarsInteractionOutput<Datum>
+    >
 {
-  onStart(
-    directive: StackedBarsHoverMoveDirective<Datum, TOrdinalValue>
-  ): void {
-    const tooltipData = directive.getEventOutput();
-    directive.eventOutput.emit(tooltipData);
+  onStart(host: StackedBarsHost<Datum, TOrdinalValue>): void {
+    const tooltipData = host.getInteractionOutput(EventType.HoverMove);
+    host.emitInteractionOutput(tooltipData);
   }
 
-  onEnd(directive: StackedBarsHoverMoveDirective<Datum, TOrdinalValue>): void {
-    directive.eventOutput.emit(null);
+  onEnd(host: StackedBarsHost<Datum, TOrdinalValue>): void {
+    host.emitInteractionOutput(null);
   }
 }

@@ -10,7 +10,7 @@ describe('MapLegendComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MapLegendComponent],
+      imports: [MapLegendComponent],
       providers: [MapChartComponent],
     }).compileComponents();
   });

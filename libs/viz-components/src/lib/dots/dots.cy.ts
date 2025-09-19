@@ -1,42 +1,41 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 // ***********************************************************
 // Set up Lines component -- can use with Date or numeric values for x axis
 
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import {
+  ChartConfig,
+  DotsConfig,
+  DotsHost,
+  DotsHoverMoveEmitTooltipData,
+  DotsInteractionOutput,
+  HoverMoveAction,
+  HtmlTooltipConfig,
+  VicChartConfigBuilder,
+  VicChartModule,
+  VicDotsConfigBuilder,
+  VicDotsModule,
+  VicHtmlTooltipConfigBuilder,
+  VicHtmlTooltipModule,
+  VicXOrdinalAxisConfig,
+  VicXOrdinalAxisConfigBuilder,
+  VicXQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfigBuilder,
+  VicXyAxisModule,
+  VicYOrdinalAxisConfig,
+  VicYOrdinalAxisConfigBuilder,
+  VicYQuantitativeAxisConfig,
+  VicYQuantitativeAxisConfigBuilder,
+} from '@hsi/viz-components';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
-import { DotsHoverMoveEmitTooltipData } from '../../public-api';
-import {
-  VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
-  VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
-  VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
-  XOrdinalAxisConfig,
-  XQuantitativeAxisConfig,
-  YOrdinalAxisConfig,
-  YQuantitativeAxisConfig,
-} from '../axes';
-import { VicChartModule, VicXyChartModule } from '../charts';
-import { HoverMoveAction } from '../events';
 import {
   countryFactsData,
   CountryFactsDatum,
 } from '../testing/data/country-area-continent';
-import {
-  HtmlTooltipConfig,
-  VicHtmlTooltipConfigBuilder,
-  VicHtmlTooltipModule,
-} from '../tooltips';
-import { VicDotsConfigBuilder } from './config/dots-builder';
-import { DotsConfig } from './config/dots-config';
-import { VicDotsModule } from './dots.module';
-import { DotsEventOutput } from './events/dots-event-output';
-import { DotsHoverMoveDirective } from './events/dots-hover-move.directive';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).
@@ -49,20 +48,16 @@ const chartWidth = 600;
 const data = countryFactsData;
 
 const dotGSelector = '.vic-dots-group';
+const dotCircleSelector = `.vic-dots-dot`;
 
 // ***********************************************************
 // Dots Component with Continuous Quantitative X and Y Axes
 // ***********************************************************
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'app-test-lines',
+  selector: 'app-test-dots-quant-quant',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -75,8 +70,9 @@ const dotGSelector = '.vic-dots-group';
         <svg:g
           vic-primary-marks-dots
           [config]="dotsConfig"
-          [vicDotsHoverMoveActions]="hoverActions"
-          (vicDotsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+          vicDotsEvents
+          [hoverMoveActions]="hoverMoveActions"
+          (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="tooltipConfig$ | async"
@@ -116,70 +112,61 @@ const dotGSelector = '.vic-dots-group';
     </ng-template>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
+  imports: [
+    VicChartModule,
+    VicDotsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+    CommonModule,
+  ],
 })
 class TestDotsQuantQuantComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
-  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
-  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<number>;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<DotsEventOutput<Datum>> = new BehaviorSubject<
-    DotsEventOutput<Datum>
-  >(null);
+  tooltipData: BehaviorSubject<DotsInteractionOutput<Datum>> =
+    new BehaviorSubject<DotsInteractionOutput<Datum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: HoverMoveAction<DotsHoverMoveDirective<Datum>>[] = [
+  hoverMoveActions: HoverMoveAction<DotsHost<Datum>>[] = [
     new DotsHoverMoveEmitTooltipData(),
   ];
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
+    .margin(margin)
+    .scalingStrategy('responsive-width')
+    .getConfig();
 
-  updateTooltipForNewOutput(data: DotsEventOutput<Datum>): void {
+  updateTooltipForNewOutput(data: DotsInteractionOutput<Datum>): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: DotsEventOutput<Datum>): void {
+  updateTooltipData(data: DotsInteractionOutput<Datum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: DotsEventOutput<Datum>): void {
+  updateTooltipConfig(data: DotsInteractionOutput<Datum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .dotsPosition(data?.origin, [
-        {
-          offsetY: data ? data.positionY - 12 : undefined,
-          offsetX: data?.positionX,
-        },
-      ])
+      .positionFromOutput(data)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
   }
 }
 
-const quantQuantImports = [
-  VicChartModule,
-  VicDotsModule,
-  VicXQuantitativeAxisModule,
-  VicYQuantitativeAxisModule,
-  VicXyChartModule,
-  VicHtmlTooltipModule,
-];
-
 function mountDotsXQuantYQuantComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-    .tickFormat('.0f')
-    .numTicks(5)
+    .ticks((ticks) => ticks.format('.0f').count(5))
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
-  const declarations = [TestDotsQuantQuantComponent<CountryFactsDatum>];
   cy.mount(TestDotsQuantQuantComponent<CountryFactsDatum>, {
-    declarations,
-    imports: quantQuantImports,
     componentProperties: {
       dotsConfig: dotsConfig,
       xQuantitativeAxisConfig: xAxisConfig,
@@ -193,14 +180,9 @@ function mountDotsXQuantYQuantComponent(
 // ***********************************************************
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'app-test-lines',
+  selector: 'app-test-dots-ordinal-quant',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -212,37 +194,36 @@ function mountDotsXQuantYQuantComponent(
     </vic-xy-chart>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
+  imports: [
+    VicChartModule,
+    VicDotsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+  ],
 })
 class TestDotsXQuantYOrdinalComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
-  @Input() yOrdinalAxisConfig: YOrdinalAxisConfig<string>;
-  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<number>;
+  @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   margin = margin;
   chartHeight = chartHeight;
   chartWidth = chartWidth;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
+    .margin(margin)
+    .scalingStrategy('responsive-width')
+    .getConfig();
 }
-
-const quantOrdinalImports = [
-  VicChartModule,
-  VicDotsModule,
-  VicXQuantitativeAxisModule,
-  VicYOrdinalAxisModule,
-  VicXyChartModule,
-  VicHtmlTooltipModule,
-];
 
 function mountDotsXQuantYOrdinalComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-    .tickFormat('.0f')
-    .numTicks(5)
+    .ticks((ticks) => ticks.format('.0f').count(5))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder<string>().getConfig();
-  const declarations = [TestDotsXQuantYOrdinalComponent<CountryFactsDatum>];
   cy.mount(TestDotsXQuantYOrdinalComponent<CountryFactsDatum>, {
-    declarations,
-    imports: quantOrdinalImports,
     componentProperties: {
       dotsConfig: dotsConfig,
       xQuantitativeAxisConfig: xAxisConfig,
@@ -258,12 +239,7 @@ function mountDotsXQuantYOrdinalComponent(
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-lines',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-y-quantitative-axis
@@ -275,37 +251,33 @@ function mountDotsXQuantYOrdinalComponent(
     </vic-xy-chart>
   `,
   styles: ['.tooltip-label { font-size: 12px; }'],
+  imports: [
+    VicChartModule,
+    VicDotsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+  ],
 })
 class TestDotsXOrdinalYQuantComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
-  @Input() xOrdinalAxisConfig: XOrdinalAxisConfig<string>;
-  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
+    .margin(margin)
+    .scalingStrategy('responsive-width')
+    .getConfig();
 }
-
-const ordinalQuantImports = [
-  VicChartModule,
-  VicDotsModule,
-  VicYQuantitativeAxisModule,
-  VicXOrdinalAxisModule,
-  VicXyChartModule,
-  VicHtmlTooltipModule,
-];
 
 function mountDotsXOrdinalYQuantComponent(
   dotsConfig: DotsConfig<CountryFactsDatum>
 ): void {
   const yAxisConfig = new VicYQuantitativeAxisConfigBuilder<number>()
-    .tickFormat('.0f')
-    .numTicks(5)
+    .ticks((ticks) => ticks.format('.0f').count(5))
     .getConfig();
   const xAxisConfig = new VicXOrdinalAxisConfigBuilder<string>().getConfig();
-  const declarations = [TestDotsXOrdinalYQuantComponent<CountryFactsDatum>];
   cy.mount(TestDotsXOrdinalYQuantComponent<CountryFactsDatum>, {
-    declarations,
-    imports: ordinalQuantImports,
     componentProperties: {
       dotsConfig: dotsConfig,
       yQuantitativeAxisConfig: yAxisConfig,
@@ -322,7 +294,7 @@ describe('it creates one dot for each valid value in the data with the expected 
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.population))
       .yNumeric((y) => y.valueAccessor((d) => d.gdpPerCapita))
       .fillCategorical((fill) =>
@@ -392,7 +364,7 @@ describe('it handles negative y-dimension values', () => {
     dataWithNegatives[0].gdpPerCapita = -10000;
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(dataWithNegatives)
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.population))
       .yNumeric((y) => y.valueAccessor((d) => d.gdpPerCapita))
       .fillCategorical((fill) =>
@@ -427,7 +399,7 @@ describe('it handles negative x-dimension values', () => {
     dataWithNegatives[0].gdpPerCapita = -10000;
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(dataWithNegatives)
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.gdpPerCapita))
       .yNumeric((y) => y.valueAccessor((d) => d.population))
       .fillCategorical((fill) =>
@@ -463,22 +435,25 @@ describe('displays a tooltips with correct data on each dot', () => {
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.population))
       .yNumeric((y) => y.valueAccessor((d) => d.gdpPerCapita))
       .fillCategorical((fill) =>
         fill.valueAccessor((d) => d.continent).range(colors)
       )
       .radiusNumeric((radius) =>
-        radius.valueAccessor((d) => d.popGrowth).range([2, 10])
+        radius.valueAccessor((d) => d.popGrowth).range([4, 16])
       )
       .getConfig();
     mountDotsXQuantYQuantComponent(dotsConfig);
+    cy.wait(1000);
   });
   data.forEach((datum) => {
     describe(`when hovering over the dot for ${datum.country}`, () => {
       beforeEach(() => {
-        cy.get(`${dotGSelector}.${datum.country.split(' ')[0]}`).realHover();
+        cy.get(
+          `${dotGSelector}.${datum.country.split(' ')[0]} ${dotCircleSelector}`
+        ).realHover();
       });
       it('should display a tooltip with the correct data', () => {
         cy.get('.vic-html-tooltip-overlay').should('exist');
@@ -499,7 +474,7 @@ describe('it creates one dot for each valid value in the data with the expected 
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .xNumeric((x) => x.valueAccessor((d) => d.population))
       .yOrdinal((y) => y.valueAccessor((d) => d.continent))
       .fillNumeric((fill) =>
@@ -509,7 +484,7 @@ describe('it creates one dot for each valid value in the data with the expected 
         radius.valueAccessor((d) => d.popGrowth).range([2, 10])
       )
       .stroke((stroke) => stroke.color('black').width(1))
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .getConfig();
     mountDotsXQuantYOrdinalComponent(dotsConfig);
     cy.wait(axisTickTextWaitTime);
@@ -560,7 +535,7 @@ describe('it creates one dot for each valid value in the data with the expected 
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .yNumeric((x) => x.valueAccessor((d) => d.population))
       .xOrdinal((y) => y.valueAccessor((d) => d.continent))
       .fillNumeric((fill) =>
@@ -570,7 +545,7 @@ describe('it creates one dot for each valid value in the data with the expected 
         radius.valueAccessor((d) => d.popGrowth).range([2, 10])
       )
       .stroke((stroke) => stroke.color('black').width(1))
-      .class((d) => d.country)
+      .datumClass((d) => d.country)
       .getConfig();
     mountDotsXOrdinalYQuantComponent(dotsConfig);
     cy.wait(axisTickTextWaitTime);

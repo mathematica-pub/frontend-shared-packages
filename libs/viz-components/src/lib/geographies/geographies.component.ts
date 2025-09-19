@@ -9,7 +9,7 @@ import {
 import { GeoPath, geoPath, GeoProjection, select } from 'd3';
 import { Selection } from 'd3-selection';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, filter, Observable } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
 import { MapChartComponent } from '../charts/map-chart/map-chart.component';
 import { MapPrimaryMarks } from '../marks/map-marks/map-primary-marks/map-primary-marks';
@@ -76,7 +76,7 @@ export class GeographiesComponent<
       SVGGElement,
       GeographiesFeature<TProperties, TGeometry>
     >[]
-  > = this.pathsByLayer.asObservable();
+  > = this.pathsByLayer.asObservable().pipe(filter((d) => !!d));
   public elRef = inject<ElementRef<SVGGElement>>(ElementRef);
 
   get class(): Record<GeographiesSvgElement, string> {
@@ -141,7 +141,7 @@ export class GeographiesComponent<
     const layerGroup = select(this.elRef.nativeElement)
       .style(
         'transform',
-        `translate(${this.chart.margin.left}px, ${this.chart.margin.top}px)`
+        `translate(${this.chart.config.margin.left}px, ${this.chart.config.margin.top}px)`
       )
       .selectAll<
         SVGGElement,

@@ -1,0 +1,11 @@
+@if (rollupData.length === 0) {
+  <p>The current selections are not a valid combination.</p>
+} @else {
+  <vic-xy-chart [config]="chartConfig">
+    <ng-container svg-elements>
+      <svg:g vic-x-quantitative-axis [config]="xAxisConfig"></svg:g>
+      <svg:g vic-y-ordinal-axis [config]="yAxisConfig"></svg:g>
+      <svg:g app-ica-stacked-bars [config]="rollupDataConfig"></svg:g>
+    </ng-container>
+  </vic-xy-chart>
+}

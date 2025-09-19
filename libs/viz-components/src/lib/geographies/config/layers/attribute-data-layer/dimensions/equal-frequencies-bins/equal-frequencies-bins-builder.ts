@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { interpolateLab, scaleQuantile } from 'd3';
 import { CalculatedBinsAttributeDataDimensionBuilder } from '../calculated-bins/calculated-bins-builder';
 import { EqualFrequenciesAttributeDataDimension } from './equal-frequencies-bins';
@@ -18,7 +19,7 @@ export class EqualFrequenciesAttributeDataDimensionBuilder<
 
   constructor() {
     super();
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**

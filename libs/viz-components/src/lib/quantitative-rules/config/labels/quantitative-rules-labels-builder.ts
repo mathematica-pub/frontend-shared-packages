@@ -1,3 +1,4 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { QuantitativeRulesLabels } from './quantitative-rules-labels';
 
 const DEFAULT = {
@@ -23,7 +24,7 @@ export class RulesLabelsBuilder<Datum> {
   private _textAnchor: 'start' | 'middle' | 'end';
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
     this._value = (d: Datum) => `${d}`;
   }
 
@@ -53,6 +54,8 @@ export class RulesLabelsBuilder<Datum> {
    *
    * @default true
    */
+  display(display: boolean): this;
+  display(display: (d: Datum) => boolean): this;
   display(display: boolean | ((d: Datum) => boolean)) {
     this._display = typeof display === 'boolean' ? () => display : display;
     return this;

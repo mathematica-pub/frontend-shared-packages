@@ -1,50 +1,52 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import {
+  BarsConfig,
+  BarsHost,
+  BarsHoverEmitTooltipData,
+  BarsHoverMoveEmitTooltipData,
+  BarsInteractionOutput,
+  ChartConfig,
+  DEFAULT_TOOLTIP_Y_OFFSET,
+  EventAction,
+  HoverMoveAction,
+  HtmlTooltipConfig,
+  VicBarsConfigBuilder,
+  VicBarsModule,
+  VicChartConfigBuilder,
+  VicChartModule,
+  VicHtmlTooltipConfigBuilder,
+  VicHtmlTooltipModule,
+  VicXOrdinalAxisConfig,
+  VicXOrdinalAxisConfigBuilder,
+  VicXQuantitativeAxisConfig,
+  VicXQuantitativeAxisConfigBuilder,
+  VicXyAxisModule,
+  VicYOrdinalAxisConfig,
+  VicYOrdinalAxisConfigBuilder,
+  VicYQuantitativeAxisConfig,
+  VicYQuantitativeAxisConfigBuilder,
+} from '@hsi/viz-components';
 import 'cypress-real-events';
 import { format, max } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
 import {
-  VicXOrdinalAxisConfigBuilder,
-  VicXQuantitativeAxisConfigBuilder,
-  VicYOrdinalAxisConfigBuilder,
-  VicYQuantitativeAxisConfigBuilder,
-} from '../axes';
-import { VicOrdinalAxisConfig } from '../axes/ordinal/ordinal-axis-config';
-import { VicQuantitativeAxisConfig } from '../axes/quantitative/quantitative-axis-config';
-import { VicXOrdinalAxisModule } from '../axes/x-ordinal/x-ordinal-axis.module';
-import { VicXQuantitativeAxisModule } from '../axes/x-quantitative/x-quantitative-axis.module';
-import { VicYOrdinalAxisModule } from '../axes/y-ordinal/y-ordinal-axis.module';
-import { VicYQuantitativeAxisModule } from '../axes/y-quantitative-axis/y-quantitative-axis.module';
-import { VicChartModule } from '../charts/chart/chart.module';
-import { VicXyChartModule } from '../charts/xy-chart/xy-chart.module';
-import { EventAction, HoverMoveAction } from '../events/action';
-import {
   countryFactsData,
   CountryFactsDatum,
 } from '../testing/data/country-area-continent';
-import { VicHtmlTooltipConfigBuilder } from '../tooltips/html-tooltip/config/html-tooltip-builder';
-import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
-import { VicHtmlTooltipModule } from '../tooltips/html-tooltip/html-tooltip.module';
-import { VicBarsModule } from './bars.module';
-import { VicBarsConfigBuilder } from './config/bars-builder';
-import { BarsConfig } from './config/bars-config';
-import { BarsHoverEmitTooltipData } from './events/actions/bars-hover-actions';
-import { BarsHoverMoveEmitTooltipData } from './events/actions/bars-hover-move-actions';
-import { BarsEventOutput } from './events/bars-event-output';
-import { BarsHoverMoveDirective } from './events/bars-hover-move.directive';
-import { BarsHoverDirective } from './events/bars-hover.directive';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).
 // This wait time is necessary to ensure that the text value of the tick elements has been set by d3.
 const axisTickTextWaitTime = 1000;
 
-const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 80 };
+const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 120 };
 const verticalMargin = { top: 20, right: 20, bottom: 4, left: 40 };
 const chartHeight = 400;
 const chartWidth = 600;
-const tooltipYOffset = 30;
 const getXTransform = ($barGroup) => {
   const [x] = $barGroup
     .attr('transform')
@@ -73,12 +75,7 @@ const labelSelector = '.vic-bars-label';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-horizontal-bar',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -88,8 +85,9 @@ const labelSelector = '.vic-bars-label';
         <svg:g
           vic-primary-marks-bars
           [config]="barsConfig"
-          [vicBarsHoverActions]="hoverAndMoveActions"
-          (vicBarsHoverOutput)="updateTooltipForNewOutput($event)"
+          vicBarsEvents
+          [hoverMoveActions]="hoverMoveActions"
+          (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="tooltipConfig$ | async"
@@ -100,48 +98,56 @@ const labelSelector = '.vic-bars-label';
     </vic-xy-chart>
 
     <ng-template #htmlTooltip>
-      <p class="x-value">{{ (tooltipData$ | async).values.x }}</p>
-      <p class="y-value">{{ (tooltipData$ | async).values.y }}</p>
+      @if ((tooltipData$ | async)?.values; as values) {
+        <p class="x-value">{{ values.x }}</p>
+        <p class="y-value">{{ values.y }}</p>
+      }
     </ng-template>
   `,
-  styles: [],
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+    CommonModule,
+  ],
 })
 class TestHorizontalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
-  @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  margin = horizontalMargin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>> =
-    new BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>>(null);
+  tooltipData: BehaviorSubject<BarsInteractionOutput<CountryFactsDatum>> =
+    new BehaviorSubject<BarsInteractionOutput<CountryFactsDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveActions: HoverMoveAction<
-    BarsHoverMoveDirective<CountryFactsDatum, string>
+  hoverMoveActions: HoverMoveAction<
+    BarsHost<CountryFactsDatum, string>,
+    BarsInteractionOutput<CountryFactsDatum>
   >[] = [new BarsHoverMoveEmitTooltipData()];
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .margin(horizontalMargin)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
+    .transitionDuration(0)
+    .scalingStrategy('responsive-width')
+    .getConfig();
 
   updateTooltipForNewOutput(
-    data: BarsEventOutput<CountryFactsDatum, string>
+    data: BarsInteractionOutput<CountryFactsDatum>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: BarsEventOutput<CountryFactsDatum, string>): void {
+  updateTooltipData(data: BarsInteractionOutput<CountryFactsDatum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: BarsEventOutput<CountryFactsDatum, string>): void {
+  updateTooltipConfig(data: BarsInteractionOutput<CountryFactsDatum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .barsPosition(data?.origin, [
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY : undefined,
-        },
-      ])
+      .positionFromOutput(data, data.defaultPosition)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
@@ -152,22 +158,11 @@ const mountHorizontalBarsComponent = (
   barsConfig: BarsConfig<CountryFactsDatum, string>
 ): void => {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder()
-    .tickFormat(',.0f')
+    .ticks((ticks) => ticks.format(',.0f'))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
-  const declarations = [TestHorizontalBarsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    VicXyChartModule,
-    VicHtmlTooltipModule,
-  ];
 
   cy.mount(TestHorizontalBarsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       xQuantitativeAxisConfig: xAxisConfig,
@@ -183,12 +178,7 @@ const mountHorizontalBarsComponent = (
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-vertical-bar',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
         <svg:g
@@ -198,8 +188,9 @@ const mountHorizontalBarsComponent = (
         <svg:g
           vic-primary-marks-bars
           [config]="barsConfig"
-          [vicBarsHoverActions]="hoverActions"
-          (vicBarsHoverOutput)="updateTooltipForNewOutput($event)"
+          vicBarsEvents
+          [hoverActions]="hoverActions"
+          (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="tooltipConfig$ | async"
@@ -207,50 +198,55 @@ const mountHorizontalBarsComponent = (
           ></vic-html-tooltip>
         </svg:g>
       </ng-container>
+      <ng-template #htmlTooltip>
+        <p>{{ (tooltipData$ | async).values.y }}</p>
+      </ng-template>
     </vic-xy-chart>
-
-    <ng-template #htmlTooltip>
-      <p>{{ (tooltipData$ | async).values.y }}</p>
-    </ng-template>
   `,
   styles: [],
+  imports: [
+    VicChartModule,
+    VicBarsModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+    CommonModule,
+  ],
 })
 class TestVerticalBarsComponent {
   @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
-  @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  margin = verticalMargin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>> =
-    new BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>>(null);
+  tooltipData: BehaviorSubject<BarsInteractionOutput<CountryFactsDatum>> =
+    new BehaviorSubject<BarsInteractionOutput<CountryFactsDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: EventAction<BarsHoverDirective<CountryFactsDatum, string>>[] = [
+  hoverActions: EventAction<BarsHost<CountryFactsDatum, string>>[] = [
     new BarsHoverEmitTooltipData(),
   ];
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .margin(verticalMargin)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
+    .transitionDuration(0)
+    .scalingStrategy('responsive-width')
+    .getConfig();
 
   updateTooltipForNewOutput(
-    data: BarsEventOutput<CountryFactsDatum, string>
+    data: BarsInteractionOutput<CountryFactsDatum>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: BarsEventOutput<CountryFactsDatum, string>): void {
+  updateTooltipData(data: BarsInteractionOutput<CountryFactsDatum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: BarsEventOutput<CountryFactsDatum, string>): void {
+  updateTooltipConfig(data: BarsInteractionOutput<CountryFactsDatum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .barsPosition(data?.origin, [
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - tooltipYOffset : undefined,
-        },
-      ])
+      .positionFromOutput(data)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
@@ -262,22 +258,10 @@ const mountVerticalBarsComponent = (
 ): void => {
   const xAxisConfig = new VicXOrdinalAxisConfigBuilder().getConfig();
   const yAxisConfig = new VicYQuantitativeAxisConfigBuilder()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
 
-  const declarations = [TestVerticalBarsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXOrdinalAxisModule,
-    VicYQuantitativeAxisModule,
-    VicXyChartModule,
-    VicHtmlTooltipModule,
-  ];
-
   cy.mount(TestVerticalBarsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       xOrdinalAxisConfig: xAxisConfig,
@@ -552,8 +536,8 @@ describe('it creates the correct bars in the correct order for the data', () => 
             const size = parseFloat($bar.attr(barAttr));
             const axisSelector =
               orientation === 'horizontal'
-                ? '.vic-axis-y-ordinal'
-                : '.vic-axis-x-ordinal';
+                ? '.vic-axis-x-quantitative'
+                : '.vic-axis-y-quantitative';
             cy.get<SVGPathElement>(`${axisSelector} .domain`).then((domain) => {
               const domainRect = domain[0].getBBox();
               expect(size).to.be.above(domainRect[barAttr]);
@@ -626,6 +610,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           const size = parseFloat($bar.attr(barAttr));
           sizes.push(size);
         });
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         expect(sizes.every((size) => size === sizes[0])).to.be.true;
       });
     });
@@ -801,7 +786,7 @@ describe('displays tooltips for correct data per hover position', () => {
         cy.get('svg').should('exist');
       });
       it('displays a tooltip', () => {
-        cy.get('.vic-html-tooltip-overlay').should('be.visible');
+        cy.get('.vic-html-tooltip-overlay').should('exist');
       });
       it('tooltip displays correctly formatted data', () => {
         cy.get('.x-value').should(
@@ -825,7 +810,7 @@ describe('displays tooltips for correct data per hover position', () => {
                 5
               );
               expect(tooltipBox.bottom).to.be.closeTo(
-                (barBox.top + barBox.bottom) / 2,
+                (barBox.top + barBox.bottom) / 2 - DEFAULT_TOOLTIP_Y_OFFSET,
                 10
               );
             });

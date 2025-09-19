@@ -1,9 +1,11 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { CommonModule } from '@angular/common';
 import { Component, Input, signal, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { HsiUiComboboxModule } from '@hsi/ui-components';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
-import { HsiUiComboboxModule } from '../combobox.module';
 import { scss } from './combobox-testing.constants';
 
 @Component({
@@ -53,6 +55,7 @@ import { scss } from './combobox-testing.constants';
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxGroupedTestComponent {
   @Input() isMulti = false;
@@ -75,8 +78,6 @@ class ComboboxGroupedTestComponent {
 describe('Single-select grouped combobox with a default (dynamic) label', () => {
   beforeEach(() => {
     cy.mount(ComboboxGroupedTestComponent, {
-      declarations: [ComboboxGroupedTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
       componentProperties: { isMulti: false },
     });
   });
@@ -112,8 +113,6 @@ describe('Single-select grouped combobox with a default (dynamic) label', () => 
 describe('Multi-select grouped combobox with a default (dynamic) label', () => {
   beforeEach(() => {
     cy.mount(ComboboxGroupedTestComponent, {
-      declarations: [ComboboxGroupedTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
       componentProperties: { isMulti: true },
     });
   });
@@ -193,6 +192,7 @@ describe('Multi-select grouped combobox with a default (dynamic) label', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxGroupedCountLabelTestComponent {
   options1 = [
@@ -214,10 +214,7 @@ class ComboboxGroupedCountLabelTestComponent {
 
 describe('Multi-select grouped combobox with external selections', () => {
   beforeEach(() => {
-    cy.mount(ComboboxGroupedCountLabelTestComponent, {
-      declarations: [ComboboxGroupedCountLabelTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxGroupedCountLabelTestComponent);
   });
   it('textbox label shows the boxLabel before there is a selection, and the count label afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
@@ -282,6 +279,7 @@ describe('Multi-select grouped combobox with external selections', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxGroupedExternalSelectionsTestComponent {
   options1 = [
@@ -303,10 +301,7 @@ class ComboboxGroupedExternalSelectionsTestComponent {
 
 describe('Multi-select grouped combobox with external selections', () => {
   beforeEach(() => {
-    cy.mount(ComboboxGroupedExternalSelectionsTestComponent, {
-      declarations: [ComboboxGroupedExternalSelectionsTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxGroupedExternalSelectionsTestComponent);
   });
   it('textbox label shows externally selected options on load', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Bananas, Durians');
@@ -391,6 +386,7 @@ describe('Multi-select grouped combobox with external selections', () => {
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
 })
 class ComboboxGroupedDynamicOptionsTestComponent {
   optionsABC = [
@@ -427,10 +423,7 @@ class ComboboxGroupedDynamicOptionsTestComponent {
 
 describe('Multi-select grouped combobox with dynamic options', () => {
   beforeEach(() => {
-    cy.mount(ComboboxGroupedDynamicOptionsTestComponent, {
-      declarations: [ComboboxGroupedDynamicOptionsTestComponent],
-      imports: [HsiUiComboboxModule, MatIconModule],
-    });
+    cy.mount(ComboboxGroupedDynamicOptionsTestComponent);
   });
   it('combobox correctly changes options when options are changed externally', () => {
     cy.get('.hsi-ui-textbox').click();

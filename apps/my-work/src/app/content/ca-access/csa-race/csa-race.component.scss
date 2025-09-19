@@ -1,0 +1,21 @@
+@use '../../ca/ca.scss';
+@use '../../ca/color.scss';
+
+@mixin percentile {
+  fill: color.$bars;
+  stroke: color.$percentile;
+}
+
+.vic-stacked-bars-bar {
+  @include percentile;
+}
+
+.percentile {
+  rect {
+    @include percentile;
+  }
+
+  text {
+    alignment-baseline: middle;
+  }
+}

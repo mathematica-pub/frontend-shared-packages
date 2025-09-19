@@ -1,21 +1,22 @@
+import { safeAssign } from '@hsi/app-dev-kit';
 import { FillDefinition } from '../../../data-dimensions';
 import { AreaFills } from './area-fills';
 
 const DEFAULT = {
-  _display: true,
+  _display: () => true,
   _opacity: 0.2,
   _gradient: undefined,
   _color: undefined,
 };
 
 export class AreaFillsBuilder<Datum> {
-  private _display: boolean;
+  private _display: (category: string) => boolean;
   private _opacity: number;
   private _customFills: FillDefinition<Datum>[];
   private _color: (d: Datum) => string;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
   }
 
   /**
@@ -45,8 +46,10 @@ export class AreaFillsBuilder<Datum> {
    *
    * @default true
    */
-  display(display: boolean): this {
-    this._display = display;
+  display(display: boolean): this;
+  display(display: (category: string) => boolean): this;
+  display(display: boolean | ((category: string) => boolean)): this {
+    this._display = typeof display === 'boolean' ? () => display : display;
     return this;
   }
 

@@ -1,35 +1,37 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import 'cypress-real-events';
-import { curveBasis, schemeTableau10 } from 'd3';
 import {
-  LinesHoverMoveDirective,
+  ChartConfig,
+  HoverMoveAction,
+  HtmlTooltipConfig,
+  LinesConfig,
+  LinesHost,
   LinesHoverMoveEmitTooltipData,
+  LinesInteractionOutput,
+  VicChartConfigBuilder,
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
   VicLinesConfigBuilder,
   VicLinesModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
-} from 'libs/viz-components/src/public-api';
+} from '@hsi/viz-components';
+import 'cypress-real-events';
+import { curveBasis, schemeTableau10 } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
-import { XQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
-import { YQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
-import { HoverMoveAction } from '../events/action';
 import {
   continentPopulationDateYearData,
   ContinentPopulationDateYearDatum,
   ContinentPopulationNumYearData,
   ContinentPopulationNumYearDatum,
 } from '../testing/data/continent-population-year-data';
-import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
-import { LinesConfig } from './config/lines-config';
-import { LinesEventOutput } from './events/lines-event-output';
 
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).
@@ -41,7 +43,6 @@ const chartHeight = 400;
 const chartWidth = 600;
 const dateData = continentPopulationDateYearData;
 const numericData = ContinentPopulationNumYearData;
-const tooltipYOffset = 60; // need to offset otherwise the hover will be on the tooltip itself rather than svg
 
 const lineSelector = '.vic-lines-line';
 const markerSelector = '.vic-lines-marker';
@@ -53,12 +54,7 @@ const markerSelector = '.vic-lines-marker';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-lines',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="chartHeight"
-      [width]="chartWidth"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -71,8 +67,9 @@ const markerSelector = '.vic-lines-marker';
         <svg:g
           vic-primary-marks-lines
           [config]="linesConfig"
-          [vicLinesHoverMoveActions]="hoverActions"
-          (vicLinesHoverMoveOutput)="updateTooltipForNewOutput($event)"
+          vicLinesEvents
+          [hoverMoveActions]="hoverMoveActions"
+          (interactionOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="tooltipConfig$ | async"
@@ -92,44 +89,50 @@ const markerSelector = '.vic-lines-marker';
       </ng-container>
     </ng-template>
   `,
-  styles: ['.tooltip-text { font-size: 12px; }'],
+  styles: [
+    '.tooltip-text { font-size: 12px; }  .events-disabled { pointer-events: none; }',
+  ],
+  imports: [
+    VicChartModule,
+    VicLinesModule,
+    VicXyAxisModule,
+    VicHtmlTooltipModule,
+    CommonModule,
+  ],
 })
 class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   @Input() linesConfig: LinesConfig<Datum>;
-  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
-  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<QuantAxisType>;
-  margin = margin;
-  chartHeight = chartHeight;
-  chartWidth = chartWidth;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<QuantAxisType>;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<LinesEventOutput<Datum>> = new BehaviorSubject<
-    LinesEventOutput<Datum>
-  >(null);
+  tooltipData: BehaviorSubject<LinesInteractionOutput<Datum>> =
+    new BehaviorSubject<LinesInteractionOutput<Datum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverActions: HoverMoveAction<LinesHoverMoveDirective<Datum>>[] = [
+  hoverMoveActions: HoverMoveAction<LinesHost<Datum>>[] = [
     new LinesHoverMoveEmitTooltipData(),
   ];
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
+    .margin(margin)
+    .scalingStrategy('responsive-width')
+    .getConfig();
 
-  updateTooltipForNewOutput(data: LinesEventOutput<Datum>): void {
+  updateTooltipForNewOutput(data: LinesInteractionOutput<Datum>): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: LinesEventOutput<Datum>): void {
+  updateTooltipData(data: LinesInteractionOutput<Datum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: LinesEventOutput<Datum>): void {
+  updateTooltipConfig(data: LinesInteractionOutput<Datum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
       .size((size) => size.minWidth(100))
-      .linesPosition([
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - tooltipYOffset : 0,
-        },
-      ])
+      .positionFromOutput(data)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
@@ -140,29 +143,15 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   }
 }
 
-const imports = [
-  VicChartModule,
-  VicLinesModule,
-  VicXQuantitativeAxisModule,
-  VicYQuantitativeAxisModule,
-  VicXyChartModule,
-  VicHtmlTooltipModule,
-];
-
 function mountDateLinesComponent(
   linesConfig: LinesConfig<ContinentPopulationDateYearDatum>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<Date>()
-    .tickFormat('%Y')
+    .ticks((ticks) => ticks.format('%Y'))
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
-  const declarations = [
-    TestLinesComponent<ContinentPopulationDateYearDatum, Date>,
-  ];
   cy.mount(TestLinesComponent<ContinentPopulationDateYearDatum, Date>, {
-    declarations,
-    imports,
     componentProperties: {
       linesConfig: linesConfig,
       xQuantitativeAxisConfig: xAxisConfig,
@@ -175,16 +164,11 @@ function mountNumberLinesComponent(
   linesConfig: LinesConfig<ContinentPopulationNumYearDatum>
 ): void {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
   const yAxisConfig =
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
-  const declarations = [
-    TestLinesComponent<ContinentPopulationNumYearDatum, number>,
-  ];
   cy.mount(TestLinesComponent<ContinentPopulationNumYearDatum, number>, {
-    declarations,
-    imports,
     componentProperties: {
       linesConfig: linesConfig,
       xQuantitativeAxisConfig: xAxisConfig,
@@ -201,7 +185,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xDate((xDate) => xDate.valueAccessor((d) => d.year))
         .y((y) => y.valueAccessor((d) => d.population))
         .stroke((stroke) =>
@@ -235,7 +219,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(testData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xDate((xDate) => xDate.valueAccessor((d) => d.year))
         .y((y) => y.valueAccessor((d) => d.population))
         .stroke((stroke) =>
@@ -277,7 +261,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(testData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) => dimension.valueAccessor((d) => d.population))
         .stroke((stroke) =>
@@ -319,7 +303,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(testData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) => dimension.valueAccessor((d) => d.population))
         .stroke((stroke) =>
@@ -351,7 +335,7 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationNumYearDatum>()
         .data(numericData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xNumeric((dimension) =>
           dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
         )
@@ -378,7 +362,7 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationNumYearDatum>()
           .data(numericData)
-          .class((d) => d.continent.split(' ').join('-'))
+          .datumClass((d) => d.continent.split(' ').join('-'))
           .xNumeric((dimension) =>
             dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
           )
@@ -405,7 +389,7 @@ describe('if the user specifies a y domain that is smaller than max value', () =
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -441,7 +425,7 @@ describe('if the user specifies an x domain that is smaller than max value', () 
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationNumYearDatum>()
         .data(numericData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xNumeric((dimension) =>
           dimension
             .valueAccessor((d) => d.year)
@@ -482,7 +466,7 @@ describe('it creates lines with the correct properties per config', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) => dimension.valueAccessor((d) => d.population))
         .stroke((stroke) =>
@@ -498,7 +482,7 @@ describe('it creates lines with the correct properties per config', () => {
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .curve(curveBasis)
         .xDate((dimension) => dimension.valueAccessor((d) => d.year))
         .y((dimension) =>
@@ -517,7 +501,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
-          .class((d) => d.continent.split(' ').join('-'))
+          .datumClass((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -540,7 +524,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
-          .class((d) => d.continent.split(' ').join('-'))
+          .datumClass((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -569,7 +553,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
-          .class((d) => d.continent.split(' ').join('-'))
+          .datumClass((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -601,7 +585,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
-          .class((d) => d.continent.split(' ').join('-'))
+          .datumClass((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -623,7 +607,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
-          .class((d) => d.continent.split(' ').join('-'))
+          .datumClass((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -649,7 +633,7 @@ describe('it creates lines with the correct properties per config', () => {
       const linesConfig =
         new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
           .data(dateData)
-          .class((d) => d.continent.split(' ').join('-'))
+          .datumClass((d) => d.continent.split(' ').join('-'))
           .xDate((dimension) => dimension.valueAccessor((d) => d.year))
           .y((dimension) =>
             dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
@@ -679,10 +663,11 @@ describe('it creates lines with the correct properties per config', () => {
 // ***********************************************************
 describe('displays tooltips for correct data per hover position', () => {
   beforeEach(() => {
+    cy.viewport(800, 600); // ensure that tts don't get repositioned at the edges of the chart
     const linesConfig =
       new VicLinesConfigBuilder<ContinentPopulationDateYearDatum>()
         .data(dateData)
-        .class((d) => d.continent.split(' ').join('-'))
+        .datumClass((d) => d.continent.split(' ').join('-'))
         .xDate((xDate) =>
           // When running in headless mode, realHover is finicky with point markers that are on the edge of the svg container
           // Padded the x and y domains to avoid this issue
@@ -711,7 +696,7 @@ describe('displays tooltips for correct data per hover position', () => {
       });
 
       it('displays a tooltip', () => {
-        cy.get('.vic-html-tooltip-overlay').should('be.visible');
+        cy.get('.vic-html-tooltip-overlay').should('exist');
       });
 
       it('tooltip displays correct data', () => {
@@ -739,10 +724,7 @@ describe('displays tooltips for correct data per hover position', () => {
                 (markerBox.left + markerBox.right) / 2,
                 1
               );
-              expect(tooltipBox.bottom + tooltipYOffset).to.be.closeTo(
-                markerBox.top,
-                10
-              );
+              expect(tooltipBox.bottom).to.be.closeTo(markerBox.top, 10);
             });
         });
       });

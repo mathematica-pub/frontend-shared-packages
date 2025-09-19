@@ -1,52 +1,52 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
+  ChartConfig,
   ElementSpacing,
   HoverMoveAction,
   HtmlTooltipConfig,
   StackedAreaConfig,
-  StackedAreaEventOutput,
-  StackedAreaHoverMoveDirective,
+  StackedAreaHost,
   StackedAreaHoverMoveEmitTooltipData,
+  VicChartConfigBuilder,
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicQuantitativeAxisConfig,
   VicStackedAreaConfigBuilder,
   VicStackedAreaModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
+  VicXyAxisModule,
   VicXyBackgroundModule,
-  VicXyChartModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
+import { StackedAreaInteractionOutput } from 'dist/viz-components/lib/stacked-area/events/stacked-area-interaction-output';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 
 interface ViewModel {
+  chartConfig: ChartConfig;
   dataConfig: StackedAreaConfig<IndustryUnemploymentDatum, string>;
-  xAxisConfig: VicQuantitativeAxisConfig<Date>;
-  yAxisConfig: VicQuantitativeAxisConfig<number>;
+  xAxisConfig: VicXQuantitativeAxisConfig<Date>;
+  yAxisConfig: VicYQuantitativeAxisConfig<number>;
 }
 
 @Component({
   selector: 'app-stacked-area-example',
-  standalone: true,
   imports: [
     CommonModule,
     VicChartModule,
-    VicXyChartModule,
     VicStackedAreaModule,
     VicXyBackgroundModule,
-    VicXQuantitativeAxisModule,
-    VicYQuantitativeAxisModule,
+    VicXyAxisModule,
     VicHtmlTooltipModule,
   ],
   templateUrl: './stacked-area-example.component.html',
   styleUrls: ['./stacked-area-example.component.scss'],
   providers: [
+    VicChartConfigBuilder,
     VicStackedAreaConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
@@ -57,7 +57,7 @@ export class StackedAreaExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,
-    right: 0,
+    right: 12,
     bottom: 36,
     left: 64,
   };
@@ -65,18 +65,19 @@ export class StackedAreaExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<
-    StackedAreaEventOutput<IndustryUnemploymentDatum, string>
+  interactionOutput: BehaviorSubject<
+    StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   > = new BehaviorSubject<
-    StackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   >(null);
-  tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveActions: HoverMoveAction<
-    StackedAreaHoverMoveDirective<IndustryUnemploymentDatum, string>
+  interactionOutput$ = this.interactionOutput.asObservable();
+  hoverMoveActions: HoverMoveAction<
+    StackedAreaHost<IndustryUnemploymentDatum, string>
   >[] = [new StackedAreaHoverMoveEmitTooltipData()];
 
   constructor(
     private dataService: DataService,
+    private chart: VicChartConfigBuilder,
     private stackedArea: VicStackedAreaConfigBuilder<
       IndustryUnemploymentDatum,
       string
@@ -94,8 +95,13 @@ export class StackedAreaExampleComponent implements OnInit {
   }
 
   getViewModel(data: IndustryUnemploymentDatum[]): ViewModel {
-    const xAxisConfig = this.xAxisQuantitative.tickFormat('%Y').getConfig();
-    const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').getConfig();
+    const chartConfig = this.chart.margin(this.margin).getConfig();
+    const xAxisConfig = this.xAxisQuantitative
+      .ticks((ticks) => ticks.format('%Y'))
+      .getConfig();
+    const yAxisConfig = this.yAxisQuantitative
+      .ticks((ticks) => ticks.format(',.0f'))
+      .getConfig();
     const dataConfig = this.stackedArea
       .data(data)
       .xDate((dimension) => dimension.valueAccessor((d) => d.date))
@@ -103,6 +109,7 @@ export class StackedAreaExampleComponent implements OnInit {
       .color((dimension) => dimension.valueAccessor((d) => d.industry))
       .getConfig();
     return {
+      chartConfig,
       dataConfig,
       xAxisConfig,
       yAxisConfig,
@@ -110,30 +117,22 @@ export class StackedAreaExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: StackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    output: StackedAreaInteractionOutput<IndustryUnemploymentDatum, string>
   ): void {
-    this.updateTooltipData(data);
-    this.updateTooltipConfig(data);
-  }
-
-  updateTooltipData(
-    data: StackedAreaEventOutput<IndustryUnemploymentDatum, string>
-  ): void {
-    this.tooltipData.next(data);
+    this.interactionOutput.next(output);
+    this.updateTooltipConfig(output);
   }
 
   updateTooltipConfig(
-    data: StackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    output: StackedAreaInteractionOutput<
+      IndustryUnemploymentDatum,
+      string
+    > | null
   ): void {
     const config = this.tooltip
       .size((size) => size.minWidth(130))
-      .stackedAreaPosition([
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.hoveredAreaTop - 8 : undefined,
-        },
-      ])
-      .show(data?.hoveredDatum !== undefined)
+      .positionFromOutput(output, output?.fromAnchor('area', { y: 8 }))
+      .show(!!output?.hoveredAreaDatum)
       .getConfig();
     this.tooltipConfig.next(config);
   }

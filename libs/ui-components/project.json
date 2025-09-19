@@ -24,7 +24,9 @@
         }
       },
       "defaultConfiguration": "production",
-      "outputs": ["{workspaceRoot}/dist/ui-components"]
+      "outputs": [
+        "{workspaceRoot}/dist/ui-components"
+      ]
     },
     "build-release": {
       "executor": "nx:run-commands",
@@ -63,7 +65,9 @@
           "libs/ui-components/**/*.html"
         ]
       },
-      "outputs": ["{options.outputFile}"]
+      "outputs": [
+        "{options.outputFile}"
+      ]
     },
     "component-test": {
       "executor": "@nx/cypress:cypress",
@@ -71,7 +75,7 @@
         "cypressConfig": "libs/ui-components/cypress.config.ts",
         "testingType": "component",
         "skipServe": true,
-        "devServerTarget": "demo-app:build:production"
+        "devServerTarget": "demo-app:build:development"
       }
     },
     "cypress-local": {
@@ -92,8 +96,19 @@
         "preset": "angular",
         "skipCommit": true,
         "skipRootChangelog": true,
-        "postTargets": ["build-release", "publish", "github-release"],
-        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
+        "postTargets": [
+          "build-release",
+          "publish",
+          "github-release"
+        ],
+        "skipCommitTypes": [
+          "build",
+          "ci",
+          "docs",
+          "refactor",
+          "style",
+          "test"
+        ]
       }
     }
   }

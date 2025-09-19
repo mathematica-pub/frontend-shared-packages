@@ -6,7 +6,6 @@ import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-external-selections-combobox',
-  standalone: true,
   imports: [CommonModule, HsiUiComboboxModule, MatIconModule],
   templateUrl: './external-selections.component.html',
   styleUrl: './external-selections.component.scss',

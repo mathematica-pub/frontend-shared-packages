@@ -1,19 +1,13 @@
-import { ConnectedPosition } from '@angular/cdk/overlay';
 import { ElementRef, Injectable } from '@angular/core';
-import {
-  RelativeToCenterTooltipPosition,
-  RelativeToTopLeftTooltipPosition,
-} from '../../../events/event-positions';
+import { safeAssign } from '@hsi/app-dev-kit';
+import { InteractionOutput } from '../../../events/interaction-output';
 import { HtmlTooltipConfig } from './html-tooltip-config';
-import {
-  HtmlTooltipCdkManagedPosition,
-  HtmlTooltipOffsetFromOriginPosition,
-} from './position/tooltip-position';
-import { HtmlTooltipOffsetFromOriginPositionBuilder } from './position/tooltip-position-builder';
+import { HtmlTooltipCdkManagedPosition } from './position/tooltip-position';
 import { HtmlTooltipSizeBuilder } from './size/tooltip-size-builder';
 
 const DEFAULT = {
   _minWidth: 300,
+  _applyEventsDisabledClass: true,
 };
 
 @Injectable()
@@ -23,15 +17,73 @@ export class VicHtmlTooltipConfigBuilder {
   private _panelClass: string | string[];
   private _origin: ElementRef<Element>;
   private _hasBackdrop: boolean;
-  private _position:
-    | HtmlTooltipCdkManagedPosition
-    | HtmlTooltipOffsetFromOriginPosition;
+  private _position: HtmlTooltipCdkManagedPosition;
   private _show: boolean;
 
   constructor() {
-    Object.assign(this, DEFAULT);
+    safeAssign(this, DEFAULT);
     this.sizeBuilder = new HtmlTooltipSizeBuilder();
-    this._applyEventsDisabledClass = false;
+  }
+
+  /**
+   * OPTIONAL. If set to true, the tooltip will have the class 'events-disabled' that can be used to disable pointer events.
+   * This is useful when the tooltip should not interfere with user interactions, such as when it is used for informational purposes only.
+   *
+   * Default is true, meaning the class will be applied.
+   *
+   * @param apply - Whether to apply the events-disabled class or not.
+   */
+  applyEventsDisabledClass(apply: boolean): this {
+    this._applyEventsDisabledClass = apply;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Will create a Material CDK-provided backdrop if set to true. Clicking on the backdrop will dismiss the backdrop and emit an event.
+   *
+   * @param hasBackdrop - Whether to show a backdrop or not.
+   */
+  hasBackdrop(hasBackdrop: boolean): this {
+    this._hasBackdrop = hasBackdrop;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets CSS classes to apply to the tooltip panel.
+   *
+   * @param panelClass - CSS class name(s) to apply to the tooltip panel.
+   */
+  panelClass(panelClass: string | string[]): this {
+    this._panelClass = panelClass;
+    return this;
+  }
+
+  /**
+   * Sets the origin and position of the tooltip based on the output from a BaseInteractionOutput.
+   *
+   * @param origin - The origin element reference.
+   * @param position - Optional position configuration. If not provided, the default position from the output will be used. Note that the output has several methods to return a position that can be used here.
+   */
+  positionFromOutput(
+    // intentionally using InteractionOutput<unknown> to allow flexibility in the type of output
+    output: InteractionOutput<unknown>,
+    position?: HtmlTooltipCdkManagedPosition
+  ): this {
+    if (output) {
+      this._origin = new ElementRef(output.origin);
+      this._position = position || output?.defaultPosition;
+    }
+    return this;
+  }
+
+  /**
+   * Sets whether the tooltip should be shown or not.
+   *
+   * @param show - Whether to show the tooltip or not.
+   */
+  show(show: boolean): this {
+    this._show = show;
+    return this;
   }
 
   size(size: null): this;
@@ -50,116 +102,6 @@ export class VicHtmlTooltipConfigBuilder {
     this.sizeBuilder = new HtmlTooltipSizeBuilder();
   }
 
-  /**
-   * OPTIONAL. Will create a Material CDK-provided backdrop if set to true. Clicking on the backdrop will dismiss the backdrop and emit an event.
-   *
-   * @default false
-   */
-  hasBackdrop(hasBackdrop: boolean): this {
-    this._hasBackdrop = hasBackdrop;
-    return this;
-  }
-
-  /**
-   * OPTIONAL. The origin element that the tooltip will be positioned relative to
-   *
-   * If not provided the tooltip will be offset from the top left corner of the chart's svg element.
-   */
-  origin(origin: ElementRef<Element>): this {
-    this._origin = origin;
-    return this;
-  }
-
-  applyEventsDisabledClass(apply: boolean): this {
-    this._applyEventsDisabledClass = apply;
-    return this;
-  }
-
-  panelClass(panelClass: string | string[]): this {
-    this._panelClass = panelClass;
-    return this;
-  }
-
-  barsPosition(
-    origin: SVGRectElement,
-    positions: Partial<ConnectedPosition>[]
-  ): this {
-    this.origin(origin ? new ElementRef(origin) : undefined);
-    const barsPositions = positions.map(
-      (p) => new RelativeToTopLeftTooltipPosition(p)
-    );
-    this._position = new HtmlTooltipCdkManagedPosition(barsPositions);
-    return this;
-  }
-
-  dotsPosition(
-    origin: SVGCircleElement,
-    positions: Partial<ConnectedPosition>[]
-  ): this {
-    this.origin(origin ? new ElementRef(origin) : undefined);
-    const dotsPositions = positions.map(
-      (p) => new RelativeToCenterTooltipPosition(p)
-    );
-    this._position = new HtmlTooltipCdkManagedPosition(dotsPositions);
-    return this;
-  }
-
-  geographiesPosition(
-    origin: SVGPathElement,
-    positions: Partial<ConnectedPosition>[]
-  ): this {
-    this.origin(origin ? new ElementRef(origin) : undefined);
-    const geographiesPositions = positions.map(
-      (p) => new RelativeToTopLeftTooltipPosition(p)
-    );
-    this._position = new HtmlTooltipCdkManagedPosition(geographiesPositions);
-    return this;
-  }
-
-  linesPosition(positions: Partial<ConnectedPosition>[]): this {
-    const linesPositions = positions.map(
-      (p) => new RelativeToTopLeftTooltipPosition(p)
-    );
-    this._position = new HtmlTooltipCdkManagedPosition(linesPositions);
-    return this;
-  }
-
-  stackedAreaPosition(positions: Partial<ConnectedPosition>[]): this {
-    const stackedAreaPositions = positions.map(
-      (p) => new RelativeToTopLeftTooltipPosition(p)
-    );
-    this._position = new HtmlTooltipCdkManagedPosition(stackedAreaPositions);
-    return this;
-  }
-
-  cdkManagedPosition(positions: ConnectedPosition[]): this {
-    this._position = new HtmlTooltipCdkManagedPosition(positions);
-    return this;
-  }
-
-  offsetFromOriginPosition(): this;
-  offsetFromOriginPosition(offset: null): this;
-  offsetFromOriginPosition(
-    offset: (offset: HtmlTooltipOffsetFromOriginPositionBuilder) => void
-  ): this;
-  offsetFromOriginPosition(
-    offset?: (offset: HtmlTooltipOffsetFromOriginPositionBuilder) => void | null
-  ): this {
-    if (offset === null) {
-      this._position = undefined;
-      return this;
-    }
-    const builder = new HtmlTooltipOffsetFromOriginPositionBuilder();
-    offset?.(builder);
-    this._position = builder._build();
-    return this;
-  }
-
-  show(show: boolean): this {
-    this._show = show;
-    return this;
-  }
-
   getConfig(): HtmlTooltipConfig {
     this.validateBuilder();
     return new HtmlTooltipConfig({
@@ -176,8 +118,8 @@ export class VicHtmlTooltipConfigBuilder {
     if (!this.sizeBuilder) {
       this.initSizeBuilder();
     }
-    if (!this._position) {
-      throw new Error('Position must be set');
+    if (this._show && !this._position) {
+      throw new Error('Position must be set using positionFromOutput');
     }
   }
 

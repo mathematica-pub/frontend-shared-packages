@@ -1,6 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
+import { Ranges } from '../../../charts';
 import { XyChartComponent } from '../../../charts/xy-chart/xy-chart.component';
 import { XyChartComponentStub } from '../../../testing/stubs/xy-chart.component.stub';
 import { XyPrimaryMarksStub } from '../../../testing/stubs/xy-data-marks.stub';
@@ -38,9 +39,10 @@ describe('XyPrimaryMarks abstract class', () => {
 
   describe('subscribeToRanges', () => {
     let setChartScalesFromRangesSpy: jasmine.Spy;
+    const startRanges = { x: [20, 400], y: [0, 100] } as Ranges;
     beforeEach(() => {
       abstractClass.chart = {
-        ranges: new BehaviorSubject<any>(null),
+        ranges: new BehaviorSubject<Ranges>(startRanges),
       } as any;
       abstractClass.chart.ranges$ = (
         abstractClass.chart as any
@@ -54,8 +56,7 @@ describe('XyPrimaryMarks abstract class', () => {
 
     it('sets ranges to the emitted value from the subscription', () => {
       abstractClass.subscribeToRanges();
-      (abstractClass.chart as any).ranges.next('test ranges');
-      expect(abstractClass.ranges).toEqual('test ranges' as any);
+      expect(abstractClass.ranges).toEqual(startRanges);
     });
 
     describe('if scales are defined and all required scales are defined', () => {
@@ -165,7 +166,9 @@ describe('XyPrimaryMarks abstract class', () => {
 
   describe('getTransitionDuration', () => {
     beforeEach(() => {
-      abstractClass.chart.transitionDuration = 123;
+      abstractClass.chart.config = {
+        transitionDuration: 123,
+      } as any;
     });
     it('returns chart.transitionDuration if useTransition is true', () => {
       abstractClass.scales = {

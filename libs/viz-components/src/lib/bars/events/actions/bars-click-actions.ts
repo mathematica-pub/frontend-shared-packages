@@ -1,20 +1,22 @@
 import { DataValue } from '../../../core/types/values';
-import { EventAction } from '../../../events/action';
-import { BarsClickDirective } from '../bars-click.directive';
+import { EventAction, EventType } from '../../../events';
+import { BarsHost } from '../bars-events.directive';
+import { BarsInteractionOutput } from '../bars-interaction-output';
 
-export class BarsClickEmitTooltipDataPauseHoverMoveActions<
+export class BarsClickEmitTooltipDataPauseOtherActions<
   Datum,
   TOrdinalValue extends DataValue,
-> implements EventAction<BarsClickDirective<Datum, TOrdinalValue>>
+> implements
+    EventAction<BarsHost<Datum, TOrdinalValue>, BarsInteractionOutput<Datum>>
 {
-  onStart(directive: BarsClickDirective<Datum, TOrdinalValue>) {
-    const outputData = directive.getEventOutput();
-    directive.disableHoverActions();
-    directive.eventOutput.emit(outputData);
+  onStart(host: BarsHost<Datum, TOrdinalValue>) {
+    const output = host.getInteractionOutput(EventType.Click);
+    host.disableOtherActions(EventType.Click);
+    host.emitInteractionOutput(output);
   }
 
-  onEnd(directive: BarsClickDirective<Datum, TOrdinalValue>) {
-    directive.resumeHoverActions();
-    directive.eventOutput.emit(null);
+  onEnd(host: BarsHost<Datum, TOrdinalValue>) {
+    host.resumeOtherActions(EventType.Click);
+    host.emitInteractionOutput(null);
   }
 }

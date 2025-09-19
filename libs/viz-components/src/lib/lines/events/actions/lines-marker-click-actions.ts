@@ -1,34 +1,29 @@
-import { select } from 'd3';
-import { EventAction } from '../../../events/action';
-import { LinesComponent } from '../../lines.component';
-import { LinesMarkerClickDirective } from '../lines-marker-click.directive';
+import { EventAction, EventType } from '../../../events';
+import { LinesHost } from '../lines-events.directive';
 
-export class LinesMarkerClickEmitTooltipData<
-  Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> implements
-    EventAction<LinesMarkerClickDirective<Datum, ExtendedLinesComponent>>
+export class LinesMarkerClickEmitTooltipData<Datum>
+  implements EventAction<LinesHost<Datum>>
 {
-  onStart(directive: LinesMarkerClickDirective<Datum, ExtendedLinesComponent>) {
-    const tooltipData = directive.getTooltipData();
-    directive.preventHoverActions();
-    select(directive.el)
+  onStart(host: LinesHost<Datum>) {
+    const tooltipData = host.getInteractionOutput(EventType.Click);
+    host.disableOtherActions(EventType.Click);
+    host
+      .getClosestMarker()
       .attr('r', (): number => {
         const r =
-          directive.lines.config.pointMarkers.radius +
-          directive.lines.config.pointMarkers.growByOnHover;
+          host.marks.config.pointMarkers.radius +
+          host.marks.config.pointMarkers.growByOnHover;
         return r;
       })
       .raise();
-    directive.eventOutput.emit(tooltipData);
+    host.emitInteractionOutput(tooltipData);
   }
 
-  onEnd(directive: LinesMarkerClickDirective<Datum, ExtendedLinesComponent>) {
-    select(directive.el).attr(
-      'r',
-      (): number => directive.lines.config.pointMarkers.radius
-    );
-    directive.resumeHoverActions();
-    directive.eventOutput.emit(null);
+  onEnd(host: LinesHost<Datum>) {
+    host
+      .getClosestMarker()
+      .attr('r', (): number => host.marks.config.pointMarkers.radius);
+    host.resumeOtherActions(EventType.Click);
+    host.emitInteractionOutput(null);
   }
 }

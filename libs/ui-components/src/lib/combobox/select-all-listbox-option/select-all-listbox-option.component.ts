@@ -1,5 +1,5 @@
+import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
   DestroyRef,
   forwardRef,
@@ -23,18 +23,19 @@ import { ListboxComponent } from '../listbox/listbox.component';
 
 @Component({
   selector: 'hsi-ui-select-all-listbox-option',
-  templateUrl: '../listbox-option/listbox-option.component.html',
-  styleUrls: ['../listbox-option/listbox-option.component.scss'],
+  imports: [CommonModule],
   providers: [
     {
       provide: ListboxOptionComponent,
       useExisting: forwardRef(() => SelectAllListboxOptionComponent),
     },
   ],
+  templateUrl: '../listbox-option/listbox-option.component.html',
+  styleUrls: ['../listbox-option/listbox-option.component.scss'],
 })
 export class SelectAllListboxOptionComponent
   extends ListboxOptionComponent
-  implements OnChanges, AfterViewInit
+  implements OnChanges
 {
   @Input() override boxDisplayLabel = 'Select all';
   controlledOptions$: Observable<ListboxOptionComponent[]>;
@@ -53,11 +54,6 @@ export class SelectAllListboxOptionComponent
   // TODO: better architecture for this
   override ngOnChanges(): void {
     return;
-  }
-
-  ngAfterViewInit(): void {
-    this.setControlledOptions();
-    this.listenForOptionSelections();
   }
 
   protected override updateSelected(selected: boolean): void {

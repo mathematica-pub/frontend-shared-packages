@@ -1,23 +1,24 @@
+/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input } from '@angular/core';
 import {
+  BarsConfig,
+  ChartConfig,
+  VicBarsConfigBuilder,
   VicBarsModule,
+  VicChartConfigBuilder,
   VicChartModule,
+  VicXOrdinalAxisConfig,
   VicXOrdinalAxisConfigBuilder,
-  VicXOrdinalAxisModule,
+  VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
+  VicXyAxisModule,
+  VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-  VicYOrdinalAxisModule,
+  VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-  VicYQuantitativeAxisModule,
-} from 'libs/viz-components/src/public-api';
+} from '@hsi/viz-components';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { VicOrdinalAxisConfig } from '../../../axes/ordinal/ordinal-axis-config';
-import { VicQuantitativeAxisConfig } from '../../../axes/quantitative/quantitative-axis-config';
-import { VicBarsConfigBuilder } from '../bars-builder';
-import { BarsConfig } from '../bars-config';
 
 type Datum = { state: string; value: number };
 
@@ -111,7 +112,7 @@ const checkPositionBeforeAndAfterWindowResize = (assertions: () => void) => {
 
   // Resize window to check that label positioning is maintained
   cy.viewport(300, 300);
-  cy.wait(1000);
+  cy.wait(2000);
   assertions();
 };
 
@@ -139,11 +140,7 @@ const barLabelColorMatchesExpectedRgb = (
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-vertical-bar-with-labels',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="400"
-      [scaleChartWithContainerWidth]="{ width: true, height: true }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g vic-x-ordinal-axis [config]="xOrdinalAxisConfig"></svg:g>
         <svg:g
@@ -155,12 +152,17 @@ const barLabelColorMatchesExpectedRgb = (
     </vic-xy-chart>
   `,
   styles: [],
+  imports: [VicChartModule, VicBarsModule, VicXyAxisModule],
 })
 class TestVerticalBarsWithLabelsComponent {
   @Input() barsConfig: BarsConfig<Datum, string>;
-  @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  margin = { top: 20, right: 20, bottom: 0, left: 40 };
+  @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
+  @Input() yQuantitativeAxisConfig: VicYQuantitativeAxisConfig<number>;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .maxHeight(400)
+    .margin({ top: 20, right: 20, bottom: 0, left: 40 })
+    .scalingStrategy('responsive-width')
+    .getConfig();
 }
 
 const mountVerticalBarsComponent = (
@@ -168,21 +170,10 @@ const mountVerticalBarsComponent = (
 ): void => {
   const xAxisConfig = new VicXOrdinalAxisConfigBuilder().getConfig();
   const yAxisConfig = new VicYQuantitativeAxisConfigBuilder()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
 
-  const declarations = [TestVerticalBarsWithLabelsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXOrdinalAxisModule,
-    VicYQuantitativeAxisModule,
-    VicXyChartModule,
-  ];
-
   cy.mount(TestVerticalBarsWithLabelsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       xOrdinalAxisConfig: xAxisConfig,
@@ -473,11 +464,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-horizontal-bars-with-labels',
   template: `
-    <vic-xy-chart
-      [margin]="margin"
-      [height]="200"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
-    >
+    <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -489,34 +476,28 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     </vic-xy-chart>
   `,
   styles: [],
+  imports: [VicChartModule, VicBarsModule, VicXyAxisModule],
 })
 class TestHorizontalBarsWithLabelsComponent {
   @Input() barsConfig: BarsConfig<Datum, string>;
-  @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
-  @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
-  margin = { top: 20, right: 20, bottom: 20, left: 60 };
+  @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
+  @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
+  chartConfig: ChartConfig = new VicChartConfigBuilder()
+    .maxHeight(200)
+    .margin({ top: 20, right: 20, bottom: 20, left: 60 })
+    .scalingStrategy('responsive-width')
+    .getConfig();
 }
 
 const mountHorizontalBarsComponent = (
   barsConfig: BarsConfig<Datum, string>
 ): void => {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder()
-    .tickFormat('.0f')
+    .ticks((ticks) => ticks.format('.0f'))
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
 
-  const declarations = [TestHorizontalBarsWithLabelsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
-    VicXyChartModule,
-  ];
-
   cy.mount(TestHorizontalBarsWithLabelsComponent, {
-    declarations,
-    imports,
     componentProperties: {
       barsConfig: barsConfig,
       xQuantitativeAxisConfig: xAxisConfig,

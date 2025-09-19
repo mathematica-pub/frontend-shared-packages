@@ -1,4 +1,4 @@
-import { format, timeFormat } from 'd3';
+import { format, utcFormat } from 'd3';
 import { ValueExtent } from '../types/values';
 import { isDate } from './type-guards';
 export type VicFormatSpecifier<Datum> = string | ((x: Datum) => string);
@@ -171,7 +171,7 @@ export class ValueUtilities {
   static d3Format(value: Date | number, formatter: string): string {
     return formatter
       ? isDate(value)
-        ? timeFormat(formatter)(value)
+        ? utcFormat(formatter)(value)
         : format(formatter)(value)
       : value.toString();
   }

@@ -1,0 +1,35 @@
+<div class="title">BDA</div>
+<form [formGroup]="caChartService.myForm">
+  <div class="selection">
+    <label for="delivSys">Delivery System</label>
+    <select id="delivSys" formControlName="delivSys">
+      <option *ngFor="let system of filters.delivSyss" [ngValue]="system.name">
+        {{ system.name }}
+      </option>
+    </select>
+  </div>
+  <div class="selection">
+    <label for="measureCode">Measure Code</label>
+    <select id="measureCode" formControlName="measureCode">
+      <option
+        *ngFor="let code of filters.measureCodes"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+</form>
+@if (caChartService.filteredData$ | async; as data) {
+  <app-export-content
+    [fileName]="
+      'BDA ' +
+      caChartService.myForm.value[filterTypes[0]] +
+      ' ' +
+      caChartService.myForm.value[filterTypes[1]]
+    "
+  >
+    <app-bda-dot-plot [data]="data"></app-bda-dot-plot>
+  </app-export-content>
+}

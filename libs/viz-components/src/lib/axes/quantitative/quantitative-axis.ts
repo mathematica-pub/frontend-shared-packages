@@ -1,20 +1,21 @@
 import { Directive, Input } from '@angular/core';
-import { AxisTimeInterval, format, timeFormat } from 'd3';
+import { AxisTimeInterval, format, utcFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { ContinuousValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
+import { QuantitativeTicks } from '../ticks/ticks';
 import { VicQuantitativeAxisConfig as QuantitativeAxisConfig } from './quantitative-axis-config';
 
 export function quantitativeAxisMixin<
-  TickValue extends ContinuousValue,
-  T extends AbstractConstructor<XyAxis<TickValue>>,
+  Tick extends ContinuousValue,
+  T extends AbstractConstructor<XyAxis<Tick, QuantitativeTicks<Tick>>>,
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base {
-    @Input() override config: QuantitativeAxisConfig<TickValue>;
+    @Input() override config: QuantitativeAxisConfig<Tick>;
 
-    setTicks(tickFormat: string | ((value: TickValue) => string)): void {
-      if (this.config.tickValues) {
+    setTicks(tickFormat: string | ((value: Tick) => string)): void {
+      if (this.config.ticks.values) {
         this.setSpecifiedTickValues(tickFormat);
       } else {
         this.setUnspecifiedTickValues(tickFormat);
@@ -22,22 +23,22 @@ export function quantitativeAxisMixin<
     }
 
     setSpecifiedTickValues(
-      tickFormat: string | ((value: TickValue) => string)
+      tickFormat: string | ((value: Tick) => string)
     ): void {
       const validTickValues = this.getValidTickValues();
       this.axis.tickValues(validTickValues);
       this.axis.tickFormat((d) => {
-        const formatter = d instanceof Date ? timeFormat : format;
+        const formatter = d instanceof Date ? utcFormat : format;
         return typeof tickFormat === 'function'
           ? tickFormat(d)
           : formatter(tickFormat)(d);
       });
     }
 
-    getValidTickValues(): TickValue[] {
+    getValidTickValues(): Tick[] {
       const domain = this.scale.domain();
       const validValues = [];
-      this.config.tickValues.forEach((value) => {
+      this.config.ticks.values.forEach((value) => {
         if (domain[0] <= value && value <= domain[1]) {
           validValues.push(value);
         }
@@ -46,48 +47,57 @@ export function quantitativeAxisMixin<
     }
 
     setUnspecifiedTickValues(
-      tickFormat: string | ((value: TickValue) => string)
+      tickFormat: string | ((value: Tick) => string)
     ): void {
-      const validNumTicks = this.getValidNumTicks(tickFormat);
+      const validNumTicks = this.getSuggestedNumTicks(tickFormat);
       this.axis.ticks(validNumTicks);
       this.axis.tickFormat((d) => {
-        const formatter = d instanceof Date ? timeFormat : format;
+        const formatter = d instanceof Date ? utcFormat : format;
         return typeof tickFormat === 'function'
           ? tickFormat(d)
           : formatter(tickFormat)(d);
       });
     }
 
-    getValidNumTicks(
-      tickFormat: string | ((value: TickValue) => string)
+    getSuggestedNumTicks(
+      tickFormat: string | ((value: Tick) => string)
     ): number | AxisTimeInterval {
-      let numValidTicks = this.getNumTicks();
-      if (typeof tickFormat === 'string' && typeof numValidTicks === 'number') {
-        numValidTicks = Math.round(numValidTicks);
-        if (!tickFormat.includes('.')) {
-          return numValidTicks;
-        } else {
-          return this.getValidNumTicksForStringFormatter(
-            numValidTicks,
+      let numSuggestedTicks = this.getNumTicks();
+      if (
+        typeof tickFormat === 'string' &&
+        typeof numSuggestedTicks === 'number'
+      ) {
+        numSuggestedTicks = Math.round(numSuggestedTicks);
+
+        if (this.scale.domain()[0] instanceof Date) {
+          const maxTicks = this.getMaxTicksForDateFormat(tickFormat);
+          if (maxTicks !== null) {
+            return Math.min(numSuggestedTicks, maxTicks);
+          }
+        }
+        if (tickFormat.includes('.')) {
+          return this.getValidNumTicksForNumberFormatString(
+            numSuggestedTicks,
             tickFormat
           );
         }
+        return numSuggestedTicks;
       } else {
-        return numValidTicks;
+        return numSuggestedTicks;
       }
     }
 
     getNumTicks(): number | AxisTimeInterval {
       return (
-        this.config.numTicks ||
-        this.config.getSuggestedNumTicksFromChartDimension({
-          height: this.chart.height,
-          width: this.chart.width,
+        this.config.ticks.count ||
+        this.config.getNumTicksBySpacing(this.config.ticks.spacing, {
+          height: this.chart.config.height,
+          width: this.chart.config.width,
         })
       );
     }
 
-    getValidNumTicksForStringFormatter(
+    getValidNumTicksForNumberFormatString(
       numTicks: number,
       tickFormat: string
     ): number {
@@ -96,23 +106,86 @@ export function quantitativeAxisMixin<
         numDecimalPlaces = numDecimalPlaces + 2;
       }
       const [start, end] = this.scale.domain();
-      const firstPossibleInferredTick = // The first tick that could be created AFTER the start of the domain
-        start + Math.pow(10, -1 * numDecimalPlaces);
-      if (firstPossibleInferredTick > end) {
-        return 1;
+      const range = end - start;
+      const minStep = Math.pow(10, -1 * numDecimalPlaces);
+      const rawCount = range / minStep;
+      const numValidTicks = Math.round(rawCount);
+      if (numTicks < numValidTicks) {
+        return numTicks;
       } else {
-        let numValidTicks = 1; // tick for first value in domain
-        if (numDecimalPlaces > 0) {
-          numValidTicks += (end - start) * Math.pow(10, numDecimalPlaces);
-        } else {
-          numValidTicks += Math.floor(end - start);
-        }
-        if (numTicks < numValidTicks) {
-          return numTicks;
-        } else {
-          return numValidTicks;
-        }
+        return numValidTicks;
       }
+    }
+
+    getMaxTicksForDateFormat(tickFormat: string): number | null {
+      const [startDate, endDate] = this.scale.domain() as [Date, Date];
+
+      // Year-only formatters: %Y, %y
+      if (tickFormat === '%Y' || tickFormat === '%y') {
+        const startYear = startDate.getUTCFullYear();
+        const endYear = endDate.getUTCFullYear();
+        return endYear - startYear + 1;
+      }
+
+      // Quarter formatter: %Y Q%q
+      if (tickFormat === '%Y Q%q') {
+        const startYear = startDate.getUTCFullYear();
+        const startQuarter = Math.floor(startDate.getUTCMonth() / 3);
+        const endYear = endDate.getUTCFullYear();
+        const endQuarter = Math.floor(endDate.getUTCMonth() / 3);
+
+        return (endYear - startYear) * 4 + (endQuarter - startQuarter) + 1;
+      }
+
+      // Month-year formatters: %B %Y, %b %Y
+      if (tickFormat === '%B %Y' || tickFormat === '%b %Y') {
+        const startYear = startDate.getUTCFullYear();
+        const startMonth = startDate.getUTCMonth();
+        const endYear = endDate.getUTCFullYear();
+        const endMonth = endDate.getUTCMonth();
+
+        return (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
+      }
+
+      // Full date formatters: %B %d, %Y
+      if (
+        tickFormat === '%B %d, %Y' ||
+        tickFormat === '%m/%d/%Y' ||
+        tickFormat === '%Y-%m-%d'
+      ) {
+        const timeDiff = endDate.getTime() - startDate.getTime();
+        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+        return daysDiff + 1;
+      }
+
+      // Additional common time formatters for completeness
+
+      // Month formatters: %B (full month), %b (abbreviated), %m (numeric)
+      if (tickFormat === '%B' || tickFormat === '%b' || tickFormat === '%m') {
+        const startYear = startDate.getUTCFullYear();
+        const startMonth = startDate.getUTCMonth();
+        const endYear = endDate.getUTCFullYear();
+        const endMonth = endDate.getUTCMonth();
+
+        return (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
+      }
+
+      // Day formatters: %d (day of month), %e (day of month with space), %j (day of year)
+      if (tickFormat === '%d' || tickFormat === '%e' || tickFormat === '%j') {
+        const timeDiff = endDate.getTime() - startDate.getTime();
+        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+        return daysDiff + 1;
+      }
+
+      // Week formatters: %U, %W (week of year)
+      if (tickFormat === '%U' || tickFormat === '%W') {
+        const timeDiff = endDate.getTime() - startDate.getTime();
+        const weeksDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24 * 7));
+        return weeksDiff + 1;
+      }
+
+      // For composite formats or unrecognized formats, return null to use default logic
+      return null;
     }
   }
 

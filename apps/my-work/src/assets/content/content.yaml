@@ -1,5 +1,19 @@
 ---
-title: 'My Work'
+title: 'CA Access'
 items:
   examples:
     - energy-intensity
+  ca-access:
+    - csa
+    - csa-race
+    - bda
+    - ica
+    - ica-race
+  mlb:
+    - mlb-percentiles
+    - mlb-race-ethnicity
+    - mlb-shortage
+    - mlb-shortage-bar
+    - mlb-network
+    - mlb-county-plot
+    - mlb-map

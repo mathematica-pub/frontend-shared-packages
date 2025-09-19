@@ -1,0 +1,7 @@
+@use '../vars.scss' as *;
+
+.notes {
+  display: flex;
+  justify-content: space-between;
+  font-family: $font-family;
+}

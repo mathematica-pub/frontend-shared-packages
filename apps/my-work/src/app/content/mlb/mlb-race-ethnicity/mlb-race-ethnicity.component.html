@@ -1,0 +1,26 @@
+<div class="title">MLB {{ chartName }}</div>
+<form [formGroup]="caChartService.myForm">
+  <div class="selection">
+    <label for="measureCode">Measure Code</label>
+    <select id="measureCode" formControlName="measureCode">
+      <option
+        *ngFor="let code of filters.measureCodes"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+</form>
+@if (caChartService.filteredData$ | async; as data) {
+  <app-export-content
+    [fileName]="
+      'MLB ' + chartName + ' ' + caChartService.myForm.value[filterTypes[0]]
+    "
+  >
+    <app-mlb-race-ethnicity-dot-plot
+      [data]="data"
+    ></app-mlb-race-ethnicity-dot-plot>
+  </app-export-content>
+}
