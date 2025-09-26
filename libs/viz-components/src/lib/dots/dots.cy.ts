@@ -463,6 +463,10 @@ describe('displays a tooltips with correct data on each dot', () => {
         cy.get('.tooltip-label.y').should('contain', datum.gdpPerCapita);
         cy.get('.tooltip-label.radius').should('contain', datum.popGrowth);
       });
+      it('hides the tooltip on Esc button press', () => {
+        cy.get('body').focus().type('{esc}');
+        cy.get('.vic-html-tooltip-overlay').should('not.exist');
+      });
     });
   });
 });

@@ -632,6 +632,8 @@ describe('displays tooltips for correct data per hover position', () => {
             );
           });
         });
+        cy.get('body').focus().type('{esc}');
+        cy.get('.vic-html-tooltip-overlay').should('not.exist');
       });
     });
 });
