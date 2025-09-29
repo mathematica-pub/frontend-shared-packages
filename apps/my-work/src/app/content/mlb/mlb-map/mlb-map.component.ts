@@ -40,7 +40,7 @@ interface ViewModel {
   directionality: string;
 }
 
-type CaMapTopology = Topology<MapObjects>;
+export type CaMapTopology = Topology<MapObjects>;
 
 @Component({
   selector: 'app-mlb-map',
