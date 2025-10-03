@@ -14,19 +14,6 @@
           selectionElementRole="link"
         ></hsi-ui-directory>
       }
-      @if (lib.hasAutomatedDocs) {
-        <h3 class="section-label documentation">Automated Documentation</h3>
-        <hsi-ui-directory
-          class="automated-docs-directory"
-          [items]="automatedDocsItems$ | async"
-          (selectionChanges)="selectAutomatedDocsItem($event)"
-          [selection]="{
-            activePath: state.contentPath,
-            selectedItem: '',
-          }"
-          selectionElementRole="link"
-        ></hsi-ui-directory>
-      }
     }
   }
 </div>
