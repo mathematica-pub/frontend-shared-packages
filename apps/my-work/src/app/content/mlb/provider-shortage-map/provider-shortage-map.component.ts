@@ -17,16 +17,11 @@ import {
   GeoProjection,
   select,
 } from 'd3';
-import {
-  FeatureCollection,
-  Geometry,
-  GeometryCollection,
-  MultiPolygon,
-  Polygon,
-} from 'geojson';
+import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import { map, Observable } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { ExportContentComponent } from '../../../platform/export-content/export-content.component';
+import { noDataColor } from '../../ca-access/ca-access.constants';
 import { caDataFolder } from '../../ca/data-paths.constants';
 import { CaMapTopology } from '../mlb-map/mlb-map.component';
 import { mlbColorRange } from '../mlb.constants';
@@ -90,10 +85,10 @@ export class ProviderShortageMapComponent implements OnInit {
       .pipe(map((response) => response as CaMapTopology));
   }
 
-  getMap(): Observable<GeometryCollection> {
+  getMap(): Observable<FeatureCollection> {
     return this.assets
       .getAsset(`${caDataFolder}HPSA.json`, AdkAssetResponse.Json)
-      .pipe(map((response) => response as GeometryCollection));
+      .pipe(map((response) => response as FeatureCollection));
   }
 
   setCountiesGeoJson(): void {
@@ -110,21 +105,28 @@ export class ProviderShortageMapComponent implements OnInit {
         .append('path')
         .datum(feature)
         .attr('d', this.pathGenerator)
-        .attr('fill', mlbColorRange[0])
-        .attr('stroke', mlbColorRange[0]);
+        .attr('fill', noDataColor)
+        .attr('stroke', noDataColor);
     });
   }
 
-  drawHPSA(collection: GeometryCollection<Geometry>): void {
-    collection.geometries.forEach((geometry) => {
-      select(this.container.nativeElement)
-        .select('svg')
-        .append('path')
-        .datum(geometry)
-        .attr('d', this.pathGenerator)
-        .attr('fill', mlbColorRange[2])
-        .attr('stroke', 'white')
-        .attr('stroke-width', 0.5);
-    });
+  drawHPSA(collection: FeatureCollection): void {
+    collection.features
+      .filter((feature) => {
+        return (
+          feature.properties['CStNM'] === 'California' &&
+          feature.properties['HpsTypDes'] !== 'HPSA Population'
+        );
+      })
+      .forEach((feature) => {
+        select(this.container.nativeElement)
+          .select('svg')
+          .append('path')
+          .datum(feature)
+          .attr('d', this.pathGenerator)
+          .attr('fill', mlbColorRange[0])
+          .attr('stroke', mlbColorRange[0])
+          .attr('stroke-width', 0.5);
+      });
   }
 }

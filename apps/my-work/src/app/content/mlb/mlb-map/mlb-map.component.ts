@@ -26,6 +26,7 @@ import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import { map, Observable, shareReplay } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { Topology } from 'topojson-specification';
+import { noDataColor } from '../../ca-access/ca-access.constants';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { caDataFolder, mlbDataPath } from '../../ca/data-paths.constants';
 import { NotesComponent } from '../../ca/notes/notes.component';
@@ -91,7 +92,7 @@ export class MlbMapComponent implements OnInit {
       '#5ab4ac',
       '#01665e',
     ],
-    noData: '#d9d9d9',
+    noData: noDataColor,
     stroke: this.outlineColor,
     outline: this.outlineColor,
   };
