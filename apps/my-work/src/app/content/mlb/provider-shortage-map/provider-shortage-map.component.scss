@@ -1,1 +1,16 @@
 @use '../../ca/ca.scss';
+
+.image {
+  padding: 0 !important;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+
+.legend-item {
+  display: flex;
+  gap: 0.3em;
+}

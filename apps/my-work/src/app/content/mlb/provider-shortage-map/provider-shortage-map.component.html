@@ -1,4 +1,17 @@
 <div class="title">Provider Shortage Map</div>
 <app-export-content [fileName]="'Provider Shortage Map'">
   <div #container></div>
+  <div class="legend">
+    @for (label of labels; track $index) {
+      <div class="legend-item">
+        <div
+          class="legend-color"
+          [style.height.px]="mapLegendHeight"
+          [style.width.px]="mapLegendHeight"
+          [style.background]="label.color"
+        ></div>
+        <p class="legend-value">{{ label.name }}</p>
+      </div>
+    }
+  </div>
 </app-export-content>

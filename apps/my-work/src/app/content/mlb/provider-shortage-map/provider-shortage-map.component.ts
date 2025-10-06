@@ -21,7 +21,10 @@ import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import { map, Observable } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { ExportContentComponent } from '../../../platform/export-content/export-content.component';
-import { noDataColor } from '../../ca-access/ca-access.constants';
+import {
+  mapLegendHeight,
+  noDataColor,
+} from '../../ca-access/ca-access.constants';
 import { caDataFolder } from '../../ca/data-paths.constants';
 import { CaMapTopology } from '../mlb-map/mlb-map.component';
 import { mlbColorRange } from '../mlb.constants';
@@ -43,6 +46,11 @@ export class ProviderShortageMapComponent implements OnInit {
   pathGenerator: GeoPath<any, GeoPermissibleObjects>;
   width = 550;
   height = 650;
+  mapLegendHeight = mapLegendHeight;
+  labels = [
+    { name: 'Geographic Provider Shortage Area', color: mlbColorRange[0] },
+    { name: 'Not A Geographic Provider Shortage Area', color: noDataColor },
+  ];
 
   constructor(private assets: AdkAssetsService) {}
 
