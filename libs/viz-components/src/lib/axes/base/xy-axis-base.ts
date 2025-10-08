@@ -185,7 +185,6 @@ export abstract class XyAxis<
       this.axisGroup.call((g) =>
         g
           .select('.domain')
-          // .transition(this.getTransition(this.axisGroup))
           .attr('transform', zeroAxisTranslate)
           .attr('class', 'domain baseline zero-axis-baseline')
           .attr('stroke-dasharray', this.config.baseline.zeroBaseline.dasharray)
