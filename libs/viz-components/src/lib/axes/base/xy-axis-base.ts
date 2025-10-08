@@ -100,15 +100,19 @@ export abstract class XyAxis<
         .attr('class', this.class.axisGroup);
     }
 
+    // Avoid odd animations of ticks or domain lines when those things move between draws
+    this.axisGroup.select('.domain').remove();
+    this.axisGroup.selectAll('.tick').remove();
+
     this.axisGroup
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .transition(this.getTransition(this.axisGroup))
       .call(this.axis)
       .on('end', () => {
         this.processTicks();
+        this.processDomain();
         this.drawGrid();
       });
-    this.processDomain();
 
     this.processTickLabels();
     if (this.config.label) {
@@ -181,7 +185,7 @@ export abstract class XyAxis<
       this.axisGroup.call((g) =>
         g
           .select('.domain')
-          .transition(this.getTransition(this.axisGroup))
+          // .transition(this.getTransition(this.axisGroup))
           .attr('transform', zeroAxisTranslate)
           .attr('class', 'domain baseline zero-axis-baseline')
           .attr('stroke-dasharray', this.config.baseline.zeroBaseline.dasharray)
@@ -190,7 +194,11 @@ export abstract class XyAxis<
 
     if (zeroAxisTranslate === null) {
       this.axisGroup.call((g) =>
-        g.select('.domain').attr('class', 'domain baseline')
+        g
+          .select('.domain')
+          .attr('class', 'domain baseline')
+          .attr('transform', null)
+          .attr('stroke-dasharray', null)
       );
     }
 
