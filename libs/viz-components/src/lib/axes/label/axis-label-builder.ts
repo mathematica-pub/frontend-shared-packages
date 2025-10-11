@@ -116,6 +116,7 @@ export class AxisLabelBuilder {
   private createTextWrapBuilder(dimension: 'x' | 'y'): void {
     this.textWrapBuilder = new SvgTextWrapBuilder();
     const isRotatedYLabel = dimension === 'y' && this._position === 'middle';
+    // set defaults but let user override setting defaults before calling wrap function
     if (isRotatedYLabel) {
       this.textWrapBuilder.maintainXPosition(false);
       this.textWrapBuilder.maintainYPosition(true);
