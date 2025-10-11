@@ -7,9 +7,11 @@ import {
   PositionStrategy,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { DOCUMENT } from '@angular/common';
 import {
   Directive,
   EventEmitter,
+  Inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -34,11 +36,17 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
   overlayRef: OverlayRef;
   portalAttached = false;
   positionStrategy: FlexibleConnectedPositionStrategy | GlobalPositionStrategy;
+  onKeydown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      this.hide();
+    }
+  };
 
   constructor(
     private viewContainerRef: ViewContainerRef,
     private overlay: Overlay,
-    private overlayPositionBuilder: OverlayPositionBuilder
+    private overlayPositionBuilder: OverlayPositionBuilder,
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   init(): void {
@@ -106,11 +114,20 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
     }
   }
 
+  subscribeToKeyboardEvents(): void {
+    this.document.addEventListener('keydown', this.onKeydown, true);
+  }
+
+  unsubscribeFromKeyboardEvents(): void {
+    this.document.removeEventListener('keydown', this.onKeydown, true);
+  }
+
   show(): void {
     const tooltipPortal = this.getTemplatePortal();
     this.updatePosition();
     if (!this.overlayRef.hasAttached()) {
       this.overlayRef.attach(tooltipPortal);
+      this.subscribeToKeyboardEvents();
     }
   }
 
@@ -121,6 +138,7 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
   hide(): void {
     if (this.overlayRef.hasAttached()) {
       this.overlayRef.detach();
+      this.unsubscribeFromKeyboardEvents();
     }
   }
 
@@ -172,6 +190,7 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.unsubscribeFromKeyboardEvents();
     this.destroyBackdropSubscription();
     this.destroyOverlay();
   }
