@@ -205,6 +205,58 @@ describe('HtmlTooltipDirective', () => {
     });
   });
 
+  describe('subscribeToKeyboardEvents', () => {
+    let addEventListenerSpy: jasmine.Spy;
+    beforeEach(() => {
+      addEventListenerSpy = spyOn(
+        (directive as any).document,
+        'addEventListener'
+      );
+    });
+    it('should add keydown event listener to document', () => {
+      directive.subscribeToKeyboardEvents();
+      expect(addEventListenerSpy).toHaveBeenCalledWith(
+        'keydown',
+        directive.onKeydown,
+        true
+      );
+    });
+  });
+
+  describe('unsubscribeFromKeyboardEvents', () => {
+    let removeEventListenerSpy: jasmine.Spy;
+    beforeEach(() => {
+      removeEventListenerSpy = spyOn(
+        (directive as any).document,
+        'removeEventListener'
+      );
+    });
+    it('should remove keydown event listener from document', () => {
+      directive.unsubscribeFromKeyboardEvents();
+      expect(removeEventListenerSpy).toHaveBeenCalledWith(
+        'keydown',
+        directive.onKeydown,
+        true
+      );
+    });
+  });
+
+  describe('onKeydown', () => {
+    beforeEach(() => {
+      spyOn(directive, 'hide');
+    });
+    it('should call hide when Escape key is pressed', () => {
+      const event = { key: 'Escape' } as KeyboardEvent;
+      directive.onKeydown(event);
+      expect(directive.hide).toHaveBeenCalled();
+    });
+    it('should not call hide for other keys', () => {
+      const event = { key: 'Enter' } as KeyboardEvent;
+      directive.onKeydown(event);
+      expect(directive.hide).not.toHaveBeenCalled();
+    });
+  });
+
   describe('updateVisibility', () => {
     beforeEach(() => {
       spyOn(directive, 'show');

@@ -5,7 +5,7 @@
   [id]="service.id + '-listbox'"
   class="hsi-ui-listbox"
   [class.open]="service.isOpen$ | async"
-  [style.--max-reveal-height.px]="maxHeight"
+  [style.--hsi-ui-listbox-max-height.px]="maxHeight"
   [attr.aria-labelledby]="
     (service.label$ | async) ? service.comboboxLabelId : label?.id
   "
