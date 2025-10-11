@@ -90,7 +90,6 @@ export class SvgTextWrap implements SvgTextWrapOptions {
         ? Array.from(allTspans, (t) => t.textContent ?? '')
         : [textSel.text() ?? ''];
 
-    // Escape regex specials in delimiters and prebuild a splitter
     const escaped = breakOnChars.map((c) =>
       c.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     );
@@ -106,7 +105,7 @@ export class SvgTextWrap implements SvgTextWrapOptions {
     };
 
     chunks.forEach((chunk, chunkIdx) => {
-      const wordsInChunk = chunk.trim().split(/\s+/).filter(Boolean); // matches your current split semantics
+      const wordsInChunk = chunk.trim().split(/\s+/).filter(Boolean);
 
       wordsInChunk.forEach((w, wIdx) => {
         // Split the "word" on delimiter characters, preserving them as tokens
@@ -124,11 +123,11 @@ export class SvgTextWrap implements SvgTextWrapOptions {
             tokens.push(p);
           }
         }
-        // Add a single space between words that came from the same chunk (mirrors your split/join)
+        // Add a single space between words that came from the same chunk
         if (wIdx < wordsInChunk.length - 1) tokens.push(' ');
       });
 
-      // Add a single space between tspans (your current flattening effectively does this)
+      // Add a single space between tspans
       if (allTspans.size() > 0 && chunkIdx < chunks.length - 1)
         tokens.push(' ');
     });
