@@ -206,7 +206,7 @@ describe('It creates axis labels that are correctly positioned when positions ar
 // Test that axis labels correctly wrap - brittle tests but better than nothing
 // ***********************************************************
 describe('It creates axis labels that are visible when default values are used', () => {
-  const wrapWidth = 100;
+  const wrapWidth = 160;
   beforeEach(() => {
     const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .ticks((ticks) => ticks.format('.0f'))
@@ -237,7 +237,7 @@ describe('It creates axis labels that are visible when default values are used',
     );
     cy.get('.vic-axis-y-quantitative .vic-axis-label tspan').should(
       'have.length',
-      '3'
+      3
     );
 
     // Ensure each line is offset vertically.
@@ -248,6 +248,20 @@ describe('It creates axis labels that are visible when default values are used',
     cy.get('.vic-axis-y-quantitative .vic-axis-label tspan').then((spans) => {
       const dyValues = Array.from(spans).map((span) => span.getAttribute('dy'));
       expect(new Set(dyValues).size).to.equal(3);
+    });
+
+    // dy values are evenly spaced
+    cy.get('.vic-axis-y-quantitative .vic-axis-label tspan').then((spans) => {
+      const dyValues = Array.from(spans).map((span) => span.getAttribute('dy'));
+      const differences = dyValues.reduce((acc, val, i) => {
+        if (i === 0) return acc;
+        const diff =
+          parseFloat(val || '0') - parseFloat(dyValues[i - 1] || '0');
+        const diffRoundedToPointOne = Math.round(diff * 10) / 10;
+        acc.push(diffRoundedToPointOne);
+        return acc;
+      }, []);
+      expect(new Set(differences).size).to.equal(1);
     });
 
     // Ensure that the overall width of the label is less than or equal to the wrap width.
