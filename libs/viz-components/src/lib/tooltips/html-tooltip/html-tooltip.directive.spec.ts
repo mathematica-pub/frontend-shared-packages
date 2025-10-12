@@ -286,29 +286,40 @@ describe('HtmlTooltipDirective', () => {
 
   describe('show', () => {
     let hasAttachedSpy: jasmine.Spy;
+
     beforeEach(() => {
       spyOn(directive, 'getTemplatePortal').and.returnValue('tp' as any);
       hasAttachedSpy = jasmine.createSpy('hasAttached');
       spyOn(directive, 'updatePositionStrategy');
+      spyOn(window, 'requestAnimationFrame').and.callFake((callback: any) => {
+        callback();
+        return 0;
+      });
       directive.overlayRef = {
         attach: jasmine.createSpy('attach'),
         hasAttached: hasAttachedSpy,
       } as any;
     });
-    it('calls updatePosition once', () => {
+
+    it('calls updatePosition once', fakeAsync(() => {
       directive.show();
+      tick();
       expect(directive.updatePositionStrategy).toHaveBeenCalledTimes(1);
-    });
-    it('calls attach on overlayRef with the correct value if hasAttached returns false', () => {
+    }));
+
+    it('calls attach on overlayRef with the correct value if hasAttached returns false', fakeAsync(() => {
       hasAttachedSpy.and.returnValue(false);
       directive.show();
+      tick();
       expect(directive.overlayRef.attach).toHaveBeenCalledOnceWith('tp');
-    });
-    it('does not call attach if hasAttached returns true', () => {
+    }));
+
+    it('does not call attach if hasAttached returns true', fakeAsync(() => {
       hasAttachedSpy.and.returnValue(true);
       directive.show();
+      tick();
       expect(directive.overlayRef.attach).not.toHaveBeenCalled();
-    });
+    }));
   });
 
   describe('hide', () => {
@@ -397,9 +408,8 @@ describe('HtmlTooltipDirective', () => {
 
   describe('updatePosition', () => {
     beforeEach(() => {
-      spyOn(directive, 'setPositionStrategy').and.returnValue(
-        'test strategy' as any
-      );
+      spyOn(directive, 'setPositionStrategy');
+      directive.positionStrategy = 'test strategy' as any;
       directive.overlayRef = {
         updatePositionStrategy: jasmine.createSpy('updatePositionStrategy'),
       } as any;
