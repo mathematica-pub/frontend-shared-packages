@@ -118,7 +118,7 @@ describe('HtmlTooltipDirective', () => {
 
   describe('createOverlayRef', () => {
     beforeEach(() => {
-      spyOn(directive, 'getPositionStrategy');
+      spyOn(directive, 'setPositionStrategy');
       spyOn(directive, 'subscribeToBackdropClick');
       spyOn(directive, 'updateVisibility');
       mainServiceStub.overlayStub.create.and.returnValue('test ref' as any);
@@ -138,7 +138,7 @@ describe('HtmlTooltipDirective', () => {
     it('calls getPositionStrategy once', fakeAsync(() => {
       directive.createOverlayRef();
       tick();
-      expect(directive.getPositionStrategy).toHaveBeenCalledTimes(1);
+      expect(directive.setPositionStrategy).toHaveBeenCalledTimes(1);
     }));
     it('sets overlayRef to the correct value', fakeAsync(() => {
       directive.createOverlayRef();
@@ -178,7 +178,7 @@ describe('HtmlTooltipDirective', () => {
       );
     });
     it('calls getPositionStrategy once with the correct value', () => {
-      directive.getPositionStrategy();
+      directive.setPositionStrategy();
       expect(
         directive.config.position.getPositionStrategy
       ).toHaveBeenCalledOnceWith(fakeOuput.origin, 'builder' as any);
@@ -289,7 +289,7 @@ describe('HtmlTooltipDirective', () => {
     beforeEach(() => {
       spyOn(directive, 'getTemplatePortal').and.returnValue('tp' as any);
       hasAttachedSpy = jasmine.createSpy('hasAttached');
-      spyOn(directive, 'updatePosition');
+      spyOn(directive, 'updatePositionStrategy');
       directive.overlayRef = {
         attach: jasmine.createSpy('attach'),
         hasAttached: hasAttachedSpy,
@@ -342,7 +342,7 @@ describe('HtmlTooltipDirective', () => {
       },
     };
     beforeEach(() => {
-      spyOn(directive, 'updatePosition');
+      spyOn(directive, 'updatePositionStrategy');
       spyOn(directive, 'updateClasses');
       spyOn(directive, 'updateSize');
       spyOn(directive, 'updateBackdrop');
@@ -397,7 +397,7 @@ describe('HtmlTooltipDirective', () => {
 
   describe('updatePosition', () => {
     beforeEach(() => {
-      spyOn(directive, 'getPositionStrategy').and.returnValue(
+      spyOn(directive, 'setPositionStrategy').and.returnValue(
         'test strategy' as any
       );
       directive.overlayRef = {
@@ -406,7 +406,7 @@ describe('HtmlTooltipDirective', () => {
     });
     it('calls getPositionStrategy once', () => {
       directive.updatePositionStrategy();
-      expect(directive.getPositionStrategy).toHaveBeenCalledTimes(1);
+      expect(directive.setPositionStrategy).toHaveBeenCalledTimes(1);
     });
     it('calls updatePositionStrategy once with the correct value', () => {
       directive.updatePositionStrategy();
