@@ -84,6 +84,7 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
   setPositionStrategy(): void {
     if (!this.config.origin || !this.config.position) {
       this.positionStrategy = this.overlayPositionBuilder.global();
+      return;
     }
 
     this.positionStrategy = this.config.position.getPositionStrategy(
