@@ -297,7 +297,7 @@ describe('HtmlTooltipDirective', () => {
     });
     it('calls updatePosition once', () => {
       directive.show();
-      expect(directive.updatePosition).toHaveBeenCalledTimes(1);
+      expect(directive.updatePositionStrategy).toHaveBeenCalledTimes(1);
     });
     it('calls attach on overlayRef with the correct value if hasAttached returns false', () => {
       hasAttachedSpy.and.returnValue(false);
@@ -352,7 +352,7 @@ describe('HtmlTooltipDirective', () => {
     it('calls updatePosition once if position changed', () => {
       changesSpy.and.returnValues(true, true, true, true);
       directive.updateForConfigChanges(changes as any);
-      expect(directive.updatePosition).toHaveBeenCalledTimes(1);
+      expect(directive.updatePositionStrategy).toHaveBeenCalledTimes(1);
     });
     it('calls updateClasses once if panelClass changed', () => {
       changesSpy.and.returnValues(false, true, true, true);
@@ -405,11 +405,11 @@ describe('HtmlTooltipDirective', () => {
       } as any;
     });
     it('calls getPositionStrategy once', () => {
-      directive.updatePosition();
+      directive.updatePositionStrategy();
       expect(directive.getPositionStrategy).toHaveBeenCalledTimes(1);
     });
     it('calls updatePositionStrategy once with the correct value', () => {
-      directive.updatePosition();
+      directive.updatePositionStrategy();
       expect(directive.overlayRef.updatePositionStrategy).toHaveBeenCalledWith(
         'test strategy' as any
       );
