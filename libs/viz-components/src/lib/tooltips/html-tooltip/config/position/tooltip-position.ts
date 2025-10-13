@@ -1,7 +1,7 @@
 import {
   ConnectedPosition,
+  FlexibleConnectedPositionStrategy,
   OverlayPositionBuilder,
-  PositionStrategy,
 } from '@angular/cdk/overlay';
 
 export type TooltipPositionConfig = {
@@ -32,9 +32,11 @@ export class HtmlTooltipCdkManagedPosition {
   getPositionStrategy(
     origin: Element,
     overlayPositionBuilder: OverlayPositionBuilder
-  ): PositionStrategy {
+  ): FlexibleConnectedPositionStrategy {
     return overlayPositionBuilder
       .flexibleConnectedTo(origin)
-      .withPositions(this.positions);
+      .withPositions(this.positions)
+      .withFlexibleDimensions(false)
+      .withPush(false);
   }
 }
