@@ -4,7 +4,6 @@ import {
   Overlay,
   OverlayPositionBuilder,
   OverlayRef,
-  PositionStrategy,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { DOCUMENT } from '@angular/common';
@@ -65,18 +64,16 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
 
   createOverlayRef(): void {
     this.backdropUnsubscribe = new Subject<void>();
+
+    this.setPositionStrategy();
     this.overlayRef = this.overlay.create({
       ...this.config.size,
       panelClass: this.config.panelClass,
       scrollStrategy: this.overlay.scrollStrategies.close(),
-      positionStrategy:
-        this.getPositionStrategy() || this.overlayPositionBuilder.global(),
+      positionStrategy: this.positionStrategy,
       hasBackdrop: this.config.hasBackdrop,
       backdropClass: 'vic-html-tooltip-backdrop',
     });
-    setTimeout(() => {
-      return;
-    }, 0);
 
     if (this.config.hasBackdrop) {
       this.subscribeToBackdropClick();
@@ -84,12 +81,13 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
     this.updateVisibility();
   }
 
-  getPositionStrategy(): PositionStrategy | null {
+  setPositionStrategy(): void {
     if (!this.config.origin || !this.config.position) {
-      return null;
+      this.positionStrategy = this.overlayPositionBuilder.global();
+      return;
     }
 
-    return this.config.position.getPositionStrategy(
+    this.positionStrategy = this.config.position.getPositionStrategy(
       this.config.origin.nativeElement,
       this.overlayPositionBuilder
     );
@@ -124,10 +122,16 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
 
   show(): void {
     const tooltipPortal = this.getTemplatePortal();
-    this.updatePosition();
+
     if (!this.overlayRef.hasAttached()) {
       this.overlayRef.attach(tooltipPortal);
       this.subscribeToKeyboardEvents();
+
+      requestAnimationFrame(() => {
+        this.updatePositionStrategy();
+      });
+    } else {
+      this.updatePositionStrategy();
     }
   }
 
@@ -144,7 +148,7 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
 
   updateForConfigChanges(changes: SimpleChanges): void {
     if (this.configChanged(changes, 'position')) {
-      this.updatePosition();
+      this.updatePositionStrategy();
     }
     if (this.configChanged(changes, 'panelClass')) {
       this.updateClasses(changes['config'].previousValue.panelClass);
@@ -158,11 +162,11 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
     this.updateVisibility();
   }
 
-  updatePosition(): void {
-    const strategy = this.getPositionStrategy();
-    if (strategy) {
+  updatePositionStrategy(): void {
+    this.setPositionStrategy();
+    if (this.positionStrategy) {
       // Only update if we have a valid strategy
-      this.overlayRef.updatePositionStrategy(strategy);
+      this.overlayRef.updatePositionStrategy(this.positionStrategy);
     }
   }
 
