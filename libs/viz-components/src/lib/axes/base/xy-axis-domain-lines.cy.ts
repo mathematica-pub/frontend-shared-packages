@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
-import { Component, Input } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import {
   BarsConfig,
   LinesConfig,
@@ -151,6 +151,146 @@ describe('Domain lines positioning, two quant dimensions', () => {
 });
 
 @Component({
+  selector: 'vic-test-zero-axis-lines-with-changes',
+  template: `
+    <button (click)="changeData()" class="change-data-button"
+      >Change data</button
+    >
+    <vic-xy-chart [config]="chartConfig">
+      <ng-container svg-elements>
+        <svg:g vic-xy-background></svg:g>
+        <svg:g
+          vic-x-quantitative-axis
+          [config]="xQuantitativeAxisConfig()"
+        ></svg:g>
+        <svg:g
+          vic-y-quantitative-axis
+          [config]="yQuantitativeAxisConfig()"
+        ></svg:g>
+        <svg:g vic-primary-marks-lines [config]="linesConfig()"></svg:g>
+      </ng-container>
+    </vic-xy-chart>
+  `,
+  styles: [],
+  imports: [
+    VicChartModule,
+    VicLinesModule,
+    VicXyAxisModule,
+    VicXyBackgroundModule,
+  ],
+})
+class TestZeroAxisLinesWithChangesComponent {
+  chartConfig = new VicChartConfigBuilder()
+    .margin(margin)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
+    .getConfig();
+  data = signal(data);
+  linesConfig = signal(this.getLinesConfig());
+  xQuantitativeAxisConfig = signal(this.getXAxisConfig());
+  yQuantitativeAxisConfig = signal(this.getYAxisConfig());
+  useNegativeValues = false;
+
+  getLinesConfig(): LinesConfig<ContinentPopulationNumYearDatum> {
+    return new VicLinesConfigBuilder<ContinentPopulationNumYearDatum>()
+      .data(this.data())
+      .xNumeric((dimension) =>
+        dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
+      )
+      .y((y) => y.valueAccessor((d) => d.population))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
+      )
+      .getConfig();
+  }
+
+  getXAxisConfig(): VicXQuantitativeAxisConfig<number> {
+    return new VicXQuantitativeAxisConfigBuilder<number>()
+      .ticks((ticks) => ticks.format('.0f'))
+      .getConfig();
+  }
+
+  getYAxisConfig(): VicYQuantitativeAxisConfig<number> {
+    return new VicYQuantitativeAxisConfigBuilder<number>()
+      .ticks((ticks) => ticks.format('.2s'))
+      .getConfig();
+  }
+
+  changeData(): void {
+    this.useNegativeValues = !this.useNegativeValues;
+    const add = this.useNegativeValues ? -1000000000 : 1000000000;
+    this.data.update((d) =>
+      d.map((datum) => ({
+        ...datum,
+        population: datum.population + add,
+      }))
+    );
+    this.linesConfig.set(this.getLinesConfig());
+    this.xQuantitativeAxisConfig.set(this.getXAxisConfig());
+    this.yQuantitativeAxisConfig.set(this.getYAxisConfig());
+  }
+}
+
+// ***********************************************************
+// Test the positioning of the zero domain line when it transitions from the
+//  edge to the middle of the chart and back again - Line Chart
+// ***********************************************************
+describe('Domain lines positioning with change - two quant dimensions', () => {
+  it('should have visible x domains at the edge of the chart when data is all positive and at the 0 tick when the data has pos and negative values -- and it should transition between the two as the data updates', () => {
+    cy.mount(TestZeroAxisLinesWithChangesComponent);
+    cy.wait(axisTickTextWaitTime);
+    cy.get<SVGGElement>('.vic-xy-background').then((chartBackground) => {
+      const chartRect = chartBackground[0].getBoundingClientRect();
+      cy.get<SVGTextElement>('.vic-axis-x-quantitative .domain').then(
+        (domain) => {
+          const domainRect = domain[0].getBoundingClientRect();
+          expect(domainRect.top).to.be.closeTo(chartRect.bottom, 2);
+        }
+      );
+    });
+    cy.get('button.change-data-button').click();
+    cy.wait(axisTickTextWaitTime);
+    cy.get<SVGGElement>('.vic-axis-y-quantitative .tick')
+      .filter(':contains("0.0")')
+      .then((tick) => {
+        const line = tick.find('line');
+        const lineRect = line[0].getBoundingClientRect();
+        cy.get<SVGTextElement>('.vic-axis-x-quantitative .domain').then(
+          (domain) => {
+            const domainRect = domain[0].getBoundingClientRect();
+            expect(domainRect.top).to.be.closeTo(lineRect.top, 2);
+          }
+        );
+      });
+    cy.get('button.change-data-button').click();
+    cy.wait(axisTickTextWaitTime);
+    cy.get<SVGGElement>('.vic-xy-background').then((chartBackground) => {
+      const chartRect = chartBackground[0].getBoundingClientRect();
+      cy.get<SVGTextElement>('.vic-axis-x-quantitative .domain').then(
+        (domain) => {
+          const domainRect = domain[0].getBoundingClientRect();
+          expect(domainRect.top).to.be.closeTo(chartRect.bottom, 2);
+        }
+      );
+    });
+    cy.get('button.change-data-button').click();
+    cy.wait(axisTickTextWaitTime);
+    cy.get<SVGGElement>('.vic-axis-y-quantitative .tick')
+      .filter(':contains("0.0")')
+      .then((tick) => {
+        const line = tick.find('line');
+        const lineRect = line[0].getBoundingClientRect();
+        cy.get<SVGTextElement>('.vic-axis-x-quantitative .domain').then(
+          (domain) => {
+            const domainRect = domain[0].getBoundingClientRect();
+            expect(domainRect.top).to.be.closeTo(lineRect.top, 2);
+          }
+        );
+      });
+  });
+});
+
+@Component({
   selector: 'vic-test-zero-axis-horizontal-bars',
   template: `
     <vic-xy-chart [config]="chartConfig">
@@ -179,8 +319,8 @@ class TestZeroAxisHorizontalBarsComponent<Datum> {
   @Input() yOrdinalAxisConfig: VicYOrdinalAxisConfig<string>;
   chartConfig = new VicChartConfigBuilder()
     .margin(margin)
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .getConfig();
 }
 
@@ -236,7 +376,6 @@ describe('Domain lines positioning, one quant, one ordinal dimension - horizonta
           expect(domainRect.top).to.be.closeTo(chartRect.bottom, 2);
         }
       );
-      // expect '.vic-axis-y-ordinal .domain' not to exist
       cy.get('.vic-axis-y-ordinal .domain').should('not.exist');
     });
   });
@@ -298,8 +437,8 @@ class TestZeroAxisVerticalBarsComponent<Datum> {
   @Input() xOrdinalAxisConfig: VicXOrdinalAxisConfig<string>;
   chartConfig = new VicChartConfigBuilder()
     .margin(margin)
-    .height(chartHeight)
-    .width(chartWidth)
+    .maxHeight(chartHeight)
+    .maxWidth(chartWidth)
     .getConfig();
 }
 
