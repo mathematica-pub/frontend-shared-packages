@@ -36,13 +36,12 @@ export function xAxisMixin<
     }
 
     getBaselineTranslate(): string | null {
-      if (this.otherAxisHasPosAndNegValues('x')) {
-        const rangeIndexForSide = this.config.side === 'top' ? 1 : 0;
-        const translateDistance =
-          this.scales.y(0) - this.scales.y.range()[rangeIndexForSide];
-        return `translate(0, ${translateDistance})`;
-      }
-      return null;
+      if (!this.otherAxisHasPosAndNegValues('x')) return null;
+
+      const rangeIndexForSide = this.config.side === 'top' ? 1 : 0;
+      const translateDistance =
+        this.scales.y(0) - this.scales.y.range()[rangeIndexForSide];
+      return `translate(0, ${translateDistance})`;
     }
 
     setScale(): void {
