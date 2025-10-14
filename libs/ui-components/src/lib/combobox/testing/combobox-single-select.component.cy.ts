@@ -68,6 +68,7 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
     it('should emit the correct value on option click', () => {
       cy.get('.hsi-ui-textbox').click();
       cy.get('.hsi-ui-listbox-option').first().realClick();
+      cy.get('[aria-live]').should('contain', 'Apples selected');
       cy.get('.combobox-value').should('have.text', 'Apples');
     });
     it('should display value on textbox', () => {
@@ -95,6 +96,14 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.hsi-ui-listbox').should('be.visible');
       cy.get('.outside-element').realClick();
       cy.get('.hsi-ui-listbox').should('not.be.visible');
+    });
+    it('selections should be displayed in aria-live region', () => {
+      cy.get('.hsi-ui-textbox').click();
+      cy.get('.hsi-ui-listbox-option').first().realClick();
+      cy.get('[aria-live]').should('contain', 'Apples selected');
+      cy.get('.hsi-ui-textbox').click();
+      cy.get('.hsi-ui-listbox-option').last().realClick();
+      cy.get('[aria-live]').should('contain', 'Elderberries selected');
     });
   });
 
