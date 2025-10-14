@@ -50,6 +50,7 @@ const dataWithDelimeters = [
 ];
 
 const elementPositionDelta = 0.5;
+const initialRenderWaitTime = 1000;
 
 const assertBeforeAndAfterWindowResize = (assertions: () => void) => {
   assertions();
@@ -130,6 +131,7 @@ describe('horizontal bar chart tick labels', () => {
       .ticks((ticks) => ticks.wrap((wrap) => wrap.width(80)))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig, yAxisConfig);
+    cy.wait(initialRenderWaitTime); // wait for initial render
   });
   it('renders single-line ticks for short labels', () => {
     assertBeforeAndAfterWindowResize(() =>
@@ -213,6 +215,7 @@ describe('horizontal bar chart tick labels', () => {
       )
       .getConfig();
     mountHorizontalBarsComponent(barsConfig, yAxisConfig);
+    cy.wait(initialRenderWaitTime); // wait for initial render
     assertBeforeAndAfterWindowResize(() =>
       cy.get('.vic-axis-y-ordinal .tick text').then((ticks) => {
         ticks.each((i, $tick) => {
@@ -308,6 +311,7 @@ describe('vertical bar chart tick labels', () => {
       .ticks((ticks) => ticks.wrap((wrap) => wrap.width('bandwidth')))
       .getConfig();
     mountVerticalBarsComponent(barsConfig, xAxisConfig);
+    cy.wait(initialRenderWaitTime); // wait for initial render
   });
   it('correctly wraps long ticks', () => {
     cy.get('.vic-axis-x-ordinal .tick text').then((ticks) => {
