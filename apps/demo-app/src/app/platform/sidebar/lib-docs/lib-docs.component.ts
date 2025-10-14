@@ -7,14 +7,13 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
+import { AdkAssetsService } from '@hsi/app-dev-kit';
 import {
   HsiUiDirectoryComponent,
   HsiUiDirectoryItem,
   HsiUiDirectorySelection,
 } from '@hsi/ui-components';
 import { filter, map, Observable } from 'rxjs';
-import { getDocumentationConfigForLib } from '../../../core/constants/file-paths.constants';
 import { ContentConfigService } from '../../../core/services/content-config.service';
 import { RouterStateService } from '../../../core/services/router-state/router-state.service';
 import { Library, Section } from '../../../core/services/router-state/state';
@@ -41,7 +40,6 @@ export class LibDocsComponent implements OnInit {
   @Input() lib: {
     displayName: string;
     id: Library;
-    hasAutomatedDocs: boolean;
   };
   @Input() expanded = true;
   automatedDocsItems$: Observable<HsiUiDirectoryItem[]>;
@@ -58,9 +56,6 @@ export class LibDocsComponent implements OnInit {
 
   ngOnInit(): void {
     this.initCustomDocumentation();
-    if (this.lib.hasAutomatedDocs) {
-      this.initAutomatedDocumentation();
-    }
   }
 
   initCustomDocumentation(): void {
@@ -74,19 +69,6 @@ export class LibDocsComponent implements OnInit {
         };
       })
     );
-  }
-
-  initAutomatedDocumentation(): void {
-    const configPath = getDocumentationConfigForLib(this.lib.id);
-    this.automatedDocsItems$ = this.assets
-      .getAsset(configPath, AdkAssetResponse.Text)
-      .pipe(
-        map((str) => this.assets.parseYaml<NestedStringObject>(str as string)),
-        filter((automatedConfig) => !!automatedConfig),
-        map((automatedConfig) =>
-          this.getDocsDirectoryTree(automatedConfig, undefined)
-        )
-      );
   }
 
   getDocsDirectoryTree(

@@ -2,9 +2,8 @@
 
 ## Adding manual documentation for a Data Marks Component
 
-In addition to our automated documentation, we want to provide substantial, manually created "user
-guides" that help users understand how to create their charts. Currently these user guides are under
-"Composing Charts" in the sidebar.
+We provide substantial, manually created "user guides" that help users understand how to create
+their charts. Currently these user guides are under "Composing Charts" in the sidebar.
 
 To add a user guide, add the name of the user guide (i.e. "bars", "lines") to the array in
 `core/constants/examples.ts`.

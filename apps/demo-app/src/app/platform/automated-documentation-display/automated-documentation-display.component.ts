@@ -31,7 +31,6 @@ import { AutomatedDocumentationParser } from './automated-documentation-parser.s
     './automated-documentation-display.component.scss',
     './styles/bootstrap-card.scss',
     './styles/bootstrap.scss',
-    './styles/compodoc.scss',
   ],
   encapsulation: ViewEncapsulation.None,
 })

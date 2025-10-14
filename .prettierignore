@@ -40,7 +40,3 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-
-# Project files
-/compodoc/docs
-/apps/demo-app/src/assets/documentation/**/*.html

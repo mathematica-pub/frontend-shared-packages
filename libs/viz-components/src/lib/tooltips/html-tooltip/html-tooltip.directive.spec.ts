@@ -118,7 +118,7 @@ describe('HtmlTooltipDirective', () => {
 
   describe('createOverlayRef', () => {
     beforeEach(() => {
-      spyOn(directive, 'getPositionStrategy');
+      spyOn(directive, 'setPositionStrategy');
       spyOn(directive, 'subscribeToBackdropClick');
       spyOn(directive, 'updateVisibility');
       mainServiceStub.overlayStub.create.and.returnValue('test ref' as any);
@@ -138,7 +138,7 @@ describe('HtmlTooltipDirective', () => {
     it('calls getPositionStrategy once', fakeAsync(() => {
       directive.createOverlayRef();
       tick();
-      expect(directive.getPositionStrategy).toHaveBeenCalledTimes(1);
+      expect(directive.setPositionStrategy).toHaveBeenCalledTimes(1);
     }));
     it('sets overlayRef to the correct value', fakeAsync(() => {
       directive.createOverlayRef();
@@ -178,7 +178,7 @@ describe('HtmlTooltipDirective', () => {
       );
     });
     it('calls getPositionStrategy once with the correct value', () => {
-      directive.getPositionStrategy();
+      directive.setPositionStrategy();
       expect(
         directive.config.position.getPositionStrategy
       ).toHaveBeenCalledOnceWith(fakeOuput.origin, 'builder' as any);
@@ -202,6 +202,58 @@ describe('HtmlTooltipDirective', () => {
       expect(directive.backdropClick.emit).toHaveBeenCalledTimes(1);
       directive.backdropUnsubscribe.next();
       directive.backdropUnsubscribe.complete();
+    });
+  });
+
+  describe('subscribeToKeyboardEvents', () => {
+    let addEventListenerSpy: jasmine.Spy;
+    beforeEach(() => {
+      addEventListenerSpy = spyOn(
+        (directive as any).document,
+        'addEventListener'
+      );
+    });
+    it('should add keydown event listener to document', () => {
+      directive.subscribeToKeyboardEvents();
+      expect(addEventListenerSpy).toHaveBeenCalledWith(
+        'keydown',
+        directive.onKeydown,
+        true
+      );
+    });
+  });
+
+  describe('unsubscribeFromKeyboardEvents', () => {
+    let removeEventListenerSpy: jasmine.Spy;
+    beforeEach(() => {
+      removeEventListenerSpy = spyOn(
+        (directive as any).document,
+        'removeEventListener'
+      );
+    });
+    it('should remove keydown event listener from document', () => {
+      directive.unsubscribeFromKeyboardEvents();
+      expect(removeEventListenerSpy).toHaveBeenCalledWith(
+        'keydown',
+        directive.onKeydown,
+        true
+      );
+    });
+  });
+
+  describe('onKeydown', () => {
+    beforeEach(() => {
+      spyOn(directive, 'hide');
+    });
+    it('should call hide when Escape key is pressed', () => {
+      const event = { key: 'Escape' } as KeyboardEvent;
+      directive.onKeydown(event);
+      expect(directive.hide).toHaveBeenCalled();
+    });
+    it('should not call hide for other keys', () => {
+      const event = { key: 'Enter' } as KeyboardEvent;
+      directive.onKeydown(event);
+      expect(directive.hide).not.toHaveBeenCalled();
     });
   });
 
@@ -234,29 +286,40 @@ describe('HtmlTooltipDirective', () => {
 
   describe('show', () => {
     let hasAttachedSpy: jasmine.Spy;
+
     beforeEach(() => {
       spyOn(directive, 'getTemplatePortal').and.returnValue('tp' as any);
       hasAttachedSpy = jasmine.createSpy('hasAttached');
-      spyOn(directive, 'updatePosition');
+      spyOn(directive, 'updatePositionStrategy');
+      spyOn(window, 'requestAnimationFrame').and.callFake((callback: any) => {
+        callback();
+        return 0;
+      });
       directive.overlayRef = {
         attach: jasmine.createSpy('attach'),
         hasAttached: hasAttachedSpy,
       } as any;
     });
-    it('calls updatePosition once', () => {
+
+    it('calls updatePosition once', fakeAsync(() => {
       directive.show();
-      expect(directive.updatePosition).toHaveBeenCalledTimes(1);
-    });
-    it('calls attach on overlayRef with the correct value if hasAttached returns false', () => {
+      tick();
+      expect(directive.updatePositionStrategy).toHaveBeenCalledTimes(1);
+    }));
+
+    it('calls attach on overlayRef with the correct value if hasAttached returns false', fakeAsync(() => {
       hasAttachedSpy.and.returnValue(false);
       directive.show();
+      tick();
       expect(directive.overlayRef.attach).toHaveBeenCalledOnceWith('tp');
-    });
-    it('does not call attach if hasAttached returns true', () => {
+    }));
+
+    it('does not call attach if hasAttached returns true', fakeAsync(() => {
       hasAttachedSpy.and.returnValue(true);
       directive.show();
+      tick();
       expect(directive.overlayRef.attach).not.toHaveBeenCalled();
-    });
+    }));
   });
 
   describe('hide', () => {
@@ -290,7 +353,7 @@ describe('HtmlTooltipDirective', () => {
       },
     };
     beforeEach(() => {
-      spyOn(directive, 'updatePosition');
+      spyOn(directive, 'updatePositionStrategy');
       spyOn(directive, 'updateClasses');
       spyOn(directive, 'updateSize');
       spyOn(directive, 'updateBackdrop');
@@ -300,7 +363,7 @@ describe('HtmlTooltipDirective', () => {
     it('calls updatePosition once if position changed', () => {
       changesSpy.and.returnValues(true, true, true, true);
       directive.updateForConfigChanges(changes as any);
-      expect(directive.updatePosition).toHaveBeenCalledTimes(1);
+      expect(directive.updatePositionStrategy).toHaveBeenCalledTimes(1);
     });
     it('calls updateClasses once if panelClass changed', () => {
       changesSpy.and.returnValues(false, true, true, true);
@@ -345,19 +408,18 @@ describe('HtmlTooltipDirective', () => {
 
   describe('updatePosition', () => {
     beforeEach(() => {
-      spyOn(directive, 'getPositionStrategy').and.returnValue(
-        'test strategy' as any
-      );
+      spyOn(directive, 'setPositionStrategy');
+      directive.positionStrategy = 'test strategy' as any;
       directive.overlayRef = {
         updatePositionStrategy: jasmine.createSpy('updatePositionStrategy'),
       } as any;
     });
     it('calls getPositionStrategy once', () => {
-      directive.updatePosition();
-      expect(directive.getPositionStrategy).toHaveBeenCalledTimes(1);
+      directive.updatePositionStrategy();
+      expect(directive.setPositionStrategy).toHaveBeenCalledTimes(1);
     });
     it('calls updatePositionStrategy once with the correct value', () => {
-      directive.updatePosition();
+      directive.updatePositionStrategy();
       expect(directive.overlayRef.updatePositionStrategy).toHaveBeenCalledWith(
         'test strategy' as any
       );
