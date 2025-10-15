@@ -92,11 +92,10 @@ export class AxisLabelBuilder {
   wrap(wrap: (wrap: SvgTextWrapBuilder) => void): this;
   wrap(wrap: ((wrap: SvgTextWrapBuilder) => void) | null): this {
     if (wrap === null) {
-      this.textWrapBuilder = undefined;
+      this.textWrapFunction = undefined;
       return this;
     }
-    this.textWrapBuilder = new SvgTextWrapBuilder();
-    wrap(this.textWrapBuilder);
+    this.textWrapFunction = wrap;
     return this;
   }
 
@@ -115,10 +114,13 @@ export class AxisLabelBuilder {
   }
 
   private createTextWrapBuilder(dimension: 'x' | 'y'): void {
-    const isRotatedYLabel = dimension === 'y' && this._position === 'middle';
     this.textWrapBuilder = new SvgTextWrapBuilder();
-    this.textWrapBuilder.maintainXPosition(isRotatedYLabel);
-    this.textWrapBuilder.maintainYPosition(isRotatedYLabel);
+    const isRotatedYLabel = dimension === 'y' && this._position === 'middle';
+    // set defaults but let user override setting defaults before calling wrap function
+    if (isRotatedYLabel) {
+      this.textWrapBuilder.maintainXPosition(false);
+      this.textWrapBuilder.maintainYPosition(true);
+    }
     this.textWrapFunction(this.textWrapBuilder);
   }
 
