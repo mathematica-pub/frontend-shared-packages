@@ -57,3 +57,7 @@ __pycache__/
 # System files
 .DS_Store
 Thumbs.db
+
+# husky & nx
+.husky
+.nx

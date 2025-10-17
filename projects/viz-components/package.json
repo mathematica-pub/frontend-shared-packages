@@ -1,6 +1,8 @@
 {
-  "name": "@web-ast/viz-components",
-  "version": "0.0.71",
+  "name": "@mathstack/viz-old",
+  "version": "1.0.0",
+  "description": "A library of Angular components for data visualization produced by Mathematica, Inc.",
+  "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",
     "postbuild": "node build.js"
