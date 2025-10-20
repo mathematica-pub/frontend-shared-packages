@@ -450,7 +450,7 @@ describe('Multi-select grouped combobox with dynamic options', () => {
     cy.get('.filter-options-button').click();
     cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
   });
-  it.only('does not restore selected values when options are added back in', () => {
+  it('does not restore selected values when options are added back in', () => {
     cy.get('.hsi-ui-textbox').click();
     cy.get('.hsi-ui-listbox-option').eq(0).realClick();
     cy.get('.hsi-ui-listbox-option').eq(1).realClick();
