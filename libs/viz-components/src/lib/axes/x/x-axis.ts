@@ -57,8 +57,8 @@ export function xAxisMixin<
       if (!config) return;
 
       const spaceFromMarginEdge = 4;
-      let x = config.offset.x;
-      let y = config.offset.y;
+      let x = config.offset.x || 0;
+      let y = config.offset.y || 0;
 
       y +=
         this.config.side === 'top'

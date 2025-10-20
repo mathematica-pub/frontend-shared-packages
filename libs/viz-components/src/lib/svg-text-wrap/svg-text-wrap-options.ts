@@ -3,4 +3,6 @@ export interface SvgTextWrapOptions {
   maintainXPosition: boolean;
   maintainYPosition: boolean;
   lineHeight: number;
+  breakOnChars: string[];
+  spaceAroundBreakChars: boolean;
 }

@@ -201,3 +201,103 @@ describe('It creates axis labels that are correctly positioned when positions ar
     });
   });
 });
+
+// ***********************************************************
+// Test that axis labels correctly wrap - brittle tests but better than nothing
+// ***********************************************************
+describe('It creates axis labels that are visible when default values are used', () => {
+  const wrapWidth = 160;
+  beforeEach(() => {
+    const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
+      .ticks((ticks) => ticks.format('.0f'))
+      .label((label) =>
+        label
+          .text('Years in which Mathematica operated')
+          .wrap((wrap) => wrap.width(wrapWidth))
+      )
+      .getConfig();
+    const yAxisConfig = new VicYQuantitativeAxisConfigBuilder<number>()
+      .label((label) =>
+        label
+          .text(
+            'Number of spectacular components tests Mathematica has written as part of frontend work'
+          )
+          .wrap((wrap) => wrap.width(wrapWidth))
+      )
+      .ticks((ticks) => ticks.format('.2s'))
+      .getConfig();
+    mountAxisLabelsComponent(xAxisConfig, yAxisConfig);
+    cy.wait(axisTickTextWaitTime);
+  });
+  it('should have visible x and y axis labels that are correctly wrapped and centered on axes', () => {
+    // Ensure that there are multiple tspan elements created for each label.
+    cy.get('.vic-axis-x-quantitative .vic-axis-label tspan').should(
+      'have.length',
+      2
+    );
+    cy.get('.vic-axis-y-quantitative .vic-axis-label tspan').should(
+      'have.length',
+      3
+    );
+
+    // Ensure each line is offset vertically.
+    cy.get('.vic-axis-x-quantitative .vic-axis-label tspan').then((spans) => {
+      const dyValues = Array.from(spans).map((span) => span.getAttribute('dy'));
+      expect(new Set(dyValues).size).to.equal(2);
+    });
+    cy.get('.vic-axis-y-quantitative .vic-axis-label tspan').then((spans) => {
+      const dyValues = Array.from(spans).map((span) => span.getAttribute('dy'));
+      expect(new Set(dyValues).size).to.equal(3);
+    });
+
+    // dy values are evenly spaced
+    cy.get('.vic-axis-y-quantitative .vic-axis-label tspan').then((spans) => {
+      const dyValues = Array.from(spans).map((span) => span.getAttribute('dy'));
+      const differences = dyValues.reduce((acc, val, i) => {
+        if (i === 0) return acc;
+        const diff =
+          parseFloat(val || '0') - parseFloat(dyValues[i - 1] || '0');
+        const diffRoundedToPointOne = Math.round(diff * 10) / 10;
+        acc.push(diffRoundedToPointOne);
+        return acc;
+      }, []);
+      expect(new Set(differences).size).to.equal(1);
+    });
+
+    // Ensure that the overall width of the label is less than or equal to the wrap width.
+    cy.get('.vic-axis-x-quantitative .vic-axis-label')
+      .invoke('width')
+      .should('be.lte', wrapWidth);
+    cy.get('.vic-axis-y-quantitative .vic-axis-label')
+      .invoke('width')
+      .should('be.lte', wrapWidth);
+
+    // Ensure that the label text is split across multiple lines.
+    cy.get('.vic-axis-x-quantitative .vic-axis-label tspan').each(($span) => {
+      expect($span.text().length).to.be.greaterThan(0);
+    });
+    cy.get('.vic-axis-y-quantitative .vic-axis-label tspan').each(($span) => {
+      expect($span.text().length).to.be.greaterThan(0);
+    });
+
+    cy.get<SVGGElement>('.vic-xy-background').then((chartBackground) => {
+      const chartRect = chartBackground[0].getBBox();
+      cy.get<SVGTextElement>('.vic-axis-x-quantitative .vic-axis-label').then(
+        (xAxisLabel) => {
+          const textRect = xAxisLabel[0].getBoundingClientRect();
+          expect(
+            textRect.left + (textRect.right - textRect.left) / 2
+          ).to.be.closeTo(margin.left + chartRect.width / 2, 4);
+        }
+      );
+      cy.get<SVGTextElement>('.vic-axis-y-quantitative .vic-axis-label').then(
+        (yAxisLabel) => {
+          const textRect = yAxisLabel[0].getBoundingClientRect();
+          expect(
+            textRect.top + (textRect.bottom - textRect.top) / 2
+          ).to.be.closeTo(margin.top + chartRect.height / 2, 4);
+        }
+      );
+    });
+  });
+});

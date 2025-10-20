@@ -44,7 +44,7 @@ describe('XyPrimaryMarks abstract class', () => {
       abstractClass.chart = {
         ranges: new BehaviorSubject<Ranges>(startRanges),
       } as any;
-      abstractClass.chart.ranges$ = (
+      (abstractClass.chart as any).ranges$ = (
         abstractClass.chart as any
       ).ranges.asObservable();
       setChartScalesFromRangesSpy = spyOn(
