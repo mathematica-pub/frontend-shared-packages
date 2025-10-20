@@ -45,7 +45,7 @@ export class MlbRaceEthnicityDotPlotComponent implements OnChanges {
         data: this.data,
         yDimension: 'stratVal',
         isMlb: true,
-        bandwidth: 26,
+        bandwidth: 22,
         labelWidth: this.data[0].strat.includes('shortage') ? 170 : 150,
       };
       this.caDotPlotService.onChanges(dotPlotDataConfig);
