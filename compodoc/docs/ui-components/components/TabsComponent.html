@@ -1,0 +1,1267 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  TabsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>libs/ui-components/src/lib/tabs/tabs.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>AfterContentInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a href="../injectables/TabsService.html" target="_self" >TabsService</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>hsi-ui-tabs</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./tabs.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./tabs.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#service" >service</a>
+                            </li>
+                            <li>
+                                <a href="#tabChanges$" >tabChanges$</a>
+                            </li>
+                            <li>
+                                <a href="#tabItems$" >tabItems$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#tabs" >tabs</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#emitNewActiveTab" >emitNewActiveTab</a>
+                            </li>
+                            <li>
+                                <a href="#focusNextTab" >focusNextTab</a>
+                            </li>
+                            <li>
+                                <a href="#focusPreviousTab" >focusPreviousTab</a>
+                            </li>
+                            <li>
+                                <a href="#focusTab" >focusTab</a>
+                            </li>
+                            <li>
+                                <a href="#handleKeydown" >handleKeydown</a>
+                            </li>
+                            <li>
+                                <a href="#initializeActiveTab" >initializeActiveTab</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterContentInit" >ngAfterContentInit</a>
+                            </li>
+                            <li>
+                                <a href="#selectTab" >selectTab</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#tabChange" >tabChange</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(service: <a href="../injectables/TabsService.html" target="_self">TabsService&lt;T&gt;</a>, destroyRef: DestroyRef)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">libs/ui-components/src/lib/tabs/tabs.component.ts:27</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>service</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/TabsService.html" target="_self" >TabsService&lt;T&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>destroyRef</td>
+                                                  
+                                                        <td>
+                                                                    <code>DestroyRef</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="tabChange"></a>
+                        <b>tabChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">libs/ui-components/src/lib/tabs/tabs.component.ts:25</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emitNewActiveTab"></a>
+                    <span class="name">
+                        <span ><b>emitNewActiveTab</b></span>
+                        <a href="#emitNewActiveTab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>emitNewActiveTab(tabItem: <a href="../components/TabItemComponent.html" target="_self">TabItemComponent&lt;T&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="56"
+                                    class="link-to-prism">libs/ui-components/src/lib/tabs/tabs.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tabItem</td>
+                                            <td>
+                                                            <code><a href="../components/TabItemComponent.html" target="_self" >TabItemComponent&lt;T&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focusNextTab"></a>
+                    <span class="name">
+                        <span ><b>focusNextTab</b></span>
+                        <a href="#focusNextTab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>focusNextTab(tabIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="110"
+                                    class="link-to-prism">libs/ui-components/src/lib/tabs/tabs.component.ts:110</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tabIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focusPreviousTab"></a>
+                    <span class="name">
+                        <span ><b>focusPreviousTab</b></span>
+                        <a href="#focusPreviousTab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>focusPreviousTab(tabIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="118"
+                                    class="link-to-prism">libs/ui-components/src/lib/tabs/tabs.component.ts:118</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tabIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focusTab"></a>
+                    <span class="name">
+                        <span ><b>focusTab</b></span>
+                        <a href="#focusTab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>focusTab(tabItem: <a href="../components/TabItemComponent.html" target="_self">TabItemComponent&lt;T&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="106"
+                                    class="link-to-prism">libs/ui-components/src/lib/tabs/tabs.component.ts:106</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tabItem</td>
+                                            <td>
+                                                            <code><a href="../components/TabItemComponent.html" target="_self" >TabItemComponent&lt;T&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleKeydown"></a>
+                    <span class="name">
+                        <span ><b>handleKeydown</b></span>
+                        <a href="#handleKeydown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleKeydown(event: <a href="../undefineds/Key.html" target="_self">KeyboardEvent</a>, tabItem: <a href="../components/TabItemComponent.html" target="_self">TabItemComponent&lt;T&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="63"
+                                    class="link-to-prism">libs/ui-components/src/lib/tabs/tabs.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#Key" target="_self" >KeyboardEvent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>tabItem</td>
+                                            <td>
+                                                            <code><a href="../components/TabItemComponent.html" target="_self" >TabItemComponent&lt;T&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initializeActiveTab"></a>
+                    <span class="name">
+                        <span ><b>initializeActiveTab</b></span>
+                        <a href="#initializeActiveTab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initializeActiveTab()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="43"
+                                    class="link-to-prism">libs/ui-components/src/lib/tabs/tabs.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterContentInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterContentInit</b></span>
+                        <a href="#ngAfterContentInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterContentInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="34"
+                                    class="link-to-prism">libs/ui-components/src/lib/tabs/tabs.component.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectTab"></a>
+                    <span class="name">
+                        <span ><b>selectTab</b></span>
+                        <a href="#selectTab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectTab(tabItem: <a href="../components/TabItemComponent.html" target="_self">TabItemComponent&lt;T&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="49"
+                                    class="link-to-prism">libs/ui-components/src/lib/tabs/tabs.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tabItem</td>
+                                            <td>
+                                                            <code><a href="../components/TabItemComponent.html" target="_self" >TabItemComponent&lt;T&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="service"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>service</b></span>
+                        <a href="#service"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/TabsService.html" target="_self" >TabsService&lt;T&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">libs/ui-components/src/lib/tabs/tabs.component.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tabChanges$"></a>
+                    <span class="name">
+                        <span ><b>tabChanges$</b></span>
+                        <a href="#tabChanges$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;boolean[]&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">libs/ui-components/src/lib/tabs/tabs.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tabItems$"></a>
+                    <span class="name">
+                        <span ><b>tabItems$</b></span>
+                        <a href="#tabItems$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/TabItemComponent.html" target="_self" >Observable&lt;TabItemComponent[]&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">libs/ui-components/src/lib/tabs/tabs.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tabs"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>tabs</b></span>
+                        <a href="#tabs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/TabItemComponent.html" target="_self" >QueryList&lt;TabItemComponent&lt;T&gt;&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ContentChildren(TabItemComponent)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">libs/ui-components/src/lib/tabs/tabs.component.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
+import {
+  AfterContentInit,
+  Component,
+  ContentChildren,
+  DestroyRef,
+  EventEmitter,
+  Output,
+  QueryList,
+} from &#x27;@angular/core&#x27;;
+import { takeUntilDestroyed } from &#x27;@angular/core/rxjs-interop&#x27;;
+import { Observable, map, startWith } from &#x27;rxjs&#x27;;
+import { TabItemComponent } from &#x27;./tab-item.component&#x27;;
+import { TabsService } from &#x27;./tabs.service&#x27;;
+
+@Component({
+  selector: &#x27;hsi-ui-tabs&#x27;,
+  imports: [CommonModule],
+  providers: [TabsService],
+  templateUrl: &#x27;./tabs.component.html&#x27;,
+  styleUrls: [&#x27;./tabs.component.scss&#x27;],
+})
+export class TabsComponent&lt;T&gt; implements AfterContentInit {
+  @ContentChildren(TabItemComponent) tabs: QueryList&lt;TabItemComponent&lt;T&gt;&gt;;
+  @Output() tabChange &#x3D; new EventEmitter&lt;T | string&gt;();
+  tabItems$: Observable&lt;TabItemComponent&lt;T&gt;[]&gt;;
+  tabChanges$: Observable&lt;boolean[]&gt;;
+
+  constructor(
+    public service: TabsService&lt;T&gt;,
+    private destroyRef: DestroyRef
+  ) {}
+
+  ngAfterContentInit(): void {
+    this.tabItems$ &#x3D; this.tabs.changes.pipe(
+      takeUntilDestroyed(this.destroyRef),
+      startWith(&#x27;&#x27;),
+      map(() &#x3D;&gt; this.tabs.toArray())
+    );
+    this.initializeActiveTab();
+  }
+
+  initializeActiveTab(): void {
+    if (!this.service.activeTab.value) {
+      this.service.activeTab.next(this.tabs.first);
+    }
+  }
+
+  selectTab(tabItem: TabItemComponent&lt;T&gt;): void {
+    if (this.service.activeTab.value !&#x3D;&#x3D; tabItem) {
+      this.service.activeTab.next(tabItem);
+      this.emitNewActiveTab(tabItem);
+    }
+  }
+
+  emitNewActiveTab(tabItem: TabItemComponent&lt;T&gt;): void {
+    const value &#x3D;
+      tabItem.value ??
+      tabItem.labelComponent.labelElement.nativeElement.innerText;
+    this.tabChange.emit(value);
+  }
+
+  handleKeydown(event: KeyboardEvent, tabItem: TabItemComponent&lt;T&gt;): void {
+    const tabIndex &#x3D; this.tabs.toArray().indexOf(tabItem);
+    let cancelOtherActions &#x3D; false;
+
+    switch (event.key) {
+      case &#x27;Enter&#x27;:
+      case &#x27; &#x27;:
+        this.selectTab(tabItem);
+        cancelOtherActions &#x3D; true;
+        break;
+
+      case &#x27;ArrowRight&#x27;:
+      case &#x27;Right&#x27;:
+        this.focusNextTab(tabIndex);
+        cancelOtherActions &#x3D; true;
+        break;
+
+      case &#x27;ArrowLeft&#x27;:
+      case &#x27;Left&#x27;:
+        this.focusPreviousTab(tabIndex);
+        cancelOtherActions &#x3D; true;
+        break;
+
+      case &#x27;Home&#x27;:
+        this.focusTab(this.tabs.first);
+        cancelOtherActions &#x3D; true;
+        break;
+
+      case &#x27;End&#x27;:
+        this.focusTab(this.tabs.last);
+        cancelOtherActions &#x3D; true;
+        break;
+
+      default:
+        break;
+    }
+
+    if (cancelOtherActions) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  focusTab(tabItem: TabItemComponent&lt;T&gt;): void {
+    tabItem.labelComponent.labelElement.nativeElement.parentElement?.focus();
+  }
+
+  focusNextTab(tabIndex: number): void {
+    if (tabIndex &lt; this.tabs.length - 1) {
+      this.focusTab(this.tabs.toArray()[tabIndex + 1]);
+    } else {
+      this.focusTab(this.tabs.first);
+    }
+  }
+
+  focusPreviousTab(tabIndex: number): void {
+    if (tabIndex &gt; 0) {
+      this.focusTab(this.tabs.toArray()[tabIndex - 1]);
+    } else {
+      this.focusTab(this.tabs.last);
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;ng-container *ngIf&#x3D;&quot;service.activeTab$ | async as activeTab&quot;&gt;
+  &lt;div class&#x3D;&quot;tab-list&quot; role&#x3D;&quot;tablist&quot;&gt;
+    &lt;div
+      *ngFor&#x3D;&quot;let item of tabItems$ | async&quot;
+      role&#x3D;&quot;tab&quot;
+      [tabindex]&#x3D;&quot;activeTab &#x3D;&#x3D;&#x3D; item ? 0 : -1&quot;
+      class&#x3D;&quot;tab-label-container&quot;
+      (click)&#x3D;&quot;selectTab(item)&quot;
+      (keydown)&#x3D;&quot;handleKeydown($event, item)&quot;
+      [attr.aria-selected]&#x3D;&quot;activeTab &#x3D;&#x3D;&#x3D; item&quot;
+      [class.active]&#x3D;&quot;activeTab &#x3D;&#x3D;&#x3D; item&quot;
+      aria-controls&#x3D;&quot;tabs-component-body&quot;
+      data-cy&#x3D;&quot;level&quot;
+    &gt;
+      &lt;ng-container *ngIf&#x3D;&quot;item.labelComponent&quot;&gt;
+        &lt;ng-container *ngTemplateOutlet&#x3D;&quot;item.labelComponent.labelContent&quot;&gt;
+        &lt;/ng-container&gt;
+      &lt;/ng-container&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div
+    class&#x3D;&quot;tabs-body&quot;
+    id&#x3D;&quot;tabs-component-body&quot;
+    role&#x3D;&quot;tabpanel&quot;
+    [attr.aria-labelledby]&#x3D;&quot;activeTab?.labelComponent?.id&quot;
+  &gt;
+    @if (activeTab.bodyComponent) {
+      @if (activeTab.bodyComponent?.lazyLoadedContent) {
+        &lt;ng-container
+          *ngTemplateOutlet&#x3D;&quot;activeTab.bodyComponent.lazyLoadedContent&quot;
+        &gt;
+        &lt;/ng-container&gt;
+      } @else {
+        &lt;ng-container *ngTemplateOutlet&#x3D;&quot;activeTab.bodyComponent.bodyContent&quot;&gt;
+        &lt;/ng-container&gt;
+      }
+    }
+  &lt;/div&gt;
+&lt;/ng-container&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./tabs.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="service.activeTab$ | async as activeTab">  <div class="tab-list" role="tablist">    <div      *ngFor="let item of tabItems$ | async"      role="tab"      [tabindex]="activeTab === item ? 0 : -1"      class="tab-label-container"      (click)="selectTab(item)"      (keydown)="handleKeydown($event, item)"      [attr.aria-selected]="activeTab === item"      [class.active]="activeTab === item"      aria-controls="tabs-component-body"      data-cy="level"    >      <ng-container *ngIf="item.labelComponent">        <ng-container *ngTemplateOutlet="item.labelComponent.labelContent">        </ng-container>      </ng-container>    </div>  </div>  <div    class="tabs-body"    id="tabs-component-body"    role="tabpanel"    [attr.aria-labelledby]="activeTab?.labelComponent?.id"  >    @if (activeTab.bodyComponent) {      @if (activeTab.bodyComponent?.lazyLoadedContent) {        <ng-container          *ngTemplateOutlet="activeTab.bodyComponent.lazyLoadedContent"        >        </ng-container>      } @else {        <ng-container *ngTemplateOutlet="activeTab.bodyComponent.bodyContent">        </ng-container>      }    }  </div></ng-container></div>'
+    var COMPONENTS = [{'name': 'ComboboxComponent', 'selector': 'hsi-ui-combobox'},{'name': 'ComboboxLabelComponent', 'selector': 'hsi-ui-combobox-label'},{'name': 'EditableTextboxComponent', 'selector': 'hsi-ui-editable-textbox'},{'name': 'HsiUiDirectoryComponent', 'selector': 'hsi-ui-directory'},{'name': 'ListboxComponent', 'selector': 'hsi-ui-listbox'},{'name': 'ListboxGroupComponent', 'selector': 'hsi-ui-listbox-group'},{'name': 'ListboxLabelComponent', 'selector': 'hsi-ui-listbox-label'},{'name': 'ListboxOptionComponent', 'selector': 'hsi-ui-listbox-option'},{'name': 'SelectAllListboxOptionComponent', 'selector': 'hsi-ui-select-all-listbox-option'},{'name': 'SingleSortHeaderComponent', 'selector': '[hsi-ui-single-sort-header]'},{'name': 'TabBodyComponent', 'selector': 'hsi-ui-tab-body'},{'name': 'TabItemComponent', 'selector': 'hsi-ui-tab-item'},{'name': 'TabLabelComponent', 'selector': 'hsi-ui-tab-label'},{'name': 'TableComponent', 'selector': 'hsi-ui-table'},{'name': 'TabsComponent', 'selector': 'hsi-ui-tabs'},{'name': 'TextboxComponent', 'selector': 'hsi-ui-textbox'}];
+    var DIRECTIVES = [{'name': 'TabContentDirective', 'selector': '[hsiUiTabContent]'}];
+    var ACTUAL_COMPONENT = {'name': 'TabsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'TabsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

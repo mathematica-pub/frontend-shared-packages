@@ -1,0 +1,1671 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  MapChartComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>libs/viz-components/src/lib/charts/map-chart/map-chart.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>A <code>Chart</code> component to be used with a <code>Geographies</code> <code>PrimaryMarks</code> component.</p>
+<p>This component adds an attribute data scale and config to the base <code>ChartComponent</code> that can
+ be used by any components projected into the chart.</p>
+<p>Components that may use these scales include the <code>Geographies</code> component
+ and the <code>MapLegend</code> component.</p>
+<p class="comment-slots">Content projection slots</p>
+
+<p><code>html-elements-before</code>: Elements that will be projected before the chart&#39;s scaled div
+ and scaled svg element in the DOM. USeful for adding elements that require access to chart scales.</p>
+<p><code>svg-defs</code>: Used to create any required defs for the chart&#39;s svg element. For example, patterns or gradients.</p>
+<p><code>svg-elements</code>: Used for all elements that should be children of the chart&#39;s scaled svg element.</p>
+<p><code>html-elements-after</code>: Elements that will be projected after the chart&#39;s scaled div
+ and scaled svg element in the DOM. USeful for adding elements that require access to chart scales.</p>
+
+    </p>
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+    </p>
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="../classes/Chart.html" target="_self" >Chart</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">host</td>
+                <td class="col-md-9"><code>{<br>}</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a href="../classes/Chart.html" target="_self" >{ provide: CHART, useExisting: ChartComponent }</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>vic-map-chart</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>../chart/chart.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>../chart/chart.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#attributeProperties" >attributeProperties</a>
+                            </li>
+                            <li>
+                                <a href="#attributeProperties$" >attributeProperties$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#zone" >zone</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#destroyRef" >destroyRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#divRef" >divRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#heightFromConfig" >heightFromConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#heightFromConfig$" >heightFromConfig$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#marginFromConfig" >marginFromConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#marginFromConfig$" >marginFromConfig$</a>
+                            </li>
+                            <li>
+                                <a href="#ranges$" >ranges$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#scalingStrategy" >scalingStrategy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#scalingStrategy$" >scalingStrategy$</a>
+                            </li>
+                            <li>
+                                <a href="#svgDimensions$" >svgDimensions$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#svgRef" >svgRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#widthFromConfig" >widthFromConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#widthFromConfig$" >widthFromConfig$</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#updateAttributeProperties" >updateAttributeProperties</a>
+                            </li>
+                            <li>
+                                <a href="#createDimensionObservables" >createDimensionObservables</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getRangesFromSvgDimensions" >getRangesFromSvgDimensions</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#observeElementWidth" >observeElementWidth</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateFromConfig" >updateFromConfig</a>
+                            </li>
+                            <li>
+                                <a href="#updateUserDimensionProperties" >updateUserDimensionProperties</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#config" >config</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="config"></a>
+                        <b>config</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/ChartConfig.html" target="_self" >ChartConfig</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new VicChartConfigBuilder().getConfig()</code>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:78</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateAttributeProperties"></a>
+                    <span class="name">
+                        <span ><b>updateAttributeProperties</b></span>
+                        <a href="#updateAttributeProperties"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateAttributeProperties(properties: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="49"
+                                    class="link-to-prism">libs/viz-components/src/lib/charts/map-chart/map-chart.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>properties</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createDimensionObservables"></a>
+                    <span class="name">
+                        <span ><b>createDimensionObservables</b></span>
+                        <a href="#createDimensionObservables"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createDimensionObservables()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:117</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRangesFromSvgDimensions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getRangesFromSvgDimensions</b></span>
+                        <a href="#getRangesFromSvgDimensions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getRangesFromSvgDimensions(dim: <a href="../interfaces/Dimensions.html" target="_self">Dimensions</a>, margin: <a href="../interfaces/ElementSpacing.html" target="_self">ElementSpacing</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:169</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>dim</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Dimensions.html" target="_self" >Dimensions</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>margin</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ElementSpacing.html" target="_self" >ElementSpacing</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Ranges.html" target="_self" >Ranges</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: SimpleChanges)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:93</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>changes</td>
+                                            <td>
+                                                        <code>SimpleChanges</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:101</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="observeElementWidth"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>observeElementWidth</b></span>
+                        <a href="#observeElementWidth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>observeElementWidth(element: HTMLElement)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:156</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>element</td>
+                                            <td>
+                                                        <code>HTMLElement</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;number&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateFromConfig"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateFromConfig</b></span>
+                        <a href="#updateFromConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateFromConfig()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:106</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateUserDimensionProperties"></a>
+                    <span class="name">
+                        <span ><b>updateUserDimensionProperties</b></span>
+                        <a href="#updateUserDimensionProperties"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateUserDimensionProperties()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:110</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeProperties"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>attributeProperties</b></span>
+                        <a href="#attributeProperties"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>BehaviorSubject&lt;literal type&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject({ config: undefined, scale: undefined })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">libs/viz-components/src/lib/charts/map-chart/map-chart.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeProperties$"></a>
+                    <span class="name">
+                        <span ><b>attributeProperties$</b></span>
+                        <a href="#attributeProperties$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.attributeProperties.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">libs/viz-components/src/lib/charts/map-chart/map-chart.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="zone"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>zone</b></span>
+                        <a href="#zone"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NgZone)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">libs/viz-components/src/lib/charts/map-chart/map-chart.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroyRef"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>destroyRef</b></span>
+                        <a href="#destroyRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DestroyRef)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:91</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="divRef"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>divRef</b></span>
+                        <a href="#divRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLDivElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;div&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:79</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="heightFromConfig"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>heightFromConfig</b></span>
+                        <a href="#heightFromConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;number&gt;(null)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:83</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="heightFromConfig$"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>heightFromConfig$</b></span>
+                        <a href="#heightFromConfig$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.heightFromConfig.asObservable()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:84</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="marginFromConfig"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>marginFromConfig</b></span>
+                        <a href="#marginFromConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;ElementSpacing&gt;(null)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:85</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="marginFromConfig$"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>marginFromConfig$</b></span>
+                        <a href="#marginFromConfig$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.marginFromConfig.asObservable()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:86</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ranges$"></a>
+                    <span class="name">
+                        <span ><b>ranges$</b></span>
+                        <a href="#ranges$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Ranges.html" target="_self" >Observable&lt;Ranges&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:82</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scalingStrategy"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>scalingStrategy</b></span>
+                        <a href="#scalingStrategy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;ScalingStrategy | null&gt;(null)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:87</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scalingStrategy$"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>scalingStrategy$</b></span>
+                        <a href="#scalingStrategy$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.scalingStrategy.asObservable()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:88</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="svgDimensions$"></a>
+                    <span class="name">
+                        <span ><b>svgDimensions$</b></span>
+                        <a href="#svgDimensions$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Dimensions.html" target="_self" >Observable&lt;Dimensions&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:81</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="svgRef"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>svgRef</b></span>
+                        <a href="#svgRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;SVGSVGElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;svg&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:80</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="widthFromConfig"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>widthFromConfig</b></span>
+                        <a href="#widthFromConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;number&gt;(null)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:89</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="widthFromConfig$"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>widthFromConfig$</b></span>
+                        <a href="#widthFromConfig$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.widthFromConfig.asObservable()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/ChartComponent.html" target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/ChartComponent.html#source" target="_self" >ChartComponent:90</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
+import { Component, inject, NgZone } from &#x27;@angular/core&#x27;;
+import { BehaviorSubject } from &#x27;rxjs&#x27;;
+import { VicAttributeDataDimensionConfig } from &#x27;../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types&#x27;;
+import { Chart } from &#x27;../chart/chart&#x27;;
+import { ChartComponent } from &#x27;../chart/chart.component&#x27;;
+import { CHART } from &#x27;../chart/chart.token&#x27;;
+
+/**
+ * A &#x60;Chart&#x60; component to be used with a &#x60;Geographies&#x60; &#x60;PrimaryMarks&#x60; component.
+ *
+ * This component adds an attribute data scale and config to the base &#x60;ChartComponent&#x60; that can
+ *  be used by any components projected into the chart.
+ *
+ * Components that may use these scales include the &#x60;Geographies&#x60; component
+ *  and the &#x60;MapLegend&#x60; component.
+ *
+ * &lt;p class&#x3D;&quot;comment-slots&quot;&gt;Content projection slots&lt;/p&gt;
+ *
+ * &#x60;html-elements-before&#x60;: Elements that will be projected before the chart&#x27;s scaled div
+ *  and scaled svg element in the DOM. USeful for adding elements that require access to chart scales.
+ *
+ * &#x60;svg-defs&#x60;: Used to create any required defs for the chart&#x27;s svg element. For example, patterns or gradients.
+ *
+ * &#x60;svg-elements&#x60;: Used for all elements that should be children of the chart&#x27;s scaled svg element.
+ *
+ * &#x60;html-elements-after&#x60;: Elements that will be projected after the chart&#x27;s scaled div
+ *  and scaled svg element in the DOM. USeful for adding elements that require access to chart scales.
+ */
+@Component({
+  selector: &#x27;vic-map-chart&#x27;,
+  templateUrl: &#x27;../chart/chart.component.html&#x27;,
+  styleUrls: [&#x27;../chart/chart.component.scss&#x27;],
+  providers: [{ provide: CHART, useExisting: ChartComponent }],
+  host: {
+    class: &#x27;vic-map-chart&#x27;,
+  },
+  imports: [CommonModule],
+})
+export class MapChartComponent&lt;Datum&gt; extends ChartComponent implements Chart {
+  private attributeProperties: BehaviorSubject&lt;{
+    config: VicAttributeDataDimensionConfig&lt;Datum&gt;;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    scale: any;
+  }&gt; &#x3D; new BehaviorSubject({ config: undefined, scale: undefined });
+  attributeProperties$ &#x3D; this.attributeProperties.asObservable();
+  protected zone &#x3D; inject(NgZone);
+
+  updateAttributeProperties(properties: {
+    config: VicAttributeDataDimensionConfig&lt;Datum&gt;;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    scale: any;
+  }): void {
+    this.zone.run(() &#x3D;&gt; {
+      this.attributeProperties.next({
+        config: properties.config,
+        scale: properties.scale,
+      });
+    });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;!-- Slot exists so that projected content can have access to scales --&gt;
+&lt;ng-container *ngTemplateOutlet&#x3D;&quot;htmlElementsBefore&quot;&gt;&lt;/ng-container&gt;
+&lt;div
+  #div
+  class&#x3D;&quot;vic-chart-container&quot;
+  [ngClass]&#x3D;&quot;&#x27;vic-scaling-&#x27; + (scalingStrategy$ | async)&quot;
+  [style.maxWidth.px]&#x3D;&quot;widthFromConfig$ | async&quot;
+  [style.maxHeight.px]&#x3D;&quot;heightFromConfig$ | async&quot;
+&gt;
+  &lt;svg
+    #svg
+    class&#x3D;&quot;vic-chart-svg&quot;
+    [class.vic-chart-viewbox]&#x3D;&quot;(scalingStrategy$ | async) &#x3D;&#x3D;&#x3D; &#x27;viewbox&#x27;&quot;
+    [attr.width]&#x3D;&quot;(scalingStrategy$ | async) !&#x3D;&#x3D; &#x27;viewbox&#x27; ? (svgDimensions$ | async)?.width : null&quot;
+    [attr.height]&#x3D;&quot;(scalingStrategy$ | async) !&#x3D;&#x3D; &#x27;viewbox&#x27; ? (svgDimensions$ | async)?.height : null&quot;
+    [attr.viewBox]&#x3D;&quot;(scalingStrategy$ | async) &#x3D;&#x3D;&#x3D; &#x27;viewbox&#x27; ? &#x27;0 0 &#x27; + (widthFromConfig$ | async) + &#x27; &#x27; + (heightFromConfig$ | async) : null&quot;
+  &gt;
+    &lt;defs&gt;
+      &lt;ng-container *ngTemplateOutlet&#x3D;&quot;svgDefs&quot;&gt;&lt;/ng-container&gt;
+    &lt;/defs&gt;
+    &lt;ng-container *ngTemplateOutlet&#x3D;&quot;svgElements&quot;&gt;&lt;/ng-container&gt;
+  &lt;/svg&gt;
+&lt;/div&gt;
+
+&lt;!-- Slot exists so that projected content can have access to scales --&gt;
+&lt;ng-container *ngTemplateOutlet&#x3D;&quot;htmlElementsAfter&quot;&gt;&lt;/ng-container&gt;
+
+&lt;ng-template #htmlElementsBefore&gt;
+  &lt;ng-content select&#x3D;&quot;[html-elements-before]&quot;&gt;&lt;/ng-content&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #svgDefs&gt;
+  &lt;ng-content select&#x3D;&quot;[svg-defs]&quot;&gt;&lt;/ng-content&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #svgElements&gt;
+  &lt;ng-content select&#x3D;&quot;[svg-elements]&quot;&gt;&lt;/ng-content&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #htmlElementsAfter&gt;
+  &lt;ng-content select&#x3D;&quot;[html-elements-after]&quot;&gt;&lt;/ng-content&gt;
+&lt;/ng-template&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>../chart/chart.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.vic-chart-container {
+  display: flex;
+}
+
+.vic-chart-svg {
+  display: block;
+
+  // Allow overflow for annotations, labels, etc. unless viewbox
+  &amp;:not(.vic-chart-viewbox) {
+    overflow: visible;
+  }
+}
+
+// Strategy-specific scoping
+.vic-scaling-viewbox {
+  .vic-chart-svg {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.vic-scaling-fixed,
+.vic-scaling-responsive-width,
+.vic-scaling-responsive-both {
+  .vic-chart-container {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+</code></pre>
+    </div>
+
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><!-- Slot exists so that projected content can have access to scales --><ng-container *ngTemplateOutlet="htmlElementsBefore"></ng-container><div  #div  class="vic-chart-container"  [ngClass]="\'vic-scaling-\' + (scalingStrategy$ | async)"  [style.maxWidth.px]="widthFromConfig$ | async"  [style.maxHeight.px]="heightFromConfig$ | async">  <svg    #svg    class="vic-chart-svg"    [class.vic-chart-viewbox]="(scalingStrategy$ | async) === \'viewbox\'"    [attr.width]="(scalingStrategy$ | async) !== \'viewbox\' ? (svgDimensions$ | async)?.width : null"    [attr.height]="(scalingStrategy$ | async) !== \'viewbox\' ? (svgDimensions$ | async)?.height : null"    [attr.viewBox]="(scalingStrategy$ | async) === \'viewbox\' ? \'0 0 \' + (widthFromConfig$ | async) + \' \' + (heightFromConfig$ | async) : null"  >    <defs>      <ng-container *ngTemplateOutlet="svgDefs"></ng-container>    </defs>    <ng-container *ngTemplateOutlet="svgElements"></ng-container>  </svg></div><!-- Slot exists so that projected content can have access to scales --><ng-container *ngTemplateOutlet="htmlElementsAfter"></ng-container><ng-template #htmlElementsBefore>  <ng-content select="[html-elements-before]"></ng-content></ng-template><ng-template #svgDefs>  <ng-content select="[svg-defs]"></ng-content></ng-template><ng-template #svgElements>  <ng-content select="[svg-elements]"></ng-content></ng-template><ng-template #htmlElementsAfter>  <ng-content select="[html-elements-after]"></ng-content></ng-template></div>'
+    var COMPONENTS = [{'name': 'BarsComponent', 'selector': '[vic-primary-marks-bars]'},{'name': 'ChartComponent', 'selector': 'vic-chart'},{'name': 'ContinuousLegendComponent', 'selector': 'vic-continuous-legend'},{'name': 'DiscontinuousLegendComponent', 'selector': 'vic-discontinuous-legend'},{'name': 'DotsComponent', 'selector': '[vic-primary-marks-dots]'},{'name': 'GeographiesComponent', 'selector': '[vic-primary-marks-geographies]'},{'name': 'GroupedBarsComponent', 'selector': '[vic-primary-grouped-bars]'},{'name': 'LinesComponent', 'selector': '[vic-primary-marks-lines]'},{'name': 'MapChartComponent', 'selector': 'vic-map-chart'},{'name': 'MapLegendComponent', 'selector': 'vic-map-legend'},{'name': 'QuantitativeRulesComponent', 'selector': '[vic-quantitative-rules]'},{'name': 'StackedAreaComponent', 'selector': '[vic-primary-marks-stacked-area]'},{'name': 'StackedBarsComponent', 'selector': '[vic-primary-marks-stacked-bars]'},{'name': 'TooltipTriangleComponent', 'selector': 'vic-tooltip-triangle'},{'name': 'XOrdinalAxisComponent', 'selector': '[vic-x-ordinal-axis]'},{'name': 'XQuantitativeAxisComponent', 'selector': '[vic-x-quantitative-axis]'},{'name': 'XyBackgroundComponent', 'selector': '[vic-xy-background]'},{'name': 'XyChartComponent', 'selector': 'vic-xy-chart'},{'name': 'YOrdinalAxisComponent', 'selector': '[vic-y-ordinal-axis]'},{'name': 'YQuantitativeAxisComponent', 'selector': '[vic-y-quantitative-axis]'}];
+    var DIRECTIVES = [{'name': 'AuxMarks', 'selector': ''},{'name': 'BarsEventsDirective', 'selector': '[vicBarsEvents]'},{'name': 'DotsEventsDirective', 'selector': '[vicDotsEvents]'},{'name': 'EventsDirective', 'selector': ''},{'name': 'GeographiesEventsDirective', 'selector': '[vicGeographiesEvents]'},{'name': 'GroupedBarsEventsDirective', 'selector': '[vicGroupedBarsEvents]'},{'name': 'HtmlTooltipDirective', 'selector': 'vic-html-tooltip'},{'name': 'LinesEventsDirective', 'selector': '[vicLinesEvents]'},{'name': 'MapLegend', 'selector': ''},{'name': 'MapPrimaryMarks', 'selector': ''},{'name': 'Marks', 'selector': ''},{'name': 'PrimaryMarks', 'selector': ''},{'name': 'StackedAreaEventsDirective', 'selector': '[vicStackedAreaEvents]'},{'name': 'StackedBarsEventsDirective', 'selector': '[vicStackedBarsEvents]'},{'name': 'VicMapAuxMarks', 'selector': ''},{'name': 'VicXyPrimaryMarks', 'selector': ''},{'name': 'XyAuxMarks', 'selector': ''},{'name': 'XyAxis', 'selector': ''}];
+    var ACTUAL_COMPONENT = {'name': 'MapChartComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'MapChartComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

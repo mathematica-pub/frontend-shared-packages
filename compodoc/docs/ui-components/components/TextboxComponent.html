@@ -1,0 +1,2174 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  TextboxComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>libs/ui-components/src/lib/combobox/textbox/textbox.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+                <code>AfterViewInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">host</td>
+                <td class="col-md-9"><code>{<br>}</code></td>
+            </tr>
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>hsi-ui-textbox</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./textbox.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./textbox.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#box" >box</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#boxIcon" >boxIcon</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#destroyRef" >destroyRef</a>
+                            </li>
+                            <li>
+                                <a href="#label" >label</a>
+                            </li>
+                            <li>
+                                <a href="#label$" >label$</a>
+                            </li>
+                            <li>
+                                <a href="#openKeys" >openKeys</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#platform" >platform</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#service" >service</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#zone" >zone</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#focusBox" >focusBox</a>
+                            </li>
+                            <li>
+                                <a href="#getActionFromKeydownEvent" >getActionFromKeydownEvent</a>
+                            </li>
+                            <li>
+                                <a href="#getActionFromKeyEventWhenOpen" >getActionFromKeyEventWhenOpen</a>
+                            </li>
+                            <li>
+                                <a href="#getComputedLabel" >getComputedLabel</a>
+                            </li>
+                            <li>
+                                <a href="#getDefaultLabel" >getDefaultLabel</a>
+                            </li>
+                            <li>
+                                <a href="#handleBlur" >handleBlur</a>
+                            </li>
+                            <li>
+                                <a href="#handleClick" >handleClick</a>
+                            </li>
+                            <li>
+                                <a href="#handleKeyboardAction" >handleKeyboardAction</a>
+                            </li>
+                            <li>
+                                <a href="#handleKeydown" >handleKeydown</a>
+                            </li>
+                            <li>
+                                <a href="#isHtmlElement" >isHtmlElement</a>
+                            </li>
+                            <li>
+                                <a href="#isMobile" >isMobile</a>
+                            </li>
+                            <li>
+                                <a href="#isTypingCharacter" >isTypingCharacter</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onEscape" >onEscape</a>
+                            </li>
+                            <li>
+                                <a href="#setFocusListener" >setFocusListener</a>
+                            </li>
+                            <li>
+                                <a href="#setLabel" >setLabel</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ariaLabel" >ariaLabel</a>
+                            </li>
+                            <li>
+                                <a href="#customLabel" >customLabel</a>
+                            </li>
+                            <li>
+                                <a href="#dynamicLabel" >dynamicLabel</a>
+                            </li>
+                            <li>
+                                <a href="#findsOptionOnTyping" >findsOptionOnTyping</a>
+                            </li>
+                            <li>
+                                <a href="#selectedCountLabel" >selectedCountLabel</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ariaLabel"></a>
+                        <b>ariaLabel</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:39</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="customLabel"></a>
+                        <b>customLabel</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:41</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dynamicLabel"></a>
+                        <b>dynamicLabel</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:49</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="findsOptionOnTyping"></a>
+                        <b>findsOptionOnTyping</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:50</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedCountLabel"></a>
+                        <b>selectedCountLabel</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#SelectedCountLabel" target="_self" >SelectedCountLabel</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:40</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focusBox"></a>
+                    <span class="name">
+                        <span ><b>focusBox</b></span>
+                        <a href="#focusBox"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>focusBox()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="90"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:90</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getActionFromKeydownEvent"></a>
+                    <span class="name">
+                        <span ><b>getActionFromKeydownEvent</b></span>
+                        <a href="#getActionFromKeydownEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getActionFromKeydownEvent(event: <a href="../undefineds/Key.html" target="_self">KeyboardEvent</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="166"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:166</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#Key" target="_self" >KeyboardEvent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#ComboboxAction" target="_self" >ComboboxAction</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getActionFromKeyEventWhenOpen"></a>
+                    <span class="name">
+                        <span ><b>getActionFromKeyEventWhenOpen</b></span>
+                        <a href="#getActionFromKeyEventWhenOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getActionFromKeyEventWhenOpen(event: <a href="../undefineds/Key.html" target="_self">KeyboardEvent</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="195"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:195</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#Key" target="_self" >KeyboardEvent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#ComboboxAction" target="_self" >ComboboxAction</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getComputedLabel"></a>
+                    <span class="name">
+                        <span ><b>getComputedLabel</b></span>
+                        <a href="#getComputedLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getComputedLabel(touched: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="280"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:280</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>touched</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDefaultLabel"></a>
+                    <span class="name">
+                        <span ><b>getDefaultLabel</b></span>
+                        <a href="#getDefaultLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDefaultLabel(selectedOptions: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="303"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:303</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>selectedOptions</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleBlur"></a>
+                    <span class="name">
+                        <span ><b>handleBlur</b></span>
+                        <a href="#handleBlur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleBlur(event: FocusEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="94"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>FocusEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleClick"></a>
+                    <span class="name">
+                        <span ><b>handleClick</b></span>
+                        <a href="#handleClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleClick()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="137"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:137</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleKeyboardAction"></a>
+                    <span class="name">
+                        <span ><b>handleKeyboardAction</b></span>
+                        <a href="#handleKeyboardAction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleKeyboardAction(action: <a href="../undefineds/ComboboxAction.html" target="_self">ComboboxAction</a>, event: <a href="../undefineds/Key.html" target="_self">KeyboardEvent</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="216"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:216</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>action</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#ComboboxAction" target="_self" >ComboboxAction</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#Key" target="_self" >KeyboardEvent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleKeydown"></a>
+                    <span class="name">
+                        <span ><b>handleKeydown</b></span>
+                        <a href="#handleKeydown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleKeydown(event: <a href="../undefineds/Key.html" target="_self">KeyboardEvent</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="148"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:148</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#Key" target="_self" >KeyboardEvent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isHtmlElement"></a>
+                    <span class="name">
+                        <span ><b>isHtmlElement</b></span>
+                        <a href="#isHtmlElement"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isHtmlElement(target: EventTarget)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="129"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:129</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>target</td>
+                                            <td>
+                                                        <code>EventTarget</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>HTMLElement</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isMobile"></a>
+                    <span class="name">
+                        <span ><b>isMobile</b></span>
+                        <a href="#isMobile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isMobile()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="133"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:133</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isTypingCharacter"></a>
+                    <span class="name">
+                        <span ><b>isTypingCharacter</b></span>
+                        <a href="#isTypingCharacter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isTypingCharacter(event: <a href="../undefineds/Key.html" target="_self">KeyboardEvent</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="186"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:186</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#Key" target="_self" >KeyboardEvent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="76"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="61"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onEscape"></a>
+                    <span class="name">
+                        <span ><b>onEscape</b></span>
+                        <a href="#onEscape"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onEscape()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="161"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:161</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setFocusListener"></a>
+                    <span class="name">
+                        <span ><b>setFocusListener</b></span>
+                        <a href="#setFocusListener"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setFocusListener()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="80"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:80</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setLabel"></a>
+                    <span class="name">
+                        <span ><b>setLabel</b></span>
+                        <a href="#setLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setLabel()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="261"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:261</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="box"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>box</b></span>
+                        <a href="#box"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLDivElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;box&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="boxIcon"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>boxIcon</b></span>
+                        <a href="#boxIcon"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLDivElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;boxIcon&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroyRef"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>destroyRef</b></span>
+                        <a href="#destroyRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DestroyRef)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="label"></a>
+                    <span class="name">
+                        <span ><b>label</b></span>
+                        <a href="#label"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>BehaviorSubject&lt;string&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="label$"></a>
+                    <span class="name">
+                        <span ><b>label$</b></span>
+                        <a href="#label$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.label.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openKeys"></a>
+                    <span class="name">
+                        <span ><b>openKeys</b></span>
+                        <a href="#openKeys"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[&#x27;ArrowDown&#x27;, &#x27;ArrowUp&#x27;, &#x27;Enter&#x27;, &#x27; &#x27;]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="platform"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>platform</b></span>
+                        <a href="#platform"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Platform)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="service"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>service</b></span>
+                        <a href="#service"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ComboboxService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="zone"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>zone</b></span>
+                        <a href="#zone"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NgZone)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">libs/ui-components/src/lib/combobox/textbox/textbox.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Platform } from &#x27;@angular/cdk/platform&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import {
+  AfterViewInit,
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  Input,
+  NgZone,
+  OnInit,
+  ViewChild,
+} from &#x27;@angular/core&#x27;;
+import { takeUntilDestroyed } from &#x27;@angular/core/rxjs-interop&#x27;;
+import { runNgChangeDetectionThen } from &#x27;@hsi/app-dev-kit&#x27;;
+import { BehaviorSubject, combineLatest, filter, startWith } from &#x27;rxjs&#x27;;
+import {
+  ComboboxAction,
+  ComboboxService,
+  FocusTextbox,
+  Key,
+  ListboxAction,
+  OptionAction,
+  TextboxAction,
+} from &#x27;../combobox.service&#x27;;
+import { ListboxOptionComponent } from &#x27;../listbox-option/listbox-option.component&#x27;;
+import { SelectedCountLabel } from &#x27;../listbox/listbox.component&#x27;;
+
+@Component({
+  selector: &#x27;hsi-ui-textbox&#x27;,
+  imports: [CommonModule],
+  styleUrls: [&#x27;./textbox.component.scss&#x27;],
+  templateUrl: &#x27;./textbox.component.html&#x27;,
+  host: {
+    class: &#x27;hsi-ui-textbox&#x27;,
+  },
+})
+export class TextboxComponent implements OnInit, AfterViewInit {
+  @Input() ariaLabel: string;
+  @Input() selectedCountLabel?: SelectedCountLabel;
+  @Input() customLabel: (selectedOptions: ListboxOptionComponent[]) &#x3D;&gt; string;
+  /*
+   * Whether the textbox label responds to selections in any way.
+   *
+   * If true, the textbox label will display the selected option(s) if no other label properties are provided.
+   *
+   * @default true
+   */
+  @Input() dynamicLabel &#x3D; true;
+  @Input() findsOptionOnTyping &#x3D; true;
+  @ViewChild(&#x27;box&#x27;) box: ElementRef&lt;HTMLDivElement&gt;;
+  @ViewChild(&#x27;boxIcon&#x27;) boxIcon: ElementRef&lt;HTMLDivElement&gt;;
+  openKeys &#x3D; [&#x27;ArrowDown&#x27;, &#x27;ArrowUp&#x27;, &#x27;Enter&#x27;, &#x27; &#x27;];
+  label: BehaviorSubject&lt;string&gt; &#x3D; new BehaviorSubject(&#x27;&#x27;);
+  label$ &#x3D; this.label.asObservable();
+  protected destroyRef &#x3D; inject(DestroyRef);
+  public service &#x3D; inject(ComboboxService);
+  private platform &#x3D; inject(Platform);
+  protected zone &#x3D; inject(NgZone);
+
+  ngOnInit(): void {
+    this.service.projectedContentIsInDOM$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((x) &#x3D;&gt; !!x),
+        // Required because the label is projected into the ListboxOption via &lt;ng-content&gt;, and the
+        // listbox options are &lt;ng-template&gt;s that are projected into the listbox via ngTemplateOutlet.
+        // We need this to ensure that the option labels are in the DOM to read from before we set the box label.
+        runNgChangeDetectionThen(this.zone)
+      )
+      .subscribe(() &#x3D;&gt; {
+        this.setLabel();
+      });
+  }
+
+  ngAfterViewInit(): void {
+    this.setFocusListener();
+  }
+
+  setFocusListener(): void {
+    this.service.focusTextbox$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((focusType) &#x3D;&gt; {
+        if (!this.isMobile() || focusType &#x3D;&#x3D;&#x3D; FocusTextbox.includeMobile) {
+          this.focusBox();
+        }
+      });
+  }
+
+  focusBox(): void {
+    this.box.nativeElement.focus();
+  }
+
+  handleBlur(event: FocusEvent): void {
+    // DESCRIPTION OF HOW VARIOUS DEVICES/ASSISTIVE TECHNOLOGIES DO/NOT TRIGGER ANY BLUR EVENT (FocusEvent)
+    // clicking (desktop) will trigger a blur event (item is focused, user clicks away, blur event fires)
+    // keyboard navigation (desktop) will not trigger a blur event (item is focused, user navigates to another item, blur event does not fire)
+    // tapping (mobile) will trigger a blur event (item is focused, user taps away, blur event fires)
+    // swiping (VoiceOver) will trigger a blur event (item is focused, user swipes away, blur event fires)
+
+    // The code below (lines 106 - 116) will refocus the textbox when the textbox receives blur event, and the
+    // source of the blue event (related target) is something in the listbox.
+    // We keep the focus on the textbox so that we can continue to listen for keyboard events to provide
+    // keyboard navigation/interaction with the listbox options. The refocusing does not affect keyboard navigation,
+    // and is unnoticable to the user.
+
+    // However, VoiceOver (iOS assistive tech) will move the navigation back to the textbox when the textbox is focused,
+    // which means the user will need to strt navigating the options from the top of the listbox every time they select
+    // an option. (If we throw the focus). For this reason, we have decided that we will not support keyboard navigation
+    // (which would need to happen on a connected external keybord) on mobile devices, as keyboard nav requires that the
+    // focus stays on the textbox. Ostensibly it is standard practice to not support keyboard navigation on mobile devices.
+
+    if (!this.isMobile()) {
+      if (event.relatedTarget &amp;&amp; this.isHtmlElement(event.relatedTarget)) {
+        // when the blur happens because a listbox option was focused
+        if (
+          event.relatedTarget.id.includes(&#x27;listbox&#x27;) ||
+          event.relatedTarget.classList.contains(&#x27;listbox-group&#x27;) ||
+          event.relatedTarget.classList.contains(&#x27;listbox-group-label&#x27;)
+        ) {
+          this.service.emitTextboxFocus();
+          return;
+        }
+      }
+      this.service.emitTextboxBlur();
+    }
+  }
+
+  isHtmlElement(target: EventTarget): target is HTMLElement {
+    return &#x27;id&#x27; in target;
+  }
+
+  isMobile(): boolean {
+    return this.platform.IOS || this.platform.ANDROID;
+  }
+
+  handleClick(): void {
+    this.service.setIsKeyboardEvent(false);
+    if (this.service.isOpen) {
+      this.service.closeListbox();
+    } else {
+      this.service.setTouched();
+      this.service.openListbox();
+    }
+    this.focusBox();
+  }
+
+  handleKeydown(event: KeyboardEvent): void {
+    if (event.key &#x3D;&#x3D;&#x3D; &#x27;Escape&#x27;) {
+      this.onEscape();
+    } else {
+      this.service.setTouched();
+      const action &#x3D; this.getActionFromKeydownEvent(event);
+      if (action) {
+        this.service.setIsKeyboardEvent(true);
+      }
+      this.handleKeyboardAction(action, event);
+    }
+  }
+
+  onEscape(): void {
+    this.service.closeListbox();
+    this.service.emitTextboxFocus();
+  }
+
+  getActionFromKeydownEvent(event: KeyboardEvent): ComboboxAction {
+    if (!this.service.isOpen &amp;&amp; this.openKeys.includes(event.key)) {
+      return ListboxAction.open;
+    }
+    if (event.key &#x3D;&#x3D;&#x3D; Key.Home) {
+      return OptionAction.first;
+    }
+    if (event.key &#x3D;&#x3D;&#x3D; Key.End) {
+      return OptionAction.last;
+    }
+    if (this.findsOptionOnTyping &amp;&amp; this.isTypingCharacter(event)) {
+      return TextboxAction.type;
+    }
+    if (this.service.isOpen) {
+      return this.getActionFromKeyEventWhenOpen(event);
+    } else {
+      return null;
+    }
+  }
+
+  isTypingCharacter(event: KeyboardEvent): boolean {
+    const { key, altKey, ctrlKey, metaKey } &#x3D; event;
+    return (
+      key &#x3D;&#x3D;&#x3D; &#x27;Backspace&#x27; ||
+      key &#x3D;&#x3D;&#x3D; &#x27;Clear&#x27; ||
+      (key.length &#x3D;&#x3D;&#x3D; 1 &amp;&amp; key !&#x3D;&#x3D; &#x27; &#x27; &amp;&amp; !altKey &amp;&amp; !ctrlKey &amp;&amp; !metaKey)
+    );
+  }
+
+  getActionFromKeyEventWhenOpen(event: KeyboardEvent): ComboboxAction {
+    const { key, altKey } &#x3D; event;
+    if (key &#x3D;&#x3D;&#x3D; Key.ArrowUp &amp;&amp; altKey) {
+      return ListboxAction.closeSelect;
+    } else if (key &#x3D;&#x3D;&#x3D; Key.ArrowDown &amp;&amp; !altKey) {
+      return OptionAction.next;
+    } else if (key &#x3D;&#x3D;&#x3D; Key.ArrowUp) {
+      return OptionAction.previous;
+    } else if (key &#x3D;&#x3D;&#x3D; Key.PageUp) {
+      return OptionAction.pageUp;
+    } else if (key &#x3D;&#x3D;&#x3D; Key.PageDown) {
+      return OptionAction.pageDown;
+    } else if (key &#x3D;&#x3D;&#x3D; Key.Enter || key &#x3D;&#x3D;&#x3D; Key.Space) {
+      return this.service.isMultiSelect
+        ? OptionAction.select
+        : ListboxAction.closeSelect;
+    } else {
+      return null;
+    }
+  }
+
+  handleKeyboardAction(action: ComboboxAction, event: KeyboardEvent): void {
+    switch (action) {
+      case OptionAction.first:
+      case OptionAction.last:
+        this.service.openListbox();
+        this.focusBox();
+        event.preventDefault();
+        this.service.emitOptionAction(action);
+        break;
+
+      case OptionAction.next:
+      case OptionAction.pageDown:
+      case OptionAction.previous:
+      case OptionAction.pageUp:
+      case OptionAction.select:
+        event.preventDefault();
+        this.service.emitOptionAction(action);
+        break;
+
+      case ListboxAction.closeSelect:
+        event.preventDefault();
+        this.service.emitOptionAction(OptionAction.select);
+        this.service.closeListbox();
+        this.focusBox();
+        break;
+
+      case ListboxAction.close:
+        event.preventDefault();
+        this.service.closeListbox();
+        this.focusBox();
+        break;
+
+      case TextboxAction.type:
+        this.service.openListbox();
+        this.focusBox();
+        this.service.emitOptionAction(event.key);
+        break;
+
+      case ListboxAction.open:
+        event.preventDefault();
+        this.service.openListbox();
+        this.focusBox();
+    }
+  }
+
+  setLabel(): void {
+    if (this.dynamicLabel) {
+      combineLatest([
+        this.service.touched$,
+        this.service.allOptions$, // when options (not properties) change
+        this.service.selectedOptionsToEmit$, // when a user clicks
+        this.service.optionPropertyChanges$.pipe(
+          filter((x) &#x3D;&gt; !!x),
+          startWith(null)
+        ), // on an outside change,
+      ])
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(([touched, options]) &#x3D;&gt; {
+          const label &#x3D; this.getComputedLabel(touched, options);
+          this.label.next(label);
+        });
+    }
+  }
+
+  getComputedLabel(
+    touched: boolean,
+    options: ListboxOptionComponent[]
+  ): string {
+    const selectedOptions &#x3D; this.service.getSelectedOptions(options);
+    let label &#x3D; &#x27;&#x27;;
+    const numSelected &#x3D; selectedOptions?.length;
+    if (touched || numSelected) {
+      if (this.customLabel &amp;&amp; !this.service.hasEditableTextbox) {
+        label &#x3D; this.customLabel(selectedOptions);
+      } else if (this.selectedCountLabel &amp;&amp; !this.service.hasEditableTextbox) {
+        if (numSelected &#x3D;&#x3D;&#x3D; 1) {
+          label &#x3D; &#x60;${numSelected} ${this.selectedCountLabel.singular} selected&#x60;;
+        } else {
+          label &#x3D; &#x60;${numSelected} ${this.selectedCountLabel.plural} selected&#x60;;
+        }
+      } else {
+        label &#x3D; this.getDefaultLabel(selectedOptions);
+      }
+    }
+    return label;
+  }
+
+  getDefaultLabel(selectedOptions: ListboxOptionComponent[]): string {
+    let label &#x3D; &#x27;&#x27;;
+    if (selectedOptions) {
+      label &#x3D; selectedOptions
+        .reduce((acc, option) &#x3D;&gt; {
+          const value &#x3D;
+            option.boxDisplayLabel ??
+            option.label?.nativeElement.innerText.trim();
+          if (value) {
+            acc.push(value);
+          }
+          return acc;
+        }, [])
+        .join(&#x27;, &#x27;);
+    }
+    return label;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div
+  #box
+  class&#x3D;&quot;hsi-ui-textbox-container&quot;
+  role&#x3D;&quot;combobox&quot;
+  tabindex&#x3D;&quot;0&quot;
+  [id]&#x3D;&quot;service.id + &#x27;-textbox&#x27;&quot;
+  data-cy&#x3D;&quot;combobox-textbox&quot;
+  (click)&#x3D;&quot;handleClick()&quot;
+  (blur)&#x3D;&quot;handleBlur($event)&quot;
+  (keydown)&#x3D;&quot;handleKeydown($event)&quot;
+  [attr.aria-label]&#x3D;&quot;
+    (service.label$ | async) &#x3D;&#x3D;&#x3D; null
+      ? ariaLabel || service.isMultiSelect
+        ? &#x27;Select options&#x27;
+        : &#x27;Select an option&#x27;
+      : null
+  &quot;
+  [attr.aria-labelledby]&#x3D;&quot;
+    (service.label$ | async) !&#x3D;&#x3D; null ? service.comboboxLabelId : null
+  &quot;
+  [attr.aria-activedescendant]&#x3D;&quot;service.activeDescendant$ | async&quot;
+  [attr.aria-expanded]&#x3D;&quot;service.isOpen$ | async&quot;
+  [attr.aria-controls]&#x3D;&quot;service.id + &#x27;-listbox&#x27;&quot;
+  aria-haspopup&#x3D;&quot;listbox&quot;
+  [class.open]&#x3D;&quot;service.isOpen$ | async&quot;
+  &gt;&lt;div
+    *ngIf&#x3D;&quot;dynamicLabel &amp;&amp; !!(label$ | async); else staticLabel&quot;
+    class&#x3D;&quot;hsi-ui-textbox-label&quot;
+    data-cy&#x3D;&quot;textbox-label&quot;
+    &gt;{{ label$ | async }}&lt;/div
+  &gt;&lt;div
+    #boxIcon
+    class&#x3D;&quot;hsi-ui-textbox-icon&quot;
+    [class.open]&#x3D;&quot;service.isOpen$ | async&quot;
+    &gt;&lt;ng-content select&#x3D;&quot;[boxIcon]&quot;&gt;&lt;/ng-content&gt;&lt;/div
+&gt;&lt;/div&gt;
+&lt;ng-template #staticLabel
+  &gt;&lt;div class&#x3D;&quot;hsi-ui-textbox-label&quot; data-cy&#x3D;&quot;textbox-label&quot;
+    &gt;&lt;ng-content select&#x3D;&quot;[boxLabel]&quot;&gt;&lt;/ng-content&gt;&lt;/div
+&gt;&lt;/ng-template&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./textbox.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.hsi-ui-textbox-container {
+  display: var(--hsi-ui-textbox-display);
+  justify-content: var(--hsi-ui-textbox-justify-content);
+  align-items: var(--hsi-ui-textbox-align-items);
+  background: var(--hsi-ui-textbox-background);
+  border: var(--hsi-ui-combobox-border-width) solid
+    var(--hsi-ui-combobox-border-color);
+  padding: var(--hsi-ui-textbox-padding);
+  border-radius: var(--hsi-ui-combobox-border-radius);
+  transition: border var(--hsi-ui-textbox-transition-duration) ease-in-out;
+
+  &amp;:hover {
+    border: var(--hsi-ui-combobox-border-width) solid
+      var(--hsi-ui-combobox-hover-border-color);
+    cursor: var(--hsi-ui-combobox-hover-cursor);
+  }
+}
+
+.hsi-ui-textbox-container.open {
+  border-bottom: var(--hsi-ui-textbox-border-bottom-open);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.hsi-ui-textbox-label {
+  text-overflow: var(--hsi-ui-textbox-label-text-overflow);
+  white-space: var(--hsi-ui-textbox-label-white-space);
+  overflow: var(--hsi-ui-textbox-label-overflow);
+  // required for ellipsis to work
+  max-width: var(--hsi-ui-textbox-label-max-width);
+}
+
+.hsi-ui-textbox-icon {
+  display: var(--hsi-ui-textbox-icon-display);
+  flex-direction: var(--hsi-ui-textbox-icon-flex-direction);
+  justify-content: var(--hsi-ui-textbox-icon-justify-content);
+}
+</code></pre>
+    </div>
+
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div  #box  class="hsi-ui-textbox-container"  role="combobox"  tabindex="0"  [id]="service.id + \'-textbox\'"  data-cy="combobox-textbox"  (click)="handleClick()"  (blur)="handleBlur($event)"  (keydown)="handleKeydown($event)"  [attr.aria-label]="    (service.label$ | async) === null      ? ariaLabel || service.isMultiSelect        ? \'Select options\'        : \'Select an option\'      : null  "  [attr.aria-labelledby]="    (service.label$ | async) !== null ? service.comboboxLabelId : null  "  [attr.aria-activedescendant]="service.activeDescendant$ | async"  [attr.aria-expanded]="service.isOpen$ | async"  [attr.aria-controls]="service.id + \'-listbox\'"  aria-haspopup="listbox"  [class.open]="service.isOpen$ | async"  ><div    *ngIf="dynamicLabel && !!(label$ | async); else staticLabel"    class="hsi-ui-textbox-label"    data-cy="textbox-label"    >{{ label$ | async }}</div  ><div    #boxIcon    class="hsi-ui-textbox-icon"    [class.open]="service.isOpen$ | async"    ><ng-content select="[boxIcon]"></ng-content></div></div><ng-template #staticLabel  ><div class="hsi-ui-textbox-label" data-cy="textbox-label"    ><ng-content select="[boxLabel]"></ng-content></div></ng-template></div>'
+    var COMPONENTS = [{'name': 'ComboboxComponent', 'selector': 'hsi-ui-combobox'},{'name': 'ComboboxLabelComponent', 'selector': 'hsi-ui-combobox-label'},{'name': 'EditableTextboxComponent', 'selector': 'hsi-ui-editable-textbox'},{'name': 'HsiUiDirectoryComponent', 'selector': 'hsi-ui-directory'},{'name': 'ListboxComponent', 'selector': 'hsi-ui-listbox'},{'name': 'ListboxGroupComponent', 'selector': 'hsi-ui-listbox-group'},{'name': 'ListboxLabelComponent', 'selector': 'hsi-ui-listbox-label'},{'name': 'ListboxOptionComponent', 'selector': 'hsi-ui-listbox-option'},{'name': 'SelectAllListboxOptionComponent', 'selector': 'hsi-ui-select-all-listbox-option'},{'name': 'SingleSortHeaderComponent', 'selector': '[hsi-ui-single-sort-header]'},{'name': 'TabBodyComponent', 'selector': 'hsi-ui-tab-body'},{'name': 'TabItemComponent', 'selector': 'hsi-ui-tab-item'},{'name': 'TabLabelComponent', 'selector': 'hsi-ui-tab-label'},{'name': 'TableComponent', 'selector': 'hsi-ui-table'},{'name': 'TabsComponent', 'selector': 'hsi-ui-tabs'},{'name': 'TextboxComponent', 'selector': 'hsi-ui-textbox'}];
+    var DIRECTIVES = [{'name': 'TabContentDirective', 'selector': '[hsiUiTabContent]'}];
+    var ACTUAL_COMPONENT = {'name': 'TextboxComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'TextboxComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

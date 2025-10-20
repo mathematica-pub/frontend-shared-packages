@@ -1,0 +1,2032 @@
+<!-- START CONTENT -->
+               <div class="content directive">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Directives</li>
+  <li class="breadcrumb-item" >XyAxis</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="viz-components/documentation/axis-components/internal/base#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="viz-components/documentation/axis-components/internal/base#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/axes/base/xy-axis-base.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>A base directive for all axes.</p>
+
+            </p>
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                            <code><a " target="_self" >XyAuxMarks</a></code>
+            </p>
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#axis" >axis</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#axisFunction" >axisFunction</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#axisGroup" >axisGroup</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#elRef" >elRef</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#gridGroup" >gridGroup</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#isFirstDraw" >isFirstDraw</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#scale" >scale</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier"></span>
+                                <a href="viz-components/documentation/axis-components/internal/base#chart" >chart</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="viz-components/documentation/axis-components/internal/base#destroyRef" >destroyRef</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#scales" >scales</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="viz-components/documentation/axis-components/internal/base#createLabel" >createLabel</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#drawAxis" >drawAxis</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#drawGrid" >drawGrid</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#drawMarks" >drawMarks</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="viz-components/documentation/axis-components/internal/base#getBaselineTranslate" >getBaselineTranslate</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#getGridLineLength" >getGridLineLength</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#getTransition" >getTransition</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="viz-components/documentation/axis-components/internal/base#initFromConfig" >initFromConfig</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#otherAxisHasPosAndNegValues" >otherAxisHasPosAndNegValues</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#processDomain" >processDomain</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#processTickLabels" >processTickLabels</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#processTicks" >processTicks</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#setAxisFromScaleAndConfig" >setAxisFromScaleAndConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="viz-components/documentation/axis-components/internal/base#setAxisFunction" >setAxisFunction</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="viz-components/documentation/axis-components/internal/base#setScale" >setScale</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#setTickFontSize" >setTickFontSize</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="viz-components/documentation/axis-components/internal/base#setTicks" >setTicks</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#setTickSize" >setTickSize</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="viz-components/documentation/axis-components/internal/base#setTranslate" >setTranslate</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#wrapAxisTickText" >wrapAxisTickText</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#getTransitionDuration" >getTransitionDuration</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#subscribeToScales" >subscribeToScales</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="viz-components/documentation/axis-components/internal/base#config" >config</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="viz-components/documentation/axis-components/internal/base#class" >class</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+
+            <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="config"></a>
+                        <b>config</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >TMarksConfig</a></code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a " target="_self" >AuxMarks</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a #source" target="_self" >AuxMarks:13</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createLabel"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>createLabel</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#createLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createLabel()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="45"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawAxis"></a>
+                    <span class="name">
+                        <span ><b>drawAxis</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#drawAxis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawAxis()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="96"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:96</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawGrid"></a>
+                    <span class="name">
+                        <span ><b>drawGrid</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#drawGrid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawGrid()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="241"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:241</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawMarks"></a>
+                    <span class="name">
+                        <span ><b>drawMarks</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#drawMarks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawMarks()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a " target="_self" >Marks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >Marks:87</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBaselineTranslate"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>getBaselineTranslate</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#getBaselineTranslate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getBaselineTranslate()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="46"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>string | null</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getGridLineLength"></a>
+                    <span class="name">
+                        <span ><b>getGridLineLength</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#getGridLineLength"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getGridLineLength()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="278"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:278</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTransition"></a>
+                    <span class="name">
+                        <span ><b>getTransition</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#getTransition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTransition(selection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="285"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:285</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>selection</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initFromConfig"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>initFromConfig</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#initFromConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initFromConfig()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a " target="_self" >Marks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >Marks:57</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="otherAxisHasPosAndNegValues"></a>
+                    <span class="name">
+                        <span ><b>otherAxisHasPosAndNegValues</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#otherAxisHasPosAndNegValues"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>otherAxisHasPosAndNegValues(dimension: "x" | "y")</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="232"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:232</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>dimension</td>
+                                            <td>
+                                                        <code>&quot;x&quot; | &quot;y&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processDomain"></a>
+                    <span class="name">
+                        <span ><b>processDomain</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#processDomain"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>processDomain()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="174"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:174</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processTickLabels"></a>
+                    <span class="name">
+                        <span ><b>processTickLabels</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#processTickLabels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>processTickLabels()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="202"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:202</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processTicks"></a>
+                    <span class="name">
+                        <span ><b>processTicks</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#processTicks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>processTicks()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="119"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:119</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setAxisFromScaleAndConfig"></a>
+                    <span class="name">
+                        <span ><b>setAxisFromScaleAndConfig</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#setAxisFromScaleAndConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setAxisFromScaleAndConfig()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="61"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setAxisFunction"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>setAxisFunction</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#setAxisFunction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setAxisFunction()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="41"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setScale"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>setScale</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#setScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setScale()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="44"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setTickFontSize"></a>
+                    <span class="name">
+                        <span ><b>setTickFontSize</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#setTickFontSize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setTickFontSize(tickTextSelection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="149"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:149</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tickTextSelection</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setTicks"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>setTicks</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#setTicks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setTicks(tickFormat: string | )</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="43"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tickFormat</td>
+                                            <td>
+                                                        <code>string | </code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setTickSize"></a>
+                    <span class="name">
+                        <span ><b>setTickSize</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#setTickSize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setTickSize()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="70"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setTranslate"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>setTranslate</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#setTranslate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setTranslate()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="42"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="wrapAxisTickText"></a>
+                    <span class="name">
+                        <span ><b>wrapAxisTickText</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#wrapAxisTickText"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>wrapAxisTickText(tickTextSelection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="154"
+                                    class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:154</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tickTextSelection</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTransitionDuration"></a>
+                    <span class="name">
+                        <span ><b>getTransitionDuration</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#getTransitionDuration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTransitionDuration()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a " target="_self" >Marks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >Marks:37</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a " target="_self" >XyAuxMarks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyAuxMarks:21</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToScales"></a>
+                    <span class="name">
+                        <span ><b>subscribeToScales</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#subscribeToScales"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToScales()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a " target="_self" >XyAuxMarks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyAuxMarks:25</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: SimpleChanges)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a " target="_self" >Marks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >Marks:32</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>changes</td>
+                                            <td>
+                                                        <code>SimpleChanges</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="axis"></a>
+                    <span class="name">
+                        <span ><b>axis</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#axis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="axisFunction"></a>
+                    <span class="name">
+                        <span ><b>axisFunction</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#axisFunction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="axisGroup"></a>
+                    <span class="name">
+                        <span ><b>axisGroup</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#axisGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Selection&lt;SVGGElement | any | SVGGElement | any&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="elRef"></a>
+                    <span class="name">
+                        <span ><b>elRef</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#elRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject&lt;ElementRef&lt;SVGGElement&gt;&gt;(ElementRef)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="gridGroup"></a>
+                    <span class="name">
+                        <span ><b>gridGroup</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#gridGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Selection&lt;SVGGElement | any | SVGGElement | any&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isFirstDraw"></a>
+                    <span class="name">
+                        <span ><b>isFirstDraw</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#isFirstDraw"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scale"></a>
+                    <span class="name">
+                        <span ><b>scale</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#scale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chart"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier"></span>
+                        <span ><b>chart</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#chart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(XyChartComponent)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >Marks</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >Marks:18</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroyRef"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>destroyRef</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#destroyRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DestroyRef)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >XyAuxMarks</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyAuxMarks:19</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scales"></a>
+                    <span class="name">
+                        <span ><b>scales</b></span>
+                        <a href="viz-components/documentation/axis-components/internal/base#scales"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >XyChartScales</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >XyAuxMarks</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyAuxMarks:17</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="class"></a>
+                        <span class="name"><b>class</b><a href="viz-components/documentation/axis-components/internal/base#class"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>class()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">libs/viz-components/src/lib/axes/base/xy-axis-base.ts:48</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, ElementRef, inject } from &#x27;@angular/core&#x27;;
+import { select, Selection } from &#x27;d3&#x27;;
+import { GenericScale } from &#x27;../../core&#x27;;
+import { ContinuousValue, DataValue } from &#x27;../../core/types/values&#x27;;
+import { XyAuxMarks } from &#x27;../../marks&#x27;;
+import { SvgTextWrap } from &#x27;../../svg-text-wrap/svg-text-wrap&#x27;;
+import { Ticks } from &#x27;../ticks/ticks&#x27;;
+import { XyAxisConfig } from &#x27;./config/xy-axis-config&#x27;;
+
+export type XyAxisScale &#x3D; {
+  useTransition: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  scale: GenericScale&lt;any, any&gt;;
+};
+
+type AxisSvgElements &#x3D; &#x27;gridGroup&#x27; | &#x27;gridLine&#x27; | &#x27;label&#x27; | &#x27;axisGroup&#x27;;
+
+/**
+ * A base directive for all axes.
+ */
+@Directive()
+export abstract class XyAxis&lt;
+  Tick extends DataValue | ContinuousValue,
+  TicksConfig extends Ticks&lt;Tick&gt;,
+&gt; extends XyAuxMarks&lt;unknown, XyAxisConfig&lt;Tick, TicksConfig&gt;&gt; {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  axis: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  axisFunction: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  axisGroup: Selection&lt;SVGGElement, any, SVGGElement, any&gt;;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  gridGroup: Selection&lt;SVGGElement, any, SVGGElement, any&gt;;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  scale: any;
+  elRef &#x3D; inject&lt;ElementRef&lt;SVGGElement&gt;&gt;(ElementRef);
+  // used to ensure that a zero axis does not transition in position from baseline on first draw
+  isFirstDraw &#x3D; true;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  abstract setAxisFunction(): any;
+  abstract setTranslate(): void;
+  abstract setTicks(tickFormat: string | ((value: Tick) &#x3D;&gt; string)): void;
+  abstract setScale(): void;
+  abstract createLabel(): void;
+  abstract getBaselineTranslate(): string | null;
+
+  get class(): Record&lt;AxisSvgElements, string&gt; {
+    return {
+      gridGroup: &#x27;vic-grid-group&#x27;,
+      gridLine: &#x27;vic-grid-line&#x27;,
+      axisGroup: &#x27;vic-axis-group&#x27;,
+      label: &#x27;vic-axis-label&#x27;,
+    };
+  }
+
+  override initFromConfig(): void {
+    this.drawMarks();
+  }
+
+  setAxisFromScaleAndConfig(): void {
+    this.axis &#x3D; this.axisFunction(this.scale);
+
+    this.setTickSize();
+    if (this.config.ticks.format) {
+      this.setTicks(this.config.ticks.format);
+    }
+  }
+
+  setTickSize(): void {
+    if (this.config.ticks.size !&#x3D;&#x3D; undefined) {
+      this.axis.tickSize(this.config.ticks.size);
+    } else {
+      if (this.config.ticks.sizeInner !&#x3D;&#x3D; undefined) {
+        this.axis.tickSizeInner(this.config.ticks.sizeInner);
+      }
+      if (this.config.ticks.sizeOuter !&#x3D;&#x3D; undefined) {
+        this.axis.tickSizeOuter(this.config.ticks.sizeOuter);
+      }
+    }
+    const baselineTranslate &#x3D; this.getBaselineTranslate();
+    if (baselineTranslate) {
+      this.axis.tickSizeOuter(0);
+    }
+  }
+
+  drawMarks(): void {
+    this.setAxisFunction();
+    this.setTranslate();
+    this.setScale();
+    this.setAxisFromScaleAndConfig();
+    this.drawAxis();
+    this.isFirstDraw &#x3D; false;
+  }
+
+  drawAxis(): void {
+    if (!this.axisGroup) {
+      this.axisGroup &#x3D; select(this.elRef.nativeElement)
+        .append(&#x27;g&#x27;)
+        .attr(&#x27;class&#x27;, this.class.axisGroup);
+    }
+
+    this.axisGroup
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .transition(this.getTransition(this.axisGroup))
+      .call(this.axis)
+      .on(&#x27;end&#x27;, () &#x3D;&gt; {
+        this.processTicks();
+        this.drawGrid();
+      });
+    this.processDomain();
+
+    this.processTickLabels();
+    if (this.config.label) {
+      this.createLabel();
+    }
+  }
+
+  processTicks(): void {
+    const tickText &#x3D; select(this.elRef.nativeElement).selectAll(&#x27;.tick text&#x27;);
+    if (this.config.ticks.class) {
+      select(this.elRef.nativeElement)
+        .selectAll&lt;SVGGElement, Tick&gt;(&#x27;.tick&#x27;)
+        .each((d, i, nodes) &#x3D;&gt; {
+          const labelClass &#x3D; this.config.ticks.class(d);
+          if (labelClass) {
+            select(nodes[i]).classed(labelClass, true);
+          } else {
+            ///remove any previous class
+            select(nodes[i]).attr(&#x27;class&#x27;, &#x27;tick&#x27;);
+          }
+        });
+    }
+    if (this.config.ticks.fontSize) {
+      this.setTickFontSize(tickText);
+    }
+    // TODO: Determine if this needs to be called from the on(&#x27;end&#x27;) of the axisGroup transition
+    // or if if should be moved to processTickLabels. I think there is a reason it is here. (?)
+    if (this.config.ticks.wrap &amp;&amp; this.config.ticks.wrap.width !&#x3D;&#x3D; undefined) {
+      this.wrapAxisTickText(tickText);
+    }
+    if (this.config.ticks.marksDisplay &#x3D;&#x3D;&#x3D; false) {
+      const marks &#x3D; select(this.elRef.nativeElement).selectAll(&#x27;.tick line&#x27;);
+      marks.remove();
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setTickFontSize(tickTextSelection: any): void {
+    tickTextSelection.attr(&#x27;font-size&#x27;, this.config.ticks.fontSize);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  wrapAxisTickText(tickTextSelection: any): void {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { width, ...properties } &#x3D; this.config.ticks.wrap;
+
+    let wrapWidth: number;
+    if (this.config.ticks.wrap.width &#x3D;&#x3D;&#x3D; &#x27;bandwidth&#x27;) {
+      wrapWidth &#x3D; this.scale.bandwidth();
+    } else if (typeof this.config.ticks.wrap.width &#x3D;&#x3D;&#x3D; &#x27;function&#x27;) {
+      const chartWidth &#x3D; this.scale.range()[1] - this.scale.range()[0];
+      const numOfTicks &#x3D; select(this.elRef.nativeElement)
+        .selectAll(&#x27;.tick&#x27;)
+        .size();
+      wrapWidth &#x3D; this.config.ticks.wrap.width(chartWidth, numOfTicks);
+    } else {
+      wrapWidth &#x3D; this.config.ticks.wrap.width;
+    }
+    const wrap &#x3D; new SvgTextWrap({ ...properties, width: wrapWidth });
+    wrap.wrap(tickTextSelection);
+  }
+
+  processDomain(): void {
+    const zeroAxisTranslate &#x3D; this.getBaselineTranslate();
+
+    if (
+      this.config.baseline.zeroBaseline.display &amp;&amp;
+      zeroAxisTranslate !&#x3D;&#x3D; null
+    ) {
+      this.axisGroup.call((g) &#x3D;&gt;
+        g
+          .select(&#x27;.domain&#x27;)
+          .transition(this.getTransition(this.axisGroup))
+          .attr(&#x27;transform&#x27;, zeroAxisTranslate)
+          .attr(&#x27;class&#x27;, &#x27;domain baseline zero-axis-baseline&#x27;)
+          .attr(&#x27;stroke-dasharray&#x27;, this.config.baseline.zeroBaseline.dasharray)
+      );
+    }
+
+    if (zeroAxisTranslate &#x3D;&#x3D;&#x3D; null) {
+      this.axisGroup.call((g) &#x3D;&gt;
+        g.select(&#x27;.domain&#x27;).attr(&#x27;class&#x27;, &#x27;domain baseline&#x27;)
+      );
+    }
+
+    if (!this.config.baseline.display &amp;&amp; zeroAxisTranslate &#x3D;&#x3D;&#x3D; null) {
+      this.axisGroup.call((g) &#x3D;&gt; g.select(&#x27;.domain&#x27;).remove());
+    }
+  }
+
+  processTickLabels(): void {
+    if (this.config.ticks.labelsDisplay &#x3D;&#x3D;&#x3D; false) {
+      this.axisGroup.call((g) &#x3D;&gt; g.selectAll(&#x27;.tick text&#x27;).remove());
+    }
+
+    if (this.config.ticks.rotate) {
+      this.axisGroup.call((g) &#x3D;&gt;
+        g
+          .selectAll(&#x27;.tick text&#x27;)
+          .style(&#x27;transform&#x27;, &#x60;rotate(-${this.config.ticks.rotate}deg)&#x60;)
+          .attr(&#x27;text-anchor&#x27;, &#x27;end&#x27;)
+          .attr(&#x27;alignment-baseline&#x27;, &#x27;start&#x27;)
+      );
+    }
+
+    if (
+      this.config.ticks.labelsStroke ||
+      this.config.ticks.labelsStrokeOpacity ||
+      this.config.ticks.labelsStrokeWidth
+    ) {
+      this.axisGroup.call((g) &#x3D;&gt;
+        g
+          .selectAll(&#x27;.tick text&#x27;)
+          .attr(&#x27;stroke&#x27;, this.config.ticks.labelsStroke)
+          .attr(&#x27;stroke-opacity&#x27;, this.config.ticks.labelsStrokeOpacity)
+          .attr(&#x27;stroke-width&#x27;, this.config.ticks.labelsStrokeWidth)
+      );
+    }
+  }
+
+  otherAxisHasPosAndNegValues(dimension: &#x27;x&#x27; | &#x27;y&#x27;): boolean {
+    const otherDimension &#x3D; dimension &#x3D;&#x3D;&#x3D; &#x27;x&#x27; ? &#x27;y&#x27; : &#x27;x&#x27;;
+    const domain &#x3D; this.scales[otherDimension].domain();
+    if (domain.length &gt; 2 || isNaN(domain[0]) || isNaN(domain[1])) {
+      return false;
+    }
+    return domain[0] &lt; 0 &amp;&amp; domain[1] &gt; 0;
+  }
+
+  drawGrid(): void {
+    if (this.config.grid) {
+      if (!this.gridGroup) {
+        this.gridGroup &#x3D; select(this.elRef.nativeElement)
+          .append(&#x27;g&#x27;)
+          .attr(&#x27;class&#x27;, this.class.gridGroup);
+      }
+
+      this.gridGroup
+        .transition(this.getTransition(this.gridGroup))
+        .call(this.axis.tickSizeInner(this.getGridLineLength()))
+        .selectAll(&#x27;.tick&#x27;)
+        .attr(&#x27;class&#x27;, &#x60;tick ${this.class.gridLine}&#x60;)
+        .style(&#x27;display&#x27;, (_, i) &#x3D;&gt;
+          this.config.grid.filter(i) ? null : &#x27;none&#x27;
+        )
+        .select(&#x27;line&#x27;)
+        .attr(&#x27;stroke&#x27;, this.config.grid.stroke.color)
+        .attr(&#x27;stroke-dasharray&#x27;, this.config.grid.stroke.dasharray)
+        .attr(&#x27;stroke-width&#x27;, this.config.grid.stroke.width)
+        .attr(&#x27;opacity&#x27;, this.config.grid.stroke.opacity)
+        .attr(&#x27;stroke-linecap&#x27;, this.config.grid.stroke.linecap)
+        .attr(&#x27;stroke-linejoin&#x27;, this.config.grid.stroke.linejoin);
+
+      this.gridGroup.call((g) &#x3D;&gt; {
+        g.selectAll(&#x27;text&#x27;).remove();
+        g.selectAll(&#x27;.domain&#x27;).remove();
+      });
+    } else {
+      select(this.elRef.nativeElement)
+        .select(&#x60;.${this.class.gridGroup}&#x60;)
+        .remove();
+
+      this.gridGroup &#x3D; undefined;
+    }
+  }
+
+  getGridLineLength(): number {
+    const gridLineScale &#x3D;
+      this.config.grid.axis &#x3D;&#x3D;&#x3D; &#x27;x&#x27; ? this.scales.y : this.scales.x;
+    return -1 * Math.abs(gridLineScale.range()[1] - gridLineScale.range()[0]);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getTransition(selection: any): any {
+    const transitionDuration &#x3D; this.isFirstDraw
+      ? 0
+      : this.getTransitionDuration();
+    return selection.transition().duration(transitionDuration);
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->

@@ -1,0 +1,2349 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  LinesComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>libs/viz-components/src/lib/lines/lines.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="../directives/VicXyPrimaryMarks.html" target="_self" >VicXyPrimaryMarks</a></code>
+    </p>
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">host</td>
+                <td class="col-md-9"><code>{<br>}</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a href="../components/LinesComponent.html" target="_self" >{ provide: VIC_PRIMARY_MARKS, useExisting: LinesComponent }</a></code>
+                                <code><a href="../components/LinesComponent.html" target="_self" >{ provide: LINES, useExisting: LinesComponent }</a></code>
+                                <code><a href="../classes/Chart.html" target="_self" >{ provide: ChartComponent, useExisting: XyChartComponent }</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>[vic-primary-marks-lines]</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./lines.component.scss</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#elRef" >elRef</a>
+                            </li>
+                            <li>
+                                <a href="#line" >line</a>
+                            </li>
+                            <li>
+                                <a href="#lineArea" >lineArea</a>
+                            </li>
+                            <li>
+                                <a href="#lineGroups" >lineGroups</a>
+                            </li>
+                            <li>
+                                <a href="#lineLabelsRef" >lineLabelsRef</a>
+                            </li>
+                            <li>
+                                <a href="#markerIndexAttr" >markerIndexAttr</a>
+                            </li>
+                            <li>
+                                <a href="#markers" >markers</a>
+                            </li>
+                            <li>
+                                <a href="#markers$" >markers$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#scales" >scales</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#zone" >zone</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier"></span>
+                                <a href="#chart" >chart</a>
+                            </li>
+                            <li>
+                                <a href="#requiredScales" >requiredScales</a>
+                            </li>
+                            <li>
+                                <a href="#destroyRef" >destroyRef</a>
+                            </li>
+                            <li>
+                                <a href="#ranges" >ranges</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#drawAreaFills" >drawAreaFills</a>
+                            </li>
+                            <li>
+                                <a href="#drawLineLabels" >drawLineLabels</a>
+                            </li>
+                            <li>
+                                <a href="#drawLines" >drawLines</a>
+                            </li>
+                            <li>
+                                <a href="#drawMarks" >drawMarks</a>
+                            </li>
+                            <li>
+                                <a href="#drawPointMarkers" >drawPointMarkers</a>
+                            </li>
+                            <li>
+                                <a href="#getAreaFill" >getAreaFill</a>
+                            </li>
+                            <li>
+                                <a href="#getTooltipData" >getTooltipData</a>
+                            </li>
+                            <li>
+                                <a href="#isValidValue" >isValidValue</a>
+                            </li>
+                            <li>
+                                <a href="#setAreaFunction" >setAreaFunction</a>
+                            </li>
+                            <li>
+                                <a href="#setChartScalesFromRanges" >setChartScalesFromRanges</a>
+                            </li>
+                            <li>
+                                <a href="#setLine" >setLine</a>
+                            </li>
+                            <li>
+                                <a href="#updateMarkerElements" >updateMarkerElements</a>
+                            </li>
+                            <li>
+                                <a href="#getTransitionDuration" >getTransitionDuration</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#subscribeToRanges" >subscribeToRanges</a>
+                            </li>
+                            <li>
+                                <a href="#subscribeToScales" >subscribeToScales</a>
+                            </li>
+                            <li>
+                                <a href="#initFromConfig" >initFromConfig</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#config" >config</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#class" >class</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="config"></a>
+                        <b>config</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TPrimaryMarksConfig</code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../directives/PrimaryMarks.html" target="_self" >PrimaryMarks</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../directives/PrimaryMarks.html#source" target="_self" >PrimaryMarks:26</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawAreaFills"></a>
+                    <span class="name">
+                        <span ><b>drawAreaFills</b></span>
+                        <a href="#drawAreaFills"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawAreaFills(transitionDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="223"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:223</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>transitionDuration</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawLineLabels"></a>
+                    <span class="name">
+                        <span ><b>drawLineLabels</b></span>
+                        <a href="#drawLineLabels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawLineLabels()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="326"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:326</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawLines"></a>
+                    <span class="name">
+                        <span ><b>drawLines</b></span>
+                        <a href="#drawLines"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawLines(transitionDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="177"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:177</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>transitionDuration</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawMarks"></a>
+                    <span class="name">
+                        <span ><b>drawMarks</b></span>
+                        <a href="#drawMarks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawMarks()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/Marks.html" target="_self" >Marks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/Marks.html#source" target="_self" >Marks:127</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawPointMarkers"></a>
+                    <span class="name">
+                        <span ><b>drawPointMarkers</b></span>
+                        <a href="#drawPointMarkers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawPointMarkers(transitionDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="284"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:284</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>transitionDuration</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAreaFill"></a>
+                    <span class="name">
+                        <span ><b>getAreaFill</b></span>
+                        <a href="#getAreaFill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAreaFill(category: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, lineDataIndices: number[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="266"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:266</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>category</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>lineDataIndices</td>
+                                            <td>
+                                                        <code>number[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTooltipData"></a>
+                    <span class="name">
+                        <span ><b>getTooltipData</b></span>
+                        <a href="#getTooltipData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTooltipData(datumIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="382"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:382</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>datumIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Omit&lt;LinesInteractionOutput&lt;Datum&gt;, &quot;type&quot; | &quot;fromAnchor&quot; | &quot;customPosition&quot; | &quot;defaultPosition&quot;&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isValidValue"></a>
+                    <span class="name">
+                        <span ><b>isValidValue</b></span>
+                        <a href="#isValidValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isValidValue(d: Datum)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="171"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:171</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>d</td>
+                                            <td>
+                                                        <code>Datum</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setAreaFunction"></a>
+                    <span class="name">
+                        <span ><b>setAreaFunction</b></span>
+                        <a href="#setAreaFunction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setAreaFunction()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="157"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:157</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setChartScalesFromRanges"></a>
+                    <span class="name">
+                        <span ><b>setChartScalesFromRanges</b></span>
+                        <a href="#setChartScalesFromRanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setChartScalesFromRanges(useTransition: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/PrimaryMarks.html" target="_self" >PrimaryMarks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/PrimaryMarks.html#source" target="_self" >PrimaryMarks:112</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>useTransition</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setLine"></a>
+                    <span class="name">
+                        <span ><b>setLine</b></span>
+                        <a href="#setLine"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setLine()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="144"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:144</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateMarkerElements"></a>
+                    <span class="name">
+                        <span ><b>updateMarkerElements</b></span>
+                        <a href="#updateMarkerElements"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateMarkerElements()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="374"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:374</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTransitionDuration"></a>
+                    <span class="name">
+                        <span ><b>getTransitionDuration</b></span>
+                        <a href="#getTransitionDuration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTransitionDuration()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/Marks.html" target="_self" >Marks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/Marks.html#source" target="_self" >Marks:69</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/VicXyPrimaryMarks.html" target="_self" >VicXyPrimaryMarks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/VicXyPrimaryMarks.html#source" target="_self" >VicXyPrimaryMarks:31</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToRanges"></a>
+                    <span class="name">
+                        <span ><b>subscribeToRanges</b></span>
+                        <a href="#subscribeToRanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToRanges()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/VicXyPrimaryMarks.html" target="_self" >VicXyPrimaryMarks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/VicXyPrimaryMarks.html#source" target="_self" >VicXyPrimaryMarks:36</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToScales"></a>
+                    <span class="name">
+                        <span ><b>subscribeToScales</b></span>
+                        <a href="#subscribeToScales"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToScales()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/VicXyPrimaryMarks.html" target="_self" >VicXyPrimaryMarks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/VicXyPrimaryMarks.html#source" target="_self" >VicXyPrimaryMarks:55</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initFromConfig"></a>
+                    <span class="name">
+                        <span ><b>initFromConfig</b></span>
+                        <a href="#initFromConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initFromConfig()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/Marks.html" target="_self" >Marks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/Marks.html#source" target="_self" >Marks:40</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: SimpleChanges)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/Marks.html" target="_self" >Marks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/Marks.html#source" target="_self" >Marks:32</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>changes</td>
+                                            <td>
+                                                        <code>SimpleChanges</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="elRef"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>elRef</b></span>
+                        <a href="#elRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject&lt;ElementRef&lt;SVGGElement&gt;&gt;(ElementRef)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:100</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="line"></a>
+                    <span class="name">
+                        <span ><b>line</b></span>
+                        <a href="#line"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:84</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lineArea"></a>
+                    <span class="name">
+                        <span ><b>lineArea</b></span>
+                        <a href="#lineArea"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:86</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lineGroups"></a>
+                    <span class="name">
+                        <span ><b>lineGroups</b></span>
+                        <a href="#lineGroups"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#LinesGroupSelection" target="_self" >LinesGroupSelection</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:87</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lineLabelsRef"></a>
+                    <span class="name">
+                        <span ><b>lineLabelsRef</b></span>
+                        <a href="#lineLabelsRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;SVGSVGElement&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:88</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="markerIndexAttr"></a>
+                    <span class="name">
+                        <span ><b>markerIndexAttr</b></span>
+                        <a href="#markerIndexAttr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;index&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="markers"></a>
+                    <span class="name">
+                        <span ><b>markers</b></span>
+                        <a href="#markers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#MarkerSelection" target="_self" >BehaviorSubject&lt;MarkerSelection&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:90</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="markers$"></a>
+                    <span class="name">
+                        <span ><b>markers$</b></span>
+                        <a href="#markers$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.markers.asObservable().pipe(filter((d) &#x3D;&gt; !!d))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:91</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scales"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>scales</b></span>
+                        <a href="#scales"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    x: undefined,
+    y: undefined,
+    color: undefined,
+    useTransition: undefined,
+  }</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/VicXyPrimaryMarks.html" target="_self" >VicXyPrimaryMarks</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/VicXyPrimaryMarks.html#source" target="_self" >VicXyPrimaryMarks:93</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="zone"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>zone</b></span>
+                        <a href="#zone"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NgZone)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chart"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier"></span>
+                        <span ><b>chart</b></span>
+                        <a href="#chart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(XyChartComponent)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/Marks.html" target="_self" >Marks</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/Marks.html#source" target="_self" >Marks:29</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="requiredScales"></a>
+                    <span class="name">
+                        <span ><b>requiredScales</b></span>
+                        <a href="#requiredScales"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>()[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    XyContentScale.x,
+    XyContentScale.y,
+  ]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/VicXyPrimaryMarks.html" target="_self" >VicXyPrimaryMarks</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/VicXyPrimaryMarks.html#source" target="_self" >VicXyPrimaryMarks:25</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroyRef"></a>
+                    <span class="name">
+                        <span ><b>destroyRef</b></span>
+                        <a href="#destroyRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DestroyRef)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/PrimaryMarks.html" target="_self" >PrimaryMarks</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/PrimaryMarks.html#source" target="_self" >PrimaryMarks:28</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ranges"></a>
+                    <span class="name">
+                        <span ><b>ranges</b></span>
+                        <a href="#ranges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Ranges.html" target="_self" >Ranges</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/PrimaryMarks.html" target="_self" >PrimaryMarks</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/PrimaryMarks.html#source" target="_self" >PrimaryMarks:27</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="class"></a>
+                        <span class="name"><b>class</b><a href="#class"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>class()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">libs/viz-components/src/lib/lines/lines.component.ts:102</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  InjectionToken,
+  NgZone,
+  ViewEncapsulation,
+} from &#x27;@angular/core&#x27;;
+import { area, line, map, select, Transition } from &#x27;d3&#x27;;
+import { Selection } from &#x27;d3-selection&#x27;;
+import { BehaviorSubject, filter } from &#x27;rxjs&#x27;;
+import { ChartComponent } from &#x27;../charts/chart/chart.component&#x27;;
+import {
+  XyChartComponent,
+  XyChartScales,
+} from &#x27;../charts/xy-chart/xy-chart.component&#x27;;
+import { GenericScale } from &#x27;../core&#x27;;
+import { ValueUtilities } from &#x27;../core/utilities/values&#x27;;
+import { VIC_PRIMARY_MARKS } from &#x27;../marks/primary-marks/primary-marks&#x27;;
+import { VicXyPrimaryMarks } from &#x27;../marks/xy-marks/xy-primary-marks/xy-primary-marks&#x27;;
+import { LinesConfig, LinesMarkerDatum } from &#x27;./config/lines-config&#x27;;
+import { LinesInteractionOutput } from &#x27;./events/lines-interaction-output&#x27;;
+
+export type LinesGroupSelection &#x3D; Selection&lt;
+  SVGGElement,
+  LinesGroupSelectionDatum,
+  SVGGElement,
+  unknown
+&gt;;
+
+export type LinesGroupSelectionDatum &#x3D; [string, number[]];
+
+export const LINES &#x3D; new InjectionToken&lt;LinesComponent&lt;unknown&gt;&gt;(
+  &#x27;LinesComponent&#x27;
+);
+
+export interface LinesTooltipDatum&lt;Datum&gt; {
+  datum: Datum;
+  color: string;
+  values: {
+    x: string;
+    y: string;
+    strokeColor: string;
+  };
+}
+
+type LinesSvgElements &#x3D; &#x27;g&#x27; | &#x27;line&#x27; | &#x27;area&#x27; | &#x27;marker&#x27; | &#x27;label&#x27;;
+
+export type MarkerSelection &#x3D; Selection&lt;
+  SVGCircleElement,
+  LinesMarkerDatum,
+  SVGGElement,
+  LinesGroupSelectionDatum
+&gt;;
+
+@Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: &#x27;[vic-primary-marks-lines]&#x27;,
+  template: &#x27;&#x27;,
+  styleUrls: [&#x27;./lines.component.scss&#x27;],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: VIC_PRIMARY_MARKS, useExisting: LinesComponent },
+    { provide: LINES, useExisting: LinesComponent },
+    { provide: ChartComponent, useExisting: XyChartComponent },
+  ],
+  host: {
+    &#x27;[class]&#x27;: &#x27;config.marksClass&#x27;,
+    &#x27;[attr.stroke-linecap]&#x27;: &#x27;config.stroke.linecap&#x27;,
+    &#x27;[attr.stroke-linejoin]&#x27;: &#x27;config.stroke.linejoin&#x27;,
+    &#x27;[attr.stroke-width]&#x27;: &#x27;config.stroke.width&#x27;,
+    &#x27;[attr.stroke-opacity]&#x27;: &#x27;config.stroke.opacity&#x27;,
+    &#x27;[style.mix-blend-mode]&#x27;: &#x27;config.mixBlendMode&#x27;,
+    fill: &#x27;none&#x27;,
+  },
+})
+export class LinesComponent&lt;Datum&gt; extends VicXyPrimaryMarks&lt;
+  Datum,
+  LinesConfig&lt;Datum&gt;
+&gt; {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  line: (x: any[]) &#x3D;&gt; any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  lineArea: (x: any[]) &#x3D;&gt; any;
+  lineGroups: LinesGroupSelection;
+  lineLabelsRef: ElementRef&lt;SVGSVGElement&gt;;
+  markerIndexAttr &#x3D; &#x27;index&#x27;;
+  markers: BehaviorSubject&lt;MarkerSelection&gt; &#x3D; new BehaviorSubject(null);
+  markers$ &#x3D; this.markers.asObservable().pipe(filter((d) &#x3D;&gt; !!d));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  override scales: { color: GenericScale&lt;any, any&gt; } &amp; XyChartScales &#x3D; {
+    x: undefined,
+    y: undefined,
+    color: undefined,
+    useTransition: undefined,
+  };
+  private zone &#x3D; inject(NgZone);
+  private elRef &#x3D; inject&lt;ElementRef&lt;SVGGElement&gt;&gt;(ElementRef);
+
+  get class(): Record&lt;LinesSvgElements, string&gt; {
+    return {
+      g: this.config.marksClass + &#x27;-group&#x27;,
+      line: this.config.marksClass + &#x27;-line&#x27;,
+      area: this.config.marksClass + &#x27;-area&#x27;,
+      marker: this.config.marksClass + &#x27;-marker&#x27;,
+      label: this.config.marksClass + &#x27;-label&#x27;,
+    };
+  }
+
+  setChartScalesFromRanges(useTransition: boolean): void {
+    const x &#x3D; this.config.x.getScaleFromRange(this.ranges.x);
+    const y &#x3D; this.config.y.getScaleFromRange(this.ranges.y);
+    this.scales.color &#x3D; this.config.stroke.color.getScale();
+    this.zone.run(() &#x3D;&gt; {
+      this.chart.updateScales({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        x: x as unknown as GenericScale&lt;any, any&gt;,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        y: y as unknown as GenericScale&lt;any, any&gt;,
+        useTransition,
+      });
+    });
+  }
+
+  drawMarks(): void {
+    this.setLine();
+    const transitionDuration &#x3D; this.getTransitionDuration();
+    this.drawLines(transitionDuration);
+    if (this.config.areaFills) {
+      this.setAreaFunction();
+      this.drawAreaFills(transitionDuration);
+    }
+    if (this.config.pointMarkers) {
+      this.drawPointMarkers(transitionDuration);
+      this.updateMarkerElements();
+    }
+    if (this.config.labelLines) {
+      this.drawLineLabels();
+    }
+  }
+
+  setLine(): void {
+    const isValid &#x3D; map(this.config.data, this.isValidValue.bind(this));
+
+    this.line &#x3D; line()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .defined((i: any) &#x3D;&gt; isValid[i] as boolean)
+      .curve(this.config.curve)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .x((i: any) &#x3D;&gt; this.scales.x(this.config.x.values[i]))
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .y((i: any) &#x3D;&gt; this.scales.y(this.config.y.values[i]));
+  }
+
+  setAreaFunction(): void {
+    const isValid &#x3D; map(this.config.data, this.isValidValue.bind(this));
+
+    this.lineArea &#x3D; area()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .defined((i: any) &#x3D;&gt; isValid[i] as boolean)
+      .curve(this.config.curve)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .x((i: any) &#x3D;&gt; this.scales.x(this.config.x.values[i]))
+      .y0(() &#x3D;&gt; this.scales.y(0))
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .y1((i: any) &#x3D;&gt; this.scales.y(this.config.y.values[i]));
+  }
+
+  isValidValue(d: Datum): boolean {
+    const xIsValid &#x3D; this.config.x.isValidValue(this.config.x.valueAccessor(d));
+    const yIsValid &#x3D; this.config.y.isValidValue(this.config.y.valueAccessor(d));
+    return xIsValid &amp;&amp; yIsValid;
+  }
+
+  drawLines(transitionDuration: number): void {
+    const t &#x3D; select(this.chart.svgRef.nativeElement)
+      .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .duration(transitionDuration) as Transition&lt;SVGSVGElement, any, any, any&gt;;
+
+    this.lineGroups &#x3D; select(this.elRef.nativeElement)
+      .selectAll&lt;SVGGElement, LinesGroupSelectionDatum&gt;(&#x60;.${this.class.g}&#x60;)
+      .data&lt;LinesGroupSelectionDatum&gt;(
+        this.config.linesD3Data,
+        this.config.linesKeyFunction
+      )
+      .join(
+        (enter) &#x3D;&gt; enter.append(&#x27;g&#x27;).attr(&#x27;class&#x27;, this.class.g),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (update) &#x3D;&gt; update.transition(t as any),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+
+    this.lineGroups
+      .selectAll&lt;SVGPathElement, LinesGroupSelectionDatum&gt;(
+        &#x60;.${this.class.line}&#x60;
+      )
+      .data&lt;LinesGroupSelectionDatum&gt;((d) &#x3D;&gt; [d])
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;path&#x27;)
+            .attr(&#x27;class&#x27;, ([category], i) &#x3D;&gt;
+              &#x60;${this.class.line} ${this.config.datumClass(this.config.getDataFromCategory(category)[0], i)}&#x60;.trim()
+            )
+            .attr(&#x27;stroke&#x27;, ([category]) &#x3D;&gt; this.scales.color(category))
+            .attr(&#x27;d&#x27;, ([, lineData]) &#x3D;&gt; this.line(lineData)),
+        (update) &#x3D;&gt;
+          update
+            .attr(&#x27;stroke&#x27;, ([category]) &#x3D;&gt; this.scales.color(category))
+            .call((update) &#x3D;&gt;
+              update
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                .transition(t as any)
+                .attr(&#x27;d&#x27;, ([, lineData]) &#x3D;&gt; this.line(lineData))
+            ),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+  }
+
+  drawAreaFills(transitionDuration: number): void {
+    const t &#x3D; select(this.chart.svgRef.nativeElement)
+      .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .duration(transitionDuration) as Transition&lt;SVGSVGElement, any, any, any&gt;;
+
+    this.lineGroups
+      .selectAll&lt;SVGPathElement, LinesGroupSelectionDatum&gt;(
+        &#x60;.${this.class.area}&#x60;
+      )
+      .data&lt;LinesGroupSelectionDatum&gt;((d) &#x3D;&gt; [d])
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;path&#x27;)
+            .attr(&#x27;class&#x27;, this.class.area)
+            .attr(&#x27;fill&#x27;, ([category, indices]) &#x3D;&gt;
+              this.getAreaFill(category, indices)
+            )
+            .attr(&#x27;opacity&#x27;, this.config.areaFills.opacity)
+            .attr(&#x27;d&#x27;, ([, lineData]) &#x3D;&gt; this.lineArea(lineData))
+            .attr(&#x27;display&#x27;, ([category]) &#x3D;&gt;
+              this.config.areaFills.display(category) ? null : &#x27;none&#x27;
+            ),
+        (update) &#x3D;&gt;
+          update
+            .attr(&#x27;fill&#x27;, ([category, indices]) &#x3D;&gt;
+              this.getAreaFill(category, indices)
+            )
+            .attr(&#x27;opacity&#x27;, this.config.areaFills.opacity)
+            .call((update) &#x3D;&gt;
+              update
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                .transition(t as any)
+                .attr(&#x27;d&#x27;, ([, lineData]) &#x3D;&gt; this.lineArea(lineData))
+            )
+            .attr(&#x27;display&#x27;, ([category]) &#x3D;&gt;
+              this.config.areaFills.display(category) ? null : &#x27;none&#x27;
+            ),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+  }
+
+  getAreaFill(category: string, lineDataIndices: number[]): string {
+    const firstPointInLine &#x3D; this.config.data[lineDataIndices[0]];
+    if (this.config.areaFills.customFills) {
+      const fillDef &#x3D; this.config.areaFills.customFills.find((def) &#x3D;&gt;
+        def.shouldApply(firstPointInLine)
+      );
+      if (fillDef) {
+        return &#x60;url(#${fillDef.defId})&#x60;;
+      } else {
+        return null;
+      }
+    }
+    if (this.config.areaFills.color) {
+      return this.config.areaFills.color(firstPointInLine);
+    }
+    return this.scales.color(category);
+  }
+
+  drawPointMarkers(transitionDuration: number): void {
+    const t &#x3D; select(this.chart.svgRef.nativeElement)
+      .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .duration(transitionDuration) as Transition&lt;SVGSVGElement, any, any, any&gt;;
+
+    this.lineGroups
+      .selectAll&lt;SVGCircleElement, LinesMarkerDatum&gt;(&#x60;.${this.class.marker}&#x60;)
+      .data&lt;LinesMarkerDatum&gt;(([, indices]) &#x3D;&gt;
+        this.config.getPointMarkersData(indices)
+      )
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;circle&#x27;)
+            .attr(&#x27;class&#x27;, (d) &#x3D;&gt;
+              &#x60;${this.class.marker} ${this.config.pointMarkers.datumClass(this.config.data[d.index], d.index)}&#x60;.trim()
+            )
+            .attr(this.markerIndexAttr, (d) &#x3D;&gt; d.index)
+            .attr(&#x27;cx&#x27;, (d) &#x3D;&gt; this.scales.x(this.config.x.values[d.index]))
+            .attr(&#x27;cy&#x27;, (d) &#x3D;&gt; this.scales.y(this.config.y.values[d.index]))
+            .attr(&#x27;r&#x27;, this.config.pointMarkers.radius)
+            .attr(&#x27;fill&#x27;, (d) &#x3D;&gt;
+              this.scales.color(this.config.stroke.color.values[d.index])
+            )
+            .style(&#x27;display&#x27;, (d) &#x3D;&gt; d.display),
+        (update) &#x3D;&gt;
+          update
+            .attr(&#x27;fill&#x27;, (d) &#x3D;&gt;
+              this.scales.color(this.config.stroke.color.values[d.index])
+            )
+            .call((update) &#x3D;&gt;
+              update
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                .transition(t as any)
+                .attr(&#x27;cx&#x27;, (d) &#x3D;&gt; this.scales.x(this.config.x.values[d.index]))
+                .attr(&#x27;cy&#x27;, (d) &#x3D;&gt; this.scales.y(this.config.y.values[d.index]))
+            ),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+  }
+
+  drawLineLabels(): void {
+    // TODO: make more flexible (or its own element? currently this only puts labels on the right side of the chart
+    this.lineGroups
+      .selectAll(&#x60;.${this.class.label}&#x60;)
+      .data(([category, indices]) &#x3D;&gt; {
+        return [
+          {
+            category,
+            index: indices[indices.length - 1],
+          },
+        ];
+      })
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;text&#x27;)
+            .attr(&#x27;class&#x27;, this.class.label)
+            .attr(&#x27;text-anchor&#x27;, &#x27;end&#x27;)
+            .attr(&#x27;fill&#x27;, (d) &#x3D;&gt;
+              this.scales.color(this.config.stroke.color.values[d.index])
+            )
+            .attr(
+              &#x27;x&#x27;,
+              (d) &#x3D;&gt; &#x60;${this.scales.x(this.config.x.values[d.index]) - 4}px&#x60;
+            )
+            .attr(
+              &#x27;y&#x27;,
+              (d) &#x3D;&gt; &#x60;${this.scales.y(this.config.y.values[d.index]) - 12}px&#x60;
+            )
+            .text((d) &#x3D;&gt; this.config.lineLabelsFormat(d.category)),
+        (update) &#x3D;&gt;
+          update
+            .attr(&#x27;fill&#x27;, (d) &#x3D;&gt;
+              this.scales.color(this.config.stroke.color.values[d.index])
+            )
+            .attr(
+              &#x27;x&#x27;,
+              (d) &#x3D;&gt; &#x60;${this.scales.x(this.config.x.values[d.index]) - 4}px&#x60;
+            )
+            .attr(
+              &#x27;y&#x27;,
+              (d) &#x3D;&gt; &#x60;${this.scales.y(this.config.y.values[d.index]) - 12}px&#x60;
+            )
+            .text((d) &#x3D;&gt; this.config.lineLabelsFormat(d.category)),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+  }
+
+  updateMarkerElements(): void {
+    const markers &#x3D; select(this.elRef.nativeElement).selectAll&lt;
+      SVGCircleElement,
+      LinesMarkerDatum
+    &gt;(&#x60;.${this.class.marker}&#x60;);
+    this.markers.next(markers);
+  }
+
+  getTooltipData(
+    datumIndex: number
+  ): Omit&lt;
+    LinesInteractionOutput&lt;Datum&gt;,
+    &#x27;type&#x27; | &#x27;fromAnchor&#x27; | &#x27;customPosition&#x27; | &#x27;defaultPosition&#x27;
+  &gt; {
+    const datum &#x3D; this.config.data[datumIndex];
+    return {
+      datum,
+      color: this.scales.color(this.config.stroke.color.valueAccessor(datum)),
+      values: {
+        strokeColor: this.config.stroke.color.valueAccessor(datum),
+        x: this.config.x.formatFunction
+          ? ValueUtilities.customFormat(datum, this.config.x.formatFunction)
+          : ValueUtilities.d3Format(
+              this.config.x.valueAccessor(datum),
+              this.config.x.formatSpecifier
+            ),
+        y: this.config.y.formatFunction
+          ? ValueUtilities.customFormat(datum, this.config.y.formatFunction)
+          : ValueUtilities.d3Format(
+              this.config.y.valueAccessor(datum),
+              this.config.y.formatSpecifier
+            ),
+      },
+      anchor: {
+        x: this.scales.x(this.config.x.values[datumIndex]),
+        y: this.scales.y(this.config.y.values[datumIndex]),
+      },
+      origin: this.chart.svgRef.nativeElement,
+    };
+  }
+}
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./lines.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div></div>'
+    var COMPONENTS = [{'name': 'BarsComponent', 'selector': '[vic-primary-marks-bars]'},{'name': 'ChartComponent', 'selector': 'vic-chart'},{'name': 'ContinuousLegendComponent', 'selector': 'vic-continuous-legend'},{'name': 'DiscontinuousLegendComponent', 'selector': 'vic-discontinuous-legend'},{'name': 'DotsComponent', 'selector': '[vic-primary-marks-dots]'},{'name': 'GeographiesComponent', 'selector': '[vic-primary-marks-geographies]'},{'name': 'GroupedBarsComponent', 'selector': '[vic-primary-grouped-bars]'},{'name': 'LinesComponent', 'selector': '[vic-primary-marks-lines]'},{'name': 'MapChartComponent', 'selector': 'vic-map-chart'},{'name': 'MapLegendComponent', 'selector': 'vic-map-legend'},{'name': 'QuantitativeRulesComponent', 'selector': '[vic-quantitative-rules]'},{'name': 'StackedAreaComponent', 'selector': '[vic-primary-marks-stacked-area]'},{'name': 'StackedBarsComponent', 'selector': '[vic-primary-marks-stacked-bars]'},{'name': 'TooltipTriangleComponent', 'selector': 'vic-tooltip-triangle'},{'name': 'XOrdinalAxisComponent', 'selector': '[vic-x-ordinal-axis]'},{'name': 'XQuantitativeAxisComponent', 'selector': '[vic-x-quantitative-axis]'},{'name': 'XyBackgroundComponent', 'selector': '[vic-xy-background]'},{'name': 'XyChartComponent', 'selector': 'vic-xy-chart'},{'name': 'YOrdinalAxisComponent', 'selector': '[vic-y-ordinal-axis]'},{'name': 'YQuantitativeAxisComponent', 'selector': '[vic-y-quantitative-axis]'}];
+    var DIRECTIVES = [{'name': 'AuxMarks', 'selector': ''},{'name': 'BarsEventsDirective', 'selector': '[vicBarsEvents]'},{'name': 'DotsEventsDirective', 'selector': '[vicDotsEvents]'},{'name': 'EventsDirective', 'selector': ''},{'name': 'GeographiesEventsDirective', 'selector': '[vicGeographiesEvents]'},{'name': 'GroupedBarsEventsDirective', 'selector': '[vicGroupedBarsEvents]'},{'name': 'HtmlTooltipDirective', 'selector': 'vic-html-tooltip'},{'name': 'LinesEventsDirective', 'selector': '[vicLinesEvents]'},{'name': 'MapLegend', 'selector': ''},{'name': 'MapPrimaryMarks', 'selector': ''},{'name': 'Marks', 'selector': ''},{'name': 'PrimaryMarks', 'selector': ''},{'name': 'StackedAreaEventsDirective', 'selector': '[vicStackedAreaEvents]'},{'name': 'StackedBarsEventsDirective', 'selector': '[vicStackedBarsEvents]'},{'name': 'VicMapAuxMarks', 'selector': ''},{'name': 'VicXyPrimaryMarks', 'selector': ''},{'name': 'XyAuxMarks', 'selector': ''},{'name': 'XyAxis', 'selector': ''}];
+    var ACTUAL_COMPONENT = {'name': 'LinesComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'LinesComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

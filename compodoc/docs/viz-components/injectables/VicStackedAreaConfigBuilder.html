@@ -1,0 +1,2329 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >VicStackedAreaConfigBuilder</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Builds a configuration object for a StackedAreaComponent.</p>
+<p>Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. <code>providers: [VicStackedAreaBuilder]</code> in the component decorator)</p>
+<p>The first generic parameter, Datum, is the type of the data that will be used to create the stacked area chart.</p>
+<p>The second generic parameter, TCategoricalValue, is the type of the categorical data that will be used to stack the areas.</p>
+
+            </p>
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="../classes/PrimaryMarksBuilder.html" target="_self" >PrimaryMarksBuilder</a></code>
+            </p>
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_categoricalOrder" >_categoricalOrder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_curve" >_curve</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_stackOffset" >_stackOffset</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_stackOrder" >_stackOrder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#colorDimensionBuilder" >colorDimensionBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#xDimensionBuilder" >xDimensionBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#yDimensionBuilder" >yDimensionBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#_data" >_data</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#_datumClass" >_datumClass</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#_mixBlendMode" >_mixBlendMode</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#categoricalOrder" >categoricalOrder</a>
+                            </li>
+                            <li>
+                                <a href="#color" >color</a>
+                            </li>
+                            <li>
+                                <a href="#curve" >curve</a>
+                            </li>
+                            <li>
+                                <a href="#curve" >curve</a>
+                            </li>
+                            <li>
+                                <a href="#curve" >curve</a>
+                            </li>
+                            <li>
+                                <a href="#getConfig" >getConfig</a>
+                            </li>
+                            <li>
+                                <a href="#stackOffset" >stackOffset</a>
+                            </li>
+                            <li>
+                                <a href="#stackOffset" >stackOffset</a>
+                            </li>
+                            <li>
+                                <a href="#stackOffset" >stackOffset</a>
+                            </li>
+                            <li>
+                                <a href="#stackOrder" >stackOrder</a>
+                            </li>
+                            <li>
+                                <a href="#stackOrder" >stackOrder</a>
+                            </li>
+                            <li>
+                                <a href="#stackOrder" >stackOrder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier"></span>
+                                <a href="#validateBuilder" >validateBuilder</a>
+                            </li>
+                            <li>
+                                <a href="#xDate" >xDate</a>
+                            </li>
+                            <li>
+                                <a href="#xDate" >xDate</a>
+                            </li>
+                            <li>
+                                <a href="#xDate" >xDate</a>
+                            </li>
+                            <li>
+                                <a href="#xNumeric" >xNumeric</a>
+                            </li>
+                            <li>
+                                <a href="#xNumeric" >xNumeric</a>
+                            </li>
+                            <li>
+                                <a href="#xNumeric" >xNumeric</a>
+                            </li>
+                            <li>
+                                <a href="#y" >y</a>
+                            </li>
+                            <li>
+                                <a href="#data" >data</a>
+                            </li>
+                            <li>
+                                <a href="#datumClass" >datumClass</a>
+                            </li>
+                            <li>
+                                <a href="#mixBlendMode" >mixBlendMode</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:61</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="categoricalOrder"></a>
+                    <span class="name">
+                        <span ><b>categoricalOrder</b></span>
+                        <a href="#categoricalOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>categoricalOrder(value: CategoricalDomain[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="94"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Allows user to provide a custom order for the categories of data / the stack.</p>
+<p>If not provided, the order will be determined by d3.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>CategoricalDomain[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="color"></a>
+                    <span class="name">
+                        <span ><b>color</b></span>
+                        <a href="#color"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>color(color: (color: <a href="../undefineds/VisualValue.html">OrdinalVisualValueDimensionBuilder<Datum | CategoricalDomain | string></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="71"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:71</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Sets the categorical dimension for the stacked area chart.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>color</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="curve"></a>
+                    <span class="name">
+                        <span ><b>curve</b></span>
+                        <a href="#curve"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>curve(value)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="108"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:108</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Sets the curve factory for the line.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="curve"></a>
+                    <span class="name">
+                        <span ><b>curve</b></span>
+                        <a href="#curve"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>curve(value: CurveFactory)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="109"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:109</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>CurveFactory</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="curve"></a>
+                    <span class="name">
+                        <span ><b>curve</b></span>
+                        <a href="#curve"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>curve(value: CurveFactory | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="110"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:110</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>CurveFactory | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getConfig"></a>
+                    <span class="name">
+                        <span ><b>getConfig</b></span>
+                        <a href="#getConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getConfig()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="229"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:229</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Builds the configuration object for the stacked area chart.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/StackedAreaConfig.html" target="_self" >StackedAreaConfig&lt;Datum, CategoricalDomain&gt;</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stackOffset"></a>
+                    <span class="name">
+                        <span ><b>stackOffset</b></span>
+                        <a href="#stackOffset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>stackOffset(stackOffset)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="156"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:156</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Sets the offset of the stack.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>stackOffset</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stackOffset"></a>
+                    <span class="name">
+                        <span ><b>stackOffset</b></span>
+                        <a href="#stackOffset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>stackOffset(stackOffset: (series: Series< | CategoricalDomain>,order: number[]) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="157"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:157</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>stackOffset</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stackOffset"></a>
+                    <span class="name">
+                        <span ><b>stackOffset</b></span>
+                        <a href="#stackOffset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>stackOffset(stackOffset:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="166"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:166</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>stackOffset</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stackOrder"></a>
+                    <span class="name">
+                        <span ><b>stackOrder</b></span>
+                        <a href="#stackOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>stackOrder(stackOrder)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="124"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:124</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL: Sets the order of the stack.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>stackOrder</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stackOrder"></a>
+                    <span class="name">
+                        <span ><b>stackOrder</b></span>
+                        <a href="#stackOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>stackOrder(stackOrder: (series: Series< | CategoricalDomain>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="125"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:125</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>stackOrder</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stackOrder"></a>
+                    <span class="name">
+                        <span ><b>stackOrder</b></span>
+                        <a href="#stackOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>stackOrder(stackOrder:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="133"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:133</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>stackOrder</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validateBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier"></span>
+                        <span ><b>validateBuilder</b></span>
+                        <a href="#validateBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>validateBuilder()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/PrimaryMarksBuilder.html" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/PrimaryMarksBuilder.html#source" target="_self" >PrimaryMarksBuilder:246</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xDate"></a>
+                    <span class="name">
+                        <span ><b>xDate</b></span>
+                        <a href="#xDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xDate(x)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="188"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:188</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Sets the x dimension for the stacked area chart when using Date data.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xDate"></a>
+                    <span class="name">
+                        <span ><b>xDate</b></span>
+                        <a href="#xDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xDate(x: (x: <a href="../interfaces/Position.html">DateChartPositionDimensionBuilder<Datum></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="189"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:189</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xDate"></a>
+                    <span class="name">
+                        <span ><b>xDate</b></span>
+                        <a href="#xDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xDate(x:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="190"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:190</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xNumeric"></a>
+                    <span class="name">
+                        <span ><b>xNumeric</b></span>
+                        <a href="#xNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xNumeric(x)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="202"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:202</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Sets the x dimension for the stacked area chart when using numeric data.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xNumeric"></a>
+                    <span class="name">
+                        <span ><b>xNumeric</b></span>
+                        <a href="#xNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xNumeric(x: (x: <a href="../interfaces/Position.html">NumberChartPositionDimensionBuilder<Datum></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="203"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:203</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xNumeric"></a>
+                    <span class="name">
+                        <span ><b>xNumeric</b></span>
+                        <a href="#xNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xNumeric(x:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="204"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:204</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="y"></a>
+                    <span class="name">
+                        <span ><b>y</b></span>
+                        <a href="#y"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>y(y: (y: <a href="../interfaces/Position.html">NumberChartPositionDimensionBuilder<Datum></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="220"
+                                    class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:220</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Sets the y dimension for the stacked area chart.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>y</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="data"></a>
+                    <span class="name">
+                        <span ><b>data</b></span>
+                        <a href="#data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>data(data: Datum[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/PrimaryMarksBuilder.html" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/PrimaryMarksBuilder.html#source" target="_self" >PrimaryMarksBuilder:47</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Sets the data that will be used to render the marks for this component</p>
+<p>If no dimension domain overrides are provided, <strong>this primary-marks data will also create the domain of the scales used on the entire chart</strong>.</p>
+<p>The objects in the array can be of an type, and if an array of objects, the objects can contain any number of properties, including properties that are extraneous to the chart at hand.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                        <code>Datum[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="datumClass"></a>
+                    <span class="name">
+                        <span ><b>datumClass</b></span>
+                        <a href="#datumClass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>datumClass(value)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/PrimaryMarksBuilder.html" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/PrimaryMarksBuilder.html#source" target="_self" >PrimaryMarksBuilder:24</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Provides a class on the SVG element that corresponds to a single datum. If a datum creates multiple SVG elements -- for example, a rect and a label, the class will be applied on the parent SVGGElement.</p>
+<p>IF the chart does not have SVG elements that correspond to a single datum, this class will be placed on the SVG element that represents a collection of data, for example, a area in a stacked area chart, or a line in a line chart. In this case the datum passed to the callback function will be the first datum in the collection.</p>
+<p>Note that if the resultant string has spaces in the name, multiple classes will be applied. For example, if the class is &#39;North Carolina&#39;, the element will have the classes &#39;North&#39; and &#39;Carolina&#39;.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mixBlendMode"></a>
+                    <span class="name">
+                        <span ><b>mixBlendMode</b></span>
+                        <a href="#mixBlendMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>mixBlendMode(mixBlendMode)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/PrimaryMarksBuilder.html" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/PrimaryMarksBuilder.html#source" target="_self" >PrimaryMarksBuilder:57</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sets the mix-blend-mode of the marks.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>mixBlendMode</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_categoricalOrder"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_categoricalOrder</b></span>
+                        <a href="#_categoricalOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>CategoricalDomain[]</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_curve"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_curve</b></span>
+                        <a href="#_curve"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>CurveFactory</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_stackOffset"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_stackOffset</b></span>
+                        <a href="#_stackOffset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_stackOrder"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_stackOrder</b></span>
+                        <a href="#_stackOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="colorDimensionBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>colorDimensionBuilder</b></span>
+                        <a href="#colorDimensionBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#VisualValue" target="_self" >OrdinalVisualValueDimensionBuilder&lt;Datum | CategoricalDomain | string&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xDimensionBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>xDimensionBuilder</b></span>
+                        <a href="#xDimensionBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Position.html" target="_self" >NumberChartPositionDimensionBuilder&lt;Datum&gt; | DateChartPositionDimensionBuilder&lt;Datum&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yDimensionBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>yDimensionBuilder</b></span>
+                        <a href="#yDimensionBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Position.html" target="_self" >NumberChartPositionDimensionBuilder&lt;Datum&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_data"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_data</b></span>
+                        <a href="#_data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Datum[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../classes/PrimaryMarksBuilder.html" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/PrimaryMarksBuilder.html#source" target="_self" >PrimaryMarksBuilder:10</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_datumClass"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_datumClass</b></span>
+                        <a href="#_datumClass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../classes/PrimaryMarksBuilder.html" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/PrimaryMarksBuilder.html#source" target="_self" >PrimaryMarksBuilder:9</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_mixBlendMode"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_mixBlendMode</b></span>
+                        <a href="#_mixBlendMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../classes/PrimaryMarksBuilder.html" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/PrimaryMarksBuilder.html#source" target="_self" >PrimaryMarksBuilder:11</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { safeAssign } from &#x27;@hsi/app-dev-kit&#x27;;
+import {
+  CurveFactory,
+  curveLinear,
+  InternMap,
+  Series,
+  stackOffsetNone,
+  stackOrderNone,
+} from &#x27;d3&#x27;;
+import { ContinuousValue, DataValue } from &#x27;../../core/types/values&#x27;;
+import { DateChartPositionDimensionBuilder } from &#x27;../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position-builder&#x27;;
+import { NumberChartPositionDimensionBuilder } from &#x27;../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder&#x27;;
+import { OrdinalVisualValueDimensionBuilder } from &#x27;../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder&#x27;;
+import { PrimaryMarksBuilder } from &#x27;../../marks/primary-marks/config/primary-marks-builder&#x27;;
+import { StackedAreaConfig } from &#x27;./stacked-area-config&#x27;;
+
+const DEFAULT &#x3D; {
+  _curve: curveLinear,
+  _stackOrder: stackOrderNone,
+  _stackOffset: stackOffsetNone,
+};
+
+/**
+ * Builds a configuration object for a StackedAreaComponent.
+ *
+ * Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. &#x60;providers: [VicStackedAreaBuilder]&#x60; in the component decorator)
+ *
+ * The first generic parameter, Datum, is the type of the data that will be used to create the stacked area chart.
+ *
+ * The second generic parameter, TCategoricalValue, is the type of the categorical data that will be used to stack the areas.
+ */
+@Injectable()
+export class VicStackedAreaConfigBuilder&lt;
+  Datum,
+  CategoricalDomain extends DataValue,
+&gt; extends PrimaryMarksBuilder&lt;Datum&gt; {
+  private colorDimensionBuilder: OrdinalVisualValueDimensionBuilder&lt;
+    Datum,
+    CategoricalDomain,
+    string
+  &gt;;
+  private _categoricalOrder: CategoricalDomain[];
+  private _curve: CurveFactory;
+  private _stackOrder: (
+    series: Series&lt;
+      [ContinuousValue, InternMap&lt;CategoricalDomain, number&gt;],
+      CategoricalDomain
+    &gt;
+  ) &#x3D;&gt; Iterable&lt;number&gt;;
+  private _stackOffset: (
+    series: Series&lt;
+      [ContinuousValue, InternMap&lt;CategoricalDomain, number&gt;],
+      CategoricalDomain
+    &gt;,
+    order: number[]
+  ) &#x3D;&gt; void;
+  private xDimensionBuilder:
+    | NumberChartPositionDimensionBuilder&lt;Datum&gt;
+    | DateChartPositionDimensionBuilder&lt;Datum&gt;;
+  private yDimensionBuilder: NumberChartPositionDimensionBuilder&lt;Datum&gt;;
+
+  constructor() {
+    super();
+    safeAssign(this, DEFAULT);
+  }
+
+  /**
+   * REQUIRED. Sets the categorical dimension for the stacked area chart.
+   */
+  color(
+    color: (
+      color: OrdinalVisualValueDimensionBuilder&lt;
+        Datum,
+        CategoricalDomain,
+        string
+      &gt;
+    ) &#x3D;&gt; void
+  ): this {
+    this.colorDimensionBuilder &#x3D; new OrdinalVisualValueDimensionBuilder&lt;
+      Datum,
+      CategoricalDomain,
+      string
+    &gt;();
+    color(this.colorDimensionBuilder);
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Allows user to provide a custom order for the categories of data / the stack.
+   *
+   * If not provided, the order will be determined by d3.
+   */
+  categoricalOrder(value: CategoricalDomain[]): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      this._categoricalOrder &#x3D; undefined;
+      return this;
+    }
+    this._categoricalOrder &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets the curve factory for the line.
+   *
+   * @default curveLinear
+   */
+  curve(value: null): this;
+  curve(value: CurveFactory): this;
+  curve(value: CurveFactory | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      this._curve &#x3D; DEFAULT._curve;
+      return this;
+    }
+    this._curve &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL: Sets the order of the stack.
+   *
+   * @default stackOrderNone
+   */
+  stackOrder(stackOrder: null): this;
+  stackOrder(
+    stackOrder: (
+      series: Series&lt;
+        [ContinuousValue, InternMap&lt;CategoricalDomain, number&gt;],
+        CategoricalDomain
+      &gt;
+    ) &#x3D;&gt; Iterable&lt;number&gt;
+  ): this;
+  stackOrder(
+    stackOrder:
+      | ((
+          series: Series&lt;
+            [ContinuousValue, InternMap&lt;CategoricalDomain, number&gt;],
+            CategoricalDomain
+          &gt;
+        ) &#x3D;&gt; Iterable&lt;number&gt;)
+      | null
+  ): this {
+    if (stackOrder &#x3D;&#x3D;&#x3D; null) {
+      this._stackOrder &#x3D; DEFAULT._stackOrder;
+      return this;
+    }
+    this._stackOrder &#x3D; stackOrder;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets the offset of the stack.
+   *
+   * @default stackOffsetNone
+   */
+  stackOffset(stackOffset: null): this;
+  stackOffset(
+    stackOffset: (
+      series: Series&lt;
+        [ContinuousValue, InternMap&lt;CategoricalDomain, number&gt;],
+        CategoricalDomain
+      &gt;,
+      order: number[]
+    ) &#x3D;&gt; void
+  ): this;
+  stackOffset(
+    stackOffset:
+      | ((
+          series: Series&lt;
+            [ContinuousValue, InternMap&lt;CategoricalDomain, number&gt;],
+            CategoricalDomain
+          &gt;,
+          order: number[]
+        ) &#x3D;&gt; void)
+      | null
+  ): this {
+    if (stackOffset &#x3D;&#x3D;&#x3D; null) {
+      this._stackOffset &#x3D; DEFAULT._stackOffset;
+      return this;
+    }
+    this._stackOffset &#x3D; stackOffset;
+    return this;
+  }
+
+  /**
+   * REQUIRED. Sets the x dimension for the stacked area chart when using Date data.
+   */
+  xDate(x: null): this;
+  xDate(x: (x: DateChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void): this;
+  xDate(
+    x: ((x: DateChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void) | null
+  ): this {
+    if (x &#x3D;&#x3D;&#x3D; null) return this;
+    this.xDimensionBuilder &#x3D; new DateChartPositionDimensionBuilder&lt;Datum&gt;();
+    x(this.xDimensionBuilder);
+    return this;
+  }
+
+  /**
+   * REQUIRED. Sets the x dimension for the stacked area chart when using numeric data.
+   */
+  xNumeric(x: null): this;
+  xNumeric(x: (x: NumberChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void): this;
+  xNumeric(
+    x: ((x: NumberChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void) | null
+  ): this {
+    // do not reset the xDimensionBuilder if null is passed. if xNumeric is not called, then xDate will be called
+    // allow for
+    // .xNumber((x) &#x3D;&gt; condition ? x.stuff() : null)
+    // .xDate((x) &#x3D;&gt; !condition ? x.stuff() : null)
+    if (x &#x3D;&#x3D;&#x3D; null) return this;
+    this.xDimensionBuilder &#x3D; new NumberChartPositionDimensionBuilder&lt;Datum&gt;();
+    x(this.xDimensionBuilder);
+    return this;
+  }
+
+  /**
+   * REQUIRED. Sets the y dimension for the stacked area chart.
+   */
+  y(y: (y: NumberChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void): this {
+    this.yDimensionBuilder &#x3D; new NumberChartPositionDimensionBuilder&lt;Datum&gt;();
+    y(this.yDimensionBuilder);
+    return this;
+  }
+
+  /**
+   * REQUIRED. Builds the configuration object for the stacked area chart.
+   */
+  getConfig(): StackedAreaConfig&lt;Datum, CategoricalDomain&gt; {
+    this.validateBuilder();
+    return new StackedAreaConfig({
+      marksClass: &#x27;vic-stacked-area&#x27;,
+      color: this.colorDimensionBuilder._build(&#x27;Color&#x27;),
+      categoricalOrder: this._categoricalOrder,
+      curve: this._curve,
+      data: this._data,
+      datumClass: this._datumClass,
+      mixBlendMode: this._mixBlendMode,
+      stackOrder: this._stackOrder,
+      stackOffset: this._stackOffset,
+      x: this.xDimensionBuilder._build(&#x27;X&#x27;),
+      y: this.yDimensionBuilder._build(&#x27;Y&#x27;),
+    });
+  }
+
+  protected override validateBuilder(): void {
+    super.validateBuilder(&#x27;Stacked Area&#x27;);
+    if (!this.colorDimensionBuilder) {
+      throw new Error(
+        &#x27;Stacked Area Builder: Color dimension must be created. Please use method &#x60;color&#x60; to set the categorical dimension.&#x27;
+      );
+    }
+    if (!this.xDimensionBuilder) {
+      throw new Error(
+        &#x27;Stacked Area Builder: X dimension must be created. Please use method &#x60;xNumeric&#x60; or &#x60;xDate&#x60; to set the x dimension.&#x27;
+      );
+    }
+    if (!this.yDimensionBuilder) {
+      throw new Error(
+        &#x27;Stacked Area Builder: Y dimension must be created. Please use method &#x60;y&#x60; to set the y dimension.&#x27;
+      );
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'VicStackedAreaConfigBuilder.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

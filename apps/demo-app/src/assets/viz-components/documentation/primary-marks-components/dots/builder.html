@@ -1,0 +1,4052 @@
+<!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >VicDotsConfigBuilder</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="viz-components/documentation/primary-marks-components/dots/builder#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="viz-components/documentation/primary-marks-components/dots/builder#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/dots/config/dots-builder.ts</code>
+        </p>
+
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+            </p>
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#_opacity" >_opacity</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#_pointerDetectionRadius" >_pointerDetectionRadius</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#fillBuilderCategorical" >fillBuilderCategorical</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#fillBuilderConst" >fillBuilderConst</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#fillBuilderNumber" >fillBuilderNumber</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusBuilderCategorical" >radiusBuilderCategorical</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusBuilderConst" >radiusBuilderConst</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusBuilderNumber" >radiusBuilderNumber</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#strokeBuilder" >strokeBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#xBuilderDate" >xBuilderDate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#xBuilderNumeric" >xBuilderNumeric</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#xBuilderOrdinal" >xBuilderOrdinal</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#yBuilderDate" >yBuilderDate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#yBuilderNumeric" >yBuilderNumeric</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#yBuilderOrdinal" >yBuilderOrdinal</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#_data" >_data</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#_datumClass" >_datumClass</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#_mixBlendMode" >_mixBlendMode</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#fill" >fill</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#fill" >fill</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#fill" >fill</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#fillCategorical" >fillCategorical</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#fillCategorical" >fillCategorical</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#fillCategorical" >fillCategorical</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#fillNumeric" >fillNumeric</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#fillNumeric" >fillNumeric</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#fillNumeric" >fillNumeric</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#getConfig" >getConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#initFillBuilderNumber" >initFillBuilderNumber</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#initStrokeBuilder" >initStrokeBuilder</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#opacity" >opacity</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#radius" >radius</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#radius" >radius</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#radius" >radius</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusCategorical" >radiusCategorical</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusCategorical" >radiusCategorical</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusCategorical" >radiusCategorical</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusNumeric" >radiusNumeric</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusNumeric" >radiusNumeric</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusNumeric" >radiusNumeric</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#stroke" >stroke</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#stroke" >stroke</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#stroke" >stroke</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier"></span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#validateBuilder" >validateBuilder</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#xDate" >xDate</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#xDate" >xDate</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#xDate" >xDate</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#xNumeric" >xNumeric</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#xNumeric" >xNumeric</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#xNumeric" >xNumeric</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#xOrdinal" >xOrdinal</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#xOrdinal" >xOrdinal</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#xOrdinal" >xOrdinal</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#yDate" >yDate</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#yDate" >yDate</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#yDate" >yDate</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#yNumeric" >yNumeric</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#yNumeric" >yNumeric</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#yNumeric" >yNumeric</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#yOrdinal" >yOrdinal</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#yOrdinal" >yOrdinal</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#yOrdinal" >yOrdinal</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#data" >data</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#datumClass" >datumClass</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/builder#mixBlendMode" >mixBlendMode</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:63</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fill"></a>
+                    <span class="name">
+                        <span ><b>fill</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#fill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fill(fill)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="77"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:77</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Sets the appearance of the fill for the dots using a color string.</p>
+<p>If a string is passed, it will be used as the color for all dots.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fill</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fill"></a>
+                    <span class="name">
+                        <span ><b>fill</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#fill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fill(fill: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="78"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fill</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fill"></a>
+                    <span class="name">
+                        <span ><b>fill</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#fill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fill(fill: string | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="79"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fill</td>
+                                            <td>
+                                                        <code>string | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fillCategorical"></a>
+                    <span class="name">
+                        <span ><b>fillCategorical</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#fillCategorical"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fillCategorical(fill)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="93"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:93</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Sets the appearance of the fill for the dots using a categorical dimension.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fill</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fillCategorical"></a>
+                    <span class="name">
+                        <span ><b>fillCategorical</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#fillCategorical"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fillCategorical(fill: (fill: <a href="../undefineds/VisualValue.html">OrdinalVisualValueDimensionBuilder<Datum | string | string></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="94"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fill</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fillCategorical"></a>
+                    <span class="name">
+                        <span ><b>fillCategorical</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#fillCategorical"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fillCategorical(fill:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="99"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fill</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fillNumeric"></a>
+                    <span class="name">
+                        <span ><b>fillNumeric</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#fillNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fillNumeric(fill)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="115"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:115</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fill</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fillNumeric"></a>
+                    <span class="name">
+                        <span ><b>fillNumeric</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#fillNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fillNumeric(fill: (fill: <a href="../undefineds/VisualValue.html">NumberVisualValueDimensionBuilder<Datum | string></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="116"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:116</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fill</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fillNumeric"></a>
+                    <span class="name">
+                        <span ><b>fillNumeric</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#fillNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fillNumeric(fill:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="119"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:119</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fill</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getConfig"></a>
+                    <span class="name">
+                        <span ><b>getConfig</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#getConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getConfig()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="350"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:350</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Validates and builds the configuration object for the bars that can be passed to BarsComponent.</p>
+<p>The user must call this at the end of the chain of methods to build the configuration object.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="viz-components/documentationprimary-marks-components/dots/internal/config" target="_self" >DotsConfig&lt;Datum, XOrdinalDomain, YOrdinalDomain&gt;</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initFillBuilderNumber"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>initFillBuilderNumber</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#initFillBuilderNumber"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initFillBuilderNumber()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="133"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:133</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initStrokeBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>initStrokeBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#initStrokeBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initStrokeBuilder()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="221"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:221</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="opacity"></a>
+                    <span class="name">
+                        <span ><b>opacity</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#opacity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>opacity(opacity: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="142"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:142</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Sets the opacity of the dots.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>opacity</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="radius"></a>
+                    <span class="name">
+                        <span ><b>radius</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#radius"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>radius(radius)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="154"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:154</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. The size of the radius of the dots</p>
+<p>This is temporarily a constant.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>radius</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="radius"></a>
+                    <span class="name">
+                        <span ><b>radius</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#radius"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>radius(radius: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="155"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:155</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>radius</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="radius"></a>
+                    <span class="name">
+                        <span ><b>radius</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#radius"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>radius(radius: number | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="156"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:156</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>radius</td>
+                                            <td>
+                                                        <code>number | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="radiusCategorical"></a>
+                    <span class="name">
+                        <span ><b>radiusCategorical</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusCategorical"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>radiusCategorical(radius)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="166"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:166</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>radius</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="radiusCategorical"></a>
+                    <span class="name">
+                        <span ><b>radiusCategorical</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusCategorical"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>radiusCategorical(radius: (radius: <a href="../undefineds/VisualValue.html">OrdinalVisualValueDimensionBuilder<Datum | string | number></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="167"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:167</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>radius</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="radiusCategorical"></a>
+                    <span class="name">
+                        <span ><b>radiusCategorical</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusCategorical"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>radiusCategorical(radius:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="172"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:172</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>radius</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="radiusNumeric"></a>
+                    <span class="name">
+                        <span ><b>radiusNumeric</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>radiusNumeric(radius)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="188"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:188</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>radius</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="radiusNumeric"></a>
+                    <span class="name">
+                        <span ><b>radiusNumeric</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>radiusNumeric(radius: (radius: <a href="../undefineds/VisualValue.html">NumberVisualValueDimensionBuilder<Datum | number></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="189"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:189</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>radius</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="radiusNumeric"></a>
+                    <span class="name">
+                        <span ><b>radiusNumeric</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>radiusNumeric(radius: (radius: <a href="../undefineds/VisualValue.html">NumberVisualValueDimensionBuilder<Datum | number></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="192"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:192</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>radius</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stroke"></a>
+                    <span class="name">
+                        <span ><b>stroke</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#stroke"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>stroke(stroke)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="209"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:209</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Sets the appearance of the stroke for the dots.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>stroke</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stroke"></a>
+                    <span class="name">
+                        <span ><b>stroke</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#stroke"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>stroke(stroke: (stroke: <a ">StrokeBuilder</a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="210"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:210</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>stroke</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stroke"></a>
+                    <span class="name">
+                        <span ><b>stroke</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#stroke"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>stroke(stroke:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="211"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:211</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>stroke</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validateBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier"></span>
+                        <span ><b>validateBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#validateBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>validateBuilder()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/builder#source" target="_self" >PrimaryMarksBuilder:385</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xDate"></a>
+                    <span class="name">
+                        <span ><b>xDate</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#xDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xDate(x)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="228"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:228</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. A config for the behavior of the chart&#39;s x dimension when using numeric data.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xDate"></a>
+                    <span class="name">
+                        <span ><b>xDate</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#xDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xDate(x: (x: <a ">DateChartPositionDimensionBuilder<Datum></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="229"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:229</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xDate"></a>
+                    <span class="name">
+                        <span ><b>xDate</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#xDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xDate(x:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="230"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:230</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xNumeric"></a>
+                    <span class="name">
+                        <span ><b>xNumeric</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#xNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xNumeric(x)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="245"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:245</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. A config for the behavior of the chart&#39;s x dimension when using numeric data.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xNumeric"></a>
+                    <span class="name">
+                        <span ><b>xNumeric</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#xNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xNumeric(x: (x: <a ">NumberChartPositionDimensionBuilder<Datum></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="246"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:246</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xNumeric"></a>
+                    <span class="name">
+                        <span ><b>xNumeric</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#xNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xNumeric(x:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="247"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:247</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xOrdinal"></a>
+                    <span class="name">
+                        <span ><b>xOrdinal</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#xOrdinal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xOrdinal(x)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="262"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:262</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. A config for the behavior of the chart&#39;s x dimension when using numeric data.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xOrdinal"></a>
+                    <span class="name">
+                        <span ><b>xOrdinal</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#xOrdinal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xOrdinal(x: (x: <a ">OrdinalChartPositionDimensionBuilder<Datum | XOrdinalDomain></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="263"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:263</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xOrdinal"></a>
+                    <span class="name">
+                        <span ><b>xOrdinal</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#xOrdinal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>xOrdinal(x:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="266"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:266</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yDate"></a>
+                    <span class="name">
+                        <span ><b>yDate</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#yDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>yDate(y)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="288"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:288</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. A config for the behavior of the chart&#39;s x dimension when using numeric data.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>y</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yDate"></a>
+                    <span class="name">
+                        <span ><b>yDate</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#yDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>yDate(y: (y: <a ">DateChartPositionDimensionBuilder<Datum></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="289"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:289</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>y</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yDate"></a>
+                    <span class="name">
+                        <span ><b>yDate</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#yDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>yDate(y:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="290"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:290</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>y</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yNumeric"></a>
+                    <span class="name">
+                        <span ><b>yNumeric</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#yNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>yNumeric(y)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="305"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:305</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. A config for the behavior of the chart&#39;s x dimension when using numeric data.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>y</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yNumeric"></a>
+                    <span class="name">
+                        <span ><b>yNumeric</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#yNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>yNumeric(y: (y: <a ">NumberChartPositionDimensionBuilder<Datum></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="306"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:306</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>y</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yNumeric"></a>
+                    <span class="name">
+                        <span ><b>yNumeric</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#yNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>yNumeric(y:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="307"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:307</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>y</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yOrdinal"></a>
+                    <span class="name">
+                        <span ><b>yOrdinal</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#yOrdinal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>yOrdinal(y)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="322"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:322</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. A config for the behavior of the chart&#39;s x dimension when using numeric data.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>y</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yOrdinal"></a>
+                    <span class="name">
+                        <span ><b>yOrdinal</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#yOrdinal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>yOrdinal(y: (y: <a ">OrdinalChartPositionDimensionBuilder<Datum | YOrdinalDomain></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="323"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:323</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>y</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yOrdinal"></a>
+                    <span class="name">
+                        <span ><b>yOrdinal</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#yOrdinal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>yOrdinal(y:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="326"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:326</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>y</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="data"></a>
+                    <span class="name">
+                        <span ><b>data</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>data(data: Datum[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/builder#source" target="_self" >PrimaryMarksBuilder:47</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Sets the data that will be used to render the marks for this component</p>
+<p>If no dimension domain overrides are provided, <strong>this primary-marks data will also create the domain of the scales used on the entire chart</strong>.</p>
+<p>The objects in the array can be of an type, and if an array of objects, the objects can contain any number of properties, including properties that are extraneous to the chart at hand.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                        <code>Datum[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="datumClass"></a>
+                    <span class="name">
+                        <span ><b>datumClass</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#datumClass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>datumClass(value)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/builder#source" target="_self" >PrimaryMarksBuilder:24</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Provides a class on the SVG element that corresponds to a single datum. If a datum creates multiple SVG elements -- for example, a rect and a label, the class will be applied on the parent SVGGElement.</p>
+<p>IF the chart does not have SVG elements that correspond to a single datum, this class will be placed on the SVG element that represents a collection of data, for example, a area in a stacked area chart, or a line in a line chart. In this case the datum passed to the callback function will be the first datum in the collection.</p>
+<p>Note that if the resultant string has spaces in the name, multiple classes will be applied. For example, if the class is &#39;North Carolina&#39;, the element will have the classes &#39;North&#39; and &#39;Carolina&#39;.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mixBlendMode"></a>
+                    <span class="name">
+                        <span ><b>mixBlendMode</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#mixBlendMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>mixBlendMode(mixBlendMode)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/builder#source" target="_self" >PrimaryMarksBuilder:57</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sets the mix-blend-mode of the marks.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>mixBlendMode</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_opacity"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_opacity</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#_opacity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_pointerDetectionRadius"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_pointerDetectionRadius</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#_pointerDetectionRadius"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fillBuilderCategorical"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>fillBuilderCategorical</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#fillBuilderCategorical"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#VisualValue" target="_self" >OrdinalVisualValueDimensionBuilder&lt;Datum | string | string&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fillBuilderConst"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>fillBuilderConst</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#fillBuilderConst"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#VisualValue" target="_self" >OrdinalVisualValueDimensionBuilder&lt;Datum | string | string&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fillBuilderNumber"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>fillBuilderNumber</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#fillBuilderNumber"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#VisualValue" target="_self" >NumberVisualValueDimensionBuilder&lt;Datum | string&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="radiusBuilderCategorical"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>radiusBuilderCategorical</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusBuilderCategorical"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#VisualValue" target="_self" >OrdinalVisualValueDimensionBuilder&lt;Datum | string | number&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="radiusBuilderConst"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>radiusBuilderConst</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusBuilderConst"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#VisualValue" target="_self" >OrdinalVisualValueDimensionBuilder&lt;Datum | string | number&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="radiusBuilderNumber"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>radiusBuilderNumber</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#radiusBuilderNumber"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#VisualValue" target="_self" >NumberVisualValueDimensionBuilder&lt;Datum | number&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="strokeBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>strokeBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#strokeBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >StrokeBuilder</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xBuilderDate"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>xBuilderDate</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#xBuilderDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >DateChartPositionDimensionBuilder&lt;Datum&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xBuilderNumeric"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>xBuilderNumeric</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#xBuilderNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >NumberChartPositionDimensionBuilder&lt;Datum&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xBuilderOrdinal"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>xBuilderOrdinal</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#xBuilderOrdinal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >OrdinalChartPositionDimensionBuilder&lt;Datum | XOrdinalDomain&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yBuilderDate"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>yBuilderDate</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#yBuilderDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >DateChartPositionDimensionBuilder&lt;Datum&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yBuilderNumeric"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>yBuilderNumeric</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#yBuilderNumeric"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >NumberChartPositionDimensionBuilder&lt;Datum&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yBuilderOrdinal"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>yBuilderOrdinal</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#yBuilderOrdinal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >OrdinalChartPositionDimensionBuilder&lt;Datum | YOrdinalDomain&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-builder.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_data"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_data</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#_data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Datum[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/builder#source" target="_self" >PrimaryMarksBuilder:10</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_datumClass"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_datumClass</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#_datumClass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/builder#source" target="_self" >PrimaryMarksBuilder:9</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_mixBlendMode"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_mixBlendMode</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/builder#_mixBlendMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/builder#source" target="_self" >PrimaryMarksBuilder:11</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { safeAssign } from &#x27;@hsi/app-dev-kit&#x27;;
+import { schemeTableau10 } from &#x27;d3&#x27;;
+import { DataValue } from &#x27;../../core&#x27;;
+import { DateChartPositionDimensionBuilder } from &#x27;../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position-builder&#x27;;
+import { NumberChartPositionDimensionBuilder } from &#x27;../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder&#x27;;
+import { NumberVisualValueDimensionBuilder } from &#x27;../../data-dimensions/continuous-quantitative/number-visual-value/number-visual-value-builder&#x27;;
+import { OrdinalChartPositionDimensionBuilder } from &#x27;../../data-dimensions/ordinal/ordinal-chart-position/ordinal-chart-position-builder&#x27;;
+import { OrdinalVisualValueDimensionBuilder } from &#x27;../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder&#x27;;
+import { PrimaryMarksBuilder } from &#x27;../../marks/primary-marks/config/primary-marks-builder&#x27;;
+import { StrokeBuilder } from &#x27;../../stroke/stroke-builder&#x27;;
+import { DotsConfig } from &#x27;./dots-config&#x27;;
+
+const DEFAULT &#x3D; {
+  _pointerDetectionRadius: 12,
+  _fill: &#x27;lightgray&#x27;,
+  _opacity: 1,
+  _radius: 2,
+};
+
+@Injectable()
+export class VicDotsConfigBuilder&lt;
+  Datum,
+  XOrdinalDomain extends DataValue &#x3D; string,
+  YOrdinalDomain extends DataValue &#x3D; string,
+&gt; extends PrimaryMarksBuilder&lt;Datum&gt; {
+  private _opacity: number;
+  private _pointerDetectionRadius: number;
+  private fillBuilderCategorical: OrdinalVisualValueDimensionBuilder&lt;
+    Datum,
+    string,
+    string
+  &gt;;
+  private fillBuilderNumber: NumberVisualValueDimensionBuilder&lt;Datum, string&gt;;
+  private fillBuilderConst: OrdinalVisualValueDimensionBuilder&lt;
+    Datum,
+    string,
+    string
+  &gt;;
+  private radiusBuilderCategorical: OrdinalVisualValueDimensionBuilder&lt;
+    Datum,
+    string,
+    number
+  &gt;;
+  private radiusBuilderNumber: NumberVisualValueDimensionBuilder&lt;Datum, number&gt;;
+  private radiusBuilderConst: OrdinalVisualValueDimensionBuilder&lt;
+    Datum,
+    string,
+    number
+  &gt;;
+  private strokeBuilder: StrokeBuilder;
+  private xBuilderNumeric: NumberChartPositionDimensionBuilder&lt;Datum&gt;;
+  private xBuilderDate: DateChartPositionDimensionBuilder&lt;Datum&gt;;
+  private xBuilderOrdinal: OrdinalChartPositionDimensionBuilder&lt;
+    Datum,
+    XOrdinalDomain
+  &gt;;
+  private yBuilderNumeric: NumberChartPositionDimensionBuilder&lt;Datum&gt;;
+  private yBuilderDate: DateChartPositionDimensionBuilder&lt;Datum&gt;;
+  private yBuilderOrdinal: OrdinalChartPositionDimensionBuilder&lt;
+    Datum,
+    YOrdinalDomain
+  &gt;;
+
+  constructor() {
+    super();
+    safeAssign(this, DEFAULT);
+  }
+
+  /**
+   * OPTIONAL. Sets the appearance of the fill for the dots using a color string.
+   *
+   * If a string is passed, it will be used as the color for all dots.
+   *
+   * @default &#x27;schemeTableau10[0]&#x27;
+   */
+  fill(fill: null): this;
+  fill(fill: string): this;
+  fill(fill: string | null): this {
+    if (fill &#x3D;&#x3D;&#x3D; null) {
+      this.fillBuilderConst &#x3D; undefined;
+      return this;
+    }
+    this.fillBuilderConst &#x3D; new OrdinalVisualValueDimensionBuilder();
+    this.fillBuilderConst.valueAccessor(() &#x3D;&gt; &#x27;&#x27;).range([fill]);
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets the appearance of the fill for the dots using a categorical dimension.
+   *
+   */
+  fillCategorical(fill: null): this;
+  fillCategorical(
+    fill: (
+      fill: OrdinalVisualValueDimensionBuilder&lt;Datum, string, string&gt;
+    ) &#x3D;&gt; void
+  ): this;
+  fillCategorical(
+    fill:
+      | ((
+          fill: OrdinalVisualValueDimensionBuilder&lt;Datum, string, string&gt;
+        ) &#x3D;&gt; void)
+      | null
+  ): this {
+    if (fill &#x3D;&#x3D;&#x3D; null) {
+      this.fillBuilderCategorical &#x3D; undefined;
+      return this;
+    }
+    this.fillBuilderCategorical &#x3D; new OrdinalVisualValueDimensionBuilder();
+    fill(this.fillBuilderCategorical);
+    return this;
+  }
+
+  fillNumeric(fill: null): this;
+  fillNumeric(
+    fill: (fill: NumberVisualValueDimensionBuilder&lt;Datum, string&gt;) &#x3D;&gt; void
+  ): this;
+  fillNumeric(
+    fill:
+      | ((fill: NumberVisualValueDimensionBuilder&lt;Datum, string&gt;) &#x3D;&gt; void)
+      | null
+  ): this {
+    if (fill &#x3D;&#x3D;&#x3D; null) {
+      this.fillBuilderNumber &#x3D; undefined;
+      return this;
+    }
+    this.initFillBuilderNumber();
+    fill(this.fillBuilderNumber);
+    return this;
+  }
+
+  private initFillBuilderNumber(): void {
+    this.fillBuilderNumber &#x3D; new NumberVisualValueDimensionBuilder();
+  }
+
+  /**
+   * OPTIONAL. Sets the opacity of the dots.
+   *
+   * @default 1
+   */
+  opacity(opacity: number): this {
+    this._opacity &#x3D; opacity;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. The size of the radius of the dots
+   *
+   * This is temporarily a constant.
+   *
+   * @default 2
+   */
+  radius(radius: null): this;
+  radius(radius: number): this;
+  radius(radius: number | null): this {
+    if (radius &#x3D;&#x3D;&#x3D; null) {
+      this.radiusBuilderConst &#x3D; undefined;
+      return this;
+    }
+    this.radiusBuilderConst &#x3D; new OrdinalVisualValueDimensionBuilder();
+    this.radiusBuilderConst.range([radius]);
+    return this;
+  }
+
+  radiusCategorical(radius: null): this;
+  radiusCategorical(
+    radius: (
+      radius: OrdinalVisualValueDimensionBuilder&lt;Datum, string, number&gt;
+    ) &#x3D;&gt; void
+  ): this;
+  radiusCategorical(
+    radius:
+      | ((
+          radius: OrdinalVisualValueDimensionBuilder&lt;Datum, string, number&gt;
+        ) &#x3D;&gt; void)
+      | null
+  ): this {
+    if (radius &#x3D;&#x3D;&#x3D; null) {
+      this.radiusBuilderCategorical &#x3D; undefined;
+      return this;
+    }
+    this.radiusBuilderCategorical &#x3D; new OrdinalVisualValueDimensionBuilder();
+    radius(this.radiusBuilderCategorical);
+    return this;
+  }
+
+  radiusNumeric(radius: null): this;
+  radiusNumeric(
+    radius: (radius: NumberVisualValueDimensionBuilder&lt;Datum, number&gt;) &#x3D;&gt; void
+  ): this;
+  radiusNumeric(
+    radius: (
+      radius: NumberVisualValueDimensionBuilder&lt;Datum, number&gt;
+    ) &#x3D;&gt; void | null
+  ): this {
+    if (radius &#x3D;&#x3D;&#x3D; null) {
+      this.radiusBuilderNumber &#x3D; undefined;
+      return this;
+    }
+    this.radiusBuilderNumber &#x3D; new NumberVisualValueDimensionBuilder();
+    radius(this.radiusBuilderNumber);
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets the appearance of the stroke for the dots.
+   */
+  stroke(stroke: null): this;
+  stroke(stroke: (stroke: StrokeBuilder) &#x3D;&gt; void): this;
+  stroke(stroke: ((stroke: StrokeBuilder) &#x3D;&gt; void) | null): this {
+    if (stroke &#x3D;&#x3D;&#x3D; null) {
+      this.strokeBuilder &#x3D; undefined;
+      return this;
+    }
+    this.initStrokeBuilder();
+    stroke(this.strokeBuilder);
+    return this;
+  }
+
+  private initStrokeBuilder(): void {
+    this.strokeBuilder &#x3D; new StrokeBuilder();
+  }
+
+  /**
+   * REQUIRED. A config for the behavior of the chart&#x27;s x dimension when using numeric data.
+   */
+  xDate(x: null): this;
+  xDate(x: (x: DateChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void): this;
+  xDate(
+    x: ((x: DateChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void) | null
+  ): this {
+    if (x &#x3D;&#x3D;&#x3D; null) {
+      this.xBuilderDate &#x3D; undefined;
+      return this;
+    }
+    this.xBuilderDate &#x3D; new DateChartPositionDimensionBuilder&lt;Datum&gt;();
+    x(this.xBuilderDate);
+    return this;
+  }
+
+  /**
+   * REQUIRED. A config for the behavior of the chart&#x27;s x dimension when using numeric data.
+   */
+  xNumeric(x: null): this;
+  xNumeric(x: (x: NumberChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void): this;
+  xNumeric(
+    x: ((x: NumberChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void) | null
+  ): this {
+    if (x &#x3D;&#x3D;&#x3D; null) {
+      this.xBuilderNumeric &#x3D; undefined;
+      return this;
+    }
+    this.xBuilderNumeric &#x3D; new NumberChartPositionDimensionBuilder&lt;Datum&gt;();
+    x(this.xBuilderNumeric);
+    return this;
+  }
+
+  /**
+   * REQUIRED. A config for the behavior of the chart&#x27;s x dimension when using numeric data.
+   */
+  xOrdinal(x: null): this;
+  xOrdinal(
+    x: (x: OrdinalChartPositionDimensionBuilder&lt;Datum, XOrdinalDomain&gt;) &#x3D;&gt; void
+  ): this;
+  xOrdinal(
+    x:
+      | ((
+          x: OrdinalChartPositionDimensionBuilder&lt;Datum, XOrdinalDomain&gt;
+        ) &#x3D;&gt; void)
+      | null
+  ): this {
+    if (x &#x3D;&#x3D;&#x3D; null) {
+      this.xBuilderDate &#x3D; undefined;
+      return this;
+    }
+    this.xBuilderOrdinal &#x3D; new OrdinalChartPositionDimensionBuilder&lt;
+      Datum,
+      XOrdinalDomain
+    &gt;();
+    x(this.xBuilderOrdinal);
+    return this;
+  }
+
+  /**
+   * REQUIRED. A config for the behavior of the chart&#x27;s x dimension when using numeric data.
+   */
+  yDate(y: null): this;
+  yDate(y: (y: DateChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void): this;
+  yDate(
+    y: ((y: DateChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void) | null
+  ): this {
+    if (y &#x3D;&#x3D;&#x3D; null) {
+      this.yBuilderDate &#x3D; undefined;
+      return this;
+    }
+    this.yBuilderDate &#x3D; new DateChartPositionDimensionBuilder&lt;Datum&gt;();
+    y(this.yBuilderDate);
+    return this;
+  }
+
+  /**
+   * REQUIRED. A config for the behavior of the chart&#x27;s x dimension when using numeric data.
+   */
+  yNumeric(y: null): this;
+  yNumeric(y: (y: NumberChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void): this;
+  yNumeric(
+    y: ((y: NumberChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void) | null
+  ): this {
+    if (y &#x3D;&#x3D;&#x3D; null) {
+      this.yBuilderNumeric &#x3D; undefined;
+      return this;
+    }
+    this.yBuilderNumeric &#x3D; new NumberChartPositionDimensionBuilder&lt;Datum&gt;();
+    y(this.yBuilderNumeric);
+    return this;
+  }
+
+  /**
+   * REQUIRED. A config for the behavior of the chart&#x27;s x dimension when using numeric data.
+   */
+  yOrdinal(y: null): this;
+  yOrdinal(
+    y: (y: OrdinalChartPositionDimensionBuilder&lt;Datum, YOrdinalDomain&gt;) &#x3D;&gt; void
+  ): this;
+  yOrdinal(
+    y:
+      | ((
+          y: OrdinalChartPositionDimensionBuilder&lt;Datum, YOrdinalDomain&gt;
+        ) &#x3D;&gt; void)
+      | null
+  ): this {
+    if (y &#x3D;&#x3D;&#x3D; null) {
+      this.yBuilderOrdinal &#x3D; undefined;
+      return this;
+    }
+    this.yBuilderOrdinal &#x3D; new OrdinalChartPositionDimensionBuilder&lt;
+      Datum,
+      YOrdinalDomain
+    &gt;();
+    y(this.yBuilderOrdinal);
+    return this;
+  }
+
+  /**
+   * REQUIRED. Validates and builds the configuration object for the bars that can be passed to BarsComponent.
+   *
+   * The user must call this at the end of the chain of methods to build the configuration object.
+   */
+  getConfig(): DotsConfig&lt;Datum, XOrdinalDomain, YOrdinalDomain&gt; {
+    this.validateBuilder();
+    const fillName &#x3D; &#x27;Dots Fill&#x27;;
+    const radiusName &#x3D; &#x27;Dots Radius&#x27;;
+    const xName &#x3D; &#x27;Dots X&#x27;;
+    const yName &#x3D; &#x27;Dots Y&#x27;;
+    const fillBuilder &#x3D; this.fillBuilderCategorical
+      ? this.fillBuilderCategorical
+      : this.fillBuilderNumber || this.fillBuilderConst;
+    const radiusBuilder &#x3D; this.radiusBuilderCategorical
+      ? this.radiusBuilderCategorical
+      : this.radiusBuilderNumber || this.radiusBuilderConst;
+    return new DotsConfig&lt;Datum, XOrdinalDomain, YOrdinalDomain&gt;({
+      marksClass: &#x27;vic-dots&#x27;,
+      data: this._data,
+      datumClass: this._datumClass,
+      fill: fillBuilder._build(fillName),
+      mixBlendMode: this._mixBlendMode,
+      opacity: this._opacity,
+      pointerDetectionRadius: this._pointerDetectionRadius,
+      radius: radiusBuilder._build(radiusName),
+      stroke: this.strokeBuilder?._build(),
+      x: this.xBuilderDate
+        ? this.xBuilderDate._build(xName)
+        : this.xBuilderNumeric
+          ? this.xBuilderNumeric._build(xName)
+          : this.xBuilderOrdinal._build(&#x27;point&#x27;, xName),
+      y: this.xBuilderDate
+        ? this.yBuilderDate._build(yName)
+        : this.yBuilderNumeric
+          ? this.yBuilderNumeric._build(yName)
+          : this.yBuilderOrdinal._build(&#x27;point&#x27;, yName),
+    });
+  }
+
+  protected override validateBuilder(): void {
+    super.validateBuilder(&#x27;Lines&#x27;);
+    const fillBuilders &#x3D; [
+      this.fillBuilderCategorical,
+      this.fillBuilderNumber,
+      this.fillBuilderConst,
+    ];
+    const numFillBuilders &#x3D; fillBuilders.filter(
+      (builder) &#x3D;&gt; builder !&#x3D;&#x3D; undefined
+    ).length;
+    if (numFillBuilders &#x3D;&#x3D;&#x3D; 0) {
+      this.fillBuilderCategorical &#x3D; new OrdinalVisualValueDimensionBuilder();
+      this.fillBuilderCategorical.range([schemeTableau10[0]]);
+    }
+    if (numFillBuilders &gt; 1) {
+      throw new Error(
+        &#x60;Dots Builder: Only one fill method can be called with a truthy value. Curently ${numFillBuilders} are called.&#x60;
+      );
+    }
+    const radiusBuilders &#x3D; [
+      this.radiusBuilderCategorical,
+      this.radiusBuilderNumber,
+      this.radiusBuilderConst,
+    ];
+    const numRadiusBuilders &#x3D; radiusBuilders.filter(
+      (builder) &#x3D;&gt; builder !&#x3D;&#x3D; undefined
+    ).length;
+    if (numRadiusBuilders &#x3D;&#x3D;&#x3D; 0) {
+      this.radiusBuilderCategorical &#x3D; new OrdinalVisualValueDimensionBuilder();
+      this.radiusBuilderCategorical.range([2]);
+    }
+    if (numRadiusBuilders &gt; 1) {
+      throw new Error(
+        &#x60;Dots Builder: Only one radius method can be called with a truthy value. Curently ${numRadiusBuilders} are called.&#x60;
+      );
+    }
+    if (
+      +!!this.xBuilderNumeric +
+        +!!this.xBuilderDate +
+        +!!this.xBuilderOrdinal !&#x3D;&#x3D;
+      1
+    ) {
+      throw new Error(
+        &#x27;Dots Builder: Exactly one X dimension is required. Please use one of &#x60;xDate&#x60;, &#x60;xNumeric&#x60;, or &#x60;xOrdinal&#x60; to set it.&#x27;
+      );
+    }
+    if (
+      +!!this.yBuilderNumeric +
+        +!!this.yBuilderDate +
+        +!!this.yBuilderOrdinal !&#x3D;&#x3D;
+      1
+    ) {
+      throw new Error(
+        &#x27;Dots Builder: Exactly one Y dimension is required. Please use one of &#x60;yDate&#x60;, &#x60;yNumeric&#x60;, or &#x60;yOrdinal&#x60; to set it.&#x27;
+      );
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->

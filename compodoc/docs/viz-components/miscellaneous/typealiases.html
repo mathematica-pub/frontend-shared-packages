@@ -1,0 +1,1306 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-typealiases">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Type aliases</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#AbstractConstructor" title="libs/viz-components/src/lib/core/common-behaviors/constructor.ts" ><b>AbstractConstructor</b>&nbsp;&nbsp;&nbsp;(libs/.../constructor.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Assert" title="libs/viz-components/src/lib/data-dimensions/continuous-quantitative/number-chart-position/domain-padding/domain-test-utility.ts" ><b>Assert</b>&nbsp;&nbsp;&nbsp;(libs/.../domain-test-utility.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AxisSvgElements" title="libs/viz-components/src/lib/axes/base/xy-axis-base.ts" ><b>AxisSvgElements</b>&nbsp;&nbsp;&nbsp;(libs/.../xy-axis-base.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#BarDatum" title="libs/viz-components/src/lib/bars/bars.component.ts" ><b>BarDatum</b>&nbsp;&nbsp;&nbsp;(libs/.../bars.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#BarGroupSelection" title="libs/viz-components/src/lib/bars/bars.component.ts" ><b>BarGroupSelection</b>&nbsp;&nbsp;&nbsp;(libs/.../bars.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#BarLabelSelection" title="libs/viz-components/src/lib/bars/bars.component.ts" ><b>BarLabelSelection</b>&nbsp;&nbsp;&nbsp;(libs/.../bars.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#BarSelection" title="libs/viz-components/src/lib/bars/bars.component.ts" ><b>BarSelection</b>&nbsp;&nbsp;&nbsp;(libs/.../bars.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#BarsSvgElement" title="libs/viz-components/src/lib/bars/bars.component.ts" ><b>BarsSvgElement</b>&nbsp;&nbsp;&nbsp;(libs/.../bars.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ConcreteDomainPadding" title="libs/viz-components/src/lib/data-dimensions/continuous-quantitative/number-chart-position/domain-padding/concrete-domain-padding.ts" ><b>ConcreteDomainPadding</b>&nbsp;&nbsp;&nbsp;(libs/.../concrete-domain-padding.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Constructor" title="libs/viz-components/src/lib/core/common-behaviors/constructor.ts" ><b>Constructor</b>&nbsp;&nbsp;&nbsp;(libs/.../constructor.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ContinentPopulationDateYearDatum" title="libs/viz-components/src/lib/testing/data/continent-population-year-data.ts" ><b>ContinentPopulationDateYearDatum</b>&nbsp;&nbsp;&nbsp;(libs/.../continent-population-year-data.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ContinentPopulationNumYearDatum" title="libs/viz-components/src/lib/testing/data/continent-population-year-data.ts" ><b>ContinentPopulationNumYearDatum</b>&nbsp;&nbsp;&nbsp;(libs/.../continent-population-year-data.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ContinuousValue" title="libs/viz-components/src/lib/core/types/values.ts" ><b>ContinuousValue</b>&nbsp;&nbsp;&nbsp;(libs/.../values.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CountryFactsDatum" title="libs/viz-components/src/lib/testing/data/country-area-continent.ts" ><b>CountryFactsDatum</b>&nbsp;&nbsp;&nbsp;(libs/.../country-area-continent.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DataValue" title="libs/viz-components/src/lib/core/types/values.ts" ><b>DataValue</b>&nbsp;&nbsp;&nbsp;(libs/.../values.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DiscontinuousAttributeDataDimensionConfig" title="libs/viz-components/src/lib/map-legend/discontinuous-legend/discontinuous-legend.component.ts" ><b>DiscontinuousAttributeDataDimensionConfig</b>&nbsp;&nbsp;&nbsp;(libs/.../discontinuous-legend.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DotDatum" title="libs/viz-components/src/lib/dots/dots.component.ts" ><b>DotDatum</b>&nbsp;&nbsp;&nbsp;(libs/.../dots.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DotGroupSelection" title="libs/viz-components/src/lib/dots/dots.component.ts" ><b>DotGroupSelection</b>&nbsp;&nbsp;&nbsp;(libs/.../dots.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DotLabelSelection" title="libs/viz-components/src/lib/dots/dots.component.ts" ><b>DotLabelSelection</b>&nbsp;&nbsp;&nbsp;(libs/.../dots.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DotSelection" title="libs/viz-components/src/lib/dots/dots.component.ts" ><b>DotSelection</b>&nbsp;&nbsp;&nbsp;(libs/.../dots.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DotsSvgElement" title="libs/viz-components/src/lib/dots/dots.component.ts" ><b>DotsSvgElement</b>&nbsp;&nbsp;&nbsp;(libs/.../dots.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#GeographiesFeature" title="libs/viz-components/src/lib/geographies/geographies-feature.ts" ><b>GeographiesFeature</b>&nbsp;&nbsp;&nbsp;(libs/.../geographies-feature.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#GeographiesHost" title="libs/viz-components/src/lib/geographies/events/geographies-events.directive.ts" ><b>GeographiesHost</b>&nbsp;&nbsp;&nbsp;(libs/.../geographies-events.directive.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#GeographiesSvgElement" title="libs/viz-components/src/lib/geographies/geographies.component.ts" ><b>GeographiesSvgElement</b>&nbsp;&nbsp;&nbsp;(libs/.../geographies.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#LayersGroup" title="libs/viz-components/src/lib/geographies/geographies.component.ts" ><b>LayersGroup</b>&nbsp;&nbsp;&nbsp;(libs/.../geographies.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#LinesGroupSelection" title="libs/viz-components/src/lib/lines/lines.component.ts" ><b>LinesGroupSelection</b>&nbsp;&nbsp;&nbsp;(libs/.../lines.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#LinesGroupSelectionDatum" title="libs/viz-components/src/lib/lines/lines.component.ts" ><b>LinesGroupSelectionDatum</b>&nbsp;&nbsp;&nbsp;(libs/.../lines.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#LinesSvgElements" title="libs/viz-components/src/lib/lines/lines.component.ts" ><b>LinesSvgElements</b>&nbsp;&nbsp;&nbsp;(libs/.../lines.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ListenElement" title="libs/viz-components/src/lib/events/events.types.ts" ><b>ListenElement</b>&nbsp;&nbsp;&nbsp;(libs/.../events.types.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#MarkerSelection" title="libs/viz-components/src/lib/lines/lines.component.ts" ><b>MarkerSelection</b>&nbsp;&nbsp;&nbsp;(libs/.../lines.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#OneOf" title="libs/viz-components/src/lib/core/types/utility.ts" ><b>OneOf</b>&nbsp;&nbsp;&nbsp;(libs/.../utility.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RulesSvgElements" title="libs/viz-components/src/lib/quantitative-rules/quantitative-rules.component.ts" ><b>RulesSvgElements</b>&nbsp;&nbsp;&nbsp;(libs/.../quantitative-rules.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ScalingStrategy" title="libs/viz-components/src/lib/charts/chart/config/chart-builder.ts" ><b>ScalingStrategy</b>&nbsp;&nbsp;&nbsp;(libs/.../chart-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StackDatum" title="libs/viz-components/src/lib/stacked-bars/stacked-bars.component.ts" ><b>StackDatum</b>&nbsp;&nbsp;&nbsp;(libs/.../stacked-bars.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StackedAreaDatum" title="libs/viz-components/src/lib/stacked-area/config/stacked-area-config.ts" ><b>StackedAreaDatum</b>&nbsp;&nbsp;&nbsp;(libs/.../stacked-area-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StackedAreaHost" title="libs/viz-components/src/lib/stacked-area/events/stacked-area-events.directive.ts" ><b>StackedAreaHost</b>&nbsp;&nbsp;&nbsp;(libs/.../stacked-area-events.directive.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StackedAreaSelection" title="libs/viz-components/src/lib/stacked-area/stacked-area.component.ts" ><b>StackedAreaSelection</b>&nbsp;&nbsp;&nbsp;(libs/.../stacked-area.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StackedAreaSvgElements" title="libs/viz-components/src/lib/stacked-area/stacked-area.component.ts" ><b>StackedAreaSvgElements</b>&nbsp;&nbsp;&nbsp;(libs/.../stacked-area.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StackedBarGroupSelection" title="libs/viz-components/src/lib/stacked-bars/stacked-bars.component.ts" ><b>StackedBarGroupSelection</b>&nbsp;&nbsp;&nbsp;(libs/.../stacked-bars.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StateIncomePopulationYearDatum" title="libs/viz-components/src/lib/testing/data/state-population-income-year-data.ts" ><b>StateIncomePopulationYearDatum</b>&nbsp;&nbsp;&nbsp;(libs/.../state-population-income-year-data.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ToArray" title="libs/viz-components/src/lib/core/types/utility.ts" ><b>ToArray</b>&nbsp;&nbsp;&nbsp;(libs/.../utility.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TooltipPositionConfig" title="libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position.ts" ><b>TooltipPositionConfig</b>&nbsp;&nbsp;&nbsp;(libs/.../tooltip-position.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UnlistenFunction" title="libs/viz-components/src/lib/events/events.types.ts" ><b>UnlistenFunction</b>&nbsp;&nbsp;&nbsp;(libs/.../events.types.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#VicAttributeDataDimensionConfig" title="libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types.ts" ><b>VicAttributeDataDimensionConfig</b>&nbsp;&nbsp;&nbsp;(libs/.../attribute-data-bin-types.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#VicFormatSpecifier" title="libs/viz-components/src/lib/core/utilities/values.ts" ><b>VicFormatSpecifier</b>&nbsp;&nbsp;&nbsp;(libs/.../values.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#VicImageType" title="libs/viz-components/src/lib/image-download/image-download-enums.ts" ><b>VicImageType</b>&nbsp;&nbsp;&nbsp;(libs/.../image-download-enums.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#VicNumberValuesBin" title="libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types.ts" ><b>VicNumberValuesBin</b>&nbsp;&nbsp;&nbsp;(libs/.../attribute-data-bin-types.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#VisualValue" title="libs/viz-components/src/lib/core/types/values.ts" ><b>VisualValue</b>&nbsp;&nbsp;&nbsp;(libs/.../values.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#XyAxisConfigType" title="libs/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-config.ts" ><b>XyAxisConfigType</b>&nbsp;&nbsp;&nbsp;(libs/.../x-ordinal-axis-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#XyAxisConfigType" title="libs/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis-config.ts" ><b>XyAxisConfigType</b>&nbsp;&nbsp;&nbsp;(libs/.../x-quantitative-axis-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#XyAxisConfigType" title="libs/viz-components/src/lib/axes/y-ordinal/y-ordinal-axis-config.ts" ><b>XyAxisConfigType</b>&nbsp;&nbsp;&nbsp;(libs/.../y-ordinal-axis-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#XyAxisConfigType" title="libs/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-config.ts" ><b>XyAxisConfigType</b>&nbsp;&nbsp;&nbsp;(libs/.../y-quantitative-axis-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#XyAxisScale" title="libs/viz-components/src/lib/axes/base/xy-axis-base.ts" ><b>XyAxisScale</b>&nbsp;&nbsp;&nbsp;(libs/.../xy-axis-base.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#XyAxisType" title="libs/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis.component.ts" ><b>XyAxisType</b>&nbsp;&nbsp;&nbsp;(libs/.../x-quantitative-axis.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#XyAxisType" title="libs/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis.component.ts" ><b>XyAxisType</b>&nbsp;&nbsp;&nbsp;(libs/.../y-quantitative-axis.component.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>libs/viz-components/src/lib/core/common-behaviors/constructor.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AbstractConstructor"></a>
+                    <span class="name "><b>AbstractConstructor</b><a href="#AbstractConstructor"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Constructor"></a>
+                    <span class="name "><b>Constructor</b><a href="#Constructor"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/data-dimensions/continuous-quantitative/number-chart-position/domain-padding/domain-test-utility.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Assert"></a>
+                    <span class="name "><b>Assert</b><a href="#Assert"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;isEqual&quot; | &quot;isAbove&quot; | &quot;isBelow&quot; | &quot;isCloseTo&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/axes/base/xy-axis-base.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AxisSvgElements"></a>
+                    <span class="name "><b>AxisSvgElements</b><a href="#AxisSvgElements"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;gridGroup&quot; | &quot;gridLine&quot; | &quot;label&quot; | &quot;axisGroup&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="XyAxisScale"></a>
+                    <span class="name "><b>XyAxisScale</b><a href="#XyAxisScale"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/bars/bars.component.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="BarDatum"></a>
+                    <span class="name "><b>BarDatum</b><a href="#BarDatum"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="BarGroupSelection"></a>
+                    <span class="name "><b>BarGroupSelection</b><a href="#BarGroupSelection"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>Selection&lt;SVGGElement | number | SVGSVGElement | &gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="BarLabelSelection"></a>
+                    <span class="name "><b>BarLabelSelection</b><a href="#BarLabelSelection"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>Selection&lt;SVGTextElement | number | SVGGElement | number&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="BarSelection"></a>
+                    <span class="name "><b>BarSelection</b><a href="#BarSelection"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>Selection&lt;SVGRectElement | number | SVGGElement | number&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="BarsSvgElement"></a>
+                    <span class="name "><b>BarsSvgElement</b><a href="#BarsSvgElement"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;g&quot; | &quot;bar&quot; | &quot;label&quot; | &quot;background&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/data-dimensions/continuous-quantitative/number-chart-position/domain-padding/concrete-domain-padding.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ConcreteDomainPadding"></a>
+                    <span class="name "><b>ConcreteDomainPadding</b><a href="#ConcreteDomainPadding"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>RoundUpToSigFigDomainPadding | RoundUpToIntervalDomainPadding | PercentOverDomainPadding | PixelDomainPadding</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/testing/data/continent-population-year-data.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ContinentPopulationDateYearDatum"></a>
+                    <span class="name "><b>ContinentPopulationDateYearDatum</b><a href="#ContinentPopulationDateYearDatum"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ContinentPopulationNumYearDatum"></a>
+                    <span class="name "><b>ContinentPopulationNumYearDatum</b><a href="#ContinentPopulationNumYearDatum"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/core/types/values.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ContinuousValue"></a>
+                    <span class="name "><b>ContinuousValue</b><a href="#ContinuousValue"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>number | Date</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DataValue"></a>
+                    <span class="name "><b>DataValue</b><a href="#DataValue"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>number | string | Date</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="VisualValue"></a>
+                    <span class="name "><b>VisualValue</b><a href="#VisualValue"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>number | string</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/testing/data/country-area-continent.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CountryFactsDatum"></a>
+                    <span class="name "><b>CountryFactsDatum</b><a href="#CountryFactsDatum"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/map-legend/discontinuous-legend/discontinuous-legend.component.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DiscontinuousAttributeDataDimensionConfig"></a>
+                    <span class="name "><b>DiscontinuousAttributeDataDimensionConfig</b><a href="#DiscontinuousAttributeDataDimensionConfig"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../miscellaneous/typealiases.html#VicAttributeDataDimensionConfig" target="_self" >Exclude&lt;VicAttributeDataDimensionConfig&lt;Datum&gt; | NoBinsAttributeDataDimension&lt;Datum&gt;&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/dots/dots.component.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DotDatum"></a>
+                    <span class="name "><b>DotDatum</b><a href="#DotDatum"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DotGroupSelection"></a>
+                    <span class="name "><b>DotGroupSelection</b><a href="#DotGroupSelection"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../miscellaneous/typealiases.html#DotDatum" target="_self" >Selection&lt;SVGGElement | DotDatum | SVGGElement | &gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DotLabelSelection"></a>
+                    <span class="name "><b>DotLabelSelection</b><a href="#DotLabelSelection"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../miscellaneous/typealiases.html#DotDatum" target="_self" >Selection&lt;SVGTextElement | DotDatum | SVGGElement | DotDatum&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DotSelection"></a>
+                    <span class="name "><b>DotSelection</b><a href="#DotSelection"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../miscellaneous/typealiases.html#DotDatum" target="_self" >Selection&lt;SVGCircleElement | DotDatum | SVGGElement | DotDatum&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DotsSvgElement"></a>
+                    <span class="name "><b>DotsSvgElement</b><a href="#DotsSvgElement"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;g&quot; | &quot;dot&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/geographies/geographies-feature.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="GeographiesFeature"></a>
+                    <span class="name "><b>GeographiesFeature</b><a href="#GeographiesFeature"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>Feature&lt;TGeometry | TProperties&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/geographies/events/geographies-events.directive.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="GeographiesHost"></a>
+                    <span class="name "><b>GeographiesHost</b><a href="#GeographiesHost"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../components/GeographiesComponent.html" target="_self" >MarksHost&lt;GeographiesInteractionOutput&lt;Datum&gt; | TGeographiesComponent&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/geographies/geographies.component.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="GeographiesSvgElement"></a>
+                    <span class="name "><b>GeographiesSvgElement</b><a href="#GeographiesSvgElement"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;layer&quot; | &quot;g&quot; | &quot;feature&quot; | &quot;label&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="LayersGroup"></a>
+                    <span class="name "><b>LayersGroup</b><a href="#LayersGroup"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>Selection&lt;SVGGElement |  |  | undefined&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/lines/lines.component.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="LinesGroupSelection"></a>
+                    <span class="name "><b>LinesGroupSelection</b><a href="#LinesGroupSelection"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>Selection&lt;SVGGElement | LinesGroupSelectionDatum | SVGGElement | &gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="LinesGroupSelectionDatum"></a>
+                    <span class="name "><b>LinesGroupSelectionDatum</b><a href="#LinesGroupSelectionDatum"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>[string, number[]]</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="LinesSvgElements"></a>
+                    <span class="name "><b>LinesSvgElements</b><a href="#LinesSvgElements"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;g&quot; | &quot;line&quot; | &quot;area&quot; | &quot;marker&quot; | &quot;label&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MarkerSelection"></a>
+                    <span class="name "><b>MarkerSelection</b><a href="#MarkerSelection"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../interfaces/LinesMarkerDatum.html" target="_self" >Selection&lt;SVGCircleElement | LinesMarkerDatum | SVGGElement | LinesGroupSelectionDatum&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/events/events.types.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ListenElement"></a>
+                    <span class="name "><b>ListenElement</b><a href="#ListenElement"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>HTMLElement | SVGElement</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UnlistenFunction"></a>
+                    <span class="name "><b>UnlistenFunction</b><a href="#UnlistenFunction"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/core/types/utility.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="OneOf"></a>
+                    <span class="name "><b>OneOf</b><a href="#OneOf"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ToArray"></a>
+                    <span class="name "><b>ToArray</b><a href="#ToArray"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/quantitative-rules/quantitative-rules.component.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="RulesSvgElements"></a>
+                    <span class="name "><b>RulesSvgElements</b><a href="#RulesSvgElements"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;g&quot; | &quot;rule&quot; | &quot;label&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/charts/chart/config/chart-builder.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ScalingStrategy"></a>
+                    <span class="name "><b>ScalingStrategy</b><a href="#ScalingStrategy"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;fixed&quot; | &quot;responsive-width&quot; | &quot;viewbox&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/stacked-bars/stacked-bars.component.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StackDatum"></a>
+                    <span class="name "><b>StackDatum</b><a href="#StackDatum"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StackedBarGroupSelection"></a>
+                    <span class="name "><b>StackedBarGroupSelection</b><a href="#StackedBarGroupSelection"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../miscellaneous/typealiases.html#StackDatum" target="_self" >Selection&lt;BaseType | SVGRectElement | StackDatum | SVGGElement | BaseType | StackDatum[]&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/stacked-area/config/stacked-area-config.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StackedAreaDatum"></a>
+                    <span class="name "><b>StackedAreaDatum</b><a href="#StackedAreaDatum"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>()[]</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/stacked-area/events/stacked-area-events.directive.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StackedAreaHost"></a>
+                    <span class="name "><b>StackedAreaHost</b><a href="#StackedAreaHost"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../components/StackedAreaComponent.html" target="_self" >MarksHost&lt;StackedAreaInteractionOutput&lt;Datum, TCategoricalValue&gt; | TStackedAreaComponent&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/stacked-area/stacked-area.component.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StackedAreaSelection"></a>
+                    <span class="name "><b>StackedAreaSelection</b><a href="#StackedAreaSelection"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../miscellaneous/typealiases.html#StackedAreaDatum" target="_self" >Selection&lt;SVGPathElement | StackedAreaDatum&lt;CategoricalDomain&gt; | SVGGElement | &gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StackedAreaSvgElements"></a>
+                    <span class="name "><b>StackedAreaSvgElements</b><a href="#StackedAreaSvgElements"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/testing/data/state-population-income-year-data.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StateIncomePopulationYearDatum"></a>
+                    <span class="name "><b>StateIncomePopulationYearDatum</b><a href="#StateIncomePopulationYearDatum"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TooltipPositionConfig"></a>
+                    <span class="name "><b>TooltipPositionConfig</b><a href="#TooltipPositionConfig"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="VicAttributeDataDimensionConfig"></a>
+                    <span class="name "><b>VicAttributeDataDimensionConfig</b><a href="#VicAttributeDataDimensionConfig"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../interfaces/Ranges.html" target="_self" >CategoricalBinsAttributeDataDimension&lt;Datum&gt; | NoBinsAttributeDataDimension&lt;Datum&gt; | EqualValueRangesAttributeDataDimension&lt;Datum&gt; | EqualFrequenciesAttributeDataDimension&lt;Datum&gt; | CustomBreaksBinsAttributeDataDimension&lt;Datum&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="VicNumberValuesBin"></a>
+                    <span class="name "><b>VicNumberValuesBin</b><a href="#VicNumberValuesBin"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../miscellaneous/enumerations.html#BinStrategy" target="_self" >Omit&lt;BinStrategy | BinStrategy.categorical&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/core/utilities/values.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="VicFormatSpecifier"></a>
+                    <span class="name "><b>VicFormatSpecifier</b><a href="#VicFormatSpecifier"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>string | </code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/image-download/image-download-enums.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="VicImageType"></a>
+                    <span class="name "><b>VicImageType</b><a href="#VicImageType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-config.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="XyAxisConfigType"></a>
+                    <span class="name "><b>XyAxisConfigType</b><a href="#XyAxisConfigType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../directives/XyAxis.html" target="_self" >AbstractConstructor&lt;XyAxisConfig&lt;T, Ticks&lt;T&gt;&gt;&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis-config.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="XyAxisConfigType"></a>
+                    <span class="name "><b>XyAxisConfigType</b><a href="#XyAxisConfigType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../directives/XyAxis.html" target="_self" >AbstractConstructor&lt;XyAxisConfig&lt;T, QuantitativeTicks&lt;T&gt;&gt;&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/axes/y-ordinal/y-ordinal-axis-config.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="XyAxisConfigType"></a>
+                    <span class="name "><b>XyAxisConfigType</b><a href="#XyAxisConfigType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../directives/XyAxis.html" target="_self" >AbstractConstructor&lt;XyAxisConfig&lt;T, Ticks&lt;T&gt;&gt;&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-config.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="XyAxisConfigType"></a>
+                    <span class="name "><b>XyAxisConfigType</b><a href="#XyAxisConfigType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../directives/XyAxis.html" target="_self" >AbstractConstructor&lt;XyAxisConfig&lt;T, QuantitativeTicks&lt;T&gt;&gt;&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis.component.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="XyAxisType"></a>
+                    <span class="name "><b>XyAxisType</b><a href="#XyAxisType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../directives/XyAxis.html" target="_self" >AbstractConstructor&lt;XyAxis&lt;T, QuantitativeTicks&lt;T&gt;&gt;&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis.component.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="XyAxisType"></a>
+                    <span class="name "><b>XyAxisType</b><a href="#XyAxisType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../directives/XyAxis.html" target="_self" >AbstractConstructor&lt;XyAxis&lt;T, QuantitativeTicks&lt;T&gt;&gt;&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-typealiases';
+            var COMPODOC_CURRENT_PAGE_URL = 'typealiases.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,2771 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >ComboboxService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/ui-components/src/lib/combobox/combobox.service.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_isOpen" >_isOpen</a>
+                            </li>
+                            <li>
+                                <a href="#activeDescendant$" >activeDescendant$</a>
+                            </li>
+                            <li>
+                                <a href="#allOptions" >allOptions</a>
+                            </li>
+                            <li>
+                                <a href="#allOptions$" >allOptions$</a>
+                            </li>
+                            <li>
+                                <a href="#autoComplete" >autoComplete</a>
+                            </li>
+                            <li>
+                                <a href="#comboboxLabelId" >comboboxLabelId</a>
+                            </li>
+                            <li>
+                                <a href="#destroy$" >destroy$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#focusTextbox" >focusTextbox</a>
+                            </li>
+                            <li>
+                                <a href="#focusTextbox$" >focusTextbox$</a>
+                            </li>
+                            <li>
+                                <a href="#groups$" >groups$</a>
+                            </li>
+                            <li>
+                                <a href="#hasEditableTextbox" >hasEditableTextbox</a>
+                            </li>
+                            <li>
+                                <a href="#id" >id</a>
+                            </li>
+                            <li>
+                                <a href="#ignoreBlur" >ignoreBlur</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isKeyboardEvent" >isKeyboardEvent</a>
+                            </li>
+                            <li>
+                                <a href="#isKeyboardEvent$" >isKeyboardEvent$</a>
+                            </li>
+                            <li>
+                                <a href="#isMultiSelect" >isMultiSelect</a>
+                            </li>
+                            <li>
+                                <a href="#isOpen$" >isOpen$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#label" >label</a>
+                            </li>
+                            <li>
+                                <a href="#label$" >label$</a>
+                            </li>
+                            <li>
+                                <a href="#nullActiveIdOnClose" >nullActiveIdOnClose</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#optionAction" >optionAction</a>
+                            </li>
+                            <li>
+                                <a href="#optionAction$" >optionAction$</a>
+                            </li>
+                            <li>
+                                <a href="#optionPropertyChanges$" >optionPropertyChanges$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#projectedContentIsInDOM" >projectedContentIsInDOM</a>
+                            </li>
+                            <li>
+                                <a href="#projectedContentIsInDOM$" >projectedContentIsInDOM$</a>
+                            </li>
+                            <li>
+                                <a href="#scrollContainerId" >scrollContainerId</a>
+                            </li>
+                            <li>
+                                <a href="#scrollWhenOpened" >scrollWhenOpened</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#selectedOptionsToEmit" >selectedOptionsToEmit</a>
+                            </li>
+                            <li>
+                                <a href="#selectedOptionsToEmit$" >selectedOptionsToEmit$</a>
+                            </li>
+                            <li>
+                                <a href="#shouldAutoSelectOnListboxClose" >shouldAutoSelectOnListboxClose</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#textboxBlur" >textboxBlur</a>
+                            </li>
+                            <li>
+                                <a href="#textboxBlur$" >textboxBlur$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#touched" >touched</a>
+                            </li>
+                            <li>
+                                <a href="#touched$" >touched$</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#closeListbox" >closeListbox</a>
+                            </li>
+                            <li>
+                                <a href="#destroy" >destroy</a>
+                            </li>
+                            <li>
+                                <a href="#emitOptionAction" >emitOptionAction</a>
+                            </li>
+                            <li>
+                                <a href="#emitTextboxBlur" >emitTextboxBlur</a>
+                            </li>
+                            <li>
+                                <a href="#emitTextboxFocus" >emitTextboxFocus</a>
+                            </li>
+                            <li>
+                                <a href="#getSelectedOptions" >getSelectedOptions</a>
+                            </li>
+                            <li>
+                                <a href="#initActiveDescendant" >initActiveDescendant</a>
+                            </li>
+                            <li>
+                                <a href="#isMobile" >isMobile</a>
+                            </li>
+                            <li>
+                                <a href="#isSelectAllListboxOption" >isSelectAllListboxOption</a>
+                            </li>
+                            <li>
+                                <a href="#openListbox" >openListbox</a>
+                            </li>
+                            <li>
+                                <a href="#setAllOptions" >setAllOptions</a>
+                            </li>
+                            <li>
+                                <a href="#setGroups" >setGroups</a>
+                            </li>
+                            <li>
+                                <a href="#setIsKeyboardEvent" >setIsKeyboardEvent</a>
+                            </li>
+                            <li>
+                                <a href="#setLabel" >setLabel</a>
+                            </li>
+                            <li>
+                                <a href="#setProjectedContent" >setProjectedContent</a>
+                            </li>
+                            <li>
+                                <a href="#setProjectedContentIsInDOM" >setProjectedContentIsInDOM</a>
+                            </li>
+                            <li>
+                                <a href="#setSelectedOptionsToEmit" >setSelectedOptionsToEmit</a>
+                            </li>
+                            <li>
+                                <a href="#setTouched" >setTouched</a>
+                            </li>
+                            <li>
+                                <a href="#toggleListbox" >toggleListbox</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#isOpen" >isOpen</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(platform: Platform)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:130</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>platform</td>
+                                                  
+                                                        <td>
+                                                                    <code>Platform</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeListbox"></a>
+                    <span class="name">
+                        <span ><b>closeListbox</b></span>
+                        <a href="#closeListbox"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeListbox()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="154"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:154</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroy"></a>
+                    <span class="name">
+                        <span ><b>destroy</b></span>
+                        <a href="#destroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>destroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="252"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:252</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emitOptionAction"></a>
+                    <span class="name">
+                        <span ><b>emitOptionAction</b></span>
+                        <a href="#emitOptionAction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>emitOptionAction(action: <a href="../undefineds/OptionAction.html" target="_self">OptionAction | string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="178"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:178</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>action</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#OptionAction" target="_self" >OptionAction | string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emitTextboxBlur"></a>
+                    <span class="name">
+                        <span ><b>emitTextboxBlur</b></span>
+                        <a href="#emitTextboxBlur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>emitTextboxBlur()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="166"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:166</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emitTextboxFocus"></a>
+                    <span class="name">
+                        <span ><b>emitTextboxFocus</b></span>
+                        <a href="#emitTextboxFocus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>emitTextboxFocus(focus: <a href="../undefineds/FocusTextbox.html" target="_self">FocusTextbox</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="174"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:174</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>focus</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#FocusTextbox" target="_self" >FocusTextbox</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>FocusTextbox.default</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSelectedOptions"></a>
+                    <span class="name">
+                        <span ><b>getSelectedOptions</b></span>
+                        <a href="#getSelectedOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSelectedOptions(options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="234"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:234</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initActiveDescendant"></a>
+                    <span class="name">
+                        <span ><b>initActiveDescendant</b></span>
+                        <a href="#initActiveDescendant"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initActiveDescendant(source$?: Observable<string>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="138"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:138</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>source$</td>
+                                            <td>
+                                                        <code>Observable&lt;string&gt;</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isMobile"></a>
+                    <span class="name">
+                        <span ><b>isMobile</b></span>
+                        <a href="#isMobile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isMobile()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="182"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:182</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSelectAllListboxOption"></a>
+                    <span class="name">
+                        <span ><b>isSelectAllListboxOption</b></span>
+                        <a href="#isSelectAllListboxOption"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isSelectAllListboxOption(option: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="242"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:242</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>option</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../components/SelectAllListboxOptionComponent.html" target="_self" >SelectAllListboxOptionComponent</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openListbox"></a>
+                    <span class="name">
+                        <span ><b>openListbox</b></span>
+                        <a href="#openListbox"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openListbox()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="150"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:150</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setAllOptions"></a>
+                    <span class="name">
+                        <span ><b>setAllOptions</b></span>
+                        <a href="#setAllOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setAllOptions(groups: <a href="../components/ListboxGroupComponent.html" target="_self">QueryList&lt;ListboxGroupComponent&gt;</a>, options: <a href="../components/ListboxOptionComponent.html" target="_self">QueryList&lt;ListboxOptionComponent&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="208"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:208</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>groups</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxGroupComponent.html" target="_self" >QueryList&lt;ListboxGroupComponent&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >QueryList&lt;ListboxOptionComponent&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setGroups"></a>
+                    <span class="name">
+                        <span ><b>setGroups</b></span>
+                        <a href="#setGroups"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setGroups(groups: <a href="../components/ListboxGroupComponent.html" target="_self">QueryList&lt;ListboxGroupComponent&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="201"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:201</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>groups</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxGroupComponent.html" target="_self" >QueryList&lt;ListboxGroupComponent&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setIsKeyboardEvent"></a>
+                    <span class="name">
+                        <span ><b>setIsKeyboardEvent</b></span>
+                        <a href="#setIsKeyboardEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setIsKeyboardEvent(isKeyboardEvent: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="248"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:248</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>isKeyboardEvent</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setLabel"></a>
+                    <span class="name">
+                        <span ><b>setLabel</b></span>
+                        <a href="#setLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setLabel(label: <a href="../components/ComboboxLabelComponent.html" target="_self">ComboboxLabelComponent</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="146"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:146</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>label</td>
+                                            <td>
+                                                            <code><a href="../components/ComboboxLabelComponent.html" target="_self" >ComboboxLabelComponent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setProjectedContent"></a>
+                    <span class="name">
+                        <span ><b>setProjectedContent</b></span>
+                        <a href="#setProjectedContent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setProjectedContent(groups: <a href="../components/ListboxGroupComponent.html" target="_self">QueryList&lt;ListboxGroupComponent&gt;</a>, options: <a href="../components/ListboxOptionComponent.html" target="_self">QueryList&lt;ListboxOptionComponent&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="186"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:186</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>groups</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxGroupComponent.html" target="_self" >QueryList&lt;ListboxGroupComponent&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >QueryList&lt;ListboxOptionComponent&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setProjectedContentIsInDOM"></a>
+                    <span class="name">
+                        <span ><b>setProjectedContentIsInDOM</b></span>
+                        <a href="#setProjectedContentIsInDOM"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setProjectedContentIsInDOM()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="162"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:162</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setSelectedOptionsToEmit"></a>
+                    <span class="name">
+                        <span ><b>setSelectedOptionsToEmit</b></span>
+                        <a href="#setSelectedOptionsToEmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setSelectedOptionsToEmit(selected: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="230"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:230</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>selected</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setTouched"></a>
+                    <span class="name">
+                        <span ><b>setTouched</b></span>
+                        <a href="#setTouched"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setTouched()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="170"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:170</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleListbox"></a>
+                    <span class="name">
+                        <span ><b>toggleListbox</b></span>
+                        <a href="#toggleListbox"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleListbox()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="158"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:158</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_isOpen"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_isOpen</b></span>
+                        <a href="#_isOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>BehaviorSubject&lt;boolean&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="113" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:113</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeDescendant$"></a>
+                    <span class="name">
+                        <span ><b>activeDescendant$</b></span>
+                        <a href="#activeDescendant$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;string&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:103</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="allOptions"></a>
+                    <span class="name">
+                        <span ><b>allOptions</b></span>
+                        <a href="#allOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:104</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="allOptions$"></a>
+                    <span class="name">
+                        <span ><b>allOptions$</b></span>
+                        <a href="#allOptions$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/ListboxOptionComponent.html" target="_self" >Observable&lt;ListboxOptionComponent[]&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:105</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="autoComplete"></a>
+                    <span class="name">
+                        <span ><b>autoComplete</b></span>
+                        <a href="#autoComplete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#AutoComplete" target="_self" >AutoComplete</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>AutoComplete.none</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:96</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="comboboxLabelId"></a>
+                    <span class="name">
+                        <span ><b>comboboxLabelId</b></span>
+                        <a href="#comboboxLabelId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x60;${this.id}-label&#x60;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:95</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroy$"></a>
+                    <span class="name">
+                        <span ><b>destroy$</b></span>
+                        <a href="#destroy$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;void&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:106</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focusTextbox"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>focusTextbox</b></span>
+                        <a href="#focusTextbox"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#FocusTextbox" target="_self" >Subject&lt;FocusTextbox&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;FocusTextbox&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:109</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focusTextbox$"></a>
+                    <span class="name">
+                        <span ><b>focusTextbox$</b></span>
+                        <a href="#focusTextbox$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.focusTextbox.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:110</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="groups$"></a>
+                    <span class="name">
+                        <span ><b>groups$</b></span>
+                        <a href="#groups$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/ListboxGroupComponent.html" target="_self" >Observable&lt;ListboxGroupComponent[]&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:107</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasEditableTextbox"></a>
+                    <span class="name">
+                        <span ><b>hasEditableTextbox</b></span>
+                        <a href="#hasEditableTextbox"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:97</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="id"></a>
+                    <span class="name">
+                        <span ><b>id</b></span>
+                        <a href="#id"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x60;combobox-${nextUniqueId++}&#x60;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:93</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ignoreBlur"></a>
+                    <span class="name">
+                        <span ><b>ignoreBlur</b></span>
+                        <a href="#ignoreBlur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:98</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isKeyboardEvent"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>isKeyboardEvent</b></span>
+                        <a href="#isKeyboardEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:111</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isKeyboardEvent$"></a>
+                    <span class="name">
+                        <span ><b>isKeyboardEvent$</b></span>
+                        <a href="#isKeyboardEvent$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.isKeyboardEvent.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="112" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:112</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isMultiSelect"></a>
+                    <span class="name">
+                        <span ><b>isMultiSelect</b></span>
+                        <a href="#isMultiSelect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isOpen$"></a>
+                    <span class="name">
+                        <span ><b>isOpen$</b></span>
+                        <a href="#isOpen$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this._isOpen.asObservable().pipe(distinctUntilChanged())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:114</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="label"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>label</b></span>
+                        <a href="#label"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/ComboboxLabelComponent.html" target="_self" >BehaviorSubject&lt;ComboboxLabelComponent&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject(
+    null
+  )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:115</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="label$"></a>
+                    <span class="name">
+                        <span ><b>label$</b></span>
+                        <a href="#label$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.label.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:118</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nullActiveIdOnClose"></a>
+                    <span class="name">
+                        <span ><b>nullActiveIdOnClose</b></span>
+                        <a href="#nullActiveIdOnClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:100</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="optionAction"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>optionAction</b></span>
+                        <a href="#optionAction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#OptionAction" target="_self" >Subject&lt;OptionAction | string&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:119</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="optionAction$"></a>
+                    <span class="name">
+                        <span ><b>optionAction$</b></span>
+                        <a href="#optionAction$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.optionAction.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:120</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="optionPropertyChanges$"></a>
+                    <span class="name">
+                        <span ><b>optionPropertyChanges$</b></span>
+                        <a href="#optionPropertyChanges$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/ListboxOptionPropertyChange.html" target="_self" >Observable&lt;ListboxOptionPropertyChange&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:108</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projectedContentIsInDOM"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>projectedContentIsInDOM</b></span>
+                        <a href="#projectedContentIsInDOM"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>BehaviorSubject&lt;boolean&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:121</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projectedContentIsInDOM$"></a>
+                    <span class="name">
+                        <span ><b>projectedContentIsInDOM$</b></span>
+                        <a href="#projectedContentIsInDOM$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.projectedContentIsInDOM.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:123</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollContainerId"></a>
+                    <span class="name">
+                        <span ><b>scrollContainerId</b></span>
+                        <a href="#scrollContainerId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x60;${this.id}-scroll-container&#x60;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollWhenOpened"></a>
+                    <span class="name">
+                        <span ><b>scrollWhenOpened</b></span>
+                        <a href="#scrollWhenOpened"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:101</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedOptionsToEmit"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>selectedOptionsToEmit</b></span>
+                        <a href="#selectedOptionsToEmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/ListboxOptionComponent.html" target="_self" >BehaviorSubject&lt;ListboxOptionComponent[]&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:124</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedOptionsToEmit$"></a>
+                    <span class="name">
+                        <span ><b>selectedOptionsToEmit$</b></span>
+                        <a href="#selectedOptionsToEmit$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.selectedOptionsToEmit.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:126</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shouldAutoSelectOnListboxClose"></a>
+                    <span class="name">
+                        <span ><b>shouldAutoSelectOnListboxClose</b></span>
+                        <a href="#shouldAutoSelectOnListboxClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:102</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="textboxBlur"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>textboxBlur</b></span>
+                        <a href="#textboxBlur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subject&lt;void&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:127</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="textboxBlur$"></a>
+                    <span class="name">
+                        <span ><b>textboxBlur$</b></span>
+                        <a href="#textboxBlur$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.textboxBlur.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="128" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:128</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="touched"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>touched</b></span>
+                        <a href="#touched"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>BehaviorSubject&lt;boolean&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="129" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:129</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="touched$"></a>
+                    <span class="name">
+                        <span ><b>touched$</b></span>
+                        <a href="#touched$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.touched.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:130</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isOpen"></a>
+                        <span class="name"><b>isOpen</b><a href="#isOpen"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>isOpen()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">libs/ui-components/src/lib/combobox/combobox.service.ts:134</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Platform } from &#x27;@angular/cdk/platform&#x27;;
+import { Injectable, QueryList } from &#x27;@angular/core&#x27;;
+import {
+  BehaviorSubject,
+  Observable,
+  Subject,
+  combineLatest,
+  distinctUntilChanged,
+  map,
+  merge,
+  mergeAll,
+  of,
+  shareReplay,
+  startWith,
+  switchMap,
+} from &#x27;rxjs&#x27;;
+import { ComboboxLabelComponent } from &#x27;./combobox-label/combobox-label.component&#x27;;
+import { ListboxGroupComponent } from &#x27;./listbox-group/listbox-group.component&#x27;;
+import {
+  ListboxOptionComponent,
+  ListboxOptionPropertyChange,
+} from &#x27;./listbox-option/listbox-option.component&#x27;;
+import { SelectAllListboxOptionComponent } from &#x27;./select-all-listbox-option/select-all-listbox-option.component&#x27;;
+
+let nextUniqueId &#x3D; 0;
+
+export enum FocusTextbox {
+  default &#x3D; &#x27;default&#x27;,
+  includeMobile &#x3D; &#x27;includeMobile&#x27;,
+}
+
+export interface KeyboardEventWithAutocomplete {
+  event: KeyboardEvent;
+  autoComplete: AutoComplete;
+  inputHasText: boolean;
+}
+
+export enum Key {
+  ArrowDown &#x3D; &#x27;ArrowDown&#x27;,
+  ArrowUp &#x3D; &#x27;ArrowUp&#x27;,
+  End &#x3D; &#x27;End&#x27;,
+  Enter &#x3D; &#x27;Enter&#x27;,
+  Escape &#x3D; &#x27;Escape&#x27;,
+  Home &#x3D; &#x27;Home&#x27;,
+  LeftArrow &#x3D; &#x27;ArrowLeft&#x27;,
+  PageDown &#x3D; &#x27;PageDown&#x27;,
+  PageUp &#x3D; &#x27;PageUp&#x27;,
+  RightArrow &#x3D; &#x27;ArrowRight&#x27;,
+  Space &#x3D; &#x27; &#x27;,
+  Tab &#x3D; &#x27;Tab&#x27;,
+}
+
+export enum OptionAction {
+  first &#x3D; &#x27;first&#x27;,
+  last &#x3D; &#x27;last&#x27;,
+  next &#x3D; &#x27;next&#x27;,
+  nullActiveIndex &#x3D; &#x27;nullActiveIndex&#x27;,
+  pageDown &#x3D; &#x27;pageDown&#x27;,
+  pageUp &#x3D; &#x27;pageUp&#x27;,
+  previous &#x3D; &#x27;previous&#x27;,
+  select &#x3D; &#x27;select&#x27;,
+  zeroActiveIndex &#x3D; &#x27;zeroActiveIndex&#x27;,
+}
+
+export enum ListboxAction {
+  close &#x3D; &#x27;close&#x27;,
+  open &#x3D; &#x27;open&#x27;,
+  closeSelect &#x3D; &#x27;closeSelect&#x27;,
+}
+
+export enum TextboxAction {
+  focus &#x3D; &#x27;focus&#x27;,
+  setTextToValue &#x3D; &#x27;setTextToValue&#x27;,
+  cursorRight &#x3D; &#x27;cursorRight&#x27;,
+  cursorLeft &#x3D; &#x27;cursorLeft&#x27;,
+  cursorFirst &#x3D; &#x27;cursorFirst&#x27;,
+  cursorLast &#x3D; &#x27;cursorLast&#x27;,
+  addChar &#x3D; &#x27;addChar&#x27;,
+  type &#x3D; &#x27;type&#x27;,
+}
+
+export enum AutoComplete {
+  none &#x3D; &#x27;none&#x27;,
+  list &#x3D; &#x27;list&#x27;,
+  both &#x3D; &#x27;both&#x27;,
+  inline &#x3D; &#x27;inline&#x27;,
+}
+
+export type ComboboxAction &#x3D; OptionAction | ListboxAction | TextboxAction;
+
+@Injectable()
+export class ComboboxService {
+  id &#x3D; &#x60;combobox-${nextUniqueId++}&#x60;;
+  scrollContainerId &#x3D; &#x60;${this.id}-scroll-container&#x60;;
+  comboboxLabelId &#x3D; &#x60;${this.id}-label&#x60;;
+  autoComplete: AutoComplete &#x3D; AutoComplete.none;
+  hasEditableTextbox &#x3D; false;
+  ignoreBlur &#x3D; false;
+  isMultiSelect &#x3D; false;
+  nullActiveIdOnClose &#x3D; false;
+  scrollWhenOpened &#x3D; false;
+  shouldAutoSelectOnListboxClose &#x3D; false;
+  activeDescendant$: Observable&lt;string&gt;;
+  allOptions: ListboxOptionComponent[];
+  allOptions$: Observable&lt;ListboxOptionComponent[]&gt;;
+  destroy$ &#x3D; new Subject&lt;void&gt;();
+  groups$: Observable&lt;ListboxGroupComponent[]&gt;;
+  optionPropertyChanges$: Observable&lt;ListboxOptionPropertyChange&gt;;
+  private focusTextbox: Subject&lt;FocusTextbox&gt; &#x3D; new Subject&lt;FocusTextbox&gt;();
+  focusTextbox$ &#x3D; this.focusTextbox.asObservable();
+  private isKeyboardEvent &#x3D; new BehaviorSubject(false);
+  isKeyboardEvent$ &#x3D; this.isKeyboardEvent.asObservable();
+  private _isOpen: BehaviorSubject&lt;boolean&gt; &#x3D; new BehaviorSubject(false);
+  isOpen$ &#x3D; this._isOpen.asObservable().pipe(distinctUntilChanged());
+  private label: BehaviorSubject&lt;ComboboxLabelComponent&gt; &#x3D; new BehaviorSubject(
+    null
+  );
+  label$ &#x3D; this.label.asObservable();
+  private optionAction: Subject&lt;OptionAction | string&gt; &#x3D; new Subject();
+  optionAction$ &#x3D; this.optionAction.asObservable();
+  private projectedContentIsInDOM: BehaviorSubject&lt;boolean&gt; &#x3D;
+    new BehaviorSubject(false);
+  projectedContentIsInDOM$ &#x3D; this.projectedContentIsInDOM.asObservable();
+  private selectedOptionsToEmit: BehaviorSubject&lt;ListboxOptionComponent[]&gt; &#x3D;
+    new BehaviorSubject([]);
+  selectedOptionsToEmit$ &#x3D; this.selectedOptionsToEmit.asObservable();
+  private textboxBlur: Subject&lt;void&gt; &#x3D; new Subject();
+  textboxBlur$ &#x3D; this.textboxBlur.asObservable();
+  private touched: BehaviorSubject&lt;boolean&gt; &#x3D; new BehaviorSubject(false);
+  touched$ &#x3D; this.touched.asObservable();
+
+  constructor(private platform: Platform) {}
+
+  get isOpen(): boolean {
+    return this._isOpen.value;
+  }
+
+  initActiveDescendant(source$?: Observable&lt;string&gt;): void {
+    if (source$) {
+      this.activeDescendant$ &#x3D; source$;
+    } else {
+      this.activeDescendant$ &#x3D; of(null);
+    }
+  }
+
+  setLabel(label: ComboboxLabelComponent): void {
+    this.label.next(label);
+  }
+
+  openListbox(): void {
+    this._isOpen.next(true);
+  }
+
+  closeListbox(): void {
+    this._isOpen.next(false);
+  }
+
+  toggleListbox(): void {
+    this._isOpen.next(!this._isOpen.value);
+  }
+
+  setProjectedContentIsInDOM(): void {
+    this.projectedContentIsInDOM.next(true);
+  }
+
+  emitTextboxBlur(): void {
+    this.textboxBlur.next();
+  }
+
+  setTouched(): void {
+    this.touched.next(true);
+  }
+
+  emitTextboxFocus(focus: FocusTextbox &#x3D; FocusTextbox.default): void {
+    this.focusTextbox.next(focus);
+  }
+
+  emitOptionAction(action: OptionAction | string): void {
+    this.optionAction.next(action);
+  }
+
+  isMobile(): boolean {
+    return this.platform.ANDROID || this.platform.IOS;
+  }
+
+  setProjectedContent(
+    groups: QueryList&lt;ListboxGroupComponent&gt;,
+    options: QueryList&lt;ListboxOptionComponent&gt;
+  ): void {
+    this.setGroups(groups);
+    this.setAllOptions(groups, options);
+
+    this.optionPropertyChanges$ &#x3D; this.allOptions$.pipe(
+      switchMap((options) &#x3D;&gt;
+        merge(options.map((o) &#x3D;&gt; o.externalPropertyChanges$))
+      ),
+      mergeAll()
+    );
+  }
+
+  setGroups(groups: QueryList&lt;ListboxGroupComponent&gt;): void {
+    this.groups$ &#x3D; groups.changes.pipe(
+      startWith(&#x27;&#x27;),
+      map(() &#x3D;&gt; groups.toArray())
+    );
+  }
+
+  setAllOptions(
+    groups: QueryList&lt;ListboxGroupComponent&gt;,
+    options: QueryList&lt;ListboxOptionComponent&gt;
+  ): void {
+    // will not track changes to properties, just if the list of options changes
+    if (groups.length &gt; 0) {
+      this.allOptions$ &#x3D; this.groups$.pipe(
+        switchMap((groups) &#x3D;&gt;
+          combineLatest(groups.map((group) &#x3D;&gt; group.options$))
+        ),
+        map((optionArrays) &#x3D;&gt; optionArrays.flat()),
+        shareReplay(1)
+      );
+    } else {
+      this.allOptions$ &#x3D; options.changes.pipe(
+        startWith(&#x27;&#x27;),
+        map(() &#x3D;&gt; options.toArray()),
+        shareReplay(1)
+      );
+    }
+  }
+
+  setSelectedOptionsToEmit(selected: ListboxOptionComponent[]): void {
+    this.selectedOptionsToEmit.next(selected);
+  }
+
+  getSelectedOptions(
+    options: ListboxOptionComponent[]
+  ): ListboxOptionComponent[] {
+    return options?.filter(
+      (option) &#x3D;&gt; !this.isSelectAllListboxOption(option) &amp;&amp; option.isSelected()
+    );
+  }
+
+  isSelectAllListboxOption(
+    option: ListboxOptionComponent
+  ): option is SelectAllListboxOptionComponent {
+    return option instanceof SelectAllListboxOptionComponent;
+  }
+
+  setIsKeyboardEvent(isKeyboardEvent: boolean): void {
+    this.isKeyboardEvent.next(isKeyboardEvent);
+  }
+
+  destroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+
+    this.focusTextbox.complete();
+    this.isKeyboardEvent.complete();
+    this._isOpen.complete();
+    this.label.complete();
+    this.optionAction.complete();
+    this.projectedContentIsInDOM.complete();
+    this.selectedOptionsToEmit.complete();
+    this.textboxBlur.complete();
+    this.touched.complete();
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ComboboxService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,599 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  StackedAreaTooltipDatum</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/stacked-area/stacked-area.component.ts</code>
+        </p>
+
+
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#color" 
+>
+                                            color
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#datum" 
+>
+                                            datum
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#values" 
+>
+                                            values
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="color"></a>
+                                        <span class="name "><b>color</b>
+                                            <a href="#color">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>color:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="datum"></a>
+                                        <span class="name "><b>datum</b>
+                                            <a href="#datum">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>datum:     <code>Datum</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>Datum</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="values"></a>
+                                        <span class="name "><b>values</b>
+                                            <a href="#values">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>values:     <code>literal type</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>literal type</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  InjectionToken,
+  NgZone,
+} from &#x27;@angular/core&#x27;;
+import { area, select, Selection, Transition } from &#x27;d3&#x27;;
+import { BehaviorSubject, filter } from &#x27;rxjs&#x27;;
+import { ChartComponent, XyChartComponent, XyChartScales } from &#x27;../charts&#x27;;
+import { GenericScale } from &#x27;../core&#x27;;
+import { DataValue } from &#x27;../core/types/values&#x27;;
+import { ValueUtilities } from &#x27;../core/utilities/values&#x27;;
+import { VIC_PRIMARY_MARKS } from &#x27;../marks/primary-marks/primary-marks&#x27;;
+import { VicXyPrimaryMarks } from &#x27;../marks/xy-marks/xy-primary-marks/xy-primary-marks&#x27;;
+import {
+  StackedAreaConfig,
+  StackedAreaDatum,
+} from &#x27;./config/stacked-area-config&#x27;;
+import { StackedAreaInteractionAnchor } from &#x27;./events/stacked-area-interaction-output&#x27;;
+
+// Ideally we would be able to use generic T with the component, but Angular doesn&#x27;t yet support this, so we use unknown instead
+// https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
+export const STACKED_AREA &#x3D; new InjectionToken&lt;
+  StackedAreaComponent&lt;unknown, DataValue&gt;
+&gt;(&#x27;StackedAreaComponent&#x27;);
+
+export interface StackedAreaTooltipDatum&lt;
+  Datum,
+  TCategoricalValue extends DataValue,
+&gt; {
+  datum: Datum;
+  color: string;
+  values: {
+    x: string;
+    y: string;
+    color: TCategoricalValue;
+  };
+}
+
+type StackedAreaSvgElements &#x3D; &#x27;area&#x27;;
+
+export type StackedAreaSelection&lt;CategoricalDomain&gt; &#x3D; Selection&lt;
+  SVGPathElement,
+  StackedAreaDatum&lt;CategoricalDomain&gt;,
+  SVGGElement,
+  unknown
+&gt;;
+
+@Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: &#x27;[vic-primary-marks-stacked-area]&#x27;,
+  template: &#x27;&#x27;,
+  styleUrls: [&#x27;./stacked-area.component.scss&#x27;],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: VIC_PRIMARY_MARKS, useExisting: StackedAreaComponent },
+    { provide: STACKED_AREA, useExisting: StackedAreaComponent },
+    { provide: ChartComponent, useExisting: XyChartComponent },
+  ],
+  host: {
+    &#x27;[class]&#x27;: &#x27;config.marksClass&#x27;,
+  },
+})
+export class StackedAreaComponent&lt;
+  Datum,
+  TCategoricalValue extends DataValue,
+&gt; extends VicXyPrimaryMarks&lt;
+  Datum,
+  StackedAreaConfig&lt;Datum, TCategoricalValue&gt;
+&gt; {
+  area;
+  areas;
+  stackedAreas: BehaviorSubject&lt;StackedAreaSelection&lt;TCategoricalValue&gt;&gt; &#x3D;
+    new BehaviorSubject(null);
+  stackedAreas$ &#x3D; this.stackedAreas.asObservable().pipe(filter((s) &#x3D;&gt; !!s));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  override scales: { color: GenericScale&lt;any, any&gt; } &amp; XyChartScales &#x3D; {
+    x: undefined,
+    y: undefined,
+    color: undefined,
+    useTransition: undefined,
+  };
+  protected elRef &#x3D; inject&lt;ElementRef&lt;SVGSVGElement&gt;&gt;(ElementRef);
+  private zone &#x3D; inject(NgZone);
+
+  get class(): Record&lt;StackedAreaSvgElements, string&gt; {
+    return {
+      area: this.config.marksClass + &#x27;-area&#x27;,
+    };
+  }
+
+  setChartScalesFromRanges(useTransition: boolean): void {
+    const x &#x3D; this.config.x.getScaleFromRange(this.ranges.x);
+    const y &#x3D; this.config.y.getScaleFromRange(this.ranges.y);
+    this.scales.color &#x3D; this.config.color.getScale();
+    this.zone.run(() &#x3D;&gt; {
+      this.chart.updateScales({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        x: x as unknown as GenericScale&lt;any, any&gt;,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        y: y as unknown as GenericScale&lt;any, any&gt;,
+        useTransition,
+      });
+    });
+  }
+
+  drawMarks(): void {
+    const transitionDuration &#x3D; this.getTransitionDuration();
+    this.setArea();
+    this.drawAreas(transitionDuration);
+    this.updateStackedAreaElements();
+  }
+
+  setArea(): void {
+    this.area &#x3D; area()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .x(({ i }: any) &#x3D;&gt; this.scales.x(this.config.x.values[i]))
+      .y0(([y1]) &#x3D;&gt; this.scales.y(y1))
+      .y1(([, y2]) &#x3D;&gt; this.scales.y(y2))
+      .curve(this.config.curve);
+  }
+
+  drawAreas(transitionDuration: number): void {
+    const t &#x3D; select(this.chart.svgRef.nativeElement)
+      .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .duration(transitionDuration) as Transition&lt;SVGSVGElement, any, any, any&gt;;
+
+    this.areas &#x3D; select(this.elRef.nativeElement)
+      .selectAll(&#x60;.${this.class.area}&#x60;)
+      .data(this.config.series)
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;path&#x27;)
+            .attr(
+              &#x27;class&#x27;,
+              ([{ i }]) &#x3D;&gt;
+                &#x60;${this.class.area} ${this.config.datumClass(this.config.data[i], i)}&#x60;
+            )
+            // .property(&#x27;key&#x27;, ([{ i }]) &#x3D;&gt; this.config.color.values[i])
+            .attr(&#x27;fill&#x27;, ([{ i }]) &#x3D;&gt;
+              this.scales.color(this.config.color.values[i])
+            )
+            .attr(&#x27;d&#x27;, this.area),
+        (update) &#x3D;&gt;
+          update.call((update) &#x3D;&gt;
+            update
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              .transition(t as any)
+              .attr(&#x27;d&#x27;, this.area)
+              .attr(&#x27;fill&#x27;, ([{ i }]) &#x3D;&gt;
+                this.scales.color(this.config.color.values[i])
+              )
+          ),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+  }
+
+  getTooltipData(
+    closestXIndicies: number[],
+    categoryYMin: number,
+    categoryYMax: number,
+    categoryIndex: number
+  ): {
+    anchor: StackedAreaInteractionAnchor;
+    data: StackedAreaTooltipDatum&lt;Datum, TCategoricalValue&gt;[];
+    hoveredAreaDatum: StackedAreaTooltipDatum&lt;Datum, TCategoricalValue&gt;;
+    origin: SVGGraphicsElement;
+  } {
+    const data: StackedAreaTooltipDatum&lt;Datum, TCategoricalValue&gt;[] &#x3D;
+      closestXIndicies.map((i) &#x3D;&gt; {
+        const datum &#x3D; this.getDatumFromIndex(i);
+        return {
+          datum: datum,
+          values: {
+            x: this.getXyDimensionValue(datum, &#x27;x&#x27;),
+            y: this.getXyDimensionValue(datum, &#x27;y&#x27;),
+            color: this.config.color.valueAccessor(datum),
+          },
+          color: this.scales.color(this.config.color.valueAccessor(datum)),
+        };
+      });
+    if (this.config.categoricalOrder) {
+      this.sortTooltipDataByCategoricalSortOrder(data);
+      categoryIndex &#x3D; closestXIndicies.length - categoryIndex;
+    }
+
+    return {
+      data,
+      anchor: {
+        x: this.scales.x(this.config.x.values[closestXIndicies[0]]),
+        yAreaTop: categoryYMin,
+        yAreaBottom: categoryYMax,
+        yChartTop: this.scales.y.range()[0],
+        yChartBottom: this.scales.y.range()[1],
+      },
+      hoveredAreaDatum: data[categoryIndex],
+      origin: this.chart.svgRef.nativeElement,
+    };
+  }
+
+  private getDatumFromIndex(i: number) {
+    return this.config.data.find(
+      (d) &#x3D;&gt;
+        this.config.x.valueAccessor(d) &#x3D;&#x3D;&#x3D; this.config.x.values[i] &amp;&amp;
+        this.config.color.valueAccessor(d) &#x3D;&#x3D;&#x3D; this.config.color.values[i]
+    );
+  }
+
+  private getXyDimensionValue(datum: Datum, dimension: &#x27;x&#x27; | &#x27;y&#x27;): string {
+    return this.config[dimension].formatFunction
+      ? ValueUtilities.customFormat(
+          datum,
+          this.config[dimension].formatFunction
+        )
+      : ValueUtilities.d3Format(
+          this.config[dimension].valueAccessor(datum),
+          this.config[dimension].formatSpecifier
+        );
+  }
+
+  private sortTooltipDataByCategoricalSortOrder(
+    data: StackedAreaTooltipDatum&lt;Datum, TCategoricalValue&gt;[]
+  ) {
+    if (this.config.categoricalOrder) {
+      data.sort((a, b) &#x3D;&gt; {
+        return (
+          this.config.categoricalOrder.indexOf(a.values.color) -
+          this.config.categoricalOrder.indexOf(b.values.color)
+        );
+      });
+    }
+  }
+
+  updateStackedAreaElements(): void {
+    this.stackedAreas.next(this.areas);
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'StackedAreaTooltipDatum.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

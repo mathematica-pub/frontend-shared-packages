@@ -1,0 +1,274 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content additional-page">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>DataMarks</h1>
+<h2>Classes</h2>
+<p><strong>DataMarks</strong></p>
+<p>The DataMarks class is a minimal type signature that should be extended by every component that will furnish data and draw shapes based on that data.</p>
+<h4>Required properties</h4>
+<ul>
+<li>chart: Chart;</li>
+<li>config: VicDataMarksConfig;</li>
+<li>ranges: Ranges;</li>
+</ul>
+<h4>Required methods</h4>
+<ul>
+<li>setPropertiesFromConfig: () =&gt; void;</li>
+<li>setPropertiesFromRanges: (useTransition: boolean) =&gt; void;</li>
+<li>setValueArrays: () =&gt; void;</li>
+<li>drawMarks: () =&gt; void;</li>
+</ul>
+<p><strong>VicDataMarksConfig</strong></p>
+<h4>Required properties</h4>
+<ul>
+<li>data: Datum[]<ul>
+<li>an array of type Datum (TS generic) type that contains values to visualize</li>
+<li>type Datum will be provided by user in specifying the config file for the DataMarks component</li>
+</ul>
+</li>
+</ul>
+<h4>Required properties - with default values</h4>
+<ul>
+<li>mixBlendMode: string<ul>
+<li>default value: &#39;normal&#39;</li>
+<li>defines how overlapping elements are blended</li>
+</ul>
+</li>
+</ul>
+<h2>Token</h2>
+<p><strong>DATA_MARKS</strong></p>
+<p>The DATA_MARKS token is used as a type specifier and for Angular&#39;s dependency injection.</p>
+<h2>Expected patterns of use</h2>
+<p>The below diagram (requires VSCode Markdown Preview Mermaid Support extension) illustrates how a DataMarks component works together with a scaled Chart component to create an expandable system with shared scales that
+will update DOM elements when data/te config updates as well as when the chart is resized by the user/browser.</p>
+<p>In the diagram, the top olive box represents the component initialization phase. The dark teal box represents the update and draw from a config/data change cycle, and the green box (lowest) represents the update and draw from a chart size change cycle.</p>
+<p>Additional components akin to the AxisComponent in the chart can be added ad nauseum, and make use of the updated scales that emit from the ScaledChartComponent, but that are set from the DataMarksComponent.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-mermaid">sequenceDiagram
+    participant DataMarksComponent
+    participant ScaledChartComponent
+    participant AxisComponent
+    rect rgb(50, 50, 0)
+    Note over DataMarksComponent: Subscribe to scales&lt;br/&gt;Subscribe to ranges
+    Note over AxisComponent: Subscribe to scales
+    ScaledChartComponent-&gt;&gt;DataMarksComponent: Emit ranges
+    end
+    rect rgb(0, 50, 50)
+    Note over DataMarksComponent: Create scales from config / ranges
+    DataMarksComponent-&gt;&gt;ScaledChartComponent: Update scales
+    ScaledChartComponent-&gt;&gt;DataMarksComponent: Emit updated scales
+    ScaledChartComponent-&gt;&gt;AxisComponent: Emit updated scales
+    Note over DataMarksComponent: Draw scaled marks
+    Note over AxisComponent: Draw scaled axis
+    end
+    rect rgb(0, 100, 50)
+    Note over ScaledChartComponent: Chart gets resized
+    ScaledChartComponent-&gt;&gt;DataMarksComponent: Emit ranges
+    Note over DataMarksComponent: Update scales from config / ranges
+    DataMarksComponent-&gt;&gt;ScaledChartComponent: Update scales
+    ScaledChartComponent-&gt;&gt;DataMarksComponent: Emit updated scales
+    ScaledChartComponent-&gt;&gt;AxisComponent: Emit updated scales
+    Note over DataMarksComponent: Draw scaled marks
+    Note over AxisComponent: Draw scaled axis
+    end</code></pre></div><h3>Dump of text that maybe belongs in this doc</h3>
+<p>These are the only classes that we refer to as &quot;config&quot;. If a config requires nested classes, those classes will use different terms than config and generally should name the thing that they do. (BarLabels, QuantitativeDataDimension, etc.). Classes that govern the transformation from a value to a visual variable are referred to as <code>dimension</code>. Maps may also have classes referred to as <code>layer</code>s that govern the association of specific geojson geometries with visual attributes and, for one <code>DataLayer</code>, attribute data. (These layers in turn have dimension objects on them.)</p>
+<p>The library exports a class <code>Vic</code> which a user can import into their code and use to generate the requisite config(s). That code may look like the following:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Vic.barsHorizontal({
+  data: filteredData,
+  quantitative: Vic.dimensionQuantitative&lt;MetroUnemploymentDatum&gt;({
+    valueAccessor: (d) =&gt; d.value,
+    valueFormat: (d) =&gt; this.getQuantitativeValueFormat(d),
+    domainPadding: Vic.domainPaddingPixel(),
+  }),
+  categorical: Vic.dimensionCategorical&lt;MetroUnemploymentDatum, string&gt;({
+    range: [&#39;slategray&#39;],
+  }),
+  ordinal: Vic.dimensionOrdinal&lt;MetroUnemploymentDatum, string&gt;({
+    valueAccessor: (d) =&gt; d.division,
+  }),
+  labels: Vic.barsLabels({
+    display: true,
+  }),
+})</code></pre></div><p>The set of properties that a user specifies are referred to throughout the library as <code>options</code>. These are a subset of properties in the config, are defined as TS interfaces. Configs or other sub-config objects, such as data dimensions, for which a user can specify <code>options</code> should <code>implement</code> the <code>options</code> type. These properties should be <code>readonly</code> on the class.</p>
+<p>For a config that is input to a Data Marks component, the user will provide, minimally, an array of data, and then a set of specifications for each data dimension of the visualization, each of which will include a <code>valueAccessor</code> function and properties that are specific to the functionality of that dimension. The <code>valueAccessor</code> is called on items in the <code>data</code> array to extract the value relevant for that dimension.</p>
+<p>The library provides default values to be used in the case that the user does not specify a property value whenever possible.</p>
+<p>Currently, there is no default value for <code>QuantitativeDimension.valueAccessor</code> and <code>DateDimension.valueAccessor</code>. If a user does not provide values for those properties, an error will be thrown in the console.</p>
+<h3>Configuration classes - architecture perspective</h3>
+<p>For each</p>
+<p>A <code>config</code> for a Data Marks component (type <code>VicDataMarksConfig</code>), with the various data dimension configs it includes, handles all of the parsing and manipulation of the user&#39;s data to create values and methods needed for creating a chart. This parsing and setting of properties occurs on class construction. The Data Marks <em>components</em> should never have to manipulate the user&#39;s provided data to get the information it needs to draw its marks.</p>
+<p>All <code>VicDataMarksConfig</code> classes have a method <code>initPropertiesFromData</code>, that should be called as the last action in the class&#39;s constructor. This method should call all methods needed to unpack the user supplied data and properties to make the properties required for the component to draw its marks.</p>
+<p>Typically, this includes passing the data array down to data dimensions so that properties on those classes can be set from the data. Each class of type <code>VicDataDimension</code> has a method, <code>setPropertiesFromData</code>, which takes the user input data array, extracts dimension-specific values using its <code>valueAccessor</code> to a <code>values</code> property, and then sets properties specific to that dimension that will be used to draw marks, such as a domain, a range, a scale, and so forth.</p>
+<p>Any functionality that requires values from multiple dimensions -- for example, setting the <code>valueIndices</code> used to draw marks, should be located on the <code>config</code>. Likewise, data dimensions should never handle functionality related to a particular DataMarks component/that is a property of the DataMarks chart in its totality. For example, although the <code>barsKeyFunction</code> on the Bars <code>config</code> only requires ordinal values, this should exist on the Bars <code>config</code> since it is only needed by the <code>Bars</code> component, and dimensions are intended to be used across a variety of Data Marks components. (If multiple Data Marks components needed that functionality, then we would likely move it to the ordinal dimension class.)</p>
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'additional-page';
+            var COMPODOC_CURRENT_PAGE_URL = 'data-marks.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

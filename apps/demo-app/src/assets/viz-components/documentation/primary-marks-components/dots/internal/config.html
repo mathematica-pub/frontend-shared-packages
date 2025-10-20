@@ -1,0 +1,953 @@
+<!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Classes</li>
+  <li class="breadcrumb-item" >DotsConfig</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="viz-components/documentation/primary-marks-components/dots/internal/config#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="viz-components/documentation/primary-marks-components/dots/internal/config#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/dots/config/dots-config.ts</code>
+        </p>
+
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                            <code><a " target="_self" >XyPrimaryMarksConfig</a></code>
+            </p>
+
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="viz-components/documentationprimary-marks-components/dots/internal/options" target="_self" >DotsOptions</a></code>
+            </p>
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#fill" >fill</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#opacity" >opacity</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#pointerDetectionRadius" >pointerDetectionRadius</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#radius" >radius</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#stroke" >stroke</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#x" >x</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#y" >y</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#valueIndices" >valueIndices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#data" >data</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#datumClass" >datumClass</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#marksClass" >marksClass</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#mixBlendMode" >mixBlendMode</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#initPropertiesFromData" >initPropertiesFromData</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#isContinuousQuantitativeDimension" >isContinuousQuantitativeDimension</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#isValidValue" >isValidValue</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#setDimensionPropertiesFromData" >setDimensionPropertiesFromData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/dots/internal/config#setValueIndices" >setValueIndices</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(options: <a href="viz-components/documentationprimary-marks-components/dots/internal/options" target="_self">DotsOptions&lt;Datum | XOrdinalDomain | YOrdinalDomain&gt;</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-config.ts:39</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>options</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="viz-components/documentationprimary-marks-components/dots/internal/options" target="_self" >DotsOptions&lt;Datum | XOrdinalDomain | YOrdinalDomain&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fill"></a>
+                    <span class="name">
+                        <span ><b>fill</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#fill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#VisualValue" target="_self" >OrdinalVisualValueDimension&lt;Datum | string | string&gt; | NumberVisualValueDimension&lt;Datum | string&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-config.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="opacity"></a>
+                    <span class="name">
+                        <span ><b>opacity</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#opacity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-config.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pointerDetectionRadius"></a>
+                    <span class="name">
+                        <span ><b>pointerDetectionRadius</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#pointerDetectionRadius"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-config.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="radius"></a>
+                    <span class="name">
+                        <span ><b>radius</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#radius"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#VisualValue" target="_self" >OrdinalVisualValueDimension&lt;Datum | string | number&gt; | NumberVisualValueDimension&lt;Datum | number&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-config.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stroke"></a>
+                    <span class="name">
+                        <span ><b>stroke</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#stroke"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >Stroke</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-config.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="x"></a>
+                    <span class="name">
+                        <span ><b>x</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#x"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >NumberChartPositionDimension&lt;Datum&gt; | DateChartPositionDimension&lt;Datum&gt; | OrdinalChartPositionDimension&lt;Datum | XOrdinalDomain&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-config.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="y"></a>
+                    <span class="name">
+                        <span ><b>y</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#y"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >NumberChartPositionDimension&lt;Datum&gt; | DateChartPositionDimension&lt;Datum&gt; | OrdinalChartPositionDimension&lt;Datum | YOrdinalDomain&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-config.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="valueIndices"></a>
+                    <span class="name">
+                        <span ><b>valueIndices</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#valueIndices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >XyPrimaryMarksConfig</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyPrimaryMarksConfig:6</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="data"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>data</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Datum[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksConfig</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksConfig:12</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="datumClass"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>datumClass</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#datumClass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksConfig</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksConfig:13</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="marksClass"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>marksClass</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#marksClass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >MarksConfig</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >MarksConfig:4</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mixBlendMode"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>mixBlendMode</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#mixBlendMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >MarksConfig</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >MarksConfig:5</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initPropertiesFromData"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>initPropertiesFromData</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#initPropertiesFromData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initPropertiesFromData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/config" target="_self" >PrimaryMarksConfig</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/config#source" target="_self" >PrimaryMarksConfig:47</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isContinuousQuantitativeDimension"></a>
+                    <span class="name">
+                        <span ><b>isContinuousQuantitativeDimension</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#isContinuousQuantitativeDimension"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isContinuousQuantitativeDimension(dimension: <a href="viz-components/documentationinternals/data-dimensions/internals/data-dimension" target="_self">DataDimension&lt;Datum | DataValue&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="74"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-config.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>dimension</td>
+                                            <td>
+                                                            <code><a href="viz-components/documentationinternals/data-dimensions/internals/data-dimension" target="_self" >DataDimension&lt;Datum | DataValue&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a " target="_self" >NumberDimension&lt;Datum&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isValidValue"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>isValidValue</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#isValidValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isValidValue(dimension: "x" | "y", i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="65"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-config.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>dimension</td>
+                                            <td>
+                                                        <code>&quot;x&quot; | &quot;y&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>i</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setDimensionPropertiesFromData"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>setDimensionPropertiesFromData</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#setDimensionPropertiesFromData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setDimensionPropertiesFromData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="52"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-config.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setValueIndices"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>setValueIndices</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/dots/internal/config#setValueIndices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setValueIndices()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="59"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/config/dots-config.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { safeAssign } from &#x27;@hsi/app-dev-kit&#x27;;
+import { range } from &#x27;d3&#x27;;
+import { DataValue } from &#x27;../../core&#x27;;
+import { DateChartPositionDimension } from &#x27;../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position&#x27;;
+import { NumberChartPositionDimension } from &#x27;../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position&#x27;;
+import { NumberDimension } from &#x27;../../data-dimensions/continuous-quantitative/number-dimension/number-dimension&#x27;;
+import { NumberVisualValueDimension } from &#x27;../../data-dimensions/continuous-quantitative/number-visual-value/number-visual-value&#x27;;
+import { DataDimension } from &#x27;../../data-dimensions/dimension&#x27;;
+import { OrdinalChartPositionDimension } from &#x27;../../data-dimensions/ordinal/ordinal-chart-position/ordinal-chart-position&#x27;;
+import { OrdinalVisualValueDimension } from &#x27;../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value&#x27;;
+import { XyPrimaryMarksConfig } from &#x27;../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config&#x27;;
+import { Stroke } from &#x27;../../stroke/stroke&#x27;;
+import { DotsOptions } from &#x27;./dots-options&#x27;;
+
+export class DotsConfig&lt;
+    Datum,
+    XOrdinalDomain extends DataValue &#x3D; string,
+    YOrdinalDomain extends DataValue &#x3D; string,
+  &gt;
+  extends XyPrimaryMarksConfig&lt;Datum&gt;
+  implements DotsOptions&lt;Datum, XOrdinalDomain, YOrdinalDomain&gt;
+{
+  fill:
+    | OrdinalVisualValueDimension&lt;Datum, string, string&gt;
+    | NumberVisualValueDimension&lt;Datum, string&gt;;
+  opacity: number;
+  pointerDetectionRadius: number;
+  radius:
+    | OrdinalVisualValueDimension&lt;Datum, string, number&gt;
+    | NumberVisualValueDimension&lt;Datum, number&gt;;
+  stroke: Stroke;
+  x:
+    | NumberChartPositionDimension&lt;Datum&gt;
+    | DateChartPositionDimension&lt;Datum&gt;
+    | OrdinalChartPositionDimension&lt;Datum, XOrdinalDomain&gt;;
+  y:
+    | NumberChartPositionDimension&lt;Datum&gt;
+    | DateChartPositionDimension&lt;Datum&gt;
+    | OrdinalChartPositionDimension&lt;Datum, YOrdinalDomain&gt;;
+
+  constructor(options: DotsOptions&lt;Datum, XOrdinalDomain, YOrdinalDomain&gt;) {
+    super();
+    safeAssign(this, options);
+    this.initPropertiesFromData();
+  }
+
+  protected initPropertiesFromData(): void {
+    this.setDimensionPropertiesFromData();
+    this.setValueIndices();
+  }
+
+  protected setDimensionPropertiesFromData(): void {
+    this.x.setPropertiesFromData(this.data);
+    this.y.setPropertiesFromData(this.data, this.y.dimensionType &#x3D;&#x3D;&#x3D; &#x27;ordinal&#x27;);
+    this.fill.setPropertiesFromData(this.data);
+    this.radius.setPropertiesFromData(this.data);
+  }
+
+  protected setValueIndices(): void {
+    this.valueIndices &#x3D; range(this.data.length).filter(
+      (i) &#x3D;&gt; this.isValidValue(&#x27;x&#x27;, i) &amp;&amp; this.isValidValue(&#x27;y&#x27;, i)
+    );
+  }
+
+  private isValidValue(dimension: &#x27;x&#x27; | &#x27;y&#x27;, i: number): boolean {
+    const config &#x3D; this[dimension];
+    if (this.isContinuousQuantitativeDimension(config)) {
+      return config.isValidValue(config.values[i]);
+    } else {
+      return true;
+    }
+  }
+
+  isContinuousQuantitativeDimension(
+    dimension: DataDimension&lt;Datum, DataValue&gt;
+  ): dimension is NumberDimension&lt;Datum&gt; {
+    return (
+      dimension.dimensionType &#x3D;&#x3D;&#x3D; &#x27;number&#x27; || dimension.dimensionType &#x3D;&#x3D;&#x3D; &#x27;date&#x27;
+    );
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->

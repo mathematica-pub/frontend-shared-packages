@@ -1,0 +1,1464 @@
+<!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Classes</li>
+  <li class="breadcrumb-item" >GeographiesGeojsonPropertiesLayerBuilder</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder.ts</code>
+        </p>
+
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder" target="_self" >GeographiesLayerBuilder</a></code>
+            </p>
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#_customFills" >_customFills</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#fillBuilder" >fillBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#_class" >_class</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#_enableEventActions" >_enableEventActions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#_geographies" >_geographies</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#_mixBlendMode" >_mixBlendMode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#labelsBuilder" >labelsBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#strokeBuilder" >strokeBuilder</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#_build" >_build</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#customFills" >customFills</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#fill" >fill</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#fill" >fill</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#fill" >fill</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#fill" >fill</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#initFillBuilder" >initFillBuilder</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#validateBuilder" >validateBuilder</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#class" >class</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#enableEventActions" >enableEventActions</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#geographies" >geographies</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#initStrokeBuilder" >initStrokeBuilder</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#labels" >labels</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#mixBlendMode" >mixBlendMode</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#stroke" >stroke</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder.ts:25</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_customFills"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_customFills</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#_customFills"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >FillDefinition&lt;GeographiesFeature&lt;TProperties, TGeometry&gt;&gt;[]</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fillBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>fillBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#fillBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>OrdinalVisualValueDimensionBuilder&lt;GeographiesFeature&lt;TProperties, TGeometry&gt; | string | string&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_class"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_class</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#_class"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder" target="_self" >GeographiesLayerBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder#source" target="_self" >GeographiesLayerBuilder:18</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_enableEventActions"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_enableEventActions</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#_enableEventActions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder" target="_self" >GeographiesLayerBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder#source" target="_self" >GeographiesLayerBuilder:19</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_geographies"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_geographies</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#_geographies"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#GeographiesFeature" target="_self" >Array&lt;GeographiesFeature&lt;TProperties, TGeometry&gt;&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder" target="_self" >GeographiesLayerBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder#source" target="_self" >GeographiesLayerBuilder:20</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_mixBlendMode"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_mixBlendMode</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#_mixBlendMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder" target="_self" >GeographiesLayerBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder#source" target="_self" >GeographiesLayerBuilder:22</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="labelsBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>labelsBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#labelsBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>GeographiesLabelsBuilder&lt;TProperties | TGeometry&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder" target="_self" >GeographiesLayerBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder#source" target="_self" >GeographiesLayerBuilder:21</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="strokeBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>strokeBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#strokeBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >StrokeBuilder</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder" target="_self" >GeographiesLayerBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder#source" target="_self" >GeographiesLayerBuilder:23</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_build"></a>
+                    <span class="name">
+                        <span ><b>_build</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#_build"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>_build()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="88"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder.ts:88</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geojson-properties-layer/layer" target="_self" >GeographiesGeojsonPropertiesLayer&lt;TProperties, TGeometry&gt;</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="customFills"></a>
+                    <span class="name">
+                        <span ><b>customFills</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#customFills"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>customFills(customFills: <a " target="_self">FillDefinition&lt;GeographiesFeature&lt;TProperties, TGeometry&gt;&gt;[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="77"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder.ts:77</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>customFills</td>
+                                            <td>
+                                                            <code><a " target="_self" >FillDefinition&lt;GeographiesFeature&lt;TProperties, TGeometry&gt;&gt;[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fill"></a>
+                    <span class="name">
+                        <span ><b>fill</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#fill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fill(fill)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="39"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL: Set a fill color or function that yields a color for all geographies in the layer.</p>
+<p>If a string is provided, all geographies will be filled with that color.</p>
+<p>Otherwise, you can use this method to specify how each geography should be filled based on the properties of the geojson feature.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fill</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fill"></a>
+                    <span class="name">
+                        <span ><b>fill</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#fill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fill(fill: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="40"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fill</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fill"></a>
+                    <span class="name">
+                        <span ><b>fill</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#fill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fill(fill: (fill: OrdinalVisualValueDimensionBuilder<GeographiesFeature<TProperties, TGeometry> | string | string>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="41"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fill</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fill"></a>
+                    <span class="name">
+                        <span ><b>fill</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#fill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fill(fill: string | null | )</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="50"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fill</td>
+                                            <td>
+                                                        <code>string | null | </code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initFillBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>initFillBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#initFillBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initFillBuilder()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="84"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder.ts:84</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validateBuilder"></a>
+                    <span class="name">
+                        <span ><b>validateBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#validateBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>validateBuilder()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="103"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder.ts:103</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="class"></a>
+                    <span class="name">
+                        <span ><b>class</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#class"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>class(value)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder" target="_self" >GeographiesLayerBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder#source" target="_self" >GeographiesLayerBuilder:36</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Provides a class on the SVG element that correspends to a single datum. If a datum creates multiple SVG elements -- for example, a rect and a label, the class will be applied on the parent SVGGElement.</p>
+<p>IF the chart does not have SVG elements that correspond to a single datum, this class will be placed on the SVG element that represents a collection of data, for example, a area in a stacked area chart, or a line in a line chart. In this case the datum passed to the callback function will be the first datum in the collection.</p>
+<p>Note that if the resultant string has spaces in the name, multiple classes will be applied. For example, if the class is &#39;North Carolina&#39;, the element will have the classes &#39;North&#39; and &#39;Carolina&#39;.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="enableEventActions"></a>
+                    <span class="name">
+                        <span ><b>enableEventActions</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#enableEventActions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>enableEventActions(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder" target="_self" >GeographiesLayerBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder#source" target="_self" >GeographiesLayerBuilder:60</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Determines whether the layer can use viz-components event actions.</p>
+<p>If true, the event listener that corresponds to the provided directive will be placed on that layer&#39;s paths.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="geographies"></a>
+                    <span class="name">
+                        <span ><b>geographies</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#geographies"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>geographies(value: <a href="../undefineds/GeographiesFeature.html" target="_self">Array&lt;GeographiesFeature&lt;TProperties, TGeometry&gt;&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder" target="_self" >GeographiesLayerBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder#source" target="_self" >GeographiesLayerBuilder:68</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. GeoJSON features that define the geographies to be drawn.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#GeographiesFeature" target="_self" >Array&lt;GeographiesFeature&lt;TProperties, TGeometry&gt;&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initStrokeBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>initStrokeBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#initStrokeBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initStrokeBuilder()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder" target="_self" >GeographiesLayerBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder#source" target="_self" >GeographiesLayerBuilder:113</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="labels"></a>
+                    <span class="name">
+                        <span ><b>labels</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#labels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>labels(labels)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder" target="_self" >GeographiesLayerBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder#source" target="_self" >GeographiesLayerBuilder:76</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Creates a configuration object for labels that will be drawn on the geographies.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>labels</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mixBlendMode"></a>
+                    <span class="name">
+                        <span ><b>mixBlendMode</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#mixBlendMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>mixBlendMode(mixBlendMode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder" target="_self" >GeographiesLayerBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder#source" target="_self" >GeographiesLayerBuilder:99</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sets the mix-blend-mode of the marks.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>mixBlendMode</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stroke"></a>
+                    <span class="name">
+                        <span ><b>stroke</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/geographies/internal/layers/geojson-properties-layer/builder#stroke"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>stroke(setProperties?: (stroke?: <a ">StrokeBuilder</a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder" target="_self" >GeographiesLayerBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/geographies/internal/layers/geographies-layer/builder#source" target="_self" >GeographiesLayerBuilder:107</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Sets the appearance of the stroke for the geographies in the layer.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>setProperties</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { safeAssign } from &#x27;@hsi/app-dev-kit&#x27;;
+import { Geometry, MultiPolygon, Polygon } from &#x27;geojson&#x27;;
+import { OrdinalVisualValueDimensionBuilder } from &#x27;../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder&#x27;;
+import { FillDefinition } from &#x27;../../../../fill-definitions/fill-definitions&#x27;;
+import { GeographiesFeature } from &#x27;../../../geographies-feature&#x27;;
+import { GeographiesLayerBuilder } from &#x27;../geographies-layer/geographies-layer-builder&#x27;;
+import { GeographiesGeojsonPropertiesLayer } from &#x27;./geojson-properties-layer&#x27;;
+
+const DEFAULT &#x3D; {
+  _class: () &#x3D;&gt; &#x27;&#x27;,
+  _enableEventActions: false,
+};
+
+export class GeographiesGeojsonPropertiesLayerBuilder&lt;
+  TProperties,
+  TGeometry extends Geometry &#x3D; MultiPolygon | Polygon,
+&gt; extends GeographiesLayerBuilder&lt;TProperties, TGeometry&gt; {
+  private fillBuilder: OrdinalVisualValueDimensionBuilder&lt;
+    GeographiesFeature&lt;TProperties, TGeometry&gt;,
+    string,
+    string
+  &gt;;
+  private _customFills: FillDefinition&lt;
+    GeographiesFeature&lt;TProperties, TGeometry&gt;
+  &gt;[];
+
+  constructor() {
+    super();
+    safeAssign(this, DEFAULT);
+  }
+
+  /**
+   * OPTIONAL: Set a fill color or function that yields a color for all geographies in the layer.
+   *
+   * If a string is provided, all geographies will be filled with that color.
+   *
+   * Otherwise, you can use this method to specify how each geography should be filled based on the properties of the geojson feature.
+   */
+  fill(fill: null): this;
+  fill(fill: string): this;
+  fill(
+    fill: (
+      fill: OrdinalVisualValueDimensionBuilder&lt;
+        GeographiesFeature&lt;TProperties, TGeometry&gt;,
+        string,
+        string
+      &gt;
+    ) &#x3D;&gt; void
+  ): this;
+  fill(
+    fill:
+      | string
+      | null
+      | ((
+          fill: OrdinalVisualValueDimensionBuilder&lt;
+            GeographiesFeature&lt;TProperties, TGeometry&gt;,
+            string,
+            string
+          &gt;
+        ) &#x3D;&gt; void)
+  ): this {
+    this.initFillBuilder();
+
+    if (fill &#x3D;&#x3D;&#x3D; null) {
+      this.fillBuilder.valueAccessor(() &#x3D;&gt; null).range([&#x27;None&#x27;]);
+      return this;
+    }
+
+    if (typeof fill &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+      this.fillBuilder.valueAccessor(() &#x3D;&gt; null).range([fill]);
+    } else {
+      fill(this.fillBuilder);
+    }
+    return this;
+  }
+
+  customFills(
+    customFills: FillDefinition&lt;GeographiesFeature&lt;TProperties, TGeometry&gt;&gt;[]
+  ): this {
+    this._customFills &#x3D; customFills;
+    return this;
+  }
+
+  private initFillBuilder(): void {
+    this.fillBuilder &#x3D; new OrdinalVisualValueDimensionBuilder();
+  }
+
+  _build(): GeographiesGeojsonPropertiesLayer&lt;TProperties, TGeometry&gt; {
+    this.validateBuilder();
+    return new GeographiesGeojsonPropertiesLayer({
+      marksClass: &#x27;vic-geographies-geojson-properties-layer&#x27;,
+      customFills: this._customFills,
+      featureClass: this._class,
+      enableEventActions: this._enableEventActions,
+      fill: this.fillBuilder._build(&#x27;Fill&#x27;),
+      geographies: this._geographies,
+      labels: this.labelsBuilder?._build(),
+      mixBlendMode: this._mixBlendMode,
+      stroke: this.strokeBuilder?._build(),
+    });
+  }
+
+  validateBuilder(): void {
+    if (!this.fillBuilder) {
+      this.initFillBuilder();
+    }
+    if (!this.strokeBuilder) {
+      this.initStrokeBuilder();
+    }
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->

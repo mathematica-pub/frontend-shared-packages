@@ -1,0 +1,273 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content additional-page">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Library Interface</h1>
+<h2>Motivations</h2>
+<p>We aim to provide users with a dependable and intuitive application programming interface.</p>
+<p>A dependable interface is one that behaves consistently and correctly, and that has only necessary
+changes from the user&#39;s perspective. An intuitive interface is one that makes as few demands on a
+user&#39;s cognitive load as possible to provide the required functionality.</p>
+<p>This is typically achieved through clear names, consistent semantics and behaviors across features,
+and presenting users with a streamlined mental model of the library that does not expose unnecessary
+implementation details. (Obviously what constitutes an implementation detail that a user needs to
+know about is a highly context-specific question.)</p>
+<p>In light of that, we work with the following principles:</p>
+<ul>
+<li>Making a chart with the library should be a consistent experience across the different components
+we offer.</li>
+<li>Our target user is most familiar with the JavaScript eco system, including D3. Things should feel
+like familiar JavaScript-y ways of doing things.</li>
+<li>The library should provide feedback to the user when they have incorrectly implemented something
+or failed to implement something. TypeScript is our first line of defense as it prevents incorrect
+or incomplete implementations.</li>
+<li>It should not be possible for users to manipulate underlying code via the exposed parts of the
+project. Use TypeScript to control setting and getting of properties as well as calling of
+methods. Mark things private or protected and/or readonly.</li>
+</ul>
+<h2>API Design</h2>
+<p>We have created viz-components as a set of <em>composable</em> components that a user can arrange to create
+data visualizations rather than as discrete charts.</p>
+<p>We have chosen this approach for two reasons. First we want users to be able to take advantage of
+the expressiveness and variation afforded by understanding data visualizations as set of mappings of
+data variables to visual variables. (This is sometimes referred to as a
+<a href="https://vita.had.co.nz/papers/layered-grammar">Grammar of Graphics</a> approach, after Leland
+Wilkinson&#39;s 1999 book, <em>The Grammar of Graphics</em>.) Second, we wanted the experience of building the
+visualizations in code to match this expressiveness and flexibility, and thus likewise favor
+<a href="https://en.wikipedia.org/wiki/Composition_over_inheritance">composition over inheritance</a> in our
+component architecture to provide a flexible foundation upon which additional or custom features can
+easily be added.</p>
+<p>We likewise should aim to reinforce this conception of &quot;creating a chart&quot; with how we ask users to
+undertake that work. When a user provides specifications for their chart, they should understand the
+experience, fundamentally, as providing a set of instructions per data variable to be visually
+displayed in the chart. We call these sets of instructions a &quot;dimension&quot;.</p>
+<h3>Configuration classes - architecture perspective</h3>
+<p>The library provides the user with two different types of functionality -- Angular components, and
+classes that are used to create configuration objects that the user provides to the components.</p>
+<p>All exported classes (components and configuration classes) should be prefixed with <code>Vic</code> to
+indicate that they are part of the library.</p>
+<p>The code that creates configuration objects should be in a separate directory called <code>config</code>.
+Within that directory, there should be three files: <code>[component-name].ts</code>,
+<code>[component-name]-options.ts</code>, and <code>[component-name]-builder.ts</code>. For example</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">├── lib
+│   ├── my-viz
+│   │   ├── config
+│   │   │   ├── my-viz-builder.ts // class VicMyVizBuilder
+│   │   │   ├── my-viz-options.ts // interface MyVizOptions
+│   │   │   ├── my-viz-config.spec.ts // tests for my-viz-config.ts
+│   │   │   ├── my-viz-config.ts // class MyVizConfig
+│   │   ├── my-viz.component.html // template for my-viz.component
+│   │   ├── my-viz.component.scss // styles for my-viz.component
+│   │   ├── my-viz.component.spec.ts // tests for my-viz.component
+│   │   ├── my-viz.component.ts // &#64;Component() class MyVizComponent
+│   │   ├── my-viz.cy.ts // Cypress tests for my-viz component
+│   │   ├── my-viz.module.ts // NgModule for my-viz</code></pre></div><p>The &quot;config&quot; class (<code>config/my-viz-config.ts</code>) is a class that transforms a user&#39;s data and
+configuration specifications into methods and properties that the component can use to draw the
+visualization.</p>
+<p>For all <code>PrimaryMarks</code> components, this should <em>extend</em> a base <code>PrimaryMarksConfig</code> class and
+possibly and intermediary config like <code>XYPrimaryMarksConfig</code>. The config class should <em>implement</em>
+the corresponding &quot;options&quot; interface. The config class should also expect a required object of the
+options interface type (<code>MyVizOptions</code>). Config classes are expected to always be instantiated via
+the builder class.</p>
+<p>The options interface (<code>config/my-viz-options.ts</code>) represents the properties that a user should be
+able to provide values for. It should not include any properties on the config that a user cannot
+configure. Options should always be an interface and never a class.</p>
+<p>We allow the user to provide values for these options in the builder class
+(<code>config/my-viz-builder.ts</code> / <code>MyVizConfigBuilder</code>). Each builder class that a user interacts with
+should have a <code>getConfig</code> method that returns a new config class for the component that a user must
+call. All properties on the builder class should be <code>private</code> or, in the case that we extend the
+builder class for another component type, for example, with Bars and Stacked Bars, <code>protected.</code></p>
+<h4>Sub-config configuration objects</h4>
+<p>The builder classes should also allow users to set properties on any sub-config configurations that
+are necessary for the component, such as dimensions, layers, etc. The methods to set those objects
+should be named to help the user understand that they cannot directly provide a value as the
+method&#39;s argument, but instead should provide a callback that itself configures the properties.
+Those methods should new an instance of the builder object for the sub-config configuration object.</p>
+<p>The methods on the sub-configuration classes that return the sub-configuration object are never
+called by the user, and thus are named <code>_build.</code> These <code>_build</code> methods should instead be called <em>by
+the library</em> in the top level builder&#39;s build method. <em>Note: ideally the <code>_build</code> methods on
+sub-config builder classes would be private, but right now we don&#39;t have a good solution to that.
+For the time being we prefix them with an underscore for visual distinction.</em></p>
+<h4>Setting default values and validation</h4>
+<p>In addition to facilitating user configuration, the builder class is also responsible for 1. setting
+default values for properties that can have defaults, and 2. validating the user&#39;s configurations.</p>
+<p>To set defaults, we create a <code>DEFAULT</code> object that contains the default values that is assigned to
+the builder class in its constructor method.</p>
+<p>Validation should be run immediately before the creation of the config class in the <code>build</code> method.
+The validation method should new any sub-configs that it can in the case that a user did not
+manually configure (for example, if all properties on the sub-config have default values, we should
+make user configuration of that sub-config optional, and create it ourselves during validation), and
+should throw errors if required properties have not been set by the user.</p>
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'additional-page';
+            var COMPODOC_CURRENT_PAGE_URL = 'using-the-library.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

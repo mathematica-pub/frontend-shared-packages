@@ -1,0 +1,3315 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-variables">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Variables</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#AbstractXOrdinalAxis" title="libs/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-config.ts" ><b>AbstractXOrdinalAxis</b>&nbsp;&nbsp;&nbsp;(libs/.../x-ordinal-axis-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AbstractXQuantitativeAxis" title="libs/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis-config.ts" ><b>AbstractXQuantitativeAxis</b>&nbsp;&nbsp;&nbsp;(libs/.../x-quantitative-axis-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AbstractYOrdinalAxis" title="libs/viz-components/src/lib/axes/y-ordinal/y-ordinal-axis-config.ts" ><b>AbstractYOrdinalAxis</b>&nbsp;&nbsp;&nbsp;(libs/.../y-ordinal-axis-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AbstractYQuantitative" title="libs/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-config.ts" ><b>AbstractYQuantitative</b>&nbsp;&nbsp;&nbsp;(libs/.../y-quantitative-axis-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#BARS" title="libs/viz-components/src/lib/bars/bars.component.ts" ><b>BARS</b>&nbsp;&nbsp;&nbsp;(libs/.../bars.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CHART" title="libs/viz-components/src/lib/charts/chart/chart.token.ts" ><b>CHART</b>&nbsp;&nbsp;&nbsp;(libs/.../chart.token.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#continentPopulationDateYearData" title="libs/viz-components/src/lib/testing/data/continent-population-year-data.ts" ><b>continentPopulationDateYearData</b>&nbsp;&nbsp;&nbsp;(libs/.../continent-population-year-data.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ContinentPopulationNumYearData" title="libs/viz-components/src/lib/testing/data/continent-population-year-data.ts" ><b>ContinentPopulationNumYearData</b>&nbsp;&nbsp;&nbsp;(libs/.../continent-population-year-data.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#countryFactsData" title="libs/viz-components/src/lib/testing/data/country-area-continent.ts" ><b>countryFactsData</b>&nbsp;&nbsp;&nbsp;(libs/.../country-area-continent.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/image-download/image-download-config.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../image-download-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/point-markers/point-markers-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../point-markers-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/stroke/stroke-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../stroke-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/svg-text-wrap/svg-text-wrap-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../svg-text-wrap-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/axes/baseline/axis-baseline-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../axis-baseline-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/axes/label/axis-label-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../axis-label-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/axes/ticks/ticks-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../ticks-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../x-ordinal-axis-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../x-quantitative-axis-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/axes/y-ordinal/y-ordinal-axis-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../y-ordinal-axis-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../y-quantitative-axis-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/dots/config/dots-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../dots-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/geographies/config/geographies-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../geographies-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/grouped-bars/config/grouped-bars-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../grouped-bars-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/grouped-bars/config/grouped-bars-config.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../grouped-bars-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/lines/config/lines-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../lines-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/quantitative-rules/config/quantitative-rules-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../quantitative-rules-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../stacked-area-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/stacked-bars/config/stacked-bars-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../stacked-bars-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/charts/chart/config/chart-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../chart-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/axes/ticks/tick-wrap/tick-wrap-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../tick-wrap-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/data-dimensions/continuous-quantitative/date-chart-position/date-chart-position-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../date-chart-position-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../number-chart-position-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/data-dimensions/continuous-quantitative/number-visual-value/number-visual-value-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../number-visual-value-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/data-dimensions/ordinal/ordinal-chart-position/ordinal-chart-position-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../ordinal-chart-position-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../ordinal-visual-value-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/bars/config/backgrounds/bars-backgrounds-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../bars-backgrounds-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/bars/config/labels/bars-labels-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../bars-labels-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/lines/config/area-fills/area-fills-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../area-fills-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/lines/config/stroke/lines-stroke-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../lines-stroke-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/marks/aux-marks/config/aux-marks-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../aux-marks-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/marks/primary-marks/config/primary-marks-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../primary-marks-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/quantitative-rules/config/labels/quantitative-rules-labels-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../quantitative-rules-labels-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../html-tooltip-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../attribute-data-layer-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../attribute-data-layer.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/geographies/config/layers/geographies-layer/geographies-layer-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../geographies-layer-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../geojson-properties-layer-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/geographies/config/layers/labels/geographies-labels-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../geographies-labels-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../equal-value-ranges-bins-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/custom-breaks/custom-breaks-bins-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../custom-breaks-bins-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/categorical-bins/categorical-bins-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../categorical-bins-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/equal-frequencies-bins/equal-frequencies-bins-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../equal-frequencies-bins-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT" title="libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/no-bins/no-bins-builder.ts" ><b>DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../no-bins-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_PADDING" title="libs/viz-components/src/lib/data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder.ts" ><b>DEFAULT_PADDING</b>&nbsp;&nbsp;&nbsp;(libs/.../number-chart-position-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_POSITIONS" title="libs/viz-components/src/lib/bars/events/bars-tooltip-positioner.ts" ><b>DEFAULT_POSITIONS</b>&nbsp;&nbsp;&nbsp;(libs/.../bars-tooltip-positioner.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_POSITIONS" title="libs/viz-components/src/lib/dots/events/dots-tooltip-positioner.ts" ><b>DEFAULT_POSITIONS</b>&nbsp;&nbsp;&nbsp;(libs/.../dots-tooltip-positioner.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_POSITIONS" title="libs/viz-components/src/lib/geographies/events/geographies-tooltip-positioner.ts" ><b>DEFAULT_POSITIONS</b>&nbsp;&nbsp;&nbsp;(libs/.../geographies-tooltip-positioner.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_POSITIONS" title="libs/viz-components/src/lib/lines/events/lines-tooltip-positioner.ts" ><b>DEFAULT_POSITIONS</b>&nbsp;&nbsp;&nbsp;(libs/.../lines-tooltip-positioner.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_POSITIONS" title="libs/viz-components/src/lib/stacked-area/events/stacked-area-tooltip-positioner.ts" ><b>DEFAULT_POSITIONS</b>&nbsp;&nbsp;&nbsp;(libs/.../stacked-area-tooltip-positioner.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_TOOLTIP_Y_OFFSET" title="libs/viz-components/src/lib/events/tooltip-positioner.ts" ><b>DEFAULT_TOOLTIP_Y_OFFSET</b>&nbsp;&nbsp;&nbsp;(libs/.../tooltip-positioner.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DOTS" title="libs/viz-components/src/lib/dots/dots.component.ts" ><b>DOTS</b>&nbsp;&nbsp;&nbsp;(libs/.../dots.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#GEOGRAPHIES" title="libs/viz-components/src/lib/geographies/geographies.component.ts" ><b>GEOGRAPHIES</b>&nbsp;&nbsp;&nbsp;(libs/.../geographies.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#HORIZONTAL_BARS_DIMENSIONS" title="libs/viz-components/src/lib/bars/config/bars-dimensions.ts" ><b>HORIZONTAL_BARS_DIMENSIONS</b>&nbsp;&nbsp;&nbsp;(libs/.../bars-dimensions.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#HORIZONTAL_RULE_DIMENSIONS" title="libs/viz-components/src/lib/quantitative-rules/config/quantitative-rules-dimensions.ts" ><b>HORIZONTAL_RULE_DIMENSIONS</b>&nbsp;&nbsp;&nbsp;(libs/.../quantitative-rules-dimensions.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#LINES" title="libs/viz-components/src/lib/lines/lines.component.ts" ><b>LINES</b>&nbsp;&nbsp;&nbsp;(libs/.../lines.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#QUANT_DEFAULT" title="libs/viz-components/src/lib/axes/ticks/ticks-builder.ts" ><b>QUANT_DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../ticks-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SCALES_DEFAULT" title="libs/viz-components/src/lib/charts/chart/config/chart-builder.ts" ><b>SCALES_DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../chart-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#STACKED_AREA" title="libs/viz-components/src/lib/stacked-area/stacked-area.component.ts" ><b>STACKED_AREA</b>&nbsp;&nbsp;&nbsp;(libs/.../stacked-area.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#STACKED_BARS" title="libs/viz-components/src/lib/stacked-bars/stacked-bars.component.ts" ><b>STACKED_BARS</b>&nbsp;&nbsp;&nbsp;(libs/.../stacked-bars.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#stateIncomePopulationYearData" title="libs/viz-components/src/lib/testing/data/state-population-income-year-data.ts" ><b>stateIncomePopulationYearData</b>&nbsp;&nbsp;&nbsp;(libs/.../state-population-income-year-data.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TICK_DEFAULT" title="libs/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-builder.ts" ><b>TICK_DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../x-ordinal-axis-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TICK_DEFAULT" title="libs/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis-builder.ts" ><b>TICK_DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../x-quantitative-axis-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TICKS_DEFAULT" title="libs/viz-components/src/lib/axes/y-ordinal/y-ordinal-axis-builder.ts" ><b>TICKS_DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../y-ordinal-axis-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TICKS_DEFAULT" title="libs/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-builder.ts" ><b>TICKS_DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../y-quantitative-axis-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#valueFormat" title="libs/viz-components/src/lib/core/utilities/value-format.ts" ><b>valueFormat</b>&nbsp;&nbsp;&nbsp;(libs/.../value-format.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#VERTICAL_BARS_DIMENSIONS" title="libs/viz-components/src/lib/bars/config/bars-dimensions.ts" ><b>VERTICAL_BARS_DIMENSIONS</b>&nbsp;&nbsp;&nbsp;(libs/.../bars-dimensions.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#VERTICAL_RULE_DIMENSIONS" title="libs/viz-components/src/lib/quantitative-rules/config/quantitative-rules-dimensions.ts" ><b>VERTICAL_RULE_DIMENSIONS</b>&nbsp;&nbsp;&nbsp;(libs/.../quantitative-rules-dimensions.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#VIC_PRIMARY_MARKS" title="libs/viz-components/src/lib/marks/primary-marks/primary-marks.ts" ><b>VIC_PRIMARY_MARKS</b>&nbsp;&nbsp;&nbsp;(libs/.../primary-marks.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#VIEWBOX_DEFAULT" title="libs/viz-components/src/lib/charts/chart/config/chart-builder.ts" ><b>VIEWBOX_DEFAULT</b>&nbsp;&nbsp;&nbsp;(libs/.../chart-builder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#XOrdinalAxis" title="libs/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis.component.ts" ><b>XOrdinalAxis</b>&nbsp;&nbsp;&nbsp;(libs/.../x-ordinal-axis.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#XQuantitativeAxis" title="libs/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis.component.ts" ><b>XQuantitativeAxis</b>&nbsp;&nbsp;&nbsp;(libs/.../x-quantitative-axis.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#YOrdinalAxis" title="libs/viz-components/src/lib/axes/y-ordinal/y-ordinal-axis.component.ts" ><b>YOrdinalAxis</b>&nbsp;&nbsp;&nbsp;(libs/.../y-ordinal-axis.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#YQuantitativeAxis" title="libs/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis.component.ts" ><b>YQuantitativeAxis</b>&nbsp;&nbsp;&nbsp;(libs/.../y-quantitative-axis.component.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>libs/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AbstractXOrdinalAxis"></a>
+                    <span class="name">
+                        <span ><b>AbstractXOrdinalAxis</b></span>
+                        <a href="#AbstractXOrdinalAxis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>mixinXAxisConfig&lt;
+  DataValue,
+  Ticks&lt;DataValue&gt;,
+  XyAxisConfigType&lt;DataValue&gt;
+&gt;(mixinOrdinalAxisConfig&lt;DataValue, XyAxisConfigType&lt;DataValue&gt;&gt;(XyAxisConfig))</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis-config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AbstractXQuantitativeAxis"></a>
+                    <span class="name">
+                        <span ><b>AbstractXQuantitativeAxis</b></span>
+                        <a href="#AbstractXQuantitativeAxis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>mixinXAxisConfig&lt;
+  ContinuousValue,
+  QuantitativeTicks&lt;ContinuousValue&gt;,
+  XyAxisConfigType&lt;ContinuousValue&gt;
+&gt;(
+  mixinQuantitativeAxisConfig&lt;
+    ContinuousValue,
+    XyAxisConfigType&lt;ContinuousValue&gt;
+  &gt;(XyAxisConfig)
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/y-ordinal/y-ordinal-axis-config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AbstractYOrdinalAxis"></a>
+                    <span class="name">
+                        <span ><b>AbstractYOrdinalAxis</b></span>
+                        <a href="#AbstractYOrdinalAxis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>mixinYAxisConfig&lt;
+  DataValue,
+  Ticks&lt;DataValue&gt;,
+  XyAxisConfigType&lt;DataValue&gt;
+&gt;(mixinOrdinalAxisConfig&lt;DataValue, XyAxisConfigType&lt;DataValue&gt;&gt;(XyAxisConfig))</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AbstractYQuantitative"></a>
+                    <span class="name">
+                        <span ><b>AbstractYQuantitative</b></span>
+                        <a href="#AbstractYQuantitative"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>mixinYAxisConfig&lt;
+  ContinuousValue,
+  QuantitativeTicks&lt;ContinuousValue&gt;,
+  XyAxisConfigType&lt;ContinuousValue&gt;
+&gt;(
+  mixinQuantitativeAxisConfig&lt;
+    ContinuousValue,
+    XyAxisConfigType&lt;ContinuousValue&gt;
+  &gt;(XyAxisConfig)
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/bars/bars.component.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="BARS"></a>
+                    <span class="name">
+                        <span ><b>BARS</b></span>
+                        <a href="#BARS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;BarsComponent&lt;unknown, DataValue&gt;&gt;(
+  &#x27;BarsComponent&#x27;
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/charts/chart/chart.token.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CHART"></a>
+                    <span class="name">
+                        <span ><b>CHART</b></span>
+                        <a href="#CHART"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;Chart&gt;(&#x27;Chart&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/testing/data/continent-population-year-data.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="continentPopulationDateYearData"></a>
+                    <span class="name">
+                        <span ><b>continentPopulationDateYearData</b></span>
+                        <a href="#continentPopulationDateYearData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#ContinentPopulationDateYearDatum" target="_self" >ContinentPopulationDateYearDatum[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    { continent: &#x27;Asia&#x27;, year: new Date(&#x27;2024-01-02&#x27;), population: 4785060000 },
+    { continent: &#x27;Asia&#x27;, year: new Date(&#x27;2030-01-02&#x27;), population: 4958807000 },
+    { continent: &#x27;Asia&#x27;, year: new Date(&#x27;2050-01-02&#x27;), population: 5292948000 },
+    { continent: &#x27;Asia&#x27;, year: new Date(&#x27;2100-01-02&#x27;), population: 4674249000 },
+    {
+      continent: &#x27;Africa&#x27;,
+      year: new Date(&#x27;2024-01-02&#x27;),
+      population: 1494994000,
+    },
+    {
+      continent: &#x27;Africa&#x27;,
+      year: new Date(&#x27;2030-01-02&#x27;),
+      population: 1710666000,
+    },
+    {
+      continent: &#x27;Africa&#x27;,
+      year: new Date(&#x27;2050-01-02&#x27;),
+      population: 2485136000,
+    },
+    {
+      continent: &#x27;Africa&#x27;,
+      year: new Date(&#x27;2100-01-02&#x27;),
+      population: 3924421000,
+    },
+    {
+      continent: &#x27;Europe&#x27;,
+      year: new Date(&#x27;2024-01-02&#x27;),
+      population: 741652000,
+    },
+    {
+      continent: &#x27;Europe&#x27;,
+      year: new Date(&#x27;2030-01-02&#x27;),
+      population: 736574000,
+    },
+    {
+      continent: &#x27;Europe&#x27;,
+      year: new Date(&#x27;2050-01-02&#x27;),
+      population: 703007000,
+    },
+    {
+      continent: &#x27;Europe&#x27;,
+      year: new Date(&#x27;2100-01-02&#x27;),
+      population: 586515000,
+    },
+    {
+      continent: &#x27;North America&#x27;,
+      year: new Date(&#x27;2024-01-02&#x27;),
+      population: 381048000,
+    },
+    {
+      continent: &#x27;North America&#x27;,
+      year: new Date(&#x27;2030-01-02&#x27;),
+      population: 393297000,
+    },
+    {
+      continent: &#x27;North America&#x27;,
+      year: new Date(&#x27;2050-01-02&#x27;),
+      population: 421398000,
+    },
+    {
+      continent: &#x27;North America&#x27;,
+      year: new Date(&#x27;2100-01-02&#x27;),
+      population: 448026000,
+    },
+    {
+      continent: &#x27;South America&#x27;,
+      year: new Date(&#x27;2024-01-02&#x27;),
+      population: 442861000,
+    },
+    {
+      continent: &#x27;South America&#x27;,
+      year: new Date(&#x27;2030-01-02&#x27;),
+      population: 460220000,
+    },
+    {
+      continent: &#x27;South America&#x27;,
+      year: new Date(&#x27;2050-01-02&#x27;),
+      population: 491079000,
+    },
+    {
+      continent: &#x27;South America&#x27;,
+      year: new Date(&#x27;2100-01-02&#x27;),
+      population: 425794000,
+    },
+    {
+      continent: &#x27;Oceania&#x27;,
+      year: new Date(&#x27;2024-01-02&#x27;),
+      population: 46109000,
+    },
+    {
+      continent: &#x27;Oceania&#x27;,
+      year: new Date(&#x27;2030-01-02&#x27;),
+      population: 49212000,
+    },
+    {
+      continent: &#x27;Oceania&#x27;,
+      year: new Date(&#x27;2050-01-02&#x27;),
+      population: 57834000,
+    },
+    {
+      continent: &#x27;Oceania&#x27;,
+      year: new Date(&#x27;2100-01-02&#x27;),
+      population: 68712000,
+    },
+  ]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ContinentPopulationNumYearData"></a>
+                    <span class="name">
+                        <span ><b>ContinentPopulationNumYearData</b></span>
+                        <a href="#ContinentPopulationNumYearData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#ContinentPopulationNumYearDatum" target="_self" >ContinentPopulationNumYearDatum[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>continentPopulationDateYearData.map((d) &#x3D;&gt; ({
+    ...d,
+    year: d.year.getFullYear(),
+  }))</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/testing/data/country-area-continent.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="countryFactsData"></a>
+                    <span class="name">
+                        <span ><b>countryFactsData</b></span>
+                        <a href="#countryFactsData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  {
+    country: &#x27;Afghanistan&#x27;,
+    area: 252072,
+    continent: &#x27;Asia&#x27;,
+    population: 40121552,
+    popGrowth: 0.022,
+    gdpPerCapita: 2000,
+  },
+  {
+    country: &#x27;Albania&#x27;,
+    area: 11100,
+    continent: &#x27;Europe&#x27;,
+    population: 3107100,
+    popGrowth: 0.0016,
+    gdpPerCapita: 18100,
+  },
+  {
+    country: &#x27;Algeria&#x27;,
+    area: 919595,
+    continent: &#x27;Africa&#x27;,
+    population: 47022473,
+    popGrowth: 0.0154,
+    gdpPerCapita: 15300,
+  },
+  {
+    country: &#x27;Angola&#x27;,
+    area: 481350,
+    continent: &#x27;Africa&#x27;,
+    population: 37202061,
+    popGrowth: 0.0333,
+    gdpPerCapita: 7200,
+  },
+  {
+    country: &#x27;Antigua and Barbuda&#x27;,
+    area: 171,
+    continent: &#x27;North America&#x27;,
+    population: 102634,
+    popGrowth: 0.011,
+    gdpPerCapita: 28700,
+  },
+  {
+    country: &#x27;Argentina&#x27;,
+    area: 1073500,
+    continent: &#x27;South America&#x27;,
+    population: 46994384,
+    popGrowth: 0.0079,
+    gdpPerCapita: 26500,
+  },
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/image-download/image-download-config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  fontEmbedCSS: undefined,
+  backgroundColor: &#x27;#fff&#x27;,
+  quality: 1,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/point-markers/point-markers-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _class: () &#x3D;&gt; &#x27;&#x27;,
+  _display: () &#x3D;&gt; true,
+  _radius: 3,
+  _growByOnHover: 2,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/stroke/stroke-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _dasharray: &#x27;none&#x27;,
+  _linecap: &#x27;round&#x27;,
+  _linejoin: &#x27;round&#x27;,
+  _opacity: 1,
+  _width: 2,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/svg-text-wrap/svg-text-wrap-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _maintainXPosition: false,
+  _maintainYPosition: false,
+  _lineHeight: 1.1,
+  _width: 100,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/baseline/axis-baseline-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _zeroBaseline: {
+    display: true,
+    dasharray: &#x27;2, 2&#x27;,
+  },
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/label/axis-label-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _offset: { x: 0, y: 0 },
+  _position: &#x27;middle&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/ticks/ticks-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _class: () &#x3D;&gt; &#x27;&#x27;,
+  _labelsDisplay: true,
+  _marksDisplay: true,
+  _remove: false,
+  _stroke: &#x27;none&#x27;,
+  _strokeOpacity: 1,
+  _strokeWidth: 3,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="QUANT_DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>QUANT_DEFAULT</b></span>
+                        <a href="#QUANT_DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _spacing: 40,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _side: &#x27;bottom&#x27;,
+  _baseline: {
+    display: false,
+  },
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TICK_DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>TICK_DEFAULT</b></span>
+                        <a href="#TICK_DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _sizeOuter: 0,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _side: &#x27;bottom&#x27;,
+  _removeDomainLine: false,
+  _zeroAxis: { strokeDasharray: &#x27;2&#x27;, useZeroAxis: true },
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TICK_DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>TICK_DEFAULT</b></span>
+                        <a href="#TICK_DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _format: &#x27;,.1f&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/y-ordinal/y-ordinal-axis-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _side: &#x27;left&#x27;,
+  _baseline: {
+    display: false,
+  },
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TICKS_DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>TICKS_DEFAULT</b></span>
+                        <a href="#TICKS_DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _sizeOuter: 0,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _side: &#x27;left&#x27;,
+  _removeDomainLine: false,
+  _zeroAxis: { strokeDasharray: &#x27;2&#x27;, useZeroAxis: true },
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TICKS_DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>TICKS_DEFAULT</b></span>
+                        <a href="#TICKS_DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _format: &#x27;,.1f&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/dots/config/dots-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _pointerDetectionRadius: 12,
+  _fill: &#x27;lightgray&#x27;,
+  _opacity: 1,
+  _radius: 2,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/geographies/config/geographies-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _class: () &#x3D;&gt; &#x27;&#x27;,
+  _projection: geoAlbersUsa(),
+  _mixBlendMode: &#x27;normal&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/grouped-bars/config/grouped-bars-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _intraGroupPadding: 0.05,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/grouped-bars/config/grouped-bars-config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  intraGroupPadding: 0.05,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/lines/config/lines-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _curve: curveLinear,
+  _pointerDetectionRadius: 80,
+  _lineLabelsFormat: (d: string) &#x3D;&gt; d,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/quantitative-rules/config/quantitative-rules-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _color: () &#x3D;&gt; &#x27;#cccccc&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/stacked-area/config/stacked-area-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _curve: curveLinear,
+  _stackOrder: stackOrderNone,
+  _stackOffset: stackOffsetNone,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/stacked-bars/config/stacked-bars-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _stackOrder: stackOrderNone,
+  _stackOffset: stackOffsetDiverging,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/charts/chart/config/chart-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _fixedHeight: false,
+  _height: 600,
+  _margin: { top: 36, right: 36, bottom: 36, left: 36 },
+  _scalingStrategy: &#x27;responsive-width&#x27; as ScalingStrategy,
+  _transitionDuration: 250,
+  _width: 800,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SCALES_DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>SCALES_DEFAULT</b></span>
+                        <a href="#SCALES_DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  height: 600,
+  width: 800,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="VIEWBOX_DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>VIEWBOX_DEFAULT</b></span>
+                        <a href="#VIEWBOX_DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  height: 450,
+  width: 600,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/ticks/tick-wrap/tick-wrap-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _wrapWidth: &#x27;bandwidth&#x27;,
+  _lineHeight: 1.1,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/data-dimensions/continuous-quantitative/date-chart-position/date-chart-position-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _scaleFn: scaleUtc,
+  _formatSpecifier: &#x27;%Y %m&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _includeZeroInDomain: true,
+  _scaleFn: scaleLinear,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_PADDING"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_PADDING</b></span>
+                        <a href="#DEFAULT_PADDING"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  pixels: 40,
+  percentOver: 0.1,
+  roundInterval: () &#x3D;&gt; 1,
+  roundUp: () &#x3D;&gt; 1,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/data-dimensions/continuous-quantitative/number-visual-value/number-visual-value-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _includeZeroInDomain: false,
+  _scaleFn: scaleLinear,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/data-dimensions/ordinal/ordinal-chart-position/ordinal-chart-position-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _align: 0.5,
+  _paddingInner: 0.1,
+  _paddingOuter: 0.1,
+  _valueAccessor: (d, i) &#x3D;&gt; i,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _range: schemeTableau10,
+  _valueAccessor: () &#x3D;&gt; &#x27;&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/bars/config/backgrounds/bars-backgrounds-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _color: &#x27;whitesmoke&#x27;,
+  _events: false,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/bars/config/labels/bars-labels-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _color: {
+    default: &#x27;#000000&#x27;,
+    withinBarAlternative: &#x27;#ffffff&#x27;,
+  },
+  _display: true,
+  _noValueFunction: () &#x3D;&gt; &#x27;N/A&#x27;,
+  _offset: 4,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/lines/config/area-fills/area-fills-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _display: () &#x3D;&gt; true,
+  _opacity: 0.2,
+  _gradient: undefined,
+  _color: undefined,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/lines/config/stroke/lines-stroke-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _dasharray: &#x27;none&#x27;,
+  _linecap: &#x27;round&#x27;,
+  _linejoin: &#x27;round&#x27;,
+  _opacity: 1,
+  _width: 2,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/marks/aux-marks/config/aux-marks-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _class: () &#x3D;&gt; &#x27;&#x27;,
+  _mixBlendMode: &#x27;normal&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/marks/primary-marks/config/primary-marks-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _datumClass: () &#x3D;&gt; &#x27;&#x27;,
+  _mixBlendMode: &#x27;normal&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/quantitative-rules/config/labels/quantitative-rules-labels-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _display: () &#x3D;&gt; true,
+  _dominantBaseline: &#x27;middle&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _minWidth: 300,
+  _applyEventsDisabledClass: true,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _class: () &#x3D;&gt; &#x27;&#x27;,
+  _enableEventActions: true,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _nullColor: &#x27;#dcdcdc&#x27;,
+  _strokeColor: &#x27;dimgray&#x27;,
+  _strokeWidth: &#x27;1&#x27;,
+  _enableEventActions: true,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/geographies/config/layers/geographies-layer/geographies-layer-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _class: () &#x3D;&gt; &#x27;&#x27;,
+  _mixBlendMode: &#x27;normal&#x27;,
+  _strokeColor: &#x27;dimgray&#x27;,
+  _strokeWidth: &#x27;1&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _class: () &#x3D;&gt; &#x27;&#x27;,
+  _enableEventActions: false,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/geographies/config/layers/labels/geographies-labels-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _alignmentBaseline: &#x27;middle&#x27;,
+  _color: &#x27;#000&#x27;,
+  _cursor: &#x27;default&#x27;,
+  _display: () &#x3D;&gt; true,
+  _dominantBaseline: &#x27;middle&#x27;,
+  _fontScale: scaleLinear().domain([0, 800]).range([0, 17]),
+  _fontWeight: 400,
+  _textAnchor: &#x27;middle&#x27;,
+  _pointerEvents: &#x27;none&#x27;,
+  _valueAccessor: (feature) &#x3D;&gt; feature,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _interpolator: interpolateLab,
+  _nullColor: &#x27;whitesmoke&#x27;,
+  _numBins: 3,
+  _range: [&#x27;white&#x27;, &#x27;pink&#x27;, &#x27;red&#x27;],
+  _scale: scaleQuantize,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/custom-breaks/custom-breaks-bins-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _interpolator: interpolateLab,
+  _nullColor: &#x27;whitesmoke&#x27;,
+  _scale: scaleThreshold,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/categorical-bins/categorical-bins-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _nullColor: &#x27;whitesmoke&#x27;,
+  _range: [&#x27;white&#x27;, &#x27;lightslategray&#x27;],
+  _scale: scaleOrdinal,
+  _valueAccessor: () &#x3D;&gt; &#x27;&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/equal-frequencies-bins/equal-frequencies-bins-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _interpolator: interpolateLab,
+  _nullColor: &#x27;whitesmoke&#x27;,
+  _numBins: 4,
+  _range: [&#x27;white&#x27;, &#x27;blue&#x27;],
+  _scale: scaleQuantile,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/no-bins/no-bins-builder.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT</b></span>
+                        <a href="#DEFAULT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  _interpolator: interpolateLab,
+  _nullColor: &#x27;whitesmoke&#x27;,
+  _range: [&#x27;white&#x27;, &#x27;slategray&#x27;],
+  _scale: scaleLinear,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/bars/events/bars-tooltip-positioner.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_POSITIONS"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_POSITIONS</b></span>
+                        <a href="#DEFAULT_POSITIONS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  new TooltipPositionBuilder().fromTopLeft().attachBottomCenter().getPosition(),
+  new TooltipPositionBuilder().fromTopLeft().attachBottomLeft().getPosition(),
+  new TooltipPositionBuilder().fromTopLeft().attachBottomRight().getPosition(),
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/dots/events/dots-tooltip-positioner.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_POSITIONS"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_POSITIONS</b></span>
+                        <a href="#DEFAULT_POSITIONS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  new TooltipPositionBuilder().fromCenter().attachBottomCenter().getPosition(),
+  new TooltipPositionBuilder().fromCenter().attachBottomLeft().getPosition(),
+  new TooltipPositionBuilder().fromCenter().attachBottomRight().getPosition(),
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/geographies/events/geographies-tooltip-positioner.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_POSITIONS"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_POSITIONS</b></span>
+                        <a href="#DEFAULT_POSITIONS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  new TooltipPositionBuilder().fromTopLeft().attachBottomCenter().getPosition(),
+  new TooltipPositionBuilder().fromTopLeft().attachBottomLeft().getPosition(),
+  new TooltipPositionBuilder().fromTopLeft().attachBottomRight().getPosition(),
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/lines/events/lines-tooltip-positioner.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_POSITIONS"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_POSITIONS</b></span>
+                        <a href="#DEFAULT_POSITIONS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  new TooltipPositionBuilder().fromTopLeft().attachBottomCenter().getPosition(),
+  new TooltipPositionBuilder().fromTopLeft().attachBottomLeft().getPosition(),
+  new TooltipPositionBuilder().fromTopLeft().attachBottomRight().getPosition(),
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/stacked-area/events/stacked-area-tooltip-positioner.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_POSITIONS"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_POSITIONS</b></span>
+                        <a href="#DEFAULT_POSITIONS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  new TooltipPositionBuilder().fromTopLeft().attachBottomCenter().getPosition(),
+  new TooltipPositionBuilder().fromTopLeft().attachBottomLeft().getPosition(),
+  new TooltipPositionBuilder().fromTopLeft().attachBottomRight().getPosition(),
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/events/tooltip-positioner.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_TOOLTIP_Y_OFFSET"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_TOOLTIP_Y_OFFSET</b></span>
+                        <a href="#DEFAULT_TOOLTIP_Y_OFFSET"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>2</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/dots/dots.component.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DOTS"></a>
+                    <span class="name">
+                        <span ><b>DOTS</b></span>
+                        <a href="#DOTS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;DotsComponent&lt;unknown&gt;&gt;(&#x27;DotsComponent&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/geographies/geographies.component.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="GEOGRAPHIES"></a>
+                    <span class="name">
+                        <span ><b>GEOGRAPHIES</b></span>
+                        <a href="#GEOGRAPHIES"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;
+  GeographiesComponent&lt;unknown, unknown&gt;
+&gt;(&#x27;GeographiesComponent&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/bars/config/bars-dimensions.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="HORIZONTAL_BARS_DIMENSIONS"></a>
+                    <span class="name">
+                        <span ><b>HORIZONTAL_BARS_DIMENSIONS</b></span>
+                        <a href="#HORIZONTAL_BARS_DIMENSIONS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/BarsDimensions.html" target="_self" >BarsDimensions</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  x: &#x27;quantitative&#x27;,
+  y: &#x27;ordinal&#x27;,
+  ordinal: &#x27;y&#x27;,
+  quantitative: &#x27;x&#x27;,
+  quantitativeDimension: &#x27;width&#x27;,
+  isHorizontal: true,
+  isVertical: false,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="VERTICAL_BARS_DIMENSIONS"></a>
+                    <span class="name">
+                        <span ><b>VERTICAL_BARS_DIMENSIONS</b></span>
+                        <a href="#VERTICAL_BARS_DIMENSIONS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/BarsDimensions.html" target="_self" >BarsDimensions</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  x: &#x27;ordinal&#x27;,
+  y: &#x27;quantitative&#x27;,
+  ordinal: &#x27;x&#x27;,
+  quantitative: &#x27;y&#x27;,
+  quantitativeDimension: &#x27;height&#x27;,
+  isHorizontal: false,
+  isVertical: true,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/quantitative-rules/config/quantitative-rules-dimensions.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="HORIZONTAL_RULE_DIMENSIONS"></a>
+                    <span class="name">
+                        <span ><b>HORIZONTAL_RULE_DIMENSIONS</b></span>
+                        <a href="#HORIZONTAL_RULE_DIMENSIONS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/QuantitativeRulesDimensions.html" target="_self" >QuantitativeRulesDimensions</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  quantitative: &#x27;x&#x27;,
+  quantitativeDimension: &#x27;width&#x27;,
+  isHorizontal: true,
+  isVertical: false,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="VERTICAL_RULE_DIMENSIONS"></a>
+                    <span class="name">
+                        <span ><b>VERTICAL_RULE_DIMENSIONS</b></span>
+                        <a href="#VERTICAL_RULE_DIMENSIONS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/QuantitativeRulesDimensions.html" target="_self" >QuantitativeRulesDimensions</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  quantitative: &#x27;y&#x27;,
+  quantitativeDimension: &#x27;height&#x27;,
+  isHorizontal: false,
+  isVertical: true,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/lines/lines.component.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="LINES"></a>
+                    <span class="name">
+                        <span ><b>LINES</b></span>
+                        <a href="#LINES"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;LinesComponent&lt;unknown&gt;&gt;(
+  &#x27;LinesComponent&#x27;
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/stacked-area/stacked-area.component.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="STACKED_AREA"></a>
+                    <span class="name">
+                        <span ><b>STACKED_AREA</b></span>
+                        <a href="#STACKED_AREA"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;
+  StackedAreaComponent&lt;unknown, DataValue&gt;
+&gt;(&#x27;StackedAreaComponent&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/stacked-bars/stacked-bars.component.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="STACKED_BARS"></a>
+                    <span class="name">
+                        <span ><b>STACKED_BARS</b></span>
+                        <a href="#STACKED_BARS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;
+  StackedBarsComponent&lt;unknown, DataValue&gt;
+&gt;(&#x27;StackedBarsComponent&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/testing/data/state-population-income-year-data.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stateIncomePopulationYearData"></a>
+                    <span class="name">
+                        <span ><b>stateIncomePopulationYearData</b></span>
+                        <a href="#stateIncomePopulationYearData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  { state: &#x27;Alabama&#x27;, year: 2020, income: 52035, population: 5024279 },
+  { state: &#x27;Alabama&#x27;, year: 2010, income: 40474, population: 4779736 },
+  { state: &#x27;Alaska&#x27;, year: 2020, income: 77790, population: 733391 },
+  { state: &#x27;Alaska&#x27;, year: 2010, income: 64576, population: 710231 },
+  { state: &#x27;Arizona&#x27;, year: 2020, income: 61529, population: 7151502 },
+  { state: &#x27;Arizona&#x27;, year: 2010, income: 46789, population: 6392017 },
+  { state: &#x27;Arkansas&#x27;, year: 2020, income: 49475, population: 3011524 },
+  { state: &#x27;Arkansas&#x27;, year: 2010, income: 38307, population: 2915918 },
+  { state: &#x27;California&#x27;, year: 2020, income: 78672, population: 39538223 },
+  { state: &#x27;California&#x27;, year: 2010, income: 57708, population: 37253956 },
+  { state: &#x27;Colorado&#x27;, year: 2020, income: 75231, population: 5773714 },
+  { state: &#x27;Colorado&#x27;, year: 2010, income: 54046, population: 5029196 },
+  { state: &#x27;Connecticut&#x27;, year: 2020, income: 79855, population: 3605944 },
+  { state: &#x27;Connecticut&#x27;, year: 2010, income: 64032, population: 3574097 },
+  { state: &#x27;Delaware&#x27;, year: 2020, income: 69110, population: 989948 },
+  { state: &#x27;Delaware&#x27;, year: 2010, income: 55847, population: 897934 },
+  {
+    state: &#x27;District of Columbia&#x27;,
+    year: 2020,
+    income: 90842,
+    population: 689545,
+  },
+  {
+    state: &#x27;District of Columbia&#x27;,
+    year: 2010,
+    income: 60903,
+    population: 601723,
+  },
+  { state: &#x27;Florida&#x27;, year: 2020, income: 57703, population: 21538187 },
+  { state: &#x27;Florida&#x27;, year: 2010, income: 44409, population: 18801310 },
+  { state: &#x27;Georgia&#x27;, year: 2020, income: 61224, population: 10711908 },
+  { state: &#x27;Georgia&#x27;, year: 2010, income: 46430, population: 9687653 },
+  { state: &#x27;Hawaii&#x27;, year: 2020, income: 83173, population: 1455271 },
+  { state: &#x27;Hawaii&#x27;, year: 2010, income: 63030, population: 1360301 },
+  { state: &#x27;Idaho&#x27;, year: 2020, income: 58915, population: 1839106 },
+  { state: &#x27;Idaho&#x27;, year: 2010, income: 43490, population: 1567582 },
+  { state: &#x27;Illinois&#x27;, year: 2020, income: 68428, population: 12812508 },
+  { state: &#x27;Illinois&#x27;, year: 2010, income: 52972, population: 12830632 },
+  { state: &#x27;Indiana&#x27;, year: 2020, income: 58235, population: 6785528 },
+  { state: &#x27;Indiana&#x27;, year: 2010, income: 44613, population: 6483802 },
+  { state: &#x27;Iowa&#x27;, year: 2020, income: 61836, population: 3190369 },
+  { state: &#x27;Iowa&#x27;, year: 2010, income: 47961, population: 3046355 },
+  { state: &#x27;Kansas&#x27;, year: 2020, income: 61091, population: 2937880 },
+  { state: &#x27;Kansas&#x27;, year: 2010, income: 48257, population: 2853118 },
+  { state: &#x27;Kentucky&#x27;, year: 2020, income: 52238, population: 4505836 },
+  { state: &#x27;Kentucky&#x27;, year: 2010, income: 40062, population: 4339367 },
+  { state: &#x27;Louisiana&#x27;, year: 2020, income: 50800, population: 4657757 },
+  { state: &#x27;Louisiana&#x27;, year: 2010, income: 42505, population: 4533372 },
+  { state: &#x27;Maine&#x27;, year: 2020, income: 59489, population: 1362359 },
+  { state: &#x27;Maine&#x27;, year: 2010, income: 45815, population: 1328361 },
+  { state: &#x27;Maryland&#x27;, year: 2020, income: 87063, population: 6177224 },
+  { state: &#x27;Maryland&#x27;, year: 2010, income: 68854, population: 5773552 },
+  { state: &#x27;Massachusetts&#x27;, year: 2020, income: 84385, population: 7029917 },
+  { state: &#x27;Massachusetts&#x27;, year: 2010, income: 62072, population: 6547629 },
+  { state: &#x27;Michigan&#x27;, year: 2020, income: 59234, population: 10077331 },
+  { state: &#x27;Michigan&#x27;, year: 2010, income: 45413, population: 9883640 },
+  { state: &#x27;Minnesota&#x27;, year: 2020, income: 73382, population: 5706494 },
+  { state: &#x27;Minnesota&#x27;, year: 2010, income: 55459, population: 5303925 },
+  { state: &#x27;Mississippi&#x27;, year: 2020, income: 46511, population: 2961279 },
+  { state: &#x27;Mississippi&#x27;, year: 2010, income: 36851, population: 2967297 },
+  { state: &#x27;Missouri&#x27;, year: 2020, income: 57290, population: 6154913 },
+  { state: &#x27;Missouri&#x27;, year: 2010, income: 44301, population: 5988927 },
+  { state: &#x27;Montana&#x27;, year: 2020, income: 56539, population: 1084225 },
+  { state: &#x27;Montana&#x27;, year: 2010, income: 42666, population: 989415 },
+  { state: &#x27;Nebraska&#x27;, year: 2020, income: 63015, population: 1961504 },
+  { state: &#x27;Nebraska&#x27;, year: 2010, income: 48408, population: 1826341 },
+  { state: &#x27;Nevada&#x27;, year: 2020, income: 62043, population: 3104614 },
+  { state: &#x27;Nevada&#x27;, year: 2010, income: 51001, population: 2700551 },
+  { state: &#x27;New Hampshire&#x27;, year: 2020, income: 77923, population: 1377529 },
+  { state: &#x27;New Hampshire&#x27;, year: 2010, income: 61042, population: 1316470 },
+  { state: &#x27;New Jersey&#x27;, year: 2020, income: 85245, population: 9288994 },
+  { state: &#x27;New Jersey&#x27;, year: 2010, income: 67681, population: 8791894 },
+  { state: &#x27;New Mexico&#x27;, year: 2020, income: 51243, population: 2117522 },
+  { state: &#x27;New Mexico&#x27;, year: 2010, income: 42090, population: 2059179 },
+  { state: &#x27;New York&#x27;, year: 2020, income: 71117, population: 20201249 },
+  { state: &#x27;New York&#x27;, year: 2010, income: 54148, population: 19378102 },
+  { state: &#x27;North Carolina&#x27;, year: 2020, income: 56642, population: 10439388 },
+  { state: &#x27;North Carolina&#x27;, year: 2010, income: 43326, population: 9535483 },
+  { state: &#x27;North Dakota&#x27;, year: 2020, income: 65315, population: 779094 },
+  { state: &#x27;North Dakota&#x27;, year: 2010, income: 48670, population: 672591 },
+  { state: &#x27;Ohio&#x27;, year: 2020, income: 58116, population: 11799448 },
+  { state: &#x27;Ohio&#x27;, year: 2010, income: 45090, population: 11536504 },
+  { state: &#x27;Oklahoma&#x27;, year: 2020, income: 53840, population: 3959353 },
+  { state: &#x27;Oklahoma&#x27;, year: 2010, income: 42072, population: 3751351 },
+  { state: &#x27;Oregon&#x27;, year: 2020, income: 65667, population: 4237256 },
+  { state: &#x27;Oregon&#x27;, year: 2010, income: 46560, population: 3831074 },
+  { state: &#x27;Pennsylvania&#x27;, year: 2020, income: 63627, population: 13002700 },
+  { state: &#x27;Pennsylvania&#x27;, year: 2010, income: 49288, population: 12702379 },
+  { state: &#x27;Puerto Rico&#x27;, year: 2020, income: 21058, population: 3285874 },
+  { state: &#x27;Puerto Rico&#x27;, year: 2010, income: 18862, population: 3725789 },
+  { state: &#x27;Rhode Island&#x27;, year: 2020, income: 70305, population: 1097379 },
+  { state: &#x27;Rhode Island&#x27;, year: 2010, income: 52254, population: 1052567 },
+  { state: &#x27;South Carolina&#x27;, year: 2020, income: 54864, population: 5118425 },
+  { state: &#x27;South Carolina&#x27;, year: 2010, income: 42018, population: 4625364 },
+  { state: &#x27;South Dakota&#x27;, year: 2020, income: 59896, population: 886667 },
+  { state: &#x27;South Dakota&#x27;, year: 2010, income: 45904, population: 814180 },
+  { state: &#x27;Tennessee&#x27;, year: 2020, income: 54833, population: 6910840 },
+  { state: &#x27;Tennessee&#x27;, year: 2010, income: 41461, population: 6346105 },
+  { state: &#x27;Texas&#x27;, year: 2020, income: 63826, population: 29145505 },
+  { state: &#x27;Texas&#x27;, year: 2010, income: 48615, population: 25145561 },
+  { state: &#x27;Utah&#x27;, year: 2020, income: 74197, population: 3271616 },
+  { state: &#x27;Utah&#x27;, year: 2010, income: 54744, population: 2763885 },
+  { state: &#x27;Vermont&#x27;, year: 2020, income: 63477, population: 643077 },
+  { state: &#x27;Vermont&#x27;, year: 2010, income: 49406, population: 625741 },
+  { state: &#x27;Virginia&#x27;, year: 2020, income: 76398, population: 8631393 },
+  { state: &#x27;Virginia&#x27;, year: 2010, income: 60674, population: 8001024 },
+  { state: &#x27;Washington&#x27;, year: 2020, income: 77006, population: 7705281 },
+  { state: &#x27;Washington&#x27;, year: 2010, income: 55631, population: 6724540 },
+  { state: &#x27;West Virginia&#x27;, year: 2020, income: 48037, population: 1793716 },
+  { state: &#x27;West Virginia&#x27;, year: 2010, income: 38218, population: 1852994 },
+  { state: &#x27;Wisconsin&#x27;, year: 2020, income: 63293, population: 5893718 },
+  { state: &#x27;Wisconsin&#x27;, year: 2010, income: 49001, population: 5686986 },
+  { state: &#x27;Wyoming&#x27;, year: 2020, income: 65304, population: 576851 },
+  { state: &#x27;Wyoming&#x27;, year: 2010, income: 53512, population: 563626 },
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/core/utilities/value-format.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="valueFormat"></a>
+                    <span class="name">
+                        <span ><b>valueFormat</b></span>
+                        <a href="#valueFormat"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/VicValueFormats.html" target="_self" >VicValueFormats</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  integer: &#x27;,.0f&#x27;,
+  integerNoComma: &#x27;.0f&#x27;,
+  percent: (digits: number) &#x3D;&gt; &#x60;.${digits}%&#x60;,
+  decimal: (digits: number) &#x3D;&gt; &#x60;,.${digits}f&#x60;,
+  decimalNoComma: (digits: number) &#x3D;&gt; &#x60;.${digits}f&#x60;,
+  fullYear: &#x27;%Y&#x27;,
+  monthYear: &#x27;%b %Y&#x27;,
+  monthFullYear: &#x27;%B %Y&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/marks/primary-marks/primary-marks.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="VIC_PRIMARY_MARKS"></a>
+                    <span class="name">
+                        <span ><b>VIC_PRIMARY_MARKS</b></span>
+                        <a href="#VIC_PRIMARY_MARKS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  PrimaryMarks&lt;unknown, any&gt;
+&gt;(&#x27;PrimaryMarks&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis.component.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="XOrdinalAxis"></a>
+                    <span class="name">
+                        <span ><b>XOrdinalAxis</b></span>
+                        <a href="#XOrdinalAxis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>xAxisMixin(
+  ordinalAxisMixin(XyAxis&lt;DataValue, Ticks&lt;DataValue&gt;&gt;)
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis.component.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="XQuantitativeAxis"></a>
+                    <span class="name">
+                        <span ><b>XQuantitativeAxis</b></span>
+                        <a href="#XQuantitativeAxis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>xAxisMixin&lt;
+  ContinuousValue,
+  Ticks&lt;ContinuousValue&gt;,
+  XyAxisType&lt;ContinuousValue&gt;
+&gt;(quantitativeAxisMixin&lt;ContinuousValue, XyAxisType&lt;ContinuousValue&gt;&gt;(XyAxis))</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/y-ordinal/y-ordinal-axis.component.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="YOrdinalAxis"></a>
+                    <span class="name">
+                        <span ><b>YOrdinalAxis</b></span>
+                        <a href="#YOrdinalAxis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>yAxisMixin(
+  ordinalAxisMixin(XyAxis&lt;DataValue, Ticks&lt;DataValue&gt;&gt;)
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis.component.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="YQuantitativeAxis"></a>
+                    <span class="name">
+                        <span ><b>YQuantitativeAxis</b></span>
+                        <a href="#YQuantitativeAxis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>yAxisMixin&lt;
+  ContinuousValue,
+  Ticks&lt;ContinuousValue&gt;,
+  XyAxisType&lt;ContinuousValue&gt;
+&gt;(quantitativeAxisMixin&lt;ContinuousValue, XyAxisType&lt;ContinuousValue&gt;&gt;(XyAxis))</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-variables';
+            var COMPODOC_CURRENT_PAGE_URL = 'variables.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

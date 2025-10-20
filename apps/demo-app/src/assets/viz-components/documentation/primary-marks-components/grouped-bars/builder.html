@@ -1,0 +1,1706 @@
+<!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >VicGroupedBarsConfigBuilder</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/grouped-bars/config/grouped-bars-builder.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Builds a configuration object for a GroupedBarsComponent.</p>
+<p>Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. <code>providers: [VicGroupedBarsBuilder]</code> in the component decorator)</p>
+<p>The first generic parameter, Datum, is the type of the data that will be used to create the bars.</p>
+<p>The second generic parameter, TOrdinalValue, is the type of the ordinal data that will be used to position the bars.</p>
+
+            </p>
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+            </p>
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#_intraGroupPadding" >_intraGroupPadding</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#_customFills" >_customFills</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#_orientation" >_orientation</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#backgroundsBuilder" >backgroundsBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#colorDimensionBuilder" >colorDimensionBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#dimensions" >dimensions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#labelsBuilder" >labelsBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#ordinalDimensionBuilder" >ordinalDimensionBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#quantitativeDimensionBuilder" >quantitativeDimensionBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#_data" >_data</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#_datumClass" >_datumClass</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#_mixBlendMode" >_mixBlendMode</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#getConfig" >getConfig</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#intraGroupPadding" >intraGroupPadding</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#backgrounds" >backgrounds</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#color" >color</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#customFills" >customFills</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#getOrdinalDimensionName" >getOrdinalDimensionName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#getQuantitativeDimensionName" >getQuantitativeDimensionName</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#horizontal" >horizontal</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#initColorDimensionBuilder" >initColorDimensionBuilder</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#labels" >labels</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier"></span>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#validateBuilder" >validateBuilder</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#vertical" >vertical</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#data" >data</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#datumClass" >datumClass</a>
+                            </li>
+                            <li>
+                                <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#mixBlendMode" >mixBlendMode</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">libs/viz-components/src/lib/grouped-bars/config/grouped-bars-builder.ts:25</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getConfig"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>getConfig</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#getConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getConfig()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:45</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Builds the configuration object for a GroupedBarsComponent.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>GroupedBarsConfig&lt;Datum, TOrdinalValue&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="intraGroupPadding"></a>
+                    <span class="name">
+                        <span ><b>intraGroupPadding</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#intraGroupPadding"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>intraGroupPadding(padding: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="37"
+                                    class="link-to-prism">libs/viz-components/src/lib/grouped-bars/config/grouped-bars-builder.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Set the padding between groups of bars. Passed to d3.scaleBand.padding.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>padding</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="backgrounds"></a>
+                    <span class="name">
+                        <span ><b>backgrounds</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#backgrounds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>backgrounds(backgrounds: (backgrounds: <a ">BarsBackgroundsBuilder</a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:144</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Specifies properties of bars to be drawn behind the bars that represent data values. The background bars span the full width of the chart.</p>
+<p>If called with no arguments, the default background will be <code>whitesmoke</code> and events will be <code>false</code>.</p>
+<p>If not called, no background bars will be created.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>backgrounds</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>A function that specifies the color of background bars and whether they respond to events, or <code>null</code> to unset the backgrounds function.</li>
+</ul>
+<p>If called with no arguments, the default background will be <code>whitesmoke</code> and events will be <code>false</code>.</p>
+<p>If not called, no background bars will be created.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="color"></a>
+                    <span class="name">
+                        <span ><b>color</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#color"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>color(color: (color: <a href="../undefineds/VisualValue.html">OrdinalVisualValueDimensionBuilder<Datum | string | string></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:168</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Specifies how values derived from <code>Datum</code> (of type <code>string</code>) set the color of the bars, and how those values are displayed.</p>
+<p>If not called, all bars will be colored with the first color in <code>d3.schemeTableau10</code>, the default <code>range</code> color scale.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>color</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>A function that specifies how values derived from <code>Datum</code> will be used to set the color of the bars, or null to unset the color., or null to unset the color function.</li>
+</ul>
+<p>If not called, all bars will be colored with the first color in <code>d3.schemeTableau10</code>, the default <code>range</code> color scale.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="customFills"></a>
+                    <span class="name">
+                        <span ><b>customFills</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#customFills"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>customFills(values: <a " target="_self">FillDefinition&lt;Datum&gt;[] | null</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:201</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Determines custom fills for specified bars. Intended to be used with a user-provided fill in <defs> (provided in html) whose <code>id</code> is referenced here. The <code>shouldApply</code> function is used to determine whether the fill should be applied to a given datum.</p>
+<p>This will override any fill set by the <code>color</code> dimension.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>values</td>
+                                            <td>
+                                                            <code><a " target="_self" >FillDefinition&lt;Datum&gt;[] | null</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>An array of custom fills ({ defId: string; shouldApply: (d: Datum) =&gt; boolean;}[]), or <code>null</code> to unset the custom fills.</li>
+</ul>
+<p>This will override any fill set by the <code>color</code> dimension.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getOrdinalDimensionName"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>getOrdinalDimensionName</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#getOrdinalDimensionName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getOrdinalDimensionName()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:333</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getQuantitativeDimensionName"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>getQuantitativeDimensionName</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#getQuantitativeDimensionName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getQuantitativeDimensionName()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:337</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="horizontal"></a>
+                    <span class="name">
+                        <span ><b>horizontal</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#horizontal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>horizontal(bars: (bars: <a ">HorizontalBarsDimensionsBuilder<Datum | OrdinalDomain></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:215</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED FOR HORIZONTAL BAR CHART.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>bars</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>A function that specifies properties for the horizontal bars, or <code>null</code> to not set the horizontal orientation.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initColorDimensionBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>initColorDimensionBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#initColorDimensionBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initColorDimensionBuilder()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:190</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="labels"></a>
+                    <span class="name">
+                        <span ><b>labels</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#labels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>labels(labels: (labels: BarsLabelsBuilder<Datum>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:245</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Specifies properties of labels to be rendered at the end of bars, typically used to show bar values.</p>
+<p>If not called, no labels will be created.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>labels</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>A function that specifies properties for the labels, or <code>null</code> to unset the labels.</li>
+</ul>
+<p>If not called, no labels will be created.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validateBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier"></span>
+                        <span ><b>validateBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#validateBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>validateBuilder(componentName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/builder#source" target="_self" >PrimaryMarksBuilder:307</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>componentName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="vertical"></a>
+                    <span class="name">
+                        <span ><b>vertical</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#vertical"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>vertical(bars: (bars: <a ">VerticalBarsDimensionsBuilder<Datum | OrdinalDomain></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:262</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED FOR VERTICAL BAR CHART.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>bars</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>A function that specifies properties for the vertical bars, or <code>null</code> to not set the vertical orientation.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="data"></a>
+                    <span class="name">
+                        <span ><b>data</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>data(data: Datum[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/builder#source" target="_self" >PrimaryMarksBuilder:47</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Sets the data that will be used to render the marks for this component</p>
+<p>If no dimension domain overrides are provided, <strong>this primary-marks data will also create the domain of the scales used on the entire chart</strong>.</p>
+<p>The objects in the array can be of an type, and if an array of objects, the objects can contain any number of properties, including properties that are extraneous to the chart at hand.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                        <code>Datum[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="datumClass"></a>
+                    <span class="name">
+                        <span ><b>datumClass</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#datumClass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>datumClass(value)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/builder#source" target="_self" >PrimaryMarksBuilder:24</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Provides a class on the SVG element that corresponds to a single datum. If a datum creates multiple SVG elements -- for example, a rect and a label, the class will be applied on the parent SVGGElement.</p>
+<p>IF the chart does not have SVG elements that correspond to a single datum, this class will be placed on the SVG element that represents a collection of data, for example, a area in a stacked area chart, or a line in a line chart. In this case the datum passed to the callback function will be the first datum in the collection.</p>
+<p>Note that if the resultant string has spaces in the name, multiple classes will be applied. For example, if the class is &#39;North Carolina&#39;, the element will have the classes &#39;North&#39; and &#39;Carolina&#39;.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mixBlendMode"></a>
+                    <span class="name">
+                        <span ><b>mixBlendMode</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#mixBlendMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>mixBlendMode(mixBlendMode)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/builder#source" target="_self" >PrimaryMarksBuilder:57</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sets the mix-blend-mode of the marks.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>mixBlendMode</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_intraGroupPadding"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_intraGroupPadding</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#_intraGroupPadding"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">libs/viz-components/src/lib/grouped-bars/config/grouped-bars-builder.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_customFills"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_customFills</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#_customFills"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >FillDefinition&lt;Datum&gt;[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:115</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_orientation"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_orientation</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#_orientation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;horizontal&quot; | &quot;vertical&quot;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:117</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="backgroundsBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>backgroundsBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#backgroundsBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >BarsBackgroundsBuilder</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:118</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="colorDimensionBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>colorDimensionBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#colorDimensionBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#VisualValue" target="_self" >OrdinalVisualValueDimensionBuilder&lt;Datum | string | string&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:119</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dimensions"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>dimensions</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#dimensions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="viz-components/documentationprimary-marks-components/bars/internal/dimensions" target="_self" >BarsDimensions</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:116</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="labelsBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>labelsBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#labelsBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>BarsLabelsBuilder&lt;Datum&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:124</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ordinalDimensionBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>ordinalDimensionBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#ordinalDimensionBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >OrdinalChartPositionDimensionBuilder&lt;Datum | OrdinalDomain&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:125</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="quantitativeDimensionBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>quantitativeDimensionBuilder</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#quantitativeDimensionBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >NumberChartPositionDimensionBuilder&lt;Datum&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationprimary-marks-components/bars/builder" target="_self" >VicBarsConfigBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationprimary-marks-components/bars/builder#source" target="_self" >VicBarsConfigBuilder:129</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_data"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_data</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#_data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Datum[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/builder#source" target="_self" >PrimaryMarksBuilder:10</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_datumClass"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_datumClass</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#_datumClass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/builder#source" target="_self" >PrimaryMarksBuilder:9</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_mixBlendMode"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_mixBlendMode</b></span>
+                        <a href="viz-components/documentation/primary-marks-components/grouped-bars/builder#_mixBlendMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="viz-components/documentationinternals/primary-marks/builder" target="_self" >PrimaryMarksBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="viz-components/documentationinternals/primary-marks/builder#source" target="_self" >PrimaryMarksBuilder:11</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { safeAssign } from &#x27;@hsi/app-dev-kit&#x27;;
+import { VicBarsConfigBuilder } from &#x27;../../bars/config/bars-builder&#x27;;
+import { DataValue } from &#x27;../../core/types/values&#x27;;
+import { GroupedBarsConfig } from &#x27;./grouped-bars-config&#x27;;
+
+const DEFAULT &#x3D; {
+  _intraGroupPadding: 0.05,
+};
+
+/**
+ * Builds a configuration object for a GroupedBarsComponent.
+ *
+ * Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. &#x60;providers: [VicGroupedBarsBuilder]&#x60; in the component decorator)
+ *
+ * The first generic parameter, Datum, is the type of the data that will be used to create the bars.
+ *
+ * The second generic parameter, TOrdinalValue, is the type of the ordinal data that will be used to position the bars.
+ */
+@Injectable()
+export class VicGroupedBarsConfigBuilder&lt;
+  Datum,
+  TOrdinalValue extends DataValue,
+&gt; extends VicBarsConfigBuilder&lt;Datum, TOrdinalValue&gt; {
+  private _intraGroupPadding: number;
+
+  constructor() {
+    super();
+    safeAssign(this, DEFAULT);
+  }
+
+  /**
+   * OPTIONAL. Set the padding between groups of bars. Passed to d3.scaleBand.padding.
+   *
+   * @default 0.05
+   */
+  intraGroupPadding(padding: number): this {
+    this._intraGroupPadding &#x3D; padding;
+    return this;
+  }
+
+  /**
+   * REQUIRED. Builds the configuration object for a GroupedBarsComponent.
+   */
+  override getConfig(): GroupedBarsConfig&lt;Datum, TOrdinalValue&gt; {
+    this.validateBuilder(&#x27;Grouped Bars&#x27;);
+    return new GroupedBarsConfig(this.dimensions, {
+      marksClass: &#x27;vic-grouped-bars&#x27;,
+      backgrounds: this.backgroundsBuilder?._build(),
+      color: this.colorDimensionBuilder._build(&#x27;Color&#x27;),
+      customFills: this._customFills,
+      data: this._data,
+      datumClass: this._datumClass,
+      intraGroupPadding: this._intraGroupPadding,
+      labels: this.labelsBuilder?._build(),
+      mixBlendMode: this._mixBlendMode,
+      ordinal: this.ordinalDimensionBuilder._build(
+        &#x27;band&#x27;,
+        this.getOrdinalDimensionName()
+      ),
+      quantitative: this.quantitativeDimensionBuilder._build(
+        this.getQuantitativeDimensionName()
+      ),
+    });
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->

@@ -1,0 +1,1469 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >VicGeographiesConfigBuilder</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/geographies/config/geographies-builder.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Builds a configuration object for a GeographiesComponent.</p>
+<p>Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. <code>providers: [VicGeographiesBuilder]</code> in the component decorator)</p>
+<p>The first generic parameter, Datum, is the type of the attribute data that will be used to shade the map areas.</p>
+<p>The second generic parameter, TProperties, is the type of the properties object that is associated with the GeoJson.</p>
+<p>The optional third generic parameter, TGeometry, is the type of the geometry object that is associated with the GeoJson. It defaults to MultiPolygon | Polygon if not provided.</p>
+
+            </p>
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_boundary" >_boundary</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#_class" >_class</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_featureIndexAccessor" >_featureIndexAccessor</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_mixBlendMode" >_mixBlendMode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_projection" >_projection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#attributeDataBuilder" >attributeDataBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#geojsonBuilders" >geojsonBuilders</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#attributeDataLayer" >attributeDataLayer</a>
+                            </li>
+                            <li>
+                                <a href="#attributeDataLayer" >attributeDataLayer</a>
+                            </li>
+                            <li>
+                                <a href="#attributeDataLayer" >attributeDataLayer</a>
+                            </li>
+                            <li>
+                                <a href="#boundary" >boundary</a>
+                            </li>
+                            <li>
+                                <a href="#featureIndexAccessor" >featureIndexAccessor</a>
+                            </li>
+                            <li>
+                                <a href="#geojsonPropertiesLayer" >geojsonPropertiesLayer</a>
+                            </li>
+                            <li>
+                                <a href="#geojsonPropertiesLayer" >geojsonPropertiesLayer</a>
+                            </li>
+                            <li>
+                                <a href="#geojsonPropertiesLayer" >geojsonPropertiesLayer</a>
+                            </li>
+                            <li>
+                                <a href="#getConfig" >getConfig</a>
+                            </li>
+                            <li>
+                                <a href="#mixBlendMode" >mixBlendMode</a>
+                            </li>
+                            <li>
+                                <a href="#projection" >projection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#validateBuilder" >validateBuilder</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:58</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeDataLayer"></a>
+                    <span class="name">
+                        <span ><b>attributeDataLayer</b></span>
+                        <a href="#attributeDataLayer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>attributeDataLayer(attributeData)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="139"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:139</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Creates a configuration object for a layer that will be drawn from geojson and styled using attribute data.</p>
+<p>This object provides various methods for transforming data values into colors / color bins.</p>
+<p>This method can be called only once.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>attributeData</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeDataLayer"></a>
+                    <span class="name">
+                        <span ><b>attributeDataLayer</b></span>
+                        <a href="#attributeDataLayer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>attributeDataLayer(attributeData: (attributeData: GeographiesAttributeDataLayerBuilder<Datum | TProperties | TGeometry>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="140"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:140</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>attributeData</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeDataLayer"></a>
+                    <span class="name">
+                        <span ><b>attributeDataLayer</b></span>
+                        <a href="#attributeDataLayer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>attributeDataLayer(attributeData:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="149"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:149</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>attributeData</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="boundary"></a>
+                    <span class="name">
+                        <span ><b>boundary</b></span>
+                        <a href="#boundary"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>boundary(boundary: ExtendedFeature | ExtendedFeatureCollection | GeoGeometryObjects | ExtendedGeometryCollection)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="69"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Sets a feature or geometry object or collection that defines the extents of the map to be drawn.</p>
+<p>Used for scaling the map.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>boundary</td>
+                                            <td>
+                                                        <code>ExtendedFeature | ExtendedFeatureCollection | GeoGeometryObjects | ExtendedGeometryCollection</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="featureIndexAccessor"></a>
+                    <span class="name">
+                        <span ><b>featureIndexAccessor</b></span>
+                        <a href="#featureIndexAccessor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>featureIndexAccessor(accessor: (d: <a href="../undefineds/GeographiesFeature.html">GeographiesFeature<TProperties | TGeometry></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="83"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:83</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Sets a function that derives an identifying string from the GeoJson feature.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>accessor</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="geojsonPropertiesLayer"></a>
+                    <span class="name">
+                        <span ><b>geojsonPropertiesLayer</b></span>
+                        <a href="#geojsonPropertiesLayer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>geojsonPropertiesLayer(geojson)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="103"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:103</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Creates a configuration object for a layer that will be drawn and styled using solely the properties on a geojson feature.</p>
+<p>This might be used for to draw the outline of a country, for example. It could also shade the area of a country based on a property of the geojson feature.</p>
+<p>If events are enabled, the geojson properties will be used to populate the tooltip.</p>
+<p>This method can be called multiple times to create multiple layers. If this method is called with null, all layers will be removed. (Though subsequent calls can be made to add new layers.)</p>
+<p>The order in which layers are created will determine the order in which they are drawn.</p>
+<p>Multiple layers can be used to draw different parts of the map with different styles.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>geojson</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="geojsonPropertiesLayer"></a>
+                    <span class="name">
+                        <span ><b>geojsonPropertiesLayer</b></span>
+                        <a href="#geojsonPropertiesLayer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>geojsonPropertiesLayer(geojson: (geojson: GeographiesGeojsonPropertiesLayerBuilder<TProperties | TGeometry>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="104"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:104</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>geojson</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="geojsonPropertiesLayer"></a>
+                    <span class="name">
+                        <span ><b>geojsonPropertiesLayer</b></span>
+                        <a href="#geojsonPropertiesLayer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>geojsonPropertiesLayer(geojson:  | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="109"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:109</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>geojson</td>
+                                            <td>
+                                                        <code> | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getConfig"></a>
+                    <span class="name">
+                        <span ><b>getConfig</b></span>
+                        <a href="#getConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getConfig()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="196"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:196</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Builds the GeographiesConfig object.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/GeographiesConfig.html" target="_self" >GeographiesConfig&lt;Datum, TProperties, TGeometry&gt;</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mixBlendMode"></a>
+                    <span class="name">
+                        <span ><b>mixBlendMode</b></span>
+                        <a href="#mixBlendMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>mixBlendMode(mixBlendMode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="178"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:178</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Sets the mix-blend-mode of the marks.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>mixBlendMode</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projection"></a>
+                    <span class="name">
+                        <span ><b>projection</b></span>
+                        <a href="#projection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>projection(projection: GeoProjection)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="188"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:188</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Sets a projection function that maps a point in the map&#39;s coordinate space to a point in the SVG&#39;s coordinate space.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>projection</td>
+                                            <td>
+                                                        <code>GeoProjection</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validateBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>validateBuilder</b></span>
+                        <a href="#validateBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>validateBuilder()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="213"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:213</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_boundary"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_boundary</b></span>
+                        <a href="#_boundary"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ExtendedFeature | ExtendedFeatureCollection | GeoGeometryObjects | ExtendedGeometryCollection</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_class"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_class</b></span>
+                        <a href="#_class"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_featureIndexAccessor"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_featureIndexAccessor</b></span>
+                        <a href="#_featureIndexAccessor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_mixBlendMode"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_mixBlendMode</b></span>
+                        <a href="#_mixBlendMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_projection"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_projection</b></span>
+                        <a href="#_projection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>GeoProjection</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeDataBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>attributeDataBuilder</b></span>
+                        <a href="#attributeDataBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>GeographiesAttributeDataLayerBuilder&lt;Datum | TProperties | TGeometry&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="geojsonBuilders"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>geojsonBuilders</b></span>
+                        <a href="#geojsonBuilders"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>GeographiesGeojsonPropertiesLayerBuilder&lt;TProperties, TGeometry&gt;[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">libs/viz-components/src/lib/geographies/config/geographies-builder.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { safeAssign } from &#x27;@hsi/app-dev-kit&#x27;;
+import {
+  ExtendedFeature,
+  ExtendedFeatureCollection,
+  ExtendedGeometryCollection,
+  geoAlbersUsa,
+  GeoGeometryObjects,
+  GeoProjection,
+} from &#x27;d3&#x27;;
+import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from &#x27;geojson&#x27;;
+import { GeographiesFeature } from &#x27;../geographies-feature&#x27;;
+import { GeographiesConfig } from &#x27;./geographies-config&#x27;;
+import { GeographiesAttributeDataLayerBuilder } from &#x27;./layers/attribute-data-layer/attribute-data-layer-builder&#x27;;
+import { GeographiesGeojsonPropertiesLayerBuilder } from &#x27;./layers/geojson-properties-layer/geojson-properties-layer-builder&#x27;;
+
+const DEFAULT &#x3D; {
+  _class: () &#x3D;&gt; &#x27;&#x27;,
+  _projection: geoAlbersUsa(),
+  _mixBlendMode: &#x27;normal&#x27;,
+};
+
+/** Builds a configuration object for a GeographiesComponent.
+ *
+ * Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. &#x60;providers: [VicGeographiesBuilder]&#x60; in the component decorator)
+ *
+ * The first generic parameter, Datum, is the type of the attribute data that will be used to shade the map areas.
+ *
+ * The second generic parameter, TProperties, is the type of the properties object that is associated with the GeoJson.
+ *
+ * The optional third generic parameter, TGeometry, is the type of the geometry object that is associated with the GeoJson. It defaults to MultiPolygon | Polygon if not provided.
+ */
+@Injectable()
+export class VicGeographiesConfigBuilder&lt;
+  Datum,
+  TProperties extends GeoJsonProperties,
+  TGeometry extends Geometry &#x3D; MultiPolygon | Polygon,
+&gt; {
+  private _boundary:
+    | ExtendedFeature
+    | ExtendedFeatureCollection
+    | GeoGeometryObjects
+    | ExtendedGeometryCollection;
+  protected _class: (d: Datum) &#x3D;&gt; string;
+  private _featureIndexAccessor: (
+    d: GeographiesFeature&lt;TProperties, TGeometry&gt;
+  ) &#x3D;&gt; string;
+  private _mixBlendMode: string;
+  private _projection: GeoProjection;
+  private attributeDataBuilder: GeographiesAttributeDataLayerBuilder&lt;
+    Datum,
+    TProperties,
+    TGeometry
+  &gt;;
+  public geojsonBuilders: GeographiesGeojsonPropertiesLayerBuilder&lt;
+    TProperties,
+    TGeometry
+  &gt;[] &#x3D; [];
+
+  constructor() {
+    safeAssign(this, DEFAULT);
+  }
+
+  /**
+   * REQUIRED. Sets a feature or geometry object or collection that defines the extents of the map to be drawn.
+   *
+   * Used for scaling the map.
+   */
+  boundary(
+    boundary:
+      | ExtendedFeature
+      | ExtendedFeatureCollection
+      | GeoGeometryObjects
+      | ExtendedGeometryCollection
+  ): this {
+    this._boundary &#x3D; boundary;
+    return this;
+  }
+
+  /**
+   * REQUIRED. Sets a function that derives an identifying string from the GeoJson feature.
+   */
+  featureIndexAccessor(
+    accessor: (d: GeographiesFeature&lt;TProperties, TGeometry&gt;) &#x3D;&gt; string
+  ): this {
+    this._featureIndexAccessor &#x3D; accessor;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Creates a configuration object for a layer that will be drawn and styled using solely the properties on a geojson feature.
+   *
+   * This might be used for to draw the outline of a country, for example. It could also shade the area of a country based on a property of the geojson feature.
+   *
+   * If events are enabled, the geojson properties will be used to populate the tooltip.
+   *
+   * This method can be called multiple times to create multiple layers. If this method is called with null, all layers will be removed. (Though subsequent calls can be made to add new layers.)
+   *
+   * The order in which layers are created will determine the order in which they are drawn.
+   *
+   * Multiple layers can be used to draw different parts of the map with different styles.
+   */
+  geojsonPropertiesLayer(geojson: null): this;
+  geojsonPropertiesLayer(
+    geojson: (
+      geojson: GeographiesGeojsonPropertiesLayerBuilder&lt;TProperties, TGeometry&gt;
+    ) &#x3D;&gt; void
+  ): this;
+  geojsonPropertiesLayer(
+    geojson:
+      | ((
+          geojson: GeographiesGeojsonPropertiesLayerBuilder&lt;
+            TProperties,
+            TGeometry
+          &gt;
+        ) &#x3D;&gt; void)
+      | null
+  ): this {
+    if (geojson &#x3D;&#x3D;&#x3D; null) {
+      this.geojsonBuilders &#x3D; [];
+      return this;
+    }
+    const builder &#x3D; new GeographiesGeojsonPropertiesLayerBuilder&lt;
+      TProperties,
+      TGeometry
+    &gt;();
+    geojson(builder);
+    this.geojsonBuilders.push(builder);
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Creates a configuration object for a layer that will be drawn from geojson and styled using attribute data.
+   *
+   * This object provides various methods for transforming data values into colors / color bins.
+   *
+   * This method can be called only once.
+   */
+  attributeDataLayer(attributeData: null): this;
+  attributeDataLayer(
+    attributeData: (
+      attributeData: GeographiesAttributeDataLayerBuilder&lt;
+        Datum,
+        TProperties,
+        TGeometry
+      &gt;
+    ) &#x3D;&gt; void
+  ): this;
+  attributeDataLayer(
+    attributeData:
+      | ((
+          attributeData: GeographiesAttributeDataLayerBuilder&lt;
+            Datum,
+            TProperties,
+            TGeometry
+          &gt;
+        ) &#x3D;&gt; void)
+      | null
+  ): this {
+    if (attributeData &#x3D;&#x3D;&#x3D; null) {
+      this.attributeDataBuilder &#x3D; undefined;
+      return this;
+    }
+    this.attributeDataBuilder &#x3D; new GeographiesAttributeDataLayerBuilder&lt;
+      Datum,
+      TProperties,
+      TGeometry
+    &gt;();
+    attributeData(this.attributeDataBuilder);
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets the mix-blend-mode of the marks.
+   *
+   * @default &#x27;normal&#x27;
+   */
+  mixBlendMode(mixBlendMode: string): this {
+    this._mixBlendMode &#x3D; mixBlendMode;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets a projection function that maps a point in the map&#x27;s coordinate space to a point in the SVG&#x27;s coordinate space.
+   *
+   * @default d3.geoAlbersUsa()
+   */
+  projection(projection: GeoProjection): this {
+    this._projection &#x3D; projection;
+    return this;
+  }
+
+  /**
+   * REQUIRED. Builds the GeographiesConfig object.
+   */
+  getConfig(): GeographiesConfig&lt;Datum, TProperties, TGeometry&gt; {
+    this.validateBuilder();
+    const config &#x3D; new GeographiesConfig&lt;Datum, TProperties, TGeometry&gt;({
+      marksClass: &#x27;vic-geographies&#x27;,
+      attributeDataLayer: this.attributeDataBuilder?._build(),
+      boundary: this._boundary,
+      mixBlendMode: this._mixBlendMode,
+      featureIndexAccessor: this._featureIndexAccessor,
+      geojsonPropertiesLayers: this.geojsonBuilders.length
+        ? this.geojsonBuilders.map((builder) &#x3D;&gt; builder._build())
+        : undefined,
+      projection: this._projection,
+    });
+    this.geojsonBuilders &#x3D; [];
+    return config;
+  }
+
+  private validateBuilder(): void {
+    if (!this._boundary) {
+      throw new Error(&#x27;Boundary is required&#x27;);
+    }
+    if (!this._featureIndexAccessor) {
+      throw new Error(&#x27;Feature index accessor is required&#x27;);
+    }
+    if (!this.attributeDataBuilder &amp;&amp; !this.geojsonBuilders.length) {
+      throw new Error(&#x27;At least one layer is required&#x27;);
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'VicGeographiesConfigBuilder.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

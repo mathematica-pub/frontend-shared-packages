@@ -1,0 +1,655 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  AxisSpecificQuantitativeTickBuilderOptions</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/axes/ticks/ticks-builder.ts</code>
+        </p>
+
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="../interfaces/AxisSpecificTickBuilderOptions.html" target="_self" >AxisSpecificTickBuilderOptions</a></code>
+            </p>
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#_format" 
+>
+                                            _format
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="_format"></a>
+                                        <span class="name "><b>_format</b>
+                                            <a href="#_format">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>_format:     <code>string | </code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string | </code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { safeAssign } from &#x27;@hsi/app-dev-kit&#x27;;
+import { AxisTimeInterval } from &#x27;d3&#x27;;
+import { TickWrapBuilder } from &#x27;./tick-wrap/tick-wrap-builder&#x27;;
+import { QuantitativeTicks, Ticks } from &#x27;./ticks&#x27;;
+
+export interface AxisSpecificTickBuilderOptions {
+  _sizeOuter: number;
+}
+
+export interface AxisSpecificQuantitativeTickBuilderOptions&lt;Tick&gt;
+  extends AxisSpecificTickBuilderOptions {
+  _format: string | ((value: Tick) &#x3D;&gt; string);
+}
+
+const DEFAULT &#x3D; {
+  _class: () &#x3D;&gt; &#x27;&#x27;,
+  _labelsDisplay: true,
+  _marksDisplay: true,
+  _remove: false,
+  _stroke: &#x27;none&#x27;,
+  _strokeOpacity: 1,
+  _strokeWidth: 3,
+};
+
+const QUANT_DEFAULT &#x3D; {
+  _spacing: 40,
+};
+
+export class TicksBuilder&lt;Tick&gt; {
+  protected _class: (d: Tick) &#x3D;&gt; string;
+  protected _fontSize: number;
+  protected _format: string | ((value: Tick) &#x3D;&gt; string);
+  protected _labelsDisplay: boolean;
+  protected _rotate: number;
+  protected _labelsStroke: string;
+  protected _labelsStrokeOpacity: number;
+  protected _labelsStrokeWidth: number;
+  protected _marksDisplay: boolean;
+  protected _size: number;
+  protected _sizeInner: number;
+  protected _sizeOuter: number;
+  protected wrapBuilder: TickWrapBuilder;
+
+  constructor(options: Partial&lt;AxisSpecificTickBuilderOptions&gt;) {
+    safeAssign(this, DEFAULT);
+    safeAssign(this, options);
+  }
+
+  /**
+   * OPTIONAL. Provides a class on the SVG G element that corresponds to a single tick.
+   *
+   * Note that if the resultant string has spaces in the name, multiple classes will be applied. For example, if the class is &#x27;North Carolina&#x27;, the element will have the classes &#x27;North&#x27; and &#x27;Carolina&#x27;.
+   */
+  class(value: null): this;
+  class(value: string): this;
+  class(value: (d: Tick) &#x3D;&gt; string): this;
+  class(value: ((d: Tick) &#x3D;&gt; string) | string | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      this._class &#x3D; DEFAULT._class;
+      return this;
+    }
+    if (typeof value &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+      this._class &#x3D; () &#x3D;&gt; value;
+      return this;
+    }
+    this._class &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets the font size of the tick labels.
+   *
+   * @param value - The font size of the tick labels, in px.
+   *
+   * If not called, the default font size is D3&#x27;s default, which is 10px.
+   */
+  fontSize(value: number | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      this._fontSize &#x3D; undefined;
+      return this;
+    }
+    this._fontSize &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Specifies how tick labels will be formatted. The format can be a string or a function.
+   *
+   * @param value - Either a D3 format string, a function that takes a value and returns a string, or &#x60;null&#x60; to unset the format.
+   *
+   * If not called, the default value for quantitative axes is &#x27;,.1f&#x27;. If not called for an ordinal axis, tick labels will be the unformatted ordinal value.
+   */
+  format(format: string): this;
+  format(format: (value: Tick) &#x3D;&gt; string): this;
+  format(format: null): this;
+  format(format: string | ((value: Tick) &#x3D;&gt; string) | null): this {
+    if (format &#x3D;&#x3D;&#x3D; null) {
+      this._format &#x3D; undefined;
+      return this;
+    }
+    this._format &#x3D; format;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. If false, tick labels will be removed.
+   *
+   * @param value - &#x60;true&#x60; to retain all tick labels, &#x60;false&#x60; to remove all tick labels.
+   *
+   * If not called, the default value is &#x60;true&#x60;.
+   */
+  labelsDisplay(value: boolean): this {
+    this._labelsDisplay &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets the color of the stroke around the tick labels. Often used to improve the legibility of tick labels, for example, on dark backgrounds.
+   *
+   * @param value - The stroke of the tick labels.
+   *
+   * If not called, the default value is &#x27;none&#x27;.
+   */
+  labelsStroke(value: string | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      this._labelsStroke &#x3D; DEFAULT._stroke;
+      return this;
+    }
+    this._labelsStroke &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets the opacity of the stroke applied around the tick labels.
+   *
+   * @param value - The opacity of the stroke around the tick labels.
+   *
+   * If not called, the default value is 1.
+   */
+  labelsStrokeOpacity(value: number | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      this._labelsStrokeOpacity &#x3D; undefined;
+      return this;
+    }
+    this._labelsStrokeOpacity &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets the width of the stroke around the tick labels. Often used to improve the legibility of tick labels, for example, on dark backgrounds.
+   *
+   * @param value - The width of the stroke around the tick labels.
+   *
+   * If not called, the default value is 3.
+   */
+  labelsStrokeWidth(value: number | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      this._labelsStrokeWidth &#x3D; undefined;
+      return this;
+    }
+    this._labelsStrokeWidth &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. If false, tick marks (lines) will be removed.
+   *
+   * @param value - &#x60;true&#x60; to retain all tick marks, &#x60;false&#x60; to remove all tick marks.
+   *
+   * If not called, the default value is &#x60;true&#x60;.
+   */
+  marksDisplay(value: boolean): this {
+    this._marksDisplay &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Determines the rotation of tick labels.
+   *
+   * @param value - The rotation of the tick labels in degrees, or &#x60;null&#x60; to unset the rotation.
+   *
+   * Positive values rotate clockwise, negative values rotate counterclockwise.
+   *
+   * If not called, ticks will not be rotated.
+   */
+
+  rotate(value: number | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      this._rotate &#x3D; undefined;
+      return this;
+    }
+    this._rotate &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets the size of inner and outer tick marks.
+   *
+   * @param value - The size of the ticks, in px.
+   *
+   * If not called or called with &#x60;null&#x60;, the default size is the D3 default size.
+   *
+   * If specified, this value will override any values set by &#x60;sizeInner&#x60; or &#x60;sizeOuter&#x60;.
+   */
+  size(value: number | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      this._size &#x3D; undefined;
+      return this;
+    }
+    this._size &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Determines the length of the inner ticks drawn by D3. Does not apply to the outermost ticks.
+   *
+   * @param value - The length of the inner ticks in pixels, or &#x60;null&#x60; to unset the value.
+   *
+   * If not called or called with &#x60;null&#x60;, the default value is the D3 default size.
+   *
+   */
+  sizeInner(value: number | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      this._sizeInner &#x3D; undefined;
+      return this;
+    }
+    this._sizeInner &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Determines the length of the square ends of the domain path drawn by D3.
+   *
+   * @param value - The length of the square ends of the domain path in pixels, or &#x60;null&#x60; to unset the value.
+   *
+   * If not called on ordinal axes, the default value is 0. If not called on quantitative axes, no modification is made to D3&#x27;s default value.
+   */
+  sizeOuter(value: number | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      this._sizeOuter &#x3D; undefined;
+      return this;
+    }
+    this._sizeOuter &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Specifies how tick labels will be wrapped.
+   *
+   * @param wrap - A callback that specifies how tick labels will be wrapped, or &#x60;null&#x60; to unset the wrapping.
+   *
+   * If not called, the tick labels will not be wrapped.
+   */
+  wrap(wrap: (wrap: TickWrapBuilder) &#x3D;&gt; void): this;
+  wrap(wrap: null): this;
+  wrap(wrap: (wrap: TickWrapBuilder) &#x3D;&gt; void | null): this {
+    if (wrap &#x3D;&#x3D;&#x3D; null) {
+      this.wrapBuilder &#x3D; undefined;
+      return this;
+    }
+    this.wrapBuilder &#x3D; new TickWrapBuilder();
+    wrap(this.wrapBuilder);
+    return this;
+  }
+
+  _build(dimension: &#x27;x&#x27; | &#x27;y&#x27;): Ticks&lt;Tick&gt; {
+    return new Ticks({
+      class: this._class,
+      fontSize: this._fontSize,
+      format: this._format,
+      labelsDisplay: this._labelsDisplay,
+      labelsStroke: this._labelsStroke,
+      labelsStrokeOpacity: this._labelsStrokeOpacity,
+      labelsStrokeWidth: this._labelsStrokeWidth,
+      marksDisplay: this._marksDisplay,
+      rotate: this._rotate,
+      size: this._size,
+      sizeInner: this._sizeInner,
+      sizeOuter: this._sizeOuter,
+      wrap: this.wrapBuilder?._build(dimension),
+    });
+  }
+}
+
+export class QuantitativeTicksBuilder&lt;Tick&gt; extends TicksBuilder&lt;Tick&gt; {
+  private _count: number | AxisTimeInterval;
+  private _spacing: number;
+  private _values: Tick[];
+
+  constructor(
+    options: Partial&lt;AxisSpecificQuantitativeTickBuilderOptions&lt;Tick&gt;&gt;
+  ) {
+    super(options);
+    safeAssign(this, DEFAULT);
+    safeAssign(this, QUANT_DEFAULT);
+  }
+
+  /**
+   * OPTIONAL. Approximately specifies the number of ticks for the axis.
+   *
+   * @param value - The number of ticks to pass to D3&#x27;s axis.ticks(), or null to unset the number of ticks.
+   *
+   * If not called, a reasonable and valid default will be used based on the size of the chart.
+   *
+   * Note that this number will be passed to D3&#x27;s &#x60;ticks()&#x60; method and therefore it can be an approximate number of ticks.
+   *
+   * If this method is called, the passed in number of ticks will be validated against the data domain and the value formatter for the axis. If the number of ticks is not valid—for example, if the ticks are formatted with %Y and there are three years of values in the data, and this method is called with 10, a valid number will be used instead.
+   */
+  count(value: number | AxisTimeInterval | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      this._count &#x3D; undefined;
+      return this;
+    }
+    this._count &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Specifies the an approximate spacing between ticks, in pixels.
+   *
+   * @param value - The spacing between ticks in pixels, or null to unset the spacing.
+   *
+   * If not called, the default value is 40. If &#x60;count&#x60; is set, this value will be ignored.
+   */
+  spacing(value: number | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      this._spacing &#x3D; undefined;
+      return this;
+    }
+    this._spacing &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Determines the values that will show up as ticks on the axis.
+   *
+   * @param values - An array of quantitative values to pass to D3&#x27;s axis.tickValues(), or null to unset the tick values.
+   *
+   */
+  values(values: Tick[] | null): this {
+    if (values &#x3D;&#x3D;&#x3D; null) {
+      this._values &#x3D; undefined;
+      return this;
+    }
+    this._values &#x3D; values;
+    return this;
+  }
+
+  override _build(dimension: &#x27;x&#x27; | &#x27;y&#x27;): QuantitativeTicks&lt;Tick&gt; {
+    return new QuantitativeTicks({
+      class: this._class,
+      count: this._count,
+      fontSize: this._fontSize,
+      format: this._format,
+      labelsDisplay: this._labelsDisplay,
+      labelsStroke: this._labelsStroke,
+      labelsStrokeOpacity: this._labelsStrokeOpacity,
+      labelsStrokeWidth: this._labelsStrokeWidth,
+      marksDisplay: this._marksDisplay,
+      rotate: this._rotate,
+      size: this._size,
+      sizeInner: this._sizeInner,
+      sizeOuter: this._sizeOuter,
+      spacing: this._spacing,
+      values: this._values,
+      wrap: this.wrapBuilder?._build(dimension),
+    });
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'AxisSpecificQuantitativeTickBuilderOptions.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

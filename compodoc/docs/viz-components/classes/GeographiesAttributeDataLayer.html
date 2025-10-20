@@ -1,0 +1,1861 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Classes</li>
+  <li class="breadcrumb-item" >GeographiesAttributeDataLayer</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts</code>
+        </p>
+
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+            </p>
+
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="../interfaces/GeographiesAttributeDataLayerOptions.html" target="_self" >GeographiesAttributeDataLayerOptions</a></code>
+            </p>
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#attributeDimension" >attributeDimension</a>
+                            </li>
+                            <li>
+                                <a href="#attributeScale" >attributeScale</a>
+                            </li>
+                            <li>
+                                <a href="#attributeValuesByGeographyIndex" >attributeValuesByGeographyIndex</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#customFills" >customFills</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#data" >data</a>
+                            </li>
+                            <li>
+                                <a href="#datumsByGeographyIndex" >datumsByGeographyIndex</a>
+                            </li>
+                            <li>
+                                <a href="#geographyIndexAccessor" >geographyIndexAccessor</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#marksClass" >marksClass</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#mixBlendMode" >mixBlendMode</a>
+                            </li>
+                            <li>
+                                <a href="#enableEventActions" >enableEventActions</a>
+                            </li>
+                            <li>
+                                <a href="#featureClass" >featureClass</a>
+                            </li>
+                            <li>
+                                <a href="#featureIndexAccessor" >featureIndexAccessor</a>
+                            </li>
+                            <li>
+                                <a href="#geographies" >geographies</a>
+                            </li>
+                            <li>
+                                <a href="#id" >id</a>
+                            </li>
+                            <li>
+                                <a href="#labels" >labels</a>
+                            </li>
+                            <li>
+                                <a href="#stroke" >stroke</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#getAttributeFill" >getAttributeFill</a>
+                            </li>
+                            <li>
+                                <a href="#getFill" >getFill</a>
+                            </li>
+                            <li>
+                                <a href="#getPatternFill" >getPatternFill</a>
+                            </li>
+                            <li>
+                                <a href="#getTooltipData" >getTooltipData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getUniqueDatumsByGeoAccessor" >getUniqueDatumsByGeoAccessor</a>
+                            </li>
+                            <li>
+                                <a href="#initPropertiesFromData" >initPropertiesFromData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setAttributeDataMaps" >setAttributeDataMaps</a>
+                            </li>
+                            <li>
+                                <a href="#getLabelColor" >getLabelColor</a>
+                            </li>
+                            <li>
+                                <a href="#getLabelFontWeight" >getLabelFontWeight</a>
+                            </li>
+                            <li>
+                                <a href="#isContrastColorOptions" >isContrastColorOptions</a>
+                            </li>
+                            <li>
+                                <a href="#isContrastFontWeightOptions" >isContrastFontWeightOptions</a>
+                            </li>
+                            <li>
+                                <a href="#setFeatureIndexAccessor" >setFeatureIndexAccessor</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(options: <a href="../interfaces/GeographiesAttributeDataLayerOptions.html" target="_self">GeographiesAttributeDataLayerOptions&lt;Datum | TProperties | TGeometry&gt;</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:49</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>options</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/GeographiesAttributeDataLayerOptions.html" target="_self" >GeographiesAttributeDataLayerOptions&lt;Datum | TProperties | TGeometry&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeDimension"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>attributeDimension</b></span>
+                        <a href="#attributeDimension"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Ranges.html" target="_self" >CategoricalBinsAttributeDataDimension&lt;Datum&gt; | NoBinsAttributeDataDimension&lt;Datum&gt; | EqualValueRangesAttributeDataDimension&lt;Datum&gt; | EqualFrequenciesAttributeDataDimension&lt;Datum&gt; | CustomBreaksBinsAttributeDataDimension&lt;Datum&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeScale"></a>
+                    <span class="name">
+                        <span ><b>attributeScale</b></span>
+                        <a href="#attributeScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeValuesByGeographyIndex"></a>
+                    <span class="name">
+                        <span ><b>attributeValuesByGeographyIndex</b></span>
+                        <a href="#attributeValuesByGeographyIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InternMap&lt;string | string | number&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="customFills"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>customFills</b></span>
+                        <a href="#customFills"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/FillDefinition.html" target="_self" >FillDefinition&lt;Datum&gt;[]</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="data"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>data</b></span>
+                        <a href="#data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Datum[]</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="datumsByGeographyIndex"></a>
+                    <span class="name">
+                        <span ><b>datumsByGeographyIndex</b></span>
+                        <a href="#datumsByGeographyIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InternMap&lt;string | Datum&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="geographyIndexAccessor"></a>
+                    <span class="name">
+                        <span ><b>geographyIndexAccessor</b></span>
+                        <a href="#geographyIndexAccessor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="marksClass"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>marksClass</b></span>
+                        <a href="#marksClass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mixBlendMode"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>mixBlendMode</b></span>
+                        <a href="#mixBlendMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="enableEventActions"></a>
+                    <span class="name">
+                        <span ><b>enableEventActions</b></span>
+                        <a href="#enableEventActions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/GeographiesLayer.html#source" target="_self" >GeographiesLayer:26</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="featureClass"></a>
+                    <span class="name">
+                        <span ><b>featureClass</b></span>
+                        <a href="#featureClass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/GeographiesLayer.html#source" target="_self" >GeographiesLayer:27</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="featureIndexAccessor"></a>
+                    <span class="name">
+                        <span ><b>featureIndexAccessor</b></span>
+                        <a href="#featureIndexAccessor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/GeographiesLayer.html#source" target="_self" >GeographiesLayer:28</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="geographies"></a>
+                    <span class="name">
+                        <span ><b>geographies</b></span>
+                        <a href="#geographies"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#GeographiesFeature" target="_self" >Array&lt;GeographiesFeature&lt;TProperties, TGeometry&gt;&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/GeographiesLayer.html#source" target="_self" >GeographiesLayer:31</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="id"></a>
+                    <span class="name">
+                        <span ><b>id</b></span>
+                        <a href="#id"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/GeographiesLayer.html#source" target="_self" >GeographiesLayer:32</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="labels"></a>
+                    <span class="name">
+                        <span ><b>labels</b></span>
+                        <a href="#labels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/GeographiesLabels.html" target="_self" >GeographiesLabels&lt;TProperties | TGeometry&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/GeographiesLayer.html#source" target="_self" >GeographiesLayer:33</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stroke"></a>
+                    <span class="name">
+                        <span ><b>stroke</b></span>
+                        <a href="#stroke"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Stroke.html" target="_self" >Stroke</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/GeographiesLayer.html#source" target="_self" >GeographiesLayer:34</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAttributeFill"></a>
+                    <span class="name">
+                        <span ><b>getAttributeFill</b></span>
+                        <a href="#getAttributeFill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAttributeFill(geographyIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="115"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:115</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>geographyIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFill"></a>
+                    <span class="name">
+                        <span ><b>getFill</b></span>
+                        <a href="#getFill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getFill(feature: <a href="../undefineds/GeographiesFeature.html" target="_self">GeographiesFeature&lt;TProperties | TGeometry&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/GeographiesLayer.html#source" target="_self" >GeographiesLayer:100</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>feature</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#GeographiesFeature" target="_self" >GeographiesFeature&lt;TProperties | TGeometry&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPatternFill"></a>
+                    <span class="name">
+                        <span ><b>getPatternFill</b></span>
+                        <a href="#getPatternFill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getPatternFill(geographyIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="108"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:108</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>geographyIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTooltipData"></a>
+                    <span class="name">
+                        <span ><b>getTooltipData</b></span>
+                        <a href="#getTooltipData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTooltipData(path: SVGPathElement)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/GeographiesLayer.html#source" target="_self" >GeographiesLayer:120</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>path</td>
+                                            <td>
+                                                        <code>SVGPathElement</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/GeographiesTooltipDatum.html" target="_self" >GeographiesTooltipDatum&lt;Datum&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getUniqueDatumsByGeoAccessor"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getUniqueDatumsByGeoAccessor</b></span>
+                        <a href="#getUniqueDatumsByGeoAccessor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getUniqueDatumsByGeoAccessor(data: Datum[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="73"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                        <code>Datum[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Datum[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initPropertiesFromData"></a>
+                    <span class="name">
+                        <span ><b>initPropertiesFromData</b></span>
+                        <a href="#initPropertiesFromData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initPropertiesFromData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="66"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setAttributeDataMaps"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setAttributeDataMaps</b></span>
+                        <a href="#setAttributeDataMaps"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setAttributeDataMaps(uniqueDatums: Datum[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="83"
+                                    class="link-to-prism">libs/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer.ts:83</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>uniqueDatums</td>
+                                            <td>
+                                                        <code>Datum[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getLabelColor"></a>
+                    <span class="name">
+                        <span ><b>getLabelColor</b></span>
+                        <a href="#getLabelColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getLabelColor(feature: <a href="../undefineds/GeographiesFeature.html" target="_self">GeographiesFeature&lt;TProperties | TGeometry&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/GeographiesLayer.html#source" target="_self" >GeographiesLayer:48</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>feature</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#GeographiesFeature" target="_self" >GeographiesFeature&lt;TProperties | TGeometry&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>CSSType.Property.Fill</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getLabelFontWeight"></a>
+                    <span class="name">
+                        <span ><b>getLabelFontWeight</b></span>
+                        <a href="#getLabelFontWeight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getLabelFontWeight(feature: <a href="../undefineds/GeographiesFeature.html" target="_self">GeographiesFeature&lt;TProperties | TGeometry&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/GeographiesLayer.html#source" target="_self" >GeographiesLayer:67</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>feature</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#GeographiesFeature" target="_self" >GeographiesFeature&lt;TProperties | TGeometry&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>CSSType.Property.FontWeight</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isContrastColorOptions"></a>
+                    <span class="name">
+                        <span ><b>isContrastColorOptions</b></span>
+                        <a href="#isContrastColorOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isContrastColorOptions(options: <a href="../interfaces/GeographiesLabelsColorOptions.html" target="_self">GeographiesLabelsColorOptions | CSSType.Property.Fill</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/GeographiesLayer.html#source" target="_self" >GeographiesLayer:94</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../interfaces/GeographiesLabelsColorOptions.html" target="_self" >GeographiesLabelsColorOptions | CSSType.Property.Fill</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/GeographiesLabelsColorOptions.html" target="_self" >GeographiesLabelsColorOptions</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isContrastFontWeightOptions"></a>
+                    <span class="name">
+                        <span ><b>isContrastFontWeightOptions</b></span>
+                        <a href="#isContrastFontWeightOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isContrastFontWeightOptions(options: <a href="../interfaces/GeographiesLabelsFontWeightOptions.html" target="_self">GeographiesLabelsFontWeightOptions | CSSType.Property.FontWeight</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/GeographiesLayer.html#source" target="_self" >GeographiesLayer:100</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../interfaces/GeographiesLabelsFontWeightOptions.html" target="_self" >GeographiesLabelsFontWeightOptions | CSSType.Property.FontWeight</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/GeographiesLabelsFontWeightOptions.html" target="_self" >GeographiesLabelsFontWeightOptions</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setFeatureIndexAccessor"></a>
+                    <span class="name">
+                        <span ><b>setFeatureIndexAccessor</b></span>
+                        <a href="#setFeatureIndexAccessor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setFeatureIndexAccessor(accessor: (d: <a href="../undefineds/GeographiesFeature.html">GeographiesFeature<TProperties | TGeometry></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/GeographiesLayer.html" target="_self" >GeographiesLayer</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/GeographiesLayer.html#source" target="_self" >GeographiesLayer:36</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>accessor</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { safeAssign } from &#x27;@hsi/app-dev-kit&#x27;;
+import { InternMap, select } from &#x27;d3&#x27;;
+import { Geometry, MultiPolygon, Polygon } from &#x27;geojson&#x27;;
+import { FillUtilities } from &#x27;../../../../core/utilities/fill-utilities&#x27;;
+import { ValueUtilities } from &#x27;../../../../core/utilities/values&#x27;;
+import { FillDefinition } from &#x27;../../../../fill-definitions/fill-definitions&#x27;;
+import { GeographiesFeature } from &#x27;../../../geographies-feature&#x27;;
+import {
+  GeographiesLayer,
+  GeographiesTooltipDatum,
+} from &#x27;../geographies-layer/geographies-layer&#x27;;
+import { GeographiesAttributeDataLayerOptions } from &#x27;./attribute-data-layer-options&#x27;;
+import { BinStrategy } from &#x27;./dimensions/attribute-data-bin-enums&#x27;;
+import { CategoricalBinsAttributeDataDimension } from &#x27;./dimensions/categorical-bins/categorical-bins&#x27;;
+import { CustomBreaksBinsAttributeDataDimension } from &#x27;./dimensions/custom-breaks/custom-breaks-bins&#x27;;
+import { EqualFrequenciesAttributeDataDimension } from &#x27;./dimensions/equal-frequencies-bins/equal-frequencies-bins&#x27;;
+import { EqualValueRangesAttributeDataDimension } from &#x27;./dimensions/equal-value-ranges-bins/equal-value-ranges-bins&#x27;;
+import { NoBinsAttributeDataDimension } from &#x27;./dimensions/no-bins/no-bins&#x27;;
+
+const DEFAULT &#x3D; {
+  _nullColor: &#x27;#dcdcdc&#x27;,
+  _strokeColor: &#x27;dimgray&#x27;,
+  _strokeWidth: &#x27;1&#x27;,
+  _enableEventActions: true,
+};
+
+export class GeographiesAttributeDataLayer&lt;
+    Datum,
+    TProperties,
+    TGeometry extends Geometry &#x3D; MultiPolygon | Polygon,
+  &gt;
+  extends GeographiesLayer&lt;Datum, TProperties, TGeometry&gt;
+  implements GeographiesAttributeDataLayerOptions&lt;Datum, TProperties, TGeometry&gt;
+{
+  readonly attributeDimension:
+    | CategoricalBinsAttributeDataDimension&lt;Datum&gt;
+    | NoBinsAttributeDataDimension&lt;Datum&gt;
+    | EqualValueRangesAttributeDataDimension&lt;Datum&gt;
+    | EqualFrequenciesAttributeDataDimension&lt;Datum&gt;
+    | CustomBreaksBinsAttributeDataDimension&lt;Datum&gt;;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  attributeScale: any;
+  attributeValuesByGeographyIndex: InternMap&lt;string, string | number&gt;;
+  readonly customFills: FillDefinition&lt;Datum&gt;[];
+  readonly data: Datum[];
+  datumsByGeographyIndex: InternMap&lt;string, Datum&gt;;
+  geographyIndexAccessor: (d: Datum) &#x3D;&gt; string;
+  readonly marksClass: string;
+  readonly mixBlendMode: string;
+
+  constructor(
+    options: GeographiesAttributeDataLayerOptions&lt;Datum, TProperties, TGeometry&gt;
+  ) {
+    super();
+    safeAssign(this, DEFAULT);
+    safeAssign(this, options);
+    if (this.attributeDimension &#x3D;&#x3D;&#x3D; undefined) {
+      console.error(&#x27;Attribute dimension is required for data layers&#x27;);
+    }
+    if (this.geographyIndexAccessor &#x3D;&#x3D;&#x3D; undefined) {
+      console.error(&#x27;Geography index accessor is required for data layers&#x27;);
+    }
+    this.initPropertiesFromData();
+  }
+
+  initPropertiesFromData(): void {
+    const uniqueDatums &#x3D; this.getUniqueDatumsByGeoAccessor(this.data);
+    this.attributeDimension.setPropertiesFromData(uniqueDatums);
+    this.setAttributeDataMaps(uniqueDatums);
+    this.attributeScale &#x3D; this.attributeDimension.getScale();
+  }
+
+  private getUniqueDatumsByGeoAccessor(data: Datum[]): Datum[] {
+    const uniqueByGeoAccessor &#x3D; (arr: Datum[], set &#x3D; new Set()) &#x3D;&gt;
+      arr.filter(
+        (x) &#x3D;&gt;
+          !set.has(this.geographyIndexAccessor(x)) &amp;&amp;
+          set.add(this.geographyIndexAccessor(x))
+      );
+    return uniqueByGeoAccessor(data);
+  }
+
+  private setAttributeDataMaps(uniqueDatums: Datum[]): void {
+    this.attributeValuesByGeographyIndex &#x3D; new InternMap(
+      uniqueDatums.map((d) &#x3D;&gt; {
+        const value &#x3D; this.attributeDimension.valueAccessor(d);
+        return [
+          this.geographyIndexAccessor(d),
+          value &#x3D;&#x3D;&#x3D; null || value &#x3D;&#x3D;&#x3D; undefined ? undefined : value,
+        ];
+      })
+    );
+    this.datumsByGeographyIndex &#x3D; new InternMap(
+      uniqueDatums.map((d) &#x3D;&gt; {
+        return [this.geographyIndexAccessor(d), d];
+      })
+    );
+  }
+
+  getFill(feature: GeographiesFeature&lt;TProperties, TGeometry&gt;): string {
+    const geographyIndex &#x3D; this.featureIndexAccessor(feature);
+    return this.customFills
+      ? this.getPatternFill(geographyIndex)
+      : this.getAttributeFill(geographyIndex);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getPatternFill(geographyIndex: string): string {
+    const datum &#x3D; this.datumsByGeographyIndex.get(geographyIndex);
+    const geographyFill &#x3D; this.getAttributeFill(geographyIndex);
+    return FillUtilities.getFill(datum, geographyFill, this.customFills);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getAttributeFill(geographyIndex: string): string {
+    const dataValue &#x3D; this.attributeValuesByGeographyIndex.get(geographyIndex);
+    return this.attributeScale(dataValue);
+  }
+
+  getTooltipData(path: SVGPathElement): GeographiesTooltipDatum&lt;Datum&gt; {
+    const feature &#x3D; select(path).datum() as GeographiesFeature&lt;
+      TProperties,
+      TGeometry
+    &gt;;
+    const featureIndex &#x3D; this.featureIndexAccessor(feature);
+    const datum &#x3D; this.datumsByGeographyIndex.get(featureIndex);
+    const value &#x3D; this.attributeValuesByGeographyIndex.get(featureIndex);
+    const tooltipData: GeographiesTooltipDatum&lt;Datum&gt; &#x3D; {
+      datum,
+      geography: this.geographyIndexAccessor(datum),
+      attributeValue: this.attributeDimension.formatFunction
+        ? ValueUtilities.customFormat(
+            datum,
+            this.attributeDimension.formatFunction
+          )
+        : this.attributeDimension.dimensionType !&#x3D;&#x3D; &#x27;ordinal&#x27; &amp;&amp;
+            this.attributeDimension.binType !&#x3D;&#x3D; BinStrategy.categorical
+          ? ValueUtilities.d3Format(
+              value as number,
+              this.attributeDimension.formatSpecifier
+            )
+          : (value as string),
+      color: this.getAttributeFill(featureIndex),
+    };
+
+    return tooltipData;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'GeographiesAttributeDataLayer.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

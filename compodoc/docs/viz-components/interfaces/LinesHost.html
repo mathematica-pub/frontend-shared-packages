@@ -1,0 +1,776 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  LinesHost</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/lines/events/lines-events.directive.ts</code>
+        </p>
+
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="../interfaces/MarksHost.html" target="_self" >MarksHost</a></code>
+            </p>
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Methods</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#getClosestLineGroup" 
+>
+                                        getClosestLineGroup
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getClosestMarker" 
+>
+                                        getClosestMarker
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getClosestPointIndex" 
+>
+                                        getClosestPointIndex
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getOtherLineGroups" 
+>
+                                        getOtherLineGroups
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#getOtherMarkers" 
+>
+                                        getOtherMarkers
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getClosestLineGroup"></a>
+                    <span class="name">
+                        <span ><b>getClosestLineGroup</b></span>
+                        <a href="#getClosestLineGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getClosestLineGroup()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="31"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/events/lines-events.directive.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#LinesGroupSelection" target="_self" >LinesGroupSelection</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getClosestMarker"></a>
+                    <span class="name">
+                        <span ><b>getClosestMarker</b></span>
+                        <a href="#getClosestMarker"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getClosestMarker()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="33"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/events/lines-events.directive.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#MarkerSelection" target="_self" >MarkerSelection</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getClosestPointIndex"></a>
+                    <span class="name">
+                        <span ><b>getClosestPointIndex</b></span>
+                        <a href="#getClosestPointIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getClosestPointIndex()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="30"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/events/lines-events.directive.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getOtherLineGroups"></a>
+                    <span class="name">
+                        <span ><b>getOtherLineGroups</b></span>
+                        <a href="#getOtherLineGroups"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getOtherLineGroups()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="32"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/events/lines-events.directive.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#LinesGroupSelection" target="_self" >LinesGroupSelection</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getOtherMarkers"></a>
+                    <span class="name">
+                        <span ><b>getOtherMarkers</b></span>
+                        <a href="#getOtherMarkers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getOtherMarkers()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="34"
+                                    class="link-to-prism">libs/viz-components/src/lib/lines/events/lines-events.directive.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#MarkerSelection" target="_self" >MarkerSelection</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, EventEmitter, Inject, Input, Output } from &#x27;@angular/core&#x27;;
+import { least } from &#x27;d3&#x27;;
+import { Observable, of } from &#x27;rxjs&#x27;;
+import { ContinuousValue } from &#x27;../../core/types/values&#x27;;
+import {
+  DEFAULT_TOOLTIP_Y_OFFSET,
+  EventAction,
+  EventsDirective,
+  EventType,
+  HoverMoveAction,
+  InputEventAction,
+  MarksHost,
+  UnlistenFunction,
+} from &#x27;../../events&#x27;;
+import { TooltipPosition } from &#x27;../../tooltips&#x27;;
+import { LinesMarkerDatum } from &#x27;../config/lines-config&#x27;;
+import {
+  LINES,
+  LinesComponent,
+  LinesGroupSelection,
+  MarkerSelection,
+} from &#x27;../lines.component&#x27;;
+import { LinesInteractionOutput } from &#x27;./lines-interaction-output&#x27;;
+import { LinesTooltipPositioner } from &#x27;./lines-tooltip-positioner&#x27;;
+
+export interface LinesHost&lt;
+  Datum,
+  TLinesComponent extends LinesComponent&lt;Datum&gt; &#x3D; LinesComponent&lt;Datum&gt;,
+&gt; extends MarksHost&lt;LinesInteractionOutput&lt;Datum&gt;, TLinesComponent&gt; {
+  getClosestPointIndex(): number;
+  getClosestLineGroup(): LinesGroupSelection;
+  getOtherLineGroups(): LinesGroupSelection;
+  getClosestMarker(): MarkerSelection;
+  getOtherMarkers(): MarkerSelection;
+}
+
+@Directive({
+  selector: &#x27;[vicLinesEvents]&#x27;,
+})
+export class LinesEventsDirective&lt;
+    Datum,
+    TLinesComponent extends LinesComponent&lt;Datum&gt; &#x3D; LinesComponent&lt;Datum&gt;,
+  &gt;
+  extends EventsDirective&lt;LinesHost&lt;Datum&gt;&gt;
+  implements LinesHost&lt;Datum&gt;
+{
+  @Input()
+  hoverMoveActions:
+    | HoverMoveAction&lt;LinesHost&lt;Datum&gt;, LinesInteractionOutput&lt;Datum&gt;&gt;[]
+    | null;
+  @Input()
+  clickActions:
+    | EventAction&lt;LinesHost&lt;Datum&gt;, LinesInteractionOutput&lt;Datum&gt;&gt;[]
+    | null;
+  @Input()
+  inputEventActions: InputEventAction&lt;
+    LinesHost&lt;Datum&gt;,
+    LinesInteractionOutput&lt;Datum&gt;
+  &gt;[];
+  @Output() interactionOutput &#x3D; new EventEmitter&lt;
+    LinesInteractionOutput&lt;Datum&gt;
+  &gt;();
+
+  closestPointIndex: number;
+  actionActive: boolean &#x3D; false;
+
+  constructor(@Inject(LINES) public lines: TLinesComponent) {
+    super();
+  }
+
+  get marks(): LinesComponent&lt;Datum&gt; {
+    return this.lines;
+  }
+
+  getElements(): Observable&lt;Element[]&gt; {
+    return of([this.lines.chart.svgRef.nativeElement]);
+  }
+
+  getClosestPointIndex(): number {
+    return this.closestPointIndex;
+  }
+
+  getClosestLineGroup(): LinesGroupSelection {
+    return this.marks.lineGroups.filter(
+      ([category]) &#x3D;&gt;
+        this.marks.config.stroke.color.values[this.getClosestPointIndex()] &#x3D;&#x3D;&#x3D;
+        category
+    );
+  }
+
+  getOtherLineGroups(): LinesGroupSelection {
+    return this.marks.lineGroups.filter(
+      ([category]) &#x3D;&gt;
+        this.marks.config.stroke.color.values[this.getClosestPointIndex()] !&#x3D;&#x3D;
+        category
+    );
+  }
+
+  getClosestMarker(): MarkerSelection {
+    return this.marks.lineGroups
+      .selectAll&lt;SVGCircleElement, LinesMarkerDatum&gt;(&#x27;circle&#x27;)
+      .filter((d) &#x3D;&gt; d.index &#x3D;&#x3D;&#x3D; this.getClosestPointIndex());
+  }
+
+  getOtherMarkers(): MarkerSelection {
+    return this.marks.lineGroups
+      .selectAll&lt;SVGCircleElement, LinesMarkerDatum&gt;(&#x27;circle&#x27;)
+      .filter((d) &#x3D;&gt; d.index !&#x3D;&#x3D; this.getClosestPointIndex());
+  }
+
+  setupListeners(elements: Element[]): UnlistenFunction[] {
+    if (this.inputEventActions?.length &amp;&amp; this.inputEvent$) {
+      this.events.push(EventType.Input);
+    }
+
+    return this.bindEventListeners(
+      elements,
+      this.buildInteractionListeners({
+        hoverMove: this.hoverMoveActions?.length &amp;&amp; {
+          pointerenter: (e, el) &#x3D;&gt; this.onEnter(e, el),
+          pointermove: (e, el) &#x3D;&gt; this.onMove(e, el),
+          pointerleave: (e, el) &#x3D;&gt; this.onLeave(e, el),
+        },
+        click: this.clickActions?.length &amp;&amp; {
+          click: (e, el) &#x3D;&gt; this.onClick(e, el),
+        },
+      })
+    );
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onEnter(_: PointerEvent, __: Element): void {
+    if (this.isEventAllowed(EventType.HoverMove)) {
+      this.runActions(this.hoverMoveActions, (a) &#x3D;&gt; {
+        if (a.initialize) {
+          a.initialize(this);
+        }
+      });
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onMove(event: PointerEvent, _: Element): void {
+    if (this.isEventAllowed(EventType.HoverMove)) {
+      this.setPositionsFromPointer(event);
+      if (this.pointerIsInChartArea()) {
+        this.callPointerEventActions(
+          EventType.HoverMove,
+          this.hoverMoveActions
+        );
+      }
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onLeave(_: PointerEvent, __: Element): void {
+    if (this.isEventAllowed(EventType.HoverMove)) {
+      if (this.actionActive) {
+        this.hoverMoveActions.forEach((action) &#x3D;&gt; action.onEnd(this));
+        this.actionActive &#x3D; false;
+      }
+      this.resetDirective();
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onClick(event: PointerEvent, __: Element): void {
+    if (this.isEventAllowed(EventType.Click)) {
+      this.setPositionsFromPointer(event);
+      if (this.pointerIsInChartArea()) {
+        this.callPointerEventActions(EventType.Click, this.clickActions);
+      }
+    }
+  }
+
+  onClickRemove(): void {
+    if (this.isEventAllowed(EventType.Click)) {
+      this.clickActions.forEach((action) &#x3D;&gt; action.onEnd(this));
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  onInputEvent(inputValue: unknown): void {
+    if (this.isEventAllowed(EventType.Input)) {
+      if (inputValue &#x3D;&#x3D;&#x3D; null || inputValue &#x3D;&#x3D;&#x3D; undefined) {
+        this.inputEventActions.forEach((action) &#x3D;&gt;
+          action.onEnd(this, inputValue)
+        );
+      } else {
+        this.inputEventActions.forEach((action) &#x3D;&gt;
+          action.onStart(this, inputValue)
+        );
+      }
+    }
+  }
+
+  pointerIsInChartArea(): boolean {
+    return (
+      this.positionX &gt; this.lines.ranges.x[0] &amp;&amp;
+      this.positionX &lt; this.lines.ranges.x[1] &amp;&amp;
+      this.positionY &gt; this.lines.ranges.y[1] &amp;&amp;
+      this.positionY &lt; this.lines.ranges.y[0]
+    );
+  }
+
+  private callPointerEventActions(
+    type: EventType,
+    actions: EventAction&lt;this&gt;[]
+  ): void {
+    if (!this.isEventAllowed(type)) return;
+
+    this.closestPointIndex &#x3D; this._getClosestPointIndex();
+
+    const isInside &#x3D; this.pointerIsInsideShowTooltipRadius(
+      this.closestPointIndex,
+      this.positionX,
+      this.positionY
+    );
+
+    if (isInside) {
+      actions.forEach((action) &#x3D;&gt; action.onStart(this));
+      this.actionActive &#x3D; true;
+    } else {
+      this.closestPointIndex &#x3D; null;
+      if (this.actionActive) {
+        actions.forEach((action) &#x3D;&gt; action.onEnd(this));
+        this.actionActive &#x3D; false;
+      }
+    }
+  }
+
+  protected _getClosestPointIndex(): number {
+    return least(this.lines.config.valueIndices, (i) &#x3D;&gt;
+      this.getPointerDistanceFromPoint(
+        this.lines.config.x.values[i],
+        this.lines.config.y.values[i],
+        this.positionX,
+        this.positionY
+      )
+    );
+  }
+
+  getPointerDistanceFromPoint(
+    xValue: ContinuousValue,
+    yValue: number,
+    pointerX: number,
+    pointerY: number
+  ): number {
+    return Math.hypot(
+      this.lines.scales.x(xValue) - pointerX,
+      this.lines.scales.y(yValue) - pointerY
+    );
+  }
+
+  pointerIsInsideShowTooltipRadius(
+    closestPointIndex: number,
+    pointerX: number,
+    pointerY: number
+  ): boolean {
+    if (!this.lines.config.pointerDetectionRadius) {
+      return true;
+    } else {
+      const cursorDistanceFromPoint &#x3D; this.getPointerDistanceFromPoint(
+        this.lines.config.x.values[closestPointIndex],
+        this.lines.config.y.values[closestPointIndex],
+        pointerX,
+        pointerY
+      );
+      return cursorDistanceFromPoint &lt; this.lines.config.pointerDetectionRadius;
+    }
+  }
+
+  setPositionsFromElement(): void {
+    return;
+  }
+
+  getInteractionOutput(type: EventType): LinesInteractionOutput&lt;Datum&gt; {
+    const tooltipData &#x3D; this.lines.getTooltipData(this.closestPointIndex);
+    const position &#x3D; new LinesTooltipPositioner({
+      x: tooltipData.anchor.x,
+      y: tooltipData.anchor.y,
+    });
+
+    return {
+      ...tooltipData,
+      defaultPosition: position.fromAnchor({
+        x: 0,
+        y: DEFAULT_TOOLTIP_Y_OFFSET,
+      }),
+      fromAnchor: (offset?: Partial&lt;{ x: number; y: number }&gt;) &#x3D;&gt; {
+        return position.fromAnchor({
+          x: offset?.x ?? 0,
+          y: offset?.y ?? DEFAULT_TOOLTIP_Y_OFFSET,
+        });
+      },
+      customPosition: (positions: TooltipPosition[]) &#x3D;&gt; {
+        return position.customPosition(positions);
+      },
+      type,
+    };
+  }
+
+  emitInteractionOutput(output: LinesInteractionOutput&lt;Datum&gt;): void {
+    this.interactionOutput.emit(output);
+  }
+
+  private resetDirective(): void {
+    this.closestPointIndex &#x3D; undefined;
+    this.positionX &#x3D; undefined;
+    this.positionY &#x3D; undefined;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'LinesHost.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

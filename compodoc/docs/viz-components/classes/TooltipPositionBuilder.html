@@ -1,0 +1,1570 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Classes</li>
+  <li class="breadcrumb-item" >TooltipPositionBuilder</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts</code>
+        </p>
+
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#additionalConfig" >additionalConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#currentOffsetX" >currentOffsetX</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#currentOffsetY" >currentOffsetY</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#originX" >originX</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#originY" >originY</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#overlayX" >overlayX</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#overlayY" >overlayY</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#applyOffsets" >applyOffsets</a>
+                            </li>
+                            <li>
+                                <a href="#attachBottomCenter" >attachBottomCenter</a>
+                            </li>
+                            <li>
+                                <a href="#attachBottomLeft" >attachBottomLeft</a>
+                            </li>
+                            <li>
+                                <a href="#attachBottomRight" >attachBottomRight</a>
+                            </li>
+                            <li>
+                                <a href="#attachCenter" >attachCenter</a>
+                            </li>
+                            <li>
+                                <a href="#attachCenterLeft" >attachCenterLeft</a>
+                            </li>
+                            <li>
+                                <a href="#attachCenterRight" >attachCenterRight</a>
+                            </li>
+                            <li>
+                                <a href="#attachTopCenter" >attachTopCenter</a>
+                            </li>
+                            <li>
+                                <a href="#attachTopLeft" >attachTopLeft</a>
+                            </li>
+                            <li>
+                                <a href="#attachTopRight" >attachTopRight</a>
+                            </li>
+                            <li>
+                                <a href="#fromBottomCenter" >fromBottomCenter</a>
+                            </li>
+                            <li>
+                                <a href="#fromBottomLeft" >fromBottomLeft</a>
+                            </li>
+                            <li>
+                                <a href="#fromBottomRight" >fromBottomRight</a>
+                            </li>
+                            <li>
+                                <a href="#fromCenter" >fromCenter</a>
+                            </li>
+                            <li>
+                                <a href="#fromCenterLeft" >fromCenterLeft</a>
+                            </li>
+                            <li>
+                                <a href="#fromCenterRight" >fromCenterRight</a>
+                            </li>
+                            <li>
+                                <a href="#fromTopCenter" >fromTopCenter</a>
+                            </li>
+                            <li>
+                                <a href="#fromTopLeft" >fromTopLeft</a>
+                            </li>
+                            <li>
+                                <a href="#fromTopRight" >fromTopRight</a>
+                            </li>
+                            <li>
+                                <a href="#getPosition" >getPosition</a>
+                            </li>
+                            <li>
+                                <a href="#offset" >offset</a>
+                            </li>
+                            <li>
+                                <a href="#reset" >reset</a>
+                            </li>
+                            <li>
+                                <a href="#withConfig" >withConfig</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="additionalConfig"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>additionalConfig</b></span>
+                        <a href="#additionalConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Position.html" target="_self" >Partial&lt;ConnectedPosition&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:13</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentOffsetX"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>currentOffsetX</b></span>
+                        <a href="#currentOffsetX"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:11</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentOffsetY"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>currentOffsetY</b></span>
+                        <a href="#currentOffsetY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:12</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="originX"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>originX</b></span>
+                        <a href="#originX"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#TooltipPositionConfig" target="_self" >TooltipPositionConfig['originX']</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:7</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="originY"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>originY</b></span>
+                        <a href="#originY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#TooltipPositionConfig" target="_self" >TooltipPositionConfig['originY']</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:8</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="overlayX"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>overlayX</b></span>
+                        <a href="#overlayX"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#TooltipPositionConfig" target="_self" >TooltipPositionConfig['overlayX']</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;center&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:9</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="overlayY"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>overlayY</b></span>
+                        <a href="#overlayY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#TooltipPositionConfig" target="_self" >TooltipPositionConfig['overlayY']</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;bottom&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:10</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyOffsets"></a>
+                    <span class="name">
+                        <span ><b>applyOffsets</b></span>
+                        <a href="#applyOffsets"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>applyOffsets(positions: <a href="../interfaces/Position.html" target="_self">TooltipPosition[]</a>, offsetX: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, offsetY: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="177"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:177</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>positions</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Position.html" target="_self" >TooltipPosition[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>offsetX</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>offsetY</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Position.html" target="_self" >TooltipPosition[]</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attachBottomCenter"></a>
+                    <span class="name">
+                        <span ><b>attachBottomCenter</b></span>
+                        <a href="#attachBottomCenter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>attachBottomCenter()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="120"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:120</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attachBottomLeft"></a>
+                    <span class="name">
+                        <span ><b>attachBottomLeft</b></span>
+                        <a href="#attachBottomLeft"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>attachBottomLeft()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="113"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:113</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attachBottomRight"></a>
+                    <span class="name">
+                        <span ><b>attachBottomRight</b></span>
+                        <a href="#attachBottomRight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>attachBottomRight()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="127"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:127</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attachCenter"></a>
+                    <span class="name">
+                        <span ><b>attachCenter</b></span>
+                        <a href="#attachCenter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>attachCenter()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="99"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attachCenterLeft"></a>
+                    <span class="name">
+                        <span ><b>attachCenterLeft</b></span>
+                        <a href="#attachCenterLeft"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>attachCenterLeft()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="92"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:92</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attachCenterRight"></a>
+                    <span class="name">
+                        <span ><b>attachCenterRight</b></span>
+                        <a href="#attachCenterRight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>attachCenterRight()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="106"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:106</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attachTopCenter"></a>
+                    <span class="name">
+                        <span ><b>attachTopCenter</b></span>
+                        <a href="#attachTopCenter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>attachTopCenter()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="78"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attachTopLeft"></a>
+                    <span class="name">
+                        <span ><b>attachTopLeft</b></span>
+                        <a href="#attachTopLeft"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>attachTopLeft()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="71"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:71</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attachTopRight"></a>
+                    <span class="name">
+                        <span ><b>attachTopRight</b></span>
+                        <a href="#attachTopRight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>attachTopRight()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="85"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:85</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fromBottomCenter"></a>
+                    <span class="name">
+                        <span ><b>fromBottomCenter</b></span>
+                        <a href="#fromBottomCenter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fromBottomCenter()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="58"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fromBottomLeft"></a>
+                    <span class="name">
+                        <span ><b>fromBottomLeft</b></span>
+                        <a href="#fromBottomLeft"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fromBottomLeft()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="52"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fromBottomRight"></a>
+                    <span class="name">
+                        <span ><b>fromBottomRight</b></span>
+                        <a href="#fromBottomRight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fromBottomRight()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="64"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fromCenter"></a>
+                    <span class="name">
+                        <span ><b>fromCenter</b></span>
+                        <a href="#fromCenter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fromCenter()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="40"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fromCenterLeft"></a>
+                    <span class="name">
+                        <span ><b>fromCenterLeft</b></span>
+                        <a href="#fromCenterLeft"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fromCenterLeft()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="34"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fromCenterRight"></a>
+                    <span class="name">
+                        <span ><b>fromCenterRight</b></span>
+                        <a href="#fromCenterRight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fromCenterRight()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="46"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fromTopCenter"></a>
+                    <span class="name">
+                        <span ><b>fromTopCenter</b></span>
+                        <a href="#fromTopCenter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fromTopCenter()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="22"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fromTopLeft"></a>
+                    <span class="name">
+                        <span ><b>fromTopLeft</b></span>
+                        <a href="#fromTopLeft"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fromTopLeft()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="16"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fromTopRight"></a>
+                    <span class="name">
+                        <span ><b>fromTopRight</b></span>
+                        <a href="#fromTopRight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fromTopRight()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="28"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPosition"></a>
+                    <span class="name">
+                        <span ><b>getPosition</b></span>
+                        <a href="#getPosition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getPosition()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="148"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:148</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/TooltipPosition.html" target="_self" >TooltipPosition</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="offset"></a>
+                    <span class="name">
+                        <span ><b>offset</b></span>
+                        <a href="#offset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>offset(offsetX: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, offsetY: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="135"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:135</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>offsetX</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>offsetY</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reset"></a>
+                    <span class="name">
+                        <span ><b>reset</b></span>
+                        <a href="#reset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>reset()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="165"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:165</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="withConfig"></a>
+                    <span class="name">
+                        <span ><b>withConfig</b></span>
+                        <a href="#withConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>withConfig(config: <a href="../interfaces/Position.html" target="_self">Partial&lt;ConnectedPosition&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="142"
+                                    class="link-to-prism">libs/viz-components/src/lib/tooltips/html-tooltip/config/position/tooltip-position-builder.ts:142</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>config</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Position.html" target="_self" >Partial&lt;ConnectedPosition&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ConnectedPosition } from &#x27;@angular/cdk/overlay&#x27;;
+import { TooltipPosition, TooltipPositionConfig } from &#x27;./tooltip-position&#x27;;
+
+// Primarily used internally in the library, though a user could use it to make custom positions
+
+export class TooltipPositionBuilder {
+  private originX?: TooltipPositionConfig[&#x27;originX&#x27;];
+  private originY?: TooltipPositionConfig[&#x27;originY&#x27;];
+  private overlayX: TooltipPositionConfig[&#x27;overlayX&#x27;] &#x3D; &#x27;center&#x27;;
+  private overlayY: TooltipPositionConfig[&#x27;overlayY&#x27;] &#x3D; &#x27;bottom&#x27;;
+  private currentOffsetX &#x3D; 0;
+  private currentOffsetY &#x3D; 0;
+  private additionalConfig: Partial&lt;ConnectedPosition&gt; &#x3D; {};
+
+  // From methods - set origin
+  fromTopLeft(): this {
+    this.originX &#x3D; &#x27;start&#x27;;
+    this.originY &#x3D; &#x27;top&#x27;;
+    return this;
+  }
+
+  fromTopCenter(): this {
+    this.originX &#x3D; &#x27;center&#x27;;
+    this.originY &#x3D; &#x27;top&#x27;;
+    return this;
+  }
+
+  fromTopRight(): this {
+    this.originX &#x3D; &#x27;end&#x27;;
+    this.originY &#x3D; &#x27;top&#x27;;
+    return this;
+  }
+
+  fromCenterLeft(): this {
+    this.originX &#x3D; &#x27;start&#x27;;
+    this.originY &#x3D; &#x27;center&#x27;;
+    return this;
+  }
+
+  fromCenter(): this {
+    this.originX &#x3D; &#x27;center&#x27;;
+    this.originY &#x3D; &#x27;center&#x27;;
+    return this;
+  }
+
+  fromCenterRight(): this {
+    this.originX &#x3D; &#x27;end&#x27;;
+    this.originY &#x3D; &#x27;center&#x27;;
+    return this;
+  }
+
+  fromBottomLeft(): this {
+    this.originX &#x3D; &#x27;start&#x27;;
+    this.originY &#x3D; &#x27;bottom&#x27;;
+    return this;
+  }
+
+  fromBottomCenter(): this {
+    this.originX &#x3D; &#x27;center&#x27;;
+    this.originY &#x3D; &#x27;bottom&#x27;;
+    return this;
+  }
+
+  fromBottomRight(): this {
+    this.originX &#x3D; &#x27;end&#x27;;
+    this.originY &#x3D; &#x27;bottom&#x27;;
+    return this;
+  }
+
+  // Attach methods - set overlay
+  attachTopLeft(): this {
+    this.overlayX &#x3D; &#x27;start&#x27;;
+    this.overlayY &#x3D; &#x27;top&#x27;;
+    this.additionalConfig &#x3D; { panelClass: &#x27;position-top-left&#x27; };
+    return this;
+  }
+
+  attachTopCenter(): this {
+    this.overlayX &#x3D; &#x27;center&#x27;;
+    this.overlayY &#x3D; &#x27;top&#x27;;
+    this.additionalConfig &#x3D; { panelClass: &#x27;position-top-center&#x27; };
+    return this;
+  }
+
+  attachTopRight(): this {
+    this.overlayX &#x3D; &#x27;end&#x27;;
+    this.overlayY &#x3D; &#x27;top&#x27;;
+    this.additionalConfig &#x3D; { panelClass: &#x27;position-top-right&#x27; };
+    return this;
+  }
+
+  attachCenterLeft(): this {
+    this.overlayX &#x3D; &#x27;start&#x27;;
+    this.overlayY &#x3D; &#x27;center&#x27;;
+    this.additionalConfig &#x3D; { panelClass: &#x27;position-center-left&#x27; };
+    return this;
+  }
+
+  attachCenter(): this {
+    this.overlayX &#x3D; &#x27;center&#x27;;
+    this.overlayY &#x3D; &#x27;center&#x27;;
+    this.additionalConfig &#x3D; { panelClass: &#x27;position-center&#x27; };
+    return this;
+  }
+
+  attachCenterRight(): this {
+    this.overlayX &#x3D; &#x27;end&#x27;;
+    this.overlayY &#x3D; &#x27;center&#x27;;
+    this.additionalConfig &#x3D; { panelClass: &#x27;position-center-right&#x27; };
+    return this;
+  }
+
+  attachBottomLeft(): this {
+    this.overlayX &#x3D; &#x27;start&#x27;;
+    this.overlayY &#x3D; &#x27;bottom&#x27;;
+    this.additionalConfig &#x3D; { panelClass: &#x27;position-bottom-left&#x27; };
+    return this;
+  }
+
+  attachBottomCenter(): this {
+    this.overlayX &#x3D; &#x27;center&#x27;;
+    this.overlayY &#x3D; &#x27;bottom&#x27;;
+    this.additionalConfig &#x3D; { panelClass: &#x27;position-bottom-center&#x27; };
+    return this;
+  }
+
+  attachBottomRight(): this {
+    this.overlayX &#x3D; &#x27;end&#x27;;
+    this.overlayY &#x3D; &#x27;bottom&#x27;;
+    this.additionalConfig &#x3D; { panelClass: &#x27;position-bottom-right&#x27; };
+    return this;
+  }
+
+  // Offset method
+  offset(offsetX: number, offsetY: number): this {
+    this.currentOffsetX &#x3D; offsetX;
+    this.currentOffsetY &#x3D; offsetY;
+    return this;
+  }
+
+  // Additional config
+  withConfig(config: Partial&lt;ConnectedPosition&gt;): this {
+    this.additionalConfig &#x3D; { ...this.additionalConfig, ...config };
+    return this;
+  }
+
+  // Build the position
+  getPosition(): TooltipPosition {
+    if (!this.originX || !this.originY) {
+      throw new Error(&#x27;Origin position must be set using a from* method&#x27;);
+    }
+
+    return new TooltipPosition({
+      originX: this.originX,
+      originY: this.originY,
+      overlayX: this.overlayX,
+      overlayY: this.overlayY,
+      offsetX: this.currentOffsetX,
+      offsetY: this.currentOffsetY,
+      ...this.additionalConfig,
+    });
+  }
+
+  // Reset builder for reuse
+  reset(): this {
+    this.originX &#x3D; undefined;
+    this.originY &#x3D; undefined;
+    this.overlayX &#x3D; &#x27;center&#x27;;
+    this.overlayY &#x3D; &#x27;bottom&#x27;;
+    this.currentOffsetX &#x3D; 0;
+    this.currentOffsetY &#x3D; 0;
+    this.additionalConfig &#x3D; {};
+    return this;
+  }
+
+  // Utility method for applying offsets to multiple positions
+  applyOffsets(
+    positions: TooltipPosition[],
+    offsetX: number,
+    offsetY: number
+  ): TooltipPosition[] {
+    return positions.map(
+      (pos) &#x3D;&gt;
+        new TooltipPosition({
+          ...pos,
+          offsetX: (pos.offsetX || 0) + offsetX,
+          offsetY: (pos.offsetY || 0) + offsetY,
+        })
+    );
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'TooltipPositionBuilder.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

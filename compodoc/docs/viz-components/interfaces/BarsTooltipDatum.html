@@ -1,0 +1,1075 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  BarsTooltipDatum</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/bars/bars.component.ts</code>
+        </p>
+
+
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#color" 
+>
+                                            color
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#datum" 
+>
+                                            datum
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#values" 
+>
+                                            values
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="color"></a>
+                                        <span class="name "><b>color</b>
+                                            <a href="#color">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>color:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="datum"></a>
+                                        <span class="name "><b>datum</b>
+                                            <a href="#datum">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>datum:     <code>Datum</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>Datum</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="values"></a>
+                                        <span class="name "><b>values</b>
+                                            <a href="#values">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>values:     <code>literal type</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>literal type</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  InjectionToken,
+  NgZone,
+  ViewEncapsulation,
+} from &#x27;@angular/core&#x27;;
+import { select, Transition } from &#x27;d3&#x27;;
+import { Selection } from &#x27;d3-selection&#x27;;
+import { BehaviorSubject, filter } from &#x27;rxjs&#x27;;
+import { ChartComponent } from &#x27;../charts/chart/chart.component&#x27;;
+import {
+  XyChartComponent,
+  XyChartScales,
+} from &#x27;../charts/xy-chart/xy-chart.component&#x27;;
+import { GenericScale } from &#x27;../core&#x27;;
+import { DataValue } from &#x27;../core/types/values&#x27;;
+import { ColorUtilities } from &#x27;../core/utilities/colors&#x27;;
+import { FillUtilities } from &#x27;../core/utilities/fill-utilities&#x27;;
+import { isNumber } from &#x27;../core/utilities/type-guards&#x27;;
+import { ValueUtilities } from &#x27;../core/utilities/values&#x27;;
+import { VIC_PRIMARY_MARKS } from &#x27;../marks/primary-marks/primary-marks&#x27;;
+import { VicXyPrimaryMarks } from &#x27;../marks/xy-marks/xy-primary-marks/xy-primary-marks&#x27;;
+import { BarsConfig } from &#x27;./config/bars-config&#x27;;
+
+// Ideally we would be able to use generic T with the component, but Angular doesn&#x27;t yet support this, so we use &quot;unknown&quot;
+// https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
+export const BARS &#x3D; new InjectionToken&lt;BarsComponent&lt;unknown, DataValue&gt;&gt;(
+  &#x27;BarsComponent&#x27;
+);
+
+export type BarGroupSelection &#x3D; Selection&lt;
+  SVGGElement,
+  number,
+  SVGSVGElement,
+  unknown
+&gt;;
+export type BarSelection &#x3D; Selection&lt;
+  SVGRectElement,
+  number,
+  SVGGElement,
+  number
+&gt;;
+export type BarLabelSelection &#x3D; Selection&lt;
+  SVGTextElement,
+  number,
+  SVGGElement,
+  number
+&gt;;
+
+export type BarDatum&lt;T&gt; &#x3D; {
+  index: number;
+  quantitative: number;
+  ordinal: T;
+  color: string;
+};
+
+export interface BarsTooltipDatum&lt;Datum&gt; {
+  datum: Datum;
+  color: string;
+  values: {
+    x: string;
+    y: string;
+    category: string;
+  };
+}
+
+type BarsSvgElement &#x3D; &#x27;g&#x27; | &#x27;bar&#x27; | &#x27;label&#x27; | &#x27;background&#x27;;
+
+@Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: &#x27;[vic-primary-marks-bars]&#x27;,
+  template: &#x27;&#x27;,
+  styleUrls: [&#x27;./bars.component.scss&#x27;],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: VIC_PRIMARY_MARKS, useExisting: BarsComponent },
+    { provide: BARS, useExisting: BarsComponent },
+    { provide: ChartComponent, useExisting: XyChartComponent },
+  ],
+  host: {
+    &#x27;[class]&#x27;: &#x27;config.marksClass&#x27;,
+    &#x27;[style.mixBlendMode]&#x27;: &#x27;config.mixBlendMode&#x27;,
+  },
+})
+export class BarsComponent&lt;
+  Datum,
+  TOrdinalValue extends DataValue,
+&gt; extends VicXyPrimaryMarks&lt;Datum, BarsConfig&lt;Datum, TOrdinalValue&gt;&gt; {
+  barGroups: BarGroupSelection;
+  bars: BehaviorSubject&lt;BarSelection&gt; &#x3D; new BehaviorSubject(null);
+  bars$ &#x3D; this.bars.asObservable().pipe(filter((s) &#x3D;&gt; !!s));
+  labels: BehaviorSubject&lt;BarLabelSelection&gt; &#x3D; new BehaviorSubject(null);
+  labels$ &#x3D; this.bars.asObservable().pipe(filter((s) &#x3D;&gt; !!s));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  override scales: { color: GenericScale&lt;any, any&gt; } &amp; XyChartScales &#x3D; {
+    x: undefined,
+    y: undefined,
+    color: undefined,
+    useTransition: undefined,
+  };
+  protected zone &#x3D; inject(NgZone);
+  public elRef &#x3D; inject(ElementRef&lt;SVGGElement&gt;);
+
+  get class(): Record&lt;BarsSvgElement, string&gt; {
+    return {
+      g: this.config.marksClass + &#x27;-group&#x27;,
+      bar: this.config.marksClass + &#x27;-bar&#x27;,
+      label: this.config.marksClass + &#x27;-label&#x27;,
+      background: this.config.marksClass + &#x27;-background&#x27;,
+    };
+  }
+
+  setChartScalesFromRanges(useTransition: boolean): void {
+    const x &#x3D; this.config[this.config.dimensions.x].getScaleFromRange(
+      this.ranges.x
+    );
+    const y &#x3D; this.config[this.config.dimensions.y].getScaleFromRange(
+      this.ranges.y
+    );
+    this.scales.color &#x3D; this.config.color.getScale();
+    this.chart.updateScales({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      x: x as unknown as GenericScale&lt;any, any&gt;,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      y: y as unknown as GenericScale&lt;any, any&gt;,
+      useTransition,
+    });
+  }
+
+  drawMarks(): void {
+    const transitionDuration &#x3D; this.getTransitionDuration();
+    this.drawBars(transitionDuration);
+    if (this.config.backgrounds) {
+      this.drawBackgrounds(transitionDuration);
+    }
+    if (this.config.labels) {
+      this.drawLabels(transitionDuration);
+    }
+    this.updateBarElements();
+  }
+
+  drawBars(transitionDuration: number): void {
+    const t &#x3D; select(this.chart.svgRef.nativeElement)
+      .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .duration(transitionDuration) as Transition&lt;SVGSVGElement, any, any, any&gt;;
+
+    this.barGroups &#x3D; select(this.elRef.nativeElement)
+      .selectAll&lt;SVGGElement, number&gt;(&#x60;.${this.class.g}&#x60;)
+      .data&lt;number&gt;(this.config.valueIndices, this.config.barsKeyFunction)
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;g&#x27;)
+            .attr(&#x27;class&#x27;, (i) &#x3D;&gt;
+              &#x60;${this.class.g} ${this.config.datumClass(this.config.data[i], i)}&#x60;.trim()
+            )
+            .attr(&#x27;transform&#x27;, (i) &#x3D;&gt;
+              this.getBarGroupTransform(this.getBarDatumFromIndex(i))
+            ),
+        (update) &#x3D;&gt;
+          update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            .transition(t as any)
+            .attr(&#x27;transform&#x27;, (i) &#x3D;&gt;
+              this.getBarGroupTransform(this.getBarDatumFromIndex(i))
+            ),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+
+    this.barGroups
+      .selectAll&lt;SVGRectElement, BarDatum&lt;TOrdinalValue&gt;&gt;(&#x60;.${this.class.bar}&#x60;)
+      .data&lt;BarDatum&lt;TOrdinalValue&gt;&gt;((i) &#x3D;&gt; [this.getBarDatumFromIndex(i)])
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;rect&#x27;)
+            .attr(&#x27;class&#x27;, this.class.bar)
+            .property(&#x27;key&#x27;, (d) &#x3D;&gt; d.ordinal)
+            .attr(&#x27;width&#x27;, (d) &#x3D;&gt; this.getBarWidth(d))
+            .attr(&#x27;height&#x27;, (d) &#x3D;&gt; this.getBarHeight(d))
+            .attr(&#x27;fill&#x27;, (d) &#x3D;&gt; this.getBarFill(d)),
+        (update) &#x3D;&gt;
+          update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            .transition(t as any)
+            .attr(&#x27;width&#x27;, (d) &#x3D;&gt; this.getBarWidth(d))
+            .attr(&#x27;height&#x27;, (d) &#x3D;&gt; this.getBarHeight(d))
+            .attr(&#x27;fill&#x27;, (d) &#x3D;&gt; this.getBarFill(d)),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+  }
+
+  drawBackgrounds(transitionDuration: number): void {
+    const t &#x3D; select(this.chart.svgRef.nativeElement)
+      .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .duration(transitionDuration) as Transition&lt;SVGSVGElement, any, any, any&gt;;
+
+    this.barGroups
+      .selectAll&lt;SVGRectElement, number&gt;(&#x60;.${this.class.background}&#x60;)
+      .data&lt;BarDatum&lt;TOrdinalValue&gt;&gt;((i) &#x3D;&gt; [this.getBarDatumFromIndex(i)])
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;rect&#x27;)
+            .attr(&#x27;class&#x27;, this.class.background)
+            .attr(&#x27;fill&#x27;, this.config.backgrounds.color)
+            .attr(&#x27;transform&#x27;, (d) &#x3D;&gt; this.getBackgroundTransform(d))
+            .attr(&#x27;width&#x27;, this.getBackgroundWidth())
+            .attr(&#x27;height&#x27;, this.getBackgroundBarHeight()),
+        (update) &#x3D;&gt;
+          update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            .transition(t as any)
+            .attr(&#x27;transform&#x27;, (d) &#x3D;&gt; this.getBackgroundTransform(d))
+            .attr(&#x27;width&#x27;, this.getBackgroundWidth())
+            .attr(&#x27;height&#x27;, this.getBackgroundBarHeight()),
+        (exit) &#x3D;&gt; exit.remove()
+      )
+      .lower();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getBarGroupColorClass(i: number): string {
+    return this.config.color.calculatedDomain.length &gt; 1
+      ? ValueUtilities.formatForHtmlAttribute(this.config.color.values[i])
+      : &#x27;&#x27;;
+  }
+
+  getBarDatumFromIndex(i: number): BarDatum&lt;TOrdinalValue&gt; {
+    return {
+      index: i,
+      quantitative: this.config.quantitative.values[i],
+      ordinal: this.config.ordinal.values[i],
+      color: this.config.color.values[i],
+    };
+  }
+
+  getBarGroupTransform(datum: BarDatum&lt;TOrdinalValue&gt;): string {
+    const x &#x3D; this.getBarX(datum);
+    const y &#x3D; this.getBarY(datum);
+    return &#x60;translate(${x},${y})&#x60;;
+  }
+
+  getBarFill(datum: BarDatum&lt;TOrdinalValue&gt;): string {
+    return this.config.customFills
+      ? this.getBarPattern(datum)
+      : this.getBarColor(datum);
+  }
+
+  drawLabels(transitionDuration: number): void {
+    const t &#x3D; select(this.chart.svgRef.nativeElement)
+      .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .duration(transitionDuration) as Transition&lt;SVGSVGElement, any, any, any&gt;;
+
+    this.barGroups
+      .selectAll&lt;SVGTextElement, BarDatum&lt;TOrdinalValue&gt;&gt;(
+        &#x60;.${this.class.label}&#x60;
+      )
+      .data&lt;BarDatum&lt;TOrdinalValue&gt;&gt;((i: number) &#x3D;&gt; [
+        {
+          index: i,
+          quantitative: this.config.quantitative.values[i],
+          ordinal: this.config.ordinal.values[i],
+          color: this.config.color.values[i],
+        },
+      ])
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append&lt;SVGTextElement&gt;(&#x27;text&#x27;)
+            .attr(&#x27;class&#x27;, this.class.label)
+            .style(&#x27;display&#x27;, this.config.labels.display ? null : &#x27;none&#x27;)
+            .text((d) &#x3D;&gt; this.getLabelText(d))
+            .style(&#x27;visiblity&#x27;, &#x27;hidden&#x27;)
+            .call((selection) &#x3D;&gt; {
+              selection.each((d, i, nodes) &#x3D;&gt; {
+                const bbox &#x3D; nodes[i].getBBox();
+                select&lt;SVGTextElement, BarDatum&lt;TOrdinalValue&gt;&gt;(nodes[i])
+                  .style(&#x27;fill&#x27;, (d) &#x3D;&gt; this.getLabelColor(d, bbox))
+                  .attr(&#x27;text-anchor&#x27;, (d) &#x3D;&gt; this.getLabelTextAnchor(d, bbox))
+                  .attr(&#x27;dominant-baseline&#x27;, (d) &#x3D;&gt;
+                    this.getLabelDominantBaseline(d, bbox)
+                  )
+                  .attr(&#x27;x&#x27;, this.getLabelX(d, bbox))
+                  .attr(&#x27;y&#x27;, this.getLabelY(d, bbox))
+                  .attr(&#x27;visibility&#x27;, &#x27;visible&#x27;);
+              });
+            }),
+        (update) &#x3D;&gt;
+          update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            .transition(t as any)
+            .text((d) &#x3D;&gt; this.getLabelText(d))
+            .style(&#x27;visiblity&#x27;, &#x27;hidden&#x27;)
+            .call((selection) &#x3D;&gt; {
+              selection.each((d, i, nodes) &#x3D;&gt; {
+                const bbox &#x3D; nodes[i].getBBox();
+                select&lt;SVGTextElement, BarDatum&lt;TOrdinalValue&gt;&gt;(nodes[i])
+                  .style(&#x27;fill&#x27;, (d) &#x3D;&gt; this.getLabelColor(d, bbox))
+                  .attr(&#x27;text-anchor&#x27;, (d) &#x3D;&gt; this.getLabelTextAnchor(d, bbox))
+                  .attr(&#x27;dominant-baseline&#x27;, (d) &#x3D;&gt;
+                    this.getLabelDominantBaseline(d, bbox)
+                  )
+                  .attr(&#x27;x&#x27;, this.getLabelX(d, bbox))
+                  .attr(&#x27;y&#x27;, this.getLabelY(d, bbox))
+                  .attr(&#x27;visibility&#x27;, &#x27;visible&#x27;);
+              });
+            }),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+  }
+
+  getBarX(d: BarDatum&lt;TOrdinalValue&gt;): number {
+    if (this.config.dimensions.x &#x3D;&#x3D;&#x3D; &#x27;ordinal&#x27;) {
+      return this.getBarXOrdinal(d);
+    }
+    return this.getBarXQuantitative(d);
+  }
+
+  getBarXOrdinal(d: BarDatum&lt;TOrdinalValue&gt;): number {
+    return this.scales.x(d.ordinal);
+  }
+
+  getBarXQuantitative(d: BarDatum&lt;TOrdinalValue&gt;): number {
+    if (this.isZeroOrNonNumeric(d.quantitative)) {
+      const origin &#x3D; this.getBarQuantitativeOrigin();
+      return this.scales.x(origin);
+    } else if (this.config.hasNegativeValues) {
+      if (d.quantitative &lt; 0) {
+        return this.scales.x(d.quantitative);
+      }
+      return this.scales.x(0);
+    }
+    return this.scales.x(this.getQuantitativeDomainFromScale()[0]);
+  }
+
+  getBarY(d: BarDatum&lt;TOrdinalValue&gt;): number {
+    if (this.config.dimensions.y &#x3D;&#x3D;&#x3D; &#x27;ordinal&#x27;) {
+      return this.getBarYOrdinal(d);
+    }
+    return this.getBarYQuantitative(d);
+  }
+
+  getBarYOrdinal(d: BarDatum&lt;TOrdinalValue&gt;): number {
+    return this.scales.y(d.ordinal);
+  }
+
+  getBarYQuantitative(d: BarDatum&lt;TOrdinalValue&gt;): number {
+    if (this.isZeroOrNonNumeric(d.quantitative)) {
+      const origin &#x3D; this.getBarQuantitativeOrigin();
+      return this.scales.y(origin);
+    } else if (d.quantitative &lt; 0) {
+      if (this.config.quantitative.domainIncludesZero) {
+        return this.scales.y(0);
+      }
+      return this.scales.y(this.getQuantitativeDomainFromScale()[1]);
+    }
+    return this.scales.y(d.quantitative);
+  }
+
+  getQuantitativeDomainFromScale(): number[] {
+    return this.scales[this.config.dimensions.quantitative].domain();
+  }
+
+  getBarWidth(d: BarDatum&lt;TOrdinalValue&gt;): number {
+    if (this.config.dimensions.quantitativeDimension &#x3D;&#x3D;&#x3D; &#x27;width&#x27;) {
+      return this.getBarDimensionQuantitative(d, &#x27;x&#x27;);
+    }
+    return this.getBarWidthOrdinal();
+  }
+
+  getBarWidthOrdinal(): number {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (this.scales.x as any).bandwidth();
+  }
+
+  getBarHeight(d: BarDatum&lt;TOrdinalValue&gt;): number {
+    if (this.config.dimensions.quantitativeDimension &#x3D;&#x3D;&#x3D; &#x27;height&#x27;) {
+      return this.getBarDimensionQuantitative(d, &#x27;y&#x27;);
+    }
+    return this.getBarHeightOrdinal();
+  }
+
+  getBarHeightOrdinal(): number {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (this.scales.y as any).bandwidth();
+  }
+
+  getBackgroundTransform(d: BarDatum&lt;TOrdinalValue&gt;): string | null {
+    if (this.config.dimensions.quantitativeDimension &#x3D;&#x3D;&#x3D; &#x27;width&#x27;) {
+      const range &#x3D; this.scales.x.range();
+      const offsetFromLeft &#x3D;
+        d.quantitative &lt; 0 ? this.scales.x(d.quantitative) : this.scales.x(0);
+      return &#x60;translate(${range[0] - offsetFromLeft},0)&#x60;;
+    }
+    const range &#x3D; this.scales.y.range();
+    const offsetFromBottom &#x3D;
+      d.quantitative &lt; 0 ? this.scales.y(0) : this.scales.y(d.quantitative);
+    return &#x60;translate(0,${range[1] - offsetFromBottom})&#x60;;
+  }
+
+  getBackgroundWidth(): number {
+    if (this.config.dimensions.quantitativeDimension &#x3D;&#x3D;&#x3D; &#x27;width&#x27;) {
+      const range &#x3D; this.scales.x.range();
+      return range[1] - range[0];
+    }
+    return this.getBarWidthOrdinal();
+  }
+
+  getBackgroundBarHeight(): number {
+    if (this.config.dimensions.quantitativeDimension &#x3D;&#x3D;&#x3D; &#x27;height&#x27;) {
+      const range &#x3D; this.scales.y.range();
+      return range[0] - range[1];
+    } else {
+      return this.getBarHeightOrdinal();
+    }
+  }
+
+  getBarDimensionQuantitative(
+    d: BarDatum&lt;TOrdinalValue&gt;,
+    dimension: &#x27;x&#x27; | &#x27;y&#x27;
+  ): number {
+    if (this.isZeroOrNonNumeric(d.quantitative)) {
+      return 0;
+    }
+    const origin &#x3D; this.getBarQuantitativeOrigin();
+    return Math.abs(
+      this.scales[dimension](d.quantitative) - this.scales[dimension](origin)
+    );
+  }
+
+  getBarQuantitativeOrigin(): number {
+    if (this.config.quantitative.domainIncludesZero) {
+      return 0;
+    }
+    const domain &#x3D; this.getQuantitativeDomainFromScale();
+    return this.config.hasNegativeValues ? domain[1] : domain[0];
+  }
+
+  getBarPattern(d: BarDatum&lt;TOrdinalValue&gt;): string {
+    const color &#x3D; this.getBarColor(d);
+    return FillUtilities.getFill(
+      this.config.data[d.index],
+      color,
+      this.config.customFills
+    );
+  }
+
+  getBarColor(d: BarDatum&lt;TOrdinalValue&gt;): string {
+    return this.scales.color(d.color);
+  }
+
+  getLabelText(d: BarDatum&lt;TOrdinalValue&gt;): string {
+    const datum &#x3D; this.config.data[d.index];
+    if (!isNumber(d.quantitative)) {
+      return this.config.labels.noValueFunction(datum);
+    }
+    return this.config.quantitative.formatFunction
+      ? ValueUtilities.customFormat(
+          datum,
+          this.config.quantitative.formatFunction
+        )
+      : ValueUtilities.d3Format(
+          d.quantitative,
+          this.config.quantitative.formatSpecifier
+        );
+  }
+
+  getLabelTextAnchor(
+    d: BarDatum&lt;TOrdinalValue&gt;,
+    labelBbox: DOMRect
+  ): &#x27;start&#x27; | &#x27;middle&#x27; | &#x27;end&#x27; {
+    if (this.config.dimensions.isVertical) {
+      return &#x27;middle&#x27;;
+    }
+    return this.alignTextInPositiveDirection(d, labelBbox) ? &#x27;start&#x27; : &#x27;end&#x27;;
+  }
+
+  getLabelDominantBaseline(
+    d: BarDatum&lt;TOrdinalValue&gt;,
+    labelBbox: DOMRect
+  ): &#x27;text-after-edge&#x27; | &#x27;text-before-edge&#x27; | &#x27;central&#x27; {
+    if (this.config.dimensions.isHorizontal) {
+      return &#x27;central&#x27;;
+    }
+    return this.alignTextInPositiveDirection(d, labelBbox)
+      ? &#x27;text-after-edge&#x27;
+      : &#x27;text-before-edge&#x27;;
+  }
+
+  alignTextInPositiveDirection(
+    d: BarDatum&lt;TOrdinalValue&gt;,
+    labelBbox: DOMRect
+  ): boolean {
+    if (this.isZeroOrNonNumeric(d.quantitative)) {
+      return this.positionZeroOrNonNumericValueLabelInPositiveDirection();
+    }
+    const placeLabelOutsideBar &#x3D; this.labelFitsOutsideBar(d, labelBbox);
+    const isPositiveValue &#x3D; d.quantitative &gt; 0;
+    return placeLabelOutsideBar ? isPositiveValue : !isPositiveValue;
+  }
+
+  getLabelColor(d: BarDatum&lt;TOrdinalValue&gt;, labelBbox: DOMRect): string {
+    if (
+      this.isZeroOrNonNumeric(d.quantitative) ||
+      this.labelFitsOutsideBar(d, labelBbox)
+    ) {
+      if (this.config.backgrounds) {
+        // try to use the default label color if it has enough contrast
+        if (
+          ColorUtilities.getContrastRatio(
+            this.config.labels.color.default,
+            this.config.backgrounds.color
+          ) &gt;&#x3D; 4.5
+        ) {
+          return this.config.labels.color.default;
+        }
+        // if it doesn&#x27;t, user the color with the higher contrast against the background
+        return ColorUtilities.getHigherContrastColorForBackground(
+          this.config.backgrounds.color,
+          this.config.labels.color.default,
+          this.config.labels.color.withinBarAlternative
+        );
+      }
+      return this.config.labels.color.default;
+    }
+    const barColor &#x3D; this.getBarColor(d);
+    return ColorUtilities.getHigherContrastColorForBackground(
+      barColor,
+      this.config.labels.color.default,
+      this.config.labels.color.withinBarAlternative
+    );
+  }
+
+  labelFitsOutsideBar(d: BarDatum&lt;TOrdinalValue&gt;, labelBbox: DOMRect): boolean {
+    const isPositiveValue &#x3D; d.quantitative &gt; 0;
+    // This approach assumes that the bar labels do not wrap.
+    const distanceToChartEdge &#x3D; this.getBarToChartEdgeDistance(
+      isPositiveValue,
+      this.ranges[this.config.dimensions.quantitative],
+      this.scales[this.config.dimensions.quantitative](d.quantitative)
+    );
+
+    if (this.config.dimensions.isHorizontal) {
+      return distanceToChartEdge &gt; labelBbox.width + this.config.labels.offset;
+    }
+    return distanceToChartEdge &gt; labelBbox.height + this.config.labels.offset;
+  }
+
+  getBarToChartEdgeDistance(
+    isPositiveValue: boolean,
+    range: [number, number],
+    endOfBarPosition: number
+  ): number {
+    const [min, max] &#x3D; range[0] &lt; range[1] ? range : [range[1], range[0]];
+
+    if (endOfBarPosition &lt;&#x3D; min || endOfBarPosition &gt;&#x3D; max) {
+      return 0;
+    }
+
+    return isPositiveValue ? max - endOfBarPosition : endOfBarPosition - min;
+  }
+
+  getLabelDomRect(d: BarDatum&lt;TOrdinalValue&gt;): DOMRect {
+    const selection &#x3D; this.barGroups
+      .selectAll&lt;
+        SVGTextElement,
+        BarDatum&lt;TOrdinalValue&gt;
+      &gt;(&#x60;.${this.class.label}&#x60;)
+      .filter((datum) &#x3D;&gt; datum.index &#x3D;&#x3D;&#x3D; d.index);
+    return selection.node().getBoundingClientRect();
+  }
+
+  getLabelX(d: BarDatum&lt;TOrdinalValue&gt;, bbox: DOMRect): number {
+    if (this.config.dimensions.x &#x3D;&#x3D;&#x3D; &#x27;ordinal&#x27;) {
+      return this.getBarWidthOrdinal() / 2;
+    }
+    return this.getLabelQuantitativeAxisPosition(d, bbox);
+  }
+
+  getLabelY(d: BarDatum&lt;TOrdinalValue&gt;, bbox: DOMRect): number {
+    if (this.config.dimensions.y &#x3D;&#x3D;&#x3D; &#x27;ordinal&#x27;) {
+      return this.getBarHeightOrdinal() / 2;
+    }
+    return this.getLabelQuantitativeAxisPosition(d, bbox);
+  }
+
+  getLabelQuantitativeAxisPosition(
+    d: BarDatum&lt;TOrdinalValue&gt;,
+    bbox: DOMRect
+  ): number {
+    if (this.isZeroOrNonNumeric(d.quantitative)) {
+      return this.getLabelPositionForZeroOrNonnumericValue();
+    }
+    return this.getLabelPositionForNumericValue(d, bbox);
+  }
+
+  getLabelPositionForZeroOrNonnumericValue(): number {
+    const positionInPositiveDirection &#x3D;
+      this.positionZeroOrNonNumericValueLabelInPositiveDirection();
+    return (positionInPositiveDirection &amp;&amp;
+      this.config.dimensions.isHorizontal) ||
+      (!positionInPositiveDirection &amp;&amp; this.config.dimensions.isVertical)
+      ? this.config.labels.offset
+      : -this.config.labels.offset;
+  }
+
+  getLabelPositionForNumericValue(
+    d: BarDatum&lt;TOrdinalValue&gt;,
+    bbox: DOMRect
+  ): number {
+    const isPositiveValue &#x3D; d.quantitative &gt; 0;
+    const origin &#x3D; this.getLabelOrigin(d, isPositiveValue);
+    const placeLabelOutsideBar &#x3D; this.labelFitsOutsideBar(d, bbox);
+    if (
+      (this.config.dimensions.isVertical &amp;&amp; placeLabelOutsideBar) ||
+      (this.config.dimensions.isHorizontal &amp;&amp; !placeLabelOutsideBar)
+    ) {
+      return isPositiveValue
+        ? origin - this.config.labels.offset
+        : origin + this.config.labels.offset;
+    }
+    return isPositiveValue
+      ? origin + this.config.labels.offset
+      : origin - this.config.labels.offset;
+  }
+
+  getLabelOrigin(d: BarDatum&lt;TOrdinalValue&gt;, isPositiveValue: boolean): number {
+    if (this.config.dimensions.isHorizontal) {
+      return isPositiveValue ? this.getBarDimensionQuantitative(d, &#x27;x&#x27;) : 0;
+    }
+    return isPositiveValue ? 0 : this.getBarDimensionQuantitative(d, &#x27;y&#x27;);
+  }
+
+  positionZeroOrNonNumericValueLabelInPositiveDirection(): boolean {
+    const quantitativeValues &#x3D; this.config.quantitative.values;
+    const someValuesArePositive &#x3D; quantitativeValues.some((x) &#x3D;&gt; x &gt; 0);
+    if (someValuesArePositive) {
+      return true;
+    }
+    const domainMaxIsGreaterThanZero &#x3D;
+      this.getQuantitativeDomainFromScale()[1] &gt; 0;
+    const everyValueIsEitherZeroOrNonnumeric &#x3D; quantitativeValues.every((x) &#x3D;&gt;
+      this.isZeroOrNonNumeric(x)
+    );
+    return domainMaxIsGreaterThanZero &amp;&amp; everyValueIsEitherZeroOrNonnumeric;
+  }
+
+  isZeroOrNonNumeric(value: unknown): boolean {
+    return value &#x3D;&#x3D;&#x3D; 0 || !isNumber(value);
+  }
+
+  updateBarElements(): void {
+    const barEventElementsSelector &#x3D; this.config.backgrounds?.events
+      ? &#x60;.${this.class.bar}, .${this.class.background}&#x60;
+      : &#x60;.${this.class.bar}&#x60;;
+    const bars &#x3D; select(this.elRef.nativeElement).selectAll&lt;
+      SVGRectElement,
+      number
+    &gt;(barEventElementsSelector);
+    const labels &#x3D; select(this.elRef.nativeElement).selectAll&lt;
+      SVGTextElement,
+      number
+    &gt;(&#x60;.${this.class.label}&#x60;);
+    this.bars.next(bars);
+    this.labels.next(labels);
+  }
+
+  getTooltipData(datum: Datum): BarsTooltipDatum&lt;Datum&gt; {
+    const ordinalValue &#x3D; this.config.ordinal.formatFunction
+      ? ValueUtilities.customFormat(datum, this.config.ordinal.formatFunction)
+      : this.config.ordinal.valueAccessor(datum).toString();
+    const quantitativeValue &#x3D; this.config.quantitative.formatFunction
+      ? ValueUtilities.customFormat(
+          datum,
+          this.config.quantitative.formatFunction
+        )
+      : ValueUtilities.d3Format(
+          this.config.quantitative.valueAccessor(datum),
+          this.config.quantitative.formatSpecifier
+        );
+    const category &#x3D; this.config.color.valueAccessor(datum);
+    const tooltipData: BarsTooltipDatum&lt;Datum&gt; &#x3D; {
+      datum,
+      color: this.scales.color(category),
+      values: {
+        x:
+          this.config.dimensions.x &#x3D;&#x3D;&#x3D; &#x27;ordinal&#x27;
+            ? ordinalValue
+            : quantitativeValue,
+        y:
+          this.config.dimensions.y &#x3D;&#x3D;&#x3D; &#x27;ordinal&#x27;
+            ? ordinalValue
+            : quantitativeValue,
+        category,
+      },
+    };
+    return tooltipData;
+  }
+
+  getSourceDatumFromBarDatum(barDatum: BarDatum&lt;TOrdinalValue&gt;): Datum {
+    return this.config.data.find(
+      (d) &#x3D;&gt;
+        this.config.ordinal.values[barDatum.index] &#x3D;&#x3D;&#x3D;
+          this.config.ordinal.valueAccessor(d) &amp;&amp;
+        this.config.quantitative.values[barDatum.index] &#x3D;&#x3D;&#x3D;
+          this.config.quantitative.valueAccessor(d)
+    );
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'BarsTooltipDatum.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,274 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	   <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/dark.css">
+        <link rel="stylesheet" href="./styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="./" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<h1>Frontend Shared Packages</h1>
+<p>This is a repo/Angular workspace that houses HSI&#39;s Angular libraries and associated applications.</p>
+<p>Currently, the workspace consists of two libraries: <code>ui-components</code> and <code>viz-components</code>, and an app
+that serves as our documentation site, <code>demo-app</code>.</p>
+<h2>VizComponents</h2>
+<p><a href="https://github.com/mathematica-org/viz-components/actions/workflows/unit-testing-linting.yml"><img src="https://github.com/mathematica-org/viz-components/actions/workflows/unit-testing-linting.yml/badge.svg" alt="build, lint, &amp; test" class="img-responsive"></a>
+<a href="https://github.com/mathematica-org/viz-components/actions/workflows/deploy-codeartifact-cloudfront.yml"><img src="https://github.com/mathematica-org/viz-components/actions/workflows/deploy-codeartifact-cloudfront.yml/badge.svg" alt="Publish to CodeArtifact" class="img-responsive"></a></p>
+<p>VizComponents is a library of Angular components built on top of D3 that can be composed by a user
+to create custom visualizations.</p>
+<p>VizComponents takes care of common data viz functionality under the hood, such as setting scales,
+creating axes, and responsively scaling svgs. At the same time Viz Components allows the user to
+fully customize the system of visual marks used to represent data.</p>
+<p>This project was generated with <a href="https://github.com/angular/angular-cli">Angular CLI</a> version
+14.0.0.</p>
+<h2>How to use libraries</h2>
+<ol>
+<li>set your aws credentials (found in <code>~/.aws/credentials</code>)</li>
+<li><code>aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi</code></li>
+<li><code>npm i @hsi/viz-components</code> or <code>npm i @hsi/ui-components</code></li>
+<li>Once the package is installed, you can use it like any normal third party package</li>
+</ol>
+<h2>Example Projects</h2>
+<ul>
+<li><a href="https://github.com/mathematica-org/covid-cohort">Covid Cohort</a></li>
+<li><a href="https://github.com/mathematica-org/MACScorecard-Frontend">Scorecard</a> Uses viz-components bars,
+lines, and geographies. Uses image and data download services. Examples of custom/extended bars,
+lines, and geographies components. Geography is US map, and has small state squares w/hover &amp;
+click actions. Also uses ui-components dropdown, tabs, and table.</li>
+</ul>
+<h2>Feedback, Bugs, and Issues</h2>
+<p>Please submit any feedback, bugs, or issues to the repository&#39;s issue tracker. This keeps everything
+in one location, rather than having Jira tickets scattered across different projects. You&#39;re welcome
+to create jira tickets in external projects to track as well, but there should be a Github Issue to
+track any work that needs to be done in this repository.</p>
+<p>See the Contributing section for more information.</p>
+<h2>Maintainers</h2>
+<p>Maintainers of this package can help integrate this shared package into a project, triage bugs, and
+review pull requests. To become a maintainer, you need to have contributed at least five pull
+requests to the shared package and demonstrate an overall understanding of the architecture used.
+(We want more maintainers!)</p>
+<p>Maintainers are jointly responsible for reviewing issue requests and PRs in a timely manner.</p>
+<p>Our current maintainers are:</p>
+<ul>
+<li>Stephanie Tuerk</li>
+<li>Claire McShane</li>
+<li>Tom Coile</li>
+</ul>
+<p><a href="https://mathematicampr.atlassian.net/wiki/spaces/WEB/pages/2519892380/Shared+Package+Maintenance+and+Development">See more on the role of maintainers here.</a></p>
+<h2>Contributing</h2>
+<ol>
+<li>Creating an issue</li>
+</ol>
+<p>Anyone who has access to the repo may
+<a href="https://github.com/mathematica-org/viz-components/issues">open an issue</a> to track a bug, request
+documentation, or suggest a feature.</p>
+<p>After creating a GitHub issue, drop a link to it in our
+<a href="https://astwebcloud.slack.com/archives/C06865ECFFE">Slack channel</a>.</p>
+<p>Eventually, we&#39;ll probably have some automated alerts sent directly to the Slack channel, but for
+now, see
+<a href="https://mathematicampr.atlassian.net/wiki/spaces/WEB/pages/2593784468/Integrating+Github+and+Slack">this Confluence document</a>
+for info on how to get Slack alerts for updates to issues and PRs.</p>
+<ol start="2">
+<li>Issue approval</li>
+</ol>
+<p>After any issue is created, it will receive the label &quot;awaiting approval.&quot;</p>
+<p>Before development work begins, three people aside from the person who opened the issue need to
+leave a comment on the issue granting approval. Two of these people need to be maintainers.</p>
+<p>Potential approvers should ask clarifying questions in the issue comments if necessary before
+approving. Approving entails agreement that the feature, as detailed in the issue, is a good fit for
+the package.</p>
+<ol start="3">
+<li>Code design.</li>
+</ol>
+<p>During the approval process, any approver/maintainer can tag the issue with the label &quot;needs code
+design document&quot;.</p>
+<p>This entails scoping out what code will be changed, and how. Code design documentation should
+describe any functions&#39; or configs&#39; input/output changes, planned testing, etc. If necessary, a
+draft PR can be opened to describe changes; otherwise, GitHub comments on the issue will suffice.</p>
+<p>All approvers of the issue must sign off on the code design document before the issue moves to
+development.</p>
+<ol start="3">
+<li>Development.</li>
+</ol>
+<p>Any issue that is marked as &quot;ready for development&quot; can be self-assigned by any contributor or
+maintainer. Once assigned, we want ongoing development progress to be made in the form of commits
+pushed to a draft PR or comments written to the issue or draft PR. If you don&#39;t have time to make
+weekly progress on an issue, we ask that you push all your progress to the repo (in the form of a
+draft PR or issue comments) and unassign yourself from the issue.</p>
+<p>(Unassignment will be automated eventually.)</p>
+<ol start="4">
+<li>Code review</li>
+</ol>
+<p>Once you are ready for review, change your draft PR to a normal PR, and ask for reviews in
+<a href="https://astwebcloud.slack.com/archives/C06865ECFFE">hsi-viz-components&#39; Slack channel</a>.</p>
+<p>Two people (at least one maintainer) need to review the PR for it to be merged.</p>
+<h2>Development Best Practices</h2>
+<p>TODO: add some info about best practices</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+
+       <script src="./js/menu-wc.js" defer></script>
+       <script nomodule src="./js/menu-wc_es5.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

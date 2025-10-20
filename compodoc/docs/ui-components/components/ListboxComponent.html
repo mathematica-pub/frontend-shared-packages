@@ -1,0 +1,2890 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ListboxComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>libs/ui-components/src/lib/combobox/listbox/listbox.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnChanges</code>
+                <code>AfterContentInit</code>
+                <code>AfterViewInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">host</td>
+                <td class="col-md-9"><code>{<br>}</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a href="../injectables/ListboxFilteringService.html" target="_self" >ListboxFilteringService</a></code>
+                                <code><a href="../injectables/ListboxScrollService.html" target="_self" >ListboxScrollService</a></code>
+                                <code><a href="../injectables/ActiveIndexService.html" target="_self" >ActiveIndexService</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>hsi-ui-listbox</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./listbox.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./listbox.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#activeIndex" >activeIndex</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#groups" >groups</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#label" >label</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#options" >options</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#scrollableContentRef" >scrollableContentRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#service" >service</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#actionIsTypingChar" >actionIsTypingChar</a>
+                            </li>
+                            <li>
+                                <a href="#emitValue" >emitValue</a>
+                            </li>
+                            <li>
+                                <a href="#getListboxLabelAsBoxPlaceholder" >getListboxLabelAsBoxPlaceholder</a>
+                            </li>
+                            <li>
+                                <a href="#getOptionIndexFromGroups" >getOptionIndexFromGroups</a>
+                            </li>
+                            <li>
+                                <a href="#getSelectedOptions" >getSelectedOptions</a>
+                            </li>
+                            <li>
+                                <a href="#handleOptionClick" >handleOptionClick</a>
+                            </li>
+                            <li>
+                                <a href="#handleOptionMousedown" >handleOptionMousedown</a>
+                            </li>
+                            <li>
+                                <a href="#handleOptionSelect" >handleOptionSelect</a>
+                            </li>
+                            <li>
+                                <a href="#isSelectAllListboxOption" >isSelectAllListboxOption</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterContentInit" >ngAfterContentInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#resetScroll" >resetScroll</a>
+                            </li>
+                            <li>
+                                <a href="#selectOptionFromIndex" >selectOptionFromIndex</a>
+                            </li>
+                            <li>
+                                <a href="#selectSingleSelectOption" >selectSingleSelectOption</a>
+                            </li>
+                            <li>
+                                <a href="#setOnBlurEvent" >setOnBlurEvent</a>
+                            </li>
+                            <li>
+                                <a href="#setOnOptionChanges" >setOnOptionChanges</a>
+                            </li>
+                            <li>
+                                <a href="#setOptionAction" >setOptionAction</a>
+                            </li>
+                            <li>
+                                <a href="#setResetOnClose" >setResetOnClose</a>
+                            </li>
+                            <li>
+                                <a href="#setSelectedEmitting" >setSelectedEmitting</a>
+                            </li>
+                            <li>
+                                <a href="#shouldAutoSelectOptionOnBlur" >shouldAutoSelectOptionOnBlur</a>
+                            </li>
+                            <li>
+                                <a href="#toggleOptionSelected" >toggleOptionSelected</a>
+                            </li>
+                            <li>
+                                <a href="#updateActiveIndexOnExternalChanges" >updateActiveIndexOnExternalChanges</a>
+                            </li>
+                            <li>
+                                <a href="#updateSelectedOptionsToEmit" >updateSelectedOptionsToEmit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#findsOptionOnTyping" >findsOptionOnTyping</a>
+                            </li>
+                            <li>
+                                <a href="#isMultiSelect" >isMultiSelect</a>
+                            </li>
+                            <li>
+                                <a href="#maxHeight" >maxHeight</a>
+                            </li>
+                            <li>
+                                <a href="#ngFormControl" >ngFormControl</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#valueChanges" >valueChanges</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(service: <a href="../injectables/ComboboxService.html" target="_self">ComboboxService</a>, activeIndex: <a href="../injectables/ActiveIndexService.html" target="_self">ActiveIndexService</a>, filtering: <a href="../injectables/ListboxFilteringService.html" target="_self">ListboxFilteringService</a>, scrolling: <a href="../injectables/ListboxScrollService.html" target="_self">ListboxScrollService</a>, destroyRef: DestroyRef)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:79</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>service</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ComboboxService.html" target="_self" >ComboboxService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>activeIndex</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ActiveIndexService.html" target="_self" >ActiveIndexService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>filtering</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ListboxFilteringService.html" target="_self" >ListboxFilteringService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>scrolling</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ListboxScrollService.html" target="_self" >ListboxScrollService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>destroyRef</td>
+                                                  
+                                                        <td>
+                                                                    <code>DestroyRef</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="findsOptionOnTyping"></a>
+                        <b>findsOptionOnTyping</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:67</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isMultiSelect"></a>
+                        <b>isMultiSelect</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:68</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="maxHeight"></a>
+                        <b>maxHeight</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>300</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:69</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngFormControl"></a>
+                        <b>ngFormControl</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FormControl&lt;any | []&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:66</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="valueChanges"></a>
+                        <b>valueChanges</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:71</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="actionIsTypingChar"></a>
+                    <span class="name">
+                        <span ><b>actionIsTypingChar</b></span>
+                        <a href="#actionIsTypingChar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>actionIsTypingChar(action: <a href="../undefineds/OptionAction.html" target="_self">OptionAction | string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="220"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:220</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>action</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#OptionAction" target="_self" >OptionAction | string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emitValue"></a>
+                    <span class="name">
+                        <span ><b>emitValue</b></span>
+                        <a href="#emitValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>emitValue(selections: any[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="155"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:155</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>selections</td>
+                                            <td>
+                                                        <code>any[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getListboxLabelAsBoxPlaceholder"></a>
+                    <span class="name">
+                        <span ><b>getListboxLabelAsBoxPlaceholder</b></span>
+                        <a href="#getListboxLabelAsBoxPlaceholder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getListboxLabelAsBoxPlaceholder()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="247"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:247</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getOptionIndexFromGroups"></a>
+                    <span class="name">
+                        <span ><b>getOptionIndexFromGroups</b></span>
+                        <a href="#getOptionIndexFromGroups"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getOptionIndexFromGroups(groupIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, optionIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="337"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:337</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>groupIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>optionIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSelectedOptions"></a>
+                    <span class="name">
+                        <span ><b>getSelectedOptions</b></span>
+                        <a href="#getSelectedOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSelectedOptions(options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="347"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:347</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleOptionClick"></a>
+                    <span class="name">
+                        <span ><b>handleOptionClick</b></span>
+                        <a href="#handleOptionClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleOptionClick(event: MouseEvent, optionIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, groupIndex?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="258"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:258</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MouseEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>optionIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>groupIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleOptionMousedown"></a>
+                    <span class="name">
+                        <span ><b>handleOptionMousedown</b></span>
+                        <a href="#handleOptionMousedown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleOptionMousedown()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="370"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:370</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleOptionSelect"></a>
+                    <span class="name">
+                        <span ><b>handleOptionSelect</b></span>
+                        <a href="#handleOptionSelect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleOptionSelect(optionIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>, groupIndex?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="272"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:272</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>optionIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>groupIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSelectAllListboxOption"></a>
+                    <span class="name">
+                        <span ><b>isSelectAllListboxOption</b></span>
+                        <a href="#isSelectAllListboxOption"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isSelectAllListboxOption(option: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="331"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:331</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>option</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../components/SelectAllListboxOptionComponent.html" target="_self" >SelectAllListboxOptionComponent</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterContentInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterContentInit</b></span>
+                        <a href="#ngAfterContentInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterContentInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="95"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:95</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="116"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:116</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: SimpleChanges)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="89"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>changes</td>
+                                            <td>
+                                                        <code>SimpleChanges</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetScroll"></a>
+                    <span class="name">
+                        <span ><b>resetScroll</b></span>
+                        <a href="#resetScroll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resetScroll()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="239"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:239</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectOptionFromIndex"></a>
+                    <span class="name">
+                        <span ><b>selectOptionFromIndex</b></span>
+                        <a href="#selectOptionFromIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectOptionFromIndex(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="251"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:251</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectSingleSelectOption"></a>
+                    <span class="name">
+                        <span ><b>selectSingleSelectOption</b></span>
+                        <a href="#selectSingleSelectOption"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectSingleSelectOption(option: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent</a>, options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="317"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:317</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>option</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setOnBlurEvent"></a>
+                    <span class="name">
+                        <span ><b>setOnBlurEvent</b></span>
+                        <a href="#setOnBlurEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setOnBlurEvent()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="164"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:164</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setOnOptionChanges"></a>
+                    <span class="name">
+                        <span ><b>setOnOptionChanges</b></span>
+                        <a href="#setOnOptionChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setOnOptionChanges()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="122"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:122</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setOptionAction"></a>
+                    <span class="name">
+                        <span ><b>setOptionAction</b></span>
+                        <a href="#setOptionAction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setOptionAction()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="196"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:196</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setResetOnClose"></a>
+                    <span class="name">
+                        <span ><b>setResetOnClose</b></span>
+                        <a href="#setResetOnClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setResetOnClose()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="224"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:224</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setSelectedEmitting"></a>
+                    <span class="name">
+                        <span ><b>setSelectedEmitting</b></span>
+                        <a href="#setSelectedEmitting"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setSelectedEmitting()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="135"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:135</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shouldAutoSelectOptionOnBlur"></a>
+                    <span class="name">
+                        <span ><b>shouldAutoSelectOptionOnBlur</b></span>
+                        <a href="#shouldAutoSelectOptionOnBlur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>shouldAutoSelectOptionOnBlur(activeIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="185"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:185</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>activeIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleOptionSelected"></a>
+                    <span class="name">
+                        <span ><b>toggleOptionSelected</b></span>
+                        <a href="#toggleOptionSelected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleOptionSelected(option: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent</a>, options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="296"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:296</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>option</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateActiveIndexOnExternalChanges"></a>
+                    <span class="name">
+                        <span ><b>updateActiveIndexOnExternalChanges</b></span>
+                        <a href="#updateActiveIndexOnExternalChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateActiveIndexOnExternalChanges()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="355"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:355</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateSelectedOptionsToEmit"></a>
+                    <span class="name">
+                        <span ><b>updateSelectedOptionsToEmit</b></span>
+                        <a href="#updateSelectedOptionsToEmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateSelectedOptionsToEmit(options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="312"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:312</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeIndex"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>activeIndex</b></span>
+                        <a href="#activeIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ActiveIndexService.html" target="_self" >ActiveIndexService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:83</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="groups"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>groups</b></span>
+                        <a href="#groups"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/ListboxGroupComponent.html" target="_self" >QueryList&lt;ListboxGroupComponent&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ContentChildren(ListboxGroupComponent)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="label"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>label</b></span>
+                        <a href="#label"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/ListboxLabelComponent.html" target="_self" >ListboxLabelComponent</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ContentChild(ListboxLabelComponent, {descendants: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:75</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="options"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>options</b></span>
+                        <a href="#options"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/ListboxOptionComponent.html" target="_self" >QueryList&lt;ListboxOptionComponent&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ContentChildren(ListboxOptionComponent, {descendants: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:77</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollableContentRef"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>scrollableContentRef</b></span>
+                        <a href="#scrollableContentRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLDivElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;scrollableContent&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="service"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>service</b></span>
+                        <a href="#service"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ComboboxService.html" target="_self" >ComboboxService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/listbox.component.ts:82</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  ContentChild,
+  ContentChildren,
+  DestroyRef,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  QueryList,
+  SimpleChanges,
+  ViewChild,
+} from &#x27;@angular/core&#x27;;
+import { takeUntilDestroyed } from &#x27;@angular/core/rxjs-interop&#x27;;
+import { FormControl } from &#x27;@angular/forms&#x27;;
+import {
+  combineLatest,
+  delay,
+  filter,
+  map,
+  pairwise,
+  skip,
+  take,
+  withLatestFrom,
+} from &#x27;rxjs&#x27;;
+import {
+  ComboboxService,
+  FocusTextbox,
+  OptionAction,
+} from &#x27;../combobox.service&#x27;;
+import { ListboxGroupComponent } from &#x27;../listbox-group/listbox-group.component&#x27;;
+import { ListboxLabelComponent } from &#x27;../listbox-label/listbox-label.component&#x27;;
+import { ListboxOptionComponent } from &#x27;../listbox-option/listbox-option.component&#x27;;
+import { SelectAllListboxOptionComponent } from &#x27;../select-all-listbox-option/select-all-listbox-option.component&#x27;;
+import { ActiveIndexService } from &#x27;./active-index.service&#x27;;
+import { ListboxFilteringService } from &#x27;./listbox-filtering.service&#x27;;
+import { ListboxScrollService } from &#x27;./listbox-scroll.service&#x27;;
+
+export type SelectedCountLabel &#x3D; {
+  singular: string;
+  plural: string;
+};
+
+@Component({
+  selector: &#x27;hsi-ui-listbox&#x27;,
+  imports: [CommonModule],
+  providers: [
+    ListboxFilteringService,
+    ListboxScrollService,
+    ActiveIndexService,
+  ],
+  templateUrl: &#x27;./listbox.component.html&#x27;,
+  styleUrls: [&#x27;./listbox.component.scss&#x27;],
+  host: {
+    class: &#x27;hsi-ui-listbox-component&#x27;,
+  },
+})
+export class ListboxComponent
+  implements OnChanges, AfterContentInit, AfterViewInit
+{
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @Input() ngFormControl: FormControl&lt;any | any[]&gt;;
+  @Input() findsOptionOnTyping &#x3D; true;
+  @Input() isMultiSelect &#x3D; false;
+  @Input() maxHeight &#x3D; 300;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @Output() valueChanges &#x3D; new EventEmitter&lt;any | any[]&gt;();
+  @ViewChild(&#x27;scrollableContent&#x27;)
+  scrollableContentRef: ElementRef&lt;HTMLDivElement&gt;;
+  @ContentChild(ListboxLabelComponent, { descendants: false })
+  label: ListboxLabelComponent;
+  @ContentChildren(ListboxOptionComponent, { descendants: false })
+  options: QueryList&lt;ListboxOptionComponent&gt;;
+  @ContentChildren(ListboxGroupComponent)
+  groups: QueryList&lt;ListboxGroupComponent&gt;;
+
+  constructor(
+    public service: ComboboxService,
+    public activeIndex: ActiveIndexService,
+    protected filtering: ListboxFilteringService,
+    protected scrolling: ListboxScrollService,
+    protected destroyRef: DestroyRef
+  ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes[&#x27;isMultiSelect&#x27;]) {
+      this.service.isMultiSelect &#x3D; this.isMultiSelect;
+    }
+  }
+
+  ngAfterContentInit(): void {
+    this.service.setProjectedContent(this.groups, this.options);
+    this.options
+      .toArray()
+      .concat(
+        this.groups.toArray().flatMap((group) &#x3D;&gt; group.options?.toArray() ?? [])
+      )
+      .filter((option) &#x3D;&gt; option instanceof SelectAllListboxOptionComponent)
+      .forEach((option) &#x3D;&gt; {
+        option.setControlledOptions();
+        option.listenForOptionSelections();
+      });
+    this.activeIndex.init(this.service.allOptions$, this.destroyRef);
+    this.setSelectedEmitting();
+    this.setOnBlurEvent();
+    this.setOptionAction();
+    setTimeout(() &#x3D;&gt; {
+      this.updateActiveIndexOnExternalChanges();
+    }, 0);
+  }
+
+  ngAfterViewInit(): void {
+    this.activeIndex.setScrollContentRef(this.scrollableContentRef);
+    this.setResetOnClose();
+    this.setOnOptionChanges();
+  }
+
+  setOnOptionChanges(): void {
+    this.service.allOptions$.pipe(take(1), delay(0)).subscribe(() &#x3D;&gt; {
+      this.service.setProjectedContentIsInDOM();
+    });
+
+    // cannot pass allOptions$ to handleOptionClick through template because @if (allOptions | async; as allOptions) will delay rendering of option.template and option.label will not be defined when setBoxLabel is called. Thus subscribe and set allOptions in here.
+    this.service.allOptions$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((options) &#x3D;&gt; {
+        this.service.allOptions &#x3D; options;
+      });
+  }
+
+  setSelectedEmitting(): void {
+    this.service.selectedOptionsToEmit$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        skip(1),
+        map((options) &#x3D;&gt; {
+          const selections &#x3D; [];
+          for (const option of options) {
+            const value &#x3D; option.valueToEmit;
+            selections.push(value);
+          }
+          return selections;
+        })
+      )
+      .subscribe((value) &#x3D;&gt; {
+        this.emitValue(value);
+      });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  emitValue(selections: any[]): void {
+    const value &#x3D; this.isMultiSelect ? selections : selections[0];
+    if (this.ngFormControl) {
+      this.ngFormControl.setValue(value);
+    } else {
+      this.valueChanges.emit(value);
+    }
+  }
+
+  setOnBlurEvent() {
+    this.service.textboxBlur$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        withLatestFrom(
+          combineLatest([this.service.isOpen$, this.activeIndex.activeIndex$]),
+          this.service.allOptions$
+        ),
+        filter(([, [isOpen]]) &#x3D;&gt; isOpen)
+      )
+      .subscribe(([, [isOpen, activeIndex], options]) &#x3D;&gt; {
+        if (isOpen) {
+          if (this.shouldAutoSelectOptionOnBlur(activeIndex, options)) {
+            const index &#x3D; activeIndex ?? 0;
+            this.selectOptionFromIndex(index, options);
+          }
+          this.service.closeListbox();
+        }
+      });
+  }
+
+  shouldAutoSelectOptionOnBlur(
+    activeIndex: number,
+    options: ListboxOptionComponent[]
+  ): boolean {
+    const activeIndexOptionIsSelected &#x3D; options[activeIndex]?.isSelected();
+    return (
+      this.service.shouldAutoSelectOnListboxClose &amp;&amp;
+      !activeIndexOptionIsSelected
+    );
+  }
+
+  setOptionAction() {
+    this.service.optionAction$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        withLatestFrom(this.activeIndex.activeIndex$, this.service.allOptions$)
+      )
+      .subscribe(([action, activeIndex, options]) &#x3D;&gt; {
+        if (options.length &#x3D;&#x3D;&#x3D; 0) {
+          this.service.emitTextboxFocus();
+          return;
+        }
+        if (!this.actionIsTypingChar(action)) {
+          if (action &#x3D;&#x3D;&#x3D; OptionAction.select) {
+            this.selectOptionFromIndex(activeIndex, options);
+          }
+          //double check because typesafety on this kind of sucks, could add &amp;&amp; str.match(/\S| /)
+        } else if (action.length &#x3D;&#x3D;&#x3D; 1) {
+          this.activeIndex.updateActiveIndexFromKeyChar(action, options);
+        } else {
+          throw new Error(&#x60;Invalid action: ${action}&#x60;);
+        }
+      });
+  }
+
+  actionIsTypingChar(action: OptionAction | string): boolean {
+    return !(Object.values(OptionAction) as string[]).includes(action);
+  }
+
+  setResetOnClose(): void {
+    this.service.isOpen$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        skip(1),
+        filter((isOpen) &#x3D;&gt; !isOpen),
+        withLatestFrom(this.service.allOptions$)
+      )
+      .subscribe(([, options]) &#x3D;&gt; {
+        this.activeIndex.setActiveIndexToFirstSelectedOrDefault(options);
+        this.resetScroll();
+        this.service.emitTextboxFocus(FocusTextbox.includeMobile);
+      });
+  }
+
+  resetScroll(): void {
+    if (this.scrolling.isScrollable(this.scrollableContentRef.nativeElement)) {
+      this.scrolling.scrollToTop(
+        this.scrollableContentRef.nativeElement.parentElement
+      );
+    }
+  }
+
+  getListboxLabelAsBoxPlaceholder(): string {
+    return this.label?.label?.nativeElement.innerText || &#x27;&#x27;;
+  }
+
+  selectOptionFromIndex(
+    index: number,
+    options: ListboxOptionComponent[]
+  ): void {
+    this.handleOptionSelect(index, options);
+  }
+
+  handleOptionClick(
+    event: MouseEvent,
+    optionIndex: number,
+    groupIndex?: number
+  ): void {
+    event.stopPropagation();
+    this.service.setIsKeyboardEvent(false);
+    this.handleOptionSelect(optionIndex, this.service.allOptions, groupIndex);
+    if (!this.isMultiSelect) {
+      this.service.closeListbox();
+    }
+    this.service.emitTextboxFocus();
+  }
+
+  handleOptionSelect(
+    optionIndex: number,
+    options: ListboxOptionComponent[],
+    groupIndex?: number
+  ): void {
+    const index &#x3D; groupIndex
+      ? this.getOptionIndexFromGroups(groupIndex, optionIndex)
+      : optionIndex;
+    const option &#x3D; options[index];
+    if (!option || option.isDisabled()) return;
+    this.toggleOptionSelected(option, options);
+    if (options[optionIndex].isSelected()) {
+      this.activeIndex.setActiveIndex(index, null, options);
+    } else {
+      let nextSelectedIndex &#x3D; options.findIndex(
+        (o, i) &#x3D;&gt; i &gt; optionIndex &amp;&amp; o.isSelected()
+      );
+      if (nextSelectedIndex &#x3D;&#x3D;&#x3D; -1) {
+        nextSelectedIndex &#x3D; options.findIndex((o) &#x3D;&gt; o.isSelected());
+      }
+      this.activeIndex.setActiveIndex(nextSelectedIndex, null, options);
+    }
+  }
+
+  toggleOptionSelected(
+    option: ListboxOptionComponent,
+    options: ListboxOptionComponent[]
+  ): void {
+    if (!option || option.isDisabled()) {
+      this.service.emitTextboxFocus();
+      return;
+    }
+    if (this.isMultiSelect) {
+      option.toggleSelected();
+      this.updateSelectedOptionsToEmit(options);
+    } else {
+      this.selectSingleSelectOption(option, options);
+    }
+  }
+
+  updateSelectedOptionsToEmit(options: ListboxOptionComponent[]): void {
+    const selected &#x3D; this.getSelectedOptions(options);
+    this.service.setSelectedOptionsToEmit(selected);
+  }
+
+  selectSingleSelectOption(
+    option: ListboxOptionComponent,
+    options: ListboxOptionComponent[]
+  ): void {
+    if (option.isSelected()) return;
+    options.forEach((o) &#x3D;&gt; {
+      if (o !&#x3D;&#x3D; option) {
+        o.deselect();
+      }
+    });
+    option.select();
+    this.updateSelectedOptionsToEmit(options);
+  }
+
+  isSelectAllListboxOption(
+    option: ListboxOptionComponent
+  ): option is SelectAllListboxOptionComponent {
+    return option instanceof SelectAllListboxOptionComponent;
+  }
+
+  getOptionIndexFromGroups(groupIndex: number, optionIndex: number): number {
+    return (
+      this.groups
+        .toArray()
+        .slice(0, groupIndex)
+        .reduce((acc, curr) &#x3D;&gt; acc + curr.options.toArray().length, 0) +
+      optionIndex
+    );
+  }
+
+  getSelectedOptions(
+    options: ListboxOptionComponent[]
+  ): ListboxOptionComponent[] {
+    return options?.filter(
+      (option) &#x3D;&gt; !this.isSelectAllListboxOption(option) &amp;&amp; option.isSelected()
+    );
+  }
+
+  updateActiveIndexOnExternalChanges(): void {
+    this.service.optionPropertyChanges$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        pairwise(),
+        filter(([prev, curr]) &#x3D;&gt; {
+          return !!prev &amp;&amp; !!curr &amp;&amp; prev.optionValue !&#x3D;&#x3D; curr.optionValue;
+        }),
+        withLatestFrom(this.service.allOptions$, this.activeIndex.activeIndex$)
+      )
+      .subscribe(([, options]) &#x3D;&gt; {
+        this.activeIndex.setActiveIndexToFirstSelectedOrDefault(options);
+      });
+  }
+
+  handleOptionMousedown(): void {
+    this.service.ignoreBlur &#x3D; true;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div
+  #scrollableContent
+  role&#x3D;&quot;listbox&quot;
+  tabindex&#x3D;&quot;-1&quot;
+  [id]&#x3D;&quot;service.id + &#x27;-listbox&#x27;&quot;
+  class&#x3D;&quot;hsi-ui-listbox&quot;
+  [class.open]&#x3D;&quot;service.isOpen$ | async&quot;
+  [style.--max-reveal-height.px]&#x3D;&quot;maxHeight&quot;
+  [attr.aria-labelledby]&#x3D;&quot;
+    (service.label$ | async) ? service.comboboxLabelId : label?.id
+  &quot;
+  [attr.aria-multiselectable]&#x3D;&quot;isMultiSelect&quot;
+&gt;
+  &lt;ng-container
+    *ngTemplateOutlet&#x3D;&quot;label?.labelContent || nullContent&quot;
+  &gt;&lt;/ng-container&gt;
+  @if ((service.groups$ | async)?.length &gt; 0) {
+    &lt;ng-container *ngTemplateOutlet&#x3D;&quot;groupedOptions&quot;&gt;&lt;/ng-container&gt;
+  } @else {
+    &lt;ng-container *ngTemplateOutlet&#x3D;&quot;options&quot;&gt;&lt;/ng-container&gt;
+  }
+&lt;/div&gt;
+
+&lt;ng-template #options&gt;
+  @for (
+    option of service.allOptions$ | async;
+    track option.id;
+    let i &#x3D; $index
+  ) {
+    &lt;ng-container
+      *ngTemplateOutlet&#x3D;&quot;
+        optionTemplate;
+        context: {
+          $implicit: option,
+          index: i,
+          groupIndex: null,
+        }
+      &quot;
+    &gt;&lt;/ng-container&gt;
+  }
+&lt;/ng-template&gt;
+
+&lt;ng-template #groupedOptions&gt;
+  @for (group of service.groups$ | async; track $index; let i &#x3D; $index) {
+    &lt;div class&#x3D;&quot;hsi-ui-listbox-group-container&quot;&gt;
+      &lt;div
+        role&#x3D;&quot;group&quot;
+        tabIndex&#x3D;&quot;-1&quot;
+        class&#x3D;&quot;hsi-ui-listbox-group&quot;
+        [ngClass]&#x3D;&quot;&#x27;listbox-group-&#x27; + i&quot;
+        [attr.aria-labelledby]&#x3D;&quot;group.label?.id&quot;
+      &gt;
+        @if (group.label) {
+          &lt;div
+            role&#x3D;&quot;presentation&quot;
+            [id]&#x3D;&quot;group.label?.id&quot;
+            class&#x3D;&quot;hsi-ui-listbox-group-label&quot;
+            [ngClass]&#x3D;&quot;&#x27;hsi-ui-listbox-group-&#x27; + i + &#x27;-label&#x27;&quot;
+          &gt;
+            &lt;ng-container
+              *ngTemplateOutlet&#x3D;&quot;group.label?.labelContent || nullContent&quot;
+            &gt;&lt;/ng-container&gt;
+          &lt;/div&gt;
+        }
+        @for (
+          option of group.options$ | async;
+          track option.id;
+          let j &#x3D; $index
+        ) {
+          &lt;ng-container
+            *ngTemplateOutlet&#x3D;&quot;
+              optionTemplate;
+              context: {
+                $implicit: option,
+                index: j,
+                groupIndex: i,
+              }
+            &quot;
+          &gt;&lt;/ng-container&gt;
+        }
+      &lt;/div&gt;
+    &lt;/div&gt;
+  }
+&lt;/ng-template&gt;
+
+&lt;ng-template
+  #optionTemplate
+  let-option
+  let-index&#x3D;&quot;index&quot;
+  let-groupIndex&#x3D;&quot;groupIndex&quot;
+&gt;
+  &lt;div
+    role&#x3D;&quot;option&quot;
+    tabindex&#x3D;&quot;-1&quot;
+    [id]&#x3D;&quot;
+      service.id +
+      &#x27;-listbox-option-&#x27; +
+      (groupIndex !&#x3D;&#x3D; null
+        ? getOptionIndexFromGroups(groupIndex, index)
+        : index)
+    &quot;
+    class&#x3D;&quot;hsi-ui-listbox-option&quot;
+    [class.grouped-option]&#x3D;&quot;groupIndex !&#x3D;&#x3D; null&quot;
+    [ngClass]&#x3D;&quot;
+      groupIndex !&#x3D;&#x3D; null
+        ? &#x27;hsi-ui-listbox-option-&#x27; + getOptionIndexFromGroups(groupIndex, index)
+        : &#x27;hsi-ui-listbox-option-&#x27; + index
+    &quot;
+    [class.current]&#x3D;&quot;
+      (activeIndex.activeIndex$ | async) &#x3D;&#x3D;&#x3D;
+        (groupIndex !&#x3D;&#x3D; null
+          ? getOptionIndexFromGroups(groupIndex, index)
+          : index) &amp;&amp; (option.disabled$ | async) !&#x3D;&#x3D; true
+    &quot;
+    [class.disabled]&#x3D;&quot;option.disabled$ | async&quot;
+    [class.keyboard-current]&#x3D;&quot;
+      (service.isKeyboardEvent$ | async) &amp;&amp;
+      (activeIndex.activeIndex$ | async) &#x3D;&#x3D;&#x3D;
+        (groupIndex !&#x3D;&#x3D; null
+          ? getOptionIndexFromGroups(groupIndex, index)
+          : index) &amp;&amp;
+      (option.disabled$ | async) !&#x3D;&#x3D; true
+    &quot;
+    [class.multi]&#x3D;&quot;isMultiSelect&quot;
+    [class.selected]&#x3D;&quot;option.selected$ | async&quot;
+    [attr.aria-checked]&#x3D;&quot;isMultiSelect ? (option.selected$ | async) : null&quot;
+    [attr.aria-selected]&#x3D;&quot;!isMultiSelect ? (option.selected$ | async) : null&quot;
+    [attr.aria-disabled]&#x3D;&quot;option.disabled$ | async&quot;
+    data-cy&#x3D;&quot;listbox-option&quot;
+    (click)&#x3D;&quot;handleOptionClick($event, index, groupIndex)&quot;
+    (mousedown)&#x3D;&quot;handleOptionMousedown()&quot;
+  &gt;
+    &lt;ng-container *ngTemplateOutlet&#x3D;&quot;option.template&quot;&gt;&lt;/ng-container&gt;
+  &lt;/div&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #nullContent&gt;&lt;/ng-template&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./listbox.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">:host {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: var(--hsi-ui-listbox-z-index);
+  background: var(--hsi-ui-listbox-background);
+  border-bottom-left-radius: var(--hsi-ui-combobox-border-radius);
+  border-bottom-right-radius: var(--hsi-ui-combobox-border-radius);
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+.hsi-ui-listbox {
+  padding-top: var(--hsi-ui-listbox-padding-top);
+  background: var(--hsi-ui-listbox-background);
+  border-left: var(--hsi-ui-combobox-border-width) solid
+    var(--hsi-ui-combobox-border-color);
+  border-right: var(--hsi-ui-combobox-border-width) solid
+    var(--hsi-ui-combobox-border-color);
+  border-bottom: var(--hsi-ui-combobox-border-width) solid
+    var(--hsi-ui-combobox-border-color);
+  border-bottom-left-radius: var(--hsi-ui-combobox-border-radius);
+  border-bottom-right-radius: var(--hsi-ui-combobox-border-radius);
+  max-height: var(--hsi-ui-listbox-max-height);
+  overflow-y: auto;
+}
+
+.hsi-ui-listbox:not(.open) {
+  display: none;
+}
+
+.hsi-ui-listbox-option {
+  display: block;
+  cursor: pointer;
+  margin-left: var(--hsi-ui-listbox-padding-left);
+  margin-right: var(--hsi-ui-listbox-padding-right);
+}
+
+.hsi-ui-listbox-option:not(.grouped-option):last-child,
+.hsi-ui-listbox-group-container:last-child .hsi-ui-listbox-option:last-child,
+.hsi-ui-listbox-option.current.keyboard-current:not(.grouped-option):last-child,
+.hsi-ui-listbox-group-container:last-child
+  .hsi-ui-listbox-option.current.keyboard-current:last-child {
+  margin-bottom: var(--hsi-ui-listbox-padding-bottom);
+  border-bottom-left-radius: var(--hsi-ui-combobox-border-radius);
+  border-bottom-right-radius: var(--hsi-ui-combobox-border-radius);
+}
+
+.hsi-ui-listbox-option:hover {
+  background: var(--hsi-ui-listbox-option-hover-background);
+  border-radius: var(--hsi-ui-listbox-option-hover-border-radius);
+}
+
+.hsi-ui-listbox-option.selected {
+  background: var(--hsi-ui-listbox-option-selected-background);
+  border-radius: var(--hsi-ui-listbox-option-selected-border-radius);
+}
+
+.hsi-ui-listbox-option.disabled {
+  color: var(--hsi-ui-listbox-option-disabled-color);
+}
+
+.hsi-ui-listbox-option.current.keyboard-current {
+  background: var(--hsi-ui-listbox-option-current-background);
+  color: var(--hsi-ui-listbox-option-current-color);
+  border-radius: var(--hsi-ui-listbox-option-current-border-radius);
+}
+</code></pre>
+    </div>
+
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div  #scrollableContent  role="listbox"  tabindex="-1"  [id]="service.id + \'-listbox\'"  class="hsi-ui-listbox"  [class.open]="service.isOpen$ | async"  [style.--max-reveal-height.px]="maxHeight"  [attr.aria-labelledby]="    (service.label$ | async) ? service.comboboxLabelId : label?.id  "  [attr.aria-multiselectable]="isMultiSelect">  <ng-container    *ngTemplateOutlet="label?.labelContent || nullContent"  ></ng-container>  @if ((service.groups$ | async)?.length > 0) {    <ng-container *ngTemplateOutlet="groupedOptions"></ng-container>  } @else {    <ng-container *ngTemplateOutlet="options"></ng-container>  }</div><ng-template #options>  @for (    option of service.allOptions$ | async;    track option.id;    let i = $index  ) {    <ng-container      *ngTemplateOutlet="        optionTemplate;        context: {          $implicit: option,          index: i,          groupIndex: null,        }      "    ></ng-container>  }</ng-template><ng-template #groupedOptions>  @for (group of service.groups$ | async; track $index; let i = $index) {    <div class="hsi-ui-listbox-group-container">      <div        role="group"        tabIndex="-1"        class="hsi-ui-listbox-group"        [ngClass]="\'listbox-group-\' + i"        [attr.aria-labelledby]="group.label?.id"      >        @if (group.label) {          <div            role="presentation"            [id]="group.label?.id"            class="hsi-ui-listbox-group-label"            [ngClass]="\'hsi-ui-listbox-group-\' + i + \'-label\'"          >            <ng-container              *ngTemplateOutlet="group.label?.labelContent || nullContent"            ></ng-container>          </div>        }        @for (          option of group.options$ | async;          track option.id;          let j = $index        ) {          <ng-container            *ngTemplateOutlet="              optionTemplate;              context: {                $implicit: option,                index: j,                groupIndex: i,              }            "          ></ng-container>        }      </div>    </div>  }</ng-template><ng-template  #optionTemplate  let-option  let-index="index"  let-groupIndex="groupIndex">  <div    role="option"    tabindex="-1"    [id]="      service.id +      \'-listbox-option-\' +      (groupIndex !== null        ? getOptionIndexFromGroups(groupIndex, index)        : index)    "    class="hsi-ui-listbox-option"    [class.grouped-option]="groupIndex !== null"    [ngClass]="      groupIndex !== null        ? \'hsi-ui-listbox-option-\' + getOptionIndexFromGroups(groupIndex, index)        : \'hsi-ui-listbox-option-\' + index    "    [class.current]="      (activeIndex.activeIndex$ | async) ===        (groupIndex !== null          ? getOptionIndexFromGroups(groupIndex, index)          : index) && (option.disabled$ | async) !== true    "    [class.disabled]="option.disabled$ | async"    [class.keyboard-current]="      (service.isKeyboardEvent$ | async) &&      (activeIndex.activeIndex$ | async) ===        (groupIndex !== null          ? getOptionIndexFromGroups(groupIndex, index)          : index) &&      (option.disabled$ | async) !== true    "    [class.multi]="isMultiSelect"    [class.selected]="option.selected$ | async"    [attr.aria-checked]="isMultiSelect ? (option.selected$ | async) : null"    [attr.aria-selected]="!isMultiSelect ? (option.selected$ | async) : null"    [attr.aria-disabled]="option.disabled$ | async"    data-cy="listbox-option"    (click)="handleOptionClick($event, index, groupIndex)"    (mousedown)="handleOptionMousedown()"  >    <ng-container *ngTemplateOutlet="option.template"></ng-container>  </div></ng-template><ng-template #nullContent></ng-template></div>'
+    var COMPONENTS = [{'name': 'ComboboxComponent', 'selector': 'hsi-ui-combobox'},{'name': 'ComboboxLabelComponent', 'selector': 'hsi-ui-combobox-label'},{'name': 'EditableTextboxComponent', 'selector': 'hsi-ui-editable-textbox'},{'name': 'HsiUiDirectoryComponent', 'selector': 'hsi-ui-directory'},{'name': 'ListboxComponent', 'selector': 'hsi-ui-listbox'},{'name': 'ListboxGroupComponent', 'selector': 'hsi-ui-listbox-group'},{'name': 'ListboxLabelComponent', 'selector': 'hsi-ui-listbox-label'},{'name': 'ListboxOptionComponent', 'selector': 'hsi-ui-listbox-option'},{'name': 'SelectAllListboxOptionComponent', 'selector': 'hsi-ui-select-all-listbox-option'},{'name': 'SingleSortHeaderComponent', 'selector': '[hsi-ui-single-sort-header]'},{'name': 'TabBodyComponent', 'selector': 'hsi-ui-tab-body'},{'name': 'TabItemComponent', 'selector': 'hsi-ui-tab-item'},{'name': 'TabLabelComponent', 'selector': 'hsi-ui-tab-label'},{'name': 'TableComponent', 'selector': 'hsi-ui-table'},{'name': 'TabsComponent', 'selector': 'hsi-ui-tabs'},{'name': 'TextboxComponent', 'selector': 'hsi-ui-textbox'}];
+    var DIRECTIVES = [{'name': 'TabContentDirective', 'selector': '[hsiUiTabContent]'}];
+    var ACTUAL_COMPONENT = {'name': 'ListboxComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ListboxComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,1902 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  DotsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>libs/viz-components/src/lib/dots/dots.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="../directives/VicXyPrimaryMarks.html" target="_self" >VicXyPrimaryMarks</a></code>
+    </p>
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">host</td>
+                <td class="col-md-9"><code>{<br>}</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a href="../components/DotsComponent.html" target="_self" >{ provide: VIC_PRIMARY_MARKS, useExisting: DotsComponent }</a></code>
+                                <code><a href="../components/DotsComponent.html" target="_self" >{ provide: DOTS, useExisting: DotsComponent }</a></code>
+                                <code><a href="../classes/Chart.html" target="_self" >{ provide: ChartComponent, useExisting: XyChartComponent }</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>[vic-primary-marks-dots]</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./dots.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#dotGroups" >dotGroups</a>
+                            </li>
+                            <li>
+                                <a href="#dots" >dots</a>
+                            </li>
+                            <li>
+                                <a href="#dots$" >dots$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#elRef" >elRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#scales" >scales</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#zone" >zone</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier"></span>
+                                <a href="#chart" >chart</a>
+                            </li>
+                            <li>
+                                <a href="#requiredScales" >requiredScales</a>
+                            </li>
+                            <li>
+                                <a href="#destroyRef" >destroyRef</a>
+                            </li>
+                            <li>
+                                <a href="#ranges" >ranges</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#drawDots" >drawDots</a>
+                            </li>
+                            <li>
+                                <a href="#drawMarks" >drawMarks</a>
+                            </li>
+                            <li>
+                                <a href="#getDotDatumFromIndex" >getDotDatumFromIndex</a>
+                            </li>
+                            <li>
+                                <a href="#getFormattedValue" >getFormattedValue</a>
+                            </li>
+                            <li>
+                                <a href="#getTooltipData" >getTooltipData</a>
+                            </li>
+                            <li>
+                                <a href="#isContinuousNumericDimension" >isContinuousNumericDimension</a>
+                            </li>
+                            <li>
+                                <a href="#setChartScalesFromRanges" >setChartScalesFromRanges</a>
+                            </li>
+                            <li>
+                                <a href="#updateDotElements" >updateDotElements</a>
+                            </li>
+                            <li>
+                                <a href="#getTransitionDuration" >getTransitionDuration</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#subscribeToRanges" >subscribeToRanges</a>
+                            </li>
+                            <li>
+                                <a href="#subscribeToScales" >subscribeToScales</a>
+                            </li>
+                            <li>
+                                <a href="#initFromConfig" >initFromConfig</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#config" >config</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#class" >class</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="config"></a>
+                        <b>config</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TPrimaryMarksConfig</code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../directives/PrimaryMarks.html" target="_self" >PrimaryMarks</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../directives/PrimaryMarks.html#source" target="_self" >PrimaryMarks:26</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawDots"></a>
+                    <span class="name">
+                        <span ><b>drawDots</b></span>
+                        <a href="#drawDots"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawDots(transitionDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="134"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/dots.component.ts:134</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>transitionDuration</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawMarks"></a>
+                    <span class="name">
+                        <span ><b>drawMarks</b></span>
+                        <a href="#drawMarks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawMarks()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/Marks.html" target="_self" >Marks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/Marks.html#source" target="_self" >Marks:128</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDotDatumFromIndex"></a>
+                    <span class="name">
+                        <span ><b>getDotDatumFromIndex</b></span>
+                        <a href="#getDotDatumFromIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDotDatumFromIndex(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="235"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/dots.component.ts:235</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#DotDatum" target="_self" >DotDatum</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFormattedValue"></a>
+                    <span class="name">
+                        <span ><b>getFormattedValue</b></span>
+                        <a href="#getFormattedValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getFormattedValue(dimension: "x" | "y", datum: Datum)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="269"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/dots.component.ts:269</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>dimension</td>
+                                            <td>
+                                                        <code>&quot;x&quot; | &quot;y&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>datum</td>
+                                            <td>
+                                                        <code>Datum</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTooltipData"></a>
+                    <span class="name">
+                        <span ><b>getTooltipData</b></span>
+                        <a href="#getTooltipData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTooltipData(dotDatum: <a href="../undefineds/DotDatum.html" target="_self">DotDatum</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="253"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/dots.component.ts:253</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>dotDatum</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#DotDatum" target="_self" >DotDatum</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/DotsTooltipDatum.html" target="_self" >DotsTooltipDatum&lt;Datum&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isContinuousNumericDimension"></a>
+                    <span class="name">
+                        <span ><b>isContinuousNumericDimension</b></span>
+                        <a href="#isContinuousNumericDimension"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isContinuousNumericDimension(dimension: <a href="../classes/DataDimension.html" target="_self">DataDimension&lt;Datum | DataValue&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="283"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/dots.component.ts:283</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>dimension</td>
+                                            <td>
+                                                            <code><a href="../classes/DataDimension.html" target="_self" >DataDimension&lt;Datum | DataValue&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/NumberDimension.html" target="_self" >NumberDimension&lt;Datum&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setChartScalesFromRanges"></a>
+                    <span class="name">
+                        <span ><b>setChartScalesFromRanges</b></span>
+                        <a href="#setChartScalesFromRanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setChartScalesFromRanges(useTransition: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/PrimaryMarks.html" target="_self" >PrimaryMarks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/PrimaryMarks.html#source" target="_self" >PrimaryMarks:112</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>useTransition</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateDotElements"></a>
+                    <span class="name">
+                        <span ><b>updateDotElements</b></span>
+                        <a href="#updateDotElements"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateDotElements()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="245"
+                                    class="link-to-prism">libs/viz-components/src/lib/dots/dots.component.ts:245</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTransitionDuration"></a>
+                    <span class="name">
+                        <span ><b>getTransitionDuration</b></span>
+                        <a href="#getTransitionDuration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTransitionDuration()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/Marks.html" target="_self" >Marks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/Marks.html#source" target="_self" >Marks:69</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/VicXyPrimaryMarks.html" target="_self" >VicXyPrimaryMarks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/VicXyPrimaryMarks.html#source" target="_self" >VicXyPrimaryMarks:31</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToRanges"></a>
+                    <span class="name">
+                        <span ><b>subscribeToRanges</b></span>
+                        <a href="#subscribeToRanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToRanges()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/VicXyPrimaryMarks.html" target="_self" >VicXyPrimaryMarks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/VicXyPrimaryMarks.html#source" target="_self" >VicXyPrimaryMarks:36</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToScales"></a>
+                    <span class="name">
+                        <span ><b>subscribeToScales</b></span>
+                        <a href="#subscribeToScales"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToScales()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/VicXyPrimaryMarks.html" target="_self" >VicXyPrimaryMarks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/VicXyPrimaryMarks.html#source" target="_self" >VicXyPrimaryMarks:55</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initFromConfig"></a>
+                    <span class="name">
+                        <span ><b>initFromConfig</b></span>
+                        <a href="#initFromConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initFromConfig()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/Marks.html" target="_self" >Marks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/Marks.html#source" target="_self" >Marks:40</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: SimpleChanges)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../directives/Marks.html" target="_self" >Marks</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/Marks.html#source" target="_self" >Marks:32</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>changes</td>
+                                            <td>
+                                                        <code>SimpleChanges</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dotGroups"></a>
+                    <span class="name">
+                        <span ><b>dotGroups</b></span>
+                        <a href="#dotGroups"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#DotGroupSelection" target="_self" >DotGroupSelection</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">libs/viz-components/src/lib/dots/dots.component.ts:87</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dots"></a>
+                    <span class="name">
+                        <span ><b>dots</b></span>
+                        <a href="#dots"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#DotSelection" target="_self" >BehaviorSubject&lt;DotSelection&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">libs/viz-components/src/lib/dots/dots.component.ts:88</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dots$"></a>
+                    <span class="name">
+                        <span ><b>dots$</b></span>
+                        <a href="#dots$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.dots.asObservable().pipe(filter((s) &#x3D;&gt; !!s))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">libs/viz-components/src/lib/dots/dots.component.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="elRef"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>elRef</b></span>
+                        <a href="#elRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject&lt;ElementRef&lt;SVGGElement&gt;&gt;(ElementRef)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">libs/viz-components/src/lib/dots/dots.component.ts:102</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scales"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>scales</b></span>
+                        <a href="#scales"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    fill: undefined,
+    radius: undefined,
+    x: undefined,
+    y: undefined,
+    useTransition: undefined,
+  }</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/VicXyPrimaryMarks.html" target="_self" >VicXyPrimaryMarks</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/VicXyPrimaryMarks.html#source" target="_self" >VicXyPrimaryMarks:90</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="zone"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>zone</b></span>
+                        <a href="#zone"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NgZone)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">libs/viz-components/src/lib/dots/dots.component.ts:103</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chart"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier"></span>
+                        <span ><b>chart</b></span>
+                        <a href="#chart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(XyChartComponent)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/Marks.html" target="_self" >Marks</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/Marks.html#source" target="_self" >Marks:29</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="requiredScales"></a>
+                    <span class="name">
+                        <span ><b>requiredScales</b></span>
+                        <a href="#requiredScales"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>()[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    XyContentScale.x,
+    XyContentScale.y,
+  ]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/VicXyPrimaryMarks.html" target="_self" >VicXyPrimaryMarks</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/VicXyPrimaryMarks.html#source" target="_self" >VicXyPrimaryMarks:25</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroyRef"></a>
+                    <span class="name">
+                        <span ><b>destroyRef</b></span>
+                        <a href="#destroyRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DestroyRef)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/PrimaryMarks.html" target="_self" >PrimaryMarks</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/PrimaryMarks.html#source" target="_self" >PrimaryMarks:28</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ranges"></a>
+                    <span class="name">
+                        <span ><b>ranges</b></span>
+                        <a href="#ranges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Ranges.html" target="_self" >Ranges</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/PrimaryMarks.html" target="_self" >PrimaryMarks</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/PrimaryMarks.html#source" target="_self" >PrimaryMarks:27</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="class"></a>
+                        <span class="name"><b>class</b><a href="#class"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>class()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">libs/viz-components/src/lib/dots/dots.component.ts:105</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  InjectionToken,
+  NgZone,
+} from &#x27;@angular/core&#x27;;
+import { select } from &#x27;d3&#x27;;
+import { Selection } from &#x27;d3-selection&#x27;;
+import { BehaviorSubject, filter } from &#x27;rxjs&#x27;;
+import { ChartComponent } from &#x27;../charts/chart/chart.component&#x27;;
+import {
+  XyChartComponent,
+  XyChartScales,
+} from &#x27;../charts/xy-chart/xy-chart.component&#x27;;
+import { DataValue, GenericScale } from &#x27;../core&#x27;;
+import { ValueUtilities } from &#x27;../core/utilities/values&#x27;;
+import { NumberDimension } from &#x27;../data-dimensions/continuous-quantitative/number-dimension/number-dimension&#x27;;
+import { DataDimension } from &#x27;../data-dimensions/dimension&#x27;;
+import { VIC_PRIMARY_MARKS } from &#x27;../marks/primary-marks/primary-marks&#x27;;
+import { VicXyPrimaryMarks } from &#x27;../marks/xy-marks/xy-primary-marks/xy-primary-marks&#x27;;
+import { DotsConfig } from &#x27;./config/dots-config&#x27;;
+
+export const DOTS &#x3D; new InjectionToken&lt;DotsComponent&lt;unknown&gt;&gt;(&#x27;DotsComponent&#x27;);
+
+export type DotGroupSelection &#x3D; Selection&lt;
+  SVGGElement,
+  DotDatum,
+  SVGGElement,
+  unknown
+&gt;;
+export type DotSelection &#x3D; Selection&lt;
+  SVGCircleElement,
+  DotDatum,
+  SVGGElement,
+  DotDatum
+&gt;;
+export type DotLabelSelection &#x3D; Selection&lt;
+  SVGTextElement,
+  DotDatum,
+  SVGGElement,
+  DotDatum
+&gt;;
+
+export type DotDatum &#x3D; {
+  index: number;
+  x: DataValue;
+  y: DataValue;
+  fill: string | number;
+  radius: string | number;
+};
+
+export interface DotsTooltipDatum&lt;Datum&gt; {
+  datum: Datum;
+  values: {
+    x: string;
+    y: string;
+    fill: string | number;
+    radius: string | number;
+  };
+  color: string;
+}
+
+type DotsSvgElement &#x3D; &#x27;g&#x27; | &#x27;dot&#x27;;
+
+@Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: &#x27;[vic-primary-marks-dots]&#x27;,
+  template: &#x27;&#x27;,
+  styleUrl: &#x27;./dots.component.scss&#x27;,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: VIC_PRIMARY_MARKS, useExisting: DotsComponent },
+    { provide: DOTS, useExisting: DotsComponent },
+    { provide: ChartComponent, useExisting: XyChartComponent },
+  ],
+  host: {
+    &#x27;[class]&#x27;: &#x27;config.marksClass&#x27;,
+    &#x27;[style.mixed-blend-mode]&#x27;: &#x27;config.mixBlendMode&#x27;,
+  },
+})
+export class DotsComponent&lt;Datum&gt; extends VicXyPrimaryMarks&lt;
+  Datum,
+  DotsConfig&lt;Datum&gt;
+&gt; {
+  dotGroups: DotGroupSelection;
+  dots: BehaviorSubject&lt;DotSelection&gt; &#x3D; new BehaviorSubject(null);
+  dots$ &#x3D; this.dots.asObservable().pipe(filter((s) &#x3D;&gt; !!s));
+  override scales: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    fill: GenericScale&lt;any, any&gt;;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    radius: GenericScale&lt;any, any&gt;;
+  } &amp; XyChartScales &#x3D; {
+    fill: undefined,
+    radius: undefined,
+    x: undefined,
+    y: undefined,
+    useTransition: undefined,
+  };
+  private elRef &#x3D; inject&lt;ElementRef&lt;SVGGElement&gt;&gt;(ElementRef);
+  private zone &#x3D; inject(NgZone);
+
+  get class(): Record&lt;DotsSvgElement, string&gt; {
+    return {
+      g: this.config.marksClass + &#x27;-group&#x27;,
+      dot: this.config.marksClass + &#x27;-dot&#x27;,
+    };
+  }
+
+  setChartScalesFromRanges(useTransition: boolean): void {
+    const x &#x3D; this.config.x.getScaleFromRange(this.ranges.x);
+    const y &#x3D; this.config.y.getScaleFromRange(this.ranges.y);
+    this.scales.fill &#x3D; this.config.fill.getScale();
+    this.scales.radius &#x3D; this.config.radius.getScale();
+    this.zone.run(() &#x3D;&gt; {
+      this.chart.updateScales({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        x: x as unknown as GenericScale&lt;any, any&gt;,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        y: y as unknown as GenericScale&lt;any, any&gt;,
+        useTransition,
+      });
+    });
+  }
+
+  drawMarks(): void {
+    const transitionDuration &#x3D; this.getTransitionDuration();
+    this.drawDots(transitionDuration);
+    this.updateDotElements();
+  }
+
+  drawDots(transitionDuration: number): void {
+    const t &#x3D; select(this.chart.svgRef.nativeElement)
+      .transition()
+      .duration(transitionDuration);
+
+    this.dotGroups &#x3D; select(this.elRef.nativeElement)
+      .selectAll&lt;SVGGElement, DotDatum&gt;(&#x60;.${this.class.g}&#x60;)
+      .data&lt;DotDatum&gt;(
+        this.config.valueIndices.map((i) &#x3D;&gt; this.getDotDatumFromIndex(i))
+      )
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;g&#x27;)
+            .attr(&#x27;class&#x27;, (d) &#x3D;&gt;
+              &#x60;${this.class.g} ${this.config.datumClass(this.config.data[d.index], d.index)}&#x60;.trim()
+            )
+            .attr(
+              &#x27;transform&#x27;,
+              (d) &#x3D;&gt; &#x60;translate(${this.scales.x(d.x)}, ${this.scales.y(d.y)})&#x60;
+            ),
+        (update) &#x3D;&gt;
+          update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            .transition(t as any)
+            .attr(
+              &#x27;transform&#x27;,
+              (d) &#x3D;&gt; &#x60;translate(${this.scales.x(d.x)}, ${this.scales.y(d.y)})&#x60;
+            ),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+
+    this.dotGroups
+      .selectAll&lt;SVGCircleElement, DotDatum&gt;(&#x60;.${this.class.dot}&#x60;)
+      .data&lt;DotDatum&gt;((d) &#x3D;&gt; [d])
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;circle&#x27;)
+            .attr(&#x27;class&#x27;, this.class.dot)
+            .attr(&#x27;r&#x27;, (d) &#x3D;&gt; this.scales.radius(d.radius))
+            .attr(&#x27;fill&#x27;, (d) &#x3D;&gt; this.scales.fill(d.fill))
+            .attr(&#x27;fill-opacity&#x27;, this.config.opacity)
+            .attr(
+              &#x27;stroke&#x27;,
+              this.config.stroke ? this.config.stroke.color : &#x27;none&#x27;
+            )
+            .attr(
+              &#x27;stroke-dasharray&#x27;,
+              this.config.stroke ? this.config.stroke.dasharray : null
+            )
+            .attr(
+              &#x27;stroke-linecap&#x27;,
+              this.config.stroke ? this.config.stroke.linecap : null
+            )
+            .attr(
+              &#x27;stroke-linejoin&#x27;,
+              this.config.stroke ? this.config.stroke.linejoin : null
+            )
+            .attr(
+              &#x27;stroke-opacity&#x27;,
+              this.config.stroke ? this.config.stroke.opacity : null
+            )
+            .attr(
+              &#x27;stroke-width&#x27;,
+              this.config.stroke ? this.config.stroke.width : null
+            ),
+        (update) &#x3D;&gt;
+          update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            .transition(t as any)
+            .attr(&#x27;r&#x27;, (d) &#x3D;&gt; this.scales.radius(d.radius))
+            .attr(&#x27;fill&#x27;, (d) &#x3D;&gt; this.scales.fill(d.fill))
+            .attr(
+              &#x27;stroke&#x27;,
+              this.config.stroke ? this.config.stroke.color : &#x27;none&#x27;
+            )
+            .attr(
+              &#x27;stroke-dasharray&#x27;,
+              this.config.stroke ? this.config.stroke.dasharray : null
+            )
+            .attr(
+              &#x27;stroke-linecap&#x27;,
+              this.config.stroke ? this.config.stroke.linecap : null
+            )
+            .attr(
+              &#x27;stroke-linejoin&#x27;,
+              this.config.stroke ? this.config.stroke.linejoin : null
+            )
+            .attr(
+              &#x27;stroke-opacity&#x27;,
+              this.config.stroke ? this.config.stroke.opacity : null
+            )
+            .attr(
+              &#x27;stroke-width&#x27;,
+              this.config.stroke ? this.config.stroke.width : null
+            ),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+  }
+
+  getDotDatumFromIndex(index: number): DotDatum {
+    return {
+      index,
+      x: this.config.x.values[index],
+      y: this.config.y.values[index],
+      fill: this.config.fill.values[index],
+      radius: this.config.radius.values[index],
+    };
+  }
+
+  updateDotElements(): void {
+    const dots &#x3D; select(this.elRef.nativeElement).selectAll&lt;
+      SVGCircleElement,
+      DotDatum
+    &gt;(&#x60;.${this.class.dot}&#x60;);
+    this.dots.next(dots);
+  }
+
+  getTooltipData(dotDatum: DotDatum): DotsTooltipDatum&lt;Datum&gt; {
+    const datum &#x3D; this.config.data[dotDatum.index];
+    const valueFill &#x3D; this.config.fill.valueAccessor(datum);
+    const tooltipData: DotsTooltipDatum&lt;Datum&gt; &#x3D; {
+      datum,
+      values: {
+        fill: valueFill,
+        radius: this.config.radius.valueAccessor(datum),
+        x: this.getFormattedValue(&#x27;x&#x27;, datum),
+        y: this.getFormattedValue(&#x27;y&#x27;, datum),
+      },
+      color: this.scales.fill(valueFill),
+    };
+    return tooltipData;
+  }
+
+  getFormattedValue(dimension: &#x27;x&#x27; | &#x27;y&#x27;, datum: Datum): string {
+    const config &#x3D; this.config[dimension];
+    if (config.formatFunction) {
+      return ValueUtilities.customFormat(datum, config.formatFunction);
+    } else if (this.isContinuousNumericDimension(config)) {
+      return ValueUtilities.d3Format(
+        config.valueAccessor(datum) as number,
+        config.formatSpecifier
+      );
+    } else {
+      return config.valueAccessor(datum).toString();
+    }
+  }
+
+  isContinuousNumericDimension(
+    dimension: DataDimension&lt;Datum, DataValue&gt;
+  ): dimension is NumberDimension&lt;Datum&gt; {
+    return (
+      &#x27;formatSpecifier&#x27; in dimension &amp;&amp;
+      typeof dimension.formatSpecifier &#x3D;&#x3D;&#x3D; &#x27;string&#x27;
+    );
+  }
+}
+</code></pre>
+    </div>
+
+
+
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div></div>'
+    var COMPONENTS = [{'name': 'BarsComponent', 'selector': '[vic-primary-marks-bars]'},{'name': 'ChartComponent', 'selector': 'vic-chart'},{'name': 'ContinuousLegendComponent', 'selector': 'vic-continuous-legend'},{'name': 'DiscontinuousLegendComponent', 'selector': 'vic-discontinuous-legend'},{'name': 'DotsComponent', 'selector': '[vic-primary-marks-dots]'},{'name': 'GeographiesComponent', 'selector': '[vic-primary-marks-geographies]'},{'name': 'GroupedBarsComponent', 'selector': '[vic-primary-grouped-bars]'},{'name': 'LinesComponent', 'selector': '[vic-primary-marks-lines]'},{'name': 'MapChartComponent', 'selector': 'vic-map-chart'},{'name': 'MapLegendComponent', 'selector': 'vic-map-legend'},{'name': 'QuantitativeRulesComponent', 'selector': '[vic-quantitative-rules]'},{'name': 'StackedAreaComponent', 'selector': '[vic-primary-marks-stacked-area]'},{'name': 'StackedBarsComponent', 'selector': '[vic-primary-marks-stacked-bars]'},{'name': 'TooltipTriangleComponent', 'selector': 'vic-tooltip-triangle'},{'name': 'XOrdinalAxisComponent', 'selector': '[vic-x-ordinal-axis]'},{'name': 'XQuantitativeAxisComponent', 'selector': '[vic-x-quantitative-axis]'},{'name': 'XyBackgroundComponent', 'selector': '[vic-xy-background]'},{'name': 'XyChartComponent', 'selector': 'vic-xy-chart'},{'name': 'YOrdinalAxisComponent', 'selector': '[vic-y-ordinal-axis]'},{'name': 'YQuantitativeAxisComponent', 'selector': '[vic-y-quantitative-axis]'}];
+    var DIRECTIVES = [{'name': 'AuxMarks', 'selector': ''},{'name': 'BarsEventsDirective', 'selector': '[vicBarsEvents]'},{'name': 'DotsEventsDirective', 'selector': '[vicDotsEvents]'},{'name': 'EventsDirective', 'selector': ''},{'name': 'GeographiesEventsDirective', 'selector': '[vicGeographiesEvents]'},{'name': 'GroupedBarsEventsDirective', 'selector': '[vicGroupedBarsEvents]'},{'name': 'HtmlTooltipDirective', 'selector': 'vic-html-tooltip'},{'name': 'LinesEventsDirective', 'selector': '[vicLinesEvents]'},{'name': 'MapLegend', 'selector': ''},{'name': 'MapPrimaryMarks', 'selector': ''},{'name': 'Marks', 'selector': ''},{'name': 'PrimaryMarks', 'selector': ''},{'name': 'StackedAreaEventsDirective', 'selector': '[vicStackedAreaEvents]'},{'name': 'StackedBarsEventsDirective', 'selector': '[vicStackedBarsEvents]'},{'name': 'VicMapAuxMarks', 'selector': ''},{'name': 'VicXyPrimaryMarks', 'selector': ''},{'name': 'XyAuxMarks', 'selector': ''},{'name': 'XyAxis', 'selector': ''}];
+    var ACTUAL_COMPONENT = {'name': 'DotsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'DotsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

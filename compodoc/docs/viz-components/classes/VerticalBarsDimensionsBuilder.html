@@ -1,0 +1,936 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Classes</li>
+  <li class="breadcrumb-item" >VerticalBarsDimensionsBuilder</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/bars/config/bars-builder.ts</code>
+        </p>
+
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="../classes/BaseDimensionsBuilder.html" target="_self" >BaseDimensionsBuilder</a></code>
+            </p>
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#_ordinalDimensionBuilder" >_ordinalDimensionBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#_quantitativeDimensionBuilder" >_quantitativeDimensionBuilder</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#x" >x</a>
+                            </li>
+                            <li>
+                                <a href="#y" >y</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#initOrdinalDimensionBuilder" >initOrdinalDimensionBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#initQuantitativeDimensionBuilder" >initQuantitativeDimensionBuilder</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_ordinalDimensionBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_ordinalDimensionBuilder</b></span>
+                        <a href="#_ordinalDimensionBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Position.html" target="_self" >OrdinalChartPositionDimensionBuilder&lt;Datum | TOrdinalValue&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../classes/BaseDimensionsBuilder.html" target="_self" >BaseDimensionsBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/BaseDimensionsBuilder.html#source" target="_self" >BaseDimensionsBuilder:18</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_quantitativeDimensionBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>_quantitativeDimensionBuilder</b></span>
+                        <a href="#_quantitativeDimensionBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Position.html" target="_self" >NumberChartPositionDimensionBuilder&lt;Datum&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../classes/BaseDimensionsBuilder.html" target="_self" >BaseDimensionsBuilder</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/BaseDimensionsBuilder.html#source" target="_self" >BaseDimensionsBuilder:22</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="x"></a>
+                    <span class="name">
+                        <span ><b>x</b></span>
+                        <a href="#x"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>x(x: (x: <a href="../interfaces/Position.html">OrdinalChartPositionDimensionBuilder<Datum | TOrdinalValue></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="81"
+                                    class="link-to-prism">libs/viz-components/src/lib/bars/config/bars-builder.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Specifies how values derived from <code>Datum</code> (may be type <code>string</code>, <code>number</code>, or <code>Date</code>, though typically <code>string</code>) set the x domain of the chart, and how those values are displayed.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>A function that specifies how ordinal/categorical values that are mapped to the x dimension will be used in the chart.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="y"></a>
+                    <span class="name">
+                        <span ><b>y</b></span>
+                        <a href="#y"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>y(y: (y: <a href="../interfaces/Position.html">NumberChartPositionDimensionBuilder<Datum></a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="94"
+                                    class="link-to-prism">libs/viz-components/src/lib/bars/config/bars-builder.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>REQUIRED. Specifies how values derived from <code>Datum</code> (of type <code>number</code>) set the y domain of the chart, and how those values are displayed.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>y</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>A function that specifies how the quantitative values that are mapped to the y dimension will be used in the chart.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initOrdinalDimensionBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>initOrdinalDimensionBuilder</b></span>
+                        <a href="#initOrdinalDimensionBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initOrdinalDimensionBuilder()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/BaseDimensionsBuilder.html" target="_self" >BaseDimensionsBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/BaseDimensionsBuilder.html#source" target="_self" >BaseDimensionsBuilder:33</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initQuantitativeDimensionBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>initQuantitativeDimensionBuilder</b></span>
+                        <a href="#initQuantitativeDimensionBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initQuantitativeDimensionBuilder()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/BaseDimensionsBuilder.html" target="_self" >BaseDimensionsBuilder</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/BaseDimensionsBuilder.html#source" target="_self" >BaseDimensionsBuilder:37</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { DataValue } from &#x27;../../core/types/values&#x27;;
+import { FillDefinition } from &#x27;../../data-dimensions&#x27;;
+import { NumberChartPositionDimensionBuilder } from &#x27;../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder&#x27;;
+import { OrdinalChartPositionDimensionBuilder } from &#x27;../../data-dimensions/ordinal/ordinal-chart-position/ordinal-chart-position-builder&#x27;;
+import { OrdinalVisualValueDimensionBuilder } from &#x27;../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder&#x27;;
+import { PrimaryMarksBuilder } from &#x27;../../marks/primary-marks/config/primary-marks-builder&#x27;;
+import { BarsBackgroundsBuilder } from &#x27;./backgrounds/bars-backgrounds-builder&#x27;;
+import { BarsConfig } from &#x27;./bars-config&#x27;;
+import {
+  BarsDimensions,
+  HORIZONTAL_BARS_DIMENSIONS,
+  VERTICAL_BARS_DIMENSIONS,
+} from &#x27;./bars-dimensions&#x27;;
+import { BarsLabelsBuilder } from &#x27;./labels/bars-labels-builder&#x27;;
+
+abstract class BaseDimensionsBuilder&lt;Datum, TOrdinalValue extends DataValue&gt; {
+  protected _ordinalDimensionBuilder: OrdinalChartPositionDimensionBuilder&lt;
+    Datum,
+    TOrdinalValue
+  &gt;;
+  protected _quantitativeDimensionBuilder: NumberChartPositionDimensionBuilder&lt;Datum&gt;;
+
+  // Getter methods for VicBarsConfigBuilder to access the builders
+  get ordinalDimensionBuilder() {
+    return this._ordinalDimensionBuilder;
+  }
+
+  get quantitativeDimensionBuilder() {
+    return this._quantitativeDimensionBuilder;
+  }
+
+  protected initOrdinalDimensionBuilder() {
+    this._ordinalDimensionBuilder &#x3D; new OrdinalChartPositionDimensionBuilder();
+  }
+
+  protected initQuantitativeDimensionBuilder() {
+    this._quantitativeDimensionBuilder &#x3D;
+      new NumberChartPositionDimensionBuilder();
+  }
+}
+
+export class HorizontalBarsDimensionsBuilder&lt;
+  Datum,
+  TOrdinalValue extends DataValue,
+&gt; extends BaseDimensionsBuilder&lt;Datum, TOrdinalValue&gt; {
+  /**
+   * REQUIRED. Specifies how values derived from &#x60;Datum&#x60; (of type &#x60;number&#x60;) set the x domain of the chart, and how those values are displayed.
+   *
+   * @param x - A function that specifies how the quantitative values that are mapped to the x dimension will be used in the chart.
+   */
+  x(x: (x: NumberChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void): this {
+    this.initQuantitativeDimensionBuilder();
+    x(this._quantitativeDimensionBuilder);
+    return this;
+  }
+
+  /**
+   * REQUIRED. Specifies how values derived from &#x60;Datum&#x60; (may be type &#x60;string&#x60;, &#x60;number&#x60;, or &#x60;Date&#x60;, though typically &#x60;string&#x60;) set the y domain of the chart, and how those values are displayed.
+   *
+   * @param y - A function that specifies how ordinal/categorical values that are mapped to the y dimension will be used in the chart.
+   */
+  y(
+    y: (y: OrdinalChartPositionDimensionBuilder&lt;Datum, TOrdinalValue&gt;) &#x3D;&gt; void
+  ): this {
+    this.initOrdinalDimensionBuilder();
+    y(this._ordinalDimensionBuilder);
+    return this;
+  }
+}
+
+export class VerticalBarsDimensionsBuilder&lt;
+  Datum,
+  TOrdinalValue extends DataValue,
+&gt; extends BaseDimensionsBuilder&lt;Datum, TOrdinalValue&gt; {
+  /**
+   * REQUIRED. Specifies how values derived from &#x60;Datum&#x60; (may be type &#x60;string&#x60;, &#x60;number&#x60;, or &#x60;Date&#x60;, though typically &#x60;string&#x60;) set the x domain of the chart, and how those values are displayed.
+   *
+   * @param x - A function that specifies how ordinal/categorical values that are mapped to the x dimension will be used in the chart.
+   */
+  x(
+    x: (x: OrdinalChartPositionDimensionBuilder&lt;Datum, TOrdinalValue&gt;) &#x3D;&gt; void
+  ): this {
+    this.initOrdinalDimensionBuilder();
+    x(this._ordinalDimensionBuilder);
+    return this;
+  }
+
+  /**
+   * REQUIRED. Specifies how values derived from &#x60;Datum&#x60; (of type &#x60;number&#x60;) set the y domain of the chart, and how those values are displayed.
+   *
+   * @param y - A function that specifies how the quantitative values that are mapped to the y dimension will be used in the chart.
+   */
+  y(y: (y: NumberChartPositionDimensionBuilder&lt;Datum&gt;) &#x3D;&gt; void): this {
+    this.initQuantitativeDimensionBuilder();
+    y(this._quantitativeDimensionBuilder);
+    return this;
+  }
+}
+
+/**
+ * Builds a configuration object for a BarsComponent.
+ *
+ * Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. &#x60;providers: [VicBarsConfigBuilder]&#x60; in the component decorator)
+ *
+ * The first generic parameter, Datum, is the type of the data that will be used to create the bars.
+ *
+ * The second generic parameter, TOrdinalValue, is the type of the ordinal data that will be used to position the bars.
+ */
+@Injectable()
+export class VicBarsConfigBuilder&lt;
+  Datum,
+  OrdinalDomain extends DataValue,
+&gt; extends PrimaryMarksBuilder&lt;Datum&gt; {
+  protected _customFills: FillDefinition&lt;Datum&gt;[];
+  protected dimensions: BarsDimensions;
+  protected _orientation: &#x27;horizontal&#x27; | &#x27;vertical&#x27;;
+  protected backgroundsBuilder: BarsBackgroundsBuilder;
+  protected colorDimensionBuilder: OrdinalVisualValueDimensionBuilder&lt;
+    Datum,
+    string,
+    string
+  &gt;;
+  protected labelsBuilder: BarsLabelsBuilder&lt;Datum&gt;;
+  protected ordinalDimensionBuilder: OrdinalChartPositionDimensionBuilder&lt;
+    Datum,
+    OrdinalDomain
+  &gt;;
+  protected quantitativeDimensionBuilder: NumberChartPositionDimensionBuilder&lt;Datum&gt;;
+
+  constructor() {
+    super();
+  }
+
+  /**
+   * OPTIONAL. Specifies properties of bars to be drawn behind the bars that represent data values. The background bars span the full width of the chart.
+   *
+   * @param backgrounds - A function that specifies the color of background bars and whether they respond to events, or &#x60;null&#x60; to unset the backgrounds function.
+   *
+   * If called with no arguments, the default background will be &#x60;whitesmoke&#x60; and events will be &#x60;false&#x60;.
+   *
+   * If not called, no background bars will be created.
+   */
+  backgrounds(backgrounds: (backgrounds: BarsBackgroundsBuilder) &#x3D;&gt; void): this;
+  backgrounds(): this;
+  backgrounds(backgrounds: null): this;
+  backgrounds(
+    backgrounds: ((backgrounds: BarsBackgroundsBuilder) &#x3D;&gt; void) | null | void
+  ): this {
+    if (backgrounds &#x3D;&#x3D;&#x3D; null) {
+      this.backgroundsBuilder &#x3D; undefined;
+      return this;
+    }
+    this.backgroundsBuilder &#x3D; new BarsBackgroundsBuilder();
+    if (backgrounds) {
+      backgrounds?.(this.backgroundsBuilder);
+    }
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Specifies how values derived from &#x60;Datum&#x60; (of type &#x60;string&#x60;) set the color of the bars, and how those values are displayed.
+   *
+   * @param color - A function that specifies how values derived from &#x60;Datum&#x60; will be used to set the color of the bars, or null to unset the color., or null to unset the color function.
+   *
+   * If not called, all bars will be colored with the first color in &#x60;d3.schemeTableau10&#x60;, the default &#x60;range&#x60; color scale.
+   */
+  color(
+    color: (
+      color: OrdinalVisualValueDimensionBuilder&lt;Datum, string, string&gt;
+    ) &#x3D;&gt; void
+  ): this;
+  color(color: null): this;
+  color(
+    color:
+      | ((
+          color: OrdinalVisualValueDimensionBuilder&lt;Datum, string, string&gt;
+        ) &#x3D;&gt; void)
+      | null
+  ): this {
+    if (color &#x3D;&#x3D;&#x3D; null) {
+      this.colorDimensionBuilder &#x3D; undefined;
+      return this;
+    }
+    this.initColorDimensionBuilder();
+    color?.(this.colorDimensionBuilder);
+    return this;
+  }
+
+  private initColorDimensionBuilder() {
+    this.colorDimensionBuilder &#x3D; new OrdinalVisualValueDimensionBuilder();
+  }
+
+  /**
+   * OPTIONAL. Determines custom fills for specified bars. Intended to be used with a user-provided fill in &lt;defs&gt; (provided in html) whose &#x60;id&#x60; is referenced here. The &#x60;shouldApply&#x60; function is used to determine whether the fill should be applied to a given datum.
+   *
+   * @param values - An array of custom fills ({ defId: string; shouldApply: (d: Datum) &#x3D;&gt; boolean;}[]), or &#x60;null&#x60; to unset the custom fills.
+   *
+   * This will override any fill set by the &#x60;color&#x60; dimension.
+   */
+  customFills(values: FillDefinition&lt;Datum&gt;[] | null): this {
+    if (values &#x3D;&#x3D;&#x3D; null) {
+      this._customFills &#x3D; undefined;
+      return this;
+    }
+    this._customFills &#x3D; values;
+    return this;
+  }
+
+  /**
+   * REQUIRED FOR HORIZONTAL BAR CHART.
+   *
+   * @param bars - A function that specifies properties for the horizontal bars, or &#x60;null&#x60; to not set the horizontal orientation.
+   */
+  horizontal(
+    bars: (bars: HorizontalBarsDimensionsBuilder&lt;Datum, OrdinalDomain&gt;) &#x3D;&gt; void
+  ): this;
+  horizontal(bars: null): this;
+  horizontal(
+    bars:
+      | ((bars: HorizontalBarsDimensionsBuilder&lt;Datum, OrdinalDomain&gt;) &#x3D;&gt; void)
+      | null
+  ): this {
+    // Do not reset anything if null is passed, as vertical will set properties if no horizontal is provided.
+    // allow for
+    // .horizontal(bars &#x3D;&gt; condition ? bars.stuff() : null)
+    // .vertical(bars &#x3D;&gt; !condition ? bars.stuff() : null)
+    if (bars &#x3D;&#x3D;&#x3D; null) return this;
+    this._orientation &#x3D; &#x27;horizontal&#x27;;
+    this.dimensions &#x3D; HORIZONTAL_BARS_DIMENSIONS;
+    const builder &#x3D; new HorizontalBarsDimensionsBuilder&lt;Datum, OrdinalDomain&gt;();
+    bars(builder);
+    this.ordinalDimensionBuilder &#x3D; builder.ordinalDimensionBuilder;
+    this.quantitativeDimensionBuilder &#x3D; builder.quantitativeDimensionBuilder;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Specifies properties of labels to be rendered at the end of bars, typically used to show bar values.
+   *
+   * @param labels - A function that specifies properties for the labels, or &#x60;null&#x60; to unset the labels.
+   *
+   * If not called, no labels will be created.
+   */
+  labels(labels: (labels: BarsLabelsBuilder&lt;Datum&gt;) &#x3D;&gt; void): this;
+  labels(labels: null): this;
+  labels(labels: ((labels: BarsLabelsBuilder&lt;Datum&gt;) &#x3D;&gt; void) | null): this {
+    if (labels &#x3D;&#x3D;&#x3D; null) {
+      this.labelsBuilder &#x3D; undefined;
+      return this;
+    }
+    this.labelsBuilder &#x3D; new BarsLabelsBuilder&lt;Datum&gt;();
+    labels?.(this.labelsBuilder);
+    return this;
+  }
+
+  /**
+   * REQUIRED FOR VERTICAL BAR CHART.
+   *
+   * @param bars - A function that specifies properties for the vertical bars, or &#x60;null&#x60; to not set the vertical orientation.
+   */
+  vertical(
+    bars: (bars: VerticalBarsDimensionsBuilder&lt;Datum, OrdinalDomain&gt;) &#x3D;&gt; void
+  ): this;
+  vertical(bars: null): this;
+  vertical(
+    bars:
+      | ((bars: VerticalBarsDimensionsBuilder&lt;Datum, OrdinalDomain&gt;) &#x3D;&gt; void)
+      | null
+  ): this {
+    if (bars &#x3D;&#x3D;&#x3D; null) return this;
+    this._orientation &#x3D; &#x27;vertical&#x27;;
+    this.dimensions &#x3D; VERTICAL_BARS_DIMENSIONS;
+    const builder &#x3D; new VerticalBarsDimensionsBuilder&lt;Datum, OrdinalDomain&gt;();
+    bars(builder);
+    this.ordinalDimensionBuilder &#x3D; builder.ordinalDimensionBuilder;
+    this.quantitativeDimensionBuilder &#x3D; builder.quantitativeDimensionBuilder;
+    return this;
+  }
+
+  /**
+   * REQUIRED. Validates and builds the configuration object for the bars that can be passed to BarsComponent.
+   *
+   * The user must call this at the end of the chain of methods to build the configuration object.
+   */
+  getConfig(): BarsConfig&lt;Datum, OrdinalDomain&gt; {
+    this.validateBuilder(&#x27;Bars&#x27;);
+    return new BarsConfig(this.dimensions, {
+      marksClass: &#x27;vic-bars&#x27;,
+      backgrounds: this.backgroundsBuilder?._build(),
+      color: this.colorDimensionBuilder._build(&#x27;Color&#x27;),
+      customFills: this._customFills,
+      data: this._data,
+      datumClass: this._datumClass,
+      labels: this.labelsBuilder?._build(),
+      mixBlendMode: this._mixBlendMode,
+      ordinal: this.ordinalDimensionBuilder._build(
+        &#x27;band&#x27;,
+        this.getOrdinalDimensionName()
+      ),
+      quantitative: this.quantitativeDimensionBuilder._build(
+        this.getQuantitativeDimensionName()
+      ),
+    });
+  }
+
+  protected override validateBuilder(componentName: string): void {
+    super.validateBuilder(componentName);
+    if (!this.colorDimensionBuilder) {
+      this.initColorDimensionBuilder();
+    }
+    if (!this._orientation) {
+      // Technically we could make horizontal the default, but we want to make sure users are thinking about this.
+      throw new Error(
+        &#x60;${componentName} Builder: Orientation is required. Please use method &#x27;horizontal&#x27; or &#x27;vertical&#x27; to set orientation.&#x60;
+      );
+    }
+    if (!this.ordinalDimensionBuilder) {
+      // Note that the chart will still build if there is not ordinal dimension provided but it will not be full featured/anything we imagine users wanting, so we make this required.
+      const dimension &#x3D; this.getOrdinalDimensionName();
+      throw new Error(
+        &#x60;${componentName} Builder: ${dimension} dimension is required. Please use ${dimension.toLowerCase()} method to create dimension.&#x60;
+      );
+    }
+    if (!this.quantitativeDimensionBuilder) {
+      const dimension &#x3D; this.getQuantitativeDimensionName();
+      throw new Error(
+        &#x60;${componentName} Builder: ${dimension} dimension is required. Please use ${dimension.toLowerCase()} method to create dimension.&#x60;
+      );
+    }
+  }
+
+  protected getOrdinalDimensionName(): string {
+    return this._orientation &#x3D;&#x3D;&#x3D; &#x27;horizontal&#x27; ? &#x27;Y&#x27; : &#x27;X&#x27;;
+  }
+
+  protected getQuantitativeDimensionName(): string {
+    return this._orientation &#x3D;&#x3D;&#x3D; &#x27;horizontal&#x27; ? &#x27;X&#x27; : &#x27;Y&#x27;;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'VerticalBarsDimensionsBuilder.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

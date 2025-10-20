@@ -1,0 +1,1525 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >VicChartConfigBuilder</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/viz-components/src/lib/charts/chart/config/chart-builder.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Builds a configuration object for a ChartComponent.</p>
+<p>Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. <code>providers: [VicChartConfigBuilder]</code> in the component decorator)</p>
+
+            </p>
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#_aspectRatio" >_aspectRatio</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_fixedHeight" >_fixedHeight</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_height" >_height</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_margin" >_margin</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_scalingStrategy" >_scalingStrategy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_transitionDuration" >_transitionDuration</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_width" >_width</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#aspectRatio" >aspectRatio</a>
+                            </li>
+                            <li>
+                                <a href="#fixedHeight" >fixedHeight</a>
+                            </li>
+                            <li>
+                                <a href="#getConfig" >getConfig</a>
+                            </li>
+                            <li>
+                                <a href="#height" class="deprecated-name">height</a>
+                            </li>
+                            <li>
+                                <a href="#margin" >margin</a>
+                            </li>
+                            <li>
+                                <a href="#maxHeight" >maxHeight</a>
+                            </li>
+                            <li>
+                                <a href="#maxWidth" >maxWidth</a>
+                            </li>
+                            <li>
+                                <a href="#resize" class="deprecated-name">resize</a>
+                            </li>
+                            <li>
+                                <a href="#scalingStrategy" >scalingStrategy</a>
+                            </li>
+                            <li>
+                                <a href="#transitionDuration" >transitionDuration</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#validateBuilder" >validateBuilder</a>
+                            </li>
+                            <li>
+                                <a href="#width" class="deprecated-name">width</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:43</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="aspectRatio"></a>
+                    <span class="name">
+                        <span ><b>aspectRatio</b></span>
+                        <a href="#aspectRatio"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>aspectRatio(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="52"
+                                    class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Explicitly sets the aspect ratio to use when scalingStrategy is &#39;responsive-width&#39; and fixedHeight is false.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fixedHeight"></a>
+                    <span class="name">
+                        <span ><b>fixedHeight</b></span>
+                        <a href="#fixedHeight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fixedHeight(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="60"
+                                    class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. If set to true and used with &#39;responsive-width&#39; strategy, height will be fixed and not derived from aspect ratio.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getConfig"></a>
+                    <span class="name">
+                        <span ><b>getConfig</b></span>
+                        <a href="#getConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getConfig()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="195"
+                                    class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:195</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/ChartConfig.html" target="_self" >ChartConfig</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="height"></a>
+                    <span class="name">
+                        <span class="deprecated-name"><b>height</b></span>
+                        <a href="#height"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4 deprecated">
+                    Use .maxHeight(...) instead.
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>height(value: number | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="68"
+                                    class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>number | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="margin"></a>
+                    <span class="name">
+                        <span ><b>margin</b></span>
+                        <a href="#margin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>margin(value: literal type | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="80"
+                                    class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:80</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Determines the margin that will be established between the edges of the svg and the svg&#39;s contents, in px.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>literal type | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The margin that will be established between the edges of the svg and the svg&#39;s contents, in px. If called with null, a default value of <code>{ top: 36, right: 36, bottom: 36, left: 36 }</code> will be used.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="maxHeight"></a>
+                    <span class="name">
+                        <span ><b>maxHeight</b></span>
+                        <a href="#maxHeight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>maxHeight(value: number | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="101"
+                                    class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:101</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. If chart size is dynamic, determines the maximum height of the chart. In this case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing. If chart size is not dynamic, sets the fixed height of the chart.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>number | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The maximum height of the chart, in px. If chart size is static, the fixed height of the chart. If not called or called with <code>null</code>, a default value of 600 will be used.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="maxWidth"></a>
+                    <span class="name">
+                        <span ><b>maxWidth</b></span>
+                        <a href="#maxWidth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>maxWidth(value: number | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="115"
+                                    class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:115</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. If chart size is dynamic, sets the maximum width of the chart. In this case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing. If chart size is not dynamic, sets the fixed width of the chart.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>number | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The maximum width of the chart, in px. If chart size is static, the fixed width of the chart. If not called or called with <code>null</code>, a default value of 800 will be used.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resize"></a>
+                    <span class="name">
+                        <span class="deprecated-name"><b>resize</b></span>
+                        <a href="#resize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4 deprecated">
+                    Use .scalingStrategy(...) and .fixedHeight(...) instead.
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resize(value: Partial<literal type> | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="127"
+                                    class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:127</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>Partial&lt;literal type&gt; | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scalingStrategy"></a>
+                    <span class="name">
+                        <span ><b>scalingStrategy</b></span>
+                        <a href="#scalingStrategy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>scalingStrategy(value: <a href="../undefineds/ScalingStrategy.html" target="_self">ScalingStrategy</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="166"
+                                    class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:166</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. Determines how the chart scales in response to container or window size changes.</p>
+<p>Default value, if not called, is &#39;responsive-width&#39;.</p>
+<ul>
+<li>&#39;fixed&#39;: Chart dimensions remain constant. Width and height are fixed.</li>
+<li>&#39;responsive-width&#39;: Chart width responds to container; height is derived via aspect ratio.</li>
+<li>&#39;viewbox&#39;: Chart is scaled entirely via SVG viewBox. All resizing behavior is controlled through CSS.</li>
+</ul>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#ScalingStrategy" target="_self" >ScalingStrategy</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>One of:</li>
+<li>&#39;fixed&#39;: Chart dimensions remain constant. Width and height are fixed.</li>
+<li>&#39;responsive-width&#39;: Chart width responds to container; height is derived via aspect ratio.</li>
+<li>&#39;viewbox&#39;: Chart is scaled entirely via SVG viewBox. All resizing behavior is controlled through CSS.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="transitionDuration"></a>
+                    <span class="name">
+                        <span ><b>transitionDuration</b></span>
+                        <a href="#transitionDuration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>transitionDuration(value: number | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="176"
+                                    class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:176</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>OPTIONAL. A time duration for all transitions in the chart, in ms.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>number | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The time duration for all transitions in the chart, in ms. If not called or called with null, a default value of 250 will be used.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validateBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>validateBuilder</b></span>
+                        <a href="#validateBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>validateBuilder()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="213"
+                                    class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:213</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="width"></a>
+                    <span class="name">
+                        <span class="deprecated-name"><b>width</b></span>
+                        <a href="#width"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4 deprecated">
+                    Use .maxWidth(...) instead.
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>width(value: number | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="188"
+                                    class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:188</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>number | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_aspectRatio"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>_aspectRatio</b></span>
+                        <a href="#_aspectRatio"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_fixedHeight"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_fixedHeight</b></span>
+                        <a href="#_fixedHeight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_height"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_height</b></span>
+                        <a href="#_height"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_margin"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_margin</b></span>
+                        <a href="#_margin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/ElementSpacing.html" target="_self" >ElementSpacing</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_scalingStrategy"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_scalingStrategy</b></span>
+                        <a href="#_scalingStrategy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#ScalingStrategy" target="_self" >ScalingStrategy</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_transitionDuration"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_transitionDuration</b></span>
+                        <a href="#_transitionDuration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_width"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_width</b></span>
+                        <a href="#_width"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">libs/viz-components/src/lib/charts/chart/config/chart-builder.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { safeAssign } from &#x27;@hsi/app-dev-kit&#x27;;
+import { ElementSpacing } from &#x27;../../../core/types/layout&#x27;;
+import { ChartConfig } from &#x27;./chart-config&#x27;;
+
+export type ScalingStrategy &#x3D; &#x27;fixed&#x27; | &#x27;responsive-width&#x27; | &#x27;viewbox&#x27;;
+
+const SCALES_DEFAULT &#x3D; {
+  height: 600,
+  width: 800,
+};
+
+// use smaller values for viewbox so that the labels don&#x27;t get so small
+// downside to this is that this is the max chart size, even when in a flex container
+const VIEWBOX_DEFAULT &#x3D; {
+  height: 450,
+  width: 600,
+};
+
+const DEFAULT &#x3D; {
+  _fixedHeight: false,
+  _height: 600,
+  _margin: { top: 36, right: 36, bottom: 36, left: 36 },
+  _scalingStrategy: &#x27;responsive-width&#x27; as ScalingStrategy,
+  _transitionDuration: 250,
+  _width: 800,
+};
+
+/**
+ * Builds a configuration object for a ChartComponent.
+ *
+ * Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. &#x60;providers: [VicChartConfigBuilder]&#x60; in the component decorator)
+ *
+ */
+@Injectable()
+export class VicChartConfigBuilder {
+  private _aspectRatio?: number;
+  private _fixedHeight: boolean;
+  private _height: number;
+  private _margin: ElementSpacing;
+  private _scalingStrategy: ScalingStrategy;
+  private _transitionDuration: number;
+  private _width: number;
+
+  constructor() {
+    safeAssign(this, DEFAULT);
+  }
+
+  /**
+   * OPTIONAL. Explicitly sets the aspect ratio to use when scalingStrategy is &#x27;responsive-width&#x27; and fixedHeight is false.
+   */
+  aspectRatio(value: number): this {
+    this._aspectRatio &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. If set to true and used with &#x27;responsive-width&#x27; strategy, height will be fixed and not derived from aspect ratio.
+   */
+  fixedHeight(value: boolean): this {
+    this._fixedHeight &#x3D; value;
+    return this;
+  }
+
+  /**
+   * @deprecated Use .maxHeight(...) instead.
+   */
+  height(value: number | null): this {
+    console.warn(
+      &#x27;[vic-chart] .height(...) is deprecated. Use .maxHeight(...) instead.&#x27;
+    );
+    return this.maxHeight(value);
+  }
+
+  /**
+   * OPTIONAL. Determines the margin that will be established between the edges of the svg and the svg&#x27;s contents, in px.
+   *
+   * @param value - The margin that will be established between the edges of the svg and the svg&#x27;s contents, in px. If called with null, a default value of &#x60;{ top: 36, right: 36, bottom: 36, left: 36 }&#x60; will be used.
+   */
+  margin(
+    value: {
+      top: number;
+      right: number;
+      bottom: number;
+      left: number;
+    } | null
+  ): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      value &#x3D; DEFAULT._margin;
+      return this;
+    }
+    this._margin &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. If chart size is dynamic, determines the maximum height of the chart. In this case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing. If chart size is not dynamic, sets the fixed height of the chart.
+   *
+   * @param value - The maximum height of the chart, in px. If chart size is static, the fixed height of the chart. If not called or called with &#x60;null&#x60;, a default value of 600 will be used.
+   */
+  maxHeight(value: number | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      value &#x3D; undefined;
+      return this;
+    }
+    this._height &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. If chart size is dynamic, sets the maximum width of the chart. In this case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing. If chart size is not dynamic, sets the fixed width of the chart.
+   *
+   * @param value - The maximum width of the chart, in px. If chart size is static, the fixed width of the chart. If not called or called with &#x60;null&#x60;, a default value of 800 will be used.
+   */
+  maxWidth(value: number | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      value &#x3D; undefined;
+      return this;
+    }
+    this._width &#x3D; value;
+    return this;
+  }
+
+  /**
+   * @deprecated Use .scalingStrategy(...) and .fixedHeight(...) instead.
+   */
+  resize(
+    value: Partial&lt;{
+      width: boolean;
+      height: boolean;
+      useViewbox: boolean;
+    }&gt; | null
+  ): this {
+    console.warn(
+      &#x27;[vic-chart] .resize(...) is deprecated. Use .scalingStrategy(...) and .fixedHeight(...) instead.&#x27;
+    );
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      this._scalingStrategy &#x3D; DEFAULT._scalingStrategy;
+      return this;
+    }
+    if (value.useViewbox) {
+      this._scalingStrategy &#x3D; &#x27;viewbox&#x27;;
+    } else {
+      if (!value.width &amp;&amp; !value.height) {
+        this._scalingStrategy &#x3D; &#x27;fixed&#x27;;
+      } else {
+        this._scalingStrategy &#x3D; &#x27;responsive-width&#x27;;
+
+        if (value.height) {
+          this._fixedHeight &#x3D; true;
+        }
+      }
+    }
+    return this;
+  }
+  /**
+   * OPTIONAL. Determines how the chart scales in response to container or window size changes.
+   *
+   * Default value, if not called, is &#x27;responsive-width&#x27;.
+   *
+   * @param value - One of:
+   * - &#x27;fixed&#x27;: Chart dimensions remain constant. Width and height are fixed.
+   * - &#x27;responsive-width&#x27;: Chart width responds to container; height is derived via aspect ratio.
+   * - &#x27;viewbox&#x27;: Chart is scaled entirely via SVG viewBox. All resizing behavior is controlled through CSS.
+   */
+  scalingStrategy(value: ScalingStrategy): this {
+    this._scalingStrategy &#x3D; value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. A time duration for all transitions in the chart, in ms.
+   *
+   * @@param value - The time duration for all transitions in the chart, in ms. If not called or called with null, a default value of 250 will be used.
+   */
+  transitionDuration(value: number | null): this {
+    if (value &#x3D;&#x3D;&#x3D; null) {
+      value &#x3D; DEFAULT._transitionDuration;
+      return this;
+    }
+    this._transitionDuration &#x3D; value;
+    return this;
+  }
+
+  /**
+   * @deprecated Use .maxWidth(...) instead.
+   */
+  width(value: number | null): this {
+    console.warn(
+      &#x27;[vic-chart] .width(...) is deprecated. Use .maxWidth(...) instead.&#x27;
+    );
+    return this.maxWidth(value);
+  }
+
+  getConfig(): ChartConfig {
+    this.validateBuilder();
+
+    const aspectRatio &#x3D;
+      this._scalingStrategy &#x3D;&#x3D;&#x3D; &#x27;responsive-width&#x27; &amp;&amp; !this._fixedHeight
+        ? (this._aspectRatio ?? this._width / this._height)
+        : undefined;
+
+    return new ChartConfig({
+      aspectRatio,
+      height: this._height,
+      margin: this._margin,
+      scalingStrategy: this._scalingStrategy,
+      transitionDuration: this._transitionDuration,
+      width: this._width,
+    });
+  }
+
+  private validateBuilder(): void {
+    if (this._height &#x3D;&#x3D;&#x3D; undefined) {
+      this._height &#x3D;
+        this._scalingStrategy &#x3D;&#x3D;&#x3D; &#x27;viewbox&#x27;
+          ? VIEWBOX_DEFAULT.height
+          : SCALES_DEFAULT.height;
+    }
+    if (this._width &#x3D;&#x3D;&#x3D; undefined) {
+      this._width &#x3D;
+        this._scalingStrategy &#x3D;&#x3D;&#x3D; &#x27;viewbox&#x27;
+          ? VIEWBOX_DEFAULT.width
+          : SCALES_DEFAULT.width;
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'VicChartConfigBuilder.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

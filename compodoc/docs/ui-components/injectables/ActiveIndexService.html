@@ -1,0 +1,1774 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Frontend Shared Packages Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Frontend Shared Packages Documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >ActiveIndexService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/ui-components/src/lib/combobox/listbox/active-index.service.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#activeIndex" >activeIndex</a>
+                            </li>
+                            <li>
+                                <a href="#activeIndex$" >activeIndex$</a>
+                            </li>
+                            <li>
+                                <a href="#scrollContentRef" >scrollContentRef</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#actionIsTypingChar" >actionIsTypingChar</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getIndexForAction" >getIndexForAction</a>
+                            </li>
+                            <li>
+                                <a href="#handleActiveIndexWhenCannotBeSet" >handleActiveIndexWhenCannotBeSet</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#handleScrollingForNewIndex" >handleScrollingForNewIndex</a>
+                            </li>
+                            <li>
+                                <a href="#init" >init</a>
+                            </li>
+                            <li>
+                                <a href="#initActiveId" >initActiveId</a>
+                            </li>
+                            <li>
+                                <a href="#listenToActions" >listenToActions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setActiveDescendant" >setActiveDescendant</a>
+                            </li>
+                            <li>
+                                <a href="#setActiveIndex" >setActiveIndex</a>
+                            </li>
+                            <li>
+                                <a href="#setActiveIndexToFirstSelectedOrDefault" >setActiveIndexToFirstSelectedOrDefault</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setNextActiveIndex" >setNextActiveIndex</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setPrevActiveIndex" >setPrevActiveIndex</a>
+                            </li>
+                            <li>
+                                <a href="#setScrollContentRef" >setScrollContentRef</a>
+                            </li>
+                            <li>
+                                <a href="#updateActiveIndexFromKeyChar" >updateActiveIndexFromKeyChar</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(service: <a href="../injectables/ComboboxService.html" target="_self">ComboboxService</a>, filtering: <a href="../injectables/ListboxFilteringService.html" target="_self">ListboxFilteringService</a>, scrolling: <a href="../injectables/ListboxScrollService.html" target="_self">ListboxScrollService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:24</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>service</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ComboboxService.html" target="_self" >ComboboxService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>filtering</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ListboxFilteringService.html" target="_self" >ListboxFilteringService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>scrolling</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ListboxScrollService.html" target="_self" >ListboxScrollService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="actionIsTypingChar"></a>
+                    <span class="name">
+                        <span ><b>actionIsTypingChar</b></span>
+                        <a href="#actionIsTypingChar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>actionIsTypingChar(action: <a href="../undefineds/OptionAction.html" target="_self">OptionAction | string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="225"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:225</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>action</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#OptionAction" target="_self" >OptionAction | string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getIndexForAction"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getIndexForAction</b></span>
+                        <a href="#getIndexForAction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getIndexForAction(currentIndex: number | null, maxIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, action: <a href="../undefineds/OptionAction.html" target="_self">OptionAction | string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="184"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:184</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>currentIndex</td>
+                                            <td>
+                                                        <code>number | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>maxIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>action</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#OptionAction" target="_self" >OptionAction | string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleActiveIndexWhenCannotBeSet"></a>
+                    <span class="name">
+                        <span ><b>handleActiveIndexWhenCannotBeSet</b></span>
+                        <a href="#handleActiveIndexWhenCannotBeSet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleActiveIndexWhenCannotBeSet()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="159"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:159</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleScrollingForNewIndex"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>handleScrollingForNewIndex</b></span>
+                        <a href="#handleScrollingForNewIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleScrollingForNewIndex(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="166"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:166</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="init"></a>
+                    <span class="name">
+                        <span ><b>init</b></span>
+                        <a href="#init"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>init(allOptions$: <a href="../components/ListboxOptionComponent.html" target="_self">Observable&lt;ListboxOptionComponent[]&gt;</a>, destroyRef: DestroyRef)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="32"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>allOptions$</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >Observable&lt;ListboxOptionComponent[]&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>destroyRef</td>
+                                            <td>
+                                                        <code>DestroyRef</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initActiveId"></a>
+                    <span class="name">
+                        <span ><b>initActiveId</b></span>
+                        <a href="#initActiveId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initActiveId()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="45"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="listenToActions"></a>
+                    <span class="name">
+                        <span ><b>listenToActions</b></span>
+                        <a href="#listenToActions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>listenToActions(allOptions$: <a href="../components/ListboxOptionComponent.html" target="_self">Observable&lt;ListboxOptionComponent[]&gt;</a>, destroyRef: DestroyRef)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="51"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>allOptions$</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >Observable&lt;ListboxOptionComponent[]&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>destroyRef</td>
+                                            <td>
+                                                        <code>DestroyRef</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setActiveDescendant"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setActiveDescendant</b></span>
+                        <a href="#setActiveDescendant"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setActiveDescendant()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="247"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:247</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setActiveIndex"></a>
+                    <span class="name">
+                        <span ><b>setActiveIndex</b></span>
+                        <a href="#setActiveIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setActiveIndex(index: number | null, actionIfDisabled: <a href="../undefineds/OptionAction.html" target="_self">OptionAction.next | OptionAction.previous | null</a>, options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>, scrollToIndex)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="118"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:118</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                        <code>number | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>actionIfDisabled</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#OptionAction" target="_self" >OptionAction.next | OptionAction.previous | null</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>scrollToIndex</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>true</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setActiveIndexToFirstSelectedOrDefault"></a>
+                    <span class="name">
+                        <span ><b>setActiveIndexToFirstSelectedOrDefault</b></span>
+                        <a href="#setActiveIndexToFirstSelectedOrDefault"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setActiveIndexToFirstSelectedOrDefault(options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="260"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:260</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setNextActiveIndex"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setNextActiveIndex</b></span>
+                        <a href="#setNextActiveIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setNextActiveIndex(action: <a href="../undefineds/OptionAction.html" target="_self">OptionAction</a>, activeIndex: number | null, options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="88"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:88</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>action</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#OptionAction" target="_self" >OptionAction</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>activeIndex</td>
+                                            <td>
+                                                        <code>number | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setPrevActiveIndex"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setPrevActiveIndex</b></span>
+                        <a href="#setPrevActiveIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setPrevActiveIndex(action: <a href="../undefineds/OptionAction.html" target="_self">OptionAction</a>, activeIndex: number | null, options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="105"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:105</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>action</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#OptionAction" target="_self" >OptionAction</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>activeIndex</td>
+                                            <td>
+                                                        <code>number | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setScrollContentRef"></a>
+                    <span class="name">
+                        <span ><b>setScrollContentRef</b></span>
+                        <a href="#setScrollContentRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setScrollContentRef(scrollContentRef: ElementRef)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="41"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>scrollContentRef</td>
+                                            <td>
+                                                        <code>ElementRef</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateActiveIndexFromKeyChar"></a>
+                    <span class="name">
+                        <span ><b>updateActiveIndexFromKeyChar</b></span>
+                        <a href="#updateActiveIndexFromKeyChar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateActiveIndexFromKeyChar(char: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: <a href="../components/ListboxOptionComponent.html" target="_self">ListboxOptionComponent[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="229"
+                                    class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:229</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>char</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../components/ListboxOptionComponent.html" target="_self" >ListboxOptionComponent[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeIndex"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>activeIndex</b></span>
+                        <a href="#activeIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;number | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeIndex$"></a>
+                    <span class="name">
+                        <span ><b>activeIndex$</b></span>
+                        <a href="#activeIndex$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.activeIndex.asObservable().pipe(distinctUntilChanged())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollContentRef"></a>
+                    <span class="name">
+                        <span ><b>scrollContentRef</b></span>
+                        <a href="#scrollContentRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLDivElement&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">libs/ui-components/src/lib/combobox/listbox/active-index.service.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DestroyRef, ElementRef, Injectable } from &#x27;@angular/core&#x27;;
+import { takeUntilDestroyed } from &#x27;@angular/core/rxjs-interop&#x27;;
+import {
+  BehaviorSubject,
+  distinctUntilChanged,
+  map,
+  Observable,
+  withLatestFrom,
+} from &#x27;rxjs&#x27;;
+import {
+  AutoComplete,
+  ComboboxService,
+  FocusTextbox,
+  OptionAction,
+} from &#x27;../combobox.service&#x27;;
+import { ListboxOptionComponent } from &#x27;../listbox-option/listbox-option.component&#x27;;
+import { ListboxFilteringService } from &#x27;./listbox-filtering.service&#x27;;
+import { ListboxScrollService } from &#x27;./listbox-scroll.service&#x27;;
+
+@Injectable()
+export class ActiveIndexService {
+  private activeIndex &#x3D; new BehaviorSubject&lt;number | null&gt;(null);
+  activeIndex$ &#x3D; this.activeIndex.asObservable().pipe(distinctUntilChanged());
+  scrollContentRef: ElementRef&lt;HTMLDivElement&gt;;
+
+  constructor(
+    private service: ComboboxService,
+    private filtering: ListboxFilteringService,
+    private scrolling: ListboxScrollService
+  ) {}
+
+  init(
+    allOptions$: Observable&lt;ListboxOptionComponent[]&gt;,
+    destroyRef: DestroyRef
+  ): void {
+    this.listenToActions(allOptions$, destroyRef);
+    this.initActiveId();
+    this.setActiveDescendant();
+  }
+
+  setScrollContentRef(scrollContentRef: ElementRef): void {
+    this.scrollContentRef &#x3D; scrollContentRef;
+  }
+
+  initActiveId(): void {
+    if (!this.service.nullActiveIdOnClose) {
+      this.activeIndex.next(0);
+    }
+  }
+
+  listenToActions(
+    allOptions$: Observable&lt;ListboxOptionComponent[]&gt;,
+    destroyRef: DestroyRef
+  ): void {
+    this.service.optionAction$
+      .pipe(
+        takeUntilDestroyed(destroyRef),
+        withLatestFrom(this.activeIndex$, allOptions$)
+      )
+      .subscribe(([action, activeIndex, options]) &#x3D;&gt; {
+        if (!this.actionIsTypingChar(action)) {
+          if (
+            action &#x3D;&#x3D;&#x3D; OptionAction.last ||
+            action &#x3D;&#x3D;&#x3D; OptionAction.next ||
+            action &#x3D;&#x3D;&#x3D; OptionAction.pageDown
+          ) {
+            this.setNextActiveIndex(action, activeIndex, options);
+          } else if (
+            action &#x3D;&#x3D;&#x3D; OptionAction.first ||
+            action &#x3D;&#x3D;&#x3D; OptionAction.pageUp ||
+            action &#x3D;&#x3D;&#x3D; OptionAction.previous
+          ) {
+            this.setPrevActiveIndex(action, activeIndex, options);
+          } else if (action &#x3D;&#x3D;&#x3D; OptionAction.zeroActiveIndex) {
+            this.setActiveIndex(0, OptionAction.next, options);
+          } else if (action &#x3D;&#x3D;&#x3D; OptionAction.nullActiveIndex) {
+            // should only be emitted from editable textboxes
+            if (this.service.nullActiveIdOnClose) {
+              this.setActiveIndex(null, OptionAction.next, options);
+            }
+          }
+        } else if (action.length &#x3D;&#x3D;&#x3D; 1) {
+          this.updateActiveIndexFromKeyChar(action, options);
+        }
+      });
+  }
+
+  private setNextActiveIndex(
+    action: OptionAction,
+    activeIndex: number | null,
+    options: ListboxOptionComponent[]
+  ): void {
+    const maxIndex &#x3D; options.length - 1;
+    if (activeIndex &#x3D;&#x3D;&#x3D; null &amp;&amp; action &#x3D;&#x3D;&#x3D; OptionAction.next) {
+      this.setActiveIndex(0, OptionAction.next, options);
+    } else {
+      this.setActiveIndex(
+        this.getIndexForAction(activeIndex, maxIndex, action),
+        OptionAction.next,
+        options
+      );
+    }
+  }
+
+  private setPrevActiveIndex(
+    action: OptionAction,
+    activeIndex: number | null,
+    options: ListboxOptionComponent[]
+  ) {
+    const maxIndex &#x3D; options.length - 1;
+    this.setActiveIndex(
+      this.getIndexForAction(activeIndex, maxIndex, action),
+      OptionAction.previous,
+      options
+    );
+  }
+
+  setActiveIndex(
+    index: number | null,
+    actionIfDisabled: OptionAction.next | OptionAction.previous | null,
+    options: ListboxOptionComponent[],
+    scrollToIndex &#x3D; true
+  ): void {
+    if (index &#x3D;&#x3D;&#x3D; this.activeIndex.value) return;
+    if (index &#x3D;&#x3D;&#x3D; null || options.every((x) &#x3D;&gt; x.isDisabled())) {
+      this.handleActiveIndexWhenCannotBeSet();
+    } else {
+      let attempt &#x3D; index;
+      while (actionIfDisabled &amp;&amp; options[attempt]?.isDisabled()) {
+        if (actionIfDisabled &#x3D;&#x3D;&#x3D; OptionAction.next) {
+          if (attempt &#x3D;&#x3D;&#x3D; options.length - 1) {
+            attempt &#x3D; 0;
+          } else {
+            attempt++;
+          }
+        } else if (actionIfDisabled &#x3D;&#x3D;&#x3D; OptionAction.previous) {
+          if (attempt &#x3D;&#x3D;&#x3D; 0) {
+            attempt &#x3D; options.length - 1;
+          } else {
+            attempt--;
+          }
+        }
+      }
+      if (
+        attempt &gt;&#x3D; 0 &amp;&amp;
+        attempt &lt; options.length &amp;&amp;
+        !options[attempt]?.isDisabled()
+      ) {
+        if (scrollToIndex) {
+          this.handleScrollingForNewIndex(attempt, options);
+        }
+        this.activeIndex.next(attempt);
+      } else {
+        this.handleActiveIndexWhenCannotBeSet();
+      }
+    }
+  }
+
+  handleActiveIndexWhenCannotBeSet(): void {
+    this.service.emitTextboxFocus(FocusTextbox.includeMobile);
+    if (this.service.autoComplete !&#x3D;&#x3D; AutoComplete.none) {
+      this.activeIndex.next(null);
+    }
+  }
+
+  private handleScrollingForNewIndex(
+    index: number,
+    options: ListboxOptionComponent[]
+  ): void {
+    const indexEl &#x3D; options[index].label?.nativeElement.parentElement;
+    if (indexEl &amp;&amp; this.scrollContentRef.nativeElement) {
+      if (this.scrolling.isScrollable(this.scrollContentRef.nativeElement)) {
+        this.scrolling.maintainElementVisibility(
+          indexEl,
+          this.scrollContentRef.nativeElement
+        );
+      }
+      if (!this.scrolling.isElementInView(indexEl)) {
+        indexEl.scrollIntoView({ behavior: &#x27;smooth&#x27;, block: &#x27;nearest&#x27; });
+      }
+    }
+  }
+
+  private getIndexForAction(
+    currentIndex: number | null,
+    maxIndex: number,
+    action: OptionAction | string
+  ): number {
+    const pageSize &#x3D; 10; // used for pageup/pagedown
+    const loop &#x3D; this.service.autoComplete !&#x3D;&#x3D; AutoComplete.none;
+    const validIndex &#x3D; currentIndex ?? 0;
+    const previous &#x3D; () &#x3D;&gt; {
+      if (loop) {
+        return validIndex &#x3D;&#x3D;&#x3D; 0 ? maxIndex : validIndex - 1;
+      } else {
+        return Math.max(0, validIndex - 1);
+      }
+    };
+    const next &#x3D; () &#x3D;&gt; {
+      if (loop) {
+        return validIndex &#x3D;&#x3D;&#x3D; maxIndex ? 0 : validIndex + 1;
+      } else {
+        return Math.min(maxIndex, validIndex + 1);
+      }
+    };
+
+    switch (action) {
+      case OptionAction.first:
+        return 0;
+      case OptionAction.last:
+        return maxIndex;
+      case OptionAction.previous:
+        return previous();
+      case OptionAction.next:
+        return next();
+      case OptionAction.pageUp:
+        return Math.max(0, validIndex - pageSize);
+      case OptionAction.pageDown:
+        return Math.min(maxIndex, validIndex + pageSize);
+      default:
+        return validIndex;
+    }
+  }
+
+  actionIsTypingChar(action: OptionAction | string): boolean {
+    return !(Object.values(OptionAction) as string[]).includes(action);
+  }
+
+  updateActiveIndexFromKeyChar(
+    char: string,
+    options: ListboxOptionComponent[]
+  ): void {
+    this.filtering.updateSearchString(char);
+    const searchIndex &#x3D; this.filtering.getIndexByLetter(
+      options,
+      this.filtering.searchString,
+      this.activeIndex.value + 1
+    );
+
+    if (searchIndex &gt;&#x3D; 0) {
+      this.setActiveIndex(searchIndex, OptionAction.next, options);
+    } else {
+      this.filtering.resetSearch();
+    }
+  }
+
+  private setActiveDescendant(): void {
+    const activeDescendant$ &#x3D; this.activeIndex$.pipe(
+      map((i) &#x3D;&gt; {
+        if (i &#x3D;&#x3D;&#x3D; null || i &lt; 0) {
+          return null;
+        } else {
+          return &#x60;${this.service.id}-listbox-option-${i}&#x60;;
+        }
+      })
+    );
+    this.service.initActiveDescendant(activeDescendant$);
+  }
+
+  setActiveIndexToFirstSelectedOrDefault(
+    options: ListboxOptionComponent[]
+  ): void {
+    let firstSelected &#x3D; options.findIndex((x) &#x3D;&gt; x.isSelected());
+    if (firstSelected &#x3D;&#x3D;&#x3D; -1) {
+      if (this.service.shouldAutoSelectOnListboxClose) {
+        firstSelected &#x3D; 0;
+      } else {
+        firstSelected &#x3D; this.service.nullActiveIdOnClose ? null : 0;
+      }
+    }
+    if (firstSelected &gt; -1) {
+      this.setActiveIndex(firstSelected, OptionAction.next, options);
+    }
+    if (firstSelected &#x3D;&#x3D;&#x3D; null) {
+      this.activeIndex.next(null);
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ActiveIndexService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
