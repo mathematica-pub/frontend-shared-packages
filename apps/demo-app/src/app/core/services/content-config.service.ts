@@ -36,7 +36,7 @@ export class ContentConfigService {
   );
   config$ = this.config.asObservable();
 
-  constructor(private assets: AdkAssetsService) { }
+  constructor(private assets: AdkAssetsService) {}
 
   initConfig(): void {
     this.assets

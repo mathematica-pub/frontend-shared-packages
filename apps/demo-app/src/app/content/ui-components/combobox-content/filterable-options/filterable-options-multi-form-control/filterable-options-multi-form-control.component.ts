@@ -14,7 +14,8 @@ import { FilterableOptionsMulti } from '../filterable-options-multi';
 })
 export class FilterableOptionsMultiSelectFormControlComboboxComponent
   extends FilterableOptionsMulti
-  implements OnInit {
+  implements OnInit
+{
   inputFormControl: FormControl<string> = new FormControl<string>('');
   listboxFormControl: FormControl<string[]> = new FormControl<string[]>([]);
 

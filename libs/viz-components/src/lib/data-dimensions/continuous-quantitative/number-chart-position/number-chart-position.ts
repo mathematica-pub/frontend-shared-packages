@@ -25,7 +25,8 @@ import { NumberChartPositionDimensionOptions } from './number-chart-position-opt
 
 export class NumberChartPositionDimension<Datum>
   extends NumberDimension<Datum>
-  implements NumberChartPositionDimensionOptions<Datum> {
+  implements NumberChartPositionDimensionOptions<Datum>
+{
   readonly domainPadding?: ConcreteDomainPadding;
   readonly scaleFn: (
     domain?: Iterable<number>,

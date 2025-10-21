@@ -9,7 +9,8 @@ import { PixelDomainPaddingOptions } from './pixel-options';
 
 export class PixelDomainPadding
   extends DomainPadding
-  implements PixelDomainPaddingOptions {
+  implements PixelDomainPaddingOptions
+{
   readonly numPixels: number;
   readonly type: DomainPaddingType.numPixels = DomainPaddingType.numPixels;
 

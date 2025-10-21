@@ -40,8 +40,8 @@ export class LinesStrokeBuilder<Datum> {
   color(
     color:
       | ((
-        dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
-      ) => void)
+          dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
+        ) => void)
       | null
   ): this {
     if (color === null) {

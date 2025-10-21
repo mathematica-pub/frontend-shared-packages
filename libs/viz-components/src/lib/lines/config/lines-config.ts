@@ -18,7 +18,8 @@ export interface LinesMarkerDatum {
 
 export class LinesConfig<Datum>
   extends XyPrimaryMarksConfig<Datum>
-  implements LinesOptions<Datum> {
+  implements LinesOptions<Datum>
+{
   readonly curve: CurveFactory;
   readonly labelLines: boolean;
   readonly lineLabelsFormat: (d: string) => string;

@@ -52,12 +52,12 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
       | string
       | null
       | ((
-        fill: OrdinalVisualValueDimensionBuilder<
-          GeographiesFeature<TProperties, TGeometry>,
-          string,
-          string
-        >
-      ) => void)
+          fill: OrdinalVisualValueDimensionBuilder<
+            GeographiesFeature<TProperties, TGeometry>,
+            string,
+            string
+          >
+        ) => void)
   ): this {
     this.initFillBuilder();
 

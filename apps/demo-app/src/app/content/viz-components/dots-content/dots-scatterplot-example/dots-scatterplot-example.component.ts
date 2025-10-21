@@ -79,7 +79,7 @@ export class DotsScatterplotExampleComponent implements OnInit {
     private dots: VicDotsConfigBuilder<Datum>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getViewModel();

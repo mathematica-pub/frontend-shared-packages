@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     public routerState: RouterStateService,
     private highlighting: AdkShikiHighlighter,
     private contentService: ContentFilesService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.routerState.initialize();

@@ -46,4 +46,4 @@ export function mixinYAxisConfig<
 export class YAxisConfig<
   Tick extends DataValue,
   TicksConfig extends Ticks<Tick>,
-> extends mixinYAxisConfig(XyAxisConfig)<Tick, TicksConfig> { }
+> extends mixinYAxisConfig(XyAxisConfig)<Tick, TicksConfig> {}

@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   constructor(
     public routerState: RouterStateService,
     private highlighting: AdkShikiHighlighter
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.routerState.initialize();

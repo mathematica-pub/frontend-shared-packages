@@ -19,7 +19,8 @@ export function mixinQuantitativeAxisConfig<
   @Directive()
   abstract class Mixin
     extends Base
-    implements VicQuantitativeAxisOptions<Tick> {
+    implements VicQuantitativeAxisOptions<Tick>
+  {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(...args: any[]) {
       super(...args);
@@ -36,4 +37,4 @@ export abstract class VicQuantitativeAxisConfig<
 > extends mixinQuantitativeAxisConfig(XyAxisConfig)<
   Tick,
   QuantitativeTicks<Tick>
-> { }
+> {}

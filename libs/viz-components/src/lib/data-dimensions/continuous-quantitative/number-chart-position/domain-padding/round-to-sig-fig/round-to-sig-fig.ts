@@ -9,7 +9,8 @@ import { RoundUpToSigFigDomainPaddingOptions } from './round-to-sig-fig-options'
 
 export class RoundUpToSigFigDomainPadding
   extends DomainPadding
-  implements RoundUpToSigFigDomainPaddingOptions {
+  implements RoundUpToSigFigDomainPaddingOptions
+{
   readonly sigFigures: (d: number) => number;
   readonly type: DomainPaddingType.roundUp;
 

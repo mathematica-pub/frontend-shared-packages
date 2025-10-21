@@ -11,7 +11,8 @@ const DEFAULT = {
 
 export class GroupedBarsConfig<Datum, TOrdinalValue extends DataValue>
   extends BarsConfig<Datum, TOrdinalValue>
-  implements GroupedBarsOptions<Datum, TOrdinalValue> {
+  implements GroupedBarsOptions<Datum, TOrdinalValue>
+{
   intraGroupPadding: number;
 
   constructor(

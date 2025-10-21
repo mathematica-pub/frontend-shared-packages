@@ -7,7 +7,8 @@ import { QuantitativeRulesOptions } from './quantitative-rules-options';
 
 export class QuantitativeRulesConfig<Datum extends number | Date>
   extends XyMarksConfig<Datum>
-  implements QuantitativeRulesOptions<Datum> {
+  implements QuantitativeRulesOptions<Datum>
+{
   color: (d: Datum) => string;
   readonly dimensions: QuantitativeRulesDimensions;
   labels: QuantitativeRulesLabels<Datum>;

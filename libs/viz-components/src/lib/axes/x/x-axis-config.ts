@@ -47,4 +47,4 @@ export function mixinXAxisConfig<
 export class XAxisConfig<
   Tick extends DataValue,
   TicksConfig extends Ticks<Tick>,
-> extends mixinXAxisConfig(XyAxisConfig)<Tick, TicksConfig> { }
+> extends mixinXAxisConfig(XyAxisConfig)<Tick, TicksConfig> {}

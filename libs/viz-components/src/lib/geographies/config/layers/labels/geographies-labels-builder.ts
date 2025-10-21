@@ -225,7 +225,7 @@ export class GeographiesLabelsBuilder<
       );
     const endPolygon = (
       feature.geometry.coordinates[
-      feature.geometry.coordinates.length - 1
+        feature.geometry.coordinates.length - 1
       ][0] as [number, number][]
     ).map(projection);
 

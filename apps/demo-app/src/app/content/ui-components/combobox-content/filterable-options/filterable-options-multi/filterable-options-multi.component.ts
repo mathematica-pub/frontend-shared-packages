@@ -13,7 +13,8 @@ import { FilterableOptionsMulti } from '../filterable-options-multi';
 })
 export class FilterableOptionsMultiSelectComboboxComponent
   extends FilterableOptionsMulti
-  implements OnInit {
+  implements OnInit
+{
   inputValue = new BehaviorSubject<string>('');
   inputValue$ = this.inputValue.asObservable();
   listboxValue = new BehaviorSubject<string[]>([]);

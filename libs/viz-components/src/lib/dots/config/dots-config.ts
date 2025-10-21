@@ -13,12 +13,13 @@ import { Stroke } from '../../stroke/stroke';
 import { DotsOptions } from './dots-options';
 
 export class DotsConfig<
-  Datum,
-  XOrdinalDomain extends DataValue = string,
-  YOrdinalDomain extends DataValue = string,
->
+    Datum,
+    XOrdinalDomain extends DataValue = string,
+    YOrdinalDomain extends DataValue = string,
+  >
   extends XyPrimaryMarksConfig<Datum>
-  implements DotsOptions<Datum, XOrdinalDomain, YOrdinalDomain> {
+  implements DotsOptions<Datum, XOrdinalDomain, YOrdinalDomain>
+{
   fill:
     | OrdinalVisualValueDimension<Datum, string, string>
     | NumberVisualValueDimension<Datum, string>;

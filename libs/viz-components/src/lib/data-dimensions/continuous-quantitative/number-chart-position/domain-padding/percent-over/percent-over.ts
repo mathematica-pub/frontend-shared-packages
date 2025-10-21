@@ -8,7 +8,8 @@ import { PercentOverDomainPaddingOptions } from './percent-over-options';
 
 export class PercentOverDomainPadding
   extends DomainPadding
-  implements PercentOverDomainPaddingOptions {
+  implements PercentOverDomainPaddingOptions
+{
   readonly percentOver: number;
   readonly type: DomainPaddingType.percentOver;
 

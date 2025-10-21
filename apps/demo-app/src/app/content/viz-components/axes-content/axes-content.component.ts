@@ -46,7 +46,7 @@ export class AxesContentComponent implements OnInit {
   constructor(
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.defaultAxes = {

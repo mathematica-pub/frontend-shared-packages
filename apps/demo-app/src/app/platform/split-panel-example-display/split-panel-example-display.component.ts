@@ -33,7 +33,8 @@ import { ResizableExampleDisplay } from './resizable-example-display';
 })
 export class SplitPanelExampleDisplayComponent
   extends ResizableExampleDisplay
-  implements OnInit {
+  implements OnInit
+{
   @ViewChild('resizer', { static: true }) resizer: ElementRef<HTMLDivElement>;
   @ViewChild('examplePanel', { static: true })
   examplePanel: ElementRef<HTMLDivElement>;

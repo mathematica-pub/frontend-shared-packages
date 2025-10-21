@@ -10,11 +10,12 @@ import { EqualValueRangesAttributeDataDimensionOptions } from './equal-value-ran
  * The generic parameter is the type of the attribute data.
  */
 export class EqualValueRangesAttributeDataDimension<
-  Datum,
-  RangeValue extends string | number = string,
->
+    Datum,
+    RangeValue extends string | number = string,
+  >
   extends CalculatedBinsAttributeDataDimension<Datum, RangeValue>
-  implements EqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue> {
+  implements EqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
+{
   override readonly binType: BinStrategy.equalValueRanges;
   private calculatedDomain: [number, number];
   readonly domain: [number, number];

@@ -9,11 +9,12 @@ import { EqualFrequenciesAttributeDataDimensionOptions } from './equal-frequenci
  * The generic parameter is the type of the attribute data.
  */
 export class EqualFrequenciesAttributeDataDimension<
-  Datum,
-  RangeValue extends string | number = string,
->
+    Datum,
+    RangeValue extends string | number = string,
+  >
   extends CalculatedBinsAttributeDataDimension<Datum, RangeValue>
-  implements EqualFrequenciesAttributeDataDimensionOptions<Datum, RangeValue> {
+  implements EqualFrequenciesAttributeDataDimensionOptions<Datum, RangeValue>
+{
   override readonly binType: BinStrategy.equalFrequencies;
   private calculatedDomain: number[];
   readonly numBins: number;

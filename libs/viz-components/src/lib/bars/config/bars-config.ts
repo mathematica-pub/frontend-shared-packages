@@ -13,7 +13,8 @@ import { BarsLabels } from './labels/bars-labels';
 
 export class BarsConfig<Datum, OrdinalDomain extends DataValue>
   extends XyPrimaryMarksConfig<Datum>
-  implements BarsOptions<Datum, OrdinalDomain> {
+  implements BarsOptions<Datum, OrdinalDomain>
+{
   barsKeyFunction: (i: number) => string;
   readonly backgrounds: BarsBackgrounds;
   readonly color: OrdinalVisualValueDimension<Datum, string, string>;

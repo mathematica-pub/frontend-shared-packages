@@ -80,7 +80,7 @@ export class DotsExampleComponent implements OnInit {
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
     private tooltip: VicHtmlTooltipConfigBuilder
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.vm$ = this.dataService.weatherData$.pipe(

@@ -3,10 +3,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import {
-  HsiUiComboboxModule,
-  ListboxOptionComponent,
-} from '@mathstack/ui';
+import { HsiUiComboboxModule, ListboxOptionComponent } from '@mathstack/ui';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';

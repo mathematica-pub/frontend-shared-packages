@@ -29,4 +29,4 @@ export function mixinOrdinalAxisConfig<
 
 export abstract class VicOrdinalAxisConfig<
   Tick extends DataValue,
-> extends mixinOrdinalAxisConfig(XyAxisConfig)<Tick, Ticks<Tick>> { }
+> extends mixinOrdinalAxisConfig(XyAxisConfig)<Tick, Ticks<Tick>> {}

@@ -12,11 +12,12 @@ import { CustomBreaksBinsAttributeDataDimensionOptions } from './custom-breaks-b
  * The generic parameter is the type of the attribute data.
  */
 export class CustomBreaksBinsAttributeDataDimension<
-  Datum,
-  RangeValue extends string | number = string,
->
+    Datum,
+    RangeValue extends string | number = string,
+  >
   extends AttributeDataDimension<Datum, number, RangeValue>
-  implements CustomBreaksBinsAttributeDataDimensionOptions<Datum, RangeValue> {
+  implements CustomBreaksBinsAttributeDataDimensionOptions<Datum, RangeValue>
+{
   override readonly binType: BinStrategy.customBreaks;
   readonly breakValues: number[];
   private calculatedNumBins: number;

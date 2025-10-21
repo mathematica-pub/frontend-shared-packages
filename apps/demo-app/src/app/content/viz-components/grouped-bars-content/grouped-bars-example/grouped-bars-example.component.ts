@@ -96,7 +96,7 @@ export class GroupedBarsExampleComponent implements OnInit {
     private xAxisOrdinal: VicXOrdinalAxisConfigBuilder<Date>,
     private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
     private tooltip: VicHtmlTooltipConfigBuilder
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.vm$ = this.dataService.industryUnemploymentData$.pipe(

@@ -52,7 +52,7 @@ export class QuickStartExampleComponent implements OnInit {
     private bars: VicBarsConfigBuilder<MetroUnemploymentDatum, string>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.chartConfig = this.chart

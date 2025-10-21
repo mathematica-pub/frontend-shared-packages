@@ -2,7 +2,8 @@ import { safeAssign } from '@mathstack/app-kit';
 import { QuantitativeRulesLabelsOptions } from './quantitative-rules-labels-options';
 
 export class QuantitativeRulesLabels<Datum>
-  implements QuantitativeRulesLabelsOptions<Datum> {
+  implements QuantitativeRulesLabelsOptions<Datum>
+{
   color: (d: Datum) => string;
   display: (d: Datum) => boolean;
   dominantBaseline:

@@ -133,11 +133,11 @@ export class VicStackedAreaConfigBuilder<
   stackOrder(
     stackOrder:
       | ((
-        series: Series<
-          [ContinuousValue, InternMap<CategoricalDomain, number>],
-          CategoricalDomain
-        >
-      ) => Iterable<number>)
+          series: Series<
+            [ContinuousValue, InternMap<CategoricalDomain, number>],
+            CategoricalDomain
+          >
+        ) => Iterable<number>)
       | null
   ): this {
     if (stackOrder === null) {
@@ -166,12 +166,12 @@ export class VicStackedAreaConfigBuilder<
   stackOffset(
     stackOffset:
       | ((
-        series: Series<
-          [ContinuousValue, InternMap<CategoricalDomain, number>],
-          CategoricalDomain
-        >,
-        order: number[]
-      ) => void)
+          series: Series<
+            [ContinuousValue, InternMap<CategoricalDomain, number>],
+            CategoricalDomain
+          >,
+          order: number[]
+        ) => void)
       | null
   ): this {
     if (stackOffset === null) {

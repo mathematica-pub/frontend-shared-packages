@@ -46,7 +46,7 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
     private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
     @Inject(DOCUMENT) private document: Document
-  ) { }
+  ) {}
 
   init(): void {
     if (!this.overlayRef) {

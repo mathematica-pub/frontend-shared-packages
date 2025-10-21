@@ -32,7 +32,7 @@ export class DocumentationContainerComponent implements OnInit {
   constructor(
     private routerState: RouterStateService,
     public configsService: DirectoryConfigsService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setFileConfig();

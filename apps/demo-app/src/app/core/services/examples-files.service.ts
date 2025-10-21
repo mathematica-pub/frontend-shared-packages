@@ -20,7 +20,7 @@ export class ExamplesFilesService {
     private http: HttpClient,
     private highlighter: AdkShikiHighlighter,
     private sanitizer: DomSanitizer
-  ) { }
+  ) {}
 
   getComponentCode(name: string, shikiTheme: ShikiTheme): Observable<SafeHtml> {
     if (!this.files[name]) {

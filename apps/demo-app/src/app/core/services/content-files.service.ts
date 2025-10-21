@@ -30,7 +30,7 @@ export class ContentFilesService {
     private routerState: RouterStateService,
     public configsService: ContentConfigService,
     private adkContentService: AdkDocumentationContentService
-  ) { }
+  ) {}
 
   initialize(): void {
     this.setFileConfig();

@@ -31,7 +31,7 @@ export class SidebarComponent implements OnInit {
     public routerState: RouterStateService,
 
     private configService: DirectoryConfigsService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.initDirectoryItems();

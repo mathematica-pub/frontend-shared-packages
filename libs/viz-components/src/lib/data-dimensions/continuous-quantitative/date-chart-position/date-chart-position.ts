@@ -31,7 +31,8 @@ import { DateChartPositionDimensionOptions } from './date-chart-position-options
 
 export class DateChartPositionDimension<Datum>
   extends DataDimension<Datum, Date>
-  implements DateChartPositionDimensionOptions<Datum> {
+  implements DateChartPositionDimensionOptions<Datum>
+{
   private calculatedDomain: [Date, Date];
   readonly domain: [Date, Date];
   readonly formatSpecifier: string;

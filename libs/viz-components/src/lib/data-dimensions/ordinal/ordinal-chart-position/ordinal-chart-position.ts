@@ -31,7 +31,8 @@ import { OrdinalChartPositionDimensionOptions } from './ordinal-chart-position-o
 
 export class OrdinalChartPositionDimension<Datum, Domain extends DataValue>
   extends DataDimension<Datum, Domain>
-  implements OrdinalChartPositionDimensionOptions<Datum, Domain> {
+  implements OrdinalChartPositionDimensionOptions<Datum, Domain>
+{
   readonly align: number;
   private _calculatedDomain: Domain[];
   readonly domain: Domain[];

@@ -123,7 +123,7 @@ export class LinesExampleComponent implements OnInit {
     private xAxisQuantitative: VicXQuantitativeAxisConfigBuilder<Date>,
     private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
     private tooltip: VicHtmlTooltipConfigBuilder
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.vm$ = this.dataService.metroUnemploymentData$.pipe(

@@ -57,7 +57,7 @@ export class DirectoryConfigsService {
   constructor(
     private assets: AdkAssetsService,
     private titleCase: TitleCasePipe
-  ) { }
+  ) {}
 
   initConfigs(): void {
     forkJoin([

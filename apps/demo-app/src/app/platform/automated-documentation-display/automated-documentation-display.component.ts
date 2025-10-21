@@ -35,7 +35,8 @@ import { AutomatedDocumentationParser } from './automated-documentation-parser.s
   encapsulation: ViewEncapsulation.None,
 })
 export class AutomatedDocumentationDisplayComponent
-  implements OnInit, AfterViewInit {
+  implements OnInit, AfterViewInit
+{
   @ViewChild('docsDiv', { static: true }) docsDiv: ElementRef<HTMLDivElement>;
   sanitizedDocumentation: SafeHtml;
   router = inject(Router);
@@ -48,7 +49,7 @@ export class AutomatedDocumentationDisplayComponent
   constructor(
     private routerState: RouterStateService,
     private automatedDocsParser: AutomatedDocumentationParser
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.contentPath$ = this.routerState.state$.pipe(

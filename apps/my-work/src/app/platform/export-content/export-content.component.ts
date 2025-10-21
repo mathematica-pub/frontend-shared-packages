@@ -35,7 +35,7 @@ export class ExportContentComponent {
   @ViewChild('image') image: ElementRef<HTMLElement>;
   id = uniqueId++;
 
-  constructor(private imageService: VicImageDownloadService) { }
+  constructor(private imageService: VicImageDownloadService) {}
 
   async downloadImage(): Promise<void> {
     const imageConfig = this.getConfig({

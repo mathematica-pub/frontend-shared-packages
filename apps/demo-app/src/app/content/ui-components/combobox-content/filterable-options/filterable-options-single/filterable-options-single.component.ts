@@ -13,7 +13,8 @@ import { FilterableOptionsSingle } from '../filterable-options-single';
 })
 export class FilterableOptionsSingleSelectComboboxComponent
   extends FilterableOptionsSingle
-  implements OnInit {
+  implements OnInit
+{
   inputValue = new BehaviorSubject<string>('');
   inputValue$ = this.inputValue.asObservable();
   listboxValue = new BehaviorSubject<string>(null);

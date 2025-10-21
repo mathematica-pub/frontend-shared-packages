@@ -5,7 +5,7 @@ import { UsMapTopology } from '../services/basemap';
 
 @Injectable({ providedIn: 'root' })
 export class DataResource {
-  constructor(private assets: AdkAssetsService) { }
+  constructor(private assets: AdkAssetsService) {}
 
   getBasemap(): Observable<UsMapTopology> {
     return this.assets

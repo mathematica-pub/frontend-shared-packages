@@ -40,7 +40,7 @@ export class ContentContainerComponent implements AfterViewInit {
     private zone: NgZone,
     private destroyRef: DestroyRef,
     @Inject(DOCUMENT) private document: Document
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     this.activeHeading.initScrollListener(

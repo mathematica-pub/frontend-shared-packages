@@ -37,11 +37,11 @@ interface ViewModel {
   chartConfig: ChartConfig;
   dataConfig: BarsConfig<MetroUnemploymentDatum, string>;
   xAxisConfig:
-  | VicXOrdinalAxisConfig<string>
-  | VicXQuantitativeAxisConfig<number>;
+    | VicXOrdinalAxisConfig<string>
+    | VicXQuantitativeAxisConfig<number>;
   yAxisConfig:
-  | VicYOrdinalAxisConfig<string>
-  | VicYQuantitativeAxisConfig<number>;
+    | VicYOrdinalAxisConfig<string>
+    | VicYQuantitativeAxisConfig<number>;
 }
 
 enum Orientation {
@@ -113,7 +113,7 @@ export class BarsExampleComponent implements OnInit {
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>,
     private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
     private tooltip: VicHtmlTooltipConfigBuilder
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const data$ = this.dataService.metroUnemploymentData$.pipe(
@@ -145,47 +145,47 @@ export class BarsExampleComponent implements OnInit {
     const xAxisConfig =
       layout.orientation === Orientation.horizontal
         ? this.xQuantitativeAxis
-          .side('top')
-          .ticks((ticks) => ticks.format('.0f'))
-          .getConfig()
+            .side('top')
+            .ticks((ticks) => ticks.format('.0f'))
+            .getConfig()
         : this.xOrdinalAxis
-          .ticks((ticks) => ticks.marksDisplay(false).rotate(30))
-          .getConfig();
+            .ticks((ticks) => ticks.marksDisplay(false).rotate(30))
+            .getConfig();
     const yAxisConfig =
       layout.orientation === Orientation.horizontal
         ? this.yOrdinalAxis
-          .ticks((ticks) => ticks.marksDisplay(false))
-          .getConfig()
+            .ticks((ticks) => ticks.marksDisplay(false))
+            .getConfig()
         : this.yQuantitativeAxis
-          .ticks((ticks) => ticks.format('.0f'))
-          .getConfig();
+            .ticks((ticks) => ticks.format('.0f'))
+            .getConfig();
 
     const dataConfig = this.bars
       .data(filteredData)
       .horizontal(
         layout.orientation === Orientation.horizontal
           ? (bars) =>
-            bars
-              .x((dimension) =>
-                dimension
-                  .valueAccessor((d) => d.value)
-                  .formatFunction((d) => this.getQuantitativeValueFormat(d))
-                  .domainPaddingPixels()
-              )
-              .y((dimension) => dimension.valueAccessor((d) => d.division))
+              bars
+                .x((dimension) =>
+                  dimension
+                    .valueAccessor((d) => d.value)
+                    .formatFunction((d) => this.getQuantitativeValueFormat(d))
+                    .domainPaddingPixels()
+                )
+                .y((dimension) => dimension.valueAccessor((d) => d.division))
           : null
       )
       .vertical(
         layout.orientation === Orientation.vertical
           ? (bars) =>
-            bars
-              .x((dimension) => dimension.valueAccessor((d) => d.division))
-              .y((dimension) =>
-                dimension
-                  .valueAccessor((d) => d.value)
-                  .formatFunction((d) => this.getQuantitativeValueFormat(d))
-                  .domainPaddingPixels()
-              )
+              bars
+                .x((dimension) => dimension.valueAccessor((d) => d.division))
+                .y((dimension) =>
+                  dimension
+                    .valueAccessor((d) => d.value)
+                    .formatFunction((d) => this.getQuantitativeValueFormat(d))
+                    .domainPaddingPixels()
+                )
           : null
       )
       .color((dimension) => dimension.range(['royalblue']))

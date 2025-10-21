@@ -52,7 +52,7 @@ export class LibDocsComponent implements OnInit {
     public routerState: RouterStateService,
     private assets: AdkAssetsService,
     private configService: ContentConfigService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.initCustomDocumentation();

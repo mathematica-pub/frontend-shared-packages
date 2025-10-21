@@ -99,8 +99,8 @@ export class VicDotsConfigBuilder<
   fillCategorical(
     fill:
       | ((
-        fill: OrdinalVisualValueDimensionBuilder<Datum, string, string>
-      ) => void)
+          fill: OrdinalVisualValueDimensionBuilder<Datum, string, string>
+        ) => void)
       | null
   ): this {
     if (fill === null) {
@@ -172,8 +172,8 @@ export class VicDotsConfigBuilder<
   radiusCategorical(
     radius:
       | ((
-        radius: OrdinalVisualValueDimensionBuilder<Datum, string, number>
-      ) => void)
+          radius: OrdinalVisualValueDimensionBuilder<Datum, string, number>
+        ) => void)
       | null
   ): this {
     if (radius === null) {
@@ -266,8 +266,8 @@ export class VicDotsConfigBuilder<
   xOrdinal(
     x:
       | ((
-        x: OrdinalChartPositionDimensionBuilder<Datum, XOrdinalDomain>
-      ) => void)
+          x: OrdinalChartPositionDimensionBuilder<Datum, XOrdinalDomain>
+        ) => void)
       | null
   ): this {
     if (x === null) {
@@ -326,8 +326,8 @@ export class VicDotsConfigBuilder<
   yOrdinal(
     y:
       | ((
-        y: OrdinalChartPositionDimensionBuilder<Datum, YOrdinalDomain>
-      ) => void)
+          y: OrdinalChartPositionDimensionBuilder<Datum, YOrdinalDomain>
+        ) => void)
       | null
   ): this {
     if (y === null) {
@@ -420,8 +420,8 @@ export class VicDotsConfigBuilder<
     }
     if (
       +!!this.xBuilderNumeric +
-      +!!this.xBuilderDate +
-      +!!this.xBuilderOrdinal !==
+        +!!this.xBuilderDate +
+        +!!this.xBuilderOrdinal !==
       1
     ) {
       throw new Error(
@@ -430,8 +430,8 @@ export class VicDotsConfigBuilder<
     }
     if (
       +!!this.yBuilderNumeric +
-      +!!this.yBuilderDate +
-      +!!this.yBuilderOrdinal !==
+        +!!this.yBuilderDate +
+        +!!this.yBuilderOrdinal !==
       1
     ) {
       throw new Error(

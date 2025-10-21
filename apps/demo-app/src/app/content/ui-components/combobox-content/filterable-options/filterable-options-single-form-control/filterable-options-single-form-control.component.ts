@@ -14,7 +14,8 @@ import { FilterableOptionsSingle } from '../filterable-options-single';
 })
 export class FilterableOptionsSingleSelectFormControlComboboxComponent
   extends FilterableOptionsSingle
-  implements OnInit {
+  implements OnInit
+{
   inputFormControl: FormControl<string>;
   listboxFormControl: FormControl<string> = new FormControl<string>('');
 

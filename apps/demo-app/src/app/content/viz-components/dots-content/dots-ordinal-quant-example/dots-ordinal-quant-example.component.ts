@@ -60,7 +60,7 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
     private dots: VicDotsConfigBuilder<LocationCategoryDatum>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<number>
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getViewModel();

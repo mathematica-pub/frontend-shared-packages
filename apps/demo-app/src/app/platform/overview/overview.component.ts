@@ -34,7 +34,7 @@ export class OverviewComponent implements OnInit {
     private routerState: RouterStateService,
     private assets: AdkAssetsService,
     private markdown: AdkMarkdownParser
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setHtml();

@@ -20,7 +20,7 @@ export class AutomatedDocumentationParser {
     private assetsService: AdkAssetsService,
     private sanitizer: DomSanitizer,
     private highlighter: AdkShikiHighlighter
-  ) { }
+  ) {}
 
   initialize(assetsPath: string): void {
     this.assetsService.setAssetsPath(assetsPath || 'assets/');

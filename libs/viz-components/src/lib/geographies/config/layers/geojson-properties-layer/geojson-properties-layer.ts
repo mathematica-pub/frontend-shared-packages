@@ -12,11 +12,12 @@ import {
 import { GeographiesGeojsonPropertiesLayerOptions } from './geojson-properties-layer-options';
 
 export class GeographiesGeojsonPropertiesLayer<
-  TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon,
->
+    TProperties,
+    TGeometry extends Geometry = MultiPolygon | Polygon,
+  >
   extends GeographiesLayer<string, TProperties, TGeometry>
-  implements GeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry> {
+  implements GeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
+{
   readonly customFills: FillDefinition<
     GeographiesFeature<TProperties, TGeometry>
   >[];

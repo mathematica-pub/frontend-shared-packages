@@ -17,7 +17,7 @@ export class BasemapService {
     MultiPolygon | Polygon
   >;
 
-  constructor(private data: DataResource) { }
+  constructor(private data: DataResource) {}
 
   initMap(): void {
     this.setMapObjects();
