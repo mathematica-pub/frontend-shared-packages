@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { AxisBaselineOptions } from './axis-baseline-options';
 
 export class AxisBaseline implements AxisBaselineOptions {

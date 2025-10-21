@@ -19,7 +19,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
+import { NgOnChangesUtilities } from '@mathstack/app-kit';
 import { Subject, takeUntil } from 'rxjs';
 import { HtmlTooltipConfig } from './config/html-tooltip-config';
 
@@ -46,7 +46,7 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
     private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
     @Inject(DOCUMENT) private document: Document
-  ) {}
+  ) { }
 
   init(): void {
     if (!this.overlayRef) {

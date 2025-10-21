@@ -19,7 +19,7 @@ import {
   VicXyBackgroundModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 
 interface Datum {
   x: number;
@@ -79,7 +79,7 @@ export class DotsScatterplotExampleComponent implements OnInit {
     private dots: VicDotsConfigBuilder<Datum>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getViewModel();

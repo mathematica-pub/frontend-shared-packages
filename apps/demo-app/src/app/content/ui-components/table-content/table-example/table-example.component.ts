@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TableColumn, TableModule } from '@hsi/ui-components';
+import { TableColumn, TableModule } from '@mathstack/ui';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({

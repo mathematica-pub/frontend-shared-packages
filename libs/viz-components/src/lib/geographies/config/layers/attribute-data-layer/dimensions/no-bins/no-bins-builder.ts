@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { interpolateLab, scaleLinear } from 'd3';
 import { AttributeDataDimensionBuilder } from '../attribute-data/attribute-data-dimension-builder';
 import { NoBinsAttributeDataDimension } from './no-bins';

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
+import { AdkAssetResponse, AdkAssetsService } from '@mathstack/app-kit';
 import { map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  constructor(private assets: AdkAssetsService) {}
+  constructor(private assets: AdkAssetsService) { }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getDataFile(filePath: string): Observable<any> {

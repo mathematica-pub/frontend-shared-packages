@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ListboxOptionComponent } from '@hsi/ui-components';
+import { ListboxOptionComponent } from '@mathstack/ui';
 import { ContentContainerComponent } from '../../content-container/content-container.component';
 import { ExternalSelectionsComponent } from './external-selections/external-selections.component';
 import { FilterableOptionsMultiSelectFormControlComboboxComponent } from './filterable-options/filterable-options-multi-form-control/filterable-options-multi-form-control.component';

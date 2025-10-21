@@ -4,7 +4,7 @@ import {
   AdkNestedObject,
   AdkParsedDocumentation,
   ShikiTheme,
-} from '@hsi/app-dev-kit';
+} from '@mathstack/app-kit';
 import {
   combineLatest,
   distinctUntilChanged,
@@ -30,7 +30,7 @@ export class ContentFilesService {
     private routerState: RouterStateService,
     public configsService: ContentConfigService,
     private adkContentService: AdkDocumentationContentService
-  ) {}
+  ) { }
 
   initialize(): void {
     this.setFileConfig();

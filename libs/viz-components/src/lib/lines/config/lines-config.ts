@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { CurveFactory, group, range } from 'd3';
 import { DateChartPositionDimension } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position';
 import { NumberChartPositionDimension } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position';
@@ -18,8 +18,7 @@ export interface LinesMarkerDatum {
 
 export class LinesConfig<Datum>
   extends XyPrimaryMarksConfig<Datum>
-  implements LinesOptions<Datum>
-{
+  implements LinesOptions<Datum> {
   readonly curve: CurveFactory;
   readonly labelLines: boolean;
   readonly lineLabelsFormat: (d: string) => string;

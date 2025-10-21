@@ -41,7 +41,7 @@ import {
   VicXyBackgroundModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { MetroUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
@@ -123,7 +123,7 @@ export class LinesExampleComponent implements OnInit {
     private xAxisQuantitative: VicXQuantitativeAxisConfigBuilder<Date>,
     private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
     private tooltip: VicHtmlTooltipConfigBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.vm$ = this.dataService.metroUnemploymentData$.pipe(

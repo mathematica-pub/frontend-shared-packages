@@ -7,7 +7,7 @@
     "inlineSources": true,
     "types": [],
     "paths": {
-      "@hsi/*": ["dist/*"]
+      "@mathstack/*": ["dist/*"]
     }
   },
   "baseUrl": "./",

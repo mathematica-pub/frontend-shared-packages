@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { range } from 'd3';
 import { DataValue } from '../../core';
 import { DateChartPositionDimension } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position';
@@ -13,13 +13,12 @@ import { Stroke } from '../../stroke/stroke';
 import { DotsOptions } from './dots-options';
 
 export class DotsConfig<
-    Datum,
-    XOrdinalDomain extends DataValue = string,
-    YOrdinalDomain extends DataValue = string,
-  >
+  Datum,
+  XOrdinalDomain extends DataValue = string,
+  YOrdinalDomain extends DataValue = string,
+>
   extends XyPrimaryMarksConfig<Datum>
-  implements DotsOptions<Datum, XOrdinalDomain, YOrdinalDomain>
-{
+  implements DotsOptions<Datum, XOrdinalDomain, YOrdinalDomain> {
   fill:
     | OrdinalVisualValueDimension<Datum, string, string>
     | NumberVisualValueDimension<Datum, string>;

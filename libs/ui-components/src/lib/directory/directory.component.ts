@@ -9,7 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
+import { NgOnChangesUtilities } from '@mathstack/app-kit';
 import { BehaviorSubject } from 'rxjs';
 
 export interface HsiUiDirectoryItem {

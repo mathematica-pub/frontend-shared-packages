@@ -1,5 +1,5 @@
 {
-  "name": "ui-components",
+  "name": "ui",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/ui-components/src",
@@ -25,19 +25,19 @@
       },
       "defaultConfiguration": "production",
       "outputs": [
-        "{workspaceRoot}/dist/ui-components"
+        "{workspaceRoot}/dist/ui"
       ]
     },
     "build-release": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx nx build ui-components"
+        "command": "npx nx build ui"
       }
     },
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "cd ./dist/ui-components && npm publish && git push --tags"
+        "command": "cd ./dist/ui && npm publish && git push --tags"
       }
     },
     "github-release": {

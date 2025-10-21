@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { ValueUtilities } from '../../../../../core/utilities/values';
 import {
   DomainPadding,
@@ -9,8 +9,7 @@ import { RoundUpToSigFigDomainPaddingOptions } from './round-to-sig-fig-options'
 
 export class RoundUpToSigFigDomainPadding
   extends DomainPadding
-  implements RoundUpToSigFigDomainPaddingOptions
-{
+  implements RoundUpToSigFigDomainPaddingOptions {
   readonly sigFigures: (d: number) => number;
   readonly type: DomainPaddingType.roundUp;
 

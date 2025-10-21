@@ -23,7 +23,7 @@ import {
   VicYOrdinalAxisConfigBuilder,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { cloneDeep } from 'lodash-es';
 import {
   LocationCategoryDatum,
@@ -35,11 +35,11 @@ interface ViewModel {
   chartConfig: ChartConfig;
   dataConfig: BarsConfig<LocationCategoryDatum, string>;
   ordinalAxisConfig:
-    | VicXOrdinalAxisConfig<string>
-    | VicYOrdinalAxisConfig<string>;
+  | VicXOrdinalAxisConfig<string>
+  | VicYOrdinalAxisConfig<string>;
   quantitativeAxisConfig:
-    | VicXQuantitativeAxisConfig<number>
-    | VicYQuantitativeAxisConfig<number>;
+  | VicXQuantitativeAxisConfig<number>
+  | VicYQuantitativeAxisConfig<number>;
 }
 
 @Component({
@@ -86,7 +86,7 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<number>,
     private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getViewModel();
@@ -152,23 +152,23 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
 
     chartData = this.useLongLabelsAndWrap
       ? cloneDeep(chartData).map((d) => {
-          if (d.location === 'Nevada') {
-            d.location = 'Nevada, a state in the Mountain West';
-          } else if (d.location === 'Wisconsin') {
-            d.location = 'Wisconsin, a state in the Midwest';
-          } else if (d.location === 'North Carolina') {
-            d.location = 'North Carolina, a state in the South';
-          } else if (d.location === 'Georgia') {
-            d.location = 'Georgia, a state in the South';
-          } else if (d.location === 'Pennsylvania') {
-            d.location = 'Pennsylvania, a state in the Mid-Atlantic';
-          } else if (d.location === 'Michigan') {
-            d.location = 'Michigan, a state in the Midwest';
-          } else if (d.location === 'Arizona') {
-            d.location = 'Arizona, a state in the Southwest';
-          }
-          return d;
-        })
+        if (d.location === 'Nevada') {
+          d.location = 'Nevada, a state in the Mountain West';
+        } else if (d.location === 'Wisconsin') {
+          d.location = 'Wisconsin, a state in the Midwest';
+        } else if (d.location === 'North Carolina') {
+          d.location = 'North Carolina, a state in the South';
+        } else if (d.location === 'Georgia') {
+          d.location = 'Georgia, a state in the South';
+        } else if (d.location === 'Pennsylvania') {
+          d.location = 'Pennsylvania, a state in the Mid-Atlantic';
+        } else if (d.location === 'Michigan') {
+          d.location = 'Michigan, a state in the Midwest';
+        } else if (d.location === 'Arizona') {
+          d.location = 'Arizona, a state in the Southwest';
+        }
+        return d;
+      })
       : cloneDeep(chartData);
 
     const dataConfig = this.bars
@@ -176,27 +176,27 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
       .horizontal(
         this.orientation === 'horizontal'
           ? (bars) =>
-              bars
-                .x((x) =>
-                  x
-                    .valueAccessor((d) => d.value)
-                    .domainPaddingRoundUpToInterval(() => 0.2)
-                    .formatSpecifier('.0%')
-                )
-                .y((y) => y.valueAccessor((d) => d.location))
+            bars
+              .x((x) =>
+                x
+                  .valueAccessor((d) => d.value)
+                  .domainPaddingRoundUpToInterval(() => 0.2)
+                  .formatSpecifier('.0%')
+              )
+              .y((y) => y.valueAccessor((d) => d.location))
           : null
       )
       .vertical(
         this.orientation === 'vertical'
           ? (bars) =>
-              bars
-                .x((x) => x.valueAccessor((d) => d.location))
-                .y((y) =>
-                  y
-                    .valueAccessor((d) => d.value)
-                    .domainPaddingRoundUpToInterval(() => 0.2)
-                    .formatSpecifier('.0%')
-                )
+            bars
+              .x((x) => x.valueAccessor((d) => d.location))
+              .y((y) =>
+                y
+                  .valueAccessor((d) => d.value)
+                  .domainPaddingRoundUpToInterval(() => 0.2)
+                  .formatSpecifier('.0%')
+              )
           : null
       )
       .backgrounds(this.useBackgrounds ? undefined : null)

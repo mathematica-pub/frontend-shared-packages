@@ -1,5 +1,5 @@
 import { Directive } from '@angular/core';
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { ContinuousValue } from '../../core/types/values';
 import { XyAxisConfig } from '../base/config/xy-axis-config';
@@ -19,8 +19,7 @@ export function mixinQuantitativeAxisConfig<
   @Directive()
   abstract class Mixin
     extends Base
-    implements VicQuantitativeAxisOptions<Tick>
-  {
+    implements VicQuantitativeAxisOptions<Tick> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(...args: any[]) {
       super(...args);
@@ -37,4 +36,4 @@ export abstract class VicQuantitativeAxisConfig<
 > extends mixinQuantitativeAxisConfig(XyAxisConfig)<
   Tick,
   QuantitativeTicks<Tick>
-> {}
+> { }

@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { interpolateLab, scaleQuantize } from 'd3';
 import { CalculatedBinsAttributeDataDimensionBuilder } from '../calculated-bins/calculated-bins-builder';
 import { EqualValueRangesAttributeDataDimension } from './equal-value-ranges-bins';

@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import {
   CurveFactory,
   extent,
@@ -25,8 +25,7 @@ export type StackedAreaDatum<CategoricalDomain> = (SeriesPoint<
 
 export class StackedAreaConfig<Datum, CategoricalDomain extends DataValue>
   extends XyPrimaryMarksConfig<Datum>
-  implements DataMarksOptions<Datum>
-{
+  implements DataMarksOptions<Datum> {
   color: OrdinalVisualValueDimension<Datum, CategoricalDomain, string>;
   categoricalOrder: CategoricalDomain[];
   curve: CurveFactory;

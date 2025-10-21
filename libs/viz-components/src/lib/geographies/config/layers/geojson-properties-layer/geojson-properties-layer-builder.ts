@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { OrdinalVisualValueDimensionBuilder } from '../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
 import { FillDefinition } from '../../../../fill-definitions/fill-definitions';
@@ -52,12 +52,12 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
       | string
       | null
       | ((
-          fill: OrdinalVisualValueDimensionBuilder<
-            GeographiesFeature<TProperties, TGeometry>,
-            string,
-            string
-          >
-        ) => void)
+        fill: OrdinalVisualValueDimensionBuilder<
+          GeographiesFeature<TProperties, TGeometry>,
+          string,
+          string
+        >
+      ) => void)
   ): this {
     this.initFillBuilder();
 

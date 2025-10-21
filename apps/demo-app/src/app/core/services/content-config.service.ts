@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
+import { AdkAssetResponse, AdkAssetsService } from '@mathstack/app-kit';
 import { BehaviorSubject, map } from 'rxjs';
 import { Library } from './router-state/state';
 
@@ -36,7 +36,7 @@ export class ContentConfigService {
   );
   config$ = this.config.asObservable();
 
-  constructor(private assets: AdkAssetsService) {}
+  constructor(private assets: AdkAssetsService) { }
 
   initConfig(): void {
     this.assets

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { Series, stackOffsetDiverging, stackOrderNone } from 'd3';
 import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
 import { DataValue } from '../../core/types/values';
@@ -48,10 +48,10 @@ export class VicStackedBarsConfigBuilder<
   stackOffset(
     stackOffset:
       | ((
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          series: Series<any, any>,
-          order: Iterable<number>
-        ) => void)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        series: Series<any, any>,
+        order: Iterable<number>
+      ) => void)
       | null
   ): this {
     if (stackOffset === null) {
@@ -71,9 +71,9 @@ export class VicStackedBarsConfigBuilder<
   stackOrder(
     stackOrder:
       | ((
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          series: Series<any, any>
-        ) => Iterable<number>)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        series: Series<any, any>
+      ) => Iterable<number>)
       | null
   ): this {
     if (stackOrder === null) {

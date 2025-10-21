@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { InternSet, ScaleBand, scaleBand, scalePoint, ScalePoint } from 'd3';
 import { DataValue } from '../../../core/types/values';
 import { DataDimension } from '../../dimension';
@@ -31,8 +31,7 @@ import { OrdinalChartPositionDimensionOptions } from './ordinal-chart-position-o
 
 export class OrdinalChartPositionDimension<Datum, Domain extends DataValue>
   extends DataDimension<Datum, Domain>
-  implements OrdinalChartPositionDimensionOptions<Datum, Domain>
-{
+  implements OrdinalChartPositionDimensionOptions<Datum, Domain> {
   readonly align: number;
   private _calculatedDomain: Domain[];
   readonly domain: Domain[];

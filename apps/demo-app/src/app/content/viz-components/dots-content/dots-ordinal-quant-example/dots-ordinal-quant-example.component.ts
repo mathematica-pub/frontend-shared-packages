@@ -14,7 +14,7 @@ import {
   VicXyBackgroundModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import {
   LocationCategoryDatum,
   statesElectionData,
@@ -60,7 +60,7 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
     private dots: VicDotsConfigBuilder<LocationCategoryDatum>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<number>
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getViewModel();

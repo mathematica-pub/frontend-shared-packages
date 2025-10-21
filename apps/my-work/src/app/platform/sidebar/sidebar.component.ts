@@ -5,7 +5,7 @@ import {
   HsiUiDirectoryComponent,
   HsiUiDirectoryItem,
   HsiUiDirectorySelection,
-} from '@hsi/ui-components';
+} from '@mathstack/ui';
 import { filter, map, Observable } from 'rxjs';
 import {
   Casing,
@@ -31,7 +31,7 @@ export class SidebarComponent implements OnInit {
     public routerState: RouterStateService,
 
     private configService: DirectoryConfigsService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initDirectoryItems();

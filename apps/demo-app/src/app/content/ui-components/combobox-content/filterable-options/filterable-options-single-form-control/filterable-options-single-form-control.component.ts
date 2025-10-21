@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { HsiUiComboboxModule } from '@hsi/ui-components';
+import { HsiUiComboboxModule } from '@mathstack/ui';
 import { combineLatest, map, startWith } from 'rxjs';
 import { FilterableOptionsSingle } from '../filterable-options-single';
 
@@ -14,8 +14,7 @@ import { FilterableOptionsSingle } from '../filterable-options-single';
 })
 export class FilterableOptionsSingleSelectFormControlComboboxComponent
   extends FilterableOptionsSingle
-  implements OnInit
-{
+  implements OnInit {
   inputFormControl: FormControl<string>;
   listboxFormControl: FormControl<string> = new FormControl<string>('');
 

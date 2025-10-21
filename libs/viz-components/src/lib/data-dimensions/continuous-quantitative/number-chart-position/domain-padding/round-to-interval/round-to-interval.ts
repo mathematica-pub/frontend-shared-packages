@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { ValueUtilities } from '../../../../../core/utilities/values';
 import {
   DomainPadding,

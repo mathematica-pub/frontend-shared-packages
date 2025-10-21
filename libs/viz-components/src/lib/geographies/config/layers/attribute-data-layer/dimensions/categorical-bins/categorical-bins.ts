@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { BinStrategy } from '../attribute-data-bin-enums';
 import { AttributeDataDimension } from '../attribute-data/attribute-data-dimension';
 import { CategoricalBinsOptions } from './categorical-bins-options';
@@ -9,12 +9,11 @@ import { CategoricalBinsOptions } from './categorical-bins-options';
  * The generic parameter is the type of the attribute data.
  */
 export class CategoricalBinsAttributeDataDimension<
-    Datum,
-    RangeValue extends string | number = string,
-  >
+  Datum,
+  RangeValue extends string | number = string,
+>
   extends AttributeDataDimension<Datum, string>
-  implements CategoricalBinsOptions<Datum, string>
-{
+  implements CategoricalBinsOptions<Datum, string> {
   override readonly binType: BinStrategy.categorical;
   calculatedDomain: string[];
   readonly domain: string[];

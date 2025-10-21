@@ -19,7 +19,7 @@ import {
   VicXyBackgroundModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { EnergyIntensityDatum } from '../energy-intensity.component';
 
 @Component({
@@ -66,7 +66,7 @@ export class EnergyIntensityBarComponent implements OnInit {
     private bars: VicBarsConfigBuilder<EnergyIntensityDatum, string>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.setProperties();

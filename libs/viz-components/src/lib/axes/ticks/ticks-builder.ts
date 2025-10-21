@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { AxisTimeInterval } from 'd3';
 import { TickWrapBuilder } from './tick-wrap/tick-wrap-builder';
 import { QuantitativeTicks, Ticks } from './ticks';

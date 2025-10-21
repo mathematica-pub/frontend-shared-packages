@@ -28,7 +28,7 @@ import {
   VicHtmlTooltipModule,
   VicMapLegendModule,
   valueFormat,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { colors } from 'apps/demo-app/src/app/core/constants/colors.constants';
 import { StateIncomeDatum } from 'apps/demo-app/src/app/core/models/data';
 import { MapGeometryProperties } from 'apps/demo-app/src/app/core/services/basemap';
@@ -132,7 +132,7 @@ export class GeographiesExampleComponent implements OnInit {
       MapGeometryProperties
     >,
     private tooltip: VicHtmlTooltipConfigBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const filteredData$ = combineLatest([
@@ -237,58 +237,58 @@ export class GeographiesExampleComponent implements OnInit {
       .categoricalBins(
         this.attributeDataBinType.value === BinStrategy.categorical
           ? (dimension) =>
-              dimension
-                .valueAccessor((d) =>
-                  d.income > 75000
-                    ? 'high'
-                    : d.income > 60000
-                      ? 'middle'
-                      : 'low'
-                )
-                .range([
-                  'sandybrown',
-                  'mediumseagreen',
-                  colors.highlight.default,
-                ])
+            dimension
+              .valueAccessor((d) =>
+                d.income > 75000
+                  ? 'high'
+                  : d.income > 60000
+                    ? 'middle'
+                    : 'low'
+              )
+              .range([
+                'sandybrown',
+                'mediumseagreen',
+                colors.highlight.default,
+              ])
           : null
       )
       .customBreaksBins(
         this.attributeDataBinType.value === BinStrategy.customBreaks
           ? (dimension) =>
-              dimension
-                .valueAccessor((d) => d.income)
-                .formatSpecifier(`$${valueFormat.integer}`)
-                .breakValues([45000, 55000, 65000, 75000, 100000])
-                .range([colors.white, colors.highlight.default])
+            dimension
+              .valueAccessor((d) => d.income)
+              .formatSpecifier(`$${valueFormat.integer}`)
+              .breakValues([45000, 55000, 65000, 75000, 100000])
+              .range([colors.white, colors.highlight.default])
           : null
       )
       .equalValueRangesBins(
         this.attributeDataBinType.value === BinStrategy.equalFrequencies
           ? (dimension) =>
-              dimension
-                .valueAccessor((d) => d.income)
-                .formatSpecifier(`$${valueFormat.integer}`)
-                .numBins(6)
-                .range([colors.white, colors.highlight.default])
+            dimension
+              .valueAccessor((d) => d.income)
+              .formatSpecifier(`$${valueFormat.integer}`)
+              .numBins(6)
+              .range([colors.white, colors.highlight.default])
           : null
       )
       .equalFrequenciesBins(
         this.attributeDataBinType.value === BinStrategy.equalValueRanges
           ? (dimension) =>
-              dimension
-                .valueAccessor((d) => d.income)
-                .formatSpecifier(`$${valueFormat.integer}`)
-                .numBins(6)
-                .range([colors.white, colors.highlight.default])
+            dimension
+              .valueAccessor((d) => d.income)
+              .formatSpecifier(`$${valueFormat.integer}`)
+              .numBins(6)
+              .range([colors.white, colors.highlight.default])
           : null
       )
       .noBins(
         this.attributeDataBinType.value === BinStrategy.none
           ? (dimension) =>
-              dimension
-                .valueAccessor((d) => d.income)
-                .formatSpecifier(`$${valueFormat.integer}`)
-                .range([colors.white, colors.highlight.default])
+            dimension
+              .valueAccessor((d) => d.income)
+              .formatSpecifier(`$${valueFormat.integer}`)
+              .range([colors.white, colors.highlight.default])
           : null
       )
       .customFills(customFills)

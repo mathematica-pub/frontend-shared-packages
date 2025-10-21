@@ -12,7 +12,7 @@ import {
   VicJpegImageConfig,
   VicPngImageConfig,
   VicSvgImageConfig,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 
 let uniqueId = 0;
 
@@ -35,7 +35,7 @@ export class ExportContentComponent {
   @ViewChild('image') image: ElementRef<HTMLElement>;
   id = uniqueId++;
 
-  constructor(private imageService: VicImageDownloadService) {}
+  constructor(private imageService: VicImageDownloadService) { }
 
   async downloadImage(): Promise<void> {
     const imageConfig = this.getConfig({

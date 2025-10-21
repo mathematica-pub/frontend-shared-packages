@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { BinStrategy } from '../attribute-data-bin-enums';
 import { CalculatedBinsAttributeDataDimension } from '../calculated-bins/calculated-bins';
 import { EqualFrequenciesAttributeDataDimensionOptions } from './equal-frequencies-bins-options';
@@ -9,12 +9,11 @@ import { EqualFrequenciesAttributeDataDimensionOptions } from './equal-frequenci
  * The generic parameter is the type of the attribute data.
  */
 export class EqualFrequenciesAttributeDataDimension<
-    Datum,
-    RangeValue extends string | number = string,
-  >
+  Datum,
+  RangeValue extends string | number = string,
+>
   extends CalculatedBinsAttributeDataDimension<Datum, RangeValue>
-  implements EqualFrequenciesAttributeDataDimensionOptions<Datum, RangeValue>
-{
+  implements EqualFrequenciesAttributeDataDimensionOptions<Datum, RangeValue> {
   override readonly binType: BinStrategy.equalFrequencies;
   private calculatedDomain: number[];
   readonly numBins: number;

@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { ScaleTime, max, min } from 'd3';
 import { isDate } from '../../../core/utilities/type-guards';
 import { DataDimension } from '../../dimension';
@@ -31,8 +31,7 @@ import { DateChartPositionDimensionOptions } from './date-chart-position-options
 
 export class DateChartPositionDimension<Datum>
   extends DataDimension<Datum, Date>
-  implements DateChartPositionDimensionOptions<Datum>
-{
+  implements DateChartPositionDimensionOptions<Datum> {
   private calculatedDomain: [Date, Date];
   readonly domain: [Date, Date];
   readonly formatSpecifier: string;

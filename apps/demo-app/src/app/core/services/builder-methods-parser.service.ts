@@ -3,7 +3,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   AdkMarkdownParsingOptions,
   AdkParsedContentSection,
-} from '@hsi/app-dev-kit';
+} from '@mathstack/app-kit';
 import { Observable, combineLatest, map, of } from 'rxjs';
 
 export interface BuilderMethod<Description = string> {
@@ -25,7 +25,7 @@ export interface BuilderMethods<Description = string> {
 
 @Injectable({ providedIn: 'root' })
 export class BuilderMethodsParserService {
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer) { }
 
   public parseSection(
     section:
@@ -79,8 +79,8 @@ export class BuilderMethodsParserService {
           ...method,
           description: Array.isArray(mainDescriptionHtmls)
             ? mainDescriptionHtmls.map((html) =>
-                this.sanitizer.bypassSecurityTrustHtml(html)
-              )
+              this.sanitizer.bypassSecurityTrustHtml(html)
+            )
             : [this.sanitizer.bypassSecurityTrustHtml(mainDescriptionHtmls)],
           params: method.params.map((param, index) => {
             const description = paramDescriptionHtmls[index];
@@ -88,8 +88,8 @@ export class BuilderMethodsParserService {
               ...param,
               description: Array.isArray(description)
                 ? description.map((html) =>
-                    this.sanitizer.bypassSecurityTrustHtml(html)
-                  )
+                  this.sanitizer.bypassSecurityTrustHtml(html)
+                )
                 : [this.sanitizer.bypassSecurityTrustHtml(description)],
             };
           }),
@@ -104,8 +104,8 @@ export class BuilderMethodsParserService {
           type: 'methods',
           overview: Array.isArray(overviewHtmls)
             ? overviewHtmls.map((html) =>
-                this.sanitizer.bypassSecurityTrustHtml(html)
-              )
+              this.sanitizer.bypassSecurityTrustHtml(html)
+            )
             : [this.sanitizer.bypassSecurityTrustHtml(overviewHtmls)],
           methods: parsedMethods,
         } as BuilderMethods<SafeHtml>,
@@ -157,8 +157,8 @@ export class BuilderMethodsParserService {
           type: 'method',
           description: Array.isArray(mainDescriptionHtmls)
             ? mainDescriptionHtmls.map((html) =>
-                this.sanitizer.bypassSecurityTrustHtml(html)
-              )
+              this.sanitizer.bypassSecurityTrustHtml(html)
+            )
             : [this.sanitizer.bypassSecurityTrustHtml(mainDescriptionHtmls)],
           params: section.content.params.map((param, index) => {
             const description = paramDescriptionHtmls[index];
@@ -166,8 +166,8 @@ export class BuilderMethodsParserService {
               ...param,
               description: Array.isArray(description)
                 ? description.map((html) =>
-                    this.sanitizer.bypassSecurityTrustHtml(html)
-                  )
+                  this.sanitizer.bypassSecurityTrustHtml(html)
+                )
                 : [this.sanitizer.bypassSecurityTrustHtml(description)],
             };
           }),

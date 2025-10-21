@@ -9,7 +9,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
-import { TabsModule } from '@hsi/ui-components';
+import { TabsModule } from '@mathstack/ui';
 import {
   BehaviorSubject,
   combineLatest,
@@ -33,8 +33,7 @@ import { ResizableExampleDisplay } from './resizable-example-display';
 })
 export class SplitPanelExampleDisplayComponent
   extends ResizableExampleDisplay
-  implements OnInit
-{
+  implements OnInit {
   @ViewChild('resizer', { static: true }) resizer: ElementRef<HTMLDivElement>;
   @ViewChild('examplePanel', { static: true })
   examplePanel: ElementRef<HTMLDivElement>;

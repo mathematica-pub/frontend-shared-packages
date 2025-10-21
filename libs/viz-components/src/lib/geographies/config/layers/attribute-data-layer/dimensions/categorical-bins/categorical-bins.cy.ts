@@ -7,7 +7,7 @@ import {
   VicChartModule,
   VicGeographiesConfigBuilder,
   VicGeographiesModule,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { geoMercator } from 'd3';
 import {
   FeatureCollection,

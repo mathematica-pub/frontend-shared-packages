@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { ShikiTheme } from '@hsi/app-dev-kit';
+import { ShikiTheme } from '@mathstack/app-kit';
 import {
   distinctUntilChanged,
   filter,
@@ -35,8 +35,7 @@ import { AutomatedDocumentationParser } from './automated-documentation-parser.s
   encapsulation: ViewEncapsulation.None,
 })
 export class AutomatedDocumentationDisplayComponent
-  implements OnInit, AfterViewInit
-{
+  implements OnInit, AfterViewInit {
   @ViewChild('docsDiv', { static: true }) docsDiv: ElementRef<HTMLDivElement>;
   sanitizedDocumentation: SafeHtml;
   router = inject(Router);
@@ -49,7 +48,7 @@ export class AutomatedDocumentationDisplayComponent
   constructor(
     private routerState: RouterStateService,
     private automatedDocsParser: AutomatedDocumentationParser
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.contentPath$ = this.routerState.state$.pipe(

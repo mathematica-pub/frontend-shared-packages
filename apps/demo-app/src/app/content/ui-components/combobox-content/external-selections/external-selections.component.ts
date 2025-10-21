@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { HsiUiComboboxModule } from '@hsi/ui-components';
+import { HsiUiComboboxModule } from '@mathstack/ui';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({

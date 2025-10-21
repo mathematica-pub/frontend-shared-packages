@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { InternMap, select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { FillUtilities } from '../../../../core/utilities/fill-utilities';
@@ -25,13 +25,12 @@ const DEFAULT = {
 };
 
 export class GeographiesAttributeDataLayer<
-    Datum,
-    TProperties,
-    TGeometry extends Geometry = MultiPolygon | Polygon,
-  >
+  Datum,
+  TProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon,
+>
   extends GeographiesLayer<Datum, TProperties, TGeometry>
-  implements GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
-{
+  implements GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry> {
   readonly attributeDimension:
     | CategoricalBinsAttributeDataDimension<Datum>
     | NoBinsAttributeDataDimension<Datum>
@@ -130,15 +129,15 @@ export class GeographiesAttributeDataLayer<
       geography: this.geographyIndexAccessor(datum),
       attributeValue: this.attributeDimension.formatFunction
         ? ValueUtilities.customFormat(
-            datum,
-            this.attributeDimension.formatFunction
-          )
+          datum,
+          this.attributeDimension.formatFunction
+        )
         : this.attributeDimension.dimensionType !== 'ordinal' &&
-            this.attributeDimension.binType !== BinStrategy.categorical
+          this.attributeDimension.binType !== BinStrategy.categorical
           ? ValueUtilities.d3Format(
-              value as number,
-              this.attributeDimension.formatSpecifier
-            )
+            value as number,
+            this.attributeDimension.formatSpecifier
+          )
           : (value as string),
       color: this.getAttributeFill(featureIndex),
     };

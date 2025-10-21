@@ -26,7 +26,7 @@ import {
   VicXyBackgroundModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import {
   IndustryUnemploymentDatum,
   MetroUnemploymentDatum,
@@ -96,7 +96,7 @@ export class GroupedBarsExampleComponent implements OnInit {
     private xAxisOrdinal: VicXOrdinalAxisConfigBuilder<Date>,
     private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
     private tooltip: VicHtmlTooltipConfigBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.vm$ = this.dataService.industryUnemploymentData$.pipe(

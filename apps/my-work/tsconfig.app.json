@@ -5,7 +5,7 @@
     "outDir": "../../out-tsc/app",
     "types": [],
     "paths": {
-      "@hsi/*": ["dist/*"]
+      "@mathstack/*": ["dist/*"]
     }
   },
   "files": ["src/main.ts"],

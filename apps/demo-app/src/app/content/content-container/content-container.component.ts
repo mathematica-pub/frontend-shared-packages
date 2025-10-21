@@ -16,7 +16,7 @@ import {
   AdkActiveHeadingTracker,
   AdkDocumentIndexComponent,
   AdkHtmlHeader,
-} from '@hsi/app-dev-kit';
+} from '@mathstack/app-kit';
 import { ContentFilesService } from '../../core/services/content-files.service';
 import { ContentSection } from '../../core/services/content-parser.service';
 
@@ -40,7 +40,7 @@ export class ContentContainerComponent implements AfterViewInit {
     private zone: NgZone,
     private destroyRef: DestroyRef,
     @Inject(DOCUMENT) private document: Document
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     this.activeHeading.initScrollListener(

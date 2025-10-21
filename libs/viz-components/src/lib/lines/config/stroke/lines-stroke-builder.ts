@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { OrdinalVisualValueDimensionBuilder } from '../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
 import { LinesStroke } from './lines-stroke';
 
@@ -40,8 +40,8 @@ export class LinesStrokeBuilder<Datum> {
   color(
     color:
       | ((
-          dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
-        ) => void)
+        dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
+      ) => void)
       | null
   ): this {
     if (color === null) {

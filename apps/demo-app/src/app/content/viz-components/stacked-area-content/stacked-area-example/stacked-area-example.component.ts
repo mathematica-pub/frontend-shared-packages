@@ -20,7 +20,7 @@ import {
   VicXyBackgroundModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { StackedAreaInteractionOutput } from 'dist/viz-components/lib/stacked-area/events/stacked-area-interaction-output';
@@ -85,7 +85,7 @@ export class StackedAreaExampleComponent implements OnInit {
     private xAxisQuantitative: VicXQuantitativeAxisConfigBuilder<Date>,
     private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
     private tooltip: VicHtmlTooltipConfigBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.vm$ = this.dataService.industryUnemploymentData$.pipe(

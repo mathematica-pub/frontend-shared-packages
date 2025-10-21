@@ -16,7 +16,7 @@ import {
   AdkDocumentationConfigParser,
   AdkDocumentationContentService,
   AdkMarkdownParser,
-} from '@hsi/app-dev-kit';
+} from '@mathstack/app-kit';
 import { APP_ROUTES } from './app.routes';
 import { ContentConfigService } from './core/services/content-config.service';
 import { ContentParser } from './core/services/content-parser.service';

@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { ScaleContinuousNumeric } from 'd3';
 import {
   DomainPadding,
@@ -9,8 +9,7 @@ import { PixelDomainPaddingOptions } from './pixel-options';
 
 export class PixelDomainPadding
   extends DomainPadding
-  implements PixelDomainPaddingOptions
-{
+  implements PixelDomainPaddingOptions {
   readonly numPixels: number;
   readonly type: DomainPaddingType.numPixels = DomainPaddingType.numPixels;
 

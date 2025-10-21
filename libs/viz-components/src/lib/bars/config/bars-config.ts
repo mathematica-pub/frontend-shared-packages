@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { min, range } from 'd3';
 import { DataValue } from '../../core/types/values';
 import { FillDefinition } from '../../data-dimensions';
@@ -13,8 +13,7 @@ import { BarsLabels } from './labels/bars-labels';
 
 export class BarsConfig<Datum, OrdinalDomain extends DataValue>
   extends XyPrimaryMarksConfig<Datum>
-  implements BarsOptions<Datum, OrdinalDomain>
-{
+  implements BarsOptions<Datum, OrdinalDomain> {
   barsKeyFunction: (i: number) => string;
   readonly backgrounds: BarsBackgrounds;
   readonly color: OrdinalVisualValueDimension<Datum, string, string>;

@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
-import { TabsModule } from '@hsi/ui-components';
+import { TabsModule } from '@mathstack/ui';
 import { combineLatest, map, shareReplay } from 'rxjs';
 import { ExampleDisplay } from '../example-display/example-display';
 

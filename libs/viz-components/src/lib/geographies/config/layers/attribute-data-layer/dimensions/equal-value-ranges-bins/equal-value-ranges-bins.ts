@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { extent } from 'd3';
 import { BinStrategy } from '../attribute-data-bin-enums';
 import { CalculatedBinsAttributeDataDimension } from '../calculated-bins/calculated-bins';
@@ -10,12 +10,11 @@ import { EqualValueRangesAttributeDataDimensionOptions } from './equal-value-ran
  * The generic parameter is the type of the attribute data.
  */
 export class EqualValueRangesAttributeDataDimension<
-    Datum,
-    RangeValue extends string | number = string,
-  >
+  Datum,
+  RangeValue extends string | number = string,
+>
   extends CalculatedBinsAttributeDataDimension<Datum, RangeValue>
-  implements EqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
-{
+  implements EqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue> {
   override readonly binType: BinStrategy.equalValueRanges;
   private calculatedDomain: [number, number];
   readonly domain: [number, number];

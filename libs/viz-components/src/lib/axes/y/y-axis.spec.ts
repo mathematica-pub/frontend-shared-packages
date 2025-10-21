@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { XyChartComponent } from '@hsi/viz-components';
+import { XyChartComponent } from '@mathstack/viz';
 import { axisLeft, axisRight } from 'd3';
 import { YAxisStub } from '../../testing/stubs/y-axis.stub';
 import { QuantitativeTicks } from '../ticks/ticks';

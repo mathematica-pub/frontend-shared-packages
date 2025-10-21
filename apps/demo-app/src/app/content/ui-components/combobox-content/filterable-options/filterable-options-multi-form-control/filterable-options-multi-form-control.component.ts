@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { HsiUiComboboxModule } from '@hsi/ui-components';
+import { HsiUiComboboxModule } from '@mathstack/ui';
 import { map, scan, shareReplay, startWith, withLatestFrom } from 'rxjs';
 import { FilterableOptionsMulti } from '../filterable-options-multi';
 
@@ -14,8 +14,7 @@ import { FilterableOptionsMulti } from '../filterable-options-multi';
 })
 export class FilterableOptionsMultiSelectFormControlComboboxComponent
   extends FilterableOptionsMulti
-  implements OnInit
-{
+  implements OnInit {
   inputFormControl: FormControl<string> = new FormControl<string>('');
   listboxFormControl: FormControl<string[]> = new FormControl<string[]>([]);
 

@@ -1,5 +1,5 @@
 {
-  "name": "app-dev-kit",
+  "name": "app-kit",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/app-dev-kit/src",
@@ -20,19 +20,19 @@
       },
       "defaultConfiguration": "production",
       "outputs": [
-        "{workspaceRoot}/dist/app-dev-kit"
+        "{workspaceRoot}/dist/app-kit"
       ]
     },
     "build-release": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx nx build app-dev-kit"
+        "command": "npx nx build app-kit"
       }
     },
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "cd ./dist/app-dev-kit && npm publish && git push --tags"
+        "command": "cd ./dist/app-kit && npm publish && git push --tags"
       }
     },
     "github-release": {

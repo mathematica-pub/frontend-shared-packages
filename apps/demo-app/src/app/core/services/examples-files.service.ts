@@ -5,7 +5,7 @@ import {
   AdkShikiHighlighter,
   AdkShikiHighlighterOptions,
   ShikiTheme,
-} from '@hsi/app-dev-kit';
+} from '@mathstack/app-kit';
 import { encode } from 'html-entities';
 import { rehype } from 'rehype';
 import { from, map, mergeMap, Observable, switchMap } from 'rxjs';
@@ -20,7 +20,7 @@ export class ExamplesFilesService {
     private http: HttpClient,
     private highlighter: AdkShikiHighlighter,
     private sanitizer: DomSanitizer
-  ) {}
+  ) { }
 
   getComponentCode(name: string, shikiTheme: ShikiTheme): Observable<SafeHtml> {
     if (!this.files[name]) {

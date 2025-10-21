@@ -12,7 +12,7 @@ import {
   VicXyAxisModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { schemeTableau10 } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {

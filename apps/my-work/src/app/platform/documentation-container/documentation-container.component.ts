@@ -9,7 +9,7 @@ import {
   AdkDocumentationDisplayComponent,
   AdkNestedObject,
   ShikiTheme,
-} from '@hsi/app-dev-kit';
+} from '@mathstack/app-kit';
 import { distinctUntilChanged, filter, map, Observable, take } from 'rxjs';
 import { DirectoryConfigsService } from '../../core/services/directory-config.service';
 import { RouterStateService } from '../../core/services/router-state/router-state.service';
@@ -32,7 +32,7 @@ export class DocumentationContainerComponent implements OnInit {
   constructor(
     private routerState: RouterStateService,
     public configsService: DirectoryConfigsService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.setFileConfig();

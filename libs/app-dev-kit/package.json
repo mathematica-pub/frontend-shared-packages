@@ -1,5 +1,5 @@
 {
-  "name": "@hsi/app-dev-kit",
+  "name": "@mathstack/app-kit",
   "scripts": {
     "build": "ng build"
   },

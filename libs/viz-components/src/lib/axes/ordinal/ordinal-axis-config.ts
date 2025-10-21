@@ -1,5 +1,5 @@
 import { Directive } from '@angular/core';
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
 import { XyAxisConfig } from '../base/config/xy-axis-config';
@@ -29,4 +29,4 @@ export function mixinOrdinalAxisConfig<
 
 export abstract class VicOrdinalAxisConfig<
   Tick extends DataValue,
-> extends mixinOrdinalAxisConfig(XyAxisConfig)<Tick, Ticks<Tick>> {}
+> extends mixinOrdinalAxisConfig(XyAxisConfig)<Tick, Ticks<Tick>> { }

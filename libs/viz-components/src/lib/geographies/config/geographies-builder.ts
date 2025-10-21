@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import {
   ExtendedFeature,
   ExtendedFeatureCollection,
@@ -109,11 +109,11 @@ export class VicGeographiesConfigBuilder<
   geojsonPropertiesLayer(
     geojson:
       | ((
-          geojson: GeographiesGeojsonPropertiesLayerBuilder<
-            TProperties,
-            TGeometry
-          >
-        ) => void)
+        geojson: GeographiesGeojsonPropertiesLayerBuilder<
+          TProperties,
+          TGeometry
+        >
+      ) => void)
       | null
   ): this {
     if (geojson === null) {
@@ -149,12 +149,12 @@ export class VicGeographiesConfigBuilder<
   attributeDataLayer(
     attributeData:
       | ((
-          attributeData: GeographiesAttributeDataLayerBuilder<
-            Datum,
-            TProperties,
-            TGeometry
-          >
-        ) => void)
+        attributeData: GeographiesAttributeDataLayerBuilder<
+          Datum,
+          TProperties,
+          TGeometry
+        >
+      ) => void)
       | null
   ): this {
     if (attributeData === null) {

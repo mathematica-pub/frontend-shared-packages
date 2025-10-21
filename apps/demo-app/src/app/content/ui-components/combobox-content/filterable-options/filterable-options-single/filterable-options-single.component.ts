@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { HsiUiComboboxModule } from '@hsi/ui-components';
+import { HsiUiComboboxModule } from '@mathstack/ui';
 import { BehaviorSubject, combineLatest, map } from 'rxjs';
 import { FilterableOptionsSingle } from '../filterable-options-single';
 
@@ -13,8 +13,7 @@ import { FilterableOptionsSingle } from '../filterable-options-single';
 })
 export class FilterableOptionsSingleSelectComboboxComponent
   extends FilterableOptionsSingle
-  implements OnInit
-{
+  implements OnInit {
   inputValue = new BehaviorSubject<string>('');
   inputValue$ = this.inputValue.asObservable();
   listboxValue = new BehaviorSubject<string>(null);
