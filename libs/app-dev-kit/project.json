@@ -19,9 +19,7 @@
         }
       },
       "defaultConfiguration": "production",
-      "outputs": [
-        "{workspaceRoot}/dist/app-kit"
-      ]
+      "outputs": ["{workspaceRoot}/dist/app-kit"]
     },
     "build-release": {
       "executor": "nx:run-commands",
@@ -32,7 +30,7 @@
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "cd ./dist/app-kit && npm publish && git push --tags"
+        "command": "cd ./dist/app-kit && npm publish --access public && git push --tags"
       }
     },
     "github-release": {
@@ -46,10 +44,7 @@
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
         "tsConfig": "libs/app-dev-kit/tsconfig.spec.json",
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing"
-        ],
+        "polyfills": ["zone.js", "zone.js/testing"],
         "browsers": "ChromeHeadlessNoSandbox",
         "watch": false
       }
@@ -62,9 +57,7 @@
           "libs/app-dev-kit/**/*.html"
         ]
       },
-      "outputs": [
-        "{options.outputFile}"
-      ]
+      "outputs": ["{options.outputFile}"]
     },
     "create-changelog": {
       "executor": "nx:run-commands",
@@ -78,19 +71,8 @@
         "preset": "angular",
         "skipCommit": true,
         "skipRootChangelog": true,
-        "postTargets": [
-          "build-release",
-          "publish",
-          "github-release"
-        ],
-        "skipCommitTypes": [
-          "build",
-          "ci",
-          "docs",
-          "refactor",
-          "style",
-          "test"
-        ]
+        "postTargets": ["build-release", "publish", "github-release"],
+        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
       }
     }
   }

@@ -46,9 +46,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Authenticate to codeartifact
-        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @mathstack
-
       - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
@@ -57,6 +54,14 @@ jobs:
       - name: Get packages with version bump
         id: changed_pkgs
         run: bash scripts/get_pkgs_with_version_bump.sh
+
+      - name: Authenticate to npm registry
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm config set registry https://registry.npmjs.org/
+          npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+          npm whoami
 
       - name: Update versions and release packages
         env:

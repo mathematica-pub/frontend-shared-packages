@@ -1,5 +1,6 @@
 {
   "name": "@mathstack/ui",
+  "license": "MIT",
   "scripts": {
     "build": "ng build"
   },

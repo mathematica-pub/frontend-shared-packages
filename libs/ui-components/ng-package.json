@@ -4,5 +4,6 @@
   "lib": {
     "entryFile": "src/public-api.ts",
     "styleIncludePaths": ["../app-dev-kit/src/styles"]
-  }
+  },
+  "assets": ["LICENSE"]
 }

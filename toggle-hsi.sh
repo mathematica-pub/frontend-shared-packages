@@ -21,11 +21,11 @@ backup_files() {
 
 # Function to remove paths and add npm packages
 switch_to_npm() {
-    echo "Installing @hsi packages..."
-    aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi
-    npm install @hsi/viz-components@latest 
-    npm install @hsi/ui-components@latest
-    npm install @hsi/app-dev-kit@latest
+    echo "Installing @mathstack packages..."
+    aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @mathstack
+    npm install @mathstack/viz@latest 
+    npm install @mathstack/ui@latest
+    npm install @mathstack/app-kit@latest
     rm -rf dist
 
     echo "Updating tsconfig paths..."

@@ -9,6 +9,7 @@
       "input": "src/lib/baseline-styles/",
       "glob": "**/*.scss",
       "output": "baseline-styles"
-    }
+    },
+    "LICENSE"
   ]
 }

@@ -16,10 +16,10 @@ that child components can access and subscribe to.
 
 To provide a configuration for a `ChartComponent`, you can use the `VicChartConfigBuilder`.
 
-**Required imports from @hsi/viz-components**
+**Required imports from @mathstack/viz**
 
 ```ts
-import { VicChartsConfigBuilder, VicChartModule } from '@hsi/viz-components';
+import { VicChartsConfigBuilder, VicChartModule } from '@mathstack/viz';
 ...
 @Component({
   ...
