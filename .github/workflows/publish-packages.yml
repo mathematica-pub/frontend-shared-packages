@@ -7,6 +7,7 @@ on:
 permissions:
   contents: read
   pull-requests: read
+  id-token: write
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
@@ -55,12 +56,9 @@ jobs:
         id: changed_pkgs
         run: bash scripts/get_pkgs_with_version_bump.sh
 
-      - name: Authenticate to npm registry
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Configure to npm registry
         run: |
           npm config set registry https://registry.npmjs.org/
-          npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
           npm whoami
 
       - name: Update versions and release packages
