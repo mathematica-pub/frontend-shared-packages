@@ -62,7 +62,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_REGION: us-east-1
-        run: npx nx affected -t version --parallel=false
+        run: |
+          git fetch origin main:main
+          npx nx affected -t version --parallel=false
 
       - name: Notify Success
         if: success()
