@@ -56,7 +56,7 @@ jobs:
         run: npm ci
 
       - name: Authenticate to codeartifact
-        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
+        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @mathstack
 
       - name: Configure Git
         run: |
@@ -93,7 +93,7 @@ jobs:
             const version = process.env.beta_version;
             let body = `[${workflow} (${pkg})](${url}): ${success ? 'Succeeded ✅' : 'Failed ❌'}`;
             if (success) {
-              body = body + `\n\nTo install, run \`npm install @hsi/${pkg}@${version}\``;
+              body = body + `\n\nTo install, run \`npm install @mathstack/${pkg}@${version}\``;
             }
             await github.rest.issues.createComment({
               issue_number: context.issue.number,

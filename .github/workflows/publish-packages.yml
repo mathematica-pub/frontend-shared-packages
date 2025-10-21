@@ -37,7 +37,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: 'npm'
+          cache: "npm"
 
       - name: Get Current Pull Request
         uses: 8BitJonny/gh-get-current-pr@3.0.0
@@ -47,7 +47,7 @@ jobs:
         run: npm ci
 
       - name: Authenticate to codeartifact
-        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
+        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @mathstack
 
       - name: Configure Git
         run: |
