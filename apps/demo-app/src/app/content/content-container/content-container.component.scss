@@ -10,7 +10,7 @@
 
   .documentation-content {
     display: flex;
-    gap: grid(30);
+    gap: grid(12);
     margin-top: grid(6);
   }
 
@@ -20,10 +20,11 @@
     position: sticky;
     top: $top;
     max-height: calc(100vh - $top - grid(8));
+    flex: 0 0 200px;
   }
 
   .main-content {
-    width: 75%;
+    flex: 1 1 0;
   }
 
   .nav-siblings {

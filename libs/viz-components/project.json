@@ -24,9 +24,7 @@
         }
       },
       "defaultConfiguration": "production",
-      "outputs": [
-        "{workspaceRoot}/dist/viz"
-      ]
+      "outputs": ["{workspaceRoot}/dist/viz"]
     },
     "build-release": {
       "executor": "nx:run-commands",
@@ -37,7 +35,7 @@
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "cd ./dist/viz && npm publish && git push --tags"
+        "command": "cd ./dist/viz && npm publish --access public && git push --tags"
       }
     },
     "github-release": {
@@ -65,9 +63,7 @@
           "libs/viz-components/**/*.html"
         ]
       },
-      "outputs": [
-        "{options.outputFile}"
-      ]
+      "outputs": ["{options.outputFile}"]
     },
     "component-test": {
       "executor": "@nx/cypress:cypress",
@@ -96,19 +92,8 @@
         "preset": "angular",
         "skipCommit": true,
         "skipRootChangelog": true,
-        "postTargets": [
-          "build-release",
-          "publish",
-          "github-release"
-        ],
-        "skipCommitTypes": [
-          "build",
-          "ci",
-          "docs",
-          "refactor",
-          "style",
-          "test"
-        ]
+        "postTargets": ["build-release", "publish", "github-release"],
+        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
       }
     }
   }

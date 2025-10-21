@@ -28,8 +28,8 @@ In light of that, we work with the following principles:
 
 ## API Design
 
-We have created viz-components as a set of _composable_ components that a user can arrange to create
-data visualizations rather than as discrete charts.
+We have created viz as a set of _composable_ components that a user can arrange to create data
+visualizations rather than as discrete charts.
 
 We have chosen this approach for two reasons. First we want users to be able to take advantage of
 the expressiveness and variation afforded by understanding data visualizations as set of mappings of

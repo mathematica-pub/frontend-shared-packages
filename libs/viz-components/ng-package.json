@@ -3,5 +3,6 @@
   "dest": "../../dist/viz",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": ["LICENSE"]
 }

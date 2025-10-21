@@ -92,7 +92,7 @@ const mountGeographiesComponent = (
 // ***********************************************************
 // Test dimension
 // ***********************************************************
-describe.only('the Categorical Bins Attribute Data dimension', () => {
+describe('the Categorical Bins Attribute Data dimension', () => {
   let geographiesConfig: GeographiesConfig<
     StateIncomePopulationYearDatum,
     TestMapGeometryProperties

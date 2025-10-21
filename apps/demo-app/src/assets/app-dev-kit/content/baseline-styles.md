@@ -17,7 +17,7 @@ Add the Baseline Styles to the app's angular.json's stylePreprocessorOptions.
 ```json
 "stylePreprocessorOptions": {
   "includePaths": [
-    "node_modules/@hsi/app-dev-kit/baseline-styles"
+    "node_modules/@mathstack/app-kit/baseline-styles"
   ]
 }
 ```
@@ -28,7 +28,7 @@ To use any of the Baseline Styles features, import the Baseline Styles into `.sc
 do so by using the following `@use` rule`.
 
 ```scss
-@use '@hsi/app-dev-kit' as hsi-adk;
+@use '@mathstack/app-kit' as hsi-adk;
 ```
 
 Note that you may namespace the import (here: `hsi-adk`) as you see fit.
@@ -41,7 +41,7 @@ Styles features.
 We recommend that you add the following mixins to your global stylesheet:
 
 ```scss
-@use '@hsi/app-dev-kit' as hsi-adk;
+@use '@mathstack/app-kit' as hsi-adk;
 
 // Recommended: CSS Reset
 @include hsi-adk.css-reset();
@@ -75,7 +75,7 @@ added to your app. We recommend adding these in your global styles file, usually
 that file, you can use the `create-theme` mixin.
 
 ```scss
-@use '@hsi/app-dev-kit' as hsi-adk;
+@use '@mathstack/app-kit' as hsi-adk;
 
 html {
   @include hsi-adk.create-theme();
@@ -87,9 +87,9 @@ This will create a number of CSS variables on the DOM element that you specify (
 you run your application, you can see the variables it creates in "Styles" panel in DevTools. You
 can reference these CSS variables in your application's stylesheets.
 
-Components in other `frontend-shared-packages` libraries, such as `ui-components`, will use these
-CSS variables, if they are defined, to provide default styles. Therefore, it is recommended to
-always create a theme in your application, and override the values of these variables as needed.
+Components in other `frontend-shared-packages` libraries, such as `ui`, will use these CSS
+variables, if they are defined, to provide default styles. Therefore, it is recommended to always
+create a theme in your application, and override the values of these variables as needed.
 
 #### Color palettes
 
@@ -161,7 +161,7 @@ application's stylesheets.
 For example, to specify different fonts for the entire application, you could do the following:
 
 ```scss
-@use '@hsi/app-dev-kit' as hsi-adk;
+@use '@mathstack/app-kit' as hsi-adk;
 
 html {
   @include hsi-adk.create-theme();
@@ -180,7 +180,7 @@ CSS Reset is a mixin to apply a minimal and sensible CSS reset to your applicati
 applied in your global stylesheet.
 
 ```scss
-@use '@hsi/app-dev-kit' as hsi-adk;
+@use '@mathstack/app-kit' as hsi-adk;
 
 @include hsi-adk.css-reset();
 ```
@@ -208,7 +208,7 @@ few additions to support denser displays of information.
 These can be used in an application in the following way:
 
 ```scss
-@use '@hsi/app-dev-kit' as hsi-adk;
+@use '@mathstack/app-kit' as hsi-adk;
 
 .my-element {
   @include hsi-adk.label-large;
@@ -262,7 +262,7 @@ increments.
 The `grid` function takes a single argument, which is the number of 0.25rem increments to generate.
 
 ```scss
-@use '@hsi/app-dev-kit' as hsi-adk;
+@use '@mathstack/app-kit' as hsi-adk;
 
 .my-element {
   margin: hsi-adk.grid(2);
@@ -276,15 +276,14 @@ Baseline Styles provides a mixin to convert a map of SCSS variables into CSS var
 The mixin takes two arguments: a map of SCSS variables and a prefix to apply to the CSS variables.
 
 ```scss
-@use '@hsi/app-dev-kit' as hsi-adk;
+@use '@mathstack/app-kit' as hsi-adk;
 
 $my-map: (
   my-color: (
     primary: #000,
     secondary: #fff,
   )
-  my-background:
-  (
+  my-background: (
     primary: #fff,
     secondary: #000,
   ),
