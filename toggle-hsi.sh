@@ -22,7 +22,6 @@ backup_files() {
 # Function to remove paths and add npm packages
 switch_to_npm() {
     echo "Installing @mathstack packages..."
-    aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @mathstack
     npm install @mathstack/viz@latest 
     npm install @mathstack/ui@latest
     npm install @mathstack/app-kit@latest
