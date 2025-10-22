@@ -18,23 +18,9 @@ Run `./build.sh` to build the project. The build artifacts will be stored in the
 
 ## Publishing
 
-1. run `npm run prepare` from the viz-components folder
-
-2. in the root folder, run ./build.sh
-
-3. Go to the dist folder `cd dist/viz` and run `npm publish`.
-
 ## Using the library
 
-1.  add the below to the "scripts" section of the package.json
-
-        "preinstall": "npm run codeartifact:login",
-        "codeartifact:login": "aws codeartifact login --tool npm --repository vizcolib --domain frontend"
-
-2.  run `npm install @mathstack/viz`. If it can't be found, it's probably because the preinstall
-    script didn't actually run (it's supposed to but doesn't always, at least not for me, and
-    haven't successfully debugged yet). Manually run the preinstall script, `npm run preinstall`,
-    then run `npm install @mathstack/viz` again.
+1.  run `npm install @mathstack/viz`.
 
 ## Extending a component
 
