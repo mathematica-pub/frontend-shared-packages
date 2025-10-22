@@ -22,12 +22,7 @@ Run `./build.sh` to build the project. The build artifacts will be stored in the
 
 ## Using the library
 
-1.  add the below to the "scripts" section of the package.json
-
-        "preinstall": "npm run codeartifact:login",
-        "codeartifact:login": "aws codeartifact login --tool npm --repository vizcolib --domain frontend"
-
-2.  run `npm install @web-ast/viz-components`. If it can't be found, it's probably because the preinstall script didn't actually run (it's supposed to but doesn't always, at least not for me, and haven't successfully debugged yet). Manually run the preinstall script, `npm run preinstall`, then run `npm install @web-ast/viz-components` again.
+1. run `npm install @mathstack/old-viz`. If it can't be found, it's probably because the preinstall script didn't actually run (it's supposed to but doesn't always, at least not for me, and haven't successfully debugged yet). Manually run the preinstall script, `npm run preinstall`, then run `npm install @mathstack/old-viz` again.
 
 ## Extending a component
 

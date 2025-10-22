@@ -1,5 +1,5 @@
 {
-  "name": "@mathstack/viz-old",
+  "name": "@mathstack/old-viz",
   "version": "1.0.0",
   "description": "A library of Angular components for data visualization produced by Mathematica, Inc.",
   "license": "MIT",
