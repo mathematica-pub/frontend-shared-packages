@@ -59,7 +59,6 @@ jobs:
       - name: Configure to npm registry
         run: |
           npm config set registry https://registry.npmjs.org/
-          npm whoami
 
       - name: Update versions and release packages
         env:
