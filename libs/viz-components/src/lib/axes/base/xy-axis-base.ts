@@ -95,6 +95,7 @@ export abstract class XyAxis<
   }
 
   doNothing(): void {
+    console.log('');
     // Intentionally empty
   }
 

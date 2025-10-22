@@ -7,7 +7,6 @@ on:
 permissions:
   contents: read
   pull-requests: read
-  id-token: write
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
@@ -38,6 +37,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
+          registry-url: https://registry.npmjs.org/
           cache: "npm"
 
       - name: Get Current Pull Request
@@ -56,9 +56,8 @@ jobs:
         id: changed_pkgs
         run: bash scripts/get_pkgs_with_version_bump.sh
 
-      - name: Configure to npm registry
-        run: |
-          npm config set registry https://registry.npmjs.org/
+      - name: Update npm
+        run: npm install -g npm@latest
 
       - name: Update versions and release packages
         env:
