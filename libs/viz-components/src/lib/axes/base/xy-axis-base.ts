@@ -90,7 +90,12 @@ export abstract class XyAxis<
     this.setScale();
     this.setAxisFromScaleAndConfig();
     this.drawAxis();
+    this.doNothing();
     this.isFirstDraw = false;
+  }
+
+  doNothing(): void {
+    // Intentionally empty
   }
 
   drawAxis(): void {
