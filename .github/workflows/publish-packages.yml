@@ -2,7 +2,7 @@ name: Release packages
 on:
   push:
     branches:
-      - 693-featall-devops-move-libs-to-npm
+      - main
 
 permissions:
   contents: read
