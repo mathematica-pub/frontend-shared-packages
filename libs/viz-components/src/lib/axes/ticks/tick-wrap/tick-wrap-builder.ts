@@ -14,9 +14,22 @@ export class TickWrapBuilder {
   _maintainXPosition: boolean;
   _maintainYPosition: boolean;
   _lineHeight: number;
+  _breakOnChars: string[];
+  _spaceAroundBreakChars: boolean;
 
   constructor() {
     safeAssign(this, DEFAULT);
+  }
+
+  /**
+   * OPTIONAL. Sets the characters to break on when wrapping text.
+   * By default, text will only break on spaces.
+   *
+   * @default []
+   */
+  breakOnChars(breakOnChars: string[]) {
+    this._breakOnChars = breakOnChars;
+    return this;
   }
 
   /**
@@ -58,6 +71,19 @@ export class TickWrapBuilder {
   }
 
   /**
+   * OPTIONAL. If true, spaces will be added around break characters.
+   *
+   * This is useful when breaking on punctuation characters, to avoid words being stuck to punctuation.
+   * For example, breaking on commas without spaces around them would result in "word," at the end of one line and "word" at the start of the next line.
+   *
+   * @default false
+   */
+  spaceAroundBreakChars(spaceAroundBreakChars: boolean) {
+    this._spaceAroundBreakChars = spaceAroundBreakChars;
+    return this;
+  }
+
+  /**
    * OPTIONAL. Sets the width to wrap the text to. Can be a number, a function that takes the chart width and number of ticks, or 'bandwidth'.
    *
    * If 'bandwidth', the width will be the bandwidth of the scale.
@@ -93,6 +119,8 @@ export class TickWrapBuilder {
       maintainXPosition: this._maintainXPosition,
       maintainYPosition: this._maintainYPosition,
       lineHeight: this._lineHeight,
+      breakOnChars: this._breakOnChars,
+      spaceAroundBreakChars: this._spaceAroundBreakChars,
     });
   }
 
