@@ -55,9 +55,6 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Authenticate to codeartifact
-        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @mathstack
-
       - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"

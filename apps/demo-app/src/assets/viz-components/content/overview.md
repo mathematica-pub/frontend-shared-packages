@@ -26,25 +26,14 @@ Viz Components requires the following:
 
 ### Getting Set up
 
-Viz Components is hosted in a private repository on AWS. In order to add it to a project or update
-it as a dependency, you'll need to follow the steps below.
+Viz Components is hosted in a public repository on the [npm registry](https://registry.npmjs.org/).
+In order to add it to a project or update it as a dependency, you'll need to follow the steps below.
 
-1. Update your AWS credentials locally.
+Install the library with npm
 
-   Your credentials can be found locally on your machine in `~/.aws/credentials`. You can use
-   credentials from any Mathematica AWS account. Your credentials will last 24 hrs.
-
-2. Use the AWS CLI to authenticate to the remote repository
-
-   ```
-   aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @mathstack
-   ```
-
-3. Install the library with npm
-
-   ```
-   npm install @mathstack/viz
-   ```
+```
+npm install @mathstack/viz
+```
 
 ### Preparing to make your chart
 
