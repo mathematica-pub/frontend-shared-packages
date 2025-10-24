@@ -14,9 +14,6 @@ jobs:
     permissions:
       contents: read
 
-    environment:
-      name: github-pages
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -39,7 +36,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          path: 'dist/demo-app/demo-app/'
+          path: 'dist/demo-app/'
           name: github-pages
 
   deploy-demo-page:
