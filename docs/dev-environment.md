@@ -30,7 +30,7 @@ The beta release process is as follows:
 
 ## Running applications (e.g. demo-app, my-work) with deployed libraries
 
-To run all apps with the lastest version of all `libs` deployed to codeartifact, set your aws
+To run all apps with the lastest version of all `libs` deployed to npm, set your aws
 credentials, then run:
 
 `bash toggle-hsi.sh --npm`
