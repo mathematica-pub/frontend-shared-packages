@@ -1,0 +1,56 @@
+name: deploy demo-app to github pages
+
+on:
+  push:
+    branches:
+      - github-page-publish
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Demo App
+        run: npm run build:demo-app
+
+      - name: Update Artifact Paths
+        run: |
+          mv dist/demo-app/browser/index.html dist/demo-app/
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: 'dist/demo-app/demo-app/'
+
+  deploy-demo-page:
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy-pages.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deploy-pages
+        uses: actions/deploy-pages@v4
