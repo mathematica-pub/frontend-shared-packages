@@ -30,13 +30,13 @@ jobs:
       - name: Build Demo App
         run: npm run build:demo-app
 
-      - name: Update Artifact Paths
-        run: mv dist/demo-app/browser/index.html dist/demo-app/
+      - name: Move license to artifact folder
+        run: mv dist/demo-app/3rdpartylicenses.txt dist/demo-app/browser
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          path: 'dist/demo-app/'
+          path: 'dist/demo-app/browser/'
           name: github-pages
 
   deploy-demo-page:
