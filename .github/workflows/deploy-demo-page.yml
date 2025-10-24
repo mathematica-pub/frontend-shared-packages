@@ -37,6 +37,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: 'dist/demo-app/demo-app/'
+          name: github-pages
 
   deploy-demo-page:
     permissions:
