@@ -1,5 +1,6 @@
 @use '../../ca/ca.scss';
 @use '../../ca/color.scss';
+@use '../../ca/vars.scss' as *;
 
 .image {
   padding-top: 40px !important;
@@ -10,10 +11,11 @@
   text {
     text-transform: uppercase;
     text-anchor: middle;
+    font-size: $label-font-size;
   }
 
   line {
-    stroke: black;
+    stroke: color.$stratLabelLine;
     stroke-width: 2px;
   }
 }

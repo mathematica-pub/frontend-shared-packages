@@ -117,7 +117,7 @@ export class MlbCountyPlotStackedBarsComponent
       .join('g')
       .attr('class', 'strat-label');
     const offset = -this.labelWidth - 30;
-    const lineHeight = 20;
+    const lineHeight = 16;
     const text = strats
       .selectAll('text')
       .data((d) => [d])
@@ -149,7 +149,7 @@ export class MlbCountyPlotStackedBarsComponent
       .join('line')
       .attr('class', 'strat-separator')
       .attr('x1', offset + stratLinePadding * 2)
-      .attr('x2', this.chart.config.width - this.stratPadding * 2)
+      .attr('x2', -this.stratPadding * 2)
       .attr('y1', (d) => this.getY1(d) - this.stratPadding)
       .attr('y2', (d) => this.getY1(d) - this.stratPadding);
   }

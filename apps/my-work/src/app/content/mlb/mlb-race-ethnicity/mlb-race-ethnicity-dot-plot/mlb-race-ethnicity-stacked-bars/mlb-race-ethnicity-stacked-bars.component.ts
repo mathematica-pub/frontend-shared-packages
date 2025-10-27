@@ -91,7 +91,7 @@ export class MlbRaceEthnicityStackedBarsComponent
       .join('line')
       .attr('class', 'strat-separator')
       .attr('x1', offset + stratLinePadding * 2)
-      .attr('x2', this.chart.config.width - this.stratPadding * 2)
+      .attr('x2', -this.stratPadding * 2)
       .attr('y1', (d) => this.getY1(d) - this.stratPadding * 2)
       .attr('y2', (d) => this.getY1(d) - this.stratPadding * 2);
   }
