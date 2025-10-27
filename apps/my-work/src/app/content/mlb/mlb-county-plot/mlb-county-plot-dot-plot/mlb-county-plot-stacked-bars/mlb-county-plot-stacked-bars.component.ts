@@ -98,7 +98,7 @@ export class MlbCountyPlotStackedBarsComponent
 
     const data: StratLabelDatum[] = [
       {
-        text: 'highest',
+        text: 'the highest LOB',
         county: { first: firstIsHighest, last: lastIsHighest },
       },
       {
@@ -106,7 +106,7 @@ export class MlbCountyPlotStackedBarsComponent
         county: { first: firstIsBetween, last: lastIsBetween },
       },
       {
-        text: 'lowest',
+        text: 'the lowest LOB',
         county: { first: firstIsLowest, last: lastIsLowest },
       },
     ].filter((d) => d.county.first && d.county.last);
