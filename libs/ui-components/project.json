@@ -1,5 +1,5 @@
 {
-  "name": "ui-components",
+  "name": "ui",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/ui-components/src",
@@ -24,20 +24,18 @@
         }
       },
       "defaultConfiguration": "production",
-      "outputs": [
-        "{workspaceRoot}/dist/ui-components"
-      ]
+      "outputs": ["{workspaceRoot}/dist/ui"]
     },
     "build-release": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx nx build ui-components"
+        "command": "npx nx build ui"
       }
     },
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "cd ./dist/ui-components && npm publish && git push --tags"
+        "command": "cd ./dist/ui && npm publish --access public && git push --tags"
       }
     },
     "github-release": {
@@ -65,9 +63,7 @@
           "libs/ui-components/**/*.html"
         ]
       },
-      "outputs": [
-        "{options.outputFile}"
-      ]
+      "outputs": ["{options.outputFile}"]
     },
     "component-test": {
       "executor": "@nx/cypress:cypress",
@@ -96,19 +92,8 @@
         "preset": "angular",
         "skipCommit": true,
         "skipRootChangelog": true,
-        "postTargets": [
-          "build-release",
-          "publish",
-          "github-release"
-        ],
-        "skipCommitTypes": [
-          "build",
-          "ci",
-          "docs",
-          "refactor",
-          "style",
-          "test"
-        ]
+        "postTargets": ["build-release", "publish", "github-release"],
+        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
       }
     }
   }

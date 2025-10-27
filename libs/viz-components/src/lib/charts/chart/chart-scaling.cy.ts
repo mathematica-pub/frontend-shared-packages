@@ -13,7 +13,7 @@ import {
   VicXyAxisModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { cy, describe, expect, it } from 'local-cypress';
 import {
   CountryFactsDatum,

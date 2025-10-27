@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { select, Selection } from 'd3';
 import { SvgTextWrapOptions } from './svg-text-wrap-options';
 

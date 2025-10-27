@@ -3,7 +3,7 @@ import {
   LinesGroupSelectionDatum,
   LinesHost,
   LinesMarkerDatum,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 
 export class HighlightLineForLabel<Datum>
   implements InputEventAction<LinesHost<Datum>>

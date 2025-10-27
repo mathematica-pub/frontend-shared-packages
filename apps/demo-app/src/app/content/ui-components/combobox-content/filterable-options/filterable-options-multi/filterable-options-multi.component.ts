@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { HsiUiComboboxModule } from '@hsi/ui-components';
+import { HsiUiComboboxModule } from '@mathstack/ui';
 import { BehaviorSubject, map, scan, shareReplay, withLatestFrom } from 'rxjs';
 import { FilterableOptionsMulti } from '../filterable-options-multi';
 

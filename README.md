@@ -2,13 +2,13 @@
 
 This is a repo/Angular workspace that houses HSI's Angular libraries and associated applications.
 
-Currently, the workspace consists of two libraries: `ui-components` and `viz-components`, and an app
-that serves as our documentation site, `demo-app`.
+Currently, the workspace consists of two libraries: `ui` and `viz`, and an app that serves as our
+documentation site, `demo-app`.
 
 ## VizComponents
 
-[![build, lint, & test](https://github.com/mathematica-org/viz-components/actions/workflows/unit-testing-linting.yml/badge.svg)](https://github.com/mathematica-org/viz-components/actions/workflows/unit-testing-linting.yml)
-[![Publish to CodeArtifact](https://github.com/mathematica-org/viz-components/actions/workflows/deploy-codeartifact-cloudfront.yml/badge.svg)](https://github.com/mathematica-org/viz-components/actions/workflows/deploy-codeartifact-cloudfront.yml)
+[![build, lint, & test](https://github.com/mathematica-org/viz/actions/workflows/unit-testing-linting.yml/badge.svg)](https://github.com/mathematica-org/viz/actions/workflows/unit-testing-linting.yml)
+
 
 VizComponents is a library of Angular components built on top of D3 that can be composed by a user
 to create custom visualizations.
@@ -22,10 +22,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## How to use libraries
 
-1.  set your aws credentials (found in `~/.aws/credentials`)
-2.  `aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi`
-3.  `npm i @hsi/viz-components` or `npm i @hsi/ui-components`
-4.  Once the package is installed, you can use it like any normal third party package
+Libraries are published to the npm registry.
+
+1.  `npm i @mathstack/viz` or `npm i @mathstack/ui`
+2.  Once the package is installed, you can use it like any normal third party package
 
 ## Example Projects
 
@@ -33,7 +33,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - [Scorecard](https://github.com/mathematica-org/MACScorecard-Frontend) Uses viz-components bars,
   lines, and geographies. Uses image and data download services. Examples of custom/extended bars,
   lines, and geographies components. Geography is US map, and has small state squares w/hover &
-  click actions. Also uses ui-components dropdown, tabs, and table.
+  click actions. Also uses ui dropdown, tabs, and table.
 
 ## Feedback, Bugs, and Issues
 

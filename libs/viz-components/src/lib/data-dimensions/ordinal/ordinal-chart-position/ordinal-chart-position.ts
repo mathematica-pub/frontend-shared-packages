@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { InternSet, ScaleBand, scaleBand, scalePoint, ScalePoint } from 'd3';
 import { DataValue } from '../../../core/types/values';
 import { DataDimension } from '../../dimension';

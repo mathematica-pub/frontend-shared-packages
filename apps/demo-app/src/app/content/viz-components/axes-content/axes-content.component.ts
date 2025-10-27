@@ -10,7 +10,7 @@ import {
   VicXQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { ContentContainerComponent } from '../../content-container/content-container.component';
 import { BarsSimpleStatesExampleComponent } from '../bars-content/bars-simple-states-example/bars-simple-states-example.component';
 import { DotsScatterplotExampleComponent } from '../dots-content/dots-scatterplot-example/dots-scatterplot-example.component';

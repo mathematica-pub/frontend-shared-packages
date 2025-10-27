@@ -12,7 +12,7 @@ import {
   VicJpegImageConfig,
   VicPngImageConfig,
   VicSvgImageConfig,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 
 let uniqueId = 0;
 

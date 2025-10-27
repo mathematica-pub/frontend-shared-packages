@@ -19,8 +19,8 @@ directory.
 
 ## Publishing
 
-After building your library with `ng build ui-components`, go to the dist folder
-`cd dist/ui-components` and run `npm publish`.
+After building your library with `ng build ui-components`, go to the dist folder `cd dist/ui` and
+run `npm publish`.
 
 ## Running unit tests
 

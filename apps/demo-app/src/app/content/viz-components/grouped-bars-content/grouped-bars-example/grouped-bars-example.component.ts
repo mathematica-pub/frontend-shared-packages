@@ -26,7 +26,7 @@ import {
   VicXyBackgroundModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import {
   IndustryUnemploymentDatum,
   MetroUnemploymentDatum,

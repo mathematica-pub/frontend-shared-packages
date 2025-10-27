@@ -16,7 +16,7 @@ import {
   AdkActiveHeadingTracker,
   AdkDocumentIndexComponent,
   AdkHtmlHeader,
-} from '@hsi/app-dev-kit';
+} from '@mathstack/app-kit';
 import { ContentFilesService } from '../../core/services/content-files.service';
 import { ContentSection } from '../../core/services/content-parser.service';
 

@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { FillDefinition } from '../../../../fill-definitions/fill-definitions';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';

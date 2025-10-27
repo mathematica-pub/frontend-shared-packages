@@ -1,7 +1,7 @@
 import { TitleCasePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
-import { HsiUiDirectoryItem } from '@hsi/ui-components';
+import { AdkAssetResponse, AdkAssetsService } from '@mathstack/app-kit';
+import { HsiUiDirectoryItem } from '@mathstack/ui';
 import { BehaviorSubject, forkJoin, map } from 'rxjs';
 
 export interface ContentConfig {

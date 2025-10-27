@@ -28,7 +28,7 @@ import {
   VicHtmlTooltipModule,
   VicMapLegendModule,
   valueFormat,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { colors } from 'apps/demo-app/src/app/core/constants/colors.constants';
 import { StateIncomeDatum } from 'apps/demo-app/src/app/core/models/data';
 import { MapGeometryProperties } from 'apps/demo-app/src/app/core/services/basemap';

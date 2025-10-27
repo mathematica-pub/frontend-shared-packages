@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { min, range } from 'd3';
 import { DataValue } from '../../core/types/values';
 import { FillDefinition } from '../../data-dimensions';

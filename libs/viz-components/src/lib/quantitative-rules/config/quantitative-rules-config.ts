@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { XyMarksConfig } from '../../marks/xy-marks/xy-marks-config';
 import { Stroke } from '../../stroke/stroke';
 import { QuantitativeRulesLabels } from './labels/quantitative-rules-labels';

@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { schemeTableau10 } from 'd3';
 import { DataValue, VisualValue } from '../../../core/types/values';
 import { DataDimensionBuilder } from '../../dimension-builder';

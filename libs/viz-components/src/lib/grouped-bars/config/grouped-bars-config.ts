@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { range } from 'd3';
 import { BarsConfig } from '../../bars/config/bars-config';
 import { BarsDimensions } from '../../bars/config/bars-dimensions';

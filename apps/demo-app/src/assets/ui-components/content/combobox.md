@@ -47,7 +47,7 @@ minimal implementation
 ```ts
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { HsiUiComboboxModule } from '@hsi/ui-components';
+import { HsiUiComboboxModule } from '@mathstack/ui';
 
 @Component({
   selector: 'app-my-combobox',

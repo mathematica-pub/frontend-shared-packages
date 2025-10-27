@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { InternMap, select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { FillUtilities } from '../../../../core/utilities/fill-utilities';

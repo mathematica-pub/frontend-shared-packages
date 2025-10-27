@@ -4,7 +4,7 @@ import {
   AdkNestedObject,
   AdkParsedDocumentation,
   ShikiTheme,
-} from '@hsi/app-dev-kit';
+} from '@mathstack/app-kit';
 import {
   combineLatest,
   distinctUntilChanged,

@@ -7,12 +7,12 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AdkAssetsService } from '@hsi/app-dev-kit';
+import { AdkAssetsService } from '@mathstack/app-kit';
 import {
   HsiUiDirectoryComponent,
   HsiUiDirectoryItem,
   HsiUiDirectorySelection,
-} from '@hsi/ui-components';
+} from '@mathstack/ui';
 import { filter, map, Observable } from 'rxjs';
 import { ContentConfigService } from '../../../core/services/content-config.service';
 import { RouterStateService } from '../../../core/services/router-state/router-state.service';

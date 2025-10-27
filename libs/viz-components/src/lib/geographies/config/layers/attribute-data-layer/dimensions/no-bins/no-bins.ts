@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { extent } from 'd3';
 import { BinStrategy } from '../attribute-data-bin-enums';
 import { AttributeDataDimension } from '../attribute-data/attribute-data-dimension';

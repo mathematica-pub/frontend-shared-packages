@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { ShikiTheme } from '@hsi/app-dev-kit';
+import { ShikiTheme } from '@mathstack/app-kit';
 import {
   distinctUntilChanged,
   filter,

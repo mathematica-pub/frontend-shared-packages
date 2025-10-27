@@ -1,5 +1,6 @@
 {
-  "name": "@hsi/app-dev-kit",
+  "name": "@mathstack/app-kit",
+  "license": "MIT",
   "scripts": {
     "build": "ng build"
   },

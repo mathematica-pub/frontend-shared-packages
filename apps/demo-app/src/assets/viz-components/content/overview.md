@@ -26,37 +26,26 @@ Viz Components requires the following:
 
 ### Getting Set up
 
-Viz Components is hosted in a private repository on AWS. In order to add it to a project or update
-it as a dependency, you'll need to follow the steps below.
+Viz Components is hosted in a public repository on the [npm registry](https://registry.npmjs.org/).
+In order to add it to a project or update it as a dependency, you'll need to follow the steps below.
 
-1. Update your AWS credentials locally.
+Install the library with npm
 
-   Your credentials can be found locally on your machine in `~/.aws/credentials`. You can use
-   credentials from any Mathematica AWS account. Your credentials will last 24 hrs.
-
-2. Use the AWS CLI to authenticate to the remote repository
-
-   ```
-   aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi
-   ```
-
-3. Install the library with npm
-
-   ```
-   npm install @hsi/viz-components
-   ```
+```
+npm install @mathstack/viz
+```
 
 ### Preparing to make your chart
 
-You will need to import a number of modules and services from from `@hsi/viz-components` to your
-Angular component or application.
+You will need to import a number of modules and services from from `@mathstack/viz` to your Angular
+component or application.
 
 For just the bar chart, you will need to do the following.
 
 1. Add modules. These will import required components.
 
    ```ts
-   import { VicChartModule, VicBarsModule } from '@hsi/viz-components';
+   import { VicChartModule, VicBarsModule } from '@mathstack/viz';
    ...
    @Component ({
      ...
@@ -71,7 +60,7 @@ For just the bar chart, you will need to do the following.
    component.
 
    ```ts
-   import { VicBarsBuilder } from '@hsi/viz-components';
+   import { VicBarsBuilder } from '@mathstack/viz';
    ...
    @Component ({
      ...
@@ -100,8 +89,7 @@ elements, that identifier could also be placed on the `vic-primary-marks-bars` c
 ### Creating your chart configuration
 
 You will also need to create the configuration object for your primary marks component (`barsConfig`
-in the HTML example above) in your `.ts` file. You will do this using a viz-components config
-builder.
+in the HTML example above) in your `.ts` file. You will do this using a viz config builder.
 
 #### Injecting a builder
 
@@ -132,7 +120,7 @@ can be called in any order, but `getConfig` must be called last.
 A minimal use of the bars builder may look like this:
 
 ```ts
-import { BarsConfig } from '@hsi/viz-components';
+import { BarsConfig } from '@mathstack/viz';
 ...
 barsConfig: BarsConfig<MetroUnemploymentDatum, string>;
 data: MyDatum[];

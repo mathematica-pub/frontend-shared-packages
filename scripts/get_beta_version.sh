@@ -6,7 +6,7 @@ set -x
 echo "📦 Getting beta versions for package: $REFERENCED_PACKAGE"
 
 # Get all versions from npm registry
-ALL_VERSIONS=$(npm view "@hsi/$REFERENCED_PACKAGE" versions --json 2>/dev/null)
+ALL_VERSIONS=$(npm view "@mathstack/$REFERENCED_PACKAGE" versions --json 2>/dev/null)
 
 if [ $? -ne 0 ] || [ "$ALL_VERSIONS" = "null" ] || [ -z "$ALL_VERSIONS" ]; then
     echo "⚠️ Package not found in npm registry or no versions published"

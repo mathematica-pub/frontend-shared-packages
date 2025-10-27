@@ -1,5 +1,6 @@
 {
-  "name": "@hsi/ui-components",
+  "name": "@mathstack/ui",
+  "license": "MIT",
   "scripts": {
     "build": "ng build"
   },
@@ -8,7 +9,7 @@
     "@angular/common": "^19.2.2",
     "@angular/core": "^19.2.2",
     "@angular/material": "^19.2.6",
-    "@hsi/app-dev-kit": "^1.2.1",
+    "@mathstack/app-kit": "^1.0.0",
     "d3": "^7.8.5",
     "lodash-es": "^4.17.21",
     "rxjs": "^7.5.0"

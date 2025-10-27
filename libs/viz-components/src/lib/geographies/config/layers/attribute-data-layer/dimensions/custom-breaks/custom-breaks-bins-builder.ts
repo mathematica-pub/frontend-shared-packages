@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { interpolateLab, scaleThreshold } from 'd3';
 import { AttributeDataDimensionBuilder } from '../attribute-data/attribute-data-dimension-builder';
 import { CustomBreaksBinsAttributeDataDimension } from './custom-breaks-bins';
