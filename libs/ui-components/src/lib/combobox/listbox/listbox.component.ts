@@ -1,3 +1,4 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
@@ -83,7 +84,8 @@ export class ListboxComponent
     public activeIndex: ActiveIndexService,
     protected filtering: ListboxFilteringService,
     protected scrolling: ListboxScrollService,
-    protected destroyRef: DestroyRef
+    protected destroyRef: DestroyRef,
+    private announcer: LiveAnnouncer
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -307,6 +309,7 @@ export class ListboxComponent
     } else {
       this.selectSingleSelectOption(option, options);
     }
+    this.announceSelection(option);
   }
 
   updateSelectedOptionsToEmit(options: ListboxOptionComponent[]): void {
@@ -369,5 +372,13 @@ export class ListboxComponent
 
   handleOptionMousedown(): void {
     this.service.ignoreBlur = true;
+  }
+
+  announceSelection(option: ListboxOptionComponent): void {
+    if (option) {
+      this.announcer.announce(
+        `${option.ariaLabel ?? option.label?.nativeElement?.innerText} ${option.isSelected() ? 'selected' : 'deselected'}`
+      );
+    }
   }
 }

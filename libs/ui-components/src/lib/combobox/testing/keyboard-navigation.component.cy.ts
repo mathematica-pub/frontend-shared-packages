@@ -92,6 +92,7 @@ describe('keyboard navigation with a single select listbox', () => {
     cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
     // selects an option using the keyboard and updates the value
     cy.get('.hsi-ui-textbox').type('{downarrow}{enter}');
+    cy.get('[aria-live]').should('contain', 'Bananas selected');
     cy.get('.combobox-value').should('have.text', 'Bananas');
     // focus remains on first option when up arrow is presse
     cy.get('.hsi-ui-textbox-container').focus();
@@ -176,10 +177,13 @@ describe('keyboard navigation with a multi select listbox', () => {
     cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
     // selects and unselects options using the keyboard and updates the value
     cy.get('.hsi-ui-textbox').type('{downarrow}{enter}');
+    cy.get('[aria-live]').should('contain', 'Bananas selected');
     cy.get('.hsi-ui-textbox').type('{downarrow}{downarrow}{enter}');
+    cy.get('[aria-live]').should('contain', 'Durians selected');
     cy.get('.combobox-value').should('have.text', 'Bananas,Durians');
     cy.get('.hsi-ui-textbox').type('{enter}');
     cy.get('.combobox-value').should('have.text', 'Bananas');
+    cy.get('[aria-live]').should('contain', 'Durians deselected');
     // focus remains on first option when up arrow is presse
     cy.get('.hsi-ui-textbox').type('{upArrow}{upArrow}{upArrow}');
     cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
