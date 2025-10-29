@@ -206,10 +206,21 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
               `${this.class.line} ${this.config.datumClass(this.config.getDataFromCategory(category)[0], i)}`.trim()
             )
             .attr('stroke', ([category]) => this.scales.color(category))
+            .attr('stroke-dasharray', this.config.stroke.dasharray)
+            .attr('stroke-linecap', this.config.stroke.linecap)
+            .attr('stroke-linejoin', this.config.stroke.linejoin)
+            .attr('stroke-width', this.config.stroke.width)
             .attr('d', ([, lineData]) => this.line(lineData)),
         (update) =>
           update
+            .attr('class', ([category], i) =>
+              `${this.class.line} ${this.config.datumClass(this.config.getDataFromCategory(category)[0], i)}`.trim()
+            )
             .attr('stroke', ([category]) => this.scales.color(category))
+            .attr('stroke-dasharray', this.config.stroke.dasharray)
+            .attr('stroke-linecap', this.config.stroke.linecap)
+            .attr('stroke-linejoin', this.config.stroke.linejoin)
+            .attr('stroke-width', this.config.stroke.width)
             .call((update) =>
               update
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
