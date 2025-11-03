@@ -18,3 +18,5 @@ items:
     - mlb-county-plot
     - mlb-map
     - provider-shortage-map
+  cda:
+    - dd-choropleth
