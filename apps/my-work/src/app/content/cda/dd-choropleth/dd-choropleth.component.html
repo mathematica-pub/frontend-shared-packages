@@ -1,7 +1,6 @@
 <div class="title">CDA DD Map</div>
 @if (data$ | async; as data) {
   <app-export-content [fileName]="'CDA DD Map'">
-    <p class="title">Total DD beneficiaries per 100,000 Medi-Cal members</p>
     @if (vm$ | async; as vm) {
       <vic-map-chart class="chart-component" [config]="vm.chartConfig">
         <ng-container html-elements-after>
