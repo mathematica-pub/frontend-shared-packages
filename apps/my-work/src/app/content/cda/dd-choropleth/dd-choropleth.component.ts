@@ -194,7 +194,7 @@ export class DdChoroplethComponent implements OnInit {
         .noBins((dimension) =>
           dimension
             .valueAccessor((d) => d.value)
-            .formatSpecifier('.0f')
+            .formatSpecifier(',.0f')
             .range([this.colors.min, this.colors.max])
             .domain([0, 3000])
             .nullColor(this.colors.noData)
