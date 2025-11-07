@@ -1,9 +1,18 @@
 .image {
-  padding: 0 !important;
+  padding: 1rem !important;
 }
 
 .chart-component {
   position: relative;
+}
+
+.title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.legend-title {
+  text-transform: uppercase;
 }
 
 // .chart-component,
