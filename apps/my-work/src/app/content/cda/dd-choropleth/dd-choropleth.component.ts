@@ -76,7 +76,6 @@ export class DdChoroplethComponent implements OnInit {
   margin: ElementSpacing = { top: 0, right: 0, bottom: 20, left: 0 };
   outlineColor = 'white';
   colors = {
-    // min: '#eff3ff',
     min: '#ffffff',
     max: '#046b5c',
     noData: '#d9d9d9',
