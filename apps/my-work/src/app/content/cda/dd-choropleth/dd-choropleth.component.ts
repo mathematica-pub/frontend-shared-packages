@@ -21,7 +21,7 @@ import {
   MapObjects,
 } from 'apps/demo-app/src/app/core/services/basemap';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
-import { geoMercator } from 'd3';
+import { geoMercator, min } from 'd3';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import { filter, map, Observable, shareReplay } from 'rxjs';
 import * as topojson from 'topojson-client';
@@ -76,7 +76,7 @@ export class DdChoroplethComponent implements OnInit {
   margin: ElementSpacing = { top: 0, right: 0, bottom: 20, left: 0 };
   outlineColor = 'black';
   colors = {
-    min: '#ffffff',
+    min: '#dcf5f1',
     max: '#046b5c',
     noData: '#d9d9d9',
     stroke: this.outlineColor,
@@ -196,7 +196,7 @@ export class DdChoroplethComponent implements OnInit {
             .valueAccessor((d) => d.value)
             .formatSpecifier(',.0f')
             .range([this.colors.min, this.colors.max])
-            .domain([0, 3000])
+            .domain([min(data, (d) => d.value), 3000])
             .nullColor(this.colors.noData)
         )
     );
