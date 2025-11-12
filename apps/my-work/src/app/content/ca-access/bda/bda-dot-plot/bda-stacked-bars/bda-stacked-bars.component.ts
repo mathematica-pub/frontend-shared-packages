@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { StackDatum } from '@hsi/viz-components';
+import { StackDatum } from '@mathstack/viz';
 import { select, Selection } from 'd3';
 import { CaAccessStackedBarsComponent } from '../../../ca-access-stacked-bars.component';
 import { BdaDatum } from '../../bda.component';

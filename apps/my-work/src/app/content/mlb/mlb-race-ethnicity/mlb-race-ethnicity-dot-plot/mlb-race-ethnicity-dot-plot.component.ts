@@ -6,7 +6,7 @@ import {
   VicXQuantitativeAxisConfigBuilder,
   VicXyAxisModule,
   VicYOrdinalAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import {
   CaDotPlotService,
   DotPlotDataConfig,

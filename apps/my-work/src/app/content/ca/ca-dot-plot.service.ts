@@ -9,7 +9,7 @@ import {
   VicXQuantitativeAxisConfigBuilder,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { extent, max, min } from 'd3';
 import { chartWidth } from './ca.constants';
 

@@ -15,7 +15,7 @@ import {
   VicXyAxisModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { descending, extent, max, min } from 'd3';
 import { sizeCategories } from '../../ca-access.constants';
 import { IcaStackedBarsComponent } from './ica-stacked-bars/ica-stacked-bars.component';

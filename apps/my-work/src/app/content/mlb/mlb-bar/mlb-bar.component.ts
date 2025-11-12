@@ -15,7 +15,7 @@ import {
   VicXyAxisModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { max } from 'd3';
 import { map, Observable } from 'rxjs';

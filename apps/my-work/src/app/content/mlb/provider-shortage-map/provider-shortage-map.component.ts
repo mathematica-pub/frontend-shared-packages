@@ -7,7 +7,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
+import { AdkAssetResponse, AdkAssetsService } from '@mathstack/app-kit';
 import { MapGeometryProperties } from 'apps/demo-app/src/app/core/services/basemap';
 import {
   geoMercator,

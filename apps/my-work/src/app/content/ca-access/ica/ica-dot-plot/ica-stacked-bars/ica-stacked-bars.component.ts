@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
+import { StackDatum, StackedBarsComponent } from '@mathstack/viz';
 import { extent, format, max, select, Selection } from 'd3';
 import {
   barbellStackElementHeight,

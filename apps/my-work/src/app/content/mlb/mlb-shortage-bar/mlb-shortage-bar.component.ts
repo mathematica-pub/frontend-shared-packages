@@ -11,7 +11,7 @@ import {
   VicXQuantitativeAxisConfigBuilder,
   VicXyAxisModule,
   VicYOrdinalAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { CaChartService } from '../../ca/ca-chart.service';
 import { CaDotPlotService } from '../../ca/ca-dot-plot.service';

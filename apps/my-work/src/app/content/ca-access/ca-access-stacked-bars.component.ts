@@ -6,7 +6,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { StackDatum, StackedBarsComponent } from '@hsi/viz-components';
+import { StackDatum, StackedBarsComponent } from '@mathstack/viz';
 import { format, select, Selection } from 'd3';
 import { CaStackedBarsService } from '../ca/ca-stacked-bars.service';
 

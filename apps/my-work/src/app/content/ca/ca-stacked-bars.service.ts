@@ -5,7 +5,7 @@ import {
   StackedBarsConfig,
   XyChartComponent,
   XyChartScales,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { scaleOrdinal, ScaleOrdinal, select, Selection } from 'd3';
 import { mlbColorRange, stateName } from '../mlb/mlb.constants';
 

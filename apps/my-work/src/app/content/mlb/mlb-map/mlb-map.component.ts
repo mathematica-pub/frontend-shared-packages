@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
+import { AdkAssetResponse, AdkAssetsService } from '@mathstack/app-kit';
 import {
   ChartConfig,
   ElementSpacing,
@@ -15,7 +15,7 @@ import {
   VicGeographiesConfigBuilder,
   VicGeographiesModule,
   VicMapLegendModule,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import {
   MapGeometryProperties,
   MapObjects,
