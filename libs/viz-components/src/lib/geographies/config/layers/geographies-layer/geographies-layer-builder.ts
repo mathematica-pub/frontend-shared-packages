@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { Geometry } from 'geojson';
 import { StrokeBuilder } from '../../../../stroke/stroke-builder';
 import { GeographiesFeature } from '../../../geographies-feature';

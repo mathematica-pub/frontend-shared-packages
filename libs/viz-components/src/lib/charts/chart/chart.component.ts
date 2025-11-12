@@ -12,7 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
+import { NgOnChangesUtilities } from '@mathstack/app-kit';
 import { isEqual } from 'lodash-es';
 import {
   BehaviorSubject,

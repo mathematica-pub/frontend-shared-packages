@@ -1,5 +1,5 @@
 import { Directive } from '@angular/core';
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { DataValue } from '../../core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxisConfig } from '../base/config/xy-axis-config';

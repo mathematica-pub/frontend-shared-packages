@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { ElementSpacing } from '../../../core/types/layout';
 import { ScalingStrategy } from './chart-builder';
 import { ChartOptions } from './chart-options';

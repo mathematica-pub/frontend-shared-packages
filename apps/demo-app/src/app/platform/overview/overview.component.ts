@@ -12,7 +12,7 @@ import {
   AdkMarkdownParser,
   AdkParsedContentSection,
   ShikiTheme,
-} from '@hsi/app-dev-kit';
+} from '@mathstack/app-kit';
 import { distinctUntilChanged, map, Observable, switchMap } from 'rxjs';
 import { RouterStateService } from '../../core/services/router-state/router-state.service';
 

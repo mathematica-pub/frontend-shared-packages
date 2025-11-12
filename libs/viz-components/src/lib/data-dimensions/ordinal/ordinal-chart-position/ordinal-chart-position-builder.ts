@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { DataValue } from '../../../core/types/values';
 import { DataDimensionBuilder } from '../../dimension-builder';
 import { OrdinalChartPositionDimension } from './ordinal-chart-position';

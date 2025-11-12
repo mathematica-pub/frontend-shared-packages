@@ -8,7 +8,7 @@ import {
   AdkMarkdownParser,
   AdkShikiHighlighter,
   ShikiTheme,
-} from '@hsi/app-dev-kit';
+} from '@mathstack/app-kit';
 import { RouterStateService } from './core/services/router-state/router-state.service';
 import { SidebarComponent } from './platform/sidebar/sidebar.component';
 

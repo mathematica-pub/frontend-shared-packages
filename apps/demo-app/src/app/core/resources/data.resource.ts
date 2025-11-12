@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
+import { AdkAssetResponse, AdkAssetsService } from '@mathstack/app-kit';
 import { Observable, map } from 'rxjs';
 import { UsMapTopology } from '../services/basemap';
 

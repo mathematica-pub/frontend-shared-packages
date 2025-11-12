@@ -19,7 +19,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
+import { NgOnChangesUtilities } from '@mathstack/app-kit';
 import { Subject, takeUntil } from 'rxjs';
 import { HtmlTooltipConfig } from './config/html-tooltip-config';
 

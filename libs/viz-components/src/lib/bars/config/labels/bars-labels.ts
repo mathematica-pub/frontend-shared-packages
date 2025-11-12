@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { BarsLabelsOptions } from './bars-labels-options';
 
 export class BarsLabels<Datum> implements BarsLabelsOptions<Datum> {

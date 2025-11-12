@@ -5,7 +5,7 @@ import {
   HsiUiComboboxModule,
   ListboxOptionComponent,
   SelectedCountLabel,
-} from '@hsi/ui-components';
+} from '@mathstack/ui';
 
 @Component({
   selector: 'app-minimal-implementation-combobox',

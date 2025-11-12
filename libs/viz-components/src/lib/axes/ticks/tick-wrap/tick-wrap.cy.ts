@@ -19,7 +19,7 @@ import {
   VicYOrdinalAxisConfigBuilder,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 
 type Datum = { state: string; value: number };

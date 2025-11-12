@@ -19,10 +19,10 @@ that will be passed to the component. The second should be the type of the the v
 ordinal dimension, which could be a `string`, `number`, or `Date`, though is most commonly a
 `string`. (For example this value would serve as a label to identify each bar.)
 
-**Required imports from @hsi/viz-components**
+**Required imports from @mathstack/viz**
 
 ```ts
-import { VicBarsConfigBuilder, VicBarsModule, VicChartModule } from '@hsi/viz-components';
+import { VicBarsConfigBuilder, VicBarsModule, VicChartModule } from '@mathstack/viz';
 ...
 @Component({
   ...

@@ -3,7 +3,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   AdkMarkdownParsingOptions,
   AdkParsedContentSection,
-} from '@hsi/app-dev-kit';
+} from '@mathstack/app-kit';
 import { Observable, combineLatest, map, of } from 'rxjs';
 
 export interface BuilderMethod<Description = string> {

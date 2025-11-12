@@ -1,7 +1,7 @@
 # UiComponents
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version
-15.1.0.
+19.2.0.
 
 ## Code scaffolding
 
@@ -19,8 +19,8 @@ directory.
 
 ## Publishing
 
-After building your library with `ng build ui-components`, go to the dist folder
-`cd dist/ui-components` and run `npm publish`.
+After building your library with `ng build ui-components`, go to the dist folder `cd dist/ui` and
+run `npm publish`.
 
 ## Running unit tests
 

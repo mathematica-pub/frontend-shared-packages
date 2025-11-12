@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { ScaleTime, max, min } from 'd3';
 import { isDate } from '../../../core/utilities/type-guards';
 import { DataDimension } from '../../dimension';

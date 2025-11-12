@@ -12,7 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { runNgChangeDetectionThen } from '@hsi/app-dev-kit';
+import { runNgChangeDetectionThen } from '@mathstack/app-kit';
 import { BehaviorSubject, combineLatest, filter, startWith } from 'rxjs';
 import {
   ComboboxAction,

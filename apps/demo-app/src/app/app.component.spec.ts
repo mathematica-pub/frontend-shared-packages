@@ -7,7 +7,7 @@ import {
   AdkDocumentationConfigParser,
   AdkDocumentationContentService,
   AdkMarkdownParser,
-} from '@hsi/app-dev-kit';
+} from '@mathstack/app-kit';
 import { AppComponent } from './app.component';
 import { ContentParser } from './core/services/content-parser.service';
 

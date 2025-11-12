@@ -1,5 +1,5 @@
 import { ElementRef } from '@angular/core';
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { Tooltip } from '../../config/tooltip';
 import { HtmlTooltipOptions } from './html-tooltip-options';
 import { HtmlTooltipCdkManagedPosition } from './position/tooltip-position';

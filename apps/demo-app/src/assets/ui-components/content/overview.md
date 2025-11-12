@@ -1,4 +1,4 @@
-## ui-components
+## ui
 
 This library serves as the home for replacements to any Material components that are exceptionally
 difficult to style, and for reusable components that do not exist in angular Material (e.g., loading

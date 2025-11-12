@@ -6,5 +6,6 @@ export * from './events/actions/lines-hover-move-actions';
 export * from './events/actions/lines-marker-click-actions';
 export * from './events/lines-events.directive';
 export * from './events/lines-interaction-output';
+export * from './events/lines-tooltip-positioner';
 export * from './lines.component';
 export * from './lines.module';

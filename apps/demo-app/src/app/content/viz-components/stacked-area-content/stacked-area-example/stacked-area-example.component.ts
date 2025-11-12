@@ -20,10 +20,10 @@ import {
   VicXyBackgroundModule,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
-import { StackedAreaInteractionOutput } from 'dist/viz-components/lib/stacked-area/events/stacked-area-interaction-output';
+import { StackedAreaInteractionOutput } from 'dist/viz/lib/stacked-area/events/stacked-area-interaction-output';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 
 interface ViewModel {

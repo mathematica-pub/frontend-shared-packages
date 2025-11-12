@@ -46,9 +46,9 @@ well, but that data will not affect the global scales at the chart level.
 
 ### Providing configurations
 
-Each viz-components _component_ that accepts any user input will have one `@Input` property called
-`config`. Users can generate these configs using builder classes that the library provides to easily
-and correctly construct configs for the components. The library provides the following builders:
+Each viz _component_ that accepts any user input will have one `@Input` property called `config`.
+Users can generate these configs using builder classes that the library provides to easily and
+correctly construct configs for the components. The library provides the following builders:
 
 #### For Data Marks Components
 
@@ -110,7 +110,7 @@ component.
 _Using providers array_
 
 ```ts
-import { VicLinesBuilder } from '@hsi/viz-components';
+import { VicLinesBuilder } from '@mathstack/viz';
 
 @Component({
   ...
@@ -135,7 +135,7 @@ Alternately, users can `new` a config builder themselves, as shown below.
 _New-ing the class_
 
 ```ts
-import { VicLinesBuilder } from '@hsi/viz-components';
+import { VicLinesBuilder } from '@mathstack/viz';
 
 export class MyAppLinesComponent {
 

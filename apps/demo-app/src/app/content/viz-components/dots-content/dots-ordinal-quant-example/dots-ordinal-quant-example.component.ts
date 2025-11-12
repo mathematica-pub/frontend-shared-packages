@@ -14,7 +14,7 @@ import {
   VicXyBackgroundModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import {
   LocationCategoryDatum,
   statesElectionData,

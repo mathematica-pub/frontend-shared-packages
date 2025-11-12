@@ -12,7 +12,7 @@ import {
   VicXQuantitativeAxisConfigBuilder,
   VicXyAxisModule,
   VicXyBackgroundModule,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { extent } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 

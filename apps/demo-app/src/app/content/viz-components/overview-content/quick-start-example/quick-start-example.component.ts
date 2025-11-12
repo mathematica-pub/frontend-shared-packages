@@ -18,7 +18,7 @@ import {
   VicXyAxisModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 
 export interface MetroUnemploymentDatum {
   division: string;

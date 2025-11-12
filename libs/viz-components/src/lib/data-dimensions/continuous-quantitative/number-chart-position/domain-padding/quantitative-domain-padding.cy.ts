@@ -13,7 +13,7 @@ import {
   VicXQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXyAxisModule,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
 import { expectDomain } from './domain-test-utility';

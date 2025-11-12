@@ -3,7 +3,7 @@
 set -e
 set -x
 
-pkgs=("viz-components" "ui-components" "app-dev-kit")
+pkgs=("viz" "ui" "app-kit")
 changed_pkgs=()
 for pkg in "${pkgs[@]}"; do
     output=$(npx nx version $pkg --dryRun --verbose 2>&1)

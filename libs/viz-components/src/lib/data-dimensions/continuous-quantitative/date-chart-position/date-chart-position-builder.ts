@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { ScaleTime, scaleUtc } from 'd3';
 import { DataDimensionBuilder } from '../../dimension-builder';
 import { DateChartPositionDimension } from './date-chart-position';

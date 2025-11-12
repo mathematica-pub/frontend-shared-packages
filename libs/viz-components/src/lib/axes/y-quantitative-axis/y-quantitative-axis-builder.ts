@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { ContinuousValue } from '../../core/types/values';
 import { XyAxisBaseBuilder } from '../base/config/xy-axis-builder';
 import { QuantitativeTicksBuilder } from '../ticks/ticks-builder';

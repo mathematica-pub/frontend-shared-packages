@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { HtmlTooltipSizeOptions } from './tooltip-size-options';
 
 export class HtmlTooltipSize implements HtmlTooltipSizeOptions {

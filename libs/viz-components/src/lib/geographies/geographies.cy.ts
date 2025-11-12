@@ -16,7 +16,7 @@ import {
   VicGeographiesModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import 'cypress-real-events';
 import { ascending, extent, mean, scaleLinear } from 'd3';
 import {

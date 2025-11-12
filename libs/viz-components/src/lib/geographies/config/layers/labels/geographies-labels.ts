@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import type * as CSSType from 'csstype';
 import { GeoPath, GeoProjection, ScaleLinear } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { VicAuxMarksBuilder } from '../../marks/aux-marks/config/aux-marks-builder';
 import { StrokeBuilder } from '../../stroke/stroke-builder';
 import { RulesLabelsBuilder } from './labels/quantitative-rules-labels-builder';

@@ -22,10 +22,10 @@ The `VicDotsConfigBuilder` allows you to create a configuration object for the `
 It requires one generic type, which should be the type of a single datum in the array of data that
 will be passed to the component.
 
-**Required imports from @hsi/viz-components**
+**Required imports from @mathstack/viz**
 
 ```ts
-import { VicChartModule, VicDotsConfigBuilder, VicDotsModule } from '@hsi/viz-components';
+import { VicChartModule, VicDotsConfigBuilder, VicDotsModule } from '@mathstack/viz';
 ...
 @Component({
   ...

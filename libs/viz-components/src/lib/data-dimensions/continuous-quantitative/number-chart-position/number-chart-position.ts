@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { ScaleContinuousNumeric } from 'd3';
 import { NumberDimension } from '../number-dimension/number-dimension';
 import { ConcreteDomainPadding } from './domain-padding/concrete-domain-padding';

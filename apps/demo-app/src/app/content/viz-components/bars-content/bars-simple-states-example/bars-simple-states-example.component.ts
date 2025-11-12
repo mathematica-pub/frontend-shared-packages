@@ -23,7 +23,7 @@ import {
   VicYOrdinalAxisConfigBuilder,
   VicYQuantitativeAxisConfig,
   VicYQuantitativeAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { cloneDeep } from 'lodash-es';
 import {
   LocationCategoryDatum,

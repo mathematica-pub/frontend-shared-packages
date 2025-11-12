@@ -1,4 +1,4 @@
-import { safeAssign } from '@hsi/app-dev-kit';
+import { safeAssign } from '@mathstack/app-kit';
 import { SvgTextWrapBuilder } from '../../svg-text-wrap/svg-text-wrap-builder';
 import { AxisLabel } from './axis-label';
 
