@@ -66,7 +66,7 @@ git clean -fdx -e .angular -e .nx
 
 # Note: This keeps .angular/ and .nx/ so no live DB locks are touched.
 
-# 8. Copy built artefacts into this branch root
+# 8. Copy built artifacts into this branch root
 cp -R "${TMPDIR}/." .
 
 # 9. Commit them
@@ -99,7 +99,7 @@ echo "You can now add this to your consuming app's package.json:"
 echo
 echo "  \"${PACKAGE_NAME}\": \"git+${HTTPS_URL}#${BETA_BRANCH}\""
 echo
-echo "Then run your package manager (npm/yarn/pnpm) to install it."
+echo "Then run npm install."
 echo
 
 # 13. Go back to original branch
