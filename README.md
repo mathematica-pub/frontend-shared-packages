@@ -9,7 +9,6 @@ documentation site, `demo-app`.
 
 [![build, lint, & test](https://github.com/mathematica-org/viz/actions/workflows/unit-testing-linting.yml/badge.svg)](https://github.com/mathematica-org/viz/actions/workflows/unit-testing-linting.yml)
 
-
 VizComponents is a library of Angular components built on top of D3 that can be composed by a user
 to create custom visualizations.
 
@@ -30,10 +29,10 @@ Libraries are published to the npm registry.
 ## Example Projects
 
 - [Covid Cohort](https://github.com/mathematica-org/covid-cohort)
-- [Scorecard](https://github.com/mathematica-org/MACScorecard-Frontend) Uses viz-components bars,
-  lines, and geographies. Uses image and data download services. Examples of custom/extended bars,
-  lines, and geographies components. Geography is US map, and has small state squares w/hover &
-  click actions. Also uses ui dropdown, tabs, and table.
+- [Scorecard](https://github.com/mathematica-org/MACScorecard-Frontend) Uses viz bars, lines, and
+  geographies. Uses image and data download services. Examples of custom/extended bars, lines, and
+  geographies components. Geography is US map, and has small state squares w/hover & click actions.
+  Also uses ui dropdown, tabs, and table.
 
 ## Feedback, Bugs, and Issues
 
@@ -66,8 +65,8 @@ Our current maintainers are:
 1. Creating an issue
 
 Anyone who has access to the repo may
-[open an issue](https://github.com/mathematica-org/viz-components/issues) to track a bug, request
-documentation, or suggest a feature.
+[open an issue](https://github.com/mathematica-pub/frontend-shared-packages/issues) to track a bug,
+request documentation, or suggest a feature.
 
 After creating a GitHub issue, drop a link to it in our
 [Slack channel](https://astwebcloud.slack.com/archives/C06865ECFFE).
@@ -113,7 +112,7 @@ draft PR or issue comments) and unassign yourself from the issue.
 4. Code review
 
 Once you are ready for review, change your draft PR to a normal PR, and ask for reviews in
-[hsi-viz-components' Slack channel](https://astwebcloud.slack.com/archives/C06865ECFFE).
+[hsi-viz' Slack channel](https://astwebcloud.slack.com/archives/C06865ECFFE).
 
 Two people (at least one maintainer) need to review the PR for it to be merged.
 

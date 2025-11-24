@@ -1,5 +1,5 @@
 /*
- * Public API Surface of ui-components
+ * Public API Surface of ui
  */
 
 export * from './lib/combobox/index';

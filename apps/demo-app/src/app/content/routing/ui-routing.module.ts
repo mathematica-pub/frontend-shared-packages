@@ -5,7 +5,7 @@ const routes = [
   {
     path: 'table',
     loadComponent: () =>
-      import('../ui-components/table-content/table-content.component').then(
+      import('../ui/table-content/table-content.component').then(
         (m) => m.TableContentComponent
       ),
   },
@@ -15,9 +15,9 @@ const routes = [
       {
         path: '**',
         loadComponent: () =>
-          import(
-            '../ui-components/combobox-content/combobox-content.component'
-          ).then((m) => m.ComboboxContentComponent),
+          import('../ui/combobox-content/combobox-content.component').then(
+            (m) => m.ComboboxContentComponent
+          ),
       },
     ],
   },

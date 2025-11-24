@@ -18,8 +18,8 @@ export class AdkDocumentationConfigParser {
    *
    * This assumes that the pathFromApp matches a path through the keys of the Nested Object.
    *
-   * If the path is 'viz-components/content/items/bars', the config object might look like this:
-   * viz-components: {
+   * If the path is 'viz/content/items/bars', the config object might look like this:
+   * viz: {
    *   content: {
    *     items: {
    *       bars: 'bars.md'
@@ -27,7 +27,7 @@ export class AdkDocumentationConfigParser {
    *   }
    * }
    *
-   * @param pathFromApp a string representing the path from the application, for example 'viz-components/content/items/bars'
+   * @param pathFromApp a string representing the path from the application, for example 'viz/content/items/bars'
    * @param config a nested object representing the configuration
    * @returns a string representing the file path
    */
@@ -44,7 +44,7 @@ export class AdkDocumentationConfigParser {
 
   /**
    *
-   * @param pathParts a string array of path parts, for example ['viz-components', 'content', 'items', 'bars]
+   * @param pathParts a string array of path parts, for example ['viz', 'content', 'items', 'bars]
    * @param config a nested object representing the configuration
    * @returns a string representing the file name
    */

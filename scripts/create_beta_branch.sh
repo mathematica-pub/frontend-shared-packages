@@ -31,7 +31,7 @@ STARTING_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 echo "Building lib '${PACKAGE_NAME}'..."
 npx nx build "${PACKAGE_NAME}"
 
-# 4. Figure out where Nx put the built artefacts
+# 4. Figure out where Nx put the built artifacts
 DIST_DIR="dist/${PACKAGE_NAME}"
 if [[ ! -d "${DIST_DIR}" ]]; then
   echo "Error: expected build output directory '${DIST_DIR}' not found."
@@ -44,7 +44,7 @@ trap 'rm -rf "${TMPDIR}"' EXIT
 cp -R "${DIST_DIR}/." "${TMPDIR}/"
 
 # 6. Pick a unique beta branch name based on current branch
-BASE_BETA_BRANCH="${STARTING_BRANCH}/beta-release"
+BASE_BETA_BRANCH="${STARTING_BRANCH}/beta-release-${PACKAGE_NAME}"
 BETA_BRANCH="${BASE_BETA_BRANCH}"
 i=2
 while git show-ref --quiet "refs/heads/${BETA_BRANCH}" || git show-ref --quiet "refs/remotes/origin/${BETA_BRANCH}"; do

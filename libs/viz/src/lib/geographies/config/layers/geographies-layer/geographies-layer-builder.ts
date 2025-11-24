@@ -50,7 +50,7 @@ export abstract class GeographiesLayerBuilder<
   }
 
   /**
-   * OPTIONAL. Determines whether the layer can use viz-components event actions.
+   * OPTIONAL. Determines whether the layer can use viz event actions.
    *
    * If true, the event listener that corresponds to the provided directive will be placed on that layer's paths.
    *

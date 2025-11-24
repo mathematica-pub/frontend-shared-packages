@@ -2,7 +2,7 @@
   "name": "viz",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/viz-components/src",
+  "sourceRoot": "libs/viz/src",
   "prefix": "vic",
   "generators": {
     "@schematics/angular:component": {
@@ -13,18 +13,20 @@
     "build": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
       "options": {
-        "project": "libs/viz-components/ng-package.json"
+        "project": "libs/viz/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "libs/viz-components/tsconfig.lib.prod.json"
+          "tsConfig": "libs/viz/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "libs/viz-components/tsconfig.lib.json"
+          "tsConfig": "libs/viz/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production",
-      "outputs": ["{workspaceRoot}/dist/viz"]
+      "outputs": [
+        "{workspaceRoot}/dist/viz"
+      ]
     },
     "build-release": {
       "executor": "nx:run-commands",
@@ -48,9 +50,9 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "main": "libs/viz-components/src/test.ts",
-        "tsConfig": "libs/viz-components/tsconfig.spec.json",
-        "karmaConfig": "libs/viz-components/karma.conf.js",
+        "main": "libs/viz/src/test.ts",
+        "tsConfig": "libs/viz/tsconfig.spec.json",
+        "karmaConfig": "libs/viz/karma.conf.js",
         "browsers": "ChromeHeadlessNoSandbox",
         "watch": false
       }
@@ -59,16 +61,18 @@
       "executor": "@angular-eslint/builder:lint",
       "options": {
         "lintFilePatterns": [
-          "libs/viz-components/**/*.ts",
-          "libs/viz-components/**/*.html"
+          "libs/viz/**/*.ts",
+          "libs/viz/**/*.html"
         ]
       },
-      "outputs": ["{options.outputFile}"]
+      "outputs": [
+        "{options.outputFile}"
+      ]
     },
     "component-test": {
       "executor": "@nx/cypress:cypress",
       "options": {
-        "cypressConfig": "libs/viz-components/cypress.config.ts",
+        "cypressConfig": "libs/viz/cypress.config.ts",
         "testingType": "component",
         "skipServe": true,
         "devServerTarget": "demo-app:build:devleopment"
@@ -77,13 +81,13 @@
     "cypress-local": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "cd libs/viz-components && npx cypress open"
+        "command": "cd libs/viz && npx cypress open"
       }
     },
     "create-changelog": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "touch libs/viz-components/CHANGELOG.md"
+        "command": "touch libs/viz/CHANGELOG.md"
       }
     },
     "version": {
@@ -92,8 +96,19 @@
         "preset": "angular",
         "skipCommit": true,
         "skipRootChangelog": true,
-        "postTargets": ["build-release", "publish", "github-release"],
-        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
+        "postTargets": [
+          "build-release",
+          "publish",
+          "github-release"
+        ],
+        "skipCommitTypes": [
+          "build",
+          "ci",
+          "docs",
+          "refactor",
+          "style",
+          "test"
+        ]
       }
     }
   }

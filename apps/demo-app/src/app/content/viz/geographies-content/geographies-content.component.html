@@ -1,14 +1,13 @@
 <app-content-container>
   <ng-template let-section #customAngular>
     @switch (section.content) {
-      @case ('simple table') {
+      @case ('main example') {
         <app-single-panel-example-display
-          height="600px"
-          path="app/content/ui-components/table-content/table-example"
+          path="app/content/viz/geographies-content/geographies-example"
           class="example"
-          label="table example"
+          label="geographies example"
         >
-          <app-table-example></app-table-example>
+          <app-geographies-example></app-geographies-example>
         </app-single-panel-example-display>
       }
     }

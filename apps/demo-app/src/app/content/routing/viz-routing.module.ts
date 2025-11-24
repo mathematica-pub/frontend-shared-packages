@@ -5,9 +5,9 @@ const routes = [
   {
     path: 'overview',
     loadComponent: () =>
-      import(
-        '../viz-components/overview-content/overview-content.component'
-      ).then((m) => m.OverviewContentComponent),
+      import('../viz/overview-content/overview-content.component').then(
+        (m) => m.OverviewContentComponent
+      ),
   },
   {
     path: 'primary-marks',
@@ -15,14 +15,14 @@ const routes = [
       {
         path: 'bars',
         loadComponent: () =>
-          import('../viz-components/bars-content/bars-content.component').then(
+          import('../viz/bars-content/bars-content.component').then(
             (m) => m.BarsContentComponent
           ),
       },
       {
         path: 'dots',
         loadComponent: () =>
-          import('../viz-components/dots-content/dots-content.component').then(
+          import('../viz/dots-content/dots-content.component').then(
             (m) => m.DotsContentComponent
           ),
       },
@@ -30,35 +30,35 @@ const routes = [
         path: 'geographies',
         loadComponent: () =>
           import(
-            '../viz-components/geographies-content/geographies-content.component'
+            '../viz/geographies-content/geographies-content.component'
           ).then((m) => m.GeographiesContentComponent),
       },
       {
         path: 'grouped-bars',
         loadComponent: () =>
           import(
-            '../viz-components/grouped-bars-content/grouped-bars-content.component'
+            '../viz/grouped-bars-content/grouped-bars-content.component'
           ).then((m) => m.GroupedBarsContentComponent),
       },
       {
         path: 'lines',
         loadComponent: () =>
-          import(
-            '../viz-components/lines-content/lines-content.component'
-          ).then((m) => m.LinesContentComponent),
+          import('../viz/lines-content/lines-content.component').then(
+            (m) => m.LinesContentComponent
+          ),
       },
       {
         path: 'stacked-area',
         loadComponent: () =>
           import(
-            '../viz-components/stacked-area-content/stacked-area-content.component'
+            '../viz/stacked-area-content/stacked-area-content.component'
           ).then((m) => m.StackedAreaContentComponent),
       },
       {
         path: 'stacked-bars',
         loadComponent: () =>
           import(
-            '../viz-components/stacked-bars-content/stacked-bars-content.component'
+            '../viz/stacked-bars-content/stacked-bars-content.component'
           ).then((m) => m.StackedBarsContentComponent),
       },
     ],
@@ -72,37 +72,37 @@ const routes = [
           {
             path: 'axes',
             loadComponent: () =>
-              import(
-                '../viz-components/axes-content/axes-content.component'
-              ).then((m) => m.AxesContentComponent),
+              import('../viz/axes-content/axes-content.component').then(
+                (m) => m.AxesContentComponent
+              ),
           },
           {
             path: 'baseline',
             loadComponent: () =>
-              import(
-                '../viz-components/axes-content/axes-content.component'
-              ).then((m) => m.AxesContentComponent),
+              import('../viz/axes-content/axes-content.component').then(
+                (m) => m.AxesContentComponent
+              ),
           },
           {
             path: 'grid',
             loadComponent: () =>
-              import(
-                '../viz-components/axes-content/axes-content.component'
-              ).then((m) => m.AxesContentComponent),
+              import('../viz/axes-content/axes-content.component').then(
+                (m) => m.AxesContentComponent
+              ),
           },
           {
             path: 'labels',
             loadComponent: () =>
-              import(
-                '../viz-components/axes-content/axes-content.component'
-              ).then((m) => m.AxesContentComponent),
+              import('../viz/axes-content/axes-content.component').then(
+                (m) => m.AxesContentComponent
+              ),
           },
           {
             path: 'tick-wrap',
             loadComponent: () =>
-              import(
-                '../viz-components/axes-content/axes-content.component'
-              ).then((m) => m.AxesContentComponent),
+              import('../viz/axes-content/axes-content.component').then(
+                (m) => m.AxesContentComponent
+              ),
           },
         ],
       },
@@ -111,9 +111,9 @@ const routes = [
   {
     path: '**',
     loadComponent: () =>
-      import(
-        '../viz-components/default-content/default-content.component'
-      ).then((m) => m.DefaultContentComponent),
+      import('../viz/default-content/default-content.component').then(
+        (m) => m.DefaultContentComponent
+      ),
   },
 ];
 

@@ -2,24 +2,26 @@
   "name": "app-kit",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/app-dev-kit/src",
+  "sourceRoot": "libs/app-kit/src",
   "prefix": "adk",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
       "options": {
-        "project": "libs/app-dev-kit/ng-package.json"
+        "project": "libs/app-kit/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "libs/app-dev-kit/tsconfig.lib.prod.json"
+          "tsConfig": "libs/app-kit/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "libs/app-dev-kit/tsconfig.lib.json"
+          "tsConfig": "libs/app-kit/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production",
-      "outputs": ["{workspaceRoot}/dist/app-kit"]
+      "outputs": [
+        "{workspaceRoot}/dist/app-kit"
+      ]
     },
     "build-release": {
       "executor": "nx:run-commands",
@@ -43,8 +45,11 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "tsConfig": "libs/app-dev-kit/tsconfig.spec.json",
-        "polyfills": ["zone.js", "zone.js/testing"],
+        "tsConfig": "libs/app-kit/tsconfig.spec.json",
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
         "browsers": "ChromeHeadlessNoSandbox",
         "watch": false
       }
@@ -53,16 +58,18 @@
       "executor": "@angular-eslint/builder:lint",
       "options": {
         "lintFilePatterns": [
-          "libs/app-dev-kit/**/*.ts",
-          "libs/app-dev-kit/**/*.html"
+          "libs/app-kit/**/*.ts",
+          "libs/app-kit/**/*.html"
         ]
       },
-      "outputs": ["{options.outputFile}"]
+      "outputs": [
+        "{options.outputFile}"
+      ]
     },
     "create-changelog": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "touch libs/app-dev-kit/CHANGELOG.md"
+        "command": "touch libs/app-kit/CHANGELOG.md"
       }
     },
     "version": {
@@ -71,8 +78,19 @@
         "preset": "angular",
         "skipCommit": true,
         "skipRootChangelog": true,
-        "postTargets": ["build-release", "publish", "github-release"],
-        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
+        "postTargets": [
+          "build-release",
+          "publish",
+          "github-release"
+        ],
+        "skipCommitTypes": [
+          "build",
+          "ci",
+          "docs",
+          "refactor",
+          "style",
+          "test"
+        ]
       }
     }
   }

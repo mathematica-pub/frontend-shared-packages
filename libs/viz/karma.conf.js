@@ -30,7 +30,7 @@ module.exports = function (config) {
       useBrowserName: false,
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, '../../coverage/viz-components'),
+      dir: require('path').join(__dirname, '../../coverage/viz'),
       subdir: '.',
       reporters: [
         { type: 'html' },

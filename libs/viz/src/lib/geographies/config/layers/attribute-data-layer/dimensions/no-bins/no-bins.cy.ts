@@ -18,7 +18,7 @@ import {
 import {
   stateIncomePopulationYearData,
   StateIncomePopulationYearDatum,
-} from 'libs/viz-components/src/lib/testing/data/state-population-income-year-data';
+} from 'libs/viz/src/lib/testing/data/state-population-income-year-data';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';

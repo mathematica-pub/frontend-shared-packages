@@ -5,7 +5,7 @@ const routes = [
   {
     path: 'baseline-styles',
     loadComponent: () =>
-      import('../app-dev-kit/baseline-styles/baseline-styles.component').then(
+      import('../app-kit/baseline-styles/baseline-styles.component').then(
         (m) => m.BaselineStylesComponent
       ),
   },

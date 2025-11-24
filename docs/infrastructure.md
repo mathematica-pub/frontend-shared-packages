@@ -5,7 +5,7 @@
 # Deploy script permissions
 
 aws cloudformation update-stack \
- --stack-name viz-components-permissions \
+ --stack-name viz-permissions \
  --template-body file://github-actions-access-policy.yml \
  --capabilities CAPABILITY_NAMED_IAM \
  --parameters file://github-actions-access-policy.params.json

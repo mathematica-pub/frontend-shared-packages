@@ -16,7 +16,9 @@
         "outputPath": "dist/demo-app",
         "index": "apps/demo-app/src/index.html",
         "browser": "apps/demo-app/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/demo-app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -24,13 +26,13 @@
           "apps/demo-app/src/assets",
           {
             "glob": "**/*-content/**/*",
-            "input": "apps/demo-app/src/app/content/ui-components/",
-            "output": "/app/content/ui-components"
+            "input": "apps/demo-app/src/app/content/ui/",
+            "output": "/app/content/ui"
           },
           {
             "glob": "**/*-content/**/*",
-            "input": "apps/demo-app/src/app/content/viz-components/",
-            "output": "/app/content/viz-components"
+            "input": "apps/demo-app/src/app/content/viz/",
+            "output": "/app/content/viz"
           }
         ],
         "styles": [
@@ -40,7 +42,7 @@
         "stylePreprocessorOptions": {
           "includePaths": [
             "apps/demo-app/src/styles",
-            "libs/app-dev-kit/src/lib/baseline-styles"
+            "libs/app-kit/src/lib/baseline-styles"
           ]
         },
         "scripts": []
@@ -67,7 +69,9 @@
           "sourceMap": true
         }
       },
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "defaultConfiguration": "production"
     },
     "serve": {
@@ -81,7 +85,9 @@
         }
       },
       "defaultConfiguration": "development",
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -99,7 +105,10 @@
         "inlineStyleLanguage": "scss",
         "browsers": "ChromeHeadlessNoSandbox",
         "watch": false,
-        "assets": ["apps/demo-app/src/favicon.ico", "apps/demo-app/src/assets"],
+        "assets": [
+          "apps/demo-app/src/favicon.ico",
+          "apps/demo-app/src/assets"
+        ],
         "styles": [
           "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
           "apps/demo-app/src/styles/styles.scss"
@@ -107,7 +116,7 @@
         "stylePreprocessorOptions": {
           "includePaths": [
             "apps/demo-app/src/styles",
-            "libs/app-dev-kit/src/lib/baseline-styles"
+            "libs/app-kit/src/lib/baseline-styles"
           ]
         },
         "scripts": []
@@ -116,9 +125,14 @@
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
-        "lintFilePatterns": ["apps/demo-app/**/*.ts", "apps/demo-app/**/*.html"]
+        "lintFilePatterns": [
+          "apps/demo-app/**/*.ts",
+          "apps/demo-app/**/*.html"
+        ]
       },
-      "outputs": ["{options.outputFile}"]
+      "outputs": [
+        "{options.outputFile}"
+      ]
     }
   }
 }

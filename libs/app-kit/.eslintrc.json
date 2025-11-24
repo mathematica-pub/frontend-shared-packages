@@ -5,7 +5,7 @@
     {
       "files": ["*.ts"],
       "parserOptions": {
-        "project": ["libs/app-dev-kit/tsconfig.(lib|spec).json"]
+        "project": ["libs/app-kit/tsconfig.(lib|spec).json"]
       },
       "rules": {
         "@angular-eslint/directive-selector": [

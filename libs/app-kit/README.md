@@ -5,26 +5,25 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Code scaffolding
 
-Run `ng generate component component-name --project app-dev-kit` to generate a new component. You
-can also use
-`ng generate directive|pipe|service|class|guard|interface|enum|module --project app-dev-kit`.
+Run `ng generate component component-name --project app-kit` to generate a new component. You can
+also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project app-kit`.
 
-> Note: Don't forget to add `--project app-dev-kit` or else it will be added to the default project
-> in your `angular.json` file.
+> Note: Don't forget to add `--project app-kit` or else it will be added to the default project in
+> your `angular.json` file.
 
 ## Build
 
-Run `ng build app-dev-kit` to build the project. The build artifacts will be stored in the `dist`
+Run `ng build app-kit` to build the project. The build artifacts will be stored in the `dist`
 directory.
 
 ## Publishing
 
-After building your library with `ng build app-dev-kit`, go to the dist folder `cd dist/app-dev-kit`
-and run `npm publish`.
+After building your library with `ng build app-kit`, go to the dist folder `cd dist/app-kit` and run
+`npm publish`.
 
 ## Running unit tests
 
-Run `ng test app-dev-kit` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `ng test app-kit` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 ## Further help
 

@@ -5,9 +5,9 @@
       "files": ["*.ts"],
       "parserOptions": {
         "project": [
-          "libs/viz-components/tsconfig.lib.json",
-          "libs/viz-components/tsconfig.spec.json",
-          "libs/viz-components/tsconfig.json"
+          "libs/viz/tsconfig.lib.json",
+          "libs/viz/tsconfig.spec.json",
+          "libs/viz/tsconfig.json"
         ],
         "createDefaultProgram": true
       },

@@ -2,7 +2,7 @@
   "name": "ui",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/ui-components/src",
+  "sourceRoot": "libs/ui/src",
   "prefix": "hsi-ui",
   "generators": {
     "@schematics/angular:component": {
@@ -13,18 +13,20 @@
     "build": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
       "options": {
-        "project": "libs/ui-components/ng-package.json"
+        "project": "libs/ui/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "libs/ui-components/tsconfig.lib.prod.json"
+          "tsConfig": "libs/ui/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "libs/ui-components/tsconfig.lib.json"
+          "tsConfig": "libs/ui/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production",
-      "outputs": ["{workspaceRoot}/dist/ui"]
+      "outputs": [
+        "{workspaceRoot}/dist/ui"
+      ]
     },
     "build-release": {
       "executor": "nx:run-commands",
@@ -48,9 +50,9 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "main": "libs/ui-components/src/test.ts",
-        "tsConfig": "libs/ui-components/tsconfig.spec.json",
-        "karmaConfig": "libs/ui-components/karma.conf.js",
+        "main": "libs/ui/src/test.ts",
+        "tsConfig": "libs/ui/tsconfig.spec.json",
+        "karmaConfig": "libs/ui/karma.conf.js",
         "browsers": "ChromeHeadlessNoSandbox",
         "watch": false
       }
@@ -59,16 +61,18 @@
       "executor": "@angular-eslint/builder:lint",
       "options": {
         "lintFilePatterns": [
-          "libs/ui-components/**/*.ts",
-          "libs/ui-components/**/*.html"
+          "libs/ui/**/*.ts",
+          "libs/ui/**/*.html"
         ]
       },
-      "outputs": ["{options.outputFile}"]
+      "outputs": [
+        "{options.outputFile}"
+      ]
     },
     "component-test": {
       "executor": "@nx/cypress:cypress",
       "options": {
-        "cypressConfig": "libs/ui-components/cypress.config.ts",
+        "cypressConfig": "libs/ui/cypress.config.ts",
         "testingType": "component",
         "skipServe": true,
         "devServerTarget": "demo-app:build:development"
@@ -77,13 +81,13 @@
     "cypress-local": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "cd libs/ui-components && npx cypress open"
+        "command": "cd libs/ui && npx cypress open"
       }
     },
     "create-changelog": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "touch libs/ui-components/CHANGELOG.md"
+        "command": "touch libs/ui/CHANGELOG.md"
       }
     },
     "version": {
@@ -92,8 +96,19 @@
         "preset": "angular",
         "skipCommit": true,
         "skipRootChangelog": true,
-        "postTargets": ["build-release", "publish", "github-release"],
-        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
+        "postTargets": [
+          "build-release",
+          "publish",
+          "github-release"
+        ],
+        "skipCommitTypes": [
+          "build",
+          "ci",
+          "docs",
+          "refactor",
+          "style",
+          "test"
+        ]
       }
     }
   }
