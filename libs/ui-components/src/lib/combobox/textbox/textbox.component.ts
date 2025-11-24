@@ -284,7 +284,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     const selectedOptions = this.service.getSelectedOptions(options);
     let label = '';
     const numSelected = selectedOptions?.length;
-    if (touched || numSelected) {
+    if (touched || numSelected || this.customLabel || this.selectedCountLabel) {
       if (this.customLabel && !this.service.hasEditableTextbox) {
         label = this.customLabel(selectedOptions);
       } else if (this.selectedCountLabel && !this.service.hasEditableTextbox) {
