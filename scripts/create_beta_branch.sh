@@ -43,8 +43,9 @@ TMPDIR="$(mktemp -d)"
 trap 'rm -rf "${TMPDIR}"' EXIT
 cp -R "${DIST_DIR}/." "${TMPDIR}/"
 
-# 6. Pick a unique beta branch name based on current branch
-BASE_BETA_BRANCH="${STARTING_BRANCH}/beta-release-${PACKAGE_NAME}"
+# 6. Pick a unique beta branch name based on current branch + package
+#    Convention: beta-releases/<STARTING_BRANCH>-<PACKAGE_NAME>[-N]
+BASE_BETA_BRANCH="beta-releases/${STARTING_BRANCH}-${PACKAGE_NAME}"
 BETA_BRANCH="${BASE_BETA_BRANCH}"
 i=2
 while git show-ref --quiet "refs/heads/${BETA_BRANCH}" || git show-ref --quiet "refs/remotes/origin/${BETA_BRANCH}"; do
@@ -54,29 +55,39 @@ done
 
 echo "Creating beta branch '${BETA_BRANCH}'..."
 
-# 7. Create an orphan branch and wipe tree
+# 7. Create an orphan branch and wipe tree contents
 git checkout --orphan "${BETA_BRANCH}"
 
-# Remove tracked files
+# Remove all tracked files from index and working tree
 git rm -rf . >/dev/null 2>&1 || true
 
-# UPDATED: Instead of blindly deleting everything (which caused your errors),
-# we do a SAFE clean: remove untracked files EXCEPT those ignored by .gitignore.
-git clean -fdx -e .angular -e .nx
+# Remove top-level untracked files/dirs except .git, .angular, .nx
+# (those caches can have locked files; we'll just ignore them instead of committing them)
+find . \
+  -mindepth 1 -maxdepth 1 \
+  ! -name '.git' \
+  ! -name '.angular' \
+  ! -name '.nx' \
+  -exec rm -rf {} + || true
 
-# Note: This keeps .angular/ and .nx/ so no live DB locks are touched.
-
-# 8. Copy built artifacts into this branch root
+# 8. Copy built artefacts into this branch root
 cp -R "${TMPDIR}/." .
 
-# 9. Commit them
+# 9. Ensure .angular and .nx are ignored in this throwaway branch
+#    (so they don't get added even if they still exist)
+{
+  echo ".angular/"
+  echo ".nx/"
+} >> .gitignore
+
+# 10. Commit them
 git add .
 git commit -m "Beta build of ${PACKAGE_NAME} from ${STARTING_BRANCH}"
 
-# 10. Push to origin
+# 11. Push to origin
 git push -u origin "${BETA_BRANCH}"
 
-# 11. Work out HTTPS URL for origin
+# 12. Work out HTTPS URL for origin
 REMOTE_URL="$(git config --get remote.origin.url)"
 
 # Convert common SSH form (git@github.com:org/repo.git) → https
@@ -92,15 +103,15 @@ else
   HTTPS_URL="${REMOTE_URL}"
 fi
 
-# 12. Print dependency snippet for package.json
+# 13. Print dependency snippet for package.json
 echo
 echo "Done!"
 echo "You can now add this to your consuming app's package.json:"
 echo
 echo "  \"${PACKAGE_NAME}\": \"git+${HTTPS_URL}#${BETA_BRANCH}\""
 echo
-echo "Then run npm install."
+echo "Then run your package manager (npm/yarn/pnpm) to install it."
 echo
 
-# 13. Go back to original branch
+# 14. Go back to original branch
 git checkout "${STARTING_BRANCH}"
