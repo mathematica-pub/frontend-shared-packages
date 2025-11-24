@@ -56,10 +56,15 @@ echo "Creating beta branch '${BETA_BRANCH}'..."
 
 # 7. Create an orphan branch and wipe tree
 git checkout --orphan "${BETA_BRANCH}"
-# Remove all files except .git directory
+
+# Remove tracked files
 git rm -rf . >/dev/null 2>&1 || true
-# Also remove any untracked files/dirs
-find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+
+# UPDATED: Instead of blindly deleting everything (which caused your errors),
+# we do a SAFE clean: remove untracked files EXCEPT those ignored by .gitignore.
+git clean -fdx -e .angular -e .nx
+
+# Note: This keeps .angular/ and .nx/ so no live DB locks are touched.
 
 # 8. Copy built artefacts into this branch root
 cp -R "${TMPDIR}/." .
