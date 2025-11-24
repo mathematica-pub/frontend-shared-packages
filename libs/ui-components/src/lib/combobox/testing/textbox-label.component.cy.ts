@@ -571,3 +571,103 @@ describe('Multi-select combobox with a count label and initial selections', () =
     cy.get('.hsi-ui-textbox-label').should('have.text', '1 fruit selected');
   });
 });
+
+@Component({
+  selector: 'hsi-ui-combobox-count-label-no-initial-selection-test',
+  template: `
+    <p class="outside-element"
+      >Throwaway element to click on for outside combobox click</p
+    >
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-textbox
+        [selectedCountLabel]="{ plural: 'fruits', singular: 'fruit' }"
+      >
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [isMultiSelect]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
+})
+class ComboboxCountLabelNoInitialSelectionTestComponent extends ComboboxBaseTestComponent {}
+
+describe('Multi-select combobox with count label shows label on initial render without touch', () => {
+  beforeEach(() => {
+    cy.mount(ComboboxCountLabelNoInitialSelectionTestComponent);
+  });
+  it('shows "0 fruits selected" on page load without requiring user interaction', () => {
+    // This tests the fix for the edge case: when selectedCountLabel is configured,
+    // the label should show immediately even without touch and with 0 selections
+    cy.get('.hsi-ui-textbox-label').should('have.text', '0 fruits selected');
+  });
+});
+
+@Component({
+  selector: 'hsi-ui-combobox-custom-label-no-initial-selection-test',
+  template: `
+    <p class="outside-element"
+      >Throwaway element to click on for outside combobox click</p
+    >
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-textbox [customLabel]="customLabel">
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined expand-more"
+          boxIcon
+        >
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [isMultiSelect]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [HsiUiComboboxModule, MatIconModule, CommonModule],
+})
+class ComboboxCustomLabelNoInitialSelectionTestComponent extends ComboboxBaseTestComponent {
+  customLabel = (options: ListboxOptionComponent[]) => {
+    if (options.length === 0) {
+      return 'Nothing selected yet';
+    } else {
+      return `${options.length} selected`;
+    }
+  };
+}
+
+describe('Multi-select combobox with custom label shows label on initial render without touch', () => {
+  beforeEach(() => {
+    cy.mount(ComboboxCustomLabelNoInitialSelectionTestComponent);
+  });
+  it('shows custom label for 0 selections on page load without requiring user interaction', () => {
+    // This tests the fix for the edge case: when customLabel is configured,
+    // the label should show immediately even without touch and with 0 selections
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Nothing selected yet');
+  });
+});
