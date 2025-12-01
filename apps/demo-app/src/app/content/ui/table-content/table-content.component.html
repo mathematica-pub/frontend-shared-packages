@@ -1,0 +1,16 @@
+<app-content-container>
+  <ng-template let-section #customAngular>
+    @switch (section.content) {
+      @case ('simple table') {
+        <app-single-panel-example-display
+          height="600px"
+          path="app/content/ui/table-content/table-example"
+          class="example"
+          label="table example"
+        >
+          <app-table-example></app-table-example>
+        </app-single-panel-example-display>
+      }
+    }
+  </ng-template>
+</app-content-container>

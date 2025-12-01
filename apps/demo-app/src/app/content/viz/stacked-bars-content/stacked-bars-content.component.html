@@ -1,0 +1,16 @@
+<app-content-container>
+  <ng-template let-section #customAngular>
+    @switch (section.content) {
+      @case ('main example') {
+        <app-split-panel-example-display
+          height="600px"
+          path="app/content/viz/stacked-bars-content/stacked-bars-example"
+          class="example"
+          label="stacked bars example"
+        >
+          <app-stacked-bars-example></app-stacked-bars-example>
+        </app-split-panel-example-display>
+      }
+    }
+  </ng-template>
+</app-content-container>

@@ -1,0 +1,115 @@
+{
+  "name": "viz",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/viz/src",
+  "prefix": "vic",
+  "generators": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
+  },
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "libs/viz/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/viz/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/viz/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/viz"
+      ]
+    },
+    "build-release": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx build viz"
+      }
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cd ./dist/viz && npm publish --access public && git push --tags"
+      }
+    },
+    "github-release": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "{tag}",
+        "notes": "{notes}"
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "libs/viz/src/test.ts",
+        "tsConfig": "libs/viz/tsconfig.spec.json",
+        "karmaConfig": "libs/viz/karma.conf.js",
+        "browsers": "ChromeHeadlessNoSandbox",
+        "watch": false
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/viz/**/*.ts",
+          "libs/viz/**/*.html"
+        ]
+      },
+      "outputs": [
+        "{options.outputFile}"
+      ]
+    },
+    "component-test": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "libs/viz/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "demo-app:build:devleopment"
+      }
+    },
+    "cypress-local": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cd libs/viz && npx cypress open"
+      }
+    },
+    "create-changelog": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "touch libs/viz/CHANGELOG.md"
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "skipCommit": true,
+        "skipRootChangelog": true,
+        "postTargets": [
+          "build-release",
+          "publish",
+          "github-release"
+        ],
+        "skipCommitTypes": [
+          "build",
+          "ci",
+          "docs",
+          "refactor",
+          "style",
+          "test"
+        ]
+      }
+    }
+  }
+}
