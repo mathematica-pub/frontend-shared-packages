@@ -20,7 +20,7 @@ env:
 
 jobs:
   release-affected-packages:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push'
     name: Release affected packages
     runs-on: ubuntu-latest
     steps:
@@ -70,7 +70,8 @@ jobs:
         run: bash scripts/notify_version_released.sh
 
   beta-release:
-    if: github.event.issue.pull_request && contains(github.event.comment.body, 'beta-release-bot:')
+    if: github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, 'beta-release-bot:')
+    name: Beta release package
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
