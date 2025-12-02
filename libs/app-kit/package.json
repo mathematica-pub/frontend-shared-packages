@@ -32,5 +32,10 @@
       "sass": "./baseline-styles/_index.scss"
     }
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mathematica-pub/frontend-shared-packages.git",
+    "directory": "libs/app-kit"
+  }
 }
