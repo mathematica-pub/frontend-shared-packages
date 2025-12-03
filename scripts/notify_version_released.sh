@@ -13,7 +13,7 @@ fi
 IFS=' ' read -r -a changed_pkgs_array <<< "$changed_pkgs"
 
 for pkg in "${changed_pkgs_array[@]}"; do
-    version=$(git tag --list "$pkg-*" | grep -v "beta" | sort -V | tail -n 1 | sed "s/$pkg-//")
+    version=$(git tag --list "$pkg-*" | grep -v "beta" | grep -v "components" | sort -V | tail -n 1 | sed "s/$pkg-//")
     echo "New version of $pkg: $version"
     SLACK_WEBHOOK_URL=$(source ./scripts/get_slack_webhook_url.sh $pkg)
     curl -X POST -H "Content-type: application/json" --data "{\"text\": \"$pkg v$version (<$pr_url|$pr_title>) has been released.\"}" $SLACK_WEBHOOK_URL
