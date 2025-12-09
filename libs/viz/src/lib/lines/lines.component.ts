@@ -97,7 +97,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     useTransition: undefined,
   };
   private zone = inject(NgZone);
-  private elRef = inject<ElementRef<SVGGElement>>(ElementRef);
+  protected elRef = inject<ElementRef<SVGGElement>>(ElementRef);
 
   get class(): Record<LinesSvgElements, string> {
     return {
