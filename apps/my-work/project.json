@@ -16,15 +16,22 @@
         "outputPath": "dist/my-work",
         "index": "apps/my-work/src/index.html",
         "browser": "apps/my-work/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/my-work/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/my-work/src/favicon.ico", "apps/my-work/src/assets"],
-        "styles": ["apps/my-work/src/styles/styles.scss"],
+        "assets": [
+          "apps/my-work/src/favicon.ico",
+          "apps/my-work/src/assets"
+        ],
+        "styles": [
+          "apps/my-work/src/styles/styles.scss"
+        ],
         "stylePreprocessorOptions": {
           "includePaths": [
             "apps/my-work/src/styles",
-            "libs/app-dev-kit/src/lib/baseline-styles"
+            "libs/app-kit/src/lib/baseline-styles"
           ]
         },
         "scripts": []
@@ -74,17 +81,25 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "polyfills": ["zone.js", "zone.js/testing"],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
         "tsConfig": "apps/my-work/tsconfig.spec.json",
         "inlineStyleLanguage": "scss",
         "browsers": "ChromeHeadlessNoSandbox",
         "watch": false,
-        "assets": ["apps/my-work/src/favicon.ico", "apps/my-work/src/assets"],
-        "styles": ["apps/my-work/src/styles/styles.scss"],
+        "assets": [
+          "apps/my-work/src/favicon.ico",
+          "apps/my-work/src/assets"
+        ],
+        "styles": [
+          "apps/my-work/src/styles/styles.scss"
+        ],
         "stylePreprocessorOptions": {
           "includePaths": [
             "apps/my-work/src/styles",
-            "libs/app-dev-kit/src/lib/baseline-styles"
+            "libs/app-kit/src/lib/baseline-styles"
           ]
         },
         "scripts": []
@@ -93,9 +108,14 @@
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
-        "lintFilePatterns": ["apps/my-work/**/*.ts", "apps/my-work/**/*.html"]
+        "lintFilePatterns": [
+          "apps/my-work/**/*.ts",
+          "apps/my-work/**/*.html"
+        ]
       },
-      "outputs": ["{options.outputFile}"]
+      "outputs": [
+        "{options.outputFile}"
+      ]
     }
   }
 }

@@ -5,12 +5,11 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Code scaffolding
 
-Run `ng generate component component-name --project viz-components` to generate a new component. You
-can also use
-`ng generate directive|pipe|service|class|guard|interface|enum|module --project viz-components`.
+Run `ng generate component component-name --project viz` to generate a new component. You can also
+use `ng generate directive|pipe|service|class|guard|interface|enum|module --project viz`.
 
-> Note: Don't forget to add `--project viz-components` or else it will be added to the default
-> project in your `angular.json` file.
+> Note: Don't forget to add `--project viz` or else it will be added to the default project in your
+> `angular.json` file.
 
 ## Build
 
@@ -18,28 +17,13 @@ Run `./build.sh` to build the project. The build artifacts will be stored in the
 
 ## Publishing
 
-1. run `npm run prepare` from the viz-components folder
-
-2. in the root folder, run ./build.sh
-
-3. Go to the dist folder `cd dist/viz-components` and run `npm publish`.
-
 ## Using the library
 
-1.  add the below to the "scripts" section of the package.json
-
-        "preinstall": "npm run codeartifact:login",
-        "codeartifact:login": "aws codeartifact login --tool npm --repository vizcolib --domain frontend"
-
-2.  run `npm install @hsi/viz-components`. If it can't be found, it's probably because the
-    preinstall script didn't actually run (it's supposed to but doesn't always, at least not for me,
-    and haven't successfully debugged yet). Manually run the preinstall script,
-    `npm run preinstall`, then run `npm install @hsi/viz-components` again.
+1.  run `npm install @mathstack/viz`.
 
 ## Extending a component
 
-After installing the library, run `ng g viz-components:extend` and follow the instructions from
-there.
+After installing the library, run `ng g viz:extend` and follow the instructions from there.
 
 If you need to extend a component and then also extend an event directive, see the code snippet
 below:
@@ -64,7 +48,7 @@ export class MyProjectLinesHoverMoveDirective extends LinesHoverMoveDirective<My
 
 ## Running unit tests
 
-Run `ng test viz-components` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `ng test viz` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 ## Further help
 

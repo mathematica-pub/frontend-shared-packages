@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
+import { AdkAssetResponse, AdkAssetsService } from '@mathstack/app-kit';
 import { map, Observable, of } from 'rxjs';
 
 @Injectable({

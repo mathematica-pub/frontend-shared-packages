@@ -1,6 +1,6 @@
 import { Directive, inject, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ShikiTheme } from '@hsi/app-dev-kit';
+import { ShikiTheme } from '@mathstack/app-kit';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { ExamplesFilesService } from '../../core/services/examples-files.service';
 
