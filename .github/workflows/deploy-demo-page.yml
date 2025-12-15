@@ -3,7 +3,7 @@ name: deploy demo-app to github pages
 on:
   push:
     branches:
-      - github-page-publish
+      - main
 
   workflow_dispatch:
 
