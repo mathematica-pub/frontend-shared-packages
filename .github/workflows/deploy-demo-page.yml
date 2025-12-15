@@ -3,7 +3,7 @@ name: deploy demo-app to github pages
 on:
   push:
     branches:
-      - main
+      - github-page-publish
 
   workflow_dispatch:
 
@@ -32,6 +32,9 @@ jobs:
 
       - name: Move license to artifact folder
         run: mv dist/demo-app/3rdpartylicenses.txt dist/demo-app/browser
+
+      - name: Hacky workaround to SPAs not being supported by github docs
+        run: cp dist/demo-app/browser/index.html dist/demo-app/browser/404.html
 
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@v4
