@@ -23,6 +23,7 @@ export class MinimalImplementationComboboxComponent {
   @Input() icons = false;
   @Input() multiSelect = false;
   @Input() selectAll = false;
+  disabled = false;
   options: { displayName: string; id: string }[] = [
     { displayName: 'Connecticut', id: 'CT' },
     { displayName: 'Maine', id: 'ME' },

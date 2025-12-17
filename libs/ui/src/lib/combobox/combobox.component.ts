@@ -6,9 +6,12 @@ import {
   DestroyRef,
   ElementRef,
   Inject,
+  Input,
   NgZone,
+  OnChanges,
   OnDestroy,
   OnInit,
+  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -23,10 +26,15 @@ import { ComboboxService, FocusTextbox } from './combobox.service';
   templateUrl: './combobox.component.html',
   styleUrls: ['./styles/styles.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'hsi-ui-combobox' },
+  host: {
+    class: 'hsi-ui-combobox',
+    '[class.disabled]': 'disabled',
+    '[attr.aria-disabled]': 'disabled',
+  },
 })
-export class ComboboxComponent implements OnInit, OnDestroy {
+export class ComboboxComponent implements OnInit, OnDestroy, OnChanges {
   @ContentChild(ComboboxLabelComponent) labelComponent: ComboboxLabelComponent;
+  @Input() disabled = false;
 
   constructor(
     public service: ComboboxService,
@@ -36,6 +44,12 @@ export class ComboboxComponent implements OnInit, OnDestroy {
     private elRef: ElementRef,
     private destroyRef: DestroyRef
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['disabled']) {
+      this.service.setDisabled(this.disabled);
+    }
+  }
 
   ngOnInit(): void {
     this.handleOutsideClick();

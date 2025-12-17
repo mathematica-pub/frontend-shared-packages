@@ -128,6 +128,7 @@ export class ComboboxService {
   textboxBlur$ = this.textboxBlur.asObservable();
   private touched: BehaviorSubject<boolean> = new BehaviorSubject(false);
   touched$ = this.touched.asObservable();
+  isDisabled = false;
 
   constructor(private platform: Platform) {}
 
@@ -147,16 +148,29 @@ export class ComboboxService {
     this.label.next(label);
   }
 
+  setDisabled(isDisabled: boolean): void {
+    if (isDisabled && this.isOpen) {
+      this.closeListbox();
+    }
+    this.isDisabled = isDisabled;
+  }
+
   openListbox(): void {
-    this._isOpen.next(true);
+    if (!this.isDisabled) {
+      this._isOpen.next(true);
+    }
   }
 
   closeListbox(): void {
-    this._isOpen.next(false);
+    if (!this.isDisabled) {
+      this._isOpen.next(false);
+    }
   }
 
   toggleListbox(): void {
-    this._isOpen.next(!this._isOpen.value);
+    if (!this.isDisabled) {
+      this._isOpen.next(!this._isOpen.value);
+    }
   }
 
   setProjectedContentIsInDOM(): void {

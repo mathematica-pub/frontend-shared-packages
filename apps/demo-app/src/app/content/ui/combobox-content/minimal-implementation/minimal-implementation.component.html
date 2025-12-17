@@ -1,4 +1,5 @@
-<hsi-ui-combobox>
+<button (click)="disabled = !disabled">toggle disabled</button>
+<hsi-ui-combobox [disabled]="disabled">
   @if (externalLabel) {
     <hsi-ui-combobox-label
       >Select New England states to view data</hsi-ui-combobox-label
