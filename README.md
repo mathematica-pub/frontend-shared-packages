@@ -62,7 +62,9 @@ Our current maintainers are:
 
 ## Contributing
 
-1. Creating an issue
+We appreciate community contributions to frontend-shared-packages
+
+### Creating an issue
 
 Anyone who has access to the repo may
 [open an issue](https://github.com/mathematica-pub/frontend-shared-packages/issues) to track a bug,
@@ -71,12 +73,14 @@ request documentation, or suggest a feature.
 After creating a GitHub issue, drop a link to it in our
 [Slack channel](https://astwebcloud.slack.com/archives/C06865ECFFE).
 
+If you don't have access to the internal Slack, please tag a [Maintainer](#maintainers).
+
 Eventually, we'll probably have some automated alerts sent directly to the Slack channel, but for
 now, see
 [this Confluence document](https://mathematicampr.atlassian.net/wiki/spaces/WEB/pages/2593784468/Integrating+Github+and+Slack)
 for info on how to get Slack alerts for updates to issues and PRs.
 
-2. Issue approval
+### Issue approval
 
 After any issue is created, it will receive the label "awaiting approval."
 
@@ -87,7 +91,7 @@ Potential approvers should ask clarifying questions in the issue comments if nec
 approving. Approving entails agreement that the feature, as detailed in the issue, is a good fit for
 the package.
 
-3. Code design.
+### Code design.
 
 During the approval process, any approver/maintainer can tag the issue with the label "needs code
 design document".
@@ -99,20 +103,40 @@ draft PR can be opened to describe changes; otherwise, GitHub comments on the is
 All approvers of the issue must sign off on the code design document before the issue moves to
 development.
 
-3. Development.
+### Development.
 
-Any issue that is marked as "ready for development" can be self-assigned by any contributor or
-maintainer. Once assigned, we want ongoing development progress to be made in the form of commits
-pushed to a draft PR or comments written to the issue or draft PR. If you don't have time to make
-weekly progress on an issue, we ask that you push all your progress to the repo (in the form of a
-draft PR or issue comments) and unassign yourself from the issue.
+Any issue that is marked as "ready for development" can be self-assigned by any person with write
+access or a maintainer. If you do not have write access to the repository, you may comment on the
+issue and tag a Maintainer, who may assign you the issue. Once assigned, we want ongoing development
+progress to be made in the form of commits pushed to a draft PR or comments written to the issue or
+draft PR. If you don't have time to make weekly progress on an issue, we ask that you push all your
+progress to the repo (in the form of a draft PR or issue comments) and unassign yourself from the
+issue. (Unassignment will be automated eventually.)
 
-(Unassignment will be automated eventually.)
+You are welcome to work on an issue and make a PR even if you have not yet been assigned the issue.
 
-4. Code review
+### Making a PR
+
+1. Fork the (frontend-shared-packages
+   repo)[https://github.com/mathematica-pub/frontend-shared-packages/]
+2. Ensure you have read the README.md of the package you are updating
+3. In your forked repository, make your changes in a new git branch:
+
+```
+git checkout -b my-fix-branch main
+```
+
+4. Make code updates, updating or writing new tests as necessary
+5. Manually test that your updates solve the issue. Ensure the code builds and passes linting and
+   testing.
+6. Commit using semantic commits.
+7. In make a pull request to `mathematica-pub/frontend-shared-packages:main`.
+
+### Code review
 
 Once you are ready for review, change your draft PR to a normal PR, and ask for reviews in
-[hsi-viz' Slack channel](https://astwebcloud.slack.com/archives/C06865ECFFE).
+[hsi-viz' Slack channel](https://astwebcloud.slack.com/archives/C06865ECFFE). If you do not have
+slack access, please tag a maintainer.
 
 Two people (at least one maintainer) need to review the PR for it to be merged.
 
