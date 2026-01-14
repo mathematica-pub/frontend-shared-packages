@@ -1,5 +1,10 @@
-<ng-template #label>
-  <p class="hsi-ui-listbox-label" [id]="id" role="presentation" #text
-    ><ng-content></ng-content
-  ></p>
+<ng-template #label let-wrapperHasId="wrapperHasId">
+  <p
+    class="hsi-ui-listbox-label"
+    [attr.id]="wrapperHasId ? null : id"
+    role="presentation"
+    #text
+  >
+    <ng-content></ng-content>
+  </p>
 </ng-template>

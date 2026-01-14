@@ -12,7 +12,10 @@
   [attr.aria-multiselectable]="isMultiSelect"
 >
   <ng-container
-    *ngTemplateOutlet="label?.labelContent || nullContent"
+    *ngTemplateOutlet="
+      label?.labelContent || nullContent;
+      context: { wrapperHasId: false }
+    "
   ></ng-container>
   @if ((service.groups$ | async)?.length > 0) {
     <ng-container *ngTemplateOutlet="groupedOptions"></ng-container>
@@ -58,7 +61,10 @@
             [ngClass]="'hsi-ui-listbox-group-' + i + '-label'"
           >
             <ng-container
-              *ngTemplateOutlet="group.label?.labelContent || nullContent"
+              *ngTemplateOutlet="
+                group.label?.labelContent || nullContent;
+                context: { wrapperHasId: true }
+              "
             ></ng-container>
           </div>
         }
