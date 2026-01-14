@@ -14,7 +14,7 @@
   <ng-container
     *ngTemplateOutlet="
       label?.labelContent || nullContent;
-      context: { hasWrapper: false }
+      context: { wrapperHasId: false }
     "
   ></ng-container>
   @if ((service.groups$ | async)?.length > 0) {
@@ -63,7 +63,7 @@
             <ng-container
               *ngTemplateOutlet="
                 group.label?.labelContent || nullContent;
-                context: { hasWrapper: true }
+                context: { wrapperHasId: true }
               "
             ></ng-container>
           </div>
