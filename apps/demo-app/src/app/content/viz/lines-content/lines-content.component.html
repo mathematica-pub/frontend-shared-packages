@@ -1,0 +1,16 @@
+<app-content-container>
+  <ng-template let-section #customAngular>
+    @switch (section.content) {
+      @case ('main example') {
+        <app-single-panel-example-display
+          height="900px"
+          path="app/content/viz/lines-content/lines-example"
+          class="example"
+          label="lines example"
+        >
+          <app-lines-example></app-lines-example>
+        </app-single-panel-example-display>
+      }
+    }
+  </ng-template>
+</app-content-container>

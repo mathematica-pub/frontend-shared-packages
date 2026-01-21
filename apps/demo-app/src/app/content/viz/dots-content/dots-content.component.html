@@ -1,0 +1,31 @@
+<app-content-container class="dots-content-container">
+  <ng-template let-section #customAngular>
+    @switch (section.content.trim()) {
+      @case ('small examples') {
+        <div class="small-examples-container">
+          <div class="example">
+            <p class="example-title two-quant"
+              >Quantitative X and Y dimensions</p
+            >
+            <app-dots-scatterplot-example></app-dots-scatterplot-example>
+          </div>
+          <div class="example">
+            <p class="example-title one-ord-one-quant"
+              >Quantitative X dimension / Ordinal Y dimension</p
+            >
+            <app-dots-ordinal-quant-example></app-dots-ordinal-quant-example>
+          </div>
+        </div>
+      }
+      @case ('main example') {
+        <app-single-panel-example-display
+          path="app/content/viz/dots-content/dots-example"
+          class="example"
+          label="dots example"
+        >
+          <app-dots-example></app-dots-example>
+        </app-single-panel-example-display>
+      }
+    }
+  </ng-template>
+</app-content-container>
