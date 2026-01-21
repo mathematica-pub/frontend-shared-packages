@@ -29,7 +29,7 @@ import { Topology } from 'topojson-specification';
 import {
   mapLegendHeight,
   noDataColor,
-} from '../../ca-access/ca-access.constants';
+} from '../../ca-access-interim/ca-access.constants';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { caDataFolder, mlbDataPath } from '../../ca/data-paths.constants';
 import { NotesComponent } from '../../ca/notes/notes.component';

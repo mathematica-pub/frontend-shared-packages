@@ -7,7 +7,7 @@ import {
   XyChartScales,
 } from '@mathstack/viz';
 import { scaleOrdinal, ScaleOrdinal, select, Selection } from 'd3';
-import { mlbColorRange, stateName } from '../mlb/mlb.constants';
+import { mlbColorRange, stateName } from '../ca-access-mlb/mlb.constants';
 
 export const barbellStackElementHeight = 3;
 

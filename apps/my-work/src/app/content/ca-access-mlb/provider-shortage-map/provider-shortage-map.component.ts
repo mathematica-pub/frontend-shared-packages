@@ -24,7 +24,7 @@ import { ExportContentComponent } from '../../../platform/export-content/export-
 import {
   mapLegendHeight,
   noDataColor,
-} from '../../ca-access/ca-access.constants';
+} from '../../ca-access-interim/ca-access.constants';
 import { caDataFolder } from '../../ca/data-paths.constants';
 import { CaMapTopology } from '../mlb-map/mlb-map.component';
 import { mlbColorRange } from '../mlb.constants';
