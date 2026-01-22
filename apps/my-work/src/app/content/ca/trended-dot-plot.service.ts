@@ -3,72 +3,58 @@ import { Injectable } from '@angular/core';
 import {
   VicChartConfigBuilder,
   VicStackedBarsConfigBuilder,
-  VicXQuantitativeAxisConfig,
-  VicXQuantitativeAxisConfigBuilder,
-  VicYOrdinalAxisConfig,
-  VicYOrdinalAxisConfigBuilder,
+  VicXOrdinalAxisConfig,
+  VicXOrdinalAxisConfigBuilder,
+  VicYQuantitativeAxisConfig,
+  VicYQuantitativeAxisConfigBuilder,
 } from '@mathstack/viz';
 import { max, min } from 'd3';
 import { chartWidth } from './ca.constants';
 import { DotPlotService } from './dot-plot.service';
 
-export interface DotPlotDataConfig {
+export interface TrendedDotPlotDataConfig {
   data: any[];
-  yDimension: string;
-  isPercentile?: boolean;
-  isMlb?: boolean;
-  getCurrentRollup?: (a: any, b: any) => boolean;
-  bandwidth?: number;
-  labelWidth?: number;
+  xDimension: string;
 }
 
 @Injectable()
-export class CaDotPlotService extends DotPlotService {
-  override xAxisConfig: VicXQuantitativeAxisConfig<number>;
-  override yAxisConfig: VicYOrdinalAxisConfig<string>;
-  isPercentile = false;
-  yDimension: string;
+export class TrendedDotPlotService extends DotPlotService {
+  override yAxisConfig: VicYQuantitativeAxisConfig<number>;
+  override xAxisConfig: VicXOrdinalAxisConfig<string>;
+  override bandwidth = 15;
+  xDimension: string;
 
   constructor(
     private bars: VicStackedBarsConfigBuilder<any, string>,
-    private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
-    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>,
+    private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
+    private xOrdinalAxis: VicXOrdinalAxisConfigBuilder<string>,
     private chartConfigBuilder: VicChartConfigBuilder
   ) {
     super();
   }
 
-  onChanges(config: DotPlotDataConfig): void {
+  onChanges(config: TrendedDotPlotDataConfig): void {
     console.log('data after changes', config.data);
     this.data = config.data;
-    this.isPercentile = config.isPercentile;
-    this.yDimension = config.yDimension;
-    this.bandwidth = config.bandwidth ?? 15;
-    this.labelWidth = config.labelWidth ?? Infinity;
-    if (config.isMlb) {
-      this.setMlbData();
-    } else {
-      this.setInterimData(config.getCurrentRollup);
-    }
+    this.xDimension = config.xDimension;
+    this.setMlbData();
   }
 
   override getInvisibleStackValue(d: any) {
-    return this.isPercentile
-      ? (min([d.percentile25, d.percentile75]) ?? null)
-      : d.value;
+    return min([d.percentile25, d.percentile75]) ?? null;
   }
 
   getBarValue(d: any): number {
-    return this.isPercentile ? d.percentile75 : d.value;
+    return d.percentile75;
   }
 
   getYDimension(d: any): string {
-    return d[this.yDimension];
+    return d[this.xDimension];
   }
 
   setProperties(getSortOrder: (a: any, b: any) => number): void {
     if (this.rollupData.length > 0) {
-      const chartHeight = this.rollupData.length * this.bandwidth * 2;
+      const calculatedWidth = this.rollupData.length * this.bandwidth * 2;
 
       this.chartConfig = this.chartConfigBuilder
         .margin({
@@ -77,8 +63,9 @@ export class CaDotPlotService extends DotPlotService {
           bottom: 0,
           left: 0,
         })
-        .maxHeight(chartHeight)
-        .maxWidth(chartWidth)
+        .maxHeight(chartWidth)
+        .minWidth(calculatedWidth)
+        .maxWidth(calculatedWidth)
         .scalingStrategy('fixed')
         .fixedHeight(true)
         .transitionDuration(0)
@@ -109,12 +96,12 @@ export class CaDotPlotService extends DotPlotService {
 
       this.rollupDataConfig = this.bars
         .data(this.rollupData)
-        .horizontal((bars) =>
+        .vertical((bars) =>
           bars
-            .x((dimension) =>
+            .y((dimension) =>
               dimension.valueAccessor((d) => d.value).domain([0, this.trueMax])
             )
-            .y((dimension) =>
+            .x((dimension) =>
               dimension.valueAccessor((d) => this.getYDimension(d))
             )
         )
@@ -122,19 +109,20 @@ export class CaDotPlotService extends DotPlotService {
         .stackOrder(() => [1, 0])
         .getConfig();
 
-      this.yAxisConfig = this.yOrdinalAxis
+      this.yAxisConfig = this.yQuantitativeAxis
+        .ticks((ticks) =>
+          ticks.format(this.getTickFormat()).count(5).sizeOuter(0)
+        )
+        .baseline((baseline) => baseline.display())
+        .grid()
+        .getConfig();
+      this.xAxisConfig = this.xOrdinalAxis
         .ticks((ticks) =>
           ticks
             .sizeOuter(0)
             .wrap((wrap) => wrap.width(this.labelWidth).maintainYPosition(true))
         )
         .baseline((baseline) => baseline.display())
-        .grid((grid) => grid.filter(() => true))
-        .getConfig();
-      this.xAxisConfig = this.xQuantitativeAxis
-        .ticks((ticks) =>
-          ticks.format(this.getTickFormat()).count(5).sizeOuter(0)
-        )
         .grid()
         .getConfig();
     }

@@ -70,5 +70,17 @@ const mlbPath = {
   },
 };
 
+const finalPath = {
+  current: {
+    statewide: `${caDataFolder}Final_Results.csv`,
+    county: `${caDataFolder}Final_County_Results.csv`,
+  },
+  mock: {
+    statewide: `${caDataFolder}Mock_Final_Results.csv`,
+    county: `${caDataFolder}Mock_Final_County_Results.csv`,
+  },
+};
+
 export const dataPath = caAccessPath.mock;
 export const mlbDataPath = mlbPath.mock;
+export const finalDataPath = finalPath.mock;

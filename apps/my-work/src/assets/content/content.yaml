@@ -16,5 +16,7 @@ items:
     - mlb-county-plot
     - mlb-map
     - provider-shortage-map
+  ca-access-final:
+    - final-percentiles
   cda:
     - dd-choropleth

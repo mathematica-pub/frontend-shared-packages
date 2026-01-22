@@ -80,6 +80,16 @@ export class CaStackedBarsService {
     return chart.config.height + 40;
   }
 
+  getStackElementX(
+    datum: StackDatum,
+    scales: XyChartScales,
+    config: StackedBarsConfig<any, string>
+  ): number {
+    return (
+      this.getStackX(datum, scales, config) + (scales.x as any).bandwidth() / 4
+    );
+  }
+
   getStackElementY(
     datum: StackDatum,
     scales: XyChartScales,
@@ -102,6 +112,14 @@ export class CaStackedBarsService {
     );
   }
 
+  getStackX(
+    datum: StackDatum,
+    scales: XyChartScales,
+    config: StackedBarsConfig<any, string>
+  ): number {
+    return scales.x(config[config.dimensions.x].values[datum.i]);
+  }
+
   getStackY(
     datum: StackDatum,
     scales: XyChartScales,
@@ -112,6 +130,10 @@ export class CaStackedBarsService {
 
   getStackElementHeight(scales: XyChartScales): number {
     return (scales.y as any).bandwidth() / 2;
+  }
+
+  getStackElementWidth(scales: XyChartScales): number {
+    return (scales.x as any).bandwidth() / 2;
   }
 
   getMlbColorScale(
