@@ -1,0 +1,15 @@
+<app-content-container>
+  <ng-template let-section #customAngular>
+    @switch (section.content) {
+      @case ('main example') {
+        <app-single-panel-example-display
+          path="app/content/viz/geographies-content/geographies-example"
+          class="example"
+          label="geographies example"
+        >
+          <app-geographies-example></app-geographies-example>
+        </app-single-panel-example-display>
+      }
+    }
+  </ng-template>
+</app-content-container>
