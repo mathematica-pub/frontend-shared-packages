@@ -24,6 +24,9 @@ consuming component.
 The examples below provide suggested implementations for filtering options and setting `selected`
 properties on the options.
 
+You can optionally provide a `clearOnClick` input to the editable textbox which will clear its
+displayed text on click, so that the user sees all options when they click back into the combobox.
+
 ### Single Select
 
 A single-select listbox with an editable textbox will set the display label of the selected option

@@ -38,6 +38,7 @@ interface ViewModel<ListboxSelection> {
           placeholder="Select a fruit, A-E"
           [autoSelectTrigger]="autoSelectTrigger"
           [autoSelect]="autoSelect"
+          [clearOnClick]="clearOnClick"
           (valueChanges)="onTyping($event)"
         >
         </hsi-ui-editable-textbox>
@@ -77,6 +78,7 @@ class EditableTextboxTestComponent
   @Input() autoSelectTrigger: 'any' | 'character';
   @Input() dynamicLabel = false;
   @Input() isMultiSelect = false;
+  @Input() clearOnClick = false;
   vm$: Observable<ViewModel<string[]> | ViewModel<string>>;
   textboxValue = new BehaviorSubject<string>('');
   textboxValue$ = this.textboxValue.asObservable();
@@ -158,6 +160,7 @@ class EditableTextboxTestComponent
           placeholder="Select a fruit, A-E"
           [autoSelectTrigger]="autoSelectTrigger"
           [autoSelect]="autoSelect"
+          [clearOnClick]="clearOnClick"
           [ngFormControl]="searchFormControl"
         >
         </hsi-ui-editable-textbox>
@@ -197,6 +200,7 @@ class EditableTextboxFormControlTestComponent
   @Input() autoSelectTrigger: 'any' | 'character';
   @Input() dynamicLabel = false;
   @Input() isMultiSelect = false;
+  @Input() clearOnClick = false;
   vm$: Observable<ViewModel<string[]> | ViewModel<string>>;
   listboxFormControl: FormControl<string | string[]>;
   searchFormControl = new FormControl<string>('');
@@ -531,6 +535,57 @@ class EditableTextboxFormControlTestComponent
           });
         });
       });
+    });
+  });
+});
+
+[true, false].forEach((useFormControls) => {
+  describe(`Editable textbox clearOnClick behavior with ${useFormControls ? 'form controls' : 'valueChanges'}`, () => {
+    beforeEach(() => {
+      if (useFormControls) {
+        cy.mount(EditableTextboxFormControlTestComponent, {
+          componentProperties: {
+            autoSelect: false,
+            autoSelectTrigger: 'any',
+            clearOnClick: true,
+            isMultiSelect: false,
+          },
+        });
+      } else {
+        cy.mount(EditableTextboxTestComponent, {
+          componentProperties: {
+            autoSelect: false,
+            autoSelectTrigger: 'any',
+            clearOnClick: true,
+            isMultiSelect: false,
+          },
+        });
+      }
+    });
+
+    it('clears previously typed text when clicking the textbox', () => {
+      cy.get('.hsi-ui-editable-textbox-input').type('ap');
+      cy.get('.hsi-ui-editable-textbox-input').should('have.value', 'ap');
+      cy.get('.outside-element').realClick();
+      cy.get('.fruits-dropdown').find('input').click();
+      cy.get('.hsi-ui-editable-textbox-input').should('have.value', '');
+      cy.get('.textbox-value').should('have.text', '');
+      cy.get('.hsi-ui-listbox').should('be.visible');
+    });
+
+    it('clears displayed selection text on click but retains selection value', () => {
+      cy.get('.fruits-dropdown').find('input').click();
+      cy.get('.hsi-ui-listbox').should('be.visible');
+      cy.get('.hsi-ui-listbox')
+        .find('.hsi-ui-listbox-option')
+        .eq(2)
+        .realClick(); // Coconuts
+      cy.get('.combobox-value').should('have.text', 'Coconuts');
+      cy.get('.outside-element').realClick();
+      cy.get('.fruits-dropdown').find('input').click();
+      cy.get('.hsi-ui-editable-textbox-input').should('have.value', '');
+      // selection remains unchanged
+      cy.get('.combobox-value').should('have.text', 'Coconuts');
     });
   });
 });

@@ -80,7 +80,7 @@ components, whose use is described in the sections below:
 - `hsi-ui-listbox-label`
 - `hsi-ui-select-all-listbox-option`
 
-For informaion on using an `hsi-ui-editable-textbox` in a combobox, see the Filtering Combobox
+For information on using an `hsi-ui-editable-textbox` in a combobox, see the Filtering Combobox
 Options documentation.
 
 ## Features

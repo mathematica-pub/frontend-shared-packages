@@ -43,6 +43,7 @@ export class EditableTextboxComponent
   @Input() inputType: 'text' | 'search' = 'text';
   @Input() ngFormControl: FormControl<string>;
   @Input() placeholder = '';
+  @Input() clearOnClick = false;
   @Output() valueChanges = new EventEmitter<string>();
   moveFocusToTextboxKeys = ['RightArrow', 'LeftArrow', 'Home', 'End'];
   value = new BehaviorSubject<string>('');
@@ -115,6 +116,9 @@ export class EditableTextboxComponent
     if (this.service.isOpen) {
       this.service.closeListbox();
     } else {
+      if (this.clearOnClick) {
+        this.setAndEmitValue('');
+      }
       this.service.openListbox();
       if (this.autoSelect) {
         const inputValue = this.inputElRef.nativeElement.value;
