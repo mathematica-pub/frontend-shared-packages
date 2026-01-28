@@ -2,8 +2,15 @@
 
 This is a repo/Angular workspace that houses HSI's Angular libraries and associated applications.
 
-Currently, the workspace consists of two libraries: `ui` and `viz`, and an app that serves as our
-documentation site, `demo-app`.
+Currently, the workspace consists of three libraries: `app-kit`, `ui`, and `viz`, and an app that
+serves as our documentation site, `demo-app`.
+
+The packages can be downloaded from the npm registry here:
+
+- viz: https://www.npmjs.com/package/@mathstack/viz
+- old-viz (not maintained): https://www.npmjs.com/package/@mathstack/old-viz
+- ui: https://www.npmjs.com/package/@mathstack/ui
+- app-kit: https://www.npmjs.com/package/@mathstack/app-kit
 
 ## VizComponents
 
@@ -54,15 +61,13 @@ Maintainers are jointly responsible for reviewing issue requests and PRs in a ti
 
 Our current maintainers are:
 
-- Stephanie Tuerk
 - Claire McShane
 - Tom Coile
 
-[See more on the role of maintainers here.](https://mathematicampr.atlassian.net/wiki/spaces/WEB/pages/2519892380/Shared+Package+Maintenance+and+Development)
-
 ## Contributing
 
-We appreciate community contributions to frontend-shared-packages
+We appreciate community contributions to frontend-shared-packages. Here are some ways you can
+contribute.
 
 ### Creating an issue
 
@@ -70,15 +75,10 @@ Anyone who has access to the repo may
 [open an issue](https://github.com/mathematica-pub/frontend-shared-packages/issues) to track a bug,
 request documentation, or suggest a feature.
 
-After creating a GitHub issue, drop a link to it in our
+I you are internal to Mathematica, after creating a GitHub issue, drop a link to it in our
 [Slack channel](https://astwebcloud.slack.com/archives/C06865ECFFE).
 
 If you don't have access to the internal Slack, please tag a [Maintainer](#maintainers).
-
-Eventually, we'll probably have some automated alerts sent directly to the Slack channel, but for
-now, see
-[this Confluence document](https://mathematicampr.atlassian.net/wiki/spaces/WEB/pages/2593784468/Integrating+Github+and+Slack)
-for info on how to get Slack alerts for updates to issues and PRs.
 
 ### Issue approval
 
@@ -113,7 +113,7 @@ draft PR. If you don't have time to make weekly progress on an issue, we ask tha
 progress to the repo (in the form of a draft PR or issue comments) and unassign yourself from the
 issue. (Unassignment will be automated eventually.)
 
-You are welcome to work on an issue and make a PR even if you have not yet been assigned the issue.
+You are welcome to work on an issue and make a PR even if you have not yet been assigned the issue!
 
 ### Making a PR
 
