@@ -23,9 +23,9 @@
     "module": "es2020",
     "lib": ["es2020", "dom"],
     "paths": {
-      "@mathstack/app-kit": ["libs/app-dev-kit/src/public-api"],
-      "@mathstack/ui": ["libs/ui-components/src/public-api"],
-      "@mathstack/viz": ["libs/viz-components/src/public-api"]
+      "@mathstack/app-kit": ["libs/app-kit/src/public-api"],
+      "@mathstack/ui": ["libs/ui/src/public-api"],
+      "@mathstack/viz": ["libs/viz/src/public-api"]
     },
     "useDefineForClassFields": false
   },

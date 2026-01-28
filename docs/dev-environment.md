@@ -23,15 +23,15 @@ The beta release process is as follows:
    `BREAKING CHANGE:` footer. This way our automated versioning system can detect that your changes
    warrant a version bump.
 2. Leave a comment on the PR that says `beta-release-bot: <package name>` (e.g.
-   `beta-release-bot: viz-components`). This should kick off a beta release job.
+   `beta-release-bot: viz`). This should kick off a beta release job.
    > NOTE: the comment cannot be part of a PR review
 3. An automated comment should be left on your PR. This will either indicate success and provide
    instructions for how to install your beta release or notify you of a workflow failure.
 
 ## Running applications (e.g. demo-app, my-work) with deployed libraries
 
-To run all apps with the lastest version of all `libs` deployed to npm, set your aws
-credentials, then run:
+To run all apps with the lastest version of all `libs` deployed to npm, set your aws credentials,
+then run:
 
 `bash toggle-hsi.sh --npm`
 
@@ -47,7 +47,7 @@ workspace dependency caches.
 ## Adding dependencies to the library
 
 If you are going to add dependencies to the library (an external package such as D3), you should
-manually add the package and appropriate version to `libs/viz-components/package.json` as a **peer
+manually add the package and appropriate version to `libs/viz/package.json` as a **peer
 dependency**.
 
 **Do not install via the command line with npm install** as that will build node_modules inside viz
