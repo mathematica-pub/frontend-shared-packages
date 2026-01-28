@@ -1,5 +1,10 @@
 # AppDevKit
 
+## Overview
+
+The app-kit is a library of miscellaneous utilities, styles, and components that are specific to
+neither the `@mathstack/ui` nor the `@mathstack/viz` libraries.
+
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version
 19.2.0.
 

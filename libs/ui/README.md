@@ -3,6 +3,15 @@
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version
 19.2.0.
 
+## Overview
+
+This library serves as the home for replacements to any Material components that are exceptionally
+difficult to style, and for reusable components that do not exist in angular Material (e.g., loading
+dialog).
+
+It provides a centralized location for managing custom components that enhance the functionality and
+appearance of the application, ensuring consistency and reusability.
+
 ## Code scaffolding
 
 Run `ng generate component component-name --project ui` to generate a new component. You can also
