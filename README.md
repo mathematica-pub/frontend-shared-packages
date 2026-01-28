@@ -11,7 +11,7 @@ change, please see the [contribution guidelines](#Contributing)
 The packages can be downloaded from the npm registry here:
 
 - viz: https://www.npmjs.com/package/@mathstack/viz
-- old-viz (not maintained; code can be viewed): https://www.npmjs.com/package/@mathstack/old-viz
+- old-viz (): https://www.npmjs.com/package/@mathstack/old-viz
 - ui: https://www.npmjs.com/package/@mathstack/ui
 - app-kit: https://www.npmjs.com/package/@mathstack/app-kit
 
