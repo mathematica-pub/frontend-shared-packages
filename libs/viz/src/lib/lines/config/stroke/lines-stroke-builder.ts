@@ -27,9 +27,9 @@ export class LinesStrokeBuilder<Datum> {
   }
 
   /**
-   * OPTIONAL. Creates a dimension that will control the color of the bars.
+   * OPTIONAL. Creates a dimension that will control the color of the lines.
    *
-   * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
+   * If not provided, all lines will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
    */
   color(color: null): this;
   color(
@@ -61,7 +61,7 @@ export class LinesStrokeBuilder<Datum> {
    * OPTIONAL. A value for the line's [stroke-dasharray]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray}
    *  attribute.
    *
-   * @default 'round'
+   * @default 'none'
    */
   dasharray(dasharray: string): this {
     this._dasharray = dasharray;
