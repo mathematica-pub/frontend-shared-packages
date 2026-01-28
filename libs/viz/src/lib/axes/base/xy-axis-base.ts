@@ -144,7 +144,9 @@ export abstract class XyAxis<
       this.wrapAxisTickText(tickText);
     }
     if (this.config.ticks.marksDisplay === false) {
-      const marks = select(this.elRef.nativeElement).selectAll('.tick line');
+      const marks = select(this.elRef.nativeElement).selectAll(
+        `${this.class.axisGroup} .tick line`
+      );
       marks.remove();
     }
   }
