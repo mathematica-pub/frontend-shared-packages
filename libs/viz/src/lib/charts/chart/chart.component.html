@@ -1,0 +1,45 @@
+<!-- Slot exists so that projected content can have access to scales -->
+<ng-container *ngTemplateOutlet="htmlElementsBefore"></ng-container>
+<div
+  #div
+  class="vic-chart-container"
+  [ngClass]="(strategy$ | async)"
+  [style.maxWidth.px]="widthCfg$ | async"
+  [style.minWidth.px]="minWidthCfg$ | async"
+  [style.maxHeight.px]="heightCfg$ | async"
+  [style.aspectRatio]="(strategy$ | async) === 'viewbox' ? (config.viewBoxX / config.viewBoxY) : null"
+  [style.width.%]="(strategy$ | async) === 'viewbox' ? 100 : null"
+>
+  <svg
+    #svg
+    class="vic-chart-svg"
+    [ngClass]="(strategy$ | async)"
+    [style.width.px]="(strategy$ | async) !== 'viewbox' ? (svgDimensions$ | async)?.width : null"
+    [style.height.px]="(strategy$ | async) !== 'viewbox' ? (svgDimensions$ | async)?.height : null"
+    [attr.viewBox]="(strategy$ | async) === 'viewbox' ? '0 0 ' + config.viewBoxX + ' ' + config.viewBoxY : null"
+  >
+    <defs>
+      <ng-container *ngTemplateOutlet="svgDefs"></ng-container>
+    </defs>
+    <ng-container *ngTemplateOutlet="svgElements"></ng-container>
+  </svg>
+</div>
+
+<!-- Slot exists so that projected content can have access to scales -->
+<ng-container *ngTemplateOutlet="htmlElementsAfter"></ng-container>
+
+<ng-template #htmlElementsBefore>
+  <ng-content select="[html-elements-before]"></ng-content>
+</ng-template>
+
+<ng-template #svgDefs>
+  <ng-content select="[svg-defs]"></ng-content>
+</ng-template>
+
+<ng-template #svgElements>
+  <ng-content select="[svg-elements]"></ng-content>
+</ng-template>
+
+<ng-template #htmlElementsAfter>
+  <ng-content select="[html-elements-after]"></ng-content>
+</ng-template>

@@ -2,7 +2,7 @@
 @use 'placeholders' as *;
 @use 'functions' as *;
 @use 'colors';
-@use '../../../../app-dev-kit/src/lib/baseline-styles' as hsi-adk;
+@use '../../../../app-kit/src/lib/baseline-styles' as hsi-adk;
 
 $active-background-color: colors.$muted-primary-95;
 $dividing-line-color: colors.$muted-primary-90;

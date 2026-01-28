@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
+import { AdkAssetResponse, AdkAssetsService } from '@mathstack/app-kit';
 import { BehaviorSubject, map } from 'rxjs';
 import { Library } from './router-state/state';
 

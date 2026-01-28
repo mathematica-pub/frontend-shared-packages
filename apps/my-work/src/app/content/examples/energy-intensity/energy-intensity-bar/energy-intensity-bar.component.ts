@@ -19,7 +19,7 @@ import {
   VicXyBackgroundModule,
   VicYOrdinalAxisConfig,
   VicYOrdinalAxisConfigBuilder,
-} from '@hsi/viz-components';
+} from '@mathstack/viz';
 import { EnergyIntensityDatum } from '../energy-intensity.component';
 
 @Component({

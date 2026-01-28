@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AdkShikiHighlighter, ShikiTheme } from '@hsi/app-dev-kit';
+import { AdkShikiHighlighter, ShikiTheme } from '@mathstack/app-kit';
 import { BasemapService } from './core/services/basemap.service';
 import { ContentFilesService } from './core/services/content-files.service';
 import { DataService } from './core/services/data.service';

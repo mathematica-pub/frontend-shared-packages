@@ -6,7 +6,7 @@ import {
   AdkShikiHighlighter,
   AdkShikiHighlighterOptions,
   ShikiTheme,
-} from '@hsi/app-dev-kit';
+} from '@mathstack/app-kit';
 import { rehype } from 'rehype';
 import { from, map, mergeMap, Observable, switchMap } from 'rxjs';
 

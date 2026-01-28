@@ -1,0 +1,20 @@
+@if (data$ | async; as data) {
+  <app-content-container>
+    <ng-template let-section #customAngular>
+      @switch (section.content) {
+        @case ('main example') {
+          <app-single-panel-example-display
+            height="600px"
+            path="app/content/viz/overview-content/quick-start-example"
+            class="example"
+            label="quick start example"
+          >
+            <app-quick-start-example
+              [data]="data$ | async"
+            ></app-quick-start-example>
+          </app-single-panel-example-display>
+        }
+      }
+    </ng-template>
+  </app-content-container>
+}
