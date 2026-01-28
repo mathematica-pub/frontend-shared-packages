@@ -3,12 +3,15 @@
 This is a repo/Angular workspace that houses HSI's Angular libraries and associated applications.
 
 Currently, the workspace consists of three libraries: `app-kit`, `ui`, and `viz`, and an app that
-serves as our documentation site, `demo-app`.
+serves as our documentation site, `demo-app`. These libraries are currently in maintenance mode, and
+the package maintainers are not actively adding new features. The libraries will continue to be
+updated so that they can be used with the latest version of Angular. If you would like to make a
+change, please see the [contribution guidelines](#Contributing)
 
 The packages can be downloaded from the npm registry here:
 
 - viz: https://www.npmjs.com/package/@mathstack/viz
-- old-viz (not maintained): https://www.npmjs.com/package/@mathstack/old-viz
+- old-viz (not maintained; code can be viewed): https://www.npmjs.com/package/@mathstack/old-viz
 - ui: https://www.npmjs.com/package/@mathstack/ui
 - app-kit: https://www.npmjs.com/package/@mathstack/app-kit
 
@@ -68,6 +71,9 @@ Our current maintainers are:
 
 We appreciate community contributions to frontend-shared-packages. Here are some ways you can
 contribute.
+
+If you would like a new feature added, feel free to fork the repository and make a pull request,
+then tag a maintainer. You are also welcome to fork this repository to use as you wish.
 
 ### Creating an issue
 
