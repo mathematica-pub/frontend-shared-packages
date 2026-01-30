@@ -1,0 +1,39 @@
+<div class="title">Final Plans</div>
+<form [formGroup]="caChartService.myForm">
+  <div class="selection">
+    <label for="measureCode">Measure Code</label>
+    <select id="measureCode" formControlName="measureCode">
+      <option
+        *ngFor="let code of filters.measureCodes"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+  <div class="selection">
+    <label for="stratVal">Stratification</label>
+    <select id="stratVal" formControlName="stratVal">
+      <option
+        *ngFor="let strat of filters.stratVals"
+        [ngValue]="strat.name"
+        [disabled]="strat.disabled"
+      >
+        {{ strat.name }}
+      </option>
+    </select>
+  </div>
+</form>
+@if (caChartService.filteredData$ | async; as data) {
+  <app-export-content
+    [fileName]="
+      'Final Plans ' +
+      caChartService.myForm.value[filterTypes[0]] +
+      ' ' +
+      caChartService.myForm.value[filterTypes[1]]
+    "
+  >
+    <app-final-plans-circle-pack [data]="data"></app-final-plans-circle-pack>
+  </app-export-content>
+}

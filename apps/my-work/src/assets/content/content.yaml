@@ -18,5 +18,6 @@ items:
     - provider-shortage-map
   ca-access-final:
     - final-percentiles
+    - final-plans
   cda:
     - dd-choropleth
