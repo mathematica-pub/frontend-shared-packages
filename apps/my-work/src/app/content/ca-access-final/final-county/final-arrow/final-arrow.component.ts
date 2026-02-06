@@ -242,7 +242,7 @@ export class FinalArrowComponent implements OnChanges {
     if (this.changes.some((d) => d.includes('orsened'))) {
       range.push(darkOrange);
     }
-    this.colorScale.domain(this.changes).range(range);
+    this.colorScale.domain(this.changes).range(range).unknown(darkGrey);
   }
 
   getRowValue(row: FinalCountyDatum[], index: 0 | 1): number {
