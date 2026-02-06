@@ -372,7 +372,7 @@ export class FinalPlansCirclePackComponent implements OnChanges {
 
     this.legendGroup
       .selectAll('.legend-title')
-      .data(['Plan Size'])
+      .data(['Plan Size (members)'])
       .join('text')
       .attr('class', 'legend-title')
       .attr('x', this.rScale(data[0]) + lineGap + labelGap)
