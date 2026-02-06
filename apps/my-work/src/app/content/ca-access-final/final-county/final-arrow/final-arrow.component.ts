@@ -42,6 +42,7 @@ export class FinalArrowComponent implements OnChanges {
   svg!: Selection<SVGSVGElement, unknown, null, undefined>;
   labelGroup!: Selection<SVGGElement, unknown, null, undefined>;
   legendGroup!: Selection<SVGGElement, unknown, null, undefined>;
+  noDataGroup!: Selection<SVGGElement, unknown, null, undefined>;
   xAxisGroup!: Selection<SVGGElement, unknown, null, undefined>;
   yAxisGroup!: Selection<SVGGElement, unknown, null, undefined>;
   gridGroup!: Selection<SVGGElement, unknown, null, undefined>;
@@ -84,6 +85,7 @@ export class FinalArrowComponent implements OnChanges {
       this.drawMarkers();
       this.drawLabels();
       this.drawLegend();
+      // this.updateNoDataLabels();
     }
   }
 
@@ -104,6 +106,7 @@ export class FinalArrowComponent implements OnChanges {
     this.markerGroup = this.createGroup('markers');
     this.labelGroup = this.createGroup('labels');
     this.legendGroup = this.createGroup('legend');
+    this.noDataGroup = this.createGroup('no-data-labels');
   }
 
   createGroup(
@@ -128,11 +131,25 @@ export class FinalArrowComponent implements OnChanges {
       d.toString()
     ) as [string, string];
 
-    this.rollupData.sort((a, b) => {
-      const aDiff = this.getRowValue(a, 1) - this.getRowValue(a, 0);
-      const bDiff = this.getRowValue(b, 1) - this.getRowValue(b, 0);
-      return this.higherIsBetter ? aDiff - bDiff : bDiff - aDiff;
-    });
+    this.rollupData = this.rollupData
+      .filter(
+        (row) =>
+          row.length > 1 ||
+          row.some(
+            (d) => d.year !== this.extents[0] && d.year !== this.extents[1]
+          )
+      )
+      .sort((a, b) => {
+        const aDiff = this.getRowValue(a, 1) - this.getRowValue(a, 0);
+        const bDiff = this.getRowValue(b, 1) - this.getRowValue(b, 0);
+        if (isNaN(aDiff)) {
+          return 1;
+        } else if (isNaN(bDiff)) {
+          return -1;
+        } else {
+          return this.higherIsBetter ? aDiff - bDiff : bDiff - aDiff;
+        }
+      });
   }
 
   setDirectionality(): void {
@@ -427,6 +444,25 @@ export class FinalArrowComponent implements OnChanges {
       .attr('y', (pointerLengthRatio + 0.2) * -this.bandwidth)
       .attr('text-anchor', 'middle')
       .text((d) => d);
+  }
+
+  updateNoDataLabels(): void {
+    const data = this.rollupData.filter(
+      (row) =>
+        row.length === 1 &&
+        row.some(
+          (d) => d.year === this.extents[0] || d.year === this.extents[1]
+        )
+    );
+
+    this.noDataGroup
+      .selectAll('.no-data-label')
+      .data(data)
+      .join('text')
+      .attr('class', 'no-data-label')
+      .text('no data available')
+      .attr('dx', '0.8em')
+      .attr('y', (d) => this.getY(d));
   }
 
   getLegendDiamondX(i: number, legendGap: number, lineLength: number): number {
