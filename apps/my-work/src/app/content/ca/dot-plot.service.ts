@@ -115,22 +115,63 @@ export class DotPlotService {
     this.rollupData.push(...[emptyCategory, invisibleCategory]);
   }
 
-  setExtents(): void {
-    this.rollupData.forEach((d) => {
-      const row = this.rollupData.filter((category) => {
-        const categoryValue = category.strat ? 'stratVal' : 'county';
-        return (
-          category[categoryValue] === d[categoryValue] &&
-          category.series === d.series &&
-          category.strat === d.strat
-        );
+  setExtents(trendUnit?: string): void {
+    let longestRow = [];
+    if (trendUnit) {
+      this.rollupData.forEach((d) => {
+        const row = this.getRow(d);
+        if (row.length > longestRow.length) {
+          longestRow = row;
+        }
       });
-      if (d.series === 'invisible') {
-        d.value = min(row.map((lob) => lob.average)) || null;
+    }
+    this.rollupData.forEach((d) => {
+      const row = this.getRow(d);
+      if (trendUnit) {
+        const trendUnits = longestRow
+          .map((datum) => datum[trendUnit])
+          .sort((a, b) => +a - +b);
+        this.setTrending(d, row, longestRow, trendUnit, trendUnits);
+      } else if (d.series === 'invisible') {
+        d.value = min(row.map((datum) => datum.average)) || null;
       } else {
-        const extents = extent(row.map((lob) => lob.average));
+        const extents = extent(row.map((datum) => datum.average));
         d.value = extents[1] - extents[0] || null;
       }
     });
+  }
+
+  getRow(d: any): any[] {
+    return this.rollupData.filter((category) => {
+      const categoryValue = category.strat ? 'stratVal' : 'county';
+      return (
+        category[categoryValue] === d[categoryValue] &&
+        category.series === d.series &&
+        category.strat === d.strat
+      );
+    });
+  }
+
+  setTrending(
+    d: any,
+    row: any,
+    longestRow: any,
+    trendUnit: string,
+    trendUnits: any[]
+  ): void {
+    if (row.length < longestRow.length) {
+      d.value = 0;
+    } else {
+      const firstItem = row.find((datum) => datum[trendUnit] === trendUnits[0]);
+      const lastItem = row.find(
+        (datum) => datum[trendUnit] === trendUnits.at(-1)
+      );
+      const diff = lastItem.average - firstItem.average;
+      d.increased = diff > 0;
+      d.value =
+        d.series === 'invisible'
+          ? min([lastItem.average, firstItem.average])
+          : Math.abs(diff);
+    }
   }
 }

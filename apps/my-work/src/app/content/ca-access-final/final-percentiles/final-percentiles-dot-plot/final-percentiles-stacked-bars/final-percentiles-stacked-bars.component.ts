@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FinalStackedBarsComponent } from '../../../final-stacked-bars.component';
+import { FinalVerticalStackedBarsComponent } from '../../../final-vertical-stacked-bars.component';
 import { FinalPercentilesDatum } from '../../final-percentiles.component';
 
 @Component({
@@ -12,7 +12,7 @@ import { FinalPercentilesDatum } from '../../final-percentiles.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
 })
-export class FinalPercentilesStackedBarsComponent extends FinalStackedBarsComponent {
+export class FinalPercentilesStackedBarsComponent extends FinalVerticalStackedBarsComponent {
   override radius = 7;
 
   override drawMarks(): void {

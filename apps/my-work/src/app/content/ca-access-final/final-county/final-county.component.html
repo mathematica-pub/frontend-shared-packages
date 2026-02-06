@@ -1,0 +1,34 @@
+<div class="title">Final County Dot Plot</div>
+<form [formGroup]="caChartService.myForm">
+  <div class="selection">
+    <label for="measureCode">Measure Code</label>
+    <select id="measureCode" formControlName="measureCode">
+      <option
+        *ngFor="let code of filters.measureCodes"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+  <div class="selection">
+    <label for="stratVal">Stratification</label>
+    <select id="stratVal" formControlName="stratVal">
+      <option
+        *ngFor="let code of filters.stratVals"
+        [ngValue]="code.name"
+        [disabled]="code.disabled"
+      >
+        {{ code.name }}
+      </option>
+    </select>
+  </div>
+</form>
+@if (caChartService.filteredData$ | async; as data) {
+  <app-export-content
+    [fileName]="'Final County ' + caChartService.myForm.value[filterTypes[0]]"
+  >
+    <app-final-arrow [data]="data"></app-final-arrow>
+  </app-export-content>
+}

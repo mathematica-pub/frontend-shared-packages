@@ -1,8 +1,17 @@
-$bars: #f9a71c; // was #deebf7; #dbe9f9;
-$gridLine: #f0f0f0; // was $lineColor; #f0f0f0;
-$domainLine: #505050; // was #bfbfbf;
-$stratLabelLine: #bfbfbf;
-$percentile: #17315a; // was #0b2949;
-$goal: #f9a71c;
-$comparison: #17315a;
-$circles: #e47225;
+$darkestGrey: #505050;
+$darkGrey: #949494;
+$gray: #bfbfbf;
+$lightGrey: #f0f0f0;
+$orange: #f9a71c;
+$darkOrange: #e47225;
+$blue: #17315a;
+$lightBlue: #2d6e8d;
+
+$bars: $orange;
+$gridLine: $lightGrey;
+$domainLine: $darkestGrey;
+$stratLabelLine: $gray;
+$percentile: $blue;
+$goal: $orange;
+$comparison: $blue;
+$circles: $darkOrange;

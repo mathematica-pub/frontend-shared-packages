@@ -19,5 +19,6 @@ items:
   ca-access-final:
     - final-percentiles
     - final-plans
+    - final-county
   cda:
     - dd-choropleth

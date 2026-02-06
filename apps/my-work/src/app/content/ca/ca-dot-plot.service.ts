@@ -119,6 +119,7 @@ export class CaDotPlotService extends DotPlotService {
             )
         )
         .color((dimension) => dimension.valueAccessor((d) => d.series))
+        .datumClass((d) => (d.series === 'invisible' ? 'invisible' : 'visible'))
         .stackOrder(() => [1, 0])
         .getConfig();
 

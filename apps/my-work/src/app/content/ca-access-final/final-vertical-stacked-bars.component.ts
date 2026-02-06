@@ -26,14 +26,14 @@ export interface FinalDatum {
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[app-final-stacked-bars]',
+  selector: '[app-final-vertical-stacked-bars]',
   standalone: true,
-  templateUrl: 'final-stacked-bars.component.html',
+  templateUrl: 'final-vertical-stacked-bars.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   providers: [CaStackedBarsService],
 })
-export class FinalStackedBarsComponent
+export class FinalVerticalStackedBarsComponent
   extends StackedBarsComponent<any, string>
   implements OnInit
 {

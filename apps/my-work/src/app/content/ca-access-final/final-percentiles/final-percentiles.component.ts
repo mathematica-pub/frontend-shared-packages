@@ -6,7 +6,7 @@ import { VicChartConfigBuilder } from '@mathstack/viz';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { finalDataPath } from '../../ca/data-paths.constants';
-import { FinalDatum } from '../final-stacked-bars.component';
+import { FinalDatum } from '../final-vertical-stacked-bars.component';
 import { FinalPercentilesDotPlotComponent } from './final-percentiles-dot-plot/final-percentiles-dot-plot.component';
 
 export interface FinalPercentilesDatum extends FinalDatum {

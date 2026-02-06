@@ -74,9 +74,10 @@ export class TrendedDotPlotService extends DotPlotService {
       const dotMax = max(this.rollupData.map((d) => d.average));
       const barMax = max(this.rollupData, (d) => this.getBarValue(d));
       this.trueMax = max([dotMax, barMax]) * 1.1;
-      const isPercentage =
-        this.rollupData.find((category) => category.units !== null).units ===
-        'Percentage';
+      const isPercentage = this.rollupData
+        .find((category) => category.units !== null)
+        .units.toLowerCase()
+        .includes('percent');
       if (isPercentage) {
         this.trueMax = min([this.trueMax, 1]);
       }
@@ -106,6 +107,7 @@ export class TrendedDotPlotService extends DotPlotService {
             )
         )
         .color((dimension) => dimension.valueAccessor((d) => d.series))
+        .datumClass((d) => (d.series === 'invisible' ? 'invisible' : 'visible'))
         .stackOrder(() => [1, 0])
         .getConfig();
 
