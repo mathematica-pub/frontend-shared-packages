@@ -30,7 +30,7 @@ export interface FinalCountyDatum extends FinalDatum {
   encapsulation: ViewEncapsulation.None,
 })
 export class FinalCountyComponent implements OnInit {
-  finalDataPath = finalDataPath.county;
+  finalDataPath = finalDataPath.stratified;
   filters = {
     measureCodes: [],
     stratVals: [],
@@ -57,6 +57,7 @@ export class FinalCountyComponent implements OnInit {
         units: x.Units,
         county: x.County,
         directionality: x.Directionality,
+        strat: x.STRAT,
         stratVal: x.StratVal,
         value: x.Value && !isNaN(x.Value) ? +x.Value : null,
         year: x.Year,
@@ -65,6 +66,6 @@ export class FinalCountyComponent implements OnInit {
       };
       return obj;
     });
-    return transformed;
+    return transformed.filter((x: FinalCountyDatum) => x.strat === 'NULL');
   }
 }

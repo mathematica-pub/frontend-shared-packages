@@ -21,6 +21,7 @@ export interface FinalDatum {
   value: number;
   units: string;
   directionality: string;
+  strat: string;
   stratVal: string;
 }
 

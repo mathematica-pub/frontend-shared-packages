@@ -75,11 +75,13 @@ const finalPath = {
     statewide: `${caDataFolder}Final_Results.csv`,
     plan: `${caDataFolder}Final_Plan_Results.csv`,
     county: `${caDataFolder}Final_County_Results.csv`,
+    stratified: `${caDataFolder}Final_Stratified_Results.csv`,
   },
   mock: {
     statewide: `${caDataFolder}Mock_Final_Results.csv`,
     plan: `${caDataFolder}Mock_Final_Plan_Results.csv`,
     county: `${caDataFolder}Mock_Final_County_Results.csv`,
+    stratified: `${caDataFolder}Mock_Final_Stratified_Results.csv`,
   },
 };
 
