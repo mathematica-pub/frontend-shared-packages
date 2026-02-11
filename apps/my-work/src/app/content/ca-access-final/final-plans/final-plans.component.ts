@@ -10,9 +10,6 @@ import { FinalPlansCirclePackComponent } from './final-plans-circle-pack/final-p
 
 export interface FinalPlansDatum {
   measureCode: string;
-  value: number;
-  units: string;
-  directionality: string;
   strat: string;
   stratVal: string;
   size: number;
@@ -59,9 +56,6 @@ export class FinalPlansComponent implements OnInit {
         measureCode: x.Measure_Code,
         strat: x.STRAT,
         stratVal: x.StratVal,
-        units: x.Units,
-        value: x.Value && !isNaN(x.Value) ? +x.Value : null,
-        directionality: x.Directionality,
         size: x.Size && !isNaN(x.Size) ? +x.Size : null,
         change: x.Change,
       };
