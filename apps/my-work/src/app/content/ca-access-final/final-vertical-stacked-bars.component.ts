@@ -12,10 +12,10 @@ import {
   barbellStackElementHeight,
   CaStackedBarsService,
 } from '../ca/ca-stacked-bars.service';
+import { FinalPercentilesDatum } from './final-percentiles/final-percentiles.component';
 
 export interface FinalDatum {
   year: string;
-  average: number;
   series: string;
   measureCode: string;
   value: number;
@@ -127,21 +127,21 @@ export class FinalVerticalStackedBarsComponent
       .selectAll('.average')
       .data(
         this.config.data.filter(
-          (lob: FinalDatum) =>
+          (lob: FinalPercentilesDatum) =>
             lob.series !== 'invisible' && lob.average !== null
         )
       )
       .join('circle')
       .attr('r', this.radius)
-      .attr('cy', (year: FinalDatum) => this.scales.y(year.average))
+      .attr('cy', (year: FinalPercentilesDatum) => this.scales.y(year.average))
       .attr(
         'cx',
-        (year: FinalDatum) =>
+        (year: FinalPercentilesDatum) =>
           this.scales.x(this.getCategory(year)) +
           (this.scales.x as any).bandwidth() / 2
       )
       .attr('class', 'average')
-      .style('fill', (year: FinalDatum) => this.getColor(year));
+      .style('fill', (year: FinalPercentilesDatum) => this.getColor(year));
   }
 
   updateNoDataLabels(): void {
@@ -150,7 +150,7 @@ export class FinalVerticalStackedBarsComponent
       .selectAll('.no-data-label')
       .data(
         this.config.data.filter(
-          (year: FinalDatum) =>
+          (year: FinalPercentilesDatum) =>
             year.year === null && year.series === 'percentile'
         )
       )
@@ -161,7 +161,7 @@ export class FinalVerticalStackedBarsComponent
       .attr('dy', this.percentOffset)
       .attr(
         'x',
-        (category: FinalDatum) =>
+        (category: FinalPercentilesDatum) =>
           this.scales.x(this.getCategory(category)) +
           (this.scales.x as any).bandwidth() / 2
       );
@@ -171,13 +171,13 @@ export class FinalVerticalStackedBarsComponent
     return this.radius;
   }
 
-  getCategory(year: FinalDatum): string {
+  getCategory(year: FinalPercentilesDatum): string {
     console.warn('override getCategory');
     return year.stratVal;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getColor(year: FinalDatum): string {
+  getColor(year: FinalPercentilesDatum): string {
     return null;
   }
 

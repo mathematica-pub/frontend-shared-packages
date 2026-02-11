@@ -58,7 +58,6 @@ export class FinalCountyComponent implements OnInit {
         county: x.County,
         directionality: x.Directionality,
         stratVal: x.StratVal,
-        average: null,
         value: x.Value && !isNaN(x.Value) ? +x.Value : null,
         year: x.Year,
         change: x.Change,

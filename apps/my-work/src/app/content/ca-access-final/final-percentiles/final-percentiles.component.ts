@@ -14,6 +14,7 @@ export interface FinalPercentilesDatum extends FinalDatum {
   percentile25: number;
   percentile75: number;
   type: string;
+  average: number;
 }
 
 @Component({
