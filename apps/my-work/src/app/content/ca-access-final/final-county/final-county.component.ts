@@ -6,7 +6,7 @@ import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-con
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { finalDataPath } from '../../ca/data-paths.constants';
 import { FinalRaceDatum } from '../final-race/final-race.component';
-import { FinalArrowComponent } from './final-arrow/final-arrow.component';
+import { FinalCountyArrowComponent } from './final-county-arrow/final-county-arrow.component';
 
 export interface FinalCountyDatum extends FinalRaceDatum {
   county: string;
@@ -19,7 +19,7 @@ export interface FinalCountyDatum extends FinalRaceDatum {
     CommonModule,
     ExportContentComponent,
     ReactiveFormsModule,
-    FinalArrowComponent,
+    FinalCountyArrowComponent,
   ],
   providers: [CaChartService],
   templateUrl: 'final-county.component.html',

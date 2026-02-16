@@ -29,11 +29,11 @@ import { blue, darkGrey, darkOrange } from '../../../ca/color';
 import { FinalCountyDatum } from '../final-county.component';
 
 @Component({
-  selector: 'app-final-arrow',
+  selector: 'app-final-county-arrow',
   standalone: true,
-  templateUrl: './final-arrow.component.html',
+  templateUrl: './final-county-arrow.component.html',
 })
-export class FinalArrowComponent implements OnChanges {
+export class FinalCountyArrowComponent implements OnChanges {
   @Input() data: FinalCountyDatum[];
   @ViewChild('chartContainer', { static: true })
   chartContainer!: ElementRef<HTMLDivElement>;

@@ -38,7 +38,8 @@ import { FinalRaceDatum } from '../final-race.component';
   selector: 'app-final-race-arrow',
   standalone: true,
   providers: [DotPlotService],
-  templateUrl: '../../final-county/final-arrow/final-arrow.component.html',
+  templateUrl:
+    '../../final-county/final-county-arrow/final-county-arrow.component.html',
 })
 export class FinalRaceArrowComponent implements OnChanges {
   @Input() data: FinalRaceDatum[];
