@@ -29,11 +29,11 @@ import { blue, darkGrey, darkOrange } from '../../../ca/color';
 import { FinalCountyDatum } from '../final-county.component';
 
 @Component({
-  selector: 'app-final-county-arrow',
+  selector: 'app-final-arrow',
   standalone: true,
-  templateUrl: './final-county-arrow.component.html',
+  templateUrl: './final-arrow.component.html',
 })
-export class FinalCountyArrowComponent implements OnChanges {
+export class FinalArrowComponent implements OnChanges {
   @Input() data: FinalCountyDatum[];
   @ViewChild('chartContainer', { static: true })
   chartContainer!: ElementRef<HTMLDivElement>;
@@ -63,28 +63,33 @@ export class FinalCountyArrowComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (this.data[0]) {
-      console.log('this.data', this.data);
-      if (this.svg === undefined) {
-        this.setScales();
-        this.setSvg();
-      }
-      this.setRollupData();
-      this.setExtents();
-      this.setDirectionality();
-      this.setIncreased();
-      this.updateHeight();
-      this.updateIsPercent();
-      this.updateXScale();
-      this.updateYScale();
-      this.updateXAxis();
-      this.updateYAxis();
-      this.updateGrid();
-      this.updateColorScale();
-      this.drawLines();
-      this.drawMarkers();
-      this.drawLabels();
-      this.drawLegend();
+      this.updateChart();
     }
+  }
+
+  updateChart(): void {
+    console.log('this.data', this.data);
+    if (this.svg === undefined) {
+      this.setScales();
+      this.setSvg();
+    }
+    this.setRollupData();
+    this.setExtents();
+    this.sortData();
+    this.setDirectionality();
+    this.setIncreased();
+    this.updateHeight();
+    this.updateIsPercent();
+    this.updateXScale();
+    this.updateYScale();
+    this.updateXAxis();
+    this.updateYAxis();
+    this.updateGrid();
+    this.updateColorScale();
+    this.drawLines();
+    this.drawMarkers();
+    this.drawLabels();
+    this.drawLegend();
   }
 
   setScales(): void {
@@ -127,7 +132,9 @@ export class FinalCountyArrowComponent implements OnChanges {
     this.extents = extent(this.data, (d) => +d.year).map((d) =>
       d.toString()
     ) as [string, string];
+  }
 
+  sortData(): void {
     this.rollupData = this.rollupData
       .filter(
         (row) =>
@@ -242,7 +249,7 @@ export class FinalCountyArrowComponent implements OnChanges {
     this.colorScale.domain(this.changes).range(range).unknown(darkGrey);
   }
 
-  getRowValue(row: FinalCountyDatum[], index: 0 | 1): number {
+  getRowValue(row: any[], index: 0 | 1): number {
     return row.find((d) => d.year === this.extents[index])?.value;
   }
 
@@ -266,7 +273,7 @@ export class FinalCountyArrowComponent implements OnChanges {
       .style('stroke-width', this.strokeWidth);
   }
 
-  getY(d: FinalCountyDatum[]): number {
+  getY(d: any[]): number {
     return this.yScale(d[0].county) + this.bandwidth / 2;
   }
 
@@ -287,10 +294,10 @@ export class FinalCountyArrowComponent implements OnChanges {
       .attr('transform', (d: any) => {
         const direction = d.increased ? 1 : -1;
         const x = this.xScale(d.value) + this.getArrowOffset(direction);
-        const y = this.yScale(d.county) + this.bandwidth / 2;
+        const y = this.getDiamondY(d);
         return `translate(${x}, ${y})`;
       })
-      .style('fill', (d: FinalCountyDatum) => this.colorScale(d.change));
+      .style('fill', (d) => this.colorScale(d.change));
 
     this.markerGroup
       .selectAll('.diamond')
@@ -309,13 +316,16 @@ export class FinalCountyArrowComponent implements OnChanges {
       .attr('height', this.diamondSize)
       .attr('transform', (d: any) => {
         const x = this.xScale(d.value) - this.diamondSize / 2;
-        const y =
-          this.yScale(d.county) + this.bandwidth / 2 - this.diamondSize / 2;
+        const y = this.getDiamondY(d) - this.diamondSize / 2;
         return this.getDiamondTransform(x, y);
       })
       .style('fill', 'none')
       .style('stroke-width', 1.5)
-      .style('stroke', (d: FinalCountyDatum) => this.colorScale(d.change));
+      .style('stroke', (d) => this.colorScale(d.change));
+  }
+
+  getDiamondY(d: any): number {
+    return this.yScale(d.county) + this.bandwidth / 2;
   }
 
   drawLabels(): void {
@@ -357,8 +367,8 @@ export class FinalCountyArrowComponent implements OnChanges {
       .attr('class', 'legend-line')
       .attr('x1', lineLength + legendGap)
       .attr('x2', legendGap)
-      .attr('y1', (d, i) => i * -this.bandwidth)
-      .attr('y2', (d, i) => i * -this.bandwidth)
+      .attr('y1', (d, i) => this.getLegendLineY(i))
+      .attr('y2', (d, i) => this.getLegendLineY(i))
       .style('stroke', (d) => this.colorScale(d))
       .style('stroke-width', this.strokeWidth);
 
@@ -368,7 +378,7 @@ export class FinalCountyArrowComponent implements OnChanges {
       .join('text')
       .attr('class', 'improvement-label')
       .attr('x', lineLength + legendGap + 10)
-      .attr('y', (d, i) => i * -this.bandwidth)
+      .attr('y', (d, i) => this.getLegendLineY(i))
       .attr('alignment-baseline', 'middle')
       .text((d) => d);
 
@@ -387,11 +397,11 @@ export class FinalCountyArrowComponent implements OnChanges {
           (this.arrowPointsRight(d) ? lineLength : 0) +
           this.getArrowOffset(direction) +
           legendGap;
-        const y = i * -this.bandwidth;
+        const y = this.getLegendLineY(i);
         return `translate(${x}, ${y})`;
       })
       .attr('x', (d) => (this.arrowPointsRight(d) ? 0 : lineLength + 10))
-      .attr('y', (d, i) => i * -this.bandwidth)
+      .attr('y', (d, i) => this.getLegendLineY(i))
       .style('fill', (d) => this.colorScale(d));
 
     this.legendGroup
@@ -402,7 +412,7 @@ export class FinalCountyArrowComponent implements OnChanges {
       .attr('width', this.diamondSize)
       .attr('height', this.diamondSize)
       .attr('transform', (d: any, i: number) => {
-        const y = i * -this.bandwidth - this.diamondSize / 2;
+        const y = this.getLegendLineY(i) - this.diamondSize / 2;
         return this.getDiamondTransform(0, y);
       })
       .style('fill', 'none')
@@ -421,15 +431,15 @@ export class FinalCountyArrowComponent implements OnChanges {
     const pointerLengthRatio = 3.2;
 
     this.legendGroup
-      .attr('transform', `translate(0, ${-30})`)
+      .attr('transform', `translate(0, -30)`)
       .selectAll('.pointer')
       .data(trendData)
       .join('line')
       .attr('class', 'pointer')
       .attr('x1', (d, i) => this.getLegendDiamondX(i, legendGap, lineLength))
       .attr('x2', (d, i) => this.getLegendDiamondX(i, legendGap, lineLength))
-      .attr('y1', 2.5 * -this.bandwidth)
-      .attr('y2', pointerLengthRatio * -this.bandwidth)
+      .attr('y1', this.getLegendPointerY1())
+      .attr('y2', this.getLegendPointerY2(pointerLengthRatio))
       .style('stroke', 'black');
 
     this.legendGroup
@@ -438,9 +448,21 @@ export class FinalCountyArrowComponent implements OnChanges {
       .join('text')
       .attr('class', 'trend-label')
       .attr('x', (d, i) => this.getLegendDiamondX(i, legendGap, lineLength))
-      .attr('y', (pointerLengthRatio + 0.2) * -this.bandwidth)
+      .attr('y', this.getLegendPointerY2(pointerLengthRatio + 0.2))
       .attr('text-anchor', 'middle')
       .text((d) => d);
+  }
+
+  getLegendLineY(i: number): number {
+    return i * -this.bandwidth;
+  }
+
+  getLegendPointerY1(): number {
+    return 2.5 * -this.bandwidth;
+  }
+
+  getLegendPointerY2(pointerLengthRatio: number): number {
+    return pointerLengthRatio * -this.bandwidth;
   }
 
   getLegendDiamondX(i: number, legendGap: number, lineLength: number): number {
