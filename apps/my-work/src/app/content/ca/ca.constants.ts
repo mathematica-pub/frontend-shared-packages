@@ -8,12 +8,14 @@ export const raceCategories = {
     'Some Other Race': 5,
     'Two or More Races': 6,
     'Asked But No Answer': 7,
+    'Asked But No Answer/Unknown': 7,
     Unknown: 8,
   },
   ethnicity: {
     'Hispanic or Latino': 9,
     'Not Hispanic or Latino': 10,
     'Asked But No Answer': 11,
+    'Asked But No Answer/Unknown': 11,
     Unknown: 12,
   },
 };

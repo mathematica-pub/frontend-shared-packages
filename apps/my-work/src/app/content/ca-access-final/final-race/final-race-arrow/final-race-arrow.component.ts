@@ -24,24 +24,33 @@ import {
   select,
   Selection,
 } from 'd3';
-import { chartWidth } from '../../../ca/ca.constants';
+import {
+  chartWidth,
+  raceCategories,
+  stratLinePadding,
+} from '../../../ca/ca.constants';
 import { blue, darkGrey, darkOrange } from '../../../ca/color';
-import { FinalCountyDatum } from '../final-county.component';
+import { DotPlotService } from '../../../ca/dot-plot.service';
+import { wrapText } from '../../../ca/wrap';
+import { FinalRaceDatum } from '../final-race.component';
 
 @Component({
-  selector: 'app-final-arrow',
+  selector: 'app-final-race-arrow',
   standalone: true,
-  templateUrl: './final-arrow.component.html',
+  providers: [DotPlotService],
+  templateUrl: '../../final-county/final-arrow/final-arrow.component.html',
 })
-export class FinalArrowComponent implements OnChanges {
-  @Input() data: FinalCountyDatum[];
+export class FinalRaceArrowComponent implements OnChanges {
+  @Input() data: FinalRaceDatum[];
   @ViewChild('chartContainer', { static: true })
   chartContainer!: ElementRef<HTMLDivElement>;
-  rollupData: FinalCountyDatum[][];
+  rollupData: FinalRaceDatum[][];
   isPercent: boolean;
   svg!: Selection<SVGSVGElement, unknown, null, undefined>;
   labelGroup!: Selection<SVGGElement, unknown, null, undefined>;
   legendGroup!: Selection<SVGGElement, unknown, null, undefined>;
+  noDataGroup!: Selection<SVGGElement, unknown, null, undefined>;
+  stratGroup!: Selection<SVGGElement, unknown, null, undefined>;
   xAxisGroup!: Selection<SVGGElement, unknown, null, undefined>;
   yAxisGroup!: Selection<SVGGElement, unknown, null, undefined>;
   gridGroup!: Selection<SVGGElement, unknown, null, undefined>;
@@ -54,12 +63,16 @@ export class FinalArrowComponent implements OnChanges {
   changes: string[];
   width = chartWidth;
   height: number;
-  bandwidth = 25;
+  bandwidth = 44;
   extents: [string, string];
   numTicks = 5;
   strokeWidth = 3;
   arrowSize = 14;
   diamondSize = this.arrowSize / 2;
+  labelWidth = 150;
+  stratPadding = 3;
+
+  constructor(private caDotPlotService: DotPlotService) {}
 
   ngOnChanges(): void {
     if (this.data[0]) {
@@ -84,6 +97,8 @@ export class FinalArrowComponent implements OnChanges {
       this.drawMarkers();
       this.drawLabels();
       this.drawLegend();
+      this.updateStratLabels();
+      this.updateNoDataLabels();
     }
   }
 
@@ -104,6 +119,8 @@ export class FinalArrowComponent implements OnChanges {
     this.markerGroup = this.createGroup('markers');
     this.labelGroup = this.createGroup('labels');
     this.legendGroup = this.createGroup('legend');
+    this.stratGroup = this.createGroup('strat-labels');
+    this.noDataGroup = this.createGroup('no-data-labels');
   }
 
   createGroup(
@@ -115,10 +132,18 @@ export class FinalArrowComponent implements OnChanges {
   setRollupData(): void {
     this.rollupData = this.data
       .filter((d) => d.value !== null)
-      .map((d) => this.data.filter((x) => x.county === d.county))
+      .map((d) =>
+        this.data.filter(
+          (x) => x.strat === d.strat && x.stratVal === d.stratVal
+        )
+      )
       .filter(
         (row, i, self) =>
-          i === self.findIndex((o) => o[0].county === row[0].county)
+          i ===
+          self.findIndex(
+            (o) =>
+              o[0].strat === row[0].strat && o[0].stratVal === row[0].stratVal
+          )
       );
     console.log('rollupData', this.rollupData);
   }
@@ -127,6 +152,9 @@ export class FinalArrowComponent implements OnChanges {
     this.extents = extent(this.data, (d) => +d.year).map((d) =>
       d.toString()
     ) as [string, string];
+
+    const order = structuredClone(raceCategories);
+    this.caDotPlotService.setRaceEthnicityMockCategories(order);
 
     this.rollupData = this.rollupData
       .filter(
@@ -137,15 +165,11 @@ export class FinalArrowComponent implements OnChanges {
           )
       )
       .sort((a, b) => {
-        const aDiff = this.getRowValue(a, 1) - this.getRowValue(a, 0);
-        const bDiff = this.getRowValue(b, 1) - this.getRowValue(b, 0);
-        if (isNaN(aDiff)) {
-          return 1;
-        } else if (isNaN(bDiff)) {
-          return -1;
-        } else {
-          return this.higherIsBetter ? aDiff - bDiff : bDiff - aDiff;
-        }
+        const stratA =
+          a[0].strat.toLowerCase() === 'ethnicity' ? 'ethnicity' : 'race';
+        const stratB =
+          b[0].strat.toLowerCase() === 'ethnicity' ? 'ethnicity' : 'race';
+        return order[stratA][a[0].stratVal] - order[stratB][b[0].stratVal];
       });
   }
 
@@ -181,9 +205,9 @@ export class FinalArrowComponent implements OnChanges {
   }
 
   updateYScale(): void {
-    const domain = this.rollupData.map((d) => d[0].county);
-    const range = [0, this.height];
-    this.yScale.domain(domain).range(range);
+    const domain = this.rollupData.map((d) => d[0].strat + d[0].stratVal);
+    const chartRange = [0, this.height];
+    this.yScale.domain(domain).range(chartRange);
   }
 
   updateXAxis(): void {
@@ -200,7 +224,14 @@ export class FinalArrowComponent implements OnChanges {
   }
 
   updateYAxis(): void {
-    this.yAxisGroup.call(axisLeft(this.yScale).tickSizeOuter(0));
+    this.yAxisGroup
+      .call(
+        axisLeft(this.yScale)
+          .tickSizeOuter(0)
+          .tickFormat((d, i) => this.rollupData[i][0].stratVal)
+      )
+      .selectAll('.tick text')
+      .call(wrapText, this.labelWidth, { lineHeight: 1 });
   }
 
   updateGrid(): void {
@@ -242,7 +273,7 @@ export class FinalArrowComponent implements OnChanges {
     this.colorScale.domain(this.changes).range(range).unknown(darkGrey);
   }
 
-  getRowValue(row: FinalCountyDatum[], index: 0 | 1): number {
+  getRowValue(row: FinalRaceDatum[], index: 0 | 1): number {
     return row.find((d) => d.year === this.extents[index])?.value;
   }
 
@@ -266,8 +297,8 @@ export class FinalArrowComponent implements OnChanges {
       .style('stroke-width', this.strokeWidth);
   }
 
-  getY(d: FinalCountyDatum[]): number {
-    return this.yScale(d[0].county) + this.bandwidth / 2;
+  getY(d: FinalRaceDatum[]): number {
+    return this.yScale(d[0].strat + d[0].stratVal) + this.bandwidth / 2;
   }
 
   drawMarkers(): void {
@@ -287,10 +318,10 @@ export class FinalArrowComponent implements OnChanges {
       .attr('transform', (d: any) => {
         const direction = d.increased ? 1 : -1;
         const x = this.xScale(d.value) + this.getArrowOffset(direction);
-        const y = this.yScale(d.county) + this.bandwidth / 2;
+        const y = this.yScale(d.strat + d.stratVal) + this.bandwidth / 2;
         return `translate(${x}, ${y})`;
       })
-      .style('fill', (d: FinalCountyDatum) => this.colorScale(d.change));
+      .style('fill', (d: FinalRaceDatum) => this.colorScale(d.change));
 
     this.markerGroup
       .selectAll('.diamond')
@@ -310,12 +341,14 @@ export class FinalArrowComponent implements OnChanges {
       .attr('transform', (d: any) => {
         const x = this.xScale(d.value) - this.diamondSize / 2;
         const y =
-          this.yScale(d.county) + this.bandwidth / 2 - this.diamondSize / 2;
+          this.yScale(d.strat + d.stratVal) +
+          this.bandwidth / 2 -
+          this.diamondSize / 2;
         return this.getDiamondTransform(x, y);
       })
       .style('fill', 'none')
       .style('stroke-width', 1.5)
-      .style('stroke', (d: FinalCountyDatum) => this.colorScale(d.change));
+      .style('stroke', (d: FinalRaceDatum) => this.colorScale(d.change));
   }
 
   drawLabels(): void {
@@ -357,8 +390,8 @@ export class FinalArrowComponent implements OnChanges {
       .attr('class', 'legend-line')
       .attr('x1', lineLength + legendGap)
       .attr('x2', legendGap)
-      .attr('y1', (d, i) => i * -this.bandwidth)
-      .attr('y2', (d, i) => i * -this.bandwidth)
+      .attr('y1', (d, i) => (i * -this.bandwidth) / 2)
+      .attr('y2', (d, i) => (i * -this.bandwidth) / 2)
       .style('stroke', (d) => this.colorScale(d))
       .style('stroke-width', this.strokeWidth);
 
@@ -368,7 +401,7 @@ export class FinalArrowComponent implements OnChanges {
       .join('text')
       .attr('class', 'improvement-label')
       .attr('x', lineLength + legendGap + 10)
-      .attr('y', (d, i) => i * -this.bandwidth)
+      .attr('y', (d, i) => (i * -this.bandwidth) / 2)
       .attr('alignment-baseline', 'middle')
       .text((d) => d);
 
@@ -387,11 +420,11 @@ export class FinalArrowComponent implements OnChanges {
           (this.arrowPointsRight(d) ? lineLength : 0) +
           this.getArrowOffset(direction) +
           legendGap;
-        const y = i * -this.bandwidth;
+        const y = (i * -this.bandwidth) / 2;
         return `translate(${x}, ${y})`;
       })
       .attr('x', (d) => (this.arrowPointsRight(d) ? 0 : lineLength + 10))
-      .attr('y', (d, i) => i * -this.bandwidth)
+      .attr('y', (d, i) => (i * -this.bandwidth) / 2)
       .style('fill', (d) => this.colorScale(d));
 
     this.legendGroup
@@ -402,7 +435,7 @@ export class FinalArrowComponent implements OnChanges {
       .attr('width', this.diamondSize)
       .attr('height', this.diamondSize)
       .attr('transform', (d: any, i: number) => {
-        const y = i * -this.bandwidth - this.diamondSize / 2;
+        const y = (i * -this.bandwidth) / 2 - this.diamondSize / 2;
         return this.getDiamondTransform(0, y);
       })
       .style('fill', 'none')
@@ -428,8 +461,8 @@ export class FinalArrowComponent implements OnChanges {
       .attr('class', 'pointer')
       .attr('x1', (d, i) => this.getLegendDiamondX(i, legendGap, lineLength))
       .attr('x2', (d, i) => this.getLegendDiamondX(i, legendGap, lineLength))
-      .attr('y1', 2.5 * -this.bandwidth)
-      .attr('y2', pointerLengthRatio * -this.bandwidth)
+      .attr('y1', (2.5 * -this.bandwidth) / 2)
+      .attr('y2', (pointerLengthRatio * -this.bandwidth) / 2)
       .style('stroke', 'black');
 
     this.legendGroup
@@ -438,9 +471,93 @@ export class FinalArrowComponent implements OnChanges {
       .join('text')
       .attr('class', 'trend-label')
       .attr('x', (d, i) => this.getLegendDiamondX(i, legendGap, lineLength))
-      .attr('y', (pointerLengthRatio + 0.2) * -this.bandwidth)
+      .attr('y', ((pointerLengthRatio + 0.2) * -this.bandwidth) / 2)
       .attr('text-anchor', 'middle')
       .text((d) => d);
+  }
+
+  updateStratLabels(): void {
+    let data = [...new Set(this.data.map((d) => d.strat))].sort((a) =>
+      a.toLowerCase() === 'ethnicity' ? 1 : -1
+    );
+    data = data.length > 1 ? data : [];
+    const reverseData = [...this.data].reverse();
+    const strats = this.stratGroup
+      .selectAll('.strat-label')
+      .data(data)
+      .join('g')
+      .attr('class', 'strat-label');
+    const offset = -this.labelWidth - 30;
+    strats
+      .selectAll('text')
+      .data((d) => [d])
+      .join('text')
+      .text((d) => d)
+      .attr('x', offset)
+      .attr('y', (d) => this.getAverageY(d, reverseData))
+      .attr('transform', (d) => {
+        const y = this.getAverageY(d, reverseData);
+        return `rotate(-90, ${offset}, ${y})`;
+      });
+    strats
+      .selectAll('.strat-line')
+      .data((d) => [d])
+      .join('line')
+      .attr('class', 'strat-line')
+      .attr('x1', offset + stratLinePadding)
+      .attr('x2', offset + stratLinePadding)
+      .attr('y1', (d) => this.getY1(d) + this.stratPadding)
+      .attr('y2', (d) => this.getY2(d, reverseData) - this.stratPadding);
+
+    strats
+      .filter((_, i) => i > 0)
+      .selectAll('.strat-separator')
+      .data((d) => [d])
+      .join('line')
+      .attr('class', 'strat-separator')
+      .attr('x1', offset + stratLinePadding * 2)
+      .attr('x2', -this.stratPadding * 2)
+      .attr('y1', (d) => this.getY1(d))
+      .attr('y2', (d) => this.getY1(d));
+  }
+
+  getY1(d: string): number {
+    const strat = this.data.find((x) => x.strat === d);
+    return this.yScale(strat.strat + strat.stratVal);
+  }
+
+  getY2(d: string, reverseData: FinalRaceDatum[]): number {
+    const strat = reverseData.find((x) => x.strat === d);
+    return (
+      this.yScale(strat.strat + strat.stratVal) +
+      (this.yScale as any).bandwidth()
+    );
+  }
+
+  getAverageY(d: string, reverseData: FinalRaceDatum[]): number {
+    const y1 = this.getY1(d);
+    const y2 = this.getY2(d, reverseData);
+    const average = (y1 + y2) / 2;
+    return average;
+  }
+
+  updateNoDataLabels(): void {
+    const data = this.rollupData.filter(
+      (row) =>
+        row.length === 1 &&
+        row.some(
+          (d) => d.year === this.extents[0] || d.year === this.extents[1]
+        )
+    );
+
+    this.noDataGroup
+      .selectAll('.no-data-label')
+      .data(data)
+      .join('text')
+      .attr('class', 'no-data-label')
+      .text('no data available')
+      .attr('dx', '0.8em')
+      .attr('y', (d) => this.getY(d));
   }
 
   getLegendDiamondX(i: number, legendGap: number, lineLength: number): number {

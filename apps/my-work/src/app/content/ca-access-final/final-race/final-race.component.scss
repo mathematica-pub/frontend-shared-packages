@@ -1,0 +1,37 @@
+@use '../../ca/ca.scss';
+@use '../../ca/color.scss';
+@use '../../ca/vars.scss' as *;
+
+.image {
+  padding-top: 140px !important;
+  padding-left: 200px !important;
+}
+
+.strat-label {
+  text {
+    text-transform: uppercase;
+    text-anchor: middle;
+    font-size: $label-font-size;
+  }
+
+  line {
+    stroke: color.$stratLabelLine;
+    stroke-width: 2px;
+  }
+}
+
+.average {
+  stroke: white;
+}
+
+.average-label text {
+  alignment-baseline: middle;
+}
+
+.vic-axis-y-ordinal text {
+  transform: none;
+}
+
+.vic-stacked-bars-category-group {
+  fill: color.$goal; // final color in mlbColorRange
+}

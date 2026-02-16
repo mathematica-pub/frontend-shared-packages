@@ -20,5 +20,6 @@ items:
     - final-percentiles
     - final-plans
     - final-county
+    - final-race
   cda:
     - dd-choropleth

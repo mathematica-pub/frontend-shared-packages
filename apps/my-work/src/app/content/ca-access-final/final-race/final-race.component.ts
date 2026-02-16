@@ -5,35 +5,36 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { finalDataPath } from '../../ca/data-paths.constants';
-import { FinalRaceDatum } from '../final-race/final-race.component';
-import { FinalArrowComponent } from './final-arrow/final-arrow.component';
+import { FinalDatum } from '../final-vertical-stacked-bars.component';
+import { FinalRaceArrowComponent } from './final-race-arrow/final-race-arrow.component';
 
-export interface FinalCountyDatum extends FinalRaceDatum {
-  county: string;
+export interface FinalRaceDatum extends FinalDatum {
+  change: string;
+  year: string;
+  increased: boolean;
 }
 
 @Component({
-  selector: 'app-final-county',
+  selector: 'app-final-race',
   standalone: true,
   imports: [
     CommonModule,
     ExportContentComponent,
     ReactiveFormsModule,
-    FinalArrowComponent,
+    FinalRaceArrowComponent,
   ],
   providers: [CaChartService],
-  templateUrl: 'final-county.component.html',
-  styleUrl: './final-county.component.scss',
+  templateUrl: 'final-race.component.html',
+  styleUrl: './final-race.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class FinalCountyComponent implements OnInit {
-  chartName = 'Final County Chart';
+export class FinalRaceComponent implements OnInit {
+  chartName = 'Final Race Chart';
   finalDataPath = finalDataPath.stratified;
   filters = {
     measureCodes: [],
-    stratVals: [],
   };
-  filterTypes = ['measureCode', 'stratVal'];
+  filterTypes = ['measureCode'];
 
   constructor(public caChartService: CaChartService) {}
 
@@ -47,13 +48,12 @@ export class FinalCountyComponent implements OnInit {
     this.caChartService.init(caChartDataConfig);
   }
 
-  getTransformedData(data: FinalCountyDatum[]): FinalCountyDatum[] {
-    const transformed: FinalCountyDatum[] = data.map((x: any) => {
-      const obj: FinalCountyDatum = {
+  getTransformedData(data: FinalRaceDatum[]): FinalRaceDatum[] {
+    const transformed: FinalRaceDatum[] = data.map((x: any) => {
+      const obj: FinalRaceDatum = {
         series: 'percentile',
         measureCode: x.Measure_Code,
         units: x.Units,
-        county: x.County,
         directionality: x.Directionality,
         strat: x.STRAT,
         stratVal: x.StratVal,
@@ -64,13 +64,13 @@ export class FinalCountyComponent implements OnInit {
       };
       return obj;
     });
-    return transformed.filter((x: FinalCountyDatum) => {
+    return transformed.filter((x: FinalRaceDatum) => {
       const strat = x.strat.toLowerCase();
       return this.isMatchingStrat(strat);
     });
   }
 
   isMatchingStrat(strat: string): boolean {
-    return strat === 'null';
+    return strat.includes('race') || strat.includes('ethnicity');
   }
 }

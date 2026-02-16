@@ -141,7 +141,6 @@ export class MlbStackedBarsComponent
   }
 
   updateNoDataLabels(): void {
-    console.log('mlb counties  this.config.data', this.config.data);
     select(this.chart.svgRef.nativeElement)
       .select('.no-data-labels')
       .selectAll('.no-data-label')
