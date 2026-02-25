@@ -56,18 +56,19 @@ export class MlbPercentilesComponent implements OnInit {
         series: 'percentile',
         lob: x.LOB,
         comparison: x.Comparison === 'TRUE',
-        measureCode: x.Measure_Code,
+        measureCode: x.MSR,
         strat: x.STRAT,
         stratVal: x.StratVal_v2,
         units: x.Units,
         value:
-          x.MLB_25 && !isNaN(x.MLB_25) && x.MLB_75 && !isNaN(x.MLB_75)
-            ? Math.abs(x.MLB_75 - x.MLB_25)
+          x.p25 && !isNaN(x.p25) && x.p75 && !isNaN(x.p75)
+            ? Math.abs(x.p75 - x.p25)
             : null,
-        average: x.Value && !isNaN(x.Value) ? +x.Value : null,
+        average:
+          x.summary_value && !isNaN(x.summary_value) ? +x.summary_value : null,
         type: x.Type,
-        percentile25: x.MLB_25 && !isNaN(x.MLB_25) ? +x.MLB_25 : null,
-        percentile75: x.MLB_75 && !isNaN(x.MLB_75) ? +x.MLB_75 : null,
+        percentile25: x.p25 && !isNaN(x.p25) ? +x.p25 : null,
+        percentile75: x.p75 && !isNaN(x.p75) ? +x.p75 : null,
         directionality: x.Directionality,
       };
       return obj;

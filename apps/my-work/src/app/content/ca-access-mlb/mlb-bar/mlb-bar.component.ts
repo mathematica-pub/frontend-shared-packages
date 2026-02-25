@@ -94,14 +94,15 @@ export class MlbBarComponent implements OnInit {
     const transformed: MlbRaceDatum[] = data.map((x: any) => {
       const obj: MlbRaceDatum = {
         series: 'percentile',
-        measureCode: x.Measure_Code,
+        measureCode: x.MSR,
         units: x.Units,
         directionality: x.Directionality,
         strat: x.STRAT,
         stratVal: x.StratVal_v2,
         lob: x.LOB,
         comparison: x.Comparison === 'TRUE',
-        value: x.Value && !isNaN(x.Value) ? +x.Value : null,
+        value:
+          x.summary_value && !isNaN(x.summary_value) ? +x.summary_value : null,
         average: null,
       };
       return obj;

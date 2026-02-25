@@ -51,7 +51,7 @@ export class MlbRaceEthnicityComponent implements OnInit {
     const transformed: MlbRaceDatum[] = data.map((x: any) => {
       const obj: MlbRaceDatum = {
         series: 'percentile',
-        measureCode: x.Measure_Code,
+        measureCode: x.MSR,
         units: x.Units,
         directionality: x.Directionality,
         strat: x.STRAT,
@@ -59,7 +59,8 @@ export class MlbRaceEthnicityComponent implements OnInit {
         lob: x.LOB,
         comparison: x.Comparison === 'TRUE',
         value: null, // null to avoid bars
-        average: x.Value && !isNaN(x.Value) ? +x.Value : null,
+        average:
+          x.summary_value && !isNaN(x.summary_value) ? +x.summary_value : null,
       };
       return obj;
     });
