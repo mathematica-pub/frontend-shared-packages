@@ -52,10 +52,10 @@ export class MlbRaceEthnicityComponent implements OnInit {
       const obj: MlbRaceDatum = {
         series: 'percentile',
         measureCode: x.MSR,
-        units: x.Units,
+        units: x.UNITS,
         directionality: x.Directionality,
         strat: x.STRAT,
-        stratVal: x.StratVal_v2,
+        stratVal: x.STRATVAL,
         lob: x.LOB,
         comparison: x.Comparison === 'TRUE',
         value: null, // null to avoid bars

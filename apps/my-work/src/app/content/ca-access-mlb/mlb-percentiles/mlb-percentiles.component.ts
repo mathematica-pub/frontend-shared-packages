@@ -58,8 +58,8 @@ export class MlbPercentilesComponent implements OnInit {
         comparison: x.Comparison === 'TRUE',
         measureCode: x.MSR,
         strat: x.STRAT,
-        stratVal: x.StratVal_v2,
-        units: x.Units,
+        stratVal: x.STRATVAL,
+        units: x.UNITS,
         value:
           x.p25 && !isNaN(x.p25) && x.p75 && !isNaN(x.p75)
             ? Math.abs(x.p75 - x.p25)
