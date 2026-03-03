@@ -60,17 +60,22 @@ export class DotPlotService {
     const data = nonRollupData || this.rollupData;
     const units = data.find((category) => category.units !== null).units;
     const trueMax = this.trueMax || max(data, (d) => d.value);
-    let format = ',.0f';
+    let formatString = ',.0f';
     if (units === 'Percentage') {
       if (trueMax < 0.1) {
-        format = '.1%';
+        formatString = '.1%';
       } else {
-        format = '.0%';
+        formatString = '.0%';
       }
+    } else if (trueMax < 1) {
+      const decimalString = String(trueMax).split('.')[1];
+      const match = decimalString.match(/^0*/);
+      const decimals = match ? match[0].length : 0;
+      formatString = `.${decimals + 1}f`;
     } else if (trueMax < 10) {
-      format = ',.1f';
+      formatString = ',.1f';
     }
-    return format;
+    return formatString;
   }
 
   setHeight(dataAccessor: string): void {

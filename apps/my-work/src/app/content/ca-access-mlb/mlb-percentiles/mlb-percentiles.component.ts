@@ -66,15 +66,13 @@ export class MlbPercentilesComponent implements OnInit {
             : null,
         average:
           x.summary_value && !isNaN(x.summary_value) ? +x.summary_value : null,
-        type: x.Type,
+        type: x.type,
         percentile25: x.p25 && !isNaN(x.p25) ? +x.p25 : null,
         percentile75: x.p75 && !isNaN(x.p75) ? +x.p75 : null,
         directionality: x.Directionality,
       };
       return obj;
     });
-    return transformed.filter((x: MlbPercentilesDatum) => {
-      return x.strat === 'NULL' && x.comparison === false;
-    });
+    return transformed;
   }
 }
