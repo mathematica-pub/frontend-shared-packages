@@ -59,14 +59,14 @@ export class MlbPercentilesComponent implements OnInit {
         measureCode: x.MSR,
         strat: x.STRAT,
         stratVal: x.STRATVAL,
-        units: x.UNITS,
+        units: x.Unit,
         value:
           x.p25 && !isNaN(x.p25) && x.p75 && !isNaN(x.p75)
             ? Math.abs(x.p75 - x.p25)
             : null,
         average:
           x.summary_value && !isNaN(x.summary_value) ? +x.summary_value : null,
-        type: x.type,
+        type: x.Overall_Rate,
         percentile25: x.p25 && !isNaN(x.p25) ? +x.p25 : null,
         percentile75: x.p75 && !isNaN(x.p75) ? +x.p75 : null,
         directionality: x.Directionality,
