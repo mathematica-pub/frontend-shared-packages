@@ -6,8 +6,7 @@ import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordin
 import { DataMarksOptions } from '../../marks/config/marks-options';
 
 export interface StackedAreaOptions<Datum, CategoricalDomain extends DataValue>
-  extends DataMarksOptions<Datum>,
-    DataMarksOptions<Datum> {
+  extends DataMarksOptions<Datum>, DataMarksOptions<Datum> {
   color: OrdinalVisualValueDimension<Datum, CategoricalDomain, string>;
   categoricalOrder: CategoricalDomain[];
   curve: CurveFactory;
@@ -21,7 +20,7 @@ export interface StackedAreaOptions<Datum, CategoricalDomain extends DataValue>
     series: Series<
       [ContinuousValue, InternMap<CategoricalDomain, number>],
       CategoricalDomain
-    >,
+    >[],
     order: number[]
   ) => void;
   x: DateChartPositionDimension<Datum> | NumberChartPositionDimension<Datum>;
