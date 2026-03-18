@@ -1,4 +1,4 @@
-import { Directive, InjectionToken, TemplateRef } from '@angular/core';
+import { Directive, inject, InjectionToken, TemplateRef } from '@angular/core';
 import { MatTabContent } from '@angular/material/tabs';
 
 export const HSI_UI_TAB_CONTENT = new InjectionToken<MatTabContent>(
@@ -18,6 +18,7 @@ export const HSI_UI_TAB_CONTENT = new InjectionToken<MatTabContent>(
   ],
 })
 export class TabContentDirective {
+  /** Content for the tab. */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  constructor(/** Content for the tab. */ public template: TemplateRef<any>) {}
+  public template = inject(TemplateRef<any>);
 }

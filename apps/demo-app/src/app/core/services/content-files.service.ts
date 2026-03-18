@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   AdkDocumentationContentService,
   AdkNestedObject,
@@ -25,12 +25,9 @@ export class ContentFilesService {
   fileConfig$: Observable<{ config: AdkNestedObject; lib: Library }>;
   highlightTheme = ShikiTheme.CatppuccinLatte;
   content$: Observable<AdkParsedDocumentation>;
-
-  constructor(
-    private routerState: RouterStateService,
-    public configsService: ContentConfigService,
-    private adkContentService: AdkDocumentationContentService
-  ) {}
+  private routerState = inject(RouterStateService);
+  public configsService = inject(ContentConfigService);
+  private adkContentService = inject(AdkDocumentationContentService);
 
   initialize(): void {
     this.setFileConfig();

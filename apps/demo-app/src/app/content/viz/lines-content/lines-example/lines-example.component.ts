@@ -114,16 +114,13 @@ export class LinesExampleComponent implements OnInit {
   >('click');
   tooltipEvent$ = this.tooltipEvent.asObservable();
   private imageService = inject(VicImageDownloadService);
-
-  constructor(
-    private dataService: DataService,
-    public downloadService: VicDataExport,
-    private chart: VicChartConfigBuilder,
-    private lines: VicLinesConfigBuilder<MetroUnemploymentDatum>,
-    private xAxisQuantitative: VicXQuantitativeAxisConfigBuilder<Date>,
-    private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
-    private tooltip: VicHtmlTooltipConfigBuilder
-  ) {}
+  private dataService = inject(DataService);
+  public downloadService = inject(VicDataExport);
+  private chart = inject(VicChartConfigBuilder);
+  private lines = inject(VicLinesConfigBuilder<MetroUnemploymentDatum>);
+  private xAxisQuantitative = inject(VicXQuantitativeAxisConfigBuilder<Date>);
+  private yAxisQuantitative = inject(VicYQuantitativeAxisConfigBuilder<number>);
+  private tooltip = inject(VicHtmlTooltipConfigBuilder);
 
   ngOnInit(): void {
     this.vm$ = this.dataService.metroUnemploymentData$.pipe(

@@ -1,9 +1,9 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 @Injectable()
 export class ListboxScrollService {
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  private document = inject(DOCUMENT);
 
   isElementInView(element: HTMLElement): boolean {
     const bounding = element.getBoundingClientRect();

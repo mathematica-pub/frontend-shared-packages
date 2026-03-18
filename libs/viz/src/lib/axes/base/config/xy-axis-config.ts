@@ -7,9 +7,9 @@ import { Ticks } from '../../ticks/ticks';
 import { XyAxisBaseOptions } from './xy-axis-options';
 
 export abstract class XyAxisConfig<
-    Tick extends DataValue,
-    TicksConfig extends Ticks<Tick>,
-  >
+  Tick extends DataValue,
+  TicksConfig extends Ticks<Tick>,
+>
   extends AuxMarksConfig
   implements XyAxisBaseOptions
 {

@@ -6,7 +6,7 @@ import {
   ContentChild,
   DestroyRef,
   ElementRef,
-  Inject,
+  inject,
   NgZone,
   TemplateRef,
   ViewChild,
@@ -33,14 +33,11 @@ export class ContentContainerComponent implements AfterViewInit {
   @ContentChild('customAngular', { static: false })
   customAngularTemplateRef: TemplateRef<unknown>;
   ContentSection = ContentSection;
-
-  constructor(
-    public contentService: ContentFilesService,
-    private activeHeading: AdkActiveHeadingTracker,
-    private zone: NgZone,
-    private destroyRef: DestroyRef,
-    @Inject(DOCUMENT) private document: Document
-  ) {}
+  public contentService = inject(ContentFilesService);
+  private activeHeading = inject(AdkActiveHeadingTracker);
+  private zone = inject(NgZone);
+  private destroyRef = inject(DestroyRef);
+  private document = inject(DOCUMENT);
 
   ngAfterViewInit(): void {
     this.activeHeading.initScrollListener(

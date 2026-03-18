@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   OnInit,
   ViewEncapsulation,
@@ -61,12 +62,17 @@ export class EnergyIntensityBarComponent implements OnInit {
   followVarUnits: string;
   chartHeight = 3000;
 
-  constructor(
-    private chart: VicChartConfigBuilder,
-    private bars: VicBarsConfigBuilder<EnergyIntensityDatum, string>,
-    private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
-    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>
-  ) {}
+  private chart = inject(VicChartConfigBuilder);
+  private bars =
+    inject<VicBarsConfigBuilder<EnergyIntensityDatum, string>>(
+      VicBarsConfigBuilder
+    );
+  private xQuantitativeAxis = inject<VicXQuantitativeAxisConfigBuilder<number>>(
+    VicXQuantitativeAxisConfigBuilder
+  );
+  private yOrdinalAxis = inject<VicYOrdinalAxisConfigBuilder<string>>(
+    VicYOrdinalAxisConfigBuilder
+  );
 
   ngOnInit(): void {
     this.setProperties();

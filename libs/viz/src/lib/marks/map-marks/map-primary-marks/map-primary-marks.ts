@@ -11,9 +11,9 @@ import { PrimaryMarks } from '../../primary-marks/primary-marks';
  */
 @Directive()
 export abstract class MapPrimaryMarks<
-    Datum,
-    TPrimaryMarksConfig extends MarksConfig,
-  >
+  Datum,
+  TPrimaryMarksConfig extends MarksConfig,
+>
   extends PrimaryMarks<Datum, TPrimaryMarksConfig>
   implements OnInit
 {

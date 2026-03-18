@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   MatButtonToggleChange,
   MatButtonToggleModule,
@@ -122,17 +122,13 @@ export class GeographiesExampleComponent implements OnInit {
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
   featureIndexAccessor = (d: GeographiesFeature<MapGeometryProperties>) =>
     d.properties.name;
-
-  constructor(
-    private dataService: DataService,
-    private basemap: BasemapService,
-    private chart: VicChartConfigBuilder,
-    private geographies: VicGeographiesConfigBuilder<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >,
-    private tooltip: VicHtmlTooltipConfigBuilder
-  ) {}
+  private dataService = inject(DataService);
+  private basemap = inject(BasemapService);
+  private chart = inject(VicChartConfigBuilder);
+  private geographies = inject(
+    VicGeographiesConfigBuilder<StateIncomeDatum, MapGeometryProperties>
+  );
+  private tooltip = inject(VicHtmlTooltipConfigBuilder);
 
   ngOnInit(): void {
     const filteredData$ = combineLatest([

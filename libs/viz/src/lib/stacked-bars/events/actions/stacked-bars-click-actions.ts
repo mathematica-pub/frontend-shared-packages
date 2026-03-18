@@ -6,12 +6,10 @@ import { StackedBarsHost } from '../stacked-bars-events.directive';
 export class StackedBarsClickEmitTooltipDataPauseOtherActions<
   Datum,
   TOrdinalValue extends DataValue,
-> implements
-    EventAction<
-      StackedBarsHost<Datum, TOrdinalValue>,
-      BarsInteractionOutput<Datum>
-    >
-{
+> implements EventAction<
+  StackedBarsHost<Datum, TOrdinalValue>,
+  BarsInteractionOutput<Datum>
+> {
   onStart(host: StackedBarsHost<Datum, TOrdinalValue>) {
     const outputData = host.getInteractionOutput(EventType.Click);
     host.disableOtherActions(EventType.Click);

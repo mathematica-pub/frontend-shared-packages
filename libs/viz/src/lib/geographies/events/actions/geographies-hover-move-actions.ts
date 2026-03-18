@@ -2,10 +2,12 @@ import { EventType, HoverMoveAction } from '../../../events';
 import { GeographiesHost } from '../geographies-events.directive';
 import { GeographiesInteractionOutput } from '../geographies-interaction-output';
 
-export class GeographiesHoverMoveEmitTooltipData<Datum>
-  implements
-    HoverMoveAction<GeographiesHost<Datum>, GeographiesInteractionOutput<Datum>>
-{
+export class GeographiesHoverMoveEmitTooltipData<
+  Datum,
+> implements HoverMoveAction<
+  GeographiesHost<Datum>,
+  GeographiesInteractionOutput<Datum>
+> {
   onStart(host: GeographiesHost<Datum>): void {
     const outputData = host.getInteractionOutput(EventType.HoverMove);
     host.emitInteractionOutput(outputData);

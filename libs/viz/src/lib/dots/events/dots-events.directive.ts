@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
 import { map, Observable } from 'rxjs';
 import {
@@ -54,9 +54,7 @@ export class DotsEventsDirective<
   dotDatum: DotDatum;
   origin: SVGCircleElement;
 
-  constructor(@Inject(DOTS) public dots: TDotsComponent) {
-    super();
-  }
+  public dots = inject<TDotsComponent>(DOTS);
 
   get marks(): DotsComponent<Datum> {
     return this.dots;

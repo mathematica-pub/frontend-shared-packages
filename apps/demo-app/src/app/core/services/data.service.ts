@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, map, shareReplay } from 'rxjs';
 import {
   IndustryUnemploymentDatum,
@@ -16,8 +16,7 @@ export class DataService {
   industryUnemploymentData$: Observable<IndustryUnemploymentDatum[]>;
   stateIncomeData$: Observable<StateIncomeDatum[]>;
   weatherData$: Observable<WeatherDatum[]>;
-
-  constructor(private data: DataResource) {}
+  private data = inject(DataResource);
 
   initData(): void {
     this.setMetroUnemploymentData();

@@ -1,9 +1,9 @@
 import { EventType, HoverMoveAction } from '../../../events';
 import { DotsHost } from '../dots-events.directive';
 
-export class DotsHoverMoveDefaultStyles<Datum>
-  implements HoverMoveAction<DotsHost<Datum>>
-{
+export class DotsHoverMoveDefaultStyles<Datum> implements HoverMoveAction<
+  DotsHost<Datum>
+> {
   onStart(host: DotsHost<Datum>): void {
     host.marks.dotGroups
       .filter((d) => d.index !== host.getDotDatum().index)
@@ -24,9 +24,9 @@ export class DotsHoverMoveDefaultStyles<Datum>
   }
 }
 
-export class DotsHoverMoveEmitTooltipData<Datum>
-  implements HoverMoveAction<DotsHost<Datum>>
-{
+export class DotsHoverMoveEmitTooltipData<Datum> implements HoverMoveAction<
+  DotsHost<Datum>
+> {
   onStart(host: DotsHost<Datum>): void {
     const output = host.getInteractionOutput(EventType.HoverMove);
     host.emitInteractionOutput(output);

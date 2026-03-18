@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   AdkShikiHighlighter,
@@ -15,12 +15,9 @@ import { from, map, mergeMap, Observable, switchMap } from 'rxjs';
 })
 export class ExamplesFilesService {
   files: { [name: string]: Observable<SafeHtml> } = {}; // this requires all examples to have unique names
-
-  constructor(
-    private http: HttpClient,
-    private highlighter: AdkShikiHighlighter,
-    private sanitizer: DomSanitizer
-  ) {}
+  private http = inject(HttpClient);
+  private highlighter = inject(AdkShikiHighlighter);
+  private sanitizer = inject(DomSanitizer);
 
   getComponentCode(name: string, shikiTheme: ShikiTheme): Observable<SafeHtml> {
     if (!this.files[name]) {

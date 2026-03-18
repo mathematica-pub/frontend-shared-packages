@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  TemplateRef,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { ComboboxService } from '../combobox.service';
 
 let nextUniqueId = 0;
@@ -17,8 +23,9 @@ export class ListboxLabelComponent {
   @ViewChild('label') labelContent: TemplateRef<unknown>;
   @ViewChild('text') label: ElementRef<HTMLParagraphElement>;
   id: string;
+  private service = inject(ComboboxService);
 
-  constructor(private service: ComboboxService) {
+  constructor() {
     this.id = `${this.service.id}-listbox-label-${nextUniqueId++}`;
   }
 }

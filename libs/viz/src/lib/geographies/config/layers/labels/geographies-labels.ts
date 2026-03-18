@@ -13,8 +13,7 @@ import {
 export class GeographiesLabels<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
-> implements GeographiesLabelsOptions<TProperties, TGeometry>
-{
+> implements GeographiesLabelsOptions<TProperties, TGeometry> {
   alignmentBaseline: CSSType.Property.AlignmentBaseline;
   color: GeographiesLabelsColorOptions | CSSType.Property.Fill;
   cursor: CSSType.Property.Cursor;

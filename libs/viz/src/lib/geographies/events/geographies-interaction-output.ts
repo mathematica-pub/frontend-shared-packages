@@ -3,8 +3,7 @@ import { HtmlTooltipCdkManagedPosition } from '../../tooltips';
 import { GeographiesTooltipDatum } from '../config/layers/geographies-layer/geographies-layer';
 
 export interface GeographiesInteractionOutput<Datum>
-  extends InteractionOutput,
-    GeographiesTooltipDatum<Datum> {
+  extends InteractionOutput, GeographiesTooltipDatum<Datum> {
   /**
    * A method that positions the tooltip with a user specified offset from the tooltip's anchor point.
    *

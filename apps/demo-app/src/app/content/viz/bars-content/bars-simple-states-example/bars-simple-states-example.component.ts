@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   OnInit,
 } from '@angular/core';
@@ -78,15 +79,12 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
   @Input() usePosNegData = false;
   @Input() useLongLabelsAndWrap = false;
   vm: ViewModel;
-
-  constructor(
-    private chart: VicChartConfigBuilder,
-    private bars: VicBarsConfigBuilder<LocationCategoryDatum, string>,
-    private xOrdinalAxis: VicXOrdinalAxisConfigBuilder<string>,
-    private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
-    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<number>,
-    private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>
-  ) {}
+  private chart = inject(VicChartConfigBuilder);
+  private bars = inject(VicBarsConfigBuilder<LocationCategoryDatum, string>);
+  private xOrdinalAxis = inject(VicXOrdinalAxisConfigBuilder<string>);
+  private xQuantitativeAxis = inject(VicXQuantitativeAxisConfigBuilder<number>);
+  private yOrdinalAxis = inject(VicYOrdinalAxisConfigBuilder<number>);
+  private yQuantitativeAxis = inject(VicYQuantitativeAxisConfigBuilder<number>);
 
   ngOnInit(): void {
     this.getViewModel();

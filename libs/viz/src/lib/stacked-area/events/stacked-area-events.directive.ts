@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, Output, inject } from '@angular/core';
 import { InternSet, least } from 'd3';
 import { Observable, map } from 'rxjs';
 import { ContinuousValue, DataValue } from '../../core/types/values';
@@ -21,10 +21,8 @@ import { StackedAreaTooltipPositioner } from './stacked-area-tooltip-positioner'
 export type StackedAreaHost<
   Datum,
   TCategoricalValue extends DataValue,
-  TStackedAreaComponent extends StackedAreaComponent<
-    Datum,
-    TCategoricalValue
-  > = StackedAreaComponent<Datum, TCategoricalValue>,
+  TStackedAreaComponent extends StackedAreaComponent<Datum, TCategoricalValue> =
+    StackedAreaComponent<Datum, TCategoricalValue>,
 > = MarksHost<
   StackedAreaInteractionOutput<Datum, TCategoricalValue>,
   TStackedAreaComponent
@@ -34,13 +32,11 @@ export type StackedAreaHost<
   selector: '[vicStackedAreaEvents]',
 })
 export class StackedAreaEventsDirective<
-    Datum,
-    TCategoricalValue extends DataValue,
-    TStackedAreaComponent extends StackedAreaComponent<
-      Datum,
-      TCategoricalValue
-    > = StackedAreaComponent<Datum, TCategoricalValue>,
-  >
+  Datum,
+  TCategoricalValue extends DataValue,
+  TStackedAreaComponent extends StackedAreaComponent<Datum, TCategoricalValue> =
+    StackedAreaComponent<Datum, TCategoricalValue>,
+>
   extends EventsDirective<StackedAreaHost<Datum, TCategoricalValue>>
   implements StackedAreaHost<Datum, TCategoricalValue>
 {
@@ -73,9 +69,7 @@ export class StackedAreaEventsDirective<
   categoryYMax: number;
   categoryIndex: number;
 
-  constructor(@Inject(STACKED_AREA) public stackedArea: TStackedAreaComponent) {
-    super();
-  }
+  public stackedArea = inject<TStackedAreaComponent>(STACKED_AREA);
 
   get marks(): StackedAreaComponent<Datum, TCategoricalValue> {
     return this.stackedArea;

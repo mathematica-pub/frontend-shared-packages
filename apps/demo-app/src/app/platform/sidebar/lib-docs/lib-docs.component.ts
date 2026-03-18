@@ -2,6 +2,7 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   OnInit,
   ViewEncapsulation,
@@ -46,13 +47,10 @@ export class LibDocsComponent implements OnInit {
   customDocs$: Observable<ContentDocs>;
   Section = Section;
   Library = Library;
-
-  constructor(
-    private titleCase: TitleCasePipe,
-    public routerState: RouterStateService,
-    private assets: AdkAssetsService,
-    private configService: ContentConfigService
-  ) {}
+  private titleCase = inject(TitleCasePipe);
+  public routerState = inject(RouterStateService);
+  private assets = inject(AdkAssetsService);
+  private configService = inject(ContentConfigService);
 
   ngOnInit(): void {
     this.initCustomDocumentation();

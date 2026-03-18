@@ -4,6 +4,7 @@ import {
   ContentChild,
   ContentChildren,
   QueryList,
+  inject,
 } from '@angular/core';
 import { Observable, map, startWith } from 'rxjs';
 import { ComboboxService } from '../combobox.service';
@@ -24,7 +25,7 @@ export class ListboxGroupComponent implements AfterContentInit {
   options: QueryList<ListboxOptionComponent>;
   options$: Observable<ListboxOptionComponent[]>;
 
-  constructor(public service: ComboboxService) {}
+  public service = inject(ComboboxService);
 
   ngAfterContentInit(): void {
     this.options$ = this.options.changes.pipe(

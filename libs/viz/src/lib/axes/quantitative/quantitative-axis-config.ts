@@ -7,8 +7,9 @@ import { XyAxisBaseOptions } from '../base/config/xy-axis-options';
 import { QuantitativeTicks } from '../ticks/ticks';
 import { QuantitativeTicksOptions } from '../ticks/ticks-options';
 
-export interface VicQuantitativeAxisOptions<Tick extends ContinuousValue>
-  extends XyAxisBaseOptions {
+export interface VicQuantitativeAxisOptions<
+  Tick extends ContinuousValue,
+> extends XyAxisBaseOptions {
   ticks: QuantitativeTicksOptions<Tick>;
 }
 

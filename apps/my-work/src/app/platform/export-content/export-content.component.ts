@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   Input,
   ViewChild,
 } from '@angular/core';
@@ -35,7 +36,7 @@ export class ExportContentComponent {
   @ViewChild('image') image: ElementRef<HTMLElement>;
   id = uniqueId++;
 
-  constructor(private imageService: VicImageDownloadService) {}
+  private imageService = inject(VicImageDownloadService);
 
   async downloadImage(): Promise<void> {
     const imageConfig = this.getConfig({

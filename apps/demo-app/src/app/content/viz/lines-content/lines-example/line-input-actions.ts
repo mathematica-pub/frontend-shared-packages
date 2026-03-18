@@ -5,9 +5,9 @@ import {
   LinesMarkerDatum,
 } from '@mathstack/viz';
 
-export class HighlightLineForLabel<Datum>
-  implements InputEventAction<LinesHost<Datum>>
-{
+export class HighlightLineForLabel<Datum> implements InputEventAction<
+  LinesHost<Datum>
+> {
   onStart(host: LinesHost<Datum>, label: string): void {
     host.marks.lineGroups
       .filter(([category]): boolean => label === category)

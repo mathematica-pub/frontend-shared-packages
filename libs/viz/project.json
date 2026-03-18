@@ -24,9 +24,7 @@
         }
       },
       "defaultConfiguration": "production",
-      "outputs": [
-        "{workspaceRoot}/dist/viz"
-      ]
+      "outputs": ["{workspaceRoot}/dist/viz"]
     },
     "build-release": {
       "executor": "nx:run-commands",
@@ -60,14 +58,9 @@
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
-        "lintFilePatterns": [
-          "libs/viz/**/*.ts",
-          "libs/viz/**/*.html"
-        ]
+        "lintFilePatterns": ["libs/viz/**/*.ts", "libs/viz/**/*.html"]
       },
-      "outputs": [
-        "{options.outputFile}"
-      ]
+      "outputs": ["{options.outputFile}"]
     },
     "component-test": {
       "executor": "@nx/cypress:cypress",
@@ -96,19 +89,8 @@
         "preset": "angular",
         "skipCommit": true,
         "skipRootChangelog": true,
-        "postTargets": [
-          "build-release",
-          "publish",
-          "github-release"
-        ],
-        "skipCommitTypes": [
-          "build",
-          "ci",
-          "docs",
-          "refactor",
-          "style",
-          "test"
-        ]
+        "postTargets": ["build-release", "publish", "github-release"],
+        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
       }
     }
   }

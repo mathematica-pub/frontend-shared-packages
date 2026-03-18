@@ -6,12 +6,10 @@ import { BarsInteractionOutput } from '../bars-interaction-output';
 export class BarsHoverMoveEmitTooltipData<
   Datum,
   TOrdinalValue extends DataValue,
-> implements
-    HoverMoveAction<
-      BarsHost<Datum, TOrdinalValue>,
-      BarsInteractionOutput<Datum>
-    >
-{
+> implements HoverMoveAction<
+  BarsHost<Datum, TOrdinalValue>,
+  BarsInteractionOutput<Datum>
+> {
   onStart(host: BarsHost<Datum, TOrdinalValue>): void {
     const output = host.getInteractionOutput(EventType.HoverMove);
     host.emitInteractionOutput(output);

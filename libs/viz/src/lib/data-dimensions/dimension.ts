@@ -2,9 +2,10 @@ import { map } from 'd3';
 import { DataValue } from '../core/types/values';
 import { DataDimensionOptions } from './dimension-options';
 
-export abstract class DataDimension<Datum, TDataValue extends DataValue>
-  implements DataDimensionOptions<Datum, TDataValue>
-{
+export abstract class DataDimension<
+  Datum,
+  TDataValue extends DataValue,
+> implements DataDimensionOptions<Datum, TDataValue> {
   readonly dimensionType: 'number' | 'ordinal' | 'date';
   readonly formatFunction: (d: Datum) => string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

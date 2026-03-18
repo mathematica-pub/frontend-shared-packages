@@ -3,8 +3,7 @@ import { HtmlTooltipCdkManagedPosition } from '../../tooltips';
 import { LinesTooltipDatum } from '../lines.component';
 
 export interface LinesInteractionOutput<Datum>
-  extends LinesTooltipDatum<Datum>,
-    InteractionOutput {
+  extends LinesTooltipDatum<Datum>, InteractionOutput {
   /**
    * A method that positions the tooltip with a user specified offset from the tooltip's anchor point.
    *

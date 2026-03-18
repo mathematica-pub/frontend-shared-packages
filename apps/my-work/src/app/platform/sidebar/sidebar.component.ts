@@ -1,5 +1,5 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   HsiUiDirectoryComponent,
@@ -27,11 +27,8 @@ export class SidebarComponent implements OnInit {
   contentItems$: Observable<{ title: string; items: HsiUiDirectoryItem[] }>;
   docsItems$: Observable<{ title: string; items: HsiUiDirectoryItem[] }>;
 
-  constructor(
-    public routerState: RouterStateService,
-
-    private configService: DirectoryConfigsService
-  ) {}
+  public routerState = inject(RouterStateService);
+  private configService = inject(DirectoryConfigsService);
 
   ngOnInit(): void {
     this.initDirectoryItems();

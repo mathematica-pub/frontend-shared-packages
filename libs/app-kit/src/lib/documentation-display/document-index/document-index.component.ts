@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  inject,
   Input,
   Output,
 } from '@angular/core';
@@ -23,7 +24,7 @@ export class AdkDocumentIndexComponent {
     event: KeyboardEvent | PointerEvent | MouseEvent | Event;
   }>();
 
-  constructor(public activeHeadingTracker: AdkActiveHeadingTracker) {}
+  public activeHeadingTracker = inject(AdkActiveHeadingTracker);
 
   setActiveHeading(
     event: KeyboardEvent | PointerEvent | MouseEvent | Event,

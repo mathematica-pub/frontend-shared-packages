@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { filter, map, Observable } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
 import { SinglePanelExampleDisplayComponent } from '../../../platform/single-panel-example-display/single-panel-example-display.component';
@@ -23,8 +28,7 @@ import {
 })
 export class OverviewContentComponent implements OnInit {
   data$: Observable<MetroUnemploymentDatum[]>;
-
-  constructor(private dataService: DataService) {}
+  private dataService = inject(DataService);
 
   ngOnInit() {
     this.data$ = this.dataService.metroUnemploymentData$.pipe(
