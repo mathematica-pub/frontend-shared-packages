@@ -48,7 +48,7 @@ export type GeographiesSvgElement = 'layer' | 'g' | 'feature' | 'label';
   ],
   host: {
     '[class]': 'config.marksClass',
-    '[style.mixed-blend-mode]': 'config.blendMode',
+    '[style.mixed-blend-mode]': 'config.mixBlendMode',
   },
 })
 export class GeographiesComponent<
