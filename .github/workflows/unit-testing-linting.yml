@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Verify nonexistence of @mathstack in package.json
         run: |
@@ -47,10 +47,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 24
 
-      - name: Upgrade npm to v9+
-        run: npm install -g npm@9
+      - name: Upgrade npm to v11+
+        run: npm install -g npm@11.9.0
 
       - name: Install Dependencies
         run: npm ci
@@ -71,10 +71,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 24
 
-      - name: Upgrade npm to v9+
-        run: npm install -g npm@9
+      - name: Upgrade npm to v11+
+        run: npm install -g npm@11.9.0
 
       - name: Install Dependencies
         run: npm ci
@@ -95,10 +95,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 24
 
-      - name: Upgrade npm to v9+
-        run: npm install -g npm@9
+      - name: Upgrade npm to v11+
+        run: npm install -g npm@11.9.0
 
       - name: Install Dependencies
         run: |
@@ -121,10 +121,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 24
 
-      - name: Upgrade npm to v9+
-        run: npm install -g npm@9
+      - name: Upgrade npm to v11+
+        run: npm install -g npm@11.9.0
 
       - name: Install Dependencies
         run: npm ci
