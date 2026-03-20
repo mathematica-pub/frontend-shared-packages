@@ -1,4 +1,3 @@
-import { Directive } from '@angular/core';
 import { safeAssign } from '@mathstack/app-kit';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { ContinuousValue } from '../../core/types/values';
@@ -17,7 +16,6 @@ export function mixinQuantitativeAxisConfig<
   Tick extends ContinuousValue,
   T extends AbstractConstructor<XyAxisConfig<Tick, QuantitativeTicks<Tick>>>,
 >(Base: T) {
-  @Directive()
   abstract class Mixin
     extends Base
     implements VicQuantitativeAxisOptions<Tick>

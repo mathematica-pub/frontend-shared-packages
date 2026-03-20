@@ -1,4 +1,3 @@
-import { Directive } from '@angular/core';
 import { safeAssign } from '@mathstack/app-kit';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
@@ -17,7 +16,6 @@ export function mixinOrdinalAxisConfig<
   Tick extends DataValue,
   T extends AbstractConstructor<XyAxisConfig<Tick, Ticks<Tick>>>,
 >(Base: T) {
-  @Directive()
   abstract class Mixin extends Base implements VicOrdinalAxisOptions<Tick> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(...args: any[]) {

@@ -1,4 +1,3 @@
-import { Directive } from '@angular/core';
 import { safeAssign } from '@mathstack/app-kit';
 import { DataValue } from '../../core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
@@ -18,7 +17,6 @@ export function mixinYAxisConfig<
   TicksConfig extends Ticks<Tick>,
   T extends AbstractConstructor<XyAxisConfig<Tick, TicksConfig>>,
 >(Base: T) {
-  @Directive()
   abstract class Mixin extends Base implements YAxisOptions {
     side: 'left' | 'right';
 
