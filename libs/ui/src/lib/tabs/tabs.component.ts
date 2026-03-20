@@ -27,8 +27,12 @@ export class TabsComponent<T> implements AfterContentInit {
   tabItems$: Observable<TabItemComponent<T>[]>;
   tabChanges$: Observable<boolean[]>;
 
-  public service = inject(TabsService<T>);
+  public readonly service: TabsService<T>;
   private destroyRef = inject(DestroyRef);
+
+  constructor() {
+    this.service = inject(TabsService<T>);
+  }
 
   ngAfterContentInit(): void {
     this.tabItems$ = this.tabs.changes.pipe(
