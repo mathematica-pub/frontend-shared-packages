@@ -1,86 +1,90 @@
-<div class="lines-example" *ngIf="vm$ | async as vm; else loading">
-  <button class="download-button" (click)="downloadImage()"
-    >download image as jpeg</button
-  >
-  <button class="download-button" (click)="saveCsv(vm.dataConfig.data)"
-    >download as csv</button
-  >
-  <div #imageNode>
-    <p class="effect-title">Select a tooltip display event</p>
-    <mat-button-toggle-group
-      name="tooltipEvent"
-      [hideSingleSelectionIndicator]="true"
-      aria-label="Tooltip Event"
-      [value]="tooltipEvent$ | async"
-      (change)="onEventToggleChange($event)"
+@if (vm$ | async; as vm) {
+  <div class="lines-example">
+    <button class="download-button" (click)="downloadImage()"
+      >download image as jpeg</button
     >
-      <mat-button-toggle value="hover">On Hover</mat-button-toggle>
-      <mat-button-toggle value="click">On Hover and Click</mat-button-toggle>
-    </mat-button-toggle-group>
-    <div class="input-event-container">
-      <p class="input-event-title">Lines Input Event example</p>
-      <p class="input-event-instruction"
-        >Hover any name to see chart interaction</p
+    <button class="download-button" (click)="saveCsv(vm.dataConfig.data)"
+      >download as csv</button
+    >
+    <div #imageNode>
+      <p class="effect-title">Select a tooltip display event</p>
+      <mat-button-toggle-group
+        name="tooltipEvent"
+        [hideSingleSelectionIndicator]="true"
+        aria-label="Tooltip Event"
+        [value]="tooltipEvent$ | async"
+        (change)="onEventToggleChange($event)"
       >
-      <div class="line-labels-container">
-        <p
-          class="line-label"
-          *ngFor="let label of vm.labels"
-          [style.paddingLeft.px]="margin.left"
-          (mouseenter)="highlightLine(label)"
-          (mouseleave)="highlightLine(null)"
-          >{{ label }}</p
+        <mat-button-toggle value="hover">On Hover</mat-button-toggle>
+        <mat-button-toggle value="click">On Hover and Click</mat-button-toggle>
+      </mat-button-toggle-group>
+      <div class="input-event-container">
+        <p class="input-event-title">Lines Input Event example</p>
+        <p class="input-event-instruction"
+          >Hover any name to see chart interaction</p
         >
+        <div class="line-labels-container">
+          @for (label of vm.labels; track $index) {
+            <p
+              class="line-label"
+              [style.paddingLeft.px]="margin.left"
+              (mouseenter)="highlightLine(label)"
+              (mouseleave)="highlightLine(null)"
+              >{{ label }}</p
+            >
+          }
+        </div>
       </div>
-    </div>
-    <vic-xy-chart [config]="vm.chartConfig" #tooltipOrigin>
-      <ng-container svg-elements>
-        <svg:g vic-xy-background></svg:g>
+      <vic-xy-chart [config]="vm.chartConfig" #tooltipOrigin>
+        <ng-container svg-elements>
+          <svg:g vic-xy-background></svg:g>
 
-        @if ((tooltipEvent$ | async) === 'hover') {
-          <svg:g
-            vic-primary-marks-lines
-            [config]="vm.dataConfig"
-            vicLinesEvents
-            [hoverMoveActions]="hoverMoveActions"
-            [inputEventActions]="[highlightLineForLabelAction]"
-            [inputEvent$]="chartInputEvent$"
-            (interactionOutput)="updateTooltipForNewOutput($event)"
-          >
-            <vic-html-tooltip
-              [config]="tooltipConfig$ | async"
-              [template]="htmlTooltip"
-            ></vic-html-tooltip>
-          </svg:g>
-        } @else {
-          <svg:g
-            vic-primary-marks-lines
-            [config]="vm.dataConfig"
-            vicLinesEvents
-            [hoverMoveActions]="hoverMoveActions"
-            [clickActions]="clickActions"
-            [clickRemoveEvent$]="removeTooltipEvent$"
-            [inputEventActions]="[highlightLineForLabelAction]"
-            [inputEvent$]="chartInputEvent$"
-            (interactionOutput)="updateTooltipForNewOutput($event)"
-          >
-            <vic-html-tooltip
-              [config]="tooltipConfig$ | async"
-              [template]="htmlTooltip"
-              (backdropClick)="onBackdropClick()"
-            ></vic-html-tooltip>
-          </svg:g>
-        }
-        <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
-        <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig"></svg:g>
-      </ng-container>
-    </vic-xy-chart>
+          @if ((tooltipEvent$ | async) === 'hover') {
+            <svg:g
+              vic-primary-marks-lines
+              [config]="vm.dataConfig"
+              vicLinesEvents
+              [hoverMoveActions]="hoverMoveActions"
+              [inputEventActions]="[highlightLineForLabelAction]"
+              [inputEvent$]="chartInputEvent$"
+              (interactionOutput)="updateTooltipForNewOutput($event)"
+            >
+              <vic-html-tooltip
+                [config]="tooltipConfig$ | async"
+                [template]="htmlTooltip"
+              ></vic-html-tooltip>
+            </svg:g>
+          } @else {
+            <svg:g
+              vic-primary-marks-lines
+              [config]="vm.dataConfig"
+              vicLinesEvents
+              [hoverMoveActions]="hoverMoveActions"
+              [clickActions]="clickActions"
+              [clickRemoveEvent$]="removeTooltipEvent$"
+              [inputEventActions]="[highlightLineForLabelAction]"
+              [inputEvent$]="chartInputEvent$"
+              (interactionOutput)="updateTooltipForNewOutput($event)"
+            >
+              <vic-html-tooltip
+                [config]="tooltipConfig$ | async"
+                [template]="htmlTooltip"
+                (backdropClick)="onBackdropClick()"
+              ></vic-html-tooltip>
+            </svg:g>
+          }
+          <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
+          <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig"></svg:g>
+        </ng-container>
+      </vic-xy-chart>
+    </div>
   </div>
-</div>
-<ng-template #loading>Loading...</ng-template>
+} @else {
+  <ng-template #loading>Loading...</ng-template>
+}
 
 <ng-template #htmlTooltip>
-  <ng-container *ngIf="interactionOutput$ | async as interactionOutput">
+  @if (interactionOutput$ | async; as interactionOutput) {
     <div
       [style.--color]="interactionOutput.color"
       class="lines-example-tooltip-container"
@@ -98,9 +102,9 @@
             <span class="value-label">Value</span>
             {{ interactionOutput.values.y }}
           </p>
-        </div></div
-      >
+        </div>
+      </div>
       <vic-tooltip-triangle></vic-tooltip-triangle>
     </div>
-  </ng-container>
+  }
 </ng-template>

@@ -316,17 +316,21 @@ describe('Multi-select combobox with a show selected count label', () => {
           <hsi-ui-listbox-label>
             <span>Group 1</span>
           </hsi-ui-listbox-label>
-          <hsi-ui-listbox-option *ngFor="let option of options1">{{
-            option.displayName
-          }}</hsi-ui-listbox-option>
+          @for (option of options1; track option.id) {
+            <hsi-ui-listbox-option>{{
+              option.displayName
+            }}</hsi-ui-listbox-option>
+          }
         </hsi-ui-listbox-group>
         <hsi-ui-listbox-group>
           <hsi-ui-listbox-label>
             <span>Group 2</span>
           </hsi-ui-listbox-label>
-          <hsi-ui-listbox-option *ngFor="let option of options2">{{
-            option.displayName
-          }}</hsi-ui-listbox-option>
+          @for (option of options1; track option.id) {
+            <hsi-ui-listbox-option>{{
+              option.displayName
+            }}</hsi-ui-listbox-option>
+          }
         </hsi-ui-listbox-group>
       </hsi-ui-listbox>
     </hsi-ui-combobox>

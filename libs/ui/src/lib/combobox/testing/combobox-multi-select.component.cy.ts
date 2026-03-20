@@ -37,22 +37,25 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option *ngFor="let option of options"
-          ><span
-            aria-hidden="true"
-            class="material-symbols-outlined icon checkbox"
-            selectedIcon
-          >
-            check_box
-          </span>
-          <span
-            unselectedIcon
-            aria-hidden="true"
-            class="material-symbols-outlined icon checkbox"
-          >
-            check_box_outline_blank </span
-          >{{ option.displayName }}</hsi-ui-listbox-option
-        >
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>
+            <span
+              aria-hidden="true"
+              class="material-symbols-outlined icon checkbox"
+              selectedIcon
+            >
+              check_box
+            </span>
+            <span
+              unselectedIcon
+              aria-hidden="true"
+              class="material-symbols-outlined icon checkbox"
+            >
+              check_box_outline_blank
+            </span>
+            {{ option.displayName }}
+          </hsi-ui-listbox-option>
+        }
       </hsi-ui-listbox>
     </hsi-ui-combobox>
     <p class="combobox-value">{{ value$ | async }}</p>
@@ -311,11 +314,11 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
-        <hsi-ui-listbox-option
-          *ngFor="let option of options"
-          [disabled]="option.displayName.length > 7"
-          >{{ option.displayName }}</hsi-ui-listbox-option
-        >
+        @for (option of options; track option.displayName) {
+          <hsi-ui-listbox-option [disabled]="option.displayName.length > 7">{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
       </hsi-ui-listbox>
     </hsi-ui-combobox>
     <p class="combobox-value">{{ value$ | async }}</p>

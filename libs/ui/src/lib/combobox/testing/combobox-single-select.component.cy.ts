@@ -256,21 +256,21 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
           <hsi-ui-listbox-label>
             <span class="group-label">Original Trilogy</span>
           </hsi-ui-listbox-label>
-          <hsi-ui-listbox-option
-            *ngFor="let option of optionsGroup1"
-            [value]="option.id"
-            >{{ option.displayName }}</hsi-ui-listbox-option
-          >
+          @for (option of optionsGroup1; track option.id) {
+            <hsi-ui-listbox-option [value]="option.id">{{
+              option.displayName
+            }}</hsi-ui-listbox-option>
+          }
         </hsi-ui-listbox-group>
         <hsi-ui-listbox-group>
           <hsi-ui-listbox-label>
             <span class="group-label">Prequel Trilogy</span>
           </hsi-ui-listbox-label>
-          <hsi-ui-listbox-option
-            *ngFor="let option of optionsGroup2"
-            [value]="option.id"
-            >{{ option.displayName }}</hsi-ui-listbox-option
-          >
+          @for (option of optionsGroup1; track option.id) {
+            <hsi-ui-listbox-option [value]="option.id">{{
+              option.displayName
+            }}</hsi-ui-listbox-option>
+          }
         </hsi-ui-listbox-group>
       </hsi-ui-listbox>
     </hsi-ui-combobox>

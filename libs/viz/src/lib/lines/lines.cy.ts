@@ -80,13 +80,13 @@ const markerSelector = '.vic-lines-marker';
     </vic-xy-chart>
 
     <ng-template #htmlTooltip>
-      <ng-container *ngIf="tooltipData$ | async as tooltipData">
+      @if (tooltipData$ | async; as tooltipData) {
         <p class="tooltip-text">{{ tooltipData.values.strokeColor }}</p>
         <p class="tooltip-text">{{
           getYearFromStringDate(tooltipData.values.x)
         }}</p>
         <p class="tooltip-text">{{ tooltipData.values.y }}</p>
-      </ng-container>
+      }
     </ng-template>
   `,
   styles: [
