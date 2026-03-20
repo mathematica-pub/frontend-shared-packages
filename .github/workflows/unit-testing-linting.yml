@@ -49,6 +49,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Upgrade npm to v9+
+        run: npm install -g npm@9
+
       - name: Install Dependencies
         run: npm ci
 
@@ -70,6 +73,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Upgrade npm to v9+
+        run: npm install -g npm@9
+
       - name: Install Dependencies
         run: npm ci
 
@@ -90,6 +96,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
+
+      - name: Upgrade npm to v9+
+        run: npm install -g npm@9
 
       - name: Install Dependencies
         run: |
@@ -113,6 +122,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
+
+      - name: Upgrade npm to v9+
+        run: npm install -g npm@9
 
       - name: Install Dependencies
         run: npm ci
