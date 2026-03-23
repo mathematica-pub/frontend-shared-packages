@@ -272,7 +272,7 @@ describe('Multi-select combobox with a show selected count label', () => {
   });
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select fruits');
-    cy.get('.hsi-ui-textbox').realClick();
+    cy.get('.hsi-ui-textbox').click();
     cy.get('.hsi-ui-textbox-label').should('have.text', '0 fruits selected');
     cy.get('.hsi-ui-listbox-option').eq(0).realClick();
     cy.get('.hsi-ui-textbox-label').should('have.text', '1 fruit selected');

@@ -147,7 +147,7 @@ class TestHorizontalBarsComponent {
 
   updateTooltipConfig(data: BarsInteractionOutput<CountryFactsDatum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .positionFromOutput(data, data.defaultPosition)
+      .positionFromOutput(data, data?.defaultPosition)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
