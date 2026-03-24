@@ -1,9 +1,12 @@
 export * from '../fill-definitions/fill-definitions';
+export * from './continuous-quantitative/date-chart-position/date-chart-position-builder';
 export * from './continuous-quantitative/date-chart-position/date-chart-position-options';
 export * from './continuous-quantitative/number-chart-position/domain-padding/percent-over/percent-over-options';
 export * from './continuous-quantitative/number-chart-position/domain-padding/pixel/pixel-options';
 export * from './continuous-quantitative/number-chart-position/domain-padding/round-to-interval/round-to-interval-options';
 export * from './continuous-quantitative/number-chart-position/domain-padding/round-to-sig-fig/round-to-sig-fig-options';
+export * from './continuous-quantitative/number-chart-position/number-chart-position-builder';
 export * from './continuous-quantitative/number-chart-position/number-chart-position-options';
 export * from './ordinal/ordinal-chart-position/ordinal-chart-position-options';
 export * from './ordinal/ordinal-visual-value/ordinal-visual-value-options';
+
