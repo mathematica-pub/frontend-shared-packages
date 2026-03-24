@@ -9,4 +9,3 @@ export * from './continuous-quantitative/number-chart-position/number-chart-posi
 export * from './continuous-quantitative/number-chart-position/number-chart-position-options';
 export * from './ordinal/ordinal-chart-position/ordinal-chart-position-options';
 export * from './ordinal/ordinal-visual-value/ordinal-visual-value-options';
-

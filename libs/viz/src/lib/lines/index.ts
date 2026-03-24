@@ -1,6 +1,7 @@
 export * from './config/lines-builder';
 export * from './config/lines-config';
 export * from './config/lines-options';
+export * from './config/stroke/lines-stroke-builder';
 export * from './events/actions/lines-click-actions';
 export * from './events/actions/lines-hover-move-actions';
 export * from './events/actions/lines-marker-click-actions';
