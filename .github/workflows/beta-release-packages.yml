@@ -2,9 +2,6 @@ name: Release packages
 on:
   issue_comment:
     types: [created]
-  push:
-    branches:
-      - main
 
 permissions:
   id-token: write
@@ -19,56 +16,6 @@ env:
   SLACK_WEBHOOK_URL_MAINTAINERS: ${{ secrets.SLACK_WEBHOOK_URL_MAINTAINERS }}
 
 jobs:
-  release-affected-packages:
-    if: github.event_name == 'push'
-    name: Release affected packages
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
-          cache: 'npm'
-
-      - name: Get Current Pull Request
-        uses: 8BitJonny/gh-get-current-pr@3.0.0
-        id: PR
-
-      - name: Update npm
-        run: npm install -g npm@latest
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Configure Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Get packages with version bump
-        id: changed_pkgs
-        run: bash scripts/get_pkgs_with_version_bump.sh
-
-      - name: Update versions and release packages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          AWS_REGION: us-east-1
-        run: npx nx affected -t version --parallel=false
-
-      - name: Notify Success
-        if: success()
-        env:
-          changed_pkgs: ${{ env.changed_pkgs }}
-          pr_title: ${{ steps.PR.outputs.pr_title }}
-          pr_url: ${{ steps.PR.outputs.pr_url }}
-        run: bash scripts/notify_version_released.sh
-
   beta-release:
     if: github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, 'beta-release-bot:')
     name: Beta release package
