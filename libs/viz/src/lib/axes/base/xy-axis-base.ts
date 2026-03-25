@@ -100,9 +100,9 @@ export abstract class XyAxis<
         .attr('class', this.class.axisGroup);
     }
 
-    // Avoid odd animations of ticks or domain lines when those things move between draws
+    // Remove domain to avoid odd baseline/zero-axis positioning during transitions
+    // Ticks are preserved to allow smooth transitions
     this.axisGroup.select('.domain').remove();
-    this.axisGroup.selectAll('.tick').remove();
 
     this.axisGroup
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
