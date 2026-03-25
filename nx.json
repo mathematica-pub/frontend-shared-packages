@@ -52,5 +52,31 @@
     ]
   },
   "useLegacyCache": true,
-  "analytics": true
+  "analytics": true,
+  "release": {
+    "projects": ["libs/*"],
+    "projectsRelationship": "independent",
+    "releaseTag": {
+      "pattern": "release/{projectName}/{version}"
+    },
+    "git": {
+      "commitMessage": "chore(release): {version}"
+    }
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/js/typescript",
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        },
+        "build": {
+          "targetName": "tsc:build",
+          "configName": "tsconfig.lib.json",
+          "buildDepsName": "tsc:build-deps",
+          "watchDepsName": "tsc:watch-deps"
+        }
+      }
+    }
+  ]
 }
