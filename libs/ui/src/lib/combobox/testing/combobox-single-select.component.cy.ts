@@ -53,7 +53,7 @@ class ComboboxSingleTestComponent extends ComboboxBaseTestComponent {}
 describe('ComboboxSingleSelectOnlyComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxSingleTestComponent);
-    cy.wait(100)
+    cy.wait(100);
   });
   describe('click behavior after load', () => {
     it('should not emit a value on load', () => {
