@@ -38,9 +38,9 @@ jobs:
         id: next_weekday
         run: bash scripts/get_next_weekday.sh
 
-      - name: Get packages with version bump
-        id: changed_pkgs
-        run: bash scripts/get_pkgs_with_version_bump.sh
+      # - name: Get packages with version bump
+      #   id: changed_pkgs
+      #   run: bash scripts/get_pkgs_with_version_bump.sh
 
       - name: Send Slack notification for newly approved package version
         env:

@@ -100,9 +100,8 @@ export abstract class XyAxis<
         .attr('class', this.class.axisGroup);
     }
 
-    // Avoid odd animations of ticks or domain lines when those things move between draws
+    // Remove domain to avoid odd baseline/zero-axis positioning during transitions
     this.axisGroup.select('.domain').remove();
-    this.axisGroup.selectAll('.tick').remove();
 
     this.axisGroup
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -114,9 +113,29 @@ export abstract class XyAxis<
         this.drawGrid();
       });
 
+    // Hide elements immediately based on config to prevent flash during transition
+    this.hideElementsPerConfig();
     this.processTickLabels();
     if (this.config.label) {
       this.createLabel();
+    }
+  }
+
+  hideElementsPerConfig(): void {
+    // Remove tick marks immediately if configured to be hidden
+    if (this.config.ticks.marksDisplay === false) {
+      this.axisGroup.selectAll('.tick line').interrupt().remove();
+    }
+
+    // Remove tick labels immediately if configured to be hidden
+    if (this.config.ticks.labelsDisplay === false) {
+      this.axisGroup.selectAll('.tick text').interrupt().remove();
+    }
+
+    // Remove baseline immediately if not displayed and no zero baseline exists
+    const zeroAxisTranslate = this.getBaselineTranslate();
+    if (!this.config.baseline.display && zeroAxisTranslate === null) {
+      this.axisGroup.select('.domain').interrupt().remove();
     }
   }
 
@@ -142,12 +161,6 @@ export abstract class XyAxis<
     // or if if should be moved to processTickLabels. I think there is a reason it is here. (?)
     if (this.config.ticks.wrap && this.config.ticks.wrap.width !== undefined) {
       this.wrapAxisTickText(tickText);
-    }
-    if (this.config.ticks.marksDisplay === false) {
-      const marks = select(this.elRef.nativeElement).selectAll(
-        `.${this.class.axisGroup} .tick line`
-      );
-      marks.remove();
     }
   }
 
@@ -202,17 +215,9 @@ export abstract class XyAxis<
           .attr('stroke-dasharray', null)
       );
     }
-
-    if (!this.config.baseline.display && zeroAxisTranslate === null) {
-      this.axisGroup.call((g) => g.select('.domain').remove());
-    }
   }
 
   processTickLabels(): void {
-    if (this.config.ticks.labelsDisplay === false) {
-      this.axisGroup.call((g) => g.selectAll('.tick text').remove());
-    }
-
     if (this.config.ticks.rotate) {
       this.axisGroup.call((g) =>
         g
