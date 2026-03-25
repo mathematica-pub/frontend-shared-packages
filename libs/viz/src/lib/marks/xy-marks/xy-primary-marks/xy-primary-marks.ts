@@ -15,9 +15,9 @@ import { XyMarks } from '../xy-marks';
  */
 @Directive()
 export abstract class VicXyPrimaryMarks<
-    Datum,
-    TPrimaryMarksConfig extends DataMarksOptions<Datum>,
-  >
+  Datum,
+  TPrimaryMarksConfig extends DataMarksOptions<Datum>,
+>
   extends PrimaryMarks<Datum, TPrimaryMarksConfig>
   implements OnInit, XyMarks
 {

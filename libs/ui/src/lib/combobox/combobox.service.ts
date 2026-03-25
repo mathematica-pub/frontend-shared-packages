@@ -1,17 +1,17 @@
 import { Platform } from '@angular/cdk/platform';
-import { Injectable, QueryList } from '@angular/core';
+import { inject, Injectable, QueryList } from '@angular/core';
 import {
   BehaviorSubject,
-  Observable,
-  Subject,
   combineLatest,
   distinctUntilChanged,
   map,
   merge,
   mergeAll,
+  Observable,
   of,
   shareReplay,
   startWith,
+  Subject,
   switchMap,
 } from 'rxjs';
 import { ComboboxLabelComponent } from './combobox-label/combobox-label.component';
@@ -129,7 +129,7 @@ export class ComboboxService {
   private touched: BehaviorSubject<boolean> = new BehaviorSubject(false);
   touched$ = this.touched.asObservable();
 
-  constructor(private platform: Platform) {}
+  private platform = inject(Platform);
 
   get isOpen(): boolean {
     return this._isOpen.value;

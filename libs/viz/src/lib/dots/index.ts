@@ -7,3 +7,4 @@ export * from './events/actions/dots-hover-actions';
 export * from './events/actions/dots-hover-move-actions';
 export * from './events/dots-events.directive';
 export * from './events/dots-interaction-output';
+export * from './events/dots-tooltip-positioner';

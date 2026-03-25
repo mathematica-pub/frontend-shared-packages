@@ -20,8 +20,10 @@ describe('TabsComponent', () => {
 
   describe('selectTab', () => {
     let newTab: TabItemComponent<string>;
-    beforeEach(() => {
-      newTab = new TabItemComponent(component.service);
+    beforeEach(async () => {
+      const tabFixture =
+        TestBed.createComponent<TabItemComponent<string>>(TabItemComponent);
+      newTab = tabFixture.componentInstance;
       spyOn(component, 'emitNewActiveTab');
     });
     it('sets the activeTab to new tab if new tag is not activeTab', () => {
@@ -47,8 +49,10 @@ describe('TabsComponent', () => {
 
   describe('emitNewActiveTab', () => {
     let newTab: TabItemComponent<string>;
-    beforeEach(() => {
-      newTab = new TabItemComponent(component.service);
+    beforeEach(async () => {
+      const tabFixture =
+        TestBed.createComponent<TabItemComponent<string>>(TabItemComponent);
+      newTab = tabFixture.componentInstance;
       newTab.labelComponent = {
         labelElement: {
           nativeElement: {

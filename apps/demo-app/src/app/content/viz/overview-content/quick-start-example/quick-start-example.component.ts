@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   OnInit,
   ViewEncapsulation,
@@ -46,13 +47,10 @@ export class QuickStartExampleComponent implements OnInit {
   barsConfig: BarsConfig<MetroUnemploymentDatum, string>;
   xAxisConfig: VicXQuantitativeAxisConfig<number>;
   yAxisConfig: VicYOrdinalAxisConfig<string>;
-
-  constructor(
-    private chart: VicChartConfigBuilder,
-    private bars: VicBarsConfigBuilder<MetroUnemploymentDatum, string>,
-    private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
-    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>
-  ) {}
+  private chart = inject(VicChartConfigBuilder);
+  private bars = inject(VicBarsConfigBuilder<MetroUnemploymentDatum, string>);
+  private xQuantitativeAxis = inject(VicXQuantitativeAxisConfigBuilder<number>);
+  private yOrdinalAxis = inject(VicYOrdinalAxisConfigBuilder<string>);
 
   ngOnInit() {
     this.chartConfig = this.chart

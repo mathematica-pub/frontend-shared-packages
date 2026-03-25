@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { isEqual } from 'lodash-es';
 import {
@@ -16,7 +16,7 @@ import { Section, State } from './state';
 export class RouterStateService {
   state$: Observable<State>;
 
-  constructor(private router: Router) {}
+  private router = inject(Router);
 
   initialize() {
     this.setStateObservable();

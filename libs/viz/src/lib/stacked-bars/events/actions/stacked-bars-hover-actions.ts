@@ -7,12 +7,10 @@ import { StackedBarsHost } from '../stacked-bars-events.directive';
 export class StackedBarsHoverEmitTooltipData<
   Datum,
   TOrdinalValue extends DataValue,
-> implements
-    EventAction<
-      StackedBarsHost<Datum, TOrdinalValue>,
-      BarsInteractionOutput<Datum>
-    >
-{
+> implements EventAction<
+  StackedBarsHost<Datum, TOrdinalValue>,
+  BarsInteractionOutput<Datum>
+> {
   onStart(host: StackedBarsHost<Datum, TOrdinalValue>): void {
     const tooltipData = host.getInteractionOutput(EventType.Hover);
     host.emitInteractionOutput(tooltipData);

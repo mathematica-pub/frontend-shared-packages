@@ -45,11 +45,8 @@ export class AutomatedDocumentationDisplayComponent
   content$: Observable<SafeHtml>;
   contentPath$: Observable<string>;
   shikiTheme = ShikiTheme.GitHubLight;
-
-  constructor(
-    private routerState: RouterStateService,
-    private automatedDocsParser: AutomatedDocumentationParser
-  ) {}
+  private routerState = inject(RouterStateService);
+  private automatedDocsParser = inject(AutomatedDocumentationParser);
 
   ngOnInit(): void {
     this.contentPath$ = this.routerState.state$.pipe(

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
@@ -85,18 +86,14 @@ export class GroupedBarsExampleComponent implements OnInit {
     bottom: 36,
     left: 64,
   };
-
-  constructor(
-    private dataService: DataService,
-    private chart: VicChartConfigBuilder,
-    private groupedBars: VicGroupedBarsConfigBuilder<
-      IndustryUnemploymentDatum,
-      Date
-    >,
-    private xAxisOrdinal: VicXOrdinalAxisConfigBuilder<Date>,
-    private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
-    private tooltip: VicHtmlTooltipConfigBuilder
-  ) {}
+  private dataService = inject(DataService);
+  private chart = inject(VicChartConfigBuilder);
+  private groupedBars = inject(
+    VicGroupedBarsConfigBuilder<IndustryUnemploymentDatum, Date>
+  );
+  private xAxisOrdinal = inject(VicXOrdinalAxisConfigBuilder<Date>);
+  private yAxisQuantitative = inject(VicYQuantitativeAxisConfigBuilder<number>);
+  private tooltip = inject(VicHtmlTooltipConfigBuilder);
 
   ngOnInit(): void {
     this.vm$ = this.dataService.industryUnemploymentData$.pipe(

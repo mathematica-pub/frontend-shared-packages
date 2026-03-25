@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeRaw from 'rehype-raw';
@@ -59,10 +59,10 @@ const DEFAULT_PARSING_OPTIONS: AdkMarkdownParsingOptions = {
 export class AdkMarkdownParser {
   parser: typeof unified;
 
-  constructor(
-    private sanitizer: DomSanitizer,
-    private shikiHighlighter: AdkShikiHighlighter
-  ) {
+  private sanitizer = inject(DomSanitizer);
+  private shikiHighlighter = inject(AdkShikiHighlighter);
+
+  constructor() {
     this.parser = unified;
   }
 

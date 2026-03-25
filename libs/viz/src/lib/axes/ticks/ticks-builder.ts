@@ -7,8 +7,9 @@ export interface AxisSpecificTickBuilderOptions {
   _sizeOuter: number;
 }
 
-export interface AxisSpecificQuantitativeTickBuilderOptions<Tick>
-  extends AxisSpecificTickBuilderOptions {
+export interface AxisSpecificQuantitativeTickBuilderOptions<
+  Tick,
+> extends AxisSpecificTickBuilderOptions {
   _format: string | ((value: Tick) => string);
 }
 

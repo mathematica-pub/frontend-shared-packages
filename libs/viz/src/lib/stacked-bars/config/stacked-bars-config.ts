@@ -11,7 +11,7 @@ export class StackedBarsConfig<Datum, TOrdinalValue extends DataValue>
 {
   stackOffset: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    series: Series<any, any>,
+    series: Series<any, any>[],
     order: Iterable<number>
   ) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

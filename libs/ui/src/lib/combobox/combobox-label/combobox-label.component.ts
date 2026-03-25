@@ -3,6 +3,7 @@ import {
   Component,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { ComboboxService } from '../combobox.service';
 
@@ -16,7 +17,7 @@ import { ComboboxService } from '../combobox.service';
 export class ComboboxLabelComponent implements AfterViewInit {
   @ViewChild(TemplateRef) labelContent: TemplateRef<unknown>;
 
-  constructor(public service: ComboboxService) {}
+  public service = inject(ComboboxService);
 
   ngAfterViewInit(): void {
     setTimeout(() => {

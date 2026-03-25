@@ -1,4 +1,3 @@
-import { Directive, Input } from '@angular/core';
 import { axisBottom, axisTop } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { ContinuousValue, DataValue } from '../../core/types/values';
@@ -11,9 +10,8 @@ export function xAxisMixin<
   TicksConfig extends Ticks<Tick>,
   T extends AbstractConstructor<XyAxis<Tick, TicksConfig>>,
 >(Base: T) {
-  @Directive()
   abstract class Mixin extends Base {
-    @Input() override config: XAxisConfig<Tick, TicksConfig>;
+    override config: XAxisConfig<Tick, TicksConfig>;
     translate: string;
 
     setTranslate(): void {

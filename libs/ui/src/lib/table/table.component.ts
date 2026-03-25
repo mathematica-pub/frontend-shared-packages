@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { min } from 'd3';
@@ -41,7 +42,7 @@ export class TableComponent<Datum> implements OnInit {
   sort: BehaviorSubject<TableColumn<Datum>> = new BehaviorSubject(null);
   sort$: Observable<TableColumn<Datum>> = this.sort.asObservable();
 
-  constructor(private destroyRef: DestroyRef) {}
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.setTableData();

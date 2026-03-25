@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   ViewEncapsulation,
   type OnInit,
@@ -29,12 +30,9 @@ export class OverviewComponent implements OnInit {
   @Input() lib: string;
   content$: Observable<AdkParsedContentSection[]>;
   route: string;
-
-  constructor(
-    private routerState: RouterStateService,
-    private assets: AdkAssetsService,
-    private markdown: AdkMarkdownParser
-  ) {}
+  private routerState = inject(RouterStateService);
+  private assets = inject(AdkAssetsService);
+  private markdown = inject(AdkMarkdownParser);
 
   ngOnInit(): void {
     this.setHtml();

@@ -25,10 +25,10 @@ const DEFAULT = {
 };
 
 export class GeographiesAttributeDataLayer<
-    Datum,
-    TProperties,
-    TGeometry extends Geometry = MultiPolygon | Polygon,
-  >
+  Datum,
+  TProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon,
+>
   extends GeographiesLayer<Datum, TProperties, TGeometry>
   implements GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
 {

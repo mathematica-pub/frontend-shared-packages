@@ -5,8 +5,7 @@ import { StackedAreaHost } from '../stacked-area-events.directive';
 export class StackedAreaHoverMoveEmitTooltipData<
   Datum,
   TCategoricalValue extends DataValue,
-> implements HoverMoveAction<StackedAreaHost<Datum, TCategoricalValue>>
-{
+> implements HoverMoveAction<StackedAreaHost<Datum, TCategoricalValue>> {
   onStart(host: StackedAreaHost<Datum, TCategoricalValue>): void {
     const tooltipData = host.getInteractionOutput(EventType.HoverMove);
     host.emitInteractionOutput(tooltipData);

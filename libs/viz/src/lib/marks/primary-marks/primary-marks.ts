@@ -17,9 +17,9 @@ export const VIC_PRIMARY_MARKS = new InjectionToken<
 
 @Directive()
 export abstract class PrimaryMarks<
-    Datum,
-    TPrimaryMarksConfig extends MarksConfig | DataMarksConfig<Datum>,
-  >
+  Datum,
+  TPrimaryMarksConfig extends MarksConfig | DataMarksConfig<Datum>,
+>
   extends Marks
   implements Marks, OnChanges
 {

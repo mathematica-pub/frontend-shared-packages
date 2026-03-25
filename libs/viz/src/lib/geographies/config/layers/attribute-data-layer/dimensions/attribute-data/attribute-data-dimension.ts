@@ -9,10 +9,10 @@ import { AttributeDataDimensionOptions } from './attribute-data-dimension-option
  * The first generic parameter is the type of the attribute data.
  */
 export abstract class AttributeDataDimension<
-    Datum,
-    AttributeValue extends DataValue,
-    RangeValue extends string | number = string,
-  >
+  Datum,
+  AttributeValue extends DataValue,
+  RangeValue extends string | number = string,
+>
   extends DataDimension<Datum, AttributeValue>
   implements AttributeDataDimensionOptions<Datum, AttributeValue, RangeValue>
 {

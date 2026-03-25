@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
 import { ExportContentComponent } from '../../../platform/export-content/export-content.component';
@@ -26,7 +31,7 @@ export class EnergyIntensityComponent implements OnInit {
   barsData$: Observable<EnergyIntensityDatum[]>;
   linesData$: Observable<EnergyIntensityDatum[]>;
 
-  constructor(private dataService: DataService) {}
+  private dataService = inject(DataService);
 
   ngOnInit(): void {
     this.createData();

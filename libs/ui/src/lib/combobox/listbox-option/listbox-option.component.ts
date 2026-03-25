@@ -7,6 +7,7 @@ import {
   SimpleChanges,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ComboboxService } from '../combobox.service';
@@ -56,7 +57,7 @@ export class ListboxOptionComponent implements OnChanges {
     new BehaviorSubject(null);
   externalPropertyChanges$ = this.externalPropertyChanges.asObservable();
 
-  constructor(protected service: ComboboxService) {}
+  protected service = inject(ComboboxService);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   get valueToEmit(): any | string {

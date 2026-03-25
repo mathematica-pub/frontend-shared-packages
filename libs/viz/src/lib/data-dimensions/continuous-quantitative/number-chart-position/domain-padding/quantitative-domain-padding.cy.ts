@@ -27,7 +27,9 @@ const waitTime = 100; // time to wait for the chart to render and scales to be s
 @Component({
   selector: 'vic-test-bars-quantitative-domain-padding',
   template: `
-    <p *ngFor="let item of domain$ | async" class="domain-value">{{ item }}</p>
+    @for (item of domain$ | async; track item) {
+      <p class="domain-value">{{ item }}</p>
+    }
     <vic-xy-chart [config]="chartConfig">
       <ng-container svg-elements>
         <svg:g

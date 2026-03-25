@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GeographiesGeojsonPropertiesLayer } from '@mathstack/viz';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import * as topojson from 'topojson-client';
@@ -16,8 +16,7 @@ export class BasemapService {
     MapGeometryProperties,
     MultiPolygon | Polygon
   >;
-
-  constructor(private data: DataResource) {}
+  private data = inject(DataResource);
 
   initMap(): void {
     this.setMapObjects();

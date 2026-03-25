@@ -1,3 +1,4 @@
+export * from './single-sort-header/single-sort-header.component';
 export * from './table-column';
 export * from './table.component';
 export * from './table.config';

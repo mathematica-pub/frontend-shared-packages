@@ -45,8 +45,10 @@ export interface ActionHost<Output> {
   emitInteractionOutput(output: Output): void;
 }
 
-export interface MarksHost<Output, MarksComponent = unknown>
-  extends ActionHost<Output> {
+export interface MarksHost<
+  Output,
+  MarksComponent = unknown,
+> extends ActionHost<Output> {
   marks: MarksComponent;
 }
 

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AdkAssetResponse } from './assets-service';
 
@@ -7,7 +7,7 @@ import { AdkAssetResponse } from './assets-service';
   providedIn: 'root',
 })
 export class AdkAssetsResource {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   getAsset(path: string, responseType: AdkAssetResponse): Observable<unknown> {
     return this.http.get<unknown>(path, {

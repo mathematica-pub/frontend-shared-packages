@@ -7,25 +7,17 @@
   [style.--value-space]="largerValueSpace + 'px'"
   [style.left.px]="leftOffset"
 >
-  <ng-container
-    *ngIf="
-      (orientation === 'vertical' && valuesSide === 'left') ||
-      (orientation === 'horizontal' && valuesSide === 'top')
-    "
-  >
-    <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
-  </ng-container>
+  @if ((orientation === 'vertical' && valuesSide === 'left') || (orientation ===
+  'horizontal' && valuesSide === 'top')) {
+  <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
+  }
   <div class="vic-legend-canvas-container">
     <canvas class="vic-legend-canvas" #canvas></canvas>
   </div>
-  <ng-container
-    *ngIf="
-      (orientation === 'vertical' && valuesSide === 'right') ||
-      (orientation === 'horizontal' && valuesSide === 'bottom')
-    "
-  >
-    <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
-  </ng-container>
+  @if ((orientation === 'vertical' && valuesSide === 'right') || (orientation
+  === 'horizontal' && valuesSide === 'bottom')) {
+  <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
+  }
 </div>
 
 <ng-template #valuesDisplay>

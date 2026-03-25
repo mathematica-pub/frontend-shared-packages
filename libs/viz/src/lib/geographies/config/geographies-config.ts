@@ -19,10 +19,10 @@ import { GeographiesAttributeDataLayer } from './layers/attribute-data-layer/att
 import { GeographiesGeojsonPropertiesLayer } from './layers/geojson-properties-layer/geojson-properties-layer';
 
 export class GeographiesConfig<
-    Datum,
-    TProperties extends GeoJsonProperties,
-    TGeometry extends Geometry = MultiPolygon | Polygon,
-  >
+  Datum,
+  TProperties extends GeoJsonProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon,
+>
   extends MarksConfig
   implements GeographiesOptions<Datum, TProperties, TGeometry>
 {

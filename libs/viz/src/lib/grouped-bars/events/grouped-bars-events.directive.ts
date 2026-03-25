@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
 import { map, Observable } from 'rxjs';
 import { BarDatum, BARS, BarsHost, BarsInteractionOutput } from '../../bars';
@@ -20,13 +20,11 @@ import { GroupedBarsComponent } from '../grouped-bars.component';
   selector: '[vicGroupedBarsEvents]',
 })
 export class GroupedBarsEventsDirective<
-    Datum,
-    TOrdinalValue extends DataValue,
-    TGroupedBarsComponent extends GroupedBarsComponent<
-      Datum,
-      TOrdinalValue
-    > = GroupedBarsComponent<Datum, TOrdinalValue>,
-  >
+  Datum,
+  TOrdinalValue extends DataValue,
+  TGroupedBarsComponent extends GroupedBarsComponent<Datum, TOrdinalValue> =
+    GroupedBarsComponent<Datum, TOrdinalValue>,
+>
   extends EventsDirective<BarsHost<Datum, TOrdinalValue>>
   implements BarsHost<Datum, TOrdinalValue>
 {
@@ -62,9 +60,7 @@ export class GroupedBarsEventsDirective<
   barDatum: BarDatum<TOrdinalValue>;
   origin: SVGRectElement;
 
-  constructor(@Inject(BARS) public bars: TGroupedBarsComponent) {
-    super();
-  }
+  public bars = inject<TGroupedBarsComponent>(BARS);
 
   get marks(): GroupedBarsComponent<Datum, TOrdinalValue> {
     return this.bars;

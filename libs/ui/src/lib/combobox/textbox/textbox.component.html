@@ -23,18 +23,19 @@
   [attr.aria-controls]="service.id + '-listbox'"
   aria-haspopup="listbox"
   [class.open]="service.isOpen$ | async"
-  ><div
-    *ngIf="dynamicLabel && !!(label$ | async); else staticLabel"
-    class="hsi-ui-textbox-label"
-    data-cy="textbox-label"
-    >{{ label$ | async }}</div
-  ><div
+  >@if (dynamicLabel && !!(label$ | async)) {
+    <div
+      class="hsi-ui-textbox-label"
+      data-cy="textbox-label"
+      >{{ label$ | async }}</div>
+  } @else {
+    <div class="hsi-ui-textbox-label" data-cy="textbox-label">
+      <ng-content select="[boxLabel]"></ng-content>
+    </div>
+  }
+  <div
     #boxIcon
     class="hsi-ui-textbox-icon"
     [class.open]="service.isOpen$ | async"
     ><ng-content select="[boxIcon]"></ng-content></div
 ></div>
-<ng-template #staticLabel
-  ><div class="hsi-ui-textbox-label" data-cy="textbox-label"
-    ><ng-content select="[boxLabel]"></ng-content></div
-></ng-template>

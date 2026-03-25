@@ -179,8 +179,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   );
 
   protected destroyRef = inject(DestroyRef);
-
-  constructor(private ngZone: NgZone) {}
+  private ngZone = inject(NgZone);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (NgOnChangesUtilities.inputObjectChanged(changes, 'config')) {

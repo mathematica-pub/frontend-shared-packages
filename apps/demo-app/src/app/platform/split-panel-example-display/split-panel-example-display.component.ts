@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Inject,
+  inject,
   OnInit,
   ViewChild,
   ViewEncapsulation,
@@ -40,10 +40,7 @@ export class SplitPanelExampleDisplayComponent
   examplePanel: ElementRef<HTMLDivElement>;
   exampleWidth: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   exampleWidth$: Observable<string>;
-
-  constructor(@Inject(DOCUMENT) private document: Document) {
-    super();
-  }
+  private document = inject(DOCUMENT);
 
   override ngOnInit(): void {
     super.ngOnInit();

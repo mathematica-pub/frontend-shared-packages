@@ -147,7 +147,7 @@ class TestHorizontalBarsComponent {
 
   updateTooltipConfig(data: BarsInteractionOutput<CountryFactsDatum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .positionFromOutput(data, data.defaultPosition)
+      .positionFromOutput(data, data?.defaultPosition)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
@@ -780,7 +780,7 @@ describe('displays tooltips for correct data per hover position', () => {
   countryFactsData.forEach((_, i) => {
     describe(`Data point at index ${i}`, () => {
       beforeEach(() => {
-        cy.get(barSelector).eq(i).realHover();
+        cy.get(barSelector).eq(i).realHoverAndWait();
       });
       it('is okay', () => {
         cy.get('svg').should('exist');

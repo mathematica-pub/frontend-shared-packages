@@ -1,97 +1,100 @@
-<div class="geographies-example" *ngIf="vm$ | async as vm; else loading">
-  <div class="user-selections">
-    <div class="user-selection year">
-      <p class="selection-title effect-title">Select a year</p>
-      <div class="toggle-container">
-        <mat-button-toggle-group
-          name="selectedYear"
-          aria-label="Selected Year"
-          [value]="selectedYear$ | async"
-          (change)="setYear($event)"
-          [hideSingleSelectionIndicator]="true"
-        >
-          <mat-button-toggle value="2020">2020</mat-button-toggle>
-          <mat-button-toggle value="2010">2010</mat-button-toggle>
-        </mat-button-toggle-group>
+@if (vm$ | async; as vm) {
+  <div class="geographies-example">
+    <div class="user-selections">
+      <div class="user-selection year">
+        <p class="selection-title effect-title">Select a year</p>
+        <div class="toggle-container">
+          <mat-button-toggle-group
+            name="selectedYear"
+            aria-label="Selected Year"
+            [value]="selectedYear$ | async"
+            (change)="setYear($event)"
+            [hideSingleSelectionIndicator]="true"
+          >
+            <mat-button-toggle value="2020">2020</mat-button-toggle>
+            <mat-button-toggle value="2010">2010</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+      <div class="user-selection bins">
+        <p class="selection-title">Select a data binning strategy</p>
+        <div class="toggle-container">
+          <mat-button-toggle-group
+            name="selectedYear"
+            aria-label="Selected Year"
+            [value]="attributeDataBinType$ | async"
+            (change)="setBinType($event)"
+            [hideSingleSelectionIndicator]="true"
+          >
+            <mat-button-toggle [value]="binTypes[0]">No Bins</mat-button-toggle>
+            <mat-button-toggle [value]="binTypes[1]"
+              >Categorical</mat-button-toggle
+            >
+            <mat-button-toggle [value]="binTypes[2]"
+              >Equal Value Ranges</mat-button-toggle
+            >
+            <mat-button-toggle [value]="binTypes[3]"
+              >Equal Frequencies</mat-button-toggle
+            >
+            <mat-button-toggle [value]="binTypes[4]"
+              >Custom Breaks</mat-button-toggle
+            >
+          </mat-button-toggle-group>
+        </div>
       </div>
     </div>
-    <div class="user-selection bins">
-      <p class="selection-title">Select a data binning strategy</p>
-      <div class="toggle-container">
-        <mat-button-toggle-group
-          name="selectedYear"
-          aria-label="Selected Year"
-          [value]="attributeDataBinType$ | async"
-          (change)="setBinType($event)"
-          [hideSingleSelectionIndicator]="true"
-        >
-          <mat-button-toggle [value]="binTypes[0]">No Bins</mat-button-toggle>
-          <mat-button-toggle [value]="binTypes[1]"
-            >Categorical</mat-button-toggle
-          >
-          <mat-button-toggle [value]="binTypes[2]"
-            >Equal Value Ranges</mat-button-toggle
-          >
-          <mat-button-toggle [value]="binTypes[3]"
-            >Equal Frequencies</mat-button-toggle
-          >
-          <mat-button-toggle [value]="binTypes[4]"
-            >Custom Breaks</mat-button-toggle
-          >
-        </mat-button-toggle-group>
-      </div>
-    </div>
+    <p class="data-binning-description"
+      >Attribute Data Bin Type:
+      <span class="value">{{ attributeDataBinType$ | async }}</span></p
+    >
+    <p class="fill-description"
+      >Patterned states: population less than 1,000,000 (visual legend to be
+      added)</p
+    >
+    <p class="fill-description"
+      >Gray states: missing data; state is part of NoDataGeographies</p
+    >
+    <vic-map-chart class="chart-component" [config]="vm.chartConfig">
+      <ng-container html-elements-after>
+        <vic-map-legend
+          class="legend-component"
+          [width]="400"
+          [height]="20"
+          [outlineColor]="outlineColor"
+        ></vic-map-legend>
+      </ng-container>
+      <svg:pattern
+        svg-defs
+        [id]="patternName"
+        x="2"
+        y="2"
+        width="5"
+        height="5"
+        patternUnits="userSpaceOnUse"
+      >
+        <rect x="3" y="3" width="2" height="2" fill="#876fc1" />
+      </svg:pattern>
+      <svg:g
+        vic-primary-marks-geographies
+        svg-elements
+        [config]="vm.geographiesConfig"
+        vicGeographiesEvents
+        [hoverActions]="hoverActions"
+        [clickActions]="clickActions"
+        [clickRemoveEvent$]="removeTooltipEvent$"
+        (interactionOutput)="updateTooltipForNewOutput($event)"
+      >
+        <vic-html-tooltip
+          [config]="tooltipConfig$ | async"
+          [template]="htmlTooltip"
+          (backdropClick)="onBackdropClick()"
+        ></vic-html-tooltip>
+      </svg:g>
+    </vic-map-chart>
   </div>
-  <p class="data-binning-description"
-    >Attribute Data Bin Type:
-    <span class="value">{{ attributeDataBinType$ | async }}</span></p
-  >
-  <p class="fill-description"
-    >Patterned states: population less than 1,000,000 (visual legend to be
-    added)</p
-  >
-  <p class="fill-description"
-    >Gray states: missing data; state is part of NoDataGeographies</p
-  >
-  <vic-map-chart class="chart-component" [config]="vm.chartConfig">
-    <ng-container html-elements-after>
-      <vic-map-legend
-        class="legend-component"
-        [width]="400"
-        [height]="20"
-        [outlineColor]="outlineColor"
-      ></vic-map-legend>
-    </ng-container>
-    <svg:pattern
-      svg-defs
-      [id]="patternName"
-      x="2"
-      y="2"
-      width="5"
-      height="5"
-      patternUnits="userSpaceOnUse"
-    >
-      <rect x="3" y="3" width="2" height="2" fill="#876fc1" />
-    </svg:pattern>
-    <svg:g
-      vic-primary-marks-geographies
-      svg-elements
-      [config]="vm.geographiesConfig"
-      vicGeographiesEvents
-      [hoverActions]="hoverActions"
-      [clickActions]="clickActions"
-      [clickRemoveEvent$]="removeTooltipEvent$"
-      (interactionOutput)="updateTooltipForNewOutput($event)"
-    >
-      <vic-html-tooltip
-        [config]="tooltipConfig$ | async"
-        [template]="htmlTooltip"
-        (backdropClick)="onBackdropClick()"
-      ></vic-html-tooltip>
-    </svg:g>
-  </vic-map-chart>
-</div>
-<ng-template #loading>Loading...</ng-template>
+} @else {
+  Loading...
+}
 
 <ng-template #htmlTooltip>
   @if (interactionOutput$ | async; as interactionOutput) {

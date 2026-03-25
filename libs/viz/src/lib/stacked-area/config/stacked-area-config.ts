@@ -40,7 +40,7 @@ export class StackedAreaConfig<Datum, CategoricalDomain extends DataValue>
     series: Series<
       [ContinuousValue, InternMap<CategoricalDomain, number>],
       CategoricalDomain
-    >,
+    >[],
     order: number[]
   ) => void;
   x: DateChartPositionDimension<Datum> | NumberChartPositionDimension<Datum>;
