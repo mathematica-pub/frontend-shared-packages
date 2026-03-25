@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import {
   ChartConfig,
   DotsConfig,
@@ -54,13 +59,10 @@ export class DotsOrdinalQuantExampleComponent implements OnInit {
     bottom: 40,
     left: 80,
   };
-
-  constructor(
-    private chart: VicChartConfigBuilder,
-    private dots: VicDotsConfigBuilder<LocationCategoryDatum>,
-    private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
-    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<number>
-  ) {}
+  private chart = inject(VicChartConfigBuilder);
+  private dots = inject(VicDotsConfigBuilder<LocationCategoryDatum>);
+  private xQuantitativeAxis = inject(VicXQuantitativeAxisConfigBuilder<number>);
+  private yOrdinalAxis = inject(VicYOrdinalAxisConfigBuilder<number>);
 
   ngOnInit(): void {
     this.getViewModel();

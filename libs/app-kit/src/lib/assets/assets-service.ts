@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { csvParse } from 'd3';
-import { Observable, forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { parse as yamlParse } from 'yaml';
 import { AdkAssetsResource } from './assets-resource';
 
@@ -16,7 +16,7 @@ export class AdkAssetsService {
   private assets: { [key: string]: Observable<unknown> } = {};
   private assetsPath = 'assets/';
 
-  constructor(private resource: AdkAssetsResource) {}
+  private resource = inject(AdkAssetsResource);
 
   setAssetsPath(path: string): void {
     this.assetsPath = path;

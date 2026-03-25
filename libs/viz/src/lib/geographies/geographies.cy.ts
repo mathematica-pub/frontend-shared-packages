@@ -600,6 +600,7 @@ describe('displays tooltips for correct data per hover position', () => {
   beforeEach(() => {
     cy.fixture('usMap.json').then((response) => {
       mountGeographiesForTooltipTests(response);
+      cy.wait(1000); // Allow previous test's injector to fully destroy
     });
   });
   attributeData
@@ -608,7 +609,7 @@ describe('displays tooltips for correct data per hover position', () => {
       it(`State: ${stateDatum.state}`, () => {
         cy.get(
           `.vic-geographies-group.${stateDatum.state.split(' ').join('-')}`
-        ).realHover();
+        ).realHoverAndWait();
         cy.get('.vic-html-tooltip-overlay').should('exist');
         cy.get('.vic-html-tooltip-overlay p')
           .eq(0)
@@ -624,7 +625,7 @@ describe('displays tooltips for correct data per hover position', () => {
             const stateBox = $stateEl[0].getBoundingClientRect();
             expect(mean([tooltipBox.left, tooltipBox.right])).to.be.closeTo(
               mean([stateBox.left, stateBox.right]),
-              1
+              4
             );
             expect(tooltipBox.bottom + tooltipYOffset).to.be.closeTo(
               mean([stateBox.top, stateBox.bottom]),

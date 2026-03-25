@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
 import { Observable, of } from 'rxjs';
 import { ContinuousValue } from '../../core/types/values';
@@ -38,9 +38,9 @@ export interface LinesHost<
   selector: '[vicLinesEvents]',
 })
 export class LinesEventsDirective<
-    Datum,
-    TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-  >
+  Datum,
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
+>
   extends EventsDirective<LinesHost<Datum>>
   implements LinesHost<Datum>
 {
@@ -64,9 +64,7 @@ export class LinesEventsDirective<
   closestPointIndex: number;
   actionActive: boolean = false;
 
-  constructor(@Inject(LINES) public lines: TLinesComponent) {
-    super();
-  }
+  public lines = inject<TLinesComponent>(LINES);
 
   get marks(): LinesComponent<Datum> {
     return this.lines;

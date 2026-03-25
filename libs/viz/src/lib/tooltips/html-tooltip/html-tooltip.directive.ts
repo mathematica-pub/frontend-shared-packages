@@ -10,7 +10,6 @@ import { DOCUMENT } from '@angular/common';
 import {
   Directive,
   EventEmitter,
-  Inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -18,6 +17,7 @@ import {
   SimpleChanges,
   TemplateRef,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { NgOnChangesUtilities } from '@mathstack/app-kit';
 import { Subject, takeUntil } from 'rxjs';
@@ -41,12 +41,10 @@ export class HtmlTooltipDirective implements OnChanges, OnDestroy {
     }
   };
 
-  constructor(
-    private viewContainerRef: ViewContainerRef,
-    private overlay: Overlay,
-    private overlayPositionBuilder: OverlayPositionBuilder,
-    @Inject(DOCUMENT) private document: Document
-  ) {}
+  private viewContainerRef = inject(ViewContainerRef);
+  private overlay = inject(Overlay);
+  private overlayPositionBuilder = inject(OverlayPositionBuilder);
+  private document = inject(DOCUMENT);
 
   init(): void {
     if (!this.overlayRef) {

@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { filter, map, Observable } from 'rxjs';
@@ -22,8 +22,8 @@ import { GeographiesTooltipPositioner } from './geographies-tooltip-positioner';
 
 export type GeographiesHost<
   Datum,
-  TGeographiesComponent extends
-    GeographiesComponent<Datum> = GeographiesComponent<Datum>,
+  TGeographiesComponent extends GeographiesComponent<Datum> =
+    GeographiesComponent<Datum>,
 > = MarksHost<GeographiesInteractionOutput<Datum>, TGeographiesComponent>;
 
 @Directive({
@@ -33,11 +33,8 @@ export class GeographiesEventsDirective<
   Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
-  TComponent extends GeographiesComponent<
-    Datum,
-    TProperties,
-    TGeometry
-  > = GeographiesComponent<Datum, TProperties, TGeometry>,
+  TComponent extends GeographiesComponent<Datum, TProperties, TGeometry> =
+    GeographiesComponent<Datum, TProperties, TGeometry>,
 > extends EventsDirective<GeographiesHost<Datum>> {
   @Input()
   hoverActions:
@@ -69,9 +66,7 @@ export class GeographiesEventsDirective<
     | GeographiesGeojsonPropertiesLayer<TProperties, TGeometry>;
   path: SVGPathElement;
 
-  constructor(@Inject(GEOGRAPHIES) public geographies: TComponent) {
-    super();
-  }
+  public geographies = inject<TComponent>(GEOGRAPHIES);
 
   get marks(): GeographiesComponent<Datum, TProperties, TGeometry> {
     return this.geographies;

@@ -8,9 +8,9 @@ import { XyMarks } from '../xy-marks';
 
 @Directive()
 export abstract class XyAuxMarks<
-    Datum,
-    TMarksConfig extends MarksConfig | DataMarksConfig<Datum>,
-  >
+  Datum,
+  TMarksConfig extends MarksConfig | DataMarksConfig<Datum>,
+>
   extends AuxMarks<Datum, TMarksConfig>
   implements OnInit, XyMarks
 {

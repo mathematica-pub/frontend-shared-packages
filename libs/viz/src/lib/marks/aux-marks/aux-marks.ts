@@ -4,9 +4,9 @@ import { Marks } from '../marks';
 
 @Directive()
 export abstract class AuxMarks<
-    Datum,
-    TMarksConfig extends MarksConfig | DataMarksConfig<Datum>,
-  >
+  Datum,
+  TMarksConfig extends MarksConfig | DataMarksConfig<Datum>,
+>
   extends Marks
   implements Marks, OnChanges
 {

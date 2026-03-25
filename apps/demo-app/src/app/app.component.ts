@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AdkShikiHighlighter, ShikiTheme } from '@mathstack/app-kit';
 import { BasemapService } from './core/services/basemap.service';
@@ -16,14 +16,11 @@ import { SidebarComponent } from './platform/sidebar/sidebar.component';
 })
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'demo-app';
-
-  constructor(
-    private basemap: BasemapService,
-    private dataService: DataService,
-    public routerState: RouterStateService,
-    private highlighting: AdkShikiHighlighter,
-    private contentService: ContentFilesService
-  ) {}
+  private basemap = inject(BasemapService);
+  private dataService = inject(DataService);
+  public routerState = inject(RouterStateService);
+  private highlighting = inject(AdkShikiHighlighter);
+  private contentService = inject(ContentFilesService);
 
   ngOnInit(): void {
     this.routerState.initialize();

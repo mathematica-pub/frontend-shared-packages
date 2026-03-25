@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   AdkMarkdownParsingOptions,
@@ -47,12 +47,11 @@ export enum ContentSection {
 @Injectable()
 export class ContentParser {
   parser: typeof unified;
+  private sanitizer = inject(DomSanitizer);
+  private shikiHighlighter = inject(AdkShikiHighlighter);
+  private builderMethods = inject(BuilderMethodsParserService);
 
-  constructor(
-    private sanitizer: DomSanitizer,
-    private shikiHighlighter: AdkShikiHighlighter,
-    private builderMethods: BuilderMethodsParserService
-  ) {
+  constructor() {
     this.parser = unified;
   }
 

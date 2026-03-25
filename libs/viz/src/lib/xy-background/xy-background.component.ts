@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 
 @Component({
@@ -15,5 +15,5 @@ import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 export class XyBackgroundComponent {
   @Input() color = 'whitesmoke';
 
-  constructor(public chart: XyChartComponent) {}
+  public chart = inject(XyChartComponent);
 }

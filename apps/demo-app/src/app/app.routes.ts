@@ -43,9 +43,9 @@ export const APP_ROUTES: Routes = [
           {
             path: '**',
             loadComponent: () =>
-              import(
-                './platform/automated-documentation-display/automated-documentation-display.component'
-              ).then((m) => m.AutomatedDocumentationDisplayComponent),
+              import('./platform/automated-documentation-display/automated-documentation-display.component').then(
+                (m) => m.AutomatedDocumentationDisplayComponent
+              ),
           },
         ],
       },

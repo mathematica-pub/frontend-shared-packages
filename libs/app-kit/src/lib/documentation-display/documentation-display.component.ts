@@ -7,7 +7,7 @@ import {
   DestroyRef,
   ElementRef,
   EventEmitter,
-  Inject,
+  inject,
   Input,
   NgZone,
   OnInit,
@@ -55,13 +55,11 @@ export class AdkDocumentationDisplayComponent implements OnInit, AfterViewInit {
   @ContentChild('escapedContent', { static: false })
   escapedContentTemplateRef: TemplateRef<unknown>;
 
-  constructor(
-    private content: AdkDocumentationContentService,
-    private activeHeading: AdkActiveHeadingTracker,
-    private destroyRef: DestroyRef,
-    private zone: NgZone,
-    @Inject(DOCUMENT) private document: Document
-  ) {}
+  private content = inject(AdkDocumentationContentService);
+  private activeHeading = inject(AdkActiveHeadingTracker);
+  private destroyRef = inject(DestroyRef);
+  private zone = inject(NgZone);
+  private document = inject(DOCUMENT);
 
   ngOnInit(): void {
     this.setContent();

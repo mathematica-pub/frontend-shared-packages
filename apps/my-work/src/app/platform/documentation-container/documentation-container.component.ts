@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
@@ -29,10 +30,8 @@ export class DocumentationContainerComponent implements OnInit {
   highlightTheme = ShikiTheme.CatppuccinLatte;
   pathFromAssetsToFile = 'documentation';
 
-  constructor(
-    private routerState: RouterStateService,
-    public configsService: DirectoryConfigsService
-  ) {}
+  private routerState = inject(RouterStateService);
+  public configsService = inject(DirectoryConfigsService);
 
   ngOnInit(): void {
     this.setFileConfig();

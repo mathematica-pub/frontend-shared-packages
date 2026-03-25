@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
@@ -72,15 +73,12 @@ export class DotsExampleComponent implements OnInit {
     new DotsHoverMoveDefaultStyles(),
     new DotsHoverMoveEmitTooltipData(),
   ];
-
-  constructor(
-    private dataService: DataService,
-    private chart: VicChartConfigBuilder,
-    private dots: VicDotsConfigBuilder<WeatherDatum>,
-    private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
-    private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
-    private tooltip: VicHtmlTooltipConfigBuilder
-  ) {}
+  private dataService = inject(DataService);
+  private chart = inject(VicChartConfigBuilder);
+  private dots = inject(VicDotsConfigBuilder<WeatherDatum>);
+  private xQuantitativeAxis = inject(VicXQuantitativeAxisConfigBuilder<number>);
+  private yQuantitativeAxis = inject(VicYQuantitativeAxisConfigBuilder<number>);
+  private tooltip = inject(VicHtmlTooltipConfigBuilder);
 
   ngOnInit(): void {
     this.vm$ = this.dataService.weatherData$.pipe(

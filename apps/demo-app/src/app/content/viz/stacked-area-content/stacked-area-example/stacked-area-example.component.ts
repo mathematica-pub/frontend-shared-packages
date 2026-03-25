@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   ChartConfig,
   ElementSpacing,
@@ -23,8 +23,8 @@ import {
 } from '@mathstack/viz';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
-import { StackedAreaInteractionOutput } from 'dist/viz/lib/stacked-area/events/stacked-area-interaction-output';
-import { BehaviorSubject, Observable, filter, map } from 'rxjs';
+import { StackedAreaInteractionOutput } from 'libs/viz/src/lib/stacked-area/events/stacked-area-interaction-output';
+import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 
 interface ViewModel {
   chartConfig: ChartConfig;
@@ -74,18 +74,14 @@ export class StackedAreaExampleComponent implements OnInit {
   hoverMoveActions: HoverMoveAction<
     StackedAreaHost<IndustryUnemploymentDatum, string>
   >[] = [new StackedAreaHoverMoveEmitTooltipData()];
-
-  constructor(
-    private dataService: DataService,
-    private chart: VicChartConfigBuilder,
-    private stackedArea: VicStackedAreaConfigBuilder<
-      IndustryUnemploymentDatum,
-      string
-    >,
-    private xAxisQuantitative: VicXQuantitativeAxisConfigBuilder<Date>,
-    private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
-    private tooltip: VicHtmlTooltipConfigBuilder
-  ) {}
+  private dataService = inject(DataService);
+  private chart = inject(VicChartConfigBuilder);
+  private stackedArea = inject(
+    VicStackedAreaConfigBuilder<IndustryUnemploymentDatum, string>
+  );
+  private xAxisQuantitative = inject(VicXQuantitativeAxisConfigBuilder<Date>);
+  private yAxisQuantitative = inject(VicYQuantitativeAxisConfigBuilder<number>);
+  private tooltip = inject(VicHtmlTooltipConfigBuilder);
 
   ngOnInit(): void {
     this.vm$ = this.dataService.industryUnemploymentData$.pipe(

@@ -1,4 +1,10 @@
-import { Component, ContentChild, Input, OnChanges } from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  Input,
+  OnChanges,
+  inject,
+} from '@angular/core';
 import { TabBodyComponent } from './tab-body.component';
 import { TabLabelComponent } from './tab-label.component';
 import { TabsService } from './tabs.service';
@@ -13,7 +19,7 @@ export class TabItemComponent<T> implements OnChanges {
   @ContentChild(TabBodyComponent) bodyComponent: TabBodyComponent;
   @ContentChild(TabLabelComponent) labelComponent: TabLabelComponent;
 
-  constructor(private service: TabsService<T>) {}
+  private service = inject(TabsService<T>);
 
   ngOnChanges(): void {
     if (this.isActive) {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import {
   ChartConfig,
   ElementSpacing,
@@ -27,7 +27,7 @@ import {
 } from '@mathstack/viz';
 import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
-import { BehaviorSubject, Observable, Subject, filter, map } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 
 interface ViewModel {
   chartConfig: ChartConfig;
@@ -85,18 +85,14 @@ export class StackedBarsExampleComponent implements OnInit {
   interactionOutput$ = this.interactionOutput.asObservable();
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
-
-  constructor(
-    private dataService: DataService,
-    private chart: VicChartConfigBuilder,
-    private stackedBars: VicStackedBarsConfigBuilder<
-      IndustryUnemploymentDatum,
-      Date
-    >,
-    private xAxisOrdinal: VicXOrdinalAxisConfigBuilder<Date>,
-    private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
-    private tooltip: VicHtmlTooltipConfigBuilder
-  ) {}
+  private dataService = inject(DataService);
+  private chart = inject(VicChartConfigBuilder);
+  private stackedBars = inject(
+    VicStackedBarsConfigBuilder<IndustryUnemploymentDatum, Date>
+  );
+  private xAxisOrdinal = inject(VicXOrdinalAxisConfigBuilder<Date>);
+  private yAxisQuantitative = inject(VicYQuantitativeAxisConfigBuilder<number>);
+  private tooltip = inject(VicHtmlTooltipConfigBuilder);
 
   ngOnInit(): void {
     this.vm$ = this.dataService.industryUnemploymentData$.pipe(

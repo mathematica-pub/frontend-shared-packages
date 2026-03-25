@@ -1,4 +1,4 @@
-import { DestroyRef, ElementRef, Injectable } from '@angular/core';
+import { DestroyRef, ElementRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   BehaviorSubject,
@@ -23,11 +23,9 @@ export class ActiveIndexService {
   activeIndex$ = this.activeIndex.asObservable().pipe(distinctUntilChanged());
   scrollContentRef: ElementRef<HTMLDivElement>;
 
-  constructor(
-    private service: ComboboxService,
-    private filtering: ListboxFilteringService,
-    private scrolling: ListboxScrollService
-  ) {}
+  private service = inject(ComboboxService);
+  private filtering = inject(ListboxFilteringService);
+  private scrolling = inject(ListboxScrollService);
 
   init(
     allOptions$: Observable<ListboxOptionComponent[]>,

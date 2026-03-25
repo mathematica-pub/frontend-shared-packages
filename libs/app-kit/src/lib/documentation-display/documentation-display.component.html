@@ -6,12 +6,13 @@
           @if (section.type === 'markdown') {
             <div class="injected-html" [innerHTML]="section.html"></div>
           } @else if (section.type === 'escaped') {
-            <ng-container
-              *ngIf="escapedContentTemplateRef"
-              [ngTemplateOutlet]="escapedContentTemplateRef"
-              [ngTemplateOutletContext]="{ $implicit: section }"
-            >
-            </ng-container>
+            @if (escapedContentTemplateRef) {
+              <ng-container
+                [ngTemplateOutlet]="escapedContentTemplateRef"
+                [ngTemplateOutletContext]="{ $implicit: section }"
+              >
+              </ng-container>
+            }
           }
         }
         @if (showPrevNextNavigation) {

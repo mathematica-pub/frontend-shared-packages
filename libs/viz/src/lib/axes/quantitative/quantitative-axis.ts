@@ -1,4 +1,3 @@
-import { Directive, Input } from '@angular/core';
 import { AxisTimeInterval, format, utcFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { ContinuousValue } from '../../core/types/values';
@@ -10,9 +9,8 @@ export function quantitativeAxisMixin<
   Tick extends ContinuousValue,
   T extends AbstractConstructor<XyAxis<Tick, QuantitativeTicks<Tick>>>,
 >(Base: T) {
-  @Directive()
   abstract class Mixin extends Base {
-    @Input() override config: QuantitativeAxisConfig<Tick>;
+    override config: QuantitativeAxisConfig<Tick>;
 
     setTicks(tickFormat: string | ((value: Tick) => string)): void {
       if (this.config.ticks.values) {

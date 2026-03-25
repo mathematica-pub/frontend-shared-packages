@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
 import { map, Observable } from 'rxjs';
 import { DataValue } from '../../core/types/values';
@@ -32,13 +32,13 @@ export interface BarsHost<
   selector: '[vicBarsEvents]',
 })
 export class BarsEventsDirective<
+  Datum,
+  TOrdinalValue extends DataValue,
+  TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
     Datum,
-    TOrdinalValue extends DataValue,
-    TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
-      Datum,
-      TOrdinalValue
-    >,
-  >
+    TOrdinalValue
+  >,
+>
   extends EventsDirective<BarsHost<Datum, TOrdinalValue>>
   implements BarsHost<Datum, TOrdinalValue, TBarsComponent>
 {
@@ -74,9 +74,7 @@ export class BarsEventsDirective<
   barDatum: BarDatum<TOrdinalValue>;
   origin: SVGRectElement;
 
-  constructor(@Inject(BARS) public bars: TBarsComponent) {
-    super();
-  }
+  public bars = inject<TBarsComponent>(BARS);
 
   get marks(): TBarsComponent {
     return this.bars;

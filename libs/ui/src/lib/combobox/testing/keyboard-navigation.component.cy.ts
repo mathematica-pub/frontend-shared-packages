@@ -160,7 +160,7 @@ describe('keyboard navigation with a multi select listbox', () => {
   });
   it('correctly responds to keyboard navigation and selection', () => {
     // textbox receives focus on tab
-    cy.realPress('Tab');
+    cy.realPressAndWait('Tab');
     cy.get('.hsi-ui-textbox-container').should('be.focused');
     // opens the combobox on enter
     cy.get('.hsi-ui-textbox').type('{enter}');

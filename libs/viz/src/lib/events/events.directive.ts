@@ -19,9 +19,9 @@ import {
 
 @Directive()
 export abstract class EventsDirective<
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Host extends ActionHost<unknown> = any,
-  >
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Host extends ActionHost<unknown> = any,
+>
   implements AfterViewInit, OnDestroy
 {
   @Input() clickRemoveEvent$: Observable<void>;

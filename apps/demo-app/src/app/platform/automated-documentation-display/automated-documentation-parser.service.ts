@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   AdkAssetResponse,
@@ -15,12 +15,9 @@ import { from, map, mergeMap, Observable, switchMap } from 'rxjs';
 })
 export class AutomatedDocumentationParser {
   private files: { [name: string]: Observable<SafeHtml> } = {};
-
-  constructor(
-    private assetsService: AdkAssetsService,
-    private sanitizer: DomSanitizer,
-    private highlighter: AdkShikiHighlighter
-  ) {}
+  private assetsService = inject(AdkAssetsService);
+  private sanitizer = inject(DomSanitizer);
+  private highlighter = inject(AdkShikiHighlighter);
 
   initialize(assetsPath: string): void {
     this.assetsService.setAssetsPath(assetsPath || 'assets/');

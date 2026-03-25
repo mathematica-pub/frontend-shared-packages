@@ -8,6 +8,7 @@ import {
   DestroyRef,
   ElementRef,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   Output,
@@ -78,13 +79,11 @@ export class ListboxComponent
   @ContentChildren(ListboxGroupComponent)
   groups: QueryList<ListboxGroupComponent>;
 
-  constructor(
-    public service: ComboboxService,
-    public activeIndex: ActiveIndexService,
-    protected filtering: ListboxFilteringService,
-    protected scrolling: ListboxScrollService,
-    protected destroyRef: DestroyRef
-  ) {}
+  public service = inject(ComboboxService);
+  public activeIndex = inject(ActiveIndexService);
+  protected filtering = inject(ListboxFilteringService);
+  protected scrolling = inject(ListboxScrollService);
+  protected destroyRef = inject(DestroyRef);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isMultiSelect']) {

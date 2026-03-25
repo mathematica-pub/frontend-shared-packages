@@ -1,6 +1,6 @@
 /* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import {
   BarsOptions,
   ChartConfig,
@@ -50,7 +50,7 @@ class TestXQuantitativeAxisComponent implements OnInit {
   @Input() xQuantitativeAxisConfig: VicXQuantitativeAxisConfig<number>;
   chartConfig: ChartConfig;
 
-  constructor(public chart: VicChartConfigBuilder) {}
+  chart = inject(VicChartConfigBuilder);
 
   ngOnInit(): void {
     this.chartConfig = this.chart

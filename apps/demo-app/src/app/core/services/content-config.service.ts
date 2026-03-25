@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AdkAssetResponse, AdkAssetsService } from '@mathstack/app-kit';
 import { BehaviorSubject, map } from 'rxjs';
 import { Library } from './router-state/state';
@@ -35,8 +35,7 @@ export class ContentConfigService {
     null
   );
   config$ = this.config.asObservable();
-
-  constructor(private assets: AdkAssetsService) {}
+  private assets = inject(AdkAssetsService);
 
   initConfig(): void {
     this.assets

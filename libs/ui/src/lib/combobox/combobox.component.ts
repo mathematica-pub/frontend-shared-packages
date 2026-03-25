@@ -5,7 +5,7 @@ import {
   ContentChild,
   DestroyRef,
   ElementRef,
-  Inject,
+  inject,
   NgZone,
   OnDestroy,
   OnInit,
@@ -28,14 +28,12 @@ import { ComboboxService, FocusTextbox } from './combobox.service';
 export class ComboboxComponent implements OnInit, OnDestroy {
   @ContentChild(ComboboxLabelComponent) labelComponent: ComboboxLabelComponent;
 
-  constructor(
-    public service: ComboboxService,
-    public platform: Platform,
-    private zone: NgZone,
-    @Inject(DOCUMENT) private document: Document,
-    private elRef: ElementRef,
-    private destroyRef: DestroyRef
-  ) {}
+  public service = inject(ComboboxService);
+  public platform = inject(Platform);
+  private zone = inject(NgZone);
+  private document = inject(DOCUMENT);
+  private elRef = inject(ElementRef);
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.handleOutsideClick();

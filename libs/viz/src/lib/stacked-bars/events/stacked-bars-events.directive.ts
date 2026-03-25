@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, inject, Input, Output } from '@angular/core';
 import { pointer, select } from 'd3';
 import { map, Observable } from 'rxjs';
 import { BarsInteractionOutput } from '../../bars';
@@ -24,10 +24,8 @@ import {
 export interface StackedBarsHost<
   Datum,
   TOrdinalValue extends DataValue,
-  TStackedBarsComponent extends StackedBarsComponent<
-    Datum,
-    TOrdinalValue
-  > = StackedBarsComponent<Datum, TOrdinalValue>,
+  TStackedBarsComponent extends StackedBarsComponent<Datum, TOrdinalValue> =
+    StackedBarsComponent<Datum, TOrdinalValue>,
 > extends MarksHost<BarsInteractionOutput<Datum>, TStackedBarsComponent> {
   getStackDatum(): StackDatum | null;
 }
@@ -38,10 +36,8 @@ export interface StackedBarsHost<
 export class StackedBarsEventsDirective<
   Datum,
   TOrdinalValue extends DataValue,
-  TStackedBarsComponent extends StackedBarsComponent<
-    Datum,
-    TOrdinalValue
-  > = StackedBarsComponent<Datum, TOrdinalValue>,
+  TStackedBarsComponent extends StackedBarsComponent<Datum, TOrdinalValue> =
+    StackedBarsComponent<Datum, TOrdinalValue>,
 > extends EventsDirective<StackedBarsHost<Datum, TOrdinalValue>> {
   @Input()
   hoverActions:
@@ -75,9 +71,7 @@ export class StackedBarsEventsDirective<
   stackDatum: StackDatum | null = null;
   origin: SVGRectElement;
 
-  constructor(@Inject(STACKED_BARS) public stackedBars: TStackedBarsComponent) {
-    super();
-  }
+  public stackedBars = inject<TStackedBarsComponent>(STACKED_BARS);
 
   get marks(): TStackedBarsComponent {
     return this.stackedBars;

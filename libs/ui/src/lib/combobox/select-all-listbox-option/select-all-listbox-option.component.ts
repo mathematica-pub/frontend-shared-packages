@@ -3,6 +3,7 @@ import {
   Component,
   DestroyRef,
   forwardRef,
+  inject,
   Input,
   OnChanges,
 } from '@angular/core';
@@ -41,12 +42,12 @@ export class SelectAllListboxOptionComponent
   controlledOptions$: Observable<ListboxOptionComponent[]>;
   controlledOptions: ListboxOptionComponent[];
 
-  constructor(
-    service: ComboboxService,
-    private listboxComponent: ListboxComponent,
-    private destroyRef: DestroyRef
-  ) {
-    super(service);
+  override service = inject(ComboboxService);
+  private listboxComponent = inject(ListboxComponent);
+  private destroyRef = inject(DestroyRef);
+
+  constructor() {
+    super();
   }
 
   // select all will not respond to changes in selected or disabled properties

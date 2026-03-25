@@ -7,9 +7,9 @@ import { CalculatedBinsAttributeDataDimension } from '../geographies/config/laye
 
 @Directive()
 export abstract class MapLegend<
-    Datum,
-    AttributeDimensionConfig extends VicAttributeDataDimensionConfig<Datum>,
-  >
+  Datum,
+  AttributeDimensionConfig extends VicAttributeDataDimensionConfig<Datum>,
+>
   implements OnChanges, OnInit
 {
   @Input() width: number;

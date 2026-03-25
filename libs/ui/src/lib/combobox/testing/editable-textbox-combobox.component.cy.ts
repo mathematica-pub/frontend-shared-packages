@@ -324,9 +324,9 @@ class EditableTextboxFormControlTestComponent
       cy.get('.hsi-ui-listbox')
         .find('.hsi-ui-listbox-option')
         .eq(2)
-        .realClick();
+        .realClickAndWait();
       cy.get('.hsi-ui-editable-textbox-input').should('have.value', 'Coconuts');
-      cy.get('.hsi-ui-editable-textbox-input').realClick();
+      cy.get('.hsi-ui-editable-textbox-input').realClickAndWait();
       cy.get('.hsi-ui-listbox-option').should('have.length', 1);
     });
   });
@@ -356,9 +356,9 @@ class EditableTextboxFormControlTestComponent
     // see behavior here: https://ariakit.org/examples/combobox-multiple
     it('displays the nothing in the textbox input when an option is clicked and filtering is removed', () => {
       cy.get('.hsi-ui-editable-textbox-input').click();
-      cy.get('.hsi-ui-listbox-option').eq(2).realClick();
+      cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
       cy.get('.hsi-ui-editable-textbox-input').should('have.value', '');
-      cy.get('.hsi-ui-listbox-option').eq(3).realClick();
+      cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
       cy.get('.hsi-ui-editable-textbox-input').should('have.value', '');
       cy.get('.hsi-ui-editable-textbox-input').click();
       cy.get('.hsi-ui-listbox-option').should('have.length', 5);
@@ -392,7 +392,7 @@ class EditableTextboxFormControlTestComponent
         it('selects the first item if textbox is clicked on and closed', () => {
           cy.get('.fruits-dropdown').find('input').click();
           cy.get('.hsi-ui-listbox').should('be.visible');
-          cy.get('.outside-element').realClick();
+          cy.get('.outside-element').realClickAndWait();
           cy.get('.combobox-value').should('have.text', 'Apples');
           cy.get('.hsi-ui-listbox').should('not.be.visible');
           // reopen listbox and make sure properties are correct
@@ -416,9 +416,9 @@ class EditableTextboxFormControlTestComponent
           cy.get('.hsi-ui-listbox')
             .find('.hsi-ui-listbox-option')
             .eq(2)
-            .realClick();
+            .realClickAndWait();
           cy.get('.combobox-value').should('have.text', 'Coconuts');
-          cy.get('.outside-element').realClick();
+          cy.get('.outside-element').realClickAndWait();
           cy.get('.hsi-ui-listbox').should('not.be.visible');
           // reopen listbox and make sure properties are correct
           cy.get('.fruits-dropdown').find('input').click();
@@ -458,14 +458,14 @@ class EditableTextboxFormControlTestComponent
           it('does not make a selection if textbox is clicked on and closed', () => {
             cy.get('.fruits-dropdown').find('input').click();
             cy.get('.hsi-ui-listbox').should('be.visible');
-            cy.get('.outside-element').realClick();
+            cy.get('.outside-element').realClickAndWait();
             cy.get('.combobox-value').should('have.text', '');
             cy.get('.hsi-ui-listbox').should('not.be.visible');
           });
           it('filters the options and selects the first in the filtered list if text is entered in the textbox but no option is clicked', () => {
             cy.get('.fruits-dropdown').find('input').type('a');
             cy.get('.hsi-ui-listbox').should('be.visible');
-            cy.get('.outside-element').realClick();
+            cy.get('.outside-element').realClickAndWait();
             cy.get('.combobox-value').should('have.text', 'Apples');
             cy.get('.hsi-ui-listbox').should('not.be.visible');
             // reopen listbox and make sure properties are correct
@@ -486,9 +486,9 @@ class EditableTextboxFormControlTestComponent
             cy.get('.hsi-ui-listbox')
               .find('.hsi-ui-listbox-option')
               .eq(2)
-              .realClick();
+              .realClickAndWait();
             cy.get('.combobox-value').should('have.text', 'Durians');
-            cy.get('.outside-element').realClick();
+            cy.get('.outside-element').realClickAndWait();
             cy.get('.hsi-ui-listbox').should('not.be.visible');
             // reopen listbox and make sure properties are correct
             cy.get('.fruits-dropdown').find('input').click();
@@ -529,7 +529,7 @@ class EditableTextboxFormControlTestComponent
           it('does not make any selections if the textbox is clicked and then there is a blur event / it is closed', () => {
             cy.get('.fruits-dropdown').find('input').click();
             cy.get('.hsi-ui-listbox').should('be.visible');
-            cy.get('.outside-element').realClick();
+            cy.get('.outside-element').realClickAndWait();
             cy.get('.combobox-value').should('have.text', '');
             cy.get('.hsi-ui-listbox').should('not.be.visible');
           });
@@ -566,7 +566,7 @@ class EditableTextboxFormControlTestComponent
     it('clears previously typed text when clicking the textbox', () => {
       cy.get('.hsi-ui-editable-textbox-input').type('ap');
       cy.get('.hsi-ui-editable-textbox-input').should('have.value', 'ap');
-      cy.get('.outside-element').realClick();
+      cy.get('.outside-element').realClickAndWait();
       cy.get('.fruits-dropdown').find('input').click();
       cy.get('.hsi-ui-editable-textbox-input').should('have.value', '');
       cy.get('.textbox-value').should('have.text', '');
@@ -579,9 +579,9 @@ class EditableTextboxFormControlTestComponent
       cy.get('.hsi-ui-listbox')
         .find('.hsi-ui-listbox-option')
         .eq(2)
-        .realClick(); // Coconuts
+        .realClickAndWait(); // Coconuts
       cy.get('.combobox-value').should('have.text', 'Coconuts');
-      cy.get('.outside-element').realClick();
+      cy.get('.outside-element').realClickAndWait();
       cy.get('.fruits-dropdown').find('input').click();
       cy.get('.hsi-ui-editable-textbox-input').should('have.value', '');
       // selection remains unchanged

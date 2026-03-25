@@ -6,12 +6,13 @@
           @if (section.type === ContentSection.Markdown) {
             <div class="injected-html" [innerHTML]="section.html"></div>
           } @else if (section.type === ContentSection.CustomAngular) {
-            <ng-container
-              *ngIf="customAngularTemplateRef"
-              [ngTemplateOutlet]="customAngularTemplateRef"
-              [ngTemplateOutletContext]="{ $implicit: section }"
-            >
-            </ng-container>
+            @if (customAngularTemplateRef) {
+              <ng-container
+                [ngTemplateOutlet]="customAngularTemplateRef"
+                [ngTemplateOutletContext]="{ $implicit: section }"
+              >
+              </ng-container>
+            }
           } @else if (section.type === ContentSection.BuilderMethod) {
             <ng-container
               [ngTemplateOutlet]="method"

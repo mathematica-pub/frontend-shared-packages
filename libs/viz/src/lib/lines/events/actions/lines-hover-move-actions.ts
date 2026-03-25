@@ -9,9 +9,9 @@ import { LinesHost } from '../lines-events.directive';
  * This action changes the color of the non-closest-to-pointer lines
  *  to a light gray.
  */
-export class LinesHoverMoveDefaultLinesStyles<Datum>
-  implements HoverMoveAction<LinesHost<Datum>>
-{
+export class LinesHoverMoveDefaultLinesStyles<Datum> implements HoverMoveAction<
+  LinesHost<Datum>
+> {
   onStart(host: LinesHost<Datum>): void {
     host
       .getClosestLineGroup()
@@ -39,9 +39,9 @@ export class LinesHoverMoveDefaultLinesStyles<Datum>
  *  and at the same time enlarges the marker on the "selected" line that is
  *  closest to the pointer by a specified amount.
  */
-export class LinesHoverMoveDefaultMarkersStyles<Datum>
-  implements HoverMoveAction<LinesHost<Datum>>
-{
+export class LinesHoverMoveDefaultMarkersStyles<
+  Datum,
+> implements HoverMoveAction<LinesHost<Datum>> {
   onStart(host: LinesHost<Datum>): void {
     host
       .getClosestMarker()
@@ -73,9 +73,9 @@ export class LinesHoverMoveDefaultMarkersStyles<Datum>
  * Applies either Line Markers action or a Hover Dot action depending on
  *  whether line markers are used.
  */
-export class LinesHoverMoveDefaultStyles<Datum>
-  implements HoverMoveAction<LinesHost<Datum>>
-{
+export class LinesHoverMoveDefaultStyles<Datum> implements HoverMoveAction<
+  LinesHost<Datum>
+> {
   linesStyles: HoverMoveAction<LinesHost<Datum>>;
   markersStyles: HoverMoveAction<LinesHost<Datum>>;
 
@@ -99,9 +99,9 @@ export class LinesHoverMoveDefaultStyles<Datum>
   }
 }
 
-export class LinesHoverMoveEmitTooltipData<Datum>
-  implements HoverMoveAction<LinesHost<Datum>>
-{
+export class LinesHoverMoveEmitTooltipData<Datum> implements HoverMoveAction<
+  LinesHost<Datum>
+> {
   onStart(host: LinesHost<Datum>): void {
     const tooltipData = host.getInteractionOutput(EventType.HoverMove);
     host.emitInteractionOutput(tooltipData);

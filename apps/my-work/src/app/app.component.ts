@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
   AdkAssetsService,
@@ -27,10 +27,8 @@ import { SidebarComponent } from './platform/sidebar/sidebar.component';
 export class AppComponent implements OnInit {
   title = 'HSI Static Charts';
 
-  constructor(
-    public routerState: RouterStateService,
-    private highlighting: AdkShikiHighlighter
-  ) {}
+  public routerState = inject(RouterStateService);
+  private highlighting = inject(AdkShikiHighlighter);
 
   ngOnInit(): void {
     this.routerState.initialize();

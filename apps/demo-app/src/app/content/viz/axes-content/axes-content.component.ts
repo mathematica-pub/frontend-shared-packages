@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
@@ -42,11 +43,8 @@ export class AxesContentComponent implements OnInit {
   customLabelAxes: Axes;
   defaultGridAxes: Axes;
   customGridAxes: Axes;
-
-  constructor(
-    private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
-    private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>
-  ) {}
+  private xQuantitativeAxis = inject(VicXQuantitativeAxisConfigBuilder<number>);
+  private yQuantitativeAxis = inject(VicYQuantitativeAxisConfigBuilder<number>);
 
   ngOnInit(): void {
     this.defaultAxes = {

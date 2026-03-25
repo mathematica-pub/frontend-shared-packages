@@ -29,16 +29,16 @@ const routes = [
       {
         path: 'geographies',
         loadComponent: () =>
-          import(
-            '../viz/geographies-content/geographies-content.component'
-          ).then((m) => m.GeographiesContentComponent),
+          import('../viz/geographies-content/geographies-content.component').then(
+            (m) => m.GeographiesContentComponent
+          ),
       },
       {
         path: 'grouped-bars',
         loadComponent: () =>
-          import(
-            '../viz/grouped-bars-content/grouped-bars-content.component'
-          ).then((m) => m.GroupedBarsContentComponent),
+          import('../viz/grouped-bars-content/grouped-bars-content.component').then(
+            (m) => m.GroupedBarsContentComponent
+          ),
       },
       {
         path: 'lines',
@@ -50,16 +50,16 @@ const routes = [
       {
         path: 'stacked-area',
         loadComponent: () =>
-          import(
-            '../viz/stacked-area-content/stacked-area-content.component'
-          ).then((m) => m.StackedAreaContentComponent),
+          import('../viz/stacked-area-content/stacked-area-content.component').then(
+            (m) => m.StackedAreaContentComponent
+          ),
       },
       {
         path: 'stacked-bars',
         loadComponent: () =>
-          import(
-            '../viz/stacked-bars-content/stacked-bars-content.component'
-          ).then((m) => m.StackedBarsContentComponent),
+          import('../viz/stacked-bars-content/stacked-bars-content.component').then(
+            (m) => m.StackedBarsContentComponent
+          ),
       },
     ],
   },

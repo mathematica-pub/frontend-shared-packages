@@ -1,4 +1,4 @@
-import { DestroyRef, Injectable, NgZone } from '@angular/core';
+import { DestroyRef, inject, Injectable, NgZone } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   BehaviorSubject,
@@ -14,7 +14,7 @@ export class AdkActiveHeadingTracker {
   private activeHeadingId = new BehaviorSubject<string | null>(null);
   activeHeadingId$ = this.activeHeadingId.asObservable();
 
-  constructor(private ngZone: NgZone) {}
+  private ngZone = inject(NgZone);
 
   initScrollListener(contentEl: HTMLElement, destroyRef: DestroyRef): void {
     this.ngZone.runOutsideAngular(() => {

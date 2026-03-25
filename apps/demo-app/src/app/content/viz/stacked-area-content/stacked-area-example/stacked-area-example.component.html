@@ -1,51 +1,58 @@
-<div class="stacked-area-example" *ngIf="vm$ | async as vm; else loading">
-  <vic-xy-chart [config]="vm.chartConfig">
-    <ng-container svg-elements>
-      <svg:g vic-xy-background></svg:g>
-      <svg:g
-        vic-primary-marks-stacked-area
-        [config]="vm.dataConfig"
-        vicStackedAreaEvents
-        [hoverMoveActions]="hoverMoveActions"
-        (interactionOutput)="updateTooltipForNewOutput($event)"
-      >
-        <vic-html-tooltip
-          [config]="tooltipConfig$ | async"
-          [template]="htmlTooltip"
-        ></vic-html-tooltip>
-      </svg:g>
-      <svg:g>
-        <line
-          *ngIf="interactionOutput$ | async as tooltipData"
-          class="tooltip-line"
-          [attr.x1]="tooltipData.anchor.x"
-          [attr.x2]="tooltipData.anchor.x"
-          [attr.y1]="tooltipData.anchor.yAreaTop"
-          [attr.y2]="tooltipData.anchor.yAreaBottom"
-        ></line>
-      </svg:g>
-      <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
-      <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig"></svg:g>
-    </ng-container>
-  </vic-xy-chart>
-</div>
-<ng-template #loading>Loading...</ng-template>
+@if (vm$ | async; as vm) {
+  <div class="stacked-area-example">
+    <vic-xy-chart [config]="vm.chartConfig">
+      <ng-container svg-elements>
+        <svg:g vic-xy-background></svg:g>
+        <svg:g
+          vic-primary-marks-stacked-area
+          [config]="vm.dataConfig"
+          vicStackedAreaEvents
+          [hoverMoveActions]="hoverMoveActions"
+          (interactionOutput)="updateTooltipForNewOutput($event)"
+        >
+          <vic-html-tooltip
+            [config]="tooltipConfig$ | async"
+            [template]="htmlTooltip"
+          ></vic-html-tooltip>
+        </svg:g>
+        <svg:g>
+          @if (interactionOutput$ | async; as tooltipData) {
+            <line
+              class="tooltip-line"
+              [attr.x1]="tooltipData.anchor.x"
+              [attr.x2]="tooltipData.anchor.x"
+              [attr.y1]="tooltipData.anchor.yAreaTop"
+              [attr.y2]="tooltipData.anchor.yAreaBottom"
+            ></line>
+          }
+        </svg:g>
+        <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
+        <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig"></svg:g>
+      </ng-container>
+    </vic-xy-chart>
+  </div>
+} @else {
+  Loading...
+}
 
 <ng-template #htmlTooltip>
-  <div
-    *ngIf="(interactionOutput$ | async).hoveredAreaDatum as interactionOutput"
-    [style.--color]="interactionOutput.color"
-    class="stacked-area-example-tooltip-container"
-  >
-    <div class="tooltip-body">
-      <p class="tooltip-label category">{{ interactionOutput.values.color }}</p>
-      <p class="tooltip-label x">{{ interactionOutput.values.x }}</p>
-      <div class="values-container">
-        <p class="tooltip-label y">
-          <span class="value-label">Value</span>
-          {{ interactionOutput.datum.value }}
-        </p>
+  @if ((interactionOutput$ | async).hoveredAreaDatum; as interactionOutput) {
+    <div
+      [style.--color]="interactionOutput.color"
+      class="stacked-area-example-tooltip-container"
+    >
+      <div class="tooltip-body">
+        <p class="tooltip-label category">{{
+          interactionOutput.values.color
+        }}</p>
+        <p class="tooltip-label x">{{ interactionOutput.values.x }}</p>
+        <div class="values-container">
+          <p class="tooltip-label y">
+            <span class="value-label">Value</span>
+            {{ interactionOutput.datum.value }}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
+  }
 </ng-template>

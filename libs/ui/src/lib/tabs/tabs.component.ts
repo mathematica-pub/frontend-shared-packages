@@ -7,6 +7,7 @@ import {
   EventEmitter,
   Output,
   QueryList,
+  inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable, map, startWith } from 'rxjs';
@@ -26,10 +27,12 @@ export class TabsComponent<T> implements AfterContentInit {
   tabItems$: Observable<TabItemComponent<T>[]>;
   tabChanges$: Observable<boolean[]>;
 
-  constructor(
-    public service: TabsService<T>,
-    private destroyRef: DestroyRef
-  ) {}
+  public readonly service: TabsService<T>;
+  private destroyRef = inject(DestroyRef);
+
+  constructor() {
+    this.service = inject(TabsService<T>);
+  }
 
   ngAfterContentInit(): void {
     this.tabItems$ = this.tabs.changes.pipe(

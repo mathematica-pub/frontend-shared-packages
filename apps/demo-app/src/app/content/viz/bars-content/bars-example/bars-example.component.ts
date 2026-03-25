@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {
@@ -31,7 +31,7 @@ import {
 import { MetroUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { format } from 'd3';
-import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, map, Observable } from 'rxjs';
 
 interface ViewModel {
   chartConfig: ChartConfig;
@@ -103,17 +103,14 @@ export class BarsExampleComponent implements OnInit {
       },
     });
   layoutProperties$ = this.layoutProperties.asObservable();
-
-  constructor(
-    private dataService: DataService,
-    private bars: VicBarsConfigBuilder<MetroUnemploymentDatum, string>,
-    private chart: VicChartConfigBuilder,
-    private xOrdinalAxis: VicXOrdinalAxisConfigBuilder<string>,
-    private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
-    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>,
-    private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
-    private tooltip: VicHtmlTooltipConfigBuilder
-  ) {}
+  private dataService = inject(DataService);
+  private bars = inject(VicBarsConfigBuilder<MetroUnemploymentDatum, string>);
+  private chart = inject(VicChartConfigBuilder);
+  private xOrdinalAxis = inject(VicXOrdinalAxisConfigBuilder<string>);
+  private xQuantitativeAxis = inject(VicXQuantitativeAxisConfigBuilder<number>);
+  private yOrdinalAxis = inject(VicYOrdinalAxisConfigBuilder<string>);
+  private yQuantitativeAxis = inject(VicYQuantitativeAxisConfigBuilder<number>);
+  private tooltip = inject(VicHtmlTooltipConfigBuilder);
 
   ngOnInit(): void {
     const data$ = this.dataService.metroUnemploymentData$.pipe(

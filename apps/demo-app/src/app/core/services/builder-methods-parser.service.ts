@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   AdkMarkdownParsingOptions,
@@ -25,7 +25,7 @@ export interface BuilderMethods<Description = string> {
 
 @Injectable({ providedIn: 'root' })
 export class BuilderMethodsParserService {
-  constructor(private sanitizer: DomSanitizer) {}
+  private sanitizer = inject(DomSanitizer);
 
   public parseSection(
     section:

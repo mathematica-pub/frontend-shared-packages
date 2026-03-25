@@ -3,8 +3,7 @@ import { HtmlTooltipCdkManagedPosition } from '../../tooltips';
 import { BarsTooltipDatum } from '../bars.component';
 
 export interface BarsInteractionOutput<Datum>
-  extends BarsTooltipDatum<Datum>,
-    InteractionOutput {
+  extends BarsTooltipDatum<Datum>, InteractionOutput {
   /**
    * A method that positions the tooltip with a user specified offset from the tooltip's anchor point.
    *

@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   Output,
@@ -23,7 +24,7 @@ export class NavigationSiblingsComponent implements OnChanges {
   previous: string;
   next: string;
 
-  constructor(private titleCase: TitleCasePipe) {}
+  private titleCase = inject(TitleCasePipe);
 
   ngOnChanges(): void {
     this.setDisplayNames();

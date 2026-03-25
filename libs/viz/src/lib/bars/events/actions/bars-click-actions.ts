@@ -6,9 +6,10 @@ import { BarsInteractionOutput } from '../bars-interaction-output';
 export class BarsClickEmitTooltipDataPauseOtherActions<
   Datum,
   TOrdinalValue extends DataValue,
-> implements
-    EventAction<BarsHost<Datum, TOrdinalValue>, BarsInteractionOutput<Datum>>
-{
+> implements EventAction<
+  BarsHost<Datum, TOrdinalValue>,
+  BarsInteractionOutput<Datum>
+> {
   onStart(host: BarsHost<Datum, TOrdinalValue>) {
     const output = host.getInteractionOutput(EventType.Click);
     host.disableOtherActions(EventType.Click);

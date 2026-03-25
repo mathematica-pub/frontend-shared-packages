@@ -52,7 +52,7 @@ export class VicStackedAreaConfigBuilder<
     series: Series<
       [ContinuousValue, InternMap<CategoricalDomain, number>],
       CategoricalDomain
-    >,
+    >[],
     order: number[]
   ) => void;
   private xDimensionBuilder:
@@ -159,7 +159,7 @@ export class VicStackedAreaConfigBuilder<
       series: Series<
         [ContinuousValue, InternMap<CategoricalDomain, number>],
         CategoricalDomain
-      >,
+      >[],
       order: number[]
     ) => void
   ): this;
@@ -169,7 +169,7 @@ export class VicStackedAreaConfigBuilder<
           series: Series<
             [ContinuousValue, InternMap<CategoricalDomain, number>],
             CategoricalDomain
-          >,
+          >[],
           order: number[]
         ) => void)
       | null

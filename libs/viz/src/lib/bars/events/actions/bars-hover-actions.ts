@@ -3,10 +3,13 @@ import { EventAction, EventType } from '../../../events';
 import { BarsHost } from '../bars-events.directive';
 import { BarsInteractionOutput } from '../bars-interaction-output';
 
-export class BarsHoverShowLabels<Datum, TOrdinalValue extends DataValue>
-  implements
-    EventAction<BarsHost<Datum, TOrdinalValue>, BarsInteractionOutput<Datum>>
-{
+export class BarsHoverShowLabels<
+  Datum,
+  TOrdinalValue extends DataValue,
+> implements EventAction<
+  BarsHost<Datum, TOrdinalValue>,
+  BarsInteractionOutput<Datum>
+> {
   onStart(host: BarsHost<Datum, TOrdinalValue>): void {
     host.marks.barGroups
       .filter((d) => d === host.getBarDatum().index)
@@ -22,10 +25,13 @@ export class BarsHoverShowLabels<Datum, TOrdinalValue extends DataValue>
   }
 }
 
-export class BarsHoverEmitTooltipData<Datum, TOrdinalValue extends DataValue>
-  implements
-    EventAction<BarsHost<Datum, TOrdinalValue>, BarsInteractionOutput<Datum>>
-{
+export class BarsHoverEmitTooltipData<
+  Datum,
+  TOrdinalValue extends DataValue,
+> implements EventAction<
+  BarsHost<Datum, TOrdinalValue>,
+  BarsInteractionOutput<Datum>
+> {
   onStart(host: BarsHost<Datum, TOrdinalValue>): void {
     const output = host.getInteractionOutput(EventType.Hover);
     host.emitInteractionOutput(output);

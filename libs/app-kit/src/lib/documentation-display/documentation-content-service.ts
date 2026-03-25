@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable, map, switchMap, withLatestFrom } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { map, Observable, switchMap, withLatestFrom } from 'rxjs';
 import { AdkAssetResponse, AdkAssetsService } from '../assets/assets-service';
 import {
   AdkMarkdownParser,
@@ -28,8 +28,9 @@ export interface AdkParsedMarkdownFile<Content = string> {
   headings: AdkHtmlHeader[];
 }
 
-export interface AdkParsedDocumentation<Content = string>
-  extends AdkParsedMarkdownFile<Content> {
+export interface AdkParsedDocumentation<
+  Content = string,
+> extends AdkParsedMarkdownFile<Content> {
   siblings: AdkDocumentationNavigationSiblings;
 }
 
@@ -51,11 +52,9 @@ export class AdkDocumentationContentService {
     [name: string]: Observable<AdkParsedContentSection[]>;
   } = {};
 
-  constructor(
-    private assetsService: AdkAssetsService,
-    private docsConfigParser: AdkDocumentationConfigParser,
-    private markdownParser: AdkMarkdownParser
-  ) {}
+  private assetsService = inject(AdkAssetsService);
+  private docsConfigParser = inject(AdkDocumentationConfigParser);
+  private markdownParser = inject(AdkMarkdownParser);
 
   /**
    * This service requires the consuming app to provide the AdkDocumentationDisplayService, the AdkAssetsService, and the AdkDocumentationConfigParser at the level at which this service is configured.

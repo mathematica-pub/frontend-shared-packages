@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   OnInit,
 } from '@angular/core';
@@ -73,13 +74,10 @@ export class DotsScatterplotExampleComponent implements OnInit {
     bottom: 32,
     left: 30,
   };
-
-  constructor(
-    private chart: VicChartConfigBuilder,
-    private dots: VicDotsConfigBuilder<Datum>,
-    private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
-    private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>
-  ) {}
+  private chart = inject(VicChartConfigBuilder);
+  private dots = inject(VicDotsConfigBuilder<Datum>);
+  private xQuantitativeAxis = inject(VicXQuantitativeAxisConfigBuilder<number>);
+  private yQuantitativeAxis = inject(VicYQuantitativeAxisConfigBuilder<number>);
 
   ngOnInit(): void {
     this.getViewModel();
