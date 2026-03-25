@@ -163,7 +163,6 @@ export abstract class XyAxis<
     if (this.config.ticks.wrap && this.config.ticks.wrap.width !== undefined) {
       this.wrapAxisTickText(tickText);
     }
-    // Note: marksDisplay removal is now handled immediately in hideElementsPerConfig()
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -217,13 +216,9 @@ export abstract class XyAxis<
           .attr('stroke-dasharray', null)
       );
     }
-
-    // Note: baseline removal is now handled immediately in hideElementsPerConfig()
   }
 
   processTickLabels(): void {
-    // Note: labelsDisplay removal is now handled immediately in hideElementsPerConfig()
-
     if (this.config.ticks.rotate) {
       this.axisGroup.call((g) =>
         g
