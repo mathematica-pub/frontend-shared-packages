@@ -122,7 +122,7 @@ export abstract class XyAxis<
     }
   }
 
-  private hideElementsPerConfig(): void {
+  protected hideElementsPerConfig(): void {
     if (this.config.ticks.marksDisplay === false) {
       this.axisGroup.selectAll('.tick line').interrupt().remove();
     }
