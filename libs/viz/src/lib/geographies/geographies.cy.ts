@@ -600,7 +600,7 @@ describe('displays tooltips for correct data per hover position', () => {
   beforeEach(() => {
     cy.fixture('usMap.json').then((response) => {
       mountGeographiesForTooltipTests(response);
-        cy.wait(1000); // Allow previous test's injector to fully destroy
+      cy.wait(1000); // Allow previous test's injector to fully destroy
     });
   });
   attributeData
