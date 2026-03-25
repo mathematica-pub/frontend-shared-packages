@@ -101,7 +101,6 @@ export abstract class XyAxis<
     }
 
     // Remove domain to avoid odd baseline/zero-axis positioning during transitions
-    // Ticks are preserved to allow smooth transitions
     this.axisGroup.select('.domain').remove();
 
     this.axisGroup
