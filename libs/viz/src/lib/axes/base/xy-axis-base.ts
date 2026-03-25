@@ -122,11 +122,18 @@ export abstract class XyAxis<
     }
   }
 
-  protected hideElementsPerConfig(): void {
+  hideElementsPerConfig(): void {
+    // Remove tick marks immediately if configured to be hidden
     if (this.config.ticks.marksDisplay === false) {
       this.axisGroup.selectAll('.tick line').interrupt().remove();
     }
 
+    // Remove tick labels immediately if configured to be hidden
+    if (this.config.ticks.labelsDisplay === false) {
+      this.axisGroup.selectAll('.tick text').interrupt().remove();
+    }
+
+    // Remove baseline immediately if not displayed and no zero baseline exists
     const zeroAxisTranslate = this.getBaselineTranslate();
     if (!this.config.baseline.display && zeroAxisTranslate === null) {
       this.axisGroup.select('.domain').interrupt().remove();
@@ -215,9 +222,7 @@ export abstract class XyAxis<
   }
 
   processTickLabels(): void {
-    if (this.config.ticks.labelsDisplay === false) {
-      this.axisGroup.call((g) => g.selectAll('.tick text').remove());
-    }
+    // Note: labelsDisplay removal is now handled immediately in hideElementsPerConfig()
 
     if (this.config.ticks.rotate) {
       this.axisGroup.call((g) =>
