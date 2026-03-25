@@ -255,6 +255,9 @@ export abstract class XyAxis<
           .attr('class', this.class.gridGroup);
       }
 
+      // Avoid odd animations of grid lines when they change between draws
+      this.gridGroup.selectAll('.tick').remove();
+
       this.gridGroup
         .transition(this.getTransition(this.gridGroup))
         .call(this.axis.tickSizeInner(this.getGridLineLength()))
