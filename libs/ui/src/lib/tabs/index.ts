@@ -4,3 +4,4 @@ export * from './tab-item.component';
 export * from './tab-label.component';
 export * from './tabs.component';
 export * from './tabs.module';
+export * from './tabs.service';

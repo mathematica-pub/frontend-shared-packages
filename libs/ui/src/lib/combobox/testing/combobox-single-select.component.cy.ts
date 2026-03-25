@@ -53,6 +53,7 @@ class ComboboxSingleTestComponent extends ComboboxBaseTestComponent {}
 describe('ComboboxSingleSelectOnlyComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxSingleTestComponent);
+    cy.wait(100);
   });
   describe('click behavior after load', () => {
     it('should not emit a value on load', () => {
@@ -67,15 +68,15 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
     });
     it('should emit the correct value on option click', () => {
       cy.get('.hsi-ui-textbox').click();
-      cy.get('.hsi-ui-listbox-option').first().realClick();
+      cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
       cy.get('.combobox-value').should('have.text', 'Apples');
     });
     it('should display value on textbox', () => {
       cy.get('.hsi-ui-textbox').click();
-      cy.get('.hsi-ui-listbox-option').first().realClick();
+      cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
       cy.get('.hsi-ui-textbox-label').should('include.text', 'Apples');
       cy.get('.hsi-ui-textbox').click();
-      cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+      cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
       cy.get('.hsi-ui-textbox-label').should('include.text', 'Bananas');
       cy.get('.hsi-ui-textbox-label').should('not.include.text', 'Apples');
     });
@@ -85,34 +86,34 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.hsi-ui-listbox').should('not.be.visible');
     });
     it('selected option should be highlighted on listbox reopen', () => {
-      cy.get('.hsi-ui-textbox').realClick();
-      cy.get('.hsi-ui-listbox-option').first().realClick();
-      cy.get('.hsi-ui-textbox').realClick();
+      cy.get('.hsi-ui-textbox').realClickAndWait();
+      cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+      cy.get('.hsi-ui-textbox').realClickAndWait();
       cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
     });
     it('clicking outside the combobox should close the listbox', () => {
-      cy.get('.hsi-ui-textbox').realClick();
+      cy.get('.hsi-ui-textbox').realClickAndWait();
       cy.get('.hsi-ui-listbox').should('be.visible');
-      cy.get('.outside-element').realClick();
+      cy.get('.outside-element').realClickAndWait();
       cy.get('.hsi-ui-listbox').should('not.be.visible');
     });
   });
 
   it('the current class is on the first selected option if there is one or on the 0th option when opened', () => {
-    cy.get('.hsi-ui-textbox').realClick();
+    cy.get('.hsi-ui-textbox').realClickAndWait();
     cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
     cy.get('.hsi-ui-textbox').type('{esc}');
     cy.get('.hsi-ui-listbox').should('not.be.visible');
-    cy.get('.hsi-ui-textbox').realClick();
-    cy.get('.hsi-ui-listbox-option').eq(2).realClick();
-    cy.get('.hsi-ui-textbox').realClick();
+    cy.get('.hsi-ui-textbox').realClickAndWait();
+    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
+    cy.get('.hsi-ui-textbox').realClickAndWait();
     cy.get('.hsi-ui-listbox-option').eq(2).should('have.class', 'selected');
     cy.get('.hsi-ui-listbox-option').eq(2).should('have.class', 'current');
     cy.get('.hsi-ui-textbox').type('{esc}');
-    cy.get('.hsi-ui-textbox').realClick();
+    cy.get('.hsi-ui-textbox').realClickAndWait();
     cy.get('.hsi-ui-listbox-option').eq(2).should('have.class', 'current');
-    cy.get('.hsi-ui-listbox-option').eq(3).realClick();
-    cy.get('.hsi-ui-textbox').realClick();
+    cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
+    cy.get('.hsi-ui-textbox').realClickAndWait();
     cy.get('.hsi-ui-listbox-option').eq(3).should('have.class', 'selected');
     cy.get('.hsi-ui-listbox-option').eq(3).should('have.class', 'current');
   });
@@ -164,12 +165,12 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
   });
   it('can select non-disabled options', () => {
     cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClick();
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
     cy.get('.combobox-value').should('have.text', 'Apples');
   });
   it('cannot select disabled options', () => {
     cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(4).realClick();
+    cy.get('.hsi-ui-listbox-option').eq(4).realClickAndWait();
     cy.get('.combobox-value').should('not.have.text', 'Elderberries');
   });
 });
@@ -225,7 +226,7 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
   });
   it('can switch the selected option on click', () => {
     cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClick();
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
     cy.get('.combobox-value').should('have.text', 'Apples');
   });
 });
@@ -266,7 +267,7 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
           <hsi-ui-listbox-label>
             <span class="group-label">Prequel Trilogy</span>
           </hsi-ui-listbox-label>
-          @for (option of optionsGroup1; track option.id) {
+          @for (option of optionsGroup2; track option.id) {
             <hsi-ui-listbox-option [value]="option.id">{{
               option.displayName
             }}</hsi-ui-listbox-option>
@@ -302,13 +303,14 @@ class ComboboxGroupedSingleTestComponent {
 describe('ComboboxGroupedSingleTestComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxGroupedSingleTestComponent);
+    cy.wait(100);
   });
   it('can select values from different groups', () => {
-    cy.get('.hsi-ui-textbox').realClick();
-    cy.get('.hsi-ui-listbox-option').first().realClick();
+    cy.get('.hsi-ui-textbox').realClickAndWait();
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
     cy.get('.hsi-ui-textbox-label').should('include.text', 'A New Hope');
     cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(4).realClick();
+    cy.get('.hsi-ui-listbox-option').eq(4).realClickAndWait();
     cy.get('.hsi-ui-textbox-label').should(
       'include.text',
       'Attack of the Clones'
@@ -370,28 +372,28 @@ describe('NgFormListboxSingleTestComponent', () => {
   });
   it('can make one selection', () => {
     cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Bananas');
     cy.get('.hsi-ui-listbox-option').eq(1).should('have.class', 'selected');
   });
   it('can change selection', () => {
     cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Bananas');
     cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClick();
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
     cy.get('.hsi-ui-listbox-option').first().should('have.class', 'selected');
     cy.get('.hsi-ui-listbox-option').eq(1).should('not.have.class', 'selected');
   });
   it('selecting option should close the listbox', () => {
     cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClick();
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
     cy.get('.hsi-ui-listbox').should('not.be.visible');
   });
   it('control value should match selected combobox value', () => {
     cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClick();
+    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
     cy.get('.display-control-value').should('have.text', 'bana');
   });
 });
