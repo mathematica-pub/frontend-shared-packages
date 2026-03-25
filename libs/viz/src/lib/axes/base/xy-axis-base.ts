@@ -107,14 +107,14 @@ export abstract class XyAxis<
     this.axisGroup
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .transition(this.getTransition(this.axisGroup))
-      .call(this.axis)
-      .on('end', () => {
-        this.processTicks();
-        this.processDomain();
-        this.drawGrid();
-      });
+      .call(this.axis);
 
+    // Process immediately after axis is called to remove unwanted elements before they flash
+    this.processTicks();
+    this.processDomain();
     this.processTickLabels();
+    this.drawGrid();
+
     if (this.config.label) {
       this.createLabel();
     }
