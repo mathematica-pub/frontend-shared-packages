@@ -114,9 +114,22 @@ export abstract class XyAxis<
         this.drawGrid();
       });
 
+    // Hide elements immediately based on config to prevent flash during transition
+    this.hideElementsPerConfig();
     this.processTickLabels();
     if (this.config.label) {
       this.createLabel();
+    }
+  }
+
+  private hideElementsPerConfig(): void {
+    if (this.config.ticks.marksDisplay === false) {
+      this.axisGroup.selectAll('.tick line').interrupt().remove();
+    }
+
+    const zeroAxisTranslate = this.getBaselineTranslate();
+    if (!this.config.baseline.display && zeroAxisTranslate === null) {
+      this.axisGroup.select('.domain').interrupt().remove();
     }
   }
 
@@ -143,12 +156,7 @@ export abstract class XyAxis<
     if (this.config.ticks.wrap && this.config.ticks.wrap.width !== undefined) {
       this.wrapAxisTickText(tickText);
     }
-    if (this.config.ticks.marksDisplay === false) {
-      const marks = select(this.elRef.nativeElement).selectAll(
-        `.${this.class.axisGroup} .tick line`
-      );
-      marks.remove();
-    }
+    // Note: marksDisplay removal is now handled immediately in hideElementsPerConfig()
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -203,9 +211,7 @@ export abstract class XyAxis<
       );
     }
 
-    if (!this.config.baseline.display && zeroAxisTranslate === null) {
-      this.axisGroup.call((g) => g.select('.domain').remove());
-    }
+    // Note: baseline removal is now handled immediately in hideElementsPerConfig()
   }
 
   processTickLabels(): void {
