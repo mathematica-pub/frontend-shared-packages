@@ -780,7 +780,7 @@ describe('displays tooltips for correct data per hover position', () => {
   countryFactsData.forEach((_, i) => {
     describe(`Data point at index ${i}`, () => {
       beforeEach(() => {
-        cy.get(barSelector).eq(i).realHover();
+        cy.get(barSelector).eq(i).realHoverAndWait();
       });
       it('is okay', () => {
         cy.get('svg').should('exist');

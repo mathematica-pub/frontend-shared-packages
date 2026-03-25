@@ -453,7 +453,7 @@ describe('displays a tooltips with correct data on each dot', () => {
       beforeEach(() => {
         cy.get(
           `${dotGSelector}.${datum.country.split(' ')[0]} ${dotCircleSelector}`
-        ).realHover();
+        ).realHoverAndWait();
       });
       it('should display a tooltip with the correct data', () => {
         cy.get('.vic-html-tooltip-overlay').should('exist');

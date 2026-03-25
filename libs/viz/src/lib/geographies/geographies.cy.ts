@@ -608,7 +608,7 @@ describe('displays tooltips for correct data per hover position', () => {
       it(`State: ${stateDatum.state}`, () => {
         cy.get(
           `.vic-geographies-group.${stateDatum.state.split(' ').join('-')}`
-        ).realHover();
+        ).realHoverAndWait();
         cy.get('.vic-html-tooltip-overlay').should('exist');
         cy.get('.vic-html-tooltip-overlay p')
           .eq(0)

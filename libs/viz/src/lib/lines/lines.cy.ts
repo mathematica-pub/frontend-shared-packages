@@ -692,7 +692,7 @@ describe('displays tooltips for correct data per hover position', () => {
   dateData.forEach((_, i) => {
     describe(`Data point at index ${i}`, () => {
       beforeEach(() => {
-        cy.get('.vic-lines-marker').eq(i).realHover();
+        cy.get('.vic-lines-marker').eq(i).realHoverAndWait();
       });
 
       it('displays a tooltip', () => {
