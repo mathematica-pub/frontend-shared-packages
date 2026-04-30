@@ -3,36 +3,68 @@
   "targetDefaults": {
     "build": {
       "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "production",
+        "^production"
+      ]
     },
     "test": {
       "cache": true,
-      "inputs": ["default", "^production"]
+      "inputs": [
+        "default",
+        "^production"
+      ]
     },
     "lint": {
       "cache": true,
-      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
+      "inputs": [
+        "default",
+        "{workspaceRoot}/.eslintrc.json"
+      ]
     },
     "serve": {
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^production"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "default",
+        "^production"
+      ]
     },
     "e2e": {
       "cache": true,
-      "inputs": ["default", "^production"]
+      "inputs": [
+        "default",
+        "^production"
+      ]
     },
     "component-test": {
       "cache": true,
-      "inputs": ["default", "^production"],
-      "dependsOn": ["^build", "build"]
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "dependsOn": [
+        "^build",
+        "build"
+      ]
     },
     "publish": {
-      "inputs": ["default", "^production"],
-      "dependsOn": ["^build"]
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "dependsOn": [
+        "^build"
+      ]
     },
     "version": {
-      "dependsOn": ["create-changelog"]
+      "dependsOn": [
+        "create-changelog"
+      ]
     },
     "nx-release-publish": {
       "options": {
@@ -43,7 +75,10 @@
   "defaultBase": "main",
   "namedInputs": {
     "sharedGlobals": [],
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
     "production": [
       "default",
       "!{projectRoot}/tsconfig.spec.json",
@@ -59,7 +94,9 @@
   "useLegacyCache": true,
   "analytics": true,
   "release": {
-    "projects": ["libs/*"],
+    "projects": [
+      "libs/*"
+    ],
     "version": {
       "preVersionCommand": "npx nx run-many -t build",
       "manifestRootsToUpdate": [
@@ -68,7 +105,8 @@
           "path": "dist/{projectName}",
           "preserveLocalDependencyProtocols": false
         }
-      ]
+      ],
+      "conventionalCommits": true
     },
     "git": {
       "commitMessage": "build(release): {version}"

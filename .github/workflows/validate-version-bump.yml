@@ -1,0 +1,178 @@
+name: Validate Version Bump
+
+on:
+  pull_request_review:
+    types: [ submitted ]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  validate-version:
+    if: github.event.review.state == 'approved'
+    name: Check version bump and tag
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Fetch all tags
+        run: git fetch --tags
+
+      - name: Check for version bump commit
+        id: check_commit
+        run: |
+          # Check if there's a commit with "chore(release)" in the PR
+          VERSION_COMMIT=$(git log origin/${{ github.base_ref }}..${{ github.event.pull_request.head.ref }} --oneline --grep="chore(release):" --grep="chore(release) :" -E)
+
+          if [ -z "$VERSION_COMMIT" ]; then
+            echo "has_version_commit=false" >> $GITHUB_OUTPUT
+            echo "❌ No version bump commit found"
+            echo "error_message=No commit with 'chore(release):' prefix found in this PR. Please run 'nx release --skip-publish' to create a version bump." >> $GITHUB_OUTPUT
+          else
+            echo "has_version_commit=true" >> $GITHUB_OUTPUT
+            echo "✅ Version bump commit found: $VERSION_COMMIT"
+            echo "version_commit=$VERSION_COMMIT" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check for new tag
+        id: check_tag
+        if: steps.check_commit.outputs.has_version_commit == 'true'
+        run: |
+          # Get the latest tag on this branch
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+          if [ -z "$LATEST_TAG" ]; then
+            echo "has_new_tag=false" >> $GITHUB_OUTPUT
+            echo "❌ No tag found on this branch"
+            echo "error_message=No version tag found. After running 'nx release --skip-publish', make sure to push the generated tag." >> $GITHUB_OUTPUT
+          else
+            # Check if this tag was created after the base branch point
+            BASE_COMMIT=$(git merge-base origin/${{ github.base_ref }} HEAD)
+            TAG_COMMIT=$(git rev-list -n 1 $LATEST_TAG)
+
+            # Check if tag commit is in the current branch
+            if git merge-base --is-ancestor $BASE_COMMIT $TAG_COMMIT 2>/dev/null && \
+               git log $BASE_COMMIT..$TAG_COMMIT --oneline | grep -q .; then
+              echo "has_new_tag=true" >> $GITHUB_OUTPUT
+              echo "✅ New tag found: $LATEST_TAG (commit: ${TAG_COMMIT:0:7})"
+              echo "tag_name=$LATEST_TAG" >> $GITHUB_OUTPUT
+            else
+              echo "has_new_tag=false" >> $GITHUB_OUTPUT
+              echo "❌ Tag $LATEST_TAG exists but was not created in this PR"
+              echo "error_message=The tag '$LATEST_TAG' was not created in this PR. Please push a new version tag." >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Extract version from package.json changes
+        id: check_package_version
+        if: steps.check_commit.outputs.has_version_commit == 'true'
+        run: |
+          # Check if any package.json or project.json files have version changes
+          VERSION_FILES=$(git diff origin/${{ github.base_ref }}..HEAD --name-only | grep -E "(package\.json|project\.json)" || echo "")
+
+          if [ -z "$VERSION_FILES" ]; then
+            echo "has_version_change=false" >> $GITHUB_OUTPUT
+            echo "⚠️ No version changes detected in package.json or project.json files"
+            echo "warning_message=Version bump commit exists but no version changes found in package.json or project.json files." >> $GITHUB_OUTPUT
+          else
+            echo "has_version_change=true" >> $GITHUB_OUTPUT
+            echo "✅ Version changes detected in:"
+            echo "$VERSION_FILES" | while read file; do echo "  - $file"; done
+            echo "changed_files<<EOF" >> $GITHUB_OUTPUT
+            echo "$VERSION_FILES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment on PR - Success
+        if: |
+          steps.check_commit.outputs.has_version_commit == 'true' &&
+          steps.check_tag.outputs.has_new_tag == 'true' &&
+          steps.check_package_version.outputs.has_version_change == 'true'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const tag = '${{ steps.check_tag.outputs.tag_name }}';
+            const commit = '${{ steps.check_commit.outputs.version_commit }}';
+            const files = `${{ steps.check_package_version.outputs.changed_files }}`.split('\n').filter(f => f);
+
+            const body = `## ✅ Version Bump Validation Passed
+
+            This PR includes a proper version bump:
+
+            - **Version commit**: \`${commit.split('\n')[0]}\`
+            - **New tag**: \`${tag}\`
+            - **Updated files**: ${files.length}
+            ${files.map(f => `  - \`${f}\``).join('\n')}
+
+            The PR is ready to merge! 🚀`;
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Comment on PR - Missing Items
+        if: |
+          steps.check_commit.outputs.has_version_commit != 'true' ||
+          steps.check_tag.outputs.has_new_tag != 'true' ||
+          steps.check_package_version.outputs.has_version_change != 'true'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const hasCommit = '${{ steps.check_commit.outputs.has_version_commit }}' === 'true';
+            const hasTag = '${{ steps.check_tag.outputs.has_new_tag }}' === 'true';
+            const hasVersionChange = '${{ steps.check_package_version.outputs.has_version_change }}' === 'true';
+
+            let body = `## ⚠️ Version Bump Validation Failed
+
+            This PR is missing required version bump artifacts:\n\n`;
+
+            if (!hasCommit) {
+              body += `- ❌ **Version bump commit**: ${{ steps.check_commit.outputs.error_message }}\n`;
+            } else {
+              body += `- ✅ **Version bump commit**: Found\n`;
+            }
+
+            if (!hasTag) {
+              const tagError = '${{ steps.check_tag.outputs.error_message }}';
+              body += `- ❌ **Version tag**: ${tagError || 'Missing'}\n`;
+            } else {
+              body += `- ✅ **Version tag**: ${{ steps.check_tag.outputs.tag_name }}\n`;
+            }
+
+            if (!hasVersionChange) {
+              const versionWarning = '${{ steps.check_package_version.outputs.warning_message }}';
+              body += `- ⚠️ **Version changes**: ${versionWarning || 'Missing'}\n`;
+            } else {
+              body += `- ✅ **Version changes**: Found\n`;
+            }
+
+            body += `\n### How to fix:\n\n`;
+            body += `1. Run \`npx nx release --skip-publish\` to bump the version and create a commit\n`;
+            body += `2. Push the generated tag: \`git push --follow-tags\`\n`;
+            body += `3. Ensure package.json or project.json files contain version updates\n`;
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Fail if validation failed
+        if: |
+          steps.check_commit.outputs.has_version_commit != 'true' ||
+          steps.check_tag.outputs.has_new_tag != 'true' ||
+          steps.check_package_version.outputs.has_version_change != 'true'
+        run: |
+          echo "::error::Version bump validation failed. See PR comment for details."
+          exit 1
