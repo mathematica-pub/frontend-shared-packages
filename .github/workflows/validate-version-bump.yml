@@ -30,10 +30,10 @@ jobs:
         run: |
           # Get the version from main branch
           git fetch origin ${{ github.event.pull_request.base.ref }}
-          MAIN_VERSION=$(git show origin/${{ github.event.pull_request.base.ref }}:package.json | grep -Po '"version":\s*"\K[^"]+' || echo "0.0.0")
+          MAIN_VERSION=$(git show origin/${{ github.event.pull_request.base.ref }}:libs/viz/package.json | grep -Po '"version":\s*"\K[^"]+' || echo "could not find version, path is likely incorrect")
 
           # Get the version from PR branch
-          PR_VERSION=$(grep -Po '"version":\s*"\K[^"]+' package.json || echo "0.0.0")
+          PR_VERSION=$(grep -Po '"version":\s*"\K[^"]+' libs/viz/package.json || echo "could not find version, path is likely incorrect")
 
           echo "Main branch version: $MAIN_VERSION"
           echo "PR branch version: $PR_VERSION"
@@ -82,7 +82,8 @@ jobs:
 
       - name: Check if tag matches version
         id: check_tag_match
-        if: steps.check_version.outputs.has_version_bump == 'true' && steps.check_tag.outputs.has_new_tag == 'true'
+        if: steps.check_version.outputs.has_version_bump == 'true' &&
+          steps.check_tag.outputs.has_new_tag == 'true'
         run: |
           PR_VERSION="${{ steps.check_version.outputs.pr_version }}"
           TAG_NAME="${{ steps.check_tag.outputs.tag_name }}"
