@@ -1,3 +1,13 @@
+## 2.1.1 (2026-04-30)
+
+### 🩹 Fixes
+
+- properly import data-export deps ([a598f998](https://github.com/mathematica-pub/frontend-shared-packages/commit/a598f998))
+
+### ❤️ Thank You
+
+- Claire McShane
+
 ## 2.2.0 (2026-03-25)
 
 This was a version bump only, there were no code changes.
