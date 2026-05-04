@@ -106,6 +106,9 @@ jobs:
       - name: Publish packages
         run: npx nx release publish --provenance
         shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   beta-release:
     if: github.event_name == 'issue_comment' && github.event.issue.pull_request &&
       contains(github.event.comment.body, 'beta-release-bot:')
