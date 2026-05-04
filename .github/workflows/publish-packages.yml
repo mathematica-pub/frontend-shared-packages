@@ -35,7 +35,7 @@ jobs:
           filter: tree:0
 
       - name: Install Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
@@ -104,7 +104,7 @@ jobs:
         shell: bash
 
       - name: Publish packages
-        run: npx nx release publish --provenance
+        run: npx nx release publish
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
