@@ -23,5 +23,8 @@
     "type": "git",
     "url": "https://github.com/mathematica-pub/frontend-shared-packages.git",
     "directory": "libs/ui"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
