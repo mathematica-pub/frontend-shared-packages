@@ -104,7 +104,7 @@ jobs:
         shell: bash
 
       - name: Publish packages
-        run: npx nx release publish
+        run: npx nx release publish --provenance
         shell: bash
   beta-release:
     if: github.event_name == 'issue_comment' && github.event.issue.pull_request &&
