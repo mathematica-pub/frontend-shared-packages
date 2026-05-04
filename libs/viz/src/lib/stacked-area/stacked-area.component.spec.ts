@@ -27,7 +27,7 @@ describe('StackedAreaComponent', () => {
         { date: new Date('2020-01-03'), value: 3, category: 'a' },
         { date: new Date('2020-01-01'), value: 4, category: 'b' },
         { date: new Date('2020-01-02'), value: 5, category: 'b' },
-        { date: new Date('2020-01-03'), value: 7, category: 'b' },
+        { date: new Date('2020-01-03'), value: 6, category: 'b' },
       ])
       .y((dimension) => dimension.valueAccessor((d) => d.value))
       .xDate((dimension) => dimension.valueAccessor((d) => d.date))
