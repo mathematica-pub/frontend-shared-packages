@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { saveAs } from 'file-saver';
+import saveAs from 'file-saver';
 import { cloneDeep } from 'lodash-es';
-import { unparse } from 'papaparse';
+import unparse from 'papaparse';
 import { VicDataExportConfig } from './data-export-config';
 
 @Injectable({ providedIn: 'root' })
