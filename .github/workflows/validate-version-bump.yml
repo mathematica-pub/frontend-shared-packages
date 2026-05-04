@@ -151,10 +151,10 @@ jobs:
             }
 
             if (!hasTag) {
-              const tagError = '${{ steps.check_tag.outputs.error_message }}';
+              const tagError = "${{ steps.check_tag.outputs.error_message }}";
               body += `- ❌ **Version tag**: ${tagError || 'Missing'}\n`;
             } else if (!tagMatches) {
-              const tagWarning = '${{ steps.check_tag_match.outputs.warning_message }}';
+              const tagWarning = "${{ steps.check_tag_match.outputs.warning_message }}";
               body += `- ⚠️ **Version tag**: ${{ steps.check_tag.outputs.tag_name }} - ${tagWarning}\n`;
             } else {
               body += `- ✅ **Version tag**: ${{ steps.check_tag.outputs.tag_name }}\n`;
