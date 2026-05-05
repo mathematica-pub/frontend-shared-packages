@@ -5,7 +5,7 @@ on:
 
   push:
     branches:
-      - main
+      - fix-deployment
 permissions:
   id-token: write
   pull-requests: write
@@ -111,6 +111,7 @@ jobs:
           for package in app-kit ui viz; do
             echo "Publishing @mathstack/$package..."
             cd dist/$package
+            ls .
 
             # Get the version from package.json
             PKG_VERSION=$(node -p "require('./package.json').version")
