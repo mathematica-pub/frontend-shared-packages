@@ -176,6 +176,16 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bash scripts/get_beta_version.sh
 
+      - name: Debug npm auth (beta)
+        run: |
+          echo "=== Checking npm authentication ==="
+          cat ~/.npmrc || echo "No ~/.npmrc found"
+          echo "=== npm whoami ==="
+          npm whoami || echo "Not authenticated"
+          echo "=== npm config list ==="
+          npm config list
+        shell: bash
+
       - name: Beta release package
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

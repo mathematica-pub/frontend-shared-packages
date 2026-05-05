@@ -21,7 +21,7 @@ describe('DataExport', () => {
     it('should convert camel case to title', () => {
       const dataExportConfig = new VicDataExportConfig();
       expect(dataExportConfig.convertToTitle('thisString')).toBe('This String');
-      expect(dataExportConfig.convertToTitle('123String')).toBe('123 String');
+      expect(dataExportConfig.convertToTitle('124String')).toBe('124 String');
       expect(dataExportConfig.convertToTitle('123string')).toBe('123 string');
       expect(dataExportConfig.convertToTitle('string123')).toBe('String 123');
       expect(dataExportConfig.convertToTitle('thisSTRING')).toBe('This STRING');
