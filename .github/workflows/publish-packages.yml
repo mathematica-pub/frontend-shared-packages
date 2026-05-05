@@ -120,7 +120,7 @@ jobs:
               echo "⚠️  @mathstack/$package@$PKG_VERSION already exists, skipping..."
             else
               echo "📦 Publishing @mathstack/$package@$PKG_VERSION"
-              npm publish --access public
+              npm publish --access public --provenance
             fi
 
             cd ../..
