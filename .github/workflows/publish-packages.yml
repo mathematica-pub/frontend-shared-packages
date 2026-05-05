@@ -103,21 +103,29 @@ jobs:
           fi
         shell: bash
 
-      - name: Debug npm auth
-        run: |
-          echo "=== Checking npm authentication ==="
-          cat ~/.npmrc || echo "No ~/.npmrc found"
-          echo "=== npm whoami ==="
-          npm whoami || echo "Not authenticated"
-          echo "=== npm config list ==="
-          npm config list
-        shell: bash
-
       - name: Publish packages
-        run: npx nx release publish --access public
-        shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_REGION: us-east-1
+        run: |
+          for package in app-kit ui viz; do
+            echo "Publishing @mathstack/$package..."
+            cd dist/$package
+
+            # Get the version from package.json
+            PKG_VERSION=$(node -p "require('./package.json').version")
+
+            # Check if this version already exists on npm
+            if npm view "@mathstack/$package@$PKG_VERSION" version 2>/dev/null; then
+              echo "⚠️  @mathstack/$package@$PKG_VERSION already exists, skipping..."
+            else
+              echo "📦 Publishing @mathstack/$package@$PKG_VERSION"
+              npm publish --access public
+            fi
+
+            cd ../..
+          done
+        shell: bash
 
   beta-release:
     if: github.event_name == 'issue_comment' && github.event.issue.pull_request &&
