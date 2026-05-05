@@ -103,8 +103,18 @@ jobs:
           fi
         shell: bash
 
+      - name: Debug npm auth
+        run: |
+          echo "=== Checking npm authentication ==="
+          cat ~/.npmrc || echo "No ~/.npmrc found"
+          echo "=== npm whoami ==="
+          npm whoami || echo "Not authenticated"
+          echo "=== npm config list ==="
+          npm config list
+        shell: bash
+
       - name: Publish packages
-        run: npx nx release publish
+        run: npx nx release publish --access public
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
