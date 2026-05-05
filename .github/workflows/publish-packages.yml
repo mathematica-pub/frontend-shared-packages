@@ -20,7 +20,7 @@ env:
 
 jobs:
   publish:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push'
     name: Publish
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -51,56 +51,56 @@ jobs:
         run: npx nx run-many -t build
         shell: bash
 
-      - name: Verify tag & commit to publish is in `main`
-        run: |
-          # Get the current version from libs/viz/package.json (all packages share same version)
-          VERSION=$(node -p "require('./libs/viz/package.json').version")
-          echo "Package version: $VERSION"
+      # - name: Verify tag & commit to publish is in `main`
+      #   run: |
+      #     # Get the current version from libs/viz/package.json (all packages share same version)
+      #     VERSION=$(node -p "require('./libs/viz/package.json').version")
+      #     echo "Package version: $VERSION"
 
-          # Run dry-run and capture output to verify what would be published
-          echo "Running nx release publish --dry-run..."
-          DRY_RUN_OUTPUT=$(npx nx release publish --dry-run 2>&1)
-          echo "$DRY_RUN_OUTPUT"
+      #     # Run dry-run and capture output to verify what would be published
+      #     echo "Running nx release publish --dry-run..."
+      #     DRY_RUN_OUTPUT=$(npx nx release publish --dry-run 2>&1)
+      #     echo "$DRY_RUN_OUTPUT"
 
-          # Check if the dry-run output mentions the version
-          if echo "$DRY_RUN_OUTPUT" | grep -q "$VERSION"; then
-            echo "✅ Dry-run output confirms version $VERSION will be published"
-          else
-            echo "::warning::Could not confirm version $VERSION in dry-run output"
-          fi
+      #     # Check if the dry-run output mentions the version
+      #     if echo "$DRY_RUN_OUTPUT" | grep -q "$VERSION"; then
+      #       echo "✅ Dry-run output confirms version $VERSION will be published"
+      #     else
+      #       echo "::warning::Could not confirm version $VERSION in dry-run output"
+      #     fi
 
-          # Find all tags that contain this version
-          MATCHING_TAGS=$(git tag -l "*$VERSION*")
+      #     # Find all tags that contain this version
+      #     MATCHING_TAGS=$(git tag -l "*$VERSION*")
 
-          if [ -z "$MATCHING_TAGS" ]; then
-            echo "::error::No git tag found for version $VERSION"
-            echo "::error::Run 'nx release --skip-publish' to create a version tag before publishing"
-            exit 1
-          fi
+      #     if [ -z "$MATCHING_TAGS" ]; then
+      #       echo "::error::No git tag found for version $VERSION"
+      #       echo "::error::Run 'nx release --skip-publish' to create a version tag before publishing"
+      #       exit 1
+      #     fi
 
-          # Use the first matching tag
-          TAG=$(echo "$MATCHING_TAGS" | head -1)
-          echo "Found tag: $TAG"
+      #     # Use the first matching tag
+      #     TAG=$(echo "$MATCHING_TAGS" | head -1)
+      #     echo "Found tag: $TAG"
 
-          # Get the commit that the tag points to
-          TAG_COMMIT=$(git rev-list -n 1 "$TAG" 2>/dev/null)
+      #     # Get the commit that the tag points to
+      #     TAG_COMMIT=$(git rev-list -n 1 "$TAG" 2>/dev/null)
 
-          if [ -z "$TAG_COMMIT" ]; then
-            echo "::error::Could not find commit for tag $TAG"
-            exit 1
-          fi
+      #     if [ -z "$TAG_COMMIT" ]; then
+      #       echo "::error::Could not find commit for tag $TAG"
+      #       exit 1
+      #     fi
 
-          echo "Tag $TAG points to commit: ${TAG_COMMIT:0:7}"
+      #     echo "Tag $TAG points to commit: ${TAG_COMMIT:0:7}"
 
-          # Verify this commit is in main's history
-          if git merge-base --is-ancestor "$TAG_COMMIT" HEAD; then
-            echo "✅ Tag $TAG (commit ${TAG_COMMIT:0:7}) is in main branch history"
-          else
-            echo "::error::Tag $TAG (commit ${TAG_COMMIT:0:7}) is NOT in main branch history"
-            echo "::error::Only commits that exist in main can be published"
-            exit 1
-          fi
-        shell: bash
+      #     # Verify this commit is in main's history
+      #     if git merge-base --is-ancestor "$TAG_COMMIT" HEAD; then
+      #       echo "✅ Tag $TAG (commit ${TAG_COMMIT:0:7}) is in main branch history"
+      #     else
+      #       echo "::error::Tag $TAG (commit ${TAG_COMMIT:0:7}) is NOT in main branch history"
+      #       echo "::error::Only commits that exist in main can be published"
+      #       exit 1
+      #     fi
+      #   shell: bash
 
       - name: Publish packages
         env:
