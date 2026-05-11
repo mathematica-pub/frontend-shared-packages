@@ -332,13 +332,14 @@ export class BarsComponent<
     if (this.isZeroOrNonNumeric(d.quantitative)) {
       const origin = this.getBarQuantitativeOrigin();
       return this.scales.x(origin);
-    } else if (this.config.hasNegativeValues) {
-      if (d.quantitative < 0) {
+    } else if (d.quantitative < 0) {
+      if (this.config.quantitative.domainIncludesZero) {
         return this.scales.x(d.quantitative);
       }
-      return this.scales.x(0);
+      return this.scales.x(this.getQuantitativeDomainFromScale()[1]);
     }
-    return this.scales.x(this.getQuantitativeDomainFromScale()[0]);
+    const origin = this.getBarQuantitativeOrigin();
+    return this.scales.x(origin);
   }
 
   getBarY(d: BarDatum<TOrdinalValue>): number {
