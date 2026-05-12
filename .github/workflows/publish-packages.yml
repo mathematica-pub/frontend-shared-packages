@@ -13,10 +13,7 @@ permissions:
   issues: write
 
 env:
-  SLACK_WEBHOOK_URL_VIC: ${{ secrets.SLACK_WEBHOOK_URL_VIC }}
-  SLACK_WEBHOOK_URL_UIC: ${{ secrets.SLACK_WEBHOOK_URL_UIC }}
-  SLACK_WEBHOOK_URL_ADK: ${{ secrets.SLACK_WEBHOOK_URL_ADK }}
-  SLACK_WEBHOOK_URL_MAINTAINERS: ${{ secrets.SLACK_WEBHOOK_URL_MAINTAINERS }}
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_VIC }}
 
 jobs:
   publish:
@@ -107,6 +104,39 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_REGION: us-east-1
         run: npx nx release publish --access public --provenance
+
+      - name: Get published version
+        id: version
+        run: |
+          VERSION=$(node -p "require('./libs/viz/package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Send Slack notification
+        if: success()
+        run: |
+          if ! curl --fail-with-body -X POST -H "Content-type: application/json" --data-raw "{
+            \"text\": \"📦 Packages v${{ steps.version.outputs.version }} have been published to npm!\",
+            \"blocks\": [
+              {
+                \"type\": \"section\",
+                \"text\": {
+                  \"type\": \"mrkdwn\",
+                  \"text\": \"📦 *Packages v${{ steps.version.outputs.version }}* have been published to npm!\"
+                }
+              },
+              {
+                \"type\": \"section\",
+                \"text\": {
+                  \"type\": \"mrkdwn\",
+                  \"text\": \"<https://github.com/mathematica-pub/frontend-shared-packages/blob/main/CHANGELOG.md|View CHANGELOG>\"
+                }
+              }
+            ]
+          }" "${{ env.SLACK_WEBHOOK_URL }}"; then
+            echo "::warning::Failed to send Slack notification, but release succeeded"
+          fi
+        shell: bash
 
   beta-release:
     if: github.event_name == 'issue_comment' && github.event.issue.pull_request &&
