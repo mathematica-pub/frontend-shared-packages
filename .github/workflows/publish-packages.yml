@@ -115,7 +115,7 @@ jobs:
       - name: Send Slack notification
         if: success()
         run: |
-          curl -X POST -H "Content-type: application/json" --data "{
+          if ! curl --fail-with-body -X POST -H "Content-type: application/json" --data-raw "{
             \"text\": \"📦 Packages v${{ steps.version.outputs.version }} have been published to npm!\",
             \"blocks\": [
               {
@@ -133,7 +133,9 @@ jobs:
                 }
               }
             ]
-          }" ${{ env.SLACK_WEBHOOK_URL }}
+          }" "${{ env.SLACK_WEBHOOK_URL }}"; then
+            echo "::warning::Failed to send Slack notification, but release succeeded"
+          fi
         shell: bash
 
   beta-release:
