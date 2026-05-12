@@ -827,3 +827,251 @@ describe('displays tooltips for correct data per hover position', () => {
 // ***********************************************************
 // Fill of bars tested under categorical.cy.ts
 // ***********************************************************
+
+// ***********************************************************
+// Bar positioning with zero baseline tests
+// ***********************************************************
+describe('Vertical bars - Bar positioning with user-specified domain', () => {
+  it('should position bars correctly when data is all positive but domain includes negatives', () => {
+    const data: CountryFactsDatum[] = countryFactsData
+      .slice(0, 5)
+      .map((d, i) => ({ ...d, area: 20 + i * 20 })); // Creates values: 20, 40, 60, 80, 100
+
+    const barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+      .data(data)
+      .vertical((bars) =>
+        bars
+          .x((x) => x.valueAccessor((d) => d.country))
+          .y((y) => y.valueAccessor((d) => d.area).domain([-50, 100]))
+      )
+      .getConfig();
+
+    const xOrdinalAxisConfig =
+      new VicXOrdinalAxisConfigBuilder<string>().getConfig();
+    const yQuantitativeAxisConfig =
+      new VicYQuantitativeAxisConfigBuilder<number>()
+        .ticks((ticks) => ticks.format('.0f'))
+        .getConfig();
+
+    cy.mount(TestVerticalBarsComponent, {
+      componentProperties: {
+        barsConfig,
+        xOrdinalAxisConfig,
+        yQuantitativeAxisConfig,
+      },
+    });
+
+    cy.wait(axisTickTextWaitTime);
+
+    // Verify all bars have the same bottom position (at zero)
+    const barBottoms: number[] = [];
+    cy.get(groupSelector).each(($barGroup) => {
+      const yTransform = getYTransform($barGroup);
+      cy.wrap($barGroup)
+        .find(barSelector)
+        .then(($bar) => {
+          const barHeight = parseFloat($bar.attr('height'));
+          barBottoms.push(yTransform + barHeight);
+        });
+    });
+
+    // All bars should end at the same Y position (zero baseline)
+    cy.get(groupSelector).then(() => {
+      const firstBottom = barBottoms[0];
+      barBottoms.forEach((bottom) => {
+        expect(bottom).to.be.closeTo(firstBottom, 1);
+      });
+    });
+
+    // All bars should have positive height
+    cy.get(groupSelector).each(($barGroup) => {
+      cy.wrap($barGroup)
+        .find(barSelector)
+        .then(($bar) => {
+          const barHeight = parseFloat($bar.attr('height'));
+          expect(barHeight).to.be.greaterThan(0);
+        });
+    });
+  });
+
+  it('should position bars correctly when data is all negative but domain includes positives', () => {
+    const data: CountryFactsDatum[] = countryFactsData
+      .slice(0, 5)
+      .map((d, i) => ({ ...d, area: -100 + i * 20 })); // Creates values: -100, -80, -60, -40, -20
+
+    const barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+      .data(data)
+      .vertical((bars) =>
+        bars
+          .x((x) => x.valueAccessor((d) => d.country))
+          .y((y) => y.valueAccessor((d) => d.area).domain([-100, 50]))
+      )
+      .getConfig();
+
+    const xOrdinalAxisConfig =
+      new VicXOrdinalAxisConfigBuilder<string>().getConfig();
+    const yQuantitativeAxisConfig =
+      new VicYQuantitativeAxisConfigBuilder<number>()
+        .ticks((ticks) => ticks.format('.0f'))
+        .getConfig();
+
+    cy.mount(TestVerticalBarsComponent, {
+      componentProperties: {
+        barsConfig,
+        xOrdinalAxisConfig,
+        yQuantitativeAxisConfig,
+      },
+    });
+
+    cy.wait(axisTickTextWaitTime);
+
+    // Verify all bars have the same top position (at zero)
+    const barTops: number[] = [];
+    cy.get(groupSelector).each(($barGroup) => {
+      const yTransform = getYTransform($barGroup);
+      barTops.push(yTransform);
+    });
+
+    // All bars should start at the same Y position (zero baseline)
+    cy.get(groupSelector).then(() => {
+      const firstTop = barTops[0];
+      barTops.forEach((top) => {
+        expect(top).to.be.closeTo(firstTop, 1);
+      });
+    });
+
+    // All bars should have positive height
+    cy.get(groupSelector).each(($barGroup) => {
+      cy.wrap($barGroup)
+        .find(barSelector)
+        .then(($bar) => {
+          const barHeight = parseFloat($bar.attr('height'));
+          expect(barHeight).to.be.greaterThan(0);
+        });
+    });
+  });
+});
+
+// ***********************************************************
+// Horizontal bars - Bar positioning with user-specified domain
+// ***********************************************************
+describe('Horizontal bars - Bar positioning with user-specified domain', () => {
+  it('should position bars correctly when data is all positive but domain includes negatives', () => {
+    const data: CountryFactsDatum[] = countryFactsData
+      .slice(0, 5)
+      .map((d, i) => ({ ...d, area: 20 + i * 20 })); // Creates values: 20, 40, 60, 80, 100
+
+    const barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+      .data(data)
+      .horizontal((bars) =>
+        bars
+          .x((x) => x.valueAccessor((d) => d.area).domain([-50, 100]))
+          .y((y) => y.valueAccessor((d) => d.country))
+      )
+      .getConfig();
+
+    const xQuantitativeAxisConfig =
+      new VicXQuantitativeAxisConfigBuilder<number>()
+        .ticks((ticks) => ticks.format('.0f'))
+        .getConfig();
+    const yOrdinalAxisConfig =
+      new VicYOrdinalAxisConfigBuilder<string>().getConfig();
+
+    cy.mount(TestHorizontalBarsComponent, {
+      componentProperties: {
+        barsConfig,
+        xQuantitativeAxisConfig,
+        yOrdinalAxisConfig,
+      },
+    });
+
+    cy.wait(axisTickTextWaitTime);
+
+    // Verify all bars have the same left position (at zero)
+    const barLefts: number[] = [];
+    cy.get(groupSelector).each(($barGroup) => {
+      const xTransform = getXTransform($barGroup);
+      barLefts.push(xTransform);
+    });
+
+    // All bars should start at the same X position (zero baseline)
+    cy.get(groupSelector).then(() => {
+      const firstLeft = barLefts[0];
+      barLefts.forEach((left) => {
+        expect(left).to.be.closeTo(firstLeft, 1);
+      });
+    });
+
+    // All bars should have positive width
+    cy.get(groupSelector).each(($barGroup) => {
+      cy.wrap($barGroup)
+        .find(barSelector)
+        .then(($bar) => {
+          const barWidth = parseFloat($bar.attr('width'));
+          expect(barWidth).to.be.greaterThan(0);
+        });
+    });
+  });
+
+  it('should position bars correctly when data is all negative but domain includes positives', () => {
+    const data: CountryFactsDatum[] = countryFactsData
+      .slice(0, 5)
+      .map((d, i) => ({ ...d, area: -100 + i * 20 })); // Creates values: -100, -80, -60, -40, -20
+
+    const barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+      .data(data)
+      .horizontal((bars) =>
+        bars
+          .x((x) => x.valueAccessor((d) => d.area).domain([-100, 50]))
+          .y((y) => y.valueAccessor((d) => d.country))
+      )
+      .getConfig();
+
+    const xQuantitativeAxisConfig =
+      new VicXQuantitativeAxisConfigBuilder<number>()
+        .ticks((ticks) => ticks.format('.0f'))
+        .getConfig();
+    const yOrdinalAxisConfig =
+      new VicYOrdinalAxisConfigBuilder<string>().getConfig();
+
+    cy.mount(TestHorizontalBarsComponent, {
+      componentProperties: {
+        barsConfig,
+        xQuantitativeAxisConfig,
+        yOrdinalAxisConfig,
+      },
+    });
+
+    cy.wait(axisTickTextWaitTime);
+
+    // Verify all bars have the same right position (at zero)
+    const barRights: number[] = [];
+    cy.get(groupSelector).each(($barGroup) => {
+      const xTransform = getXTransform($barGroup);
+      cy.wrap($barGroup)
+        .find(barSelector)
+        .then(($bar) => {
+          const barWidth = parseFloat($bar.attr('width'));
+          barRights.push(xTransform + barWidth);
+        });
+    });
+
+    // All bars should end at the same X position (zero baseline)
+    cy.get(groupSelector).then(() => {
+      const firstRight = barRights[0];
+      barRights.forEach((right) => {
+        expect(right).to.be.closeTo(firstRight, 1);
+      });
+    });
+
+    // All bars should have positive width
+    cy.get(groupSelector).each(($barGroup) => {
+      cy.wrap($barGroup)
+        .find(barSelector)
+        .then(($bar) => {
+          const barWidth = parseFloat($bar.attr('width'));
+          expect(barWidth).to.be.greaterThan(0);
+        });
+    });
+  });
+});
