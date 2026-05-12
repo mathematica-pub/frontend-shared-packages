@@ -46,6 +46,9 @@ export function yAxisMixin<
     getBaselineTranslate(): string | null {
       if (!this.otherAxisHasPosAndNegValues('y')) return null;
 
+      const xDomain = this.scales.x.domain();
+      if (xDomain[0] > 0 || xDomain[1] < 0) return null;
+
       const rangeIndexForSide = this.config.side === 'left' ? 0 : 1;
       const translateDistance =
         this.scales.x(0) - this.scales.x.range()[rangeIndexForSide];

@@ -1,3 +1,15 @@
+## 2.2.2 (2026-05-12)
+
+### 🩹 Fixes
+
+- test ([b10c3812](https://github.com/mathematica-pub/frontend-shared-packages/commit/b10c3812))
+- test ([e00cb22f](https://github.com/mathematica-pub/frontend-shared-packages/commit/e00cb22f))
+- axis baseline positioning for weird domains ([475bf0b8](https://github.com/mathematica-pub/frontend-shared-packages/commit/475bf0b8))
+
+### ❤️ Thank You
+
+- Claire McShane
+
 ## 2.2.1 (2026-05-04)
 
 ### 🚀 Features

@@ -333,20 +333,20 @@ describe('BarsComponent', () => {
         component.getBarXQuantitative(datum);
         expect(component.scales.x).toHaveBeenCalledWith(-1);
       });
-      it('calls xScale once with 0 if quant value is greater than 0', () => {
+      it('calls xScale once with origin if quant value is greater than 0', () => {
         datum.quantitative = 3;
         component.getBarXQuantitative(datum);
-        expect(component.scales.x).toHaveBeenCalledWith(0);
+        expect(component.scales.x).toHaveBeenCalledWith(10);
       });
     });
     describe('hasNegativeValues is false', () => {
       beforeEach(() => {
         component.config.hasNegativeValues = false;
       });
-      it('calls xScale once with the correct value if quant value is greater than 0', () => {
+      it('calls xScale once with origin if quant value is greater than 0', () => {
         datum.quantitative = 3;
         component.getBarXQuantitative(datum);
-        expect(component.scales.x).toHaveBeenCalledWith(2);
+        expect(component.scales.x).toHaveBeenCalledWith(10);
       });
     });
   });
