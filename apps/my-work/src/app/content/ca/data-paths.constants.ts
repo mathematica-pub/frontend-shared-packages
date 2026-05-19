@@ -61,7 +61,7 @@ const caAccessPath = {
 
 const mlbPath = {
   current: {
-    mlb: `${caDataFolder}MLB_Results.csv`,
+    mlb: `${caDataFolder}Prelim_MLB_Results.csv`,
     county: `${caDataFolder}MLB_County_Results.csv`,
   },
   mock: {
@@ -86,5 +86,5 @@ const finalPath = {
 };
 
 export const dataPath = caAccessPath.mock;
-export const mlbDataPath = mlbPath.mock;
+export const mlbDataPath = mlbPath.current;
 export const finalDataPath = finalPath.mock;
