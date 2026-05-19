@@ -16,7 +16,6 @@ import { stateName } from './mlb.constants';
 
 export interface MlbDatum {
   lob: string;
-  comparison: boolean;
   average: number;
   series: string;
   measureCode: string;

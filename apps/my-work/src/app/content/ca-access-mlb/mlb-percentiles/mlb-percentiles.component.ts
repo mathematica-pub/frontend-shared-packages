@@ -55,7 +55,6 @@ export class MlbPercentilesComponent implements OnInit {
       const obj: MlbPercentilesDatum = {
         series: 'percentile',
         lob: x.LOB,
-        comparison: x.Comparison === 'TRUE',
         measureCode: x.MSR,
         strat: x.STRAT,
         stratVal: x.STRATVAL,
@@ -74,7 +73,7 @@ export class MlbPercentilesComponent implements OnInit {
       return obj;
     });
     return transformed.filter((x: MlbPercentilesDatum) => {
-      return x.strat === 'NULL' && x.comparison === false;
+      return x.strat === 'NULL';
     });
   }
 }

@@ -125,23 +125,23 @@ export class MlbMapComponent implements OnInit {
   }
 
   getTransformedData(data: MlbCountyDatum[]): MlbCountyDatum[] {
-    const transformed: MlbCountyDatum[] = data
-      .map((x: any) => {
-        const obj: MlbCountyDatum = {
-          series: 'percentile',
-          measureCode: x.Measure_Code,
-          units: x.Units,
-          county: x.County,
-          directionality: x.Directionality,
-          stratVal: x.StratVal,
-          lob: x.LOB,
-          comparison: x.Comparison === 'TRUE',
-          value: x.Value && !isNaN(x.Value) ? +x.Value : null,
-          average: null,
-        };
-        return obj;
-      })
-      .filter((x: any) => x.comparison === true);
+    const transformed: MlbCountyDatum[] = data.map((x: any) => {
+      const obj: MlbCountyDatum = {
+        series: 'percentile',
+        measureCode: x.Measure_Code,
+        units: x.Units,
+        county: x.County,
+        directionality: x.Directionality,
+        stratVal: x.StratVal,
+        lob: x.LOB,
+        value:
+          x['Diff_Medi-Cal'] && !isNaN(x['Diff_Medi-Cal'])
+            ? +x['Diff_Medi-Cal']
+            : null,
+        average: null,
+      };
+      return obj;
+    });
     return transformed;
   }
 

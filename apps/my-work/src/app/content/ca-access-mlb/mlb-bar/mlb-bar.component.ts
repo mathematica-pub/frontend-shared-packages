@@ -100,7 +100,6 @@ export class MlbBarComponent implements OnInit {
         strat: x.STRAT,
         stratVal: x.STRATVAL,
         lob: x.LOB,
-        comparison: x.Comparison === 'TRUE',
         value:
           x.summary_value && !isNaN(x.summary_value) ? +x.summary_value : null,
         average: null,
@@ -109,7 +108,7 @@ export class MlbBarComponent implements OnInit {
     });
     return transformed.filter((x: MlbRaceDatum) => {
       const strat = x.strat.toLowerCase();
-      return strat.includes(this.stratKeyword) && x.comparison === false;
+      return strat.includes(this.stratKeyword);
     });
   }
 

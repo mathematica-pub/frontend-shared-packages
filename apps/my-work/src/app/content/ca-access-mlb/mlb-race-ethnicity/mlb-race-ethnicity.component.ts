@@ -57,7 +57,6 @@ export class MlbRaceEthnicityComponent implements OnInit {
         strat: x.STRAT,
         stratVal: x.STRATVAL,
         lob: x.LOB,
-        comparison: x.Comparison === 'TRUE',
         value: null, // null to avoid bars
         average:
           x.summary_value && !isNaN(x.summary_value) ? +x.summary_value : null,
@@ -66,7 +65,7 @@ export class MlbRaceEthnicityComponent implements OnInit {
     });
     return transformed.filter((x: MlbRaceDatum) => {
       const strat = x.strat.toLowerCase();
-      return this.isMatchingStrat(strat) && x.comparison === false;
+      return this.isMatchingStrat(strat);
     });
   }
 

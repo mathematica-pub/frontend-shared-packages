@@ -85,7 +85,6 @@ export class MlbRaceEthnicityDotPlotComponent implements OnChanges {
               units: null,
               value: null,
               lob: null,
-              comparison: false,
               average: null,
             };
             this.caDotPlotService.addCategory(emptyCategory);

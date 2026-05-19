@@ -62,7 +62,6 @@ export class MlbCountyPlotComponent implements OnInit {
           directionality: x.Directionality,
           stratVal: x.StratVal,
           lob: x.LOB,
-          comparison: x.Comparison === 'TRUE',
           value: null, // null to avoid bars
           average: x.Value && !isNaN(x.Value) ? +x.Value : null,
           isStateHighest: false,
@@ -70,7 +69,7 @@ export class MlbCountyPlotComponent implements OnInit {
         };
         return obj;
       })
-      .filter((x: any) => x.comparison === false && x.average !== null);
+      .filter((x: any) => x.average !== null);
     transformed.forEach((x: MlbCountyDatum) => {
       const state = transformed.find(
         (lob) =>
