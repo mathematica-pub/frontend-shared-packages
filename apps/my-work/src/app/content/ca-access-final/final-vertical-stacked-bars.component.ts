@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { StackDatum, StackedBarsComponent } from '@mathstack/viz';
-import { select, Selection } from 'd3';
+import { format, select, Selection } from 'd3';
 import {
   barbellStackElementHeight,
   CaStackedBarsService,
@@ -43,6 +43,7 @@ export class FinalVerticalStackedBarsComponent
   directionLabel: Selection<SVGTextElement, unknown, null, undefined>;
   xLabel: Selection<SVGTextElement, unknown, null, undefined>;
   headerGroup: Selection<SVGGElement, unknown, null, undefined>;
+  dataLabelGroup: Selection<SVGGElement, unknown, null, undefined>;
   headerOffset = -110;
   yAxisOffset = -0.8;
   additionalYAxisOffset = `${this.yAxisOffset - 2.5}em`;
@@ -51,6 +52,7 @@ export class FinalVerticalStackedBarsComponent
   percentOffset: string;
   averageOffset = -this.headerOffset / 2 - 10;
   circleY = this.radius - 13;
+  isPercent: boolean;
 
   constructor(public stackedBarsService: CaStackedBarsService) {
     super();
@@ -67,11 +69,13 @@ export class FinalVerticalStackedBarsComponent
       this.headerOffset
     );
     this.createAverageHeaderGroup();
+    this.createDataLabelGroup();
     this.createNoDataGroup();
     super.ngOnInit();
   }
 
   override drawMarks(): void {
+    this.updateIsPercent();
     const transitionDuration = this.getTransitionDuration();
     this.drawBars(transitionDuration);
     if (this.config.labels) {
@@ -87,6 +91,7 @@ export class FinalVerticalStackedBarsComponent
     );
     this.stackedBarsService.updateXLabel(this.xLabel, this.config, this.chart);
     this.updateAverageHeaderGroup();
+    this.updateDataLabelGroup();
   }
 
   createAverageHeaderGroup(): void {
@@ -108,6 +113,13 @@ export class FinalVerticalStackedBarsComponent
       .attr('cy', this.circleY);
   }
 
+  createDataLabelGroup(): void {
+    this.dataLabelGroup = select(this.chart.svgRef.nativeElement)
+      .append('g')
+      .attr('class', 'data-labels')
+      .attr('text-anchor', 'middle');
+  }
+
   updateAverageHeaderGroup(): void {
     this.headerGroup
       .select('.average-header-label')
@@ -115,6 +127,62 @@ export class FinalVerticalStackedBarsComponent
       .attr('y', this.averageOffset + this.circleY)
       .attr('dx', '0.5em')
       .text(this.config.data[0].type);
+  }
+
+  updateDataLabelGroup(): void {
+    const data = this.config.data.filter(
+      (lob: FinalPercentilesDatum) =>
+        lob.series !== 'invisible' && lob.average !== null
+    );
+
+    const formatString = this.isPercent
+      ? '.1%'
+      : this.scales.x.domain()[1] > 10
+        ? ','
+        : '.1f';
+
+    this.dataLabelGroup
+      .selectAll('.data-label-25')
+      .data(data)
+      .join('text')
+      .attr('class', 'data-label data-label-25')
+      .attr('x', (d) => this.getX(d))
+      .attr('y', (d: FinalPercentilesDatum) => this.scales.y(d.percentile25))
+      .attr('dy', (d) =>
+        d.percentile25 > d.percentile75 ? '-0.25em' : '0.25em'
+      )
+      .text((d: FinalPercentilesDatum) => format(formatString)(d.percentile25))
+      .style('alignment-baseline', (d) =>
+        d.percentile25 < d.percentile75 ? 'hanging' : 'baseline'
+      );
+
+    this.dataLabelGroup
+      .selectAll('.data-label-75')
+      .data(data)
+      .join('text')
+      .attr('class', 'data-label data-label-75')
+      .attr('x', (d) => this.getX(d))
+      .attr('y', (d: FinalPercentilesDatum) => this.scales.y(d.percentile75))
+      .attr('dy', (d) =>
+        d.percentile25 < d.percentile75 ? '-0.25em' : '0.25em'
+      )
+      .text((d: FinalPercentilesDatum) => format(formatString)(d.percentile75))
+      .style('alignment-baseline', (d) =>
+        d.percentile25 > d.percentile75 ? 'hanging' : 'baseline'
+      );
+  }
+
+  getX(d: FinalPercentilesDatum): number {
+    return (
+      this.scales.x(this.getCategory(d)) +
+      (this.scales.x as any).bandwidth() / 2
+    );
+  }
+
+  updateIsPercent(): void {
+    this.isPercent = this.config.data[0].units
+      .toLowerCase()
+      .includes('percent');
   }
 
   createNoDataGroup(): void {
