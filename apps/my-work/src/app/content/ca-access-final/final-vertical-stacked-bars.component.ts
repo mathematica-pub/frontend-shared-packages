@@ -152,13 +152,23 @@ export class FinalVerticalStackedBarsComponent
         ? ','
         : '.1f';
 
+    const overlapThreshold = 0.05;
+
     this.dataLabelGroup
       .selectAll('.data-label-25')
       .data(data)
       .join('text')
       .attr('class', 'data-label data-label-25')
       .attr('x', (d) => this.getX(d))
-      .attr('y', (d: FinalPercentilesDatum) => this.scales.y(d.percentile25))
+      .attr('y', (d: FinalPercentilesDatum) => {
+        const isLabelOverlap =
+          d.percentile25 - d.average <
+            overlapThreshold * this.scales.y.domain()[1] &&
+          d.percentile25 > d.average;
+        return isLabelOverlap
+          ? this.scales.y(d.average) + this.radius / 2
+          : this.scales.y(d.percentile25);
+      })
       .attr('dy', (d) =>
         d.percentile25 > d.percentile75 ? '-0.25em' : '0.25em'
       )
@@ -173,7 +183,15 @@ export class FinalVerticalStackedBarsComponent
       .join('text')
       .attr('class', 'data-label data-label-75')
       .attr('x', (d) => this.getX(d))
-      .attr('y', (d: FinalPercentilesDatum) => this.scales.y(d.percentile75))
+      .attr('y', (d: FinalPercentilesDatum) => {
+        const isLabelOverlap =
+          d.average - d.percentile75 <
+            overlapThreshold * this.scales.y.domain()[1] &&
+          d.average > d.percentile75;
+        return isLabelOverlap
+          ? this.scales.y(d.average) - this.radius
+          : this.scales.y(d.percentile75);
+      })
       .attr('dy', (d) =>
         d.percentile25 < d.percentile75 ? '-0.25em' : '0.25em'
       )
