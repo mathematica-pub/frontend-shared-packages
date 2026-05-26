@@ -44,13 +44,14 @@ export class FinalVerticalStackedBarsComponent
   xLabel: Selection<SVGTextElement, unknown, null, undefined>;
   headerGroup: Selection<SVGGElement, unknown, null, undefined>;
   dataLabelGroup: Selection<SVGGElement, unknown, null, undefined>;
-  headerOffset = -110;
+  headerOffset = -120;
   yAxisOffset = -0.8;
   additionalYAxisOffset = `${this.yAxisOffset - 2.5}em`;
   radius = 7;
   highlightedRadius = 3;
   percentOffset: string;
-  averageOffset = -this.headerOffset / 2 - 10;
+  averageOffset = -this.headerOffset - 76;
+  legendOffset = 35;
   circleY = this.radius - 13;
   isPercent: boolean;
 
@@ -69,6 +70,7 @@ export class FinalVerticalStackedBarsComponent
       this.headerOffset
     );
     this.createAverageHeaderGroup();
+    this.createLegendLabel();
     this.createDataLabelGroup();
     this.createNoDataGroup();
     super.ngOnInit();
@@ -103,7 +105,7 @@ export class FinalVerticalStackedBarsComponent
     group
       .append('line')
       .attr('x1', this.radius)
-      .attr('x2', 35)
+      .attr('x2', this.legendOffset)
       .attr('y1', -this.radius)
       .attr('y2', -this.radius);
     group
@@ -111,6 +113,15 @@ export class FinalVerticalStackedBarsComponent
       .attr('class', 'average')
       .attr('r', this.radius)
       .attr('cy', this.circleY);
+  }
+
+  createLegendLabel(): void {
+    this.headerGroup
+      .append('text')
+      .attr('class', 'legend-label')
+      .attr('x', this.legendOffset)
+      .attr('y', -26)
+      .text('legend');
   }
 
   createDataLabelGroup(): void {
@@ -123,7 +134,7 @@ export class FinalVerticalStackedBarsComponent
   updateAverageHeaderGroup(): void {
     this.headerGroup
       .select('.average-header-label')
-      .attr('x', 35)
+      .attr('x', this.legendOffset)
       .attr('y', this.averageOffset + this.circleY)
       .attr('dx', '0.5em')
       .text(this.config.data[0].type);

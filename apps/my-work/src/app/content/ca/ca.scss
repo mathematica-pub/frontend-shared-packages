@@ -116,6 +116,7 @@ $axisFontSize: 16px;
 .comparison-label,
 .comparison,
 .direction-label,
+.headers,
 .x-label {
   font-size: $axisFontSize;
 }
@@ -134,4 +135,8 @@ $axisFontSize: 16px;
 
 .vic-axis-y-ordinal text {
   transform: translateX(-3.3em);
+}
+
+.legend-label {
+  text-transform: uppercase;
 }
