@@ -72,10 +72,10 @@ const mlbPath = {
 
 const finalPath = {
   current: {
-    statewide: `${caDataFolder}Final_Results.csv`,
-    plan: `${caDataFolder}Final_Plan_Results.csv`,
-    county: `${caDataFolder}Final_County_Results.csv`,
-    stratified: `${caDataFolder}Final_Stratified_Results.csv`,
+    statewide: `${caDataFolder}Statistical_Results_Final.csv`,
+    plan: `${caDataFolder}Improvement_Results_Final.csv`,
+    county: `${caDataFolder}Measure_Analysis_County.csv`,
+    stratified: `${caDataFolder}Measure_Analysis_Race_Ethnicity.csv`,
   },
   mock: {
     statewide: `${caDataFolder}Mock_Final_Results.csv`,
@@ -87,4 +87,4 @@ const finalPath = {
 
 export const dataPath = caAccessPath.mock;
 export const mlbDataPath = mlbPath.current;
-export const finalDataPath = finalPath.mock;
+export const finalDataPath = finalPath.current;
