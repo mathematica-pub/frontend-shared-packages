@@ -429,7 +429,7 @@ export class FinalArrowComponent implements OnChanges {
     const secondSmallest = trendData[1];
     trendData = [secondSmallest, smallest, ...trendData.slice(2)];
 
-    const pointerLengthRatio = 3.2;
+    // const pointerLengthRatio = 3.2;
 
     this.legendGroup
       .attr('transform', `translate(0, -30)`)
