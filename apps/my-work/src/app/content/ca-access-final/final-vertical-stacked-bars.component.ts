@@ -93,7 +93,7 @@ export class FinalVerticalStackedBarsComponent
     );
     this.stackedBarsService.updateXLabel(this.xLabel, this.config, this.chart);
     this.updateAverageHeaderGroup();
-    this.updateDataLabelGroup();
+    // this.updateDataLabelGroup();
   }
 
   createAverageHeaderGroup(): void {
