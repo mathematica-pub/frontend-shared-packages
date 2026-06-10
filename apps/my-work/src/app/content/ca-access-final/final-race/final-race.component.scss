@@ -1,9 +1,9 @@
 @use '../../ca/ca.scss';
 @use '../../ca/color.scss';
 @use '../../ca/vars.scss' as *;
+@use '../arrows.scss';
 
 .image {
-  padding-top: 140px !important;
   padding-left: 200px !important;
 }
 

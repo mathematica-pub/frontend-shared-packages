@@ -269,7 +269,7 @@ export class FinalArrowComponent implements OnChanges {
       .attr('x2', (row) => this.xScale(this.getRowValue(row, 1)))
       .attr('y1', (d) => this.getY(d))
       .attr('y2', (d) => this.getY(d))
-      .style('stroke', (d) => this.colorScale(d[0].change))
+      // .style('stroke', (d) => this.colorScale(d[0].change))
       .style('stroke-width', this.strokeWidth);
   }
 
@@ -296,8 +296,8 @@ export class FinalArrowComponent implements OnChanges {
         const x = this.xScale(d.value) + this.getArrowOffset(direction);
         const y = this.getDiamondY(d);
         return `translate(${x}, ${y})`;
-      })
-      .style('fill', (d) => this.colorScale(d.change));
+      });
+    // .style('fill', (d) => this.colorScale(d.change));
 
     this.markerGroup
       .selectAll('.diamond')
@@ -320,8 +320,8 @@ export class FinalArrowComponent implements OnChanges {
         return this.getDiamondTransform(x, y);
       })
       .style('fill', 'none')
-      .style('stroke-width', 1.5)
-      .style('stroke', (d) => this.colorScale(d.change));
+      .style('stroke-width', 1.5);
+    // .style('stroke', (d) => this.colorScale(d.change));
   }
 
   getDiamondY(d: any): number {
@@ -355,7 +355,8 @@ export class FinalArrowComponent implements OnChanges {
   }
 
   drawLegend(): void {
-    const data = this.changes.sort((a, b) => descending(a, b));
+    // const data = this.changes.sort((a, b) => descending(a, b));
+    const data = ['Improved'];
     const lineLength = 70;
     const legendGap = 60;
 
@@ -364,23 +365,23 @@ export class FinalArrowComponent implements OnChanges {
       .selectAll('.line')
       .data(data)
       .join('line')
-      .attr('class', 'legend-line')
+      .attr('class', 'line')
       .attr('x1', lineLength + legendGap)
       .attr('x2', legendGap)
       .attr('y1', (d, i) => this.getLegendLineY(i))
       .attr('y2', (d, i) => this.getLegendLineY(i))
-      .style('stroke', (d) => this.colorScale(d))
+      // .style('stroke', (d) => this.colorScale(d))
       .style('stroke-width', this.strokeWidth);
 
-    this.legendGroup
-      .selectAll('.improvement-label')
-      .data(data)
-      .join('text')
-      .attr('class', 'improvement-label')
-      .attr('x', lineLength + legendGap + 10)
-      .attr('y', (d, i) => this.getLegendLineY(i))
-      .attr('alignment-baseline', 'middle')
-      .text((d) => d);
+    // this.legendGroup
+    //   .selectAll('.improvement-label')
+    //   .data(data)
+    //   .join('text')
+    //   .attr('class', 'improvement-label')
+    //   .attr('x', lineLength + legendGap + 10)
+    //   .attr('y', (d, i) => this.getLegendLineY(i))
+    //   .attr('alignment-baseline', 'middle')
+    //   .text((d) => d);
 
     this.legendGroup
       .selectAll('.arrow')
@@ -401,8 +402,8 @@ export class FinalArrowComponent implements OnChanges {
         return `translate(${x}, ${y})`;
       })
       .attr('x', (d) => (this.arrowPointsRight(d) ? 0 : lineLength + 10))
-      .attr('y', (d, i) => this.getLegendLineY(i))
-      .style('fill', (d) => this.colorScale(d));
+      .attr('y', (d, i) => this.getLegendLineY(i));
+    // .style('fill', (d) => this.colorScale(d));
 
     this.legendGroup
       .selectAll('.diamond')
@@ -416,8 +417,8 @@ export class FinalArrowComponent implements OnChanges {
         return this.getDiamondTransform(0, y);
       })
       .style('fill', 'none')
-      .style('stroke-width', 1.5)
-      .style('stroke', (d) => this.colorScale(d));
+      .style('stroke-width', 1.5);
+    // .style('stroke', (d) => this.colorScale(d));
 
     let trendData = [...new Set(this.data.map((item) => item.year))].sort(
       (a, b) => {
@@ -438,8 +439,10 @@ export class FinalArrowComponent implements OnChanges {
       .attr('class', 'pointer')
       .attr('x1', (d, i) => this.getLegendDiamondX(i, legendGap, lineLength))
       .attr('x2', (d, i) => this.getLegendDiamondX(i, legendGap, lineLength))
-      .attr('y1', this.getLegendPointerY1())
-      .attr('y2', this.getLegendPointerY2(pointerLengthRatio))
+      // .attr('y1', this.getLegendPointerY1())
+      .attr('y1', -40)
+      // .attr('y2', this.getLegendPointerY2(pointerLengthRatio))
+      .attr('y2', -16)
       .style('stroke', 'black');
 
     this.legendGroup
@@ -448,7 +451,8 @@ export class FinalArrowComponent implements OnChanges {
       .join('text')
       .attr('class', 'trend-label')
       .attr('x', (d, i) => this.getLegendDiamondX(i, legendGap, lineLength))
-      .attr('y', this.getLegendPointerY2(pointerLengthRatio + 0.2))
+      // .attr('y', this.getLegendPointerY2(pointerLengthRatio + 0.2))
+      .attr('y', -46)
       .attr('text-anchor', 'middle')
       .text((d) => d);
   }
