@@ -86,5 +86,5 @@ const finalPath = {
 };
 
 export const dataPath = caAccessPath.mock;
-export const mlbDataPath = mlbPath.current;
+export const mlbDataPath = mlbPath.mock;
 export const finalDataPath = finalPath.mock;
