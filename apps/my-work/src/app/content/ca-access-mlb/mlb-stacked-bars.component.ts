@@ -91,7 +91,7 @@ export class MlbStackedBarsComponent
     const group = this.headerGroup
       .append('g')
       .attr('class', 'average-header')
-      .attr('transform', `translate(${400}, 26)`);
+      .attr('transform', `translate(400, 26)`);
     group.append('text').attr('class', 'average-header-label').attr('dy', -40);
     group
       .append('line')

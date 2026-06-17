@@ -18,6 +18,7 @@ export class MlbPercentilesStackedBarsComponent extends MlbStackedBarsComponent 
   override drawMarks(): void {
     super.drawMarks();
     this.updatePercentileGroup();
+    this.updateHeader();
   }
 
   override getCategory(category: MlbPercentilesDatum): string {
@@ -33,7 +34,7 @@ export class MlbPercentilesStackedBarsComponent extends MlbStackedBarsComponent 
       .attr('class', 'percentile')
       .attr(
         'transform',
-        `translate(300, ${-(this.scales.y as any).bandwidth() / 4 - 4 + 26})`
+        `translate(160, ${-(this.scales.y as any).bandwidth() / 4 - 4 + 26})`
       )
       .lower();
     group
@@ -50,5 +51,19 @@ export class MlbPercentilesStackedBarsComponent extends MlbStackedBarsComponent 
       .attr('dx', '-0.5em')
       .attr('dy', (this.scales.y as any).bandwidth() / 4)
       .text('25th–75th Percentiles');
+  }
+
+  updateHeader(): void {
+    this.headerGroup
+      .attr('transform', `translate(0, -70)`)
+      .selectAll('.legend-label')
+      .data(['legend'])
+      .join('text')
+      .attr('class', 'legend-label')
+      .attr('y', -12)
+      .text((d) => d);
+    this.headerGroup
+      .select('.average-header')
+      .attr('transform', `translate(230, 26)`);
   }
 }
