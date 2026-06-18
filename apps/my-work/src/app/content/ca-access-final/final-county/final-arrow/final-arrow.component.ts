@@ -182,7 +182,8 @@ export class FinalArrowComponent implements OnChanges {
   }
 
   updateXScale(): void {
-    const maxWithBuffer = max(this.data, (d) => d.value) * 1.1;
+    const maxWithBuffer =
+      max(this.rollupData, (d) => max(d.map((e) => e.value))) * 1.1;
     const domainMax = this.isPercent ? min([maxWithBuffer, 1]) : maxWithBuffer;
     this.xScale.domain([0, domainMax]);
   }
