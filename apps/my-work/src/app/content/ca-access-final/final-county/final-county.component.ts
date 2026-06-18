@@ -66,9 +66,8 @@ export class FinalCountyComponent implements OnInit {
       };
       return obj;
     });
-    return transformed.filter(
-      (x: FinalCountyDatum) =>
-        this.isMatchingStrat(x.strat) && x.year !== '2023'
+    return transformed.filter((x: FinalCountyDatum) =>
+      this.isMatchingStrat(x.strat)
     );
   }
 

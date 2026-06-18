@@ -73,9 +73,9 @@ const mlbPath = {
 const finalPath = {
   current: {
     statewide: `${caDataFolder}Statistical_Results_Final.csv`,
-    plan: `${caDataFolder}Improvement_Results_Final.csv`,
-    county: `${caDataFolder}Measure_Analysis_County.csv`,
-    stratified: `${caDataFolder}Measure_Analysis_Race_Ethnicity.csv`,
+    plan: `${caDataFolder}Improvement_Results_Final_measures_noraceeth.csv`,
+    county: `${caDataFolder}Improvement_Results_Final_county.csv`,
+    stratified: `${caDataFolder}Improvement_Results_Final_raceeth.csv`,
   },
   mock: {
     statewide: `${caDataFolder}Mock_Final_Results.csv`,

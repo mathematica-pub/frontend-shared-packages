@@ -201,7 +201,13 @@ export class FinalArrowComponent implements OnChanges {
         .ticks(this.numTicks)
         .tickFormat(
           format(
-            this.isPercent ? '.0%' : this.xScale.domain()[1] > 10 ? ',' : '.1f'
+            this.isPercent && this.xScale.domain()[1] < 0.05
+              ? '.1%'
+              : this.isPercent
+                ? '.0%'
+                : this.xScale.domain()[1] > 10
+                  ? ','
+                  : '.1f'
           )
         )
     );
