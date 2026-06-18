@@ -2,16 +2,23 @@ $darkestGrey: #505050;
 $darkGrey: #949494;
 $gray: #bfbfbf;
 $lightGrey: #f0f0f0;
-$orange: #f9a71c;
-$darkOrange: #e47225;
-$blue: #17315a;
-$lightBlue: #2d6e8d;
 
-$bars: $orange;
+$caOrange: #f9a71c;
+$caDarkOrange: #e47225;
+$caBlue: #17315a;
+$caLightBlue: #2d6e8d;
+
+$mprTeal: #018383;
+$mprGreen: #046b5c;
+$mprBlue: #0b2949;
+$mprGold: #f1b51c;
+
+$bars: $mprBlue; // $caOrange;
 $gridLine: $lightGrey;
 $domainLine: $darkestGrey;
 $stratLabelLine: $gray;
-$percentile: $blue;
-$goal: $orange;
-$comparison: $blue;
-$circles: $darkOrange;
+$percentile: $mprBlue; // $caBlue;
+$goal: $mprGold; // $caOrange;
+$comparison: $mprTeal; // $caBlue;
+$circles: $mprTeal; // $caDarkOrange;
+$arrows: $mprBlue;
