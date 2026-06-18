@@ -9,8 +9,7 @@ import { FinalDatum } from '../final-vertical-stacked-bars.component';
 import { FinalRaceArrowComponent } from './final-race-arrow/final-race-arrow.component';
 
 export interface FinalRaceDatum extends FinalDatum {
-  change: string;
-  year: string;
+  // change: string;
   increased: boolean;
 }
 
@@ -32,9 +31,10 @@ export class FinalRaceComponent implements OnInit {
   chartName = 'Final Race Chart';
   finalDataPath = finalDataPath.stratified;
   filters = {
+    delivSyss: [],
     measureCodes: [],
   };
-  filterTypes = ['measureCode'];
+  filterTypes = ['delivSys', 'measureCode'];
 
   constructor(public caChartService: CaChartService) {}
 
@@ -52,14 +52,15 @@ export class FinalRaceComponent implements OnInit {
     const transformed: FinalRaceDatum[] = data.map((x: any) => {
       const obj: FinalRaceDatum = {
         series: 'percentile',
-        measureCode: x.Measure_Code,
-        units: x.Units,
+        measureCode: x.MSR,
+        units: x.Unit,
         directionality: x.Directionality,
         strat: x.STRAT,
-        stratVal: x.StratVal,
+        stratVal: x.STRATVAL,
+        delivSys: x.DELIVSYS,
         value: x.Value && !isNaN(x.Value) ? +x.Value : null,
-        year: x.Year,
-        change: x.Change,
+        year: x.YEAR,
+        // change: x.improvement_cat,
         increased: null,
       };
       return obj;

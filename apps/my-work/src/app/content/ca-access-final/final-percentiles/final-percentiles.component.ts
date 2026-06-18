@@ -34,10 +34,11 @@ export interface FinalPercentilesDatum extends FinalDatum {
 export class FinalPercentilesComponent implements OnInit {
   finalDataPath = finalDataPath.statewide;
   filters = {
+    delivSyss: [],
     measureCodes: [],
     stratVals: [],
   };
-  filterTypes = ['measureCode', 'stratVal'];
+  filterTypes = ['delivSys', 'measureCode', 'stratVal'];
 
   constructor(public caChartService: CaChartService) {}
 
@@ -55,23 +56,28 @@ export class FinalPercentilesComponent implements OnInit {
     const transformed: FinalPercentilesDatum[] = data.map((x: any) => {
       const obj: FinalPercentilesDatum = {
         series: 'percentile',
-        year: x.Year,
-        measureCode: x.Measure_Code,
+        year: x.YEAR,
+        measureCode: x.MSR,
         strat: x.STRAT,
-        stratVal: x.StratVal_v2,
-        units: x.Units,
+        stratVal: x.STRATVAL,
+        delivSys: x.DELIVSYS,
+        units: x.Unit,
         value:
-          x.Final_25 && !isNaN(x.Final_25) && x.Final_75 && !isNaN(x.Final_75)
-            ? Math.abs(x.Final_75 - x.Final_25)
+          x.p25 && !isNaN(x.p25) && x.p75 && !isNaN(x.p75)
+            ? Math.abs(x.p75 - x.p25)
             : null,
-        average: x.Value && !isNaN(x.Value) ? +x.Value : null,
-        type: x.Type,
-        percentile25: x.Final_25 && !isNaN(x.Final_25) ? +x.Final_25 : null,
-        percentile75: x.Final_75 && !isNaN(x.Final_75) ? +x.Final_75 : null,
+        average:
+          x.Center_Value && !isNaN(x.Center_Value) ? +x.Center_Value : null,
+        type: x.Center_Value_Type,
+        percentile25: x.p25 && !isNaN(x.p25) ? +x.p25 : null,
+        percentile75: x.p75 && !isNaN(x.p75) ? +x.p75 : null,
         directionality: x.Directionality,
       };
       return obj;
     });
-    return transformed.filter((x: FinalPercentilesDatum) => x.strat === 'NULL');
+    return transformed.filter(
+      (x: FinalPercentilesDatum) =>
+        x.strat.toLowerCase() === 'null' || x.strat.toLowerCase() === 'none'
+    );
   }
 }

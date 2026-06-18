@@ -35,7 +35,8 @@ export class CaStackedBarsService {
     return select(chart.svgRef.nativeElement)
       .append('text')
       .attr('class', 'x-label')
-      .attr('x', chart.config.width);
+      .attr('x', this.isChartVertical(chart) ? 0 : chart.config.width)
+      .style('text-anchor', this.isChartVertical(chart) ? 'start' : 'end');
   }
 
   createHeaderGroup(
@@ -73,11 +74,18 @@ export class CaStackedBarsService {
         ).units;
         return units === 'Percentage' ? null : units;
       })
-      .attr('y', this.getLabelY(chart));
+      .attr(
+        'y',
+        this.getLabelY(chart) + (this.isChartVertical(chart) ? -20 : 0)
+      );
   }
 
   getLabelY(chart: XyChartComponent): number {
-    return chart.config.height + 40;
+    return this.isChartVertical(chart) ? -10 : chart.config.height + 40;
+  }
+
+  isChartVertical(chart: XyChartComponent): boolean {
+    return chart.config.width < chart.config.height;
   }
 
   getStackElementX(

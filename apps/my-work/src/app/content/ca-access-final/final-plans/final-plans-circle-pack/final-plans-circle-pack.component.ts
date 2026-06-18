@@ -142,7 +142,7 @@ export class FinalPlansCirclePackComponent implements OnChanges {
   updateRScale(): void {
     this.rScale
       .domain([0, max(this.data.map((d) => d.size))])
-      .range([0, this.width * 0.1]);
+      .range([0, this.width * 0.2]);
   }
 
   updateColorScale(): void {
@@ -347,7 +347,7 @@ export class FinalPlansCirclePackComponent implements OnChanges {
     );
 
     this.legendGroup
-      .attr('transform', `translate(${this.width / 2}, ${-30})`)
+      .attr('transform', `translate(${this.width / 2}, ${-10})`)
       .selectAll('circle')
       .data(data)
       .join('circle')

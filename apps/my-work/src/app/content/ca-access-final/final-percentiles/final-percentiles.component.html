@@ -1,6 +1,14 @@
 <div class="title">Final Statewide</div>
 <form [formGroup]="caChartService.myForm">
   <div class="selection">
+    <label for="delivSys">Delivery System</label>
+    <select id="delivSys" formControlName="delivSys">
+      <option *ngFor="let system of filters.delivSyss" [ngValue]="system.name">
+        {{ system.name }}
+      </option>
+    </select>
+  </div>
+  <div class="selection">
     <label for="measureCode">Measure Code</label>
     <select id="measureCode" formControlName="measureCode">
       <option

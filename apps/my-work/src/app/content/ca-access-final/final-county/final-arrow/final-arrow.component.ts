@@ -233,9 +233,10 @@ export class FinalArrowComponent implements OnChanges {
   }
 
   updateColorScale(): void {
-    this.changes = [...new Set(this.data.map((item) => item.change))]
-      .filter((d) => d !== '#N/A')
-      .sort((a, b) => ascending(a, b));
+    // this.changes = [...new Set(this.data.map((item) => item.change))]
+    //   .filter((d) => d !== '#N/A')
+    //   .sort((a, b) => ascending(a, b));
+    this.changes = ['Improved', 'Stayed the same', 'Worsened'];
     const range = [];
     if (this.changes.some((d) => d.includes('mproved'))) {
       range.push(blue);
@@ -269,7 +270,7 @@ export class FinalArrowComponent implements OnChanges {
       .attr('x2', (row) => this.xScale(this.getRowValue(row, 1)))
       .attr('y1', (d) => this.getY(d))
       .attr('y2', (d) => this.getY(d))
-      .style('stroke', (d) => this.colorScale(d[0].change))
+      // .style('stroke', (d) => this.colorScale(d[0].change))
       .style('stroke-width', this.strokeWidth);
   }
 
@@ -296,8 +297,8 @@ export class FinalArrowComponent implements OnChanges {
         const x = this.xScale(d.value) + this.getArrowOffset(direction);
         const y = this.getDiamondY(d);
         return `translate(${x}, ${y})`;
-      })
-      .style('fill', (d) => this.colorScale(d.change));
+      });
+    // .style('fill', (d) => this.colorScale(d.change));
 
     this.markerGroup
       .selectAll('.diamond')
@@ -320,8 +321,8 @@ export class FinalArrowComponent implements OnChanges {
         return this.getDiamondTransform(x, y);
       })
       .style('fill', 'none')
-      .style('stroke-width', 1.5)
-      .style('stroke', (d) => this.colorScale(d.change));
+      .style('stroke-width', 1.5);
+    // .style('stroke', (d) => this.colorScale(d.change));
   }
 
   getDiamondY(d: any): number {
