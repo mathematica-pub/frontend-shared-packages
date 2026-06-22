@@ -75,9 +75,6 @@ export class FinalPercentilesComponent implements OnInit {
       };
       return obj;
     });
-    return transformed.filter(
-      (x: FinalPercentilesDatum) =>
-        x.strat.toLowerCase() === 'null' || x.strat.toLowerCase() === 'none'
-    );
+    return transformed;
   }
 }
