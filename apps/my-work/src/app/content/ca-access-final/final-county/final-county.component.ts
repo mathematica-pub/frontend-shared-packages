@@ -66,13 +66,6 @@ export class FinalCountyComponent implements OnInit {
       };
       return obj;
     });
-    return transformed.filter((x: FinalCountyDatum) =>
-      this.isMatchingStrat(x.strat)
-    );
-  }
-
-  isMatchingStrat(strat: string): boolean {
-    const lowerStrat = strat.toLowerCase();
-    return lowerStrat === 'null' || lowerStrat === 'none';
+    return transformed;
   }
 }
