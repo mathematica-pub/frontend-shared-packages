@@ -35,7 +35,13 @@
 </form>
 @if (caChartService.filteredData$ | async; as data) {
   <app-export-content
-    [fileName]="chartName + ' ' + caChartService.myForm.value[filterTypes[0]]"
+    [fileName]="
+      chartName +
+      ' ' +
+      caChartService.myForm.value[filterTypes[0]] +
+      ' ' +
+      caChartService.myForm.value[filterTypes[1]]
+    "
   >
     <app-final-arrow [data]="data"></app-final-arrow>
   </app-export-content>
