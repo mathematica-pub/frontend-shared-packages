@@ -99,6 +99,7 @@ export class FinalVerticalStackedBarsComponent
 
   createAverageHeaderGroup(): void {
     const group = this.headerGroup
+      .attr('transform', `translate(${this.chart.config.width + 40}, 30)`)
       .append('g')
       .attr('class', 'average-header')
       .attr('transform', `translate(13, ${this.averageOffset})`);
