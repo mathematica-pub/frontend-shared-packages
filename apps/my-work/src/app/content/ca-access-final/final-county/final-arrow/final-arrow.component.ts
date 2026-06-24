@@ -182,7 +182,8 @@ export class FinalArrowComponent implements OnChanges {
   }
 
   updateXScale(): void {
-    const maxWithBuffer = max(this.data, (d) => d.value) * 1.1;
+    const maxWithBuffer =
+      max(this.rollupData, (d) => max(d.map((e) => e.value))) * 1.1;
     const domainMax = this.isPercent ? min([maxWithBuffer, 1]) : maxWithBuffer;
     this.xScale.domain([0, domainMax]);
   }
@@ -200,7 +201,13 @@ export class FinalArrowComponent implements OnChanges {
         .ticks(this.numTicks)
         .tickFormat(
           format(
-            this.isPercent ? '.0%' : this.xScale.domain()[1] > 10 ? ',' : '.1f'
+            this.isPercent && this.xScale.domain()[1] < 0.05
+              ? '.1%'
+              : this.isPercent
+                ? '.0%'
+                : this.xScale.domain()[1] > 10
+                  ? ','
+                  : '.1f'
           )
         )
     );
@@ -233,9 +240,10 @@ export class FinalArrowComponent implements OnChanges {
   }
 
   updateColorScale(): void {
-    this.changes = [...new Set(this.data.map((item) => item.change))]
-      .filter((d) => d !== '#N/A')
-      .sort((a, b) => ascending(a, b));
+    // this.changes = [...new Set(this.data.map((item) => item.change))]
+    //   .filter((d) => d !== '#N/A')
+    //   .sort((a, b) => ascending(a, b));
+    this.changes = ['Improved', 'Stayed the same', 'Worsened'];
     const range = [];
     if (this.changes.some((d) => d.includes('mproved'))) {
       range.push(blue);

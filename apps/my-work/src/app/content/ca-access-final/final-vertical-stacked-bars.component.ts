@@ -23,6 +23,7 @@ export interface FinalDatum {
   directionality: string;
   strat: string;
   stratVal: string;
+  delivSys: string;
 }
 
 @Component({
@@ -44,13 +45,13 @@ export class FinalVerticalStackedBarsComponent
   xLabel: Selection<SVGTextElement, unknown, null, undefined>;
   headerGroup: Selection<SVGGElement, unknown, null, undefined>;
   dataLabelGroup: Selection<SVGGElement, unknown, null, undefined>;
-  headerOffset = -120;
+  headerOffset = -150;
   yAxisOffset = -0.8;
   additionalYAxisOffset = `${this.yAxisOffset - 2.5}em`;
   radius = 7;
   highlightedRadius = 3;
   percentOffset: string;
-  averageOffset = -this.headerOffset - 76;
+  averageOffset = -this.headerOffset - 106;
   legendOffset = 35;
   circleY = this.radius - 13;
   isPercent: boolean;
@@ -98,6 +99,7 @@ export class FinalVerticalStackedBarsComponent
 
   createAverageHeaderGroup(): void {
     const group = this.headerGroup
+      .attr('transform', `translate(${this.chart.config.width + 40}, 30)`)
       .append('g')
       .attr('class', 'average-header')
       .attr('transform', `translate(13, ${this.averageOffset})`);
@@ -142,7 +144,7 @@ export class FinalVerticalStackedBarsComponent
 
     const formatString = this.isPercent
       ? '.1%'
-      : this.scales.x.domain()[1] > 10
+      : this.scales.y.domain()[1] > 10
         ? ','
         : '.1f';
 

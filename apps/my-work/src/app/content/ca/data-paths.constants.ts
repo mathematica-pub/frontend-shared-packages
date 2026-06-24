@@ -72,11 +72,10 @@ const mlbPath = {
 
 const finalPath = {
   current: {
-    statewide: `${caDataFolder}Final_Results.csv`,
-    plan: `${caDataFolder}Final_Plan_Results.csv`,
-    county: `${caDataFolder}Final_County_Results.csv`,
-    stratified: `${caDataFolder}Final_Stratified_Results.csv`,
-    mlr: `${caDataFolder}Final_MLR_Results.csv`,
+    statewide: `${caDataFolder}Statistical_Results_Final.csv`,
+    plan: `${caDataFolder}Improvement_Results_Final_measures_noraceeth.csv`,
+    county: `${caDataFolder}Improvement_Results_Final_county.csv`,
+    stratified: `${caDataFolder}Improvement_Results_Final_raceeth.csv`,
   },
   mock: {
     statewide: `${caDataFolder}Mock_Final_Results.csv`,

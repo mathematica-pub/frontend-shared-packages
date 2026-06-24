@@ -4,6 +4,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VicChartConfigBuilder } from '@mathstack/viz';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
+import { max } from 'd3';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { finalDataPath } from '../../ca/data-paths.constants';
 import { FinalPlansCirclePackComponent } from './final-plans-circle-pack/final-plans-circle-pack.component';
@@ -12,8 +13,10 @@ export interface FinalPlansDatum {
   measureCode: string;
   strat: string;
   stratVal: string;
+  delivSys: string;
   size: number;
   change: string;
+  year: string;
 }
 
 @Component({
@@ -33,10 +36,11 @@ export interface FinalPlansDatum {
 export class FinalPlansComponent implements OnInit {
   finalDataPath = finalDataPath.plan;
   filters = {
+    delivSyss: [],
     measureCodes: [],
     stratVals: [],
   };
-  filterTypes = ['measureCode', 'stratVal'];
+  filterTypes = ['delivSys', 'measureCode', 'stratVal'];
 
   constructor(public caChartService: CaChartService) {}
 
@@ -53,14 +57,19 @@ export class FinalPlansComponent implements OnInit {
   getTransformedData(data: FinalPlansDatum[]): FinalPlansDatum[] {
     const transformed: FinalPlansDatum[] = data.map((x: any) => {
       const obj: FinalPlansDatum = {
-        measureCode: x.Measure_Code,
+        measureCode: x.MSR,
         strat: x.STRAT,
-        stratVal: x.StratVal,
-        size: x.Size && !isNaN(x.Size) ? +x.Size : null,
-        change: x.Change,
+        stratVal: x.STRATVAL,
+        delivSys: x.DELIVSYS,
+        size: x.Count_Avg && !isNaN(x.Count_Avg) ? +x.Count_Avg : null,
+        change: x.improvement_cat,
+        year: x.YEAR,
       };
       return obj;
     });
-    return transformed;
+    const maxYear = max(transformed.map((plan) => +plan.year));
+    return transformed.filter(
+      (plan) => +plan.year === maxYear && plan.change !== 'NA'
+    );
   }
 }

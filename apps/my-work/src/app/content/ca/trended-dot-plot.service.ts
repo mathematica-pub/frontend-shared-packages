@@ -63,7 +63,7 @@ export class TrendedDotPlotService extends DotPlotService {
           bottom: 0,
           left: 0,
         })
-        .maxHeight(chartWidth)
+        .maxHeight(chartWidth * 0.8)
         .minWidth(calculatedWidth)
         .maxWidth(calculatedWidth)
         .scalingStrategy('fixed')

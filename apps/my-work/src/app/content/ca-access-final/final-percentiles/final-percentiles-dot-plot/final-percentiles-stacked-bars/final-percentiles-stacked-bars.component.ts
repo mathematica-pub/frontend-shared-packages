@@ -45,11 +45,12 @@ export class FinalPercentilesStackedBarsComponent extends FinalVerticalStackedBa
       .data((d) => (d ? ['25th Percentile', '75th Percentile'] : []))
       .join('text')
       .attr('y', (d) => {
+        const directionality = this.config.data[0].directionality.toLowerCase();
         const lowLabel = d === '25th Percentile';
         let y = 0;
         if (
-          (this.config.data[0].directionality.includes('Higher') && lowLabel) ||
-          (this.config.data[0].directionality.includes('Lower') && lowLabel)
+          (directionality.includes('higher') && lowLabel) ||
+          (directionality.includes('lower') && lowLabel)
         ) {
           y = rectLength;
         }

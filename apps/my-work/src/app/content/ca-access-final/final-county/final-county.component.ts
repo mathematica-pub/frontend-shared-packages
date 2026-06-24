@@ -28,12 +28,13 @@ export interface FinalCountyDatum extends FinalRaceDatum {
 })
 export class FinalCountyComponent implements OnInit {
   chartName = 'Final County Chart';
-  finalDataPath = finalDataPath.stratified;
+  finalDataPath = finalDataPath.county;
   filters = {
+    delivSyss: [],
     measureCodes: [],
     stratVals: [],
   };
-  filterTypes = ['measureCode', 'stratVal'];
+  filterTypes = ['delivSys', 'measureCode', 'stratVal'];
 
   constructor(public caChartService: CaChartService) {}
 
@@ -51,26 +52,20 @@ export class FinalCountyComponent implements OnInit {
     const transformed: FinalCountyDatum[] = data.map((x: any) => {
       const obj: FinalCountyDatum = {
         series: 'percentile',
-        measureCode: x.Measure_Code,
-        units: x.Units,
-        county: x.County,
+        measureCode: x.MSR,
+        units: x.Unit,
+        county: x.Region,
         directionality: x.Directionality,
         strat: x.STRAT,
-        stratVal: x.StratVal,
+        stratVal: x.STRATVAL,
+        delivSys: x.DELIVSYS,
         value: x.Value && !isNaN(x.Value) ? +x.Value : null,
-        year: x.Year,
-        change: x.Change,
+        year: x.YEAR,
+        // change: x.improvement_cat,
         increased: null,
       };
       return obj;
     });
-    return transformed.filter((x: FinalCountyDatum) => {
-      const strat = x.strat.toLowerCase();
-      return this.isMatchingStrat(strat);
-    });
-  }
-
-  isMatchingStrat(strat: string): boolean {
-    return strat === 'null';
+    return transformed;
   }
 }
