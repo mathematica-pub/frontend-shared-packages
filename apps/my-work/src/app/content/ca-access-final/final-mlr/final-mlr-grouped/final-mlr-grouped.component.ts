@@ -56,7 +56,7 @@ export class FinalMLRGroupedComponent implements OnChanges {
   colorScale!: ScaleOrdinal<string, string>;
   bandwidth = 15;
   width: number;
-  height = chartWidth;
+  height = chartWidth * 0.8;
   radius = 7;
   headerOffset = -175;
   averageOffset = -this.headerOffset - 76;
