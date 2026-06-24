@@ -21,5 +21,6 @@ items:
     - final-plans
     - final-county
     - final-race
+    - final-mlr
   cda:
     - dd-choropleth

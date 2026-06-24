@@ -1,0 +1,22 @@
+<!-- @if (data.length === 0) {
+  <p>The current selections are not a valid combination.</p>
+} @else {
+  <vic-xy-chart [config]="trendedDotPlotService.chartConfig">
+    <ng-container svg-elements>
+      <svg:g
+        vic-y-quantitative-axis
+        [config]="trendedDotPlotService.yAxisConfig"
+      ></svg:g>
+      <svg:g
+        vic-x-ordinal-axis
+        [config]="trendedDotPlotService.xAxisConfig"
+      ></svg:g>
+      <svg:g
+        app-final-mlr-stacked-bars
+        [config]="trendedDotPlotService.rollupDataConfig"
+      ></svg:g>
+    </ng-container>
+  </vic-xy-chart>
+  data available
+} -->
+<div #chartContainer></div>

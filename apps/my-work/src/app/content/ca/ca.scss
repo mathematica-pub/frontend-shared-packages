@@ -109,6 +109,7 @@ $axisFontSize: 16px;
 }
 
 .vic-axis-group,
+.vic-axis-group text,
 .axis,
 .size-headers,
 .size-label,
@@ -116,6 +117,7 @@ $axisFontSize: 16px;
 .comparison-label,
 .comparison,
 .direction-label,
+.unit-label,
 .headers,
 .x-label {
   font-size: $axisFontSize;

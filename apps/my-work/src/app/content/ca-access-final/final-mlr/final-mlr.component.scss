@@ -1,0 +1,30 @@
+@use '../../ca-access-interim/csa/csa.component.scss';
+
+.image {
+  padding-top: 250px !important;
+  padding-bottom: 30px !important;
+  padding-left: 60px !important;
+}
+
+.vic-axis-y-ordinal text {
+  transform: translateX(0);
+}
+
+.average-header {
+  line {
+    stroke: black;
+  }
+}
+
+.average-header-label,
+.percentile-label {
+  alignment-baseline: middle;
+}
+
+.average {
+  fill: white;
+}
+
+circle {
+  stroke-opacity: 1;
+}
