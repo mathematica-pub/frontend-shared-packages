@@ -111,10 +111,7 @@ export class FinalMLRGroupedComponent implements OnChanges {
     this.barGroup = this.svg.append('g').attr('class', 'bars');
     this.circleGroup = this.svg.append('g').attr('class', 'circles');
     this.labelGroup = this.svg.append('g').attr('class', 'labels');
-    this.legendGroup = this.svg
-      .append('g')
-      .attr('class', 'legend headers')
-      .attr('transform', `translate(0, ${this.headerOffset})`);
+    this.legendGroup = this.svg.append('g').attr('class', 'legend headers');
   }
 
   updateFxScale(): void {
@@ -237,6 +234,10 @@ export class FinalMLRGroupedComponent implements OnChanges {
   drawLegend(): void {
     const data = [{ compliance: true }, { compliance: false }];
     const group = this.legendGroup
+      .attr(
+        'transform',
+        `translate(${this.data.length * this.bandwidth * 2 + 70}, 30)`
+      )
       .selectAll('.compliance-group')
       .data(data)
       .join('g')
