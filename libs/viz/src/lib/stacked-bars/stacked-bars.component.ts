@@ -110,7 +110,6 @@ export class StackedBarsComponent<
             .attr('y', this.scales.y(0))
             .attr('height', 0)
             .remove()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       );
   }
 

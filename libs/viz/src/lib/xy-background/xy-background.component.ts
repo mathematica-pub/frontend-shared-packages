@@ -1,5 +1,10 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, Input, inject, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 
 @Component({

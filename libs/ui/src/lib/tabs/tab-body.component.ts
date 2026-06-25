@@ -1,4 +1,10 @@
-import { Component, ContentChild, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  TemplateRef,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { TabContentDirective } from './tab-content.directive';
 
 @Component({

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Ticks } from '../../axes/ticks/ticks';
 import { xAxisMixin } from '../../axes/x/x-axis';
 import { DataValue } from '../../core/types/values';

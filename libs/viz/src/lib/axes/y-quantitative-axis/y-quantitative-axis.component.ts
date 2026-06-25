@@ -1,4 +1,8 @@
-import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ContinuousValue } from '../../core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../base/xy-axis-base';
@@ -27,7 +31,7 @@ const YQuantitativeAxis = yAxisMixin<
       }
     `,
   ],
-  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+
   inputs: ['config'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Eager,

@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, NgZone, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  inject,
+  NgZone,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { VicAttributeDataDimensionConfig } from '../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types';
 import { Chart } from '../chart/chart';

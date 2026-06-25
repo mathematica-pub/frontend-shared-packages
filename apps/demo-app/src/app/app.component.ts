@@ -1,5 +1,11 @@
 import { AsyncPipe } from '@angular/common';
-import { AfterViewInit, Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AdkShikiHighlighter, ShikiTheme } from '@mathstack/app-kit';
 import { BasemapService } from './core/services/basemap.service';

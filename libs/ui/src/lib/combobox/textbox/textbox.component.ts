@@ -10,7 +10,7 @@ import {
   NgZone,
   OnInit,
   ViewChild,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { runNgChangeDetectionThen } from '@mathstack/app-kit';

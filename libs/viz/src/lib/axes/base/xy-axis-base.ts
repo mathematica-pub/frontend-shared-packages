@@ -104,7 +104,7 @@ export abstract class XyAxis<
     this.axisGroup.select('.domain').remove();
 
     this.axisGroup
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       .transition(this.getTransition(this.axisGroup))
       .call(this.axis)
       .on('end', () => {

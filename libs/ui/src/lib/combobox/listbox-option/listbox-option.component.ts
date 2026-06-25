@@ -8,7 +8,7 @@ import {
   TemplateRef,
   ViewChild,
   inject,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ComboboxService } from '../combobox.service';

@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import {
   BarsConfig,
@@ -48,7 +47,6 @@ const barSelector = '.vic-bars-bar';
 // Horizontal bar chart component set up
 // ***********************************************************
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-horizontal-bar',
   template: `
     <vic-xy-chart [config]="chartConfig">

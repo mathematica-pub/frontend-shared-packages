@@ -1,5 +1,11 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
-import { Component, inject, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   HsiUiDirectoryComponent,

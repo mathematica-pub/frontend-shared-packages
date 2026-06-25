@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/prefer-standalone */
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
@@ -72,7 +71,6 @@ const labelSelector = '.vic-bars-label';
 // Horizontal bar chart component set up
 // ***********************************************************
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-horizontal-bar',
   template: `
     <vic-xy-chart [config]="chartConfig">
@@ -175,7 +173,6 @@ const mountHorizontalBarsComponent = (
 // Vertical bar chart component set up
 // ***********************************************************
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-vertical-bar',
   template: `
     <vic-xy-chart [config]="chartConfig">

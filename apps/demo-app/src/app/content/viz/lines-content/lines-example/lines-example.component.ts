@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
   ViewEncapsulation,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   MatButtonToggleChange,

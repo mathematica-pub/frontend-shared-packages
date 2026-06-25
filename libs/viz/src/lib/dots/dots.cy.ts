@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/prefer-standalone */
 // ***********************************************************
 // Set up Lines component -- can use with Date or numeric values for x axis
 
@@ -54,7 +53,6 @@ const dotCircleSelector = `.vic-dots-dot`;
 // Dots Component with Continuous Quantitative X and Y Axes
 // ***********************************************************
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-dots-quant-quant',
   template: `
     <vic-xy-chart [config]="chartConfig">
@@ -179,7 +177,6 @@ function mountDotsXQuantYQuantComponent(
 // Dots Component with Ordinal Y and Continuous X Axes
 // ***********************************************************
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-dots-ordinal-quant',
   template: `
     <vic-xy-chart [config]="chartConfig">
@@ -236,7 +233,6 @@ function mountDotsXQuantYOrdinalComponent(
 // Dots Component with Ordinal X and Continuous Y Axes
 // ***********************************************************
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-lines',
   template: `
     <vic-xy-chart [config]="chartConfig">

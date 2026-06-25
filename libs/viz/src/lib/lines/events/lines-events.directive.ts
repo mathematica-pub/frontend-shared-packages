@@ -177,7 +177,6 @@ export class LinesEventsDirective<
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   onInputEvent(inputValue: unknown): void {
     if (this.isEventAllowed(EventType.Input)) {
       if (inputValue === null || inputValue === undefined) {

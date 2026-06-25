@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewChild,
   inject,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { MapChartComponent } from '../charts/map-chart/map-chart.component';
 import { Orientation, Side } from '../core/types/layout';

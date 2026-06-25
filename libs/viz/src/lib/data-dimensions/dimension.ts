@@ -8,7 +8,7 @@ export abstract class DataDimension<
 > implements DataDimensionOptions<Datum, TDataValue> {
   readonly dimensionType: 'number' | 'ordinal' | 'date';
   readonly formatFunction: (d: Datum) => string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   readonly valueAccessor: (d: Datum) => TDataValue;
   /**
    * An array of values for this dimension, extracted from the data using the value accessor.

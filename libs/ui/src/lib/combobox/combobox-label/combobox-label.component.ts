@@ -4,7 +4,7 @@ import {
   TemplateRef,
   ViewChild,
   inject,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ComboboxService } from '../combobox.service';
 

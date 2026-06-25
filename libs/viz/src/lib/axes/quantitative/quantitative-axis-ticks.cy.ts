@@ -1,5 +1,3 @@
-/* eslint-disable @angular-eslint/prefer-standalone */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, inject, Input, OnInit } from '@angular/core';
 import {
   BarsOptions,

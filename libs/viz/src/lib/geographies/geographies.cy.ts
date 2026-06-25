@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/prefer-standalone */
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
@@ -64,7 +63,6 @@ type TestUsMapTopology = Topology<TestMapObjects>;
 // Geogrpahies component set up
 // ***********************************************************
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-geographies',
   template: `
     <vic-map-chart [config]="chartConfig">

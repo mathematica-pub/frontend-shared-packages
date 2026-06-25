@@ -8,7 +8,7 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
   shouldDetach(): boolean {
     return false;
   }
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   store(): void {}
   shouldAttach(): boolean {
     return false;
