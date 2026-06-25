@@ -10,7 +10,7 @@ import {
   SimpleChanges,
   ViewChild,
   inject,
-  ChangeDetectionStrategy,
+  
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgOnChangesUtilities } from '@mathstack/app-kit';
@@ -77,7 +77,6 @@ export interface ReactiveConfig {
   host: {
     class: 'vic-chart',
   },
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule],
 })
 export class ChartComponent implements Chart, OnInit, OnChanges {

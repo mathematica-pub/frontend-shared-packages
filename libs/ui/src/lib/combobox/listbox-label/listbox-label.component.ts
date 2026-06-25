@@ -5,7 +5,7 @@ import {
   TemplateRef,
   ViewChild,
   inject,
-  ChangeDetectionStrategy,
+  
 } from '@angular/core';
 import { ComboboxService } from '../combobox.service';
 
@@ -16,7 +16,6 @@ let nextUniqueId = 0;
   imports: [CommonModule],
   templateUrl: './listbox-label.component.html',
   styleUrls: ['./listbox-label.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'hsi-ui-listbox-label',
   },

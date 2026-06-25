@@ -3,7 +3,7 @@ import {
   Component,
   inject,
   OnInit,
-  ChangeDetectionStrategy,
+  
 } from '@angular/core';
 import {
   ChartConfig,
@@ -50,7 +50,6 @@ interface ViewModel {
   ],
   templateUrl: './stacked-area-example.component.html',
   styleUrls: ['./stacked-area-example.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     VicChartConfigBuilder,
     VicStackedAreaConfigBuilder,

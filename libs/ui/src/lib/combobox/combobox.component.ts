@@ -10,7 +10,7 @@ import {
   OnDestroy,
   OnInit,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
+  
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter, fromEvent, merge, withLatestFrom } from 'rxjs';
@@ -24,7 +24,6 @@ import { ComboboxService, FocusTextbox } from './combobox.service';
   templateUrl: './combobox.component.html',
   styleUrls: ['./styles/styles.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.Eager,
   host: { class: 'hsi-ui-combobox' },
 })
 export class ComboboxComponent implements OnInit, OnDestroy {

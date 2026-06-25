@@ -15,7 +15,7 @@ import {
   QueryList,
   SimpleChanges,
   ViewChild,
-  ChangeDetectionStrategy,
+  
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
@@ -57,7 +57,6 @@ export type SelectedCountLabel = {
   ],
   templateUrl: './listbox.component.html',
   styleUrls: ['./listbox.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'hsi-ui-listbox-component',
   },

@@ -5,7 +5,7 @@ import {
   ContentChildren,
   QueryList,
   inject,
-  ChangeDetectionStrategy,
+  
 } from '@angular/core';
 import { Observable, map, startWith } from 'rxjs';
 import { ComboboxService } from '../combobox.service';
@@ -15,7 +15,6 @@ import { ListboxOptionComponent } from '../listbox-option/listbox-option.compone
 @Component({
   selector: 'hsi-ui-listbox-group',
   template: `<ng-content></ng-content>`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'hsi-ui-listbox-group',
   },

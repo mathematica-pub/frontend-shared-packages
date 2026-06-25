@@ -1,7 +1,7 @@
 import {
   Component,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
+  
 } from '@angular/core';
 import { DataValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
@@ -27,7 +27,6 @@ const XOrdinalAxis = xAxisMixin(
 
   inputs: ['config'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     '[class]': 'config.marksClass',
     class: 'vic-axis',

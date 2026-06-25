@@ -4,7 +4,7 @@ import {
   inject,
   OnInit,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
+  
 } from '@angular/core';
 import {
   ChartConfig,
@@ -55,7 +55,6 @@ interface ViewModel {
   templateUrl: './stacked-bars-example.component.html',
   styleUrls: ['./stacked-bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     VicChartConfigBuilder,
     VicStackedBarsConfigBuilder,

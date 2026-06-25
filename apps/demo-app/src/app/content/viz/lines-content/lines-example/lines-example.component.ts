@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
+  
 } from '@angular/core';
 import {
   MatButtonToggleChange,
@@ -77,7 +77,6 @@ const includeFiles = ['line-input-actions.ts'];
     VicXQuantitativeAxisConfigBuilder,
     VicHtmlTooltipConfigBuilder,
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   encapsulation: ViewEncapsulation.None,
 })
 export class LinesExampleComponent implements OnInit {

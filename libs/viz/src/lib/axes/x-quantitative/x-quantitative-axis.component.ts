@@ -1,7 +1,7 @@
 import {
   Component,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
+  
 } from '@angular/core';
 import { ContinuousValue } from '../../core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
@@ -34,7 +34,6 @@ const XQuantitativeAxis = xAxisMixin<
 
   inputs: ['config'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     '[class]': 'config.marksClass',
     class: 'vic-axis',

@@ -3,7 +3,7 @@ import {
   Component,
   OnInit,
   inject,
-  ChangeDetectionStrategy,
+  
 } from '@angular/core';
 import {
   MatButtonToggleChange,
@@ -86,7 +86,6 @@ interface ViewModel {
     VicHtmlTooltipConfigBuilder,
   ],
   templateUrl: './geographies-example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./geographies-example.component.scss'],
 })
 export class GeographiesExampleComponent implements OnInit {

@@ -4,7 +4,7 @@ import {
   inject,
   OnInit,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
+  
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
@@ -26,7 +26,6 @@ import { Section } from '../../core/services/router-state/state';
   providers: [TitleCasePipe],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   encapsulation: ViewEncapsulation.None,
 })
 export class SidebarComponent implements OnInit {

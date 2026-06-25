@@ -4,14 +4,13 @@ import {
   Input,
   TemplateRef,
   ViewChild,
-  ChangeDetectionStrategy,
+  
 } from '@angular/core';
 
 let nextUniqueId = 0;
 
 @Component({
   selector: 'hsi-ui-tab-label',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<ng-template
     ><div #label class="tab-label" [id]="id"><ng-content></ng-content></div
   ></ng-template>`,

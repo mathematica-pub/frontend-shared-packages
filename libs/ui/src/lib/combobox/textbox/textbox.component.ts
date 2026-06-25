@@ -10,7 +10,7 @@ import {
   NgZone,
   OnInit,
   ViewChild,
-  ChangeDetectionStrategy,
+  
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { runNgChangeDetectionThen } from '@mathstack/app-kit';
@@ -32,7 +32,6 @@ import { SelectedCountLabel } from '../listbox/listbox.component';
   imports: [CommonModule],
   styleUrls: ['./textbox.component.scss'],
   templateUrl: './textbox.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'hsi-ui-textbox',
   },
