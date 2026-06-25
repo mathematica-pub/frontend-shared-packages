@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, NgZone } from '@angular/core';
+import { Component, inject, NgZone, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { VicAttributeDataDimensionConfig } from '../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types';
 import { Chart } from '../chart/chart';
@@ -35,6 +35,7 @@ import { CHART } from '../chart/chart.token';
   host: {
     class: 'vic-map-chart',
   },
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule],
 })
 export class MapChartComponent<Datum> extends ChartComponent implements Chart {

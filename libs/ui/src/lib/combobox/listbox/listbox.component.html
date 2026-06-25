@@ -56,7 +56,7 @@
         @if (group.label) {
           <div
             role="presentation"
-            [id]="group.label?.id"
+            [id]="$safeNavigationMigration(group.label?.id)"
             class="hsi-ui-listbox-group-label"
             [ngClass]="'hsi-ui-listbox-group-' + i + '-label'"
           >

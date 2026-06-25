@@ -27,7 +27,9 @@
       "@mathstack/ui": ["libs/ui/src/public-api"],
       "@mathstack/viz": ["libs/viz/src/public-api"]
     },
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "ignoreDeprecations": "6.0",
+    "noUncheckedSideEffectImports": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

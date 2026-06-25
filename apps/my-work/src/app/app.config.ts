@@ -1,5 +1,5 @@
 import { TitleCasePipe } from '@angular/common';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import {
   ApplicationConfig,
   inject,
@@ -12,7 +12,7 @@ import { DirectoryConfigsService } from './core/services/directory-config.servic
 export const appConfig: ApplicationConfig = {
   providers: [
     TitleCasePipe,
-    provideHttpClient(),
+    provideHttpClient(withXhr()),
     provideRouter(
       APP_ROUTES,
       withInMemoryScrolling({

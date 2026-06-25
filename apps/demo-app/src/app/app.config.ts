@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import {
   ApplicationConfig,
   inject,
@@ -24,7 +24,7 @@ import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(),
+    provideHttpClient(withXhr()),
     provideRouter(
       APP_ROUTES,
       withInMemoryScrolling({ anchorScrolling: 'enabled' }),

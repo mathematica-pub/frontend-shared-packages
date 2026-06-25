@@ -8,6 +8,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormControl, FormsModule } from '@angular/forms';
 import { BehaviorSubject, skip } from 'rxjs';
@@ -27,6 +28,7 @@ import { TextboxComponent } from '../textbox/textbox.component';
   imports: [CommonModule, FormsModule],
   templateUrl: './editable-textbox.component.html',
   styleUrls: ['./editable-textbox.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'hsi-ui-editable-textbox',
   },

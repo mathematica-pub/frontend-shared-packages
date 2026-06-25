@@ -4,6 +4,7 @@ import {
   Input,
   OnChanges,
   inject,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { TabBodyComponent } from './tab-body.component';
 import { TabLabelComponent } from './tab-label.component';
@@ -11,6 +12,7 @@ import { TabsService } from './tabs.service';
 
 @Component({
   selector: 'hsi-ui-tab-item',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '<ng-content></ng-content>',
 })
 export class TabItemComponent<T> implements OnChanges {

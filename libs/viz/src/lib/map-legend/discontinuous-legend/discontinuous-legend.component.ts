@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Orientation } from '../../core/types/layout';
 import { BinStrategy } from '../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-enums';
 import { VicAttributeDataDimensionConfig } from '../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types';
@@ -15,6 +15,7 @@ export type DiscontinuousAttributeDataDimensionConfig<Datum> = Exclude<
   selector: 'vic-discontinuous-legend',
   templateUrl: './discontinuous-legend.component.html',
   styleUrls: ['./discontinuous-legend.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule],
 })
 export class DiscontinuousLegendComponent<Datum> extends MapLegend<

@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 
 @Component({
@@ -10,6 +10,7 @@ import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
   host: {
     class: 'vic-xy-background',
   },
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [AsyncPipe, CommonModule],
 })
 export class XyBackgroundComponent {
