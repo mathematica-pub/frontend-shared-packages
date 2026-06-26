@@ -6,7 +6,7 @@ import {
   inject,
   Input,
   OnChanges,
-  
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -33,6 +33,7 @@ import { ListboxComponent } from '../listbox/listbox.component';
     },
   ],
   templateUrl: '../listbox-option/listbox-option.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['../listbox-option/listbox-option.component.scss'],
 })
 export class SelectAllListboxOptionComponent

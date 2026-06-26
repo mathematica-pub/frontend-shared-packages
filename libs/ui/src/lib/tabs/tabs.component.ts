@@ -8,7 +8,7 @@ import {
   Output,
   QueryList,
   inject,
-  
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable, map, startWith } from 'rxjs';
@@ -20,6 +20,7 @@ import { TabsService } from './tabs.service';
   imports: [CommonModule],
   providers: [TabsService],
   templateUrl: './tabs.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./tabs.component.scss'],
 })
 export class TabsComponent<T> implements AfterContentInit {

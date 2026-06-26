@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  OnChanges,
-  ViewChild,
-  
-} from '@angular/core';
+import { Component, ElementRef, OnChanges, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { scaleLinear } from 'd3';
 import { Orientation } from '../../core/types/layout';
 import { NoBinsAttributeDataDimension } from '../../geographies/config/layers/attribute-data-layer/dimensions/no-bins/no-bins';
@@ -18,6 +12,7 @@ import { MapLegend } from '../map-legend-base';
   selector: 'vic-continuous-legend',
   templateUrl: './continuous-legend.component.html',
   styleUrls: ['./continuous-legend.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule],
 })
 export class ContinuousLegendComponent<Datum>

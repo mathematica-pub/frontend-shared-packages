@@ -1,11 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  inject,
-  OnInit,
-  
-} from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AdkShikiHighlighter, ShikiTheme } from '@mathstack/app-kit';
 import { BasemapService } from './core/services/basemap.service';
@@ -18,6 +12,7 @@ import { SidebarComponent } from './platform/sidebar/sidebar.component';
   selector: 'app-root',
   imports: [RouterOutlet, SidebarComponent, AsyncPipe],
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, AfterViewInit {

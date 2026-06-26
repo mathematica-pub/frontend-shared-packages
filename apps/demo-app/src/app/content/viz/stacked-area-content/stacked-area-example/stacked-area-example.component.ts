@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  inject,
-  OnInit,
-  
-} from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   ChartConfig,
   ElementSpacing,
@@ -50,6 +45,7 @@ interface ViewModel {
   ],
   templateUrl: './stacked-area-example.component.html',
   styleUrls: ['./stacked-area-example.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     VicChartConfigBuilder,
     VicStackedAreaConfigBuilder,

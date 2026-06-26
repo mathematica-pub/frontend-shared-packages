@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+/* eslint-disable @angular-eslint/prefer-standalone */
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TableColumn } from '../table-column';
 
 @Component({
@@ -6,6 +7,7 @@ import { TableColumn } from '../table-column';
   selector: '[hsi-ui-single-sort-header]',
   templateUrl: './single-sort-header.component.html',
   styleUrls: ['./single-sort-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SingleSortHeaderComponent<Datum> {

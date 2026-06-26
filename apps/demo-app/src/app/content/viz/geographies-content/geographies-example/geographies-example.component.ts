@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  OnInit,
-  inject,
-  
-} from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import {
   MatButtonToggleChange,
   MatButtonToggleModule,
@@ -86,6 +81,7 @@ interface ViewModel {
     VicHtmlTooltipConfigBuilder,
   ],
   templateUrl: './geographies-example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./geographies-example.component.scss'],
 })
 export class GeographiesExampleComponent implements OnInit {

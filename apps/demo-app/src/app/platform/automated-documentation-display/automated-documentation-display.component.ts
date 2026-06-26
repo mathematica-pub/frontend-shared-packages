@@ -8,7 +8,7 @@ import {
   OnInit,
   ViewChild,
   ViewEncapsulation,
-  
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -33,6 +33,7 @@ import { AutomatedDocumentationParser } from './automated-documentation-parser.s
     './styles/bootstrap-card.scss',
     './styles/bootstrap.scss',
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   encapsulation: ViewEncapsulation.None,
 })
 export class AutomatedDocumentationDisplayComponent

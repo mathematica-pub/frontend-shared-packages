@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewChild,
   inject,
-  
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { MapChartComponent } from '../charts/map-chart/map-chart.component';
 import { Orientation, Side } from '../core/types/layout';
@@ -25,6 +25,7 @@ export enum VicLegendType {
   selector: 'vic-map-legend',
   templateUrl: './map-legend.component.html',
   styleUrls: ['./map-legend.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     ContinuousLegendComponent,

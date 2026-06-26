@@ -1,10 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import {
-  Component,
-  inject,
-  OnInit,
-  
-} from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
   AdkAssetsService,
@@ -27,6 +22,7 @@ import { SidebarComponent } from './platform/sidebar/sidebar.component';
     AdkMarkdownParser,
   ],
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
