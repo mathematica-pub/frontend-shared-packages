@@ -75,8 +75,8 @@ export class FinalArrowComponent implements OnChanges {
     }
     this.setRollupData();
     this.setExtents();
-    this.sortData();
     this.setDirectionality();
+    this.sortData();
     this.setIncreased();
     this.updateHeight();
     this.updateIsPercent();
@@ -134,6 +134,12 @@ export class FinalArrowComponent implements OnChanges {
     ) as [string, string];
   }
 
+  setDirectionality(): void {
+    this.higherIsBetter = this.data[0].directionality
+      .toLowerCase()
+      .includes('higher');
+  }
+
   sortData(): void {
     this.rollupData = this.rollupData
       .filter(
@@ -151,15 +157,9 @@ export class FinalArrowComponent implements OnChanges {
         } else if (isNaN(bDiff)) {
           return -1;
         } else {
-          return this.higherIsBetter ? aDiff - bDiff : bDiff - aDiff;
+          return this.higherIsBetter ? bDiff - aDiff : aDiff - bDiff;
         }
       });
-  }
-
-  setDirectionality(): void {
-    this.higherIsBetter = this.data[0].directionality
-      .toLowerCase()
-      .includes('higher');
   }
 
   setIncreased(): void {
