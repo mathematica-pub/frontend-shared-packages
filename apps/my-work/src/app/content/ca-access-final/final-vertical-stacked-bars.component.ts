@@ -93,13 +93,13 @@ export class FinalVerticalStackedBarsComponent
       this.chart
     );
     this.stackedBarsService.updateXLabel(this.xLabel, this.config, this.chart);
+    this.updateHeaderGroup();
     this.updateAverageHeaderGroup();
     // this.updateDataLabelGroup();
   }
 
   createAverageHeaderGroup(): void {
     const group = this.headerGroup
-      .attr('transform', `translate(${this.chart.config.width + 40}, 30)`)
       .append('g')
       .attr('class', 'average-header')
       .attr('transform', `translate(13, ${this.averageOffset})`);
@@ -134,6 +134,13 @@ export class FinalVerticalStackedBarsComponent
       .attr('y', this.averageOffset + this.circleY)
       .attr('dx', '0.5em')
       .text(this.config.data[0].type);
+  }
+
+  updateHeaderGroup(): void {
+    this.headerGroup.attr(
+      'transform',
+      `translate(${this.chart.config.width + 40}, 30)`
+    );
   }
 
   updateDataLabelGroup(): void {
