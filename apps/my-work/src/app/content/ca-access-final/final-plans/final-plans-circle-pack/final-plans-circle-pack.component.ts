@@ -55,7 +55,7 @@ export class FinalPlansCirclePackComponent implements OnChanges {
   colorScale!: ScaleOrdinal<string, string>;
   strokeScale!: ScaleOrdinal<string, string>;
   width = 400;
-  height = chartWidth;
+  height = chartWidth * 0.8;
   strokeWidth = 3;
   changes: string[] = [];
   buckets: StackData[] = [];
@@ -142,7 +142,7 @@ export class FinalPlansCirclePackComponent implements OnChanges {
   updateRScale(): void {
     this.rScale
       .domain([0, max(this.data.map((d) => d.size))])
-      .range([0, this.width * 0.2]);
+      .range([0, this.width * 0.16]);
   }
 
   updateColorScale(): void {
