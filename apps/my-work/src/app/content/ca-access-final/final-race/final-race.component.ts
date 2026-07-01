@@ -4,6 +4,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
+import { raceCategories } from '../../ca/ca.constants';
 import { finalDataPath } from '../../ca/data-paths.constants';
 import { FinalDatum } from '../final-vertical-stacked-bars.component';
 import { FinalRaceArrowComponent } from './final-race-arrow/final-race-arrow.component';
@@ -49,6 +50,7 @@ export class FinalRaceComponent implements OnInit {
   }
 
   getTransformedData(data: FinalRaceDatum[]): FinalRaceDatum[] {
+    const order = structuredClone(raceCategories);
     const transformed: FinalRaceDatum[] = data.map((x: any) => {
       const obj: FinalRaceDatum = {
         series: 'percentile',
@@ -65,13 +67,41 @@ export class FinalRaceComponent implements OnInit {
       };
       return obj;
     });
-    return transformed.filter((x: FinalRaceDatum) => {
-      const strat = x.strat.toLowerCase();
-      return this.isMatchingStrat(strat);
-    });
+    const invalids = [];
+    transformed
+      .filter((x: FinalRaceDatum) => {
+        const strat = x.strat.toLowerCase();
+        return this.isMatchingStrat(strat);
+      })
+      .forEach((a) => {
+        if (
+          isNaN(order.race[a.stratVal]) &&
+          isNaN(order.ethnicity[a.stratVal]) &&
+          !invalids.includes(a.stratVal)
+        ) {
+          invalids.push(a.stratVal);
+        }
+      });
+    if (invalids.length) {
+      console.warn('invalid stratVals', invalids);
+    }
+    return transformed
+      .filter((x: FinalRaceDatum) => {
+        const strat = x.strat.toLowerCase();
+        return this.isMatchingStrat(strat);
+      })
+      .sort((a, b) => {
+        const stratA = this.getStrat(a);
+        const stratB = this.getStrat(b);
+        return order[stratA][a.stratVal] - order[stratB][b.stratVal];
+      });
   }
 
   isMatchingStrat(strat: string): boolean {
     return strat.includes('race') || strat.includes('ethnicity');
+  }
+
+  getStrat(x: FinalRaceDatum): string {
+    return x.strat.toLowerCase() === 'ethnicity' ? 'ethnicity' : 'race';
   }
 }

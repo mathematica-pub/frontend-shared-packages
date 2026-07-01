@@ -57,28 +57,24 @@ export class FinalRaceArrowComponent
               o[0].strat === row[0].strat && o[0].stratVal === row[0].stratVal
           )
       );
-    console.log('rollupData', this.rollupData);
   }
 
   override sortData(): void {
     const order = structuredClone(raceCategories);
     this.caDotPlotService.setRaceEthnicityMockCategories(order);
 
-    this.rollupData = this.rollupData
-      .filter(
-        (row) =>
-          row.length > 1 ||
-          row.some(
-            (d) => d.year !== this.extents[0] && d.year !== this.extents[1]
-          )
-      )
-      .sort((a, b) => {
-        const stratA =
-          a[0].strat.toLowerCase() === 'ethnicity' ? 'ethnicity' : 'race';
-        const stratB =
-          b[0].strat.toLowerCase() === 'ethnicity' ? 'ethnicity' : 'race';
-        return order[stratA][a[0].stratVal] - order[stratB][b[0].stratVal];
-      });
+    this.rollupData = this.rollupData.filter(
+      (row) =>
+        row.length > 1 ||
+        row.some(
+          (d) => d.year !== this.extents[0] && d.year !== this.extents[1]
+        )
+    );
+    console.log('rollupData', this.rollupData);
+  }
+
+  getStrat(x: FinalRaceDatum[]): string {
+    return x[0].strat.toLowerCase() === 'ethnicity' ? 'ethnicity' : 'race';
   }
 
   override updateYScale(): void {
@@ -119,9 +115,7 @@ export class FinalRaceArrowComponent
   }
 
   updateStratLabels(): void {
-    let data = [...new Set(this.data.map((d) => d.strat))].sort((a) =>
-      a.toLowerCase() === 'ethnicity' ? 1 : -1
-    );
+    let data = [...new Set(this.data.map((d) => d.strat))];
     data = data.length > 1 ? data : [];
     const reverseData = [...this.data].reverse();
     const strats = this.stratGroup
@@ -150,7 +144,6 @@ export class FinalRaceArrowComponent
       .attr('x2', offset + stratLinePadding)
       .attr('y1', (d) => this.getY1(d) + this.stratPadding)
       .attr('y2', (d) => this.getY2(d, reverseData) - this.stratPadding);
-
     strats
       .filter((_, i) => i > 0)
       .selectAll('.strat-separator')
