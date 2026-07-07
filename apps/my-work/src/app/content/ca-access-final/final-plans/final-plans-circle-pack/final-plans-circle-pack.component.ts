@@ -55,7 +55,7 @@ export class FinalPlansCirclePackComponent implements OnChanges {
   colorScale!: ScaleOrdinal<string, string>;
   strokeScale!: ScaleOrdinal<string, string>;
   width = 400;
-  height = chartWidth;
+  height = chartWidth * 0.8;
   strokeWidth = 3;
   changes: string[] = [];
   buckets: StackData[] = [];
@@ -87,19 +87,20 @@ export class FinalPlansCirclePackComponent implements OnChanges {
   }
 
   getChanges(): string[] {
-    return [...new Set(this.data.map((item) => item.change))].sort((a, b) => {
-      if (a.includes('mproved') && !b.includes('mproved')) {
-        return -1;
-      } else if (a.includes('orsened') && !b.includes('orsened')) {
-        return 1;
-      } else if (b.includes('mproved') && !a.includes('mproved')) {
-        return 1;
-      } else if (b.includes('orsened') && !a.includes('orsened')) {
-        return -1;
-      } else {
-        return 0;
-      }
-    });
+    // return [...new Set(this.data.map((item) => item.change))].sort((a, b) => {
+    //   if (a.includes('mproved') && !b.includes('mproved')) {
+    //     return -1;
+    //   } else if (a.includes('orsened') && !b.includes('orsened')) {
+    //     return 1;
+    //   } else if (b.includes('mproved') && !a.includes('mproved')) {
+    //     return 1;
+    //   } else if (b.includes('orsened') && !a.includes('orsened')) {
+    //     return -1;
+    //   } else {
+    //     return 0;
+    //   }
+    // });
+    return ['improved', 'stayed the same', 'worsened'];
   }
 
   updateYScale(): void {
@@ -134,6 +135,7 @@ export class FinalPlansCirclePackComponent implements OnChanges {
         }
         return stack;
       });
+    this.buckets = this.buckets.filter((bucket) => bucket.count);
     console.log('this.buckets', this.buckets);
 
     this.yScale.domain(this.changes).range(range);
@@ -142,11 +144,21 @@ export class FinalPlansCirclePackComponent implements OnChanges {
   updateRScale(): void {
     this.rScale
       .domain([0, max(this.data.map((d) => d.size))])
-      .range([0, this.width * 0.2]);
+      .range([0, this.width * 0.16]);
   }
 
   updateColorScale(): void {
-    this.colorScale.domain(this.changes).range([blue, '#f9f9f9', darkOrange]);
+    const range = [];
+    if (this.changes.some((x) => x.toLowerCase().includes('mproved'))) {
+      range.push(blue);
+    }
+    if (this.changes.some((x) => x.toLowerCase().includes('tayed'))) {
+      range.push('#f9f9f9');
+    }
+    if (this.changes.some((x) => x.toLowerCase().includes('orsened'))) {
+      range.push(darkOrange);
+    }
+    this.colorScale.domain(this.changes).range(range);
   }
 
   updateStrokeScale(): void {
