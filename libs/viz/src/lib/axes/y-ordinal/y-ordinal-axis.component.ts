@@ -1,4 +1,8 @@
-import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { DataValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
 import { ordinalAxisMixin } from '../ordinal/ordinal-axis';
@@ -10,7 +14,6 @@ const YOrdinalAxis = yAxisMixin(
 );
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-y-ordinal-axis]',
   template: '',
   styles: [
@@ -20,7 +23,7 @@ const YOrdinalAxis = yAxisMixin(
       }
     `,
   ],
-  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+
   inputs: ['config'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Eager,

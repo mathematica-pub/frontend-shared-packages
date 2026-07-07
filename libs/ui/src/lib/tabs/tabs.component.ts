@@ -8,7 +8,7 @@ import {
   Output,
   QueryList,
   inject,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable, map, startWith } from 'rxjs';

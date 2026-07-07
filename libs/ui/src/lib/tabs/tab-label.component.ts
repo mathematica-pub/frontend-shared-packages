@@ -4,7 +4,7 @@ import {
   Input,
   TemplateRef,
   ViewChild,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 let nextUniqueId = 0;

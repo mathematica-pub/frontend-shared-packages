@@ -70,7 +70,6 @@ export interface BarsTooltipDatum<Datum> {
 type BarsSvgElement = 'g' | 'bar' | 'label' | 'background';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-bars]',
   template: '',
   styleUrls: ['./bars.component.scss'],
@@ -225,7 +224,6 @@ export class BarsComponent<
       .lower();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getBarGroupColorClass(i: number): string {
     return this.config.color.calculatedDomain.length > 1
       ? ValueUtilities.formatForHtmlAttribute(this.config.color.values[i])

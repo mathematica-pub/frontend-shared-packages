@@ -5,7 +5,7 @@ import {
   ContentChildren,
   QueryList,
   inject,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { Observable, map, startWith } from 'rxjs';
 import { ComboboxService } from '../combobox.service';

@@ -8,7 +8,7 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormControl, FormsModule } from '@angular/forms';
 import { BehaviorSubject, skip } from 'rxjs';

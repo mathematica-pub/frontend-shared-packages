@@ -10,7 +10,7 @@ import {
   SimpleChanges,
   ViewChild,
   inject,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgOnChangesUtilities } from '@mathstack/app-kit';

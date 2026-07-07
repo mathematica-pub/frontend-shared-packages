@@ -31,7 +31,6 @@ export const STACKED_BARS = new InjectionToken<
 >('StackedBarsComponent');
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-stacked-bars]',
   template: '',
   styleUrls: ['./stacked-bars.component.scss'],
@@ -110,7 +109,6 @@ export class StackedBarsComponent<
             .attr('y', this.scales.y(0))
             .attr('height', 0)
             .remove()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       );
   }
 

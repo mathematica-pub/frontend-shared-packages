@@ -4,7 +4,7 @@ import {
   Input,
   OnChanges,
   inject,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { TabBodyComponent } from './tab-body.component';
 import { TabLabelComponent } from './tab-label.component';
