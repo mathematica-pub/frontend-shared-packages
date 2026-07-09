@@ -1,7 +1,7 @@
 name: Release packages
 on:
   issue_comment:
-    types: [ created ]
+    types: [created]
 
   push:
     branches:
@@ -31,7 +31,7 @@ jobs:
       - name: Install Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 24
           registry-url: https://registry.npmjs.org/
 
       - name: Update npm
@@ -139,7 +139,8 @@ jobs:
         shell: bash
 
   beta-release:
-    if: github.event_name == 'issue_comment' && github.event.issue.pull_request &&
+    if:
+      github.event_name == 'issue_comment' && github.event.issue.pull_request &&
       contains(github.event.comment.body, 'beta-release-bot:')
     name: Beta release package
     runs-on: ubuntu-latest
@@ -159,7 +160,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 24
           registry-url: https://registry.npmjs.org/
 
       - name: Set referenced package
