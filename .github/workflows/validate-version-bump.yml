@@ -63,13 +63,13 @@ jobs:
             echo "❌ No tag found on this branch"
             echo "error_message=No version tag found. After running 'nx release --skip-publish', make sure to push the generated tag." >> $GITHUB_OUTPUT
           else
-            # Check if this tag was created after the base branch point
+            # Check if this tag was created in this PR
             BASE_COMMIT=$(git merge-base origin/${{ github.event.pull_request.base.ref }} HEAD)
             TAG_COMMIT=$(git rev-list -n 1 $LATEST_TAG)
 
-            # Check if tag commit is in the current branch
-            if git merge-base --is-ancestor $BASE_COMMIT $TAG_COMMIT 2>/dev/null && \
-               git log $BASE_COMMIT..$TAG_COMMIT --oneline | grep -q .; then
+            # Check if tag commit is reachable from HEAD and is newer than the base
+            if git merge-base --is-ancestor $TAG_COMMIT HEAD 2>/dev/null && \
+               ! git merge-base --is-ancestor $TAG_COMMIT origin/${{ github.event.pull_request.base.ref }} 2>/dev/null; then
               echo "has_new_tag=true" >> $GITHUB_OUTPUT
               echo "✅ New tag found: $LATEST_TAG (commit: ${TAG_COMMIT:0:7})"
               echo "tag_name=$LATEST_TAG" >> $GITHUB_OUTPUT
