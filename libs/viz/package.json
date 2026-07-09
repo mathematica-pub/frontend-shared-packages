@@ -4,12 +4,12 @@
   "scripts": {
     "build": "ng build"
   },
-  "version": "2.2.2",
+  "version": "2.3.0",
   "peerDependencies": {
     "@angular/cdk": ">=19.0.0 <23.0.0",
     "@angular/common": ">=19.0.0 <23.0.0",
     "@angular/core": ">=19.0.0 <23.0.0",
-    "@mathstack/app-kit": "0.0.1-beta.3",
+    "@mathstack/app-kit": "2.3.0",
     "csstype": "^3.1.3",
     "d3": "^7.6.1",
     "file-saver": "^2.0.5",
