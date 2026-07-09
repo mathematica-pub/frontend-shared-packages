@@ -55,7 +55,6 @@ export type MarkerSelection = Selection<
 >;
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-lines]',
   template: '',
   styleUrls: ['./lines.component.scss'],

@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/prefer-standalone */
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
@@ -51,7 +50,6 @@ const markerSelector = '.vic-lines-marker';
 // Set up Lines component -- can use with Date or numeric values for x axis
 // ***********************************************************
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-lines',
   template: `
     <vic-xy-chart [config]="chartConfig">

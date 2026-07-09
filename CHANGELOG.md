@@ -1,3 +1,18 @@
+## 2.3.0 (2026-07-09)
+
+### 🚀 Features
+
+- upgrade to angular 22 ([b3b39135](https://github.com/mathematica-pub/frontend-shared-packages/commit/b3b39135))
+- remove changedetection eager ([ba2f431c](https://github.com/mathematica-pub/frontend-shared-packages/commit/ba2f431c))
+
+### 🩹 Fixes
+
+- combobox label timing issue ([63304b28](https://github.com/mathematica-pub/frontend-shared-packages/commit/63304b28))
+
+### ❤️ Thank You
+
+- Claire McShane
+
 ## 2.2.2 (2026-05-12)
 
 ### 🩹 Fixes

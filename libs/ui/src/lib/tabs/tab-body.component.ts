@@ -1,8 +1,15 @@
-import { Component, ContentChild, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  TemplateRef,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { TabContentDirective } from './tab-content.directive';
 
 @Component({
   selector: 'hsi-ui-tab-body',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '<ng-template><ng-content></ng-content></ng-template>',
 })
 export class TabBodyComponent {

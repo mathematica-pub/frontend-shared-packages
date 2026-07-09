@@ -4,11 +4,13 @@ import {
   TemplateRef,
   ViewChild,
   inject,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ComboboxService } from '../combobox.service';
 
 @Component({
   selector: 'hsi-ui-combobox-label',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<ng-template
     ><p class="combobox-label" [id]="service.comboboxLabelId"
       ><ng-content></ng-content></p

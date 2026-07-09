@@ -1,5 +1,11 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
-import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   HsiUiDirectoryComponent,
@@ -20,6 +26,7 @@ import { Section } from '../../core/services/router-state/state';
   providers: [TitleCasePipe],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   encapsulation: ViewEncapsulation.None,
 })
 export class SidebarComponent implements OnInit {

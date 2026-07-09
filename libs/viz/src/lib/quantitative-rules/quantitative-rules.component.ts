@@ -13,7 +13,6 @@ import { QuantitativeRulesConfig } from './config/quantitative-rules-config';
 type RulesSvgElements = 'g' | 'rule' | 'label';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-quantitative-rules]',
   template: '',
   styleUrl: './quantitative-rules.component.scss',

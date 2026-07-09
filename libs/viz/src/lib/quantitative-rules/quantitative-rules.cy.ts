@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/prefer-standalone */
 import { Component, Input } from '@angular/core';
 import {
   BarsConfig,
@@ -58,7 +57,6 @@ const labelSelector = '.vic-quantitative-rules-label';
 // Horizontal bar chart component set up
 // ***********************************************************
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-quantitative-rules-horizontal-bar',
   template: `
     <vic-xy-chart [config]="chartConfig">
@@ -132,7 +130,6 @@ const mountHorizontalBarsComponent = (
 // Vertical bar chart component set up
 // ***********************************************************
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-quantitative-rules-vertical-bar',
   template: `
     <vic-xy-chart [config]="chartConfig">
@@ -214,7 +211,6 @@ const linesNumericData = ContinentPopulationNumYearData;
 // LINE CHART
 // ***********************************************************
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-lines',
   template: `
     <vic-xy-chart [config]="chartConfig">

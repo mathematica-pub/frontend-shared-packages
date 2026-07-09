@@ -1,4 +1,8 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ContinuousValue } from '../../core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../base/xy-axis-base';
@@ -17,7 +21,6 @@ const XQuantitativeAxis = xAxisMixin<
 >(quantitativeAxisMixin<ContinuousValue, XyAxisType<ContinuousValue>>(XyAxis));
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-x-quantitative-axis]',
   template: '',
   styles: [
@@ -27,9 +30,10 @@ const XQuantitativeAxis = xAxisMixin<
       }
     `,
   ],
-  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+
   inputs: ['config'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     '[class]': 'config.marksClass',
     class: 'vic-axis',

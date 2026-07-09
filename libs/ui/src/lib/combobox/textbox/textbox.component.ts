@@ -2,6 +2,8 @@ import { Platform } from '@angular/cdk/platform';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   ElementRef,
@@ -13,7 +15,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { runNgChangeDetectionThen } from '@mathstack/app-kit';
-import { BehaviorSubject, combineLatest, filter, startWith } from 'rxjs';
+import { BehaviorSubject, combineLatest, delay, filter, startWith } from 'rxjs';
 import {
   ComboboxAction,
   ComboboxService,
@@ -31,6 +33,7 @@ import { SelectedCountLabel } from '../listbox/listbox.component';
   imports: [CommonModule],
   styleUrls: ['./textbox.component.scss'],
   templateUrl: './textbox.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'hsi-ui-textbox',
   },
@@ -57,6 +60,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   public service = inject(ComboboxService);
   private platform = inject(Platform);
   protected zone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.service.projectedContentIsInDOM$
@@ -269,10 +273,26 @@ export class TextboxComponent implements OnInit, AfterViewInit {
           startWith(null)
         ), // on an outside change,
       ])
-        .pipe(takeUntilDestroyed(this.destroyRef))
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          delay(0) // delay to ensure ViewChild refs in options are populated, especially for grouped options
+        )
         .subscribe(([touched, options]) => {
           const label = this.getComputedLabel(touched, options);
           this.label.next(label);
+          this.cdr.detectChanges();
+
+          // For grouped options with preselected values, ViewChild refs may not be ready yet
+          // Schedule a retry if label is empty but there are selected options
+          if (!label && this.service.getSelectedOptions(options)?.length > 0) {
+            setTimeout(() => {
+              const retryLabel = this.getComputedLabel(touched, options);
+              if (retryLabel) {
+                this.label.next(retryLabel);
+                this.cdr.detectChanges();
+              }
+            }, 50);
+          }
         });
     }
   }
@@ -307,7 +327,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
         .reduce((acc, option) => {
           const value =
             option.boxDisplayLabel ??
-            option.label?.nativeElement.innerText.trim();
+            option.label?.nativeElement?.innerText?.trim();
           if (value) {
             acc.push(value);
           }

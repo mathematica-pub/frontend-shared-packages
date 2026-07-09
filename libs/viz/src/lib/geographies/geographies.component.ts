@@ -29,7 +29,6 @@ export const GEOGRAPHIES = new InjectionToken<
 export type GeographiesSvgElement = 'layer' | 'g' | 'feature' | 'label';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-geographies]',
   templateUrl: './geographies.component.html',
   styleUrls: ['./geographies.component.scss'],

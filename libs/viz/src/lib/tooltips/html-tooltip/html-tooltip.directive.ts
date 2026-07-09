@@ -24,7 +24,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { HtmlTooltipConfig } from './config/html-tooltip-config';
 
 @Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'vic-html-tooltip',
 })
 export class HtmlTooltipDirective implements OnChanges, OnDestroy {

@@ -65,7 +65,6 @@ export interface DotsTooltipDatum<Datum> {
 type DotsSvgElement = 'g' | 'dot';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-dots]',
   template: '',
   styleUrl: './dots.component.scss',

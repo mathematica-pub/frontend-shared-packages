@@ -1,12 +1,11 @@
-/* eslint-disable @angular-eslint/prefer-standalone */
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TableColumn } from '../table-column';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[hsi-ui-single-sort-header]',
   templateUrl: './single-sort-header.component.html',
   styleUrls: ['./single-sort-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SingleSortHeaderComponent<Datum> {

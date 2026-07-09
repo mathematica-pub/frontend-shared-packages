@@ -65,7 +65,6 @@ const assertBeforeAndAfterWindowResize = (assertions: () => void) => {
 // Horizontal  bar chart component set up
 // ***********************************************************
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-horizontal-bars',
   template: `
     <vic-xy-chart [config]="chartConfig">
@@ -245,7 +244,6 @@ describe('horizontal bar chart tick labels', () => {
 // Vertical bar chart component set up
 // ***********************************************************
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-vertical-bars',
   template: `
     <vic-xy-chart [config]="chartConfig">

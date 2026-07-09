@@ -12,7 +12,6 @@ import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { GroupedBarsConfig } from './config/grouped-bars-config';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-grouped-bars]',
   template: '',
   styleUrls: ['./grouped-bars.component.scss'],
@@ -32,7 +31,6 @@ export class GroupedBarsComponent<
   Datum,
   TOrdinalValue extends DataValue,
 > extends BarsComponent<Datum, TOrdinalValue> {
-  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('config') override config: GroupedBarsConfig<Datum, TOrdinalValue>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   groupScale: any;

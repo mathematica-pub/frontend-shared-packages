@@ -49,7 +49,6 @@ export type StackedAreaSelection<CategoricalDomain> = Selection<
 >;
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-stacked-area]',
   template: '',
   styleUrls: ['./stacked-area.component.scss'],

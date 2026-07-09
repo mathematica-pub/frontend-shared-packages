@@ -1,6 +1,7 @@
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -19,7 +20,7 @@ describe('AppComponent', () => {
         AdkDocumentationContentService,
         AdkDocumentationConfigParser,
         { provide: AdkMarkdownParser, useClass: ContentParser },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
       ],
     }).compileComponents();
   });

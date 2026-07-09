@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/prefer-standalone */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { Component, Input, signal, ViewEncapsulation } from '@angular/core';

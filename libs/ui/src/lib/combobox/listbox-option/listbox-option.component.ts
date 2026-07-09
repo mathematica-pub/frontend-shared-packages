@@ -8,6 +8,7 @@ import {
   TemplateRef,
   ViewChild,
   inject,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ComboboxService } from '../combobox.service';
@@ -26,6 +27,7 @@ let nextUniqueId = 0;
   selector: 'hsi-ui-listbox-option',
   imports: [CommonModule],
   templateUrl: './listbox-option.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./listbox-option.component.scss'],
 })
 export class ListboxOptionComponent implements OnChanges {

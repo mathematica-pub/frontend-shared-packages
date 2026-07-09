@@ -21,7 +21,6 @@ import {
 } from '../../testing/data/country-area-continent';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-svg-attr-test-component',
   template: `
     <div [style.width.px]="containerWidth">
@@ -139,7 +138,6 @@ describe('ChartComponent applies correct SVG attributes/styles by scalingStrateg
 });
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-scaling-strategy-test',
   template: `
     <div

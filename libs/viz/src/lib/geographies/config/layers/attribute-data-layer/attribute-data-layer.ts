@@ -104,14 +104,12 @@ export class GeographiesAttributeDataLayer<
       : this.getAttributeFill(geographyIndex);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getPatternFill(geographyIndex: string): string {
     const datum = this.datumsByGeographyIndex.get(geographyIndex);
     const geographyFill = this.getAttributeFill(geographyIndex);
     return FillUtilities.getFill(datum, geographyFill, this.customFills);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getAttributeFill(geographyIndex: string): string {
     const dataValue = this.attributeValuesByGeographyIndex.get(geographyIndex);
     return this.attributeScale(dataValue);
