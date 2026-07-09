@@ -14,7 +14,8 @@ if [ $? -ne 0 ] || [ "$ALL_VERSIONS" = "null" ] || [ -z "$ALL_VERSIONS" ]; then
     NEW_BETA_VERSION="0.0.1-beta.0"
 else
     # Filter for beta versions with the pattern 0.0.1-beta.X
-    BETA_VERSIONS=$(echo "$ALL_VERSIONS" | jq -r '.[] | select(test("^0\\.0\\.1-beta\\.[0-9]+$"))' 2>/dev/null)
+    # Handle both flat arrays and nested arrays from npm view
+    BETA_VERSIONS=$(echo "$ALL_VERSIONS" | jq -r 'flatten | .[] | select(test("^0\\.0\\.1-beta\\.[0-9]+$"))' 2>/dev/null)
     
     if [ -z "$BETA_VERSIONS" ]; then
         echo "⚠️ No beta versions found with pattern 0.0.1-beta.X"
