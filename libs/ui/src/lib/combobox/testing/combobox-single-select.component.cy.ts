@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { HsiUiComboboxModule } from '@mathstack/ui';
 import 'cypress-real-events';
@@ -394,5 +394,71 @@ describe('NgFormListboxSingleTestComponent', () => {
     cy.get('.hsi-ui-textbox').click();
     cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
     cy.get('.display-control-value').should('have.text', 'bana');
+  });
+});
+
+// Single-select with FormControl integration
+@Component({
+  selector: 'hsi-ui-form-listbox-single-test',
+  template: `
+    <p class="outside-element">Click outside element</p>
+    <p class="form-value">{{ control.value }}</p>
+    <p class="form-touched">{{ control.touched }}</p>
+    <p class="form-dirty">{{ control.dirty }}</p>
+
+    <hsi-ui-combobox>
+      <hsi-ui-textbox>
+        <span boxLabel>Select a fruit</span>
+      </hsi-ui-textbox>
+      <hsi-ui-form-listbox-single [control]="control">
+        <hsi-ui-listbox-label>
+          <span>Select a fruit</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option [value]="option.id">
+            {{ option.displayName }}
+          </hsi-ui-listbox-option>
+        }
+      </hsi-ui-form-listbox-single>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [HsiUiComboboxModule, CommonModule, ReactiveFormsModule],
+})
+class FormListboxSingleTestComponent extends ComboboxBaseTestComponent {
+  control = new FormControl<string | null>(null);
+}
+
+describe('Single-select with FormControl', () => {
+  beforeEach(() => {
+    cy.mount(FormListboxSingleTestComponent);
+    cy.wait(100);
+  });
+
+  it('should initialize with null value', () => {
+    cy.get('.form-value').should('have.text', '');
+  });
+
+  it('should update form control when option is clicked', () => {
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    cy.get('.form-value').should('have.text', 'appl');
+  });
+
+  it('should mark form as touched after user interaction', () => {
+    cy.get('.form-touched').should('have.text', 'false');
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    cy.get('.form-touched').should('have.text', 'true');
+  });
+
+  it('should handle multiple selections and form updates', () => {
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    cy.get('.form-value').should('have.text', 'bana');
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
+    cy.get('.form-value').should('have.text', 'coco');
   });
 });

@@ -3,6 +3,7 @@ export * from './combobox.component';
 export * from './combobox.module';
 export * from './combobox.service';
 export * from './editable-textbox/editable-textbox.component';
+export * from './forms';
 export * from './listbox-group/listbox-group.component';
 export * from './listbox-label/listbox-label.component';
 export * from './listbox-option/listbox-option.component';

@@ -2,6 +2,10 @@ import { NgModule } from '@angular/core';
 import { ComboboxLabelComponent } from './combobox-label/combobox-label.component';
 import { ComboboxComponent } from './combobox.component';
 import { EditableTextboxComponent } from './editable-textbox/editable-textbox.component';
+import { FormEditableTextboxComponent } from './forms/form-editable-textbox.component';
+import { FormListboxMultiBooleanComponent } from './forms/form-listbox-multi-boolean.component';
+import { FormListboxMultiComponent } from './forms/form-listbox-multi.component';
+import { FormListboxSingleComponent } from './forms/form-listbox-single.component';
 import { ListboxGroupComponent } from './listbox-group/listbox-group.component';
 import { ListboxLabelComponent } from './listbox-label/listbox-label.component';
 import { ListboxOptionComponent } from './listbox-option/listbox-option.component';
@@ -20,6 +24,10 @@ import { TextboxComponent } from './textbox/textbox.component';
     ListboxLabelComponent,
     EditableTextboxComponent,
     SelectAllListboxOptionComponent,
+    FormEditableTextboxComponent,
+    FormListboxSingleComponent,
+    FormListboxMultiComponent,
+    FormListboxMultiBooleanComponent,
   ],
   exports: [
     ComboboxComponent,
@@ -31,6 +39,10 @@ import { TextboxComponent } from './textbox/textbox.component';
     ListboxOptionComponent,
     EditableTextboxComponent,
     SelectAllListboxOptionComponent,
+    FormEditableTextboxComponent,
+    FormListboxSingleComponent,
+    FormListboxMultiComponent,
+    FormListboxMultiBooleanComponent,
   ],
 })
 export class HsiUiComboboxModule {}
