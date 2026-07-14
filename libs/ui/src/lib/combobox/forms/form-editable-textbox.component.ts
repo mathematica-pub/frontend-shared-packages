@@ -12,6 +12,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { filter } from 'rxjs';
 import { OptionAction } from '../combobox.service';
 import { EditableTextboxComponent } from '../editable-textbox/editable-textbox.component';
+import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 
 /**
  * Editable textbox with Angular Reactive Forms integration.
@@ -49,7 +50,7 @@ export class FormEditableTextboxComponent
     this.setupControlListener();
   }
 
-  override onSelectionChange(selectedOptions: any[]): void {
+  override onSelectionChange(selectedOptions: ListboxOptionComponent[]): void {
     // When displaySelected is false (default for forms), clear the textbox
     if (!this.displaySelected) {
       this.control.setValue('');

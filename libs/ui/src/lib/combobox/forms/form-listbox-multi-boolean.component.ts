@@ -60,7 +60,7 @@ export class FormListboxMultiBooleanComponent
     this.setupControlListener();
   }
 
-  override emitValue(_selections: unknown[]): void {
+  override emitValue(): void {
     if (this.isWritingValue) {
       return;
     }
