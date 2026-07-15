@@ -51,12 +51,11 @@ export class FormEditableTextboxComponent
   }
 
   override onSelectionChange(selectedOptions: ListboxOptionComponent[]): void {
-    // When displaySelected is false (default for forms), clear the textbox
+    // When displaySelected is false (default for forms), keep the typed value.
     if (!this.displaySelected) {
-      this.control.setValue('');
       return;
     }
-    // Otherwise use the default behavior (set to selected label)
+    // Otherwise use the default behavior (set to selected label).
     if (this.service.isMultiSelect) {
       this.control.setValue('');
     } else {
