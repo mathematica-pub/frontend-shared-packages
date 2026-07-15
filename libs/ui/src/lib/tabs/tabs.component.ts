@@ -114,8 +114,8 @@ export class TabsComponent<T> implements AfterContentInit {
     const tabIndex = this.tabs.toArray().indexOf(tabItem);
     const tabElements = this.elRef.nativeElement.querySelectorAll(
       '.tab-label-container'
-    ) as NodeListOf<HTMLElement>;
-    const tabElement = tabElements.item(tabIndex);
+    );
+    const tabElement = tabElements.item(tabIndex) as HTMLElement | null;
 
     if (tabElement) {
       tabElement.focus();
