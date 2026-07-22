@@ -145,11 +145,9 @@ export class FinalMLRGroupedComponent implements OnChanges {
       .attr('transform', `translate(0,${this.height})`)
       .call(axisBottom(this.fxScale).tickSizeOuter(0) as any);
 
-    this.axisGroup.select('.y-axis').call(
-      axisLeft(this.yScale)
-        .ticks(null, this.data[0].units === 'Percentage' ? '%' : '')
-        .tickSizeOuter(0) as any
-    );
+    this.axisGroup
+      .select('.y-axis')
+      .call(axisLeft(this.yScale).ticks(null, '%').tickSizeOuter(0) as any);
   }
 
   drawGrid(): void {
@@ -212,23 +210,11 @@ export class FinalMLRGroupedComponent implements OnChanges {
   drawLabels(): void {
     this.labelGroup
       .selectAll('.direction-label')
-      .data([this.data[0].directionality])
+      .data(['Higher is better'])
       .join('text')
       .attr('class', 'direction-label')
       .text((d) => d)
       .attr('y', -20);
-
-    this.labelGroup
-      .selectAll('.unit-label')
-      .data(
-        [this.data[0].units].filter(
-          (d) => !d.toLowerCase().includes('percentage')
-        )
-      )
-      .join('text')
-      .attr('class', 'unit-label')
-      .text((d) => d)
-      .attr('y', -40);
   }
 
   drawLegend(): void {
@@ -290,14 +276,7 @@ export class FinalMLRGroupedComponent implements OnChanges {
       .join('text')
       .attr('y', (d) => {
         const lowLabel = d === '25th Percentile';
-        let y = 0;
-        if (
-          (this.data[0].directionality.includes('Higher') && lowLabel) ||
-          (this.data[0].directionality.includes('Lower') && lowLabel)
-        ) {
-          y = rectLength;
-        }
-        return y;
+        return lowLabel ? rectLength : 0;
       })
       .attr('x', this.xScale.bandwidth() * 2)
       .attr('dx', '0.5em')
@@ -305,7 +284,7 @@ export class FinalMLRGroupedComponent implements OnChanges {
       .text((d) => d);
     this.legendGroup
       .selectAll('.average-header-label')
-      .data([this.data[0].type])
+      .data(['Average'])
       .join('text')
       .attr('class', 'average-header-label')
       .attr('x', this.xScale.bandwidth() * 2)

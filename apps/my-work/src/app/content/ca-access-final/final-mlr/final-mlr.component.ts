@@ -5,12 +5,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { finalDataPath } from '../../ca/data-paths.constants';
-import { FinalPercentilesDatum } from '../final-percentiles/final-percentiles.component';
 import { FinalMLRGroupedComponent } from './final-mlr-grouped/final-mlr-grouped.component';
 
-export interface FinalMlrDatum extends FinalPercentilesDatum {
-  compliance: boolean;
+export interface FinalMlrDatum {
+  series: string;
   delivSys: string;
+  year: string;
+  value: number;
+  average: number;
+  percentile25: number;
+  percentile75: number;
+  compliance: boolean;
+  group: string;
 }
 
 @Component({
@@ -50,25 +56,23 @@ export class FinalMlrComponent implements OnInit {
     const transformed: FinalMlrDatum[] = data.map((x: any) => {
       const obj: FinalMlrDatum = {
         series: 'percentile',
-        delivSys: x.DelivSys,
-        year: x.Year,
-        measureCode: x.Measure_Code,
-        strat: x.STRAT,
-        stratVal: x.StratVal_v2,
-        units: x.Units,
+        delivSys: x.delivSys,
+        year: x.year,
         value:
-          x.Final_25 && !isNaN(x.Final_25) && x.Final_75 && !isNaN(x.Final_75)
-            ? Math.abs(x.Final_75 - x.Final_25)
+          x.p25 && !isNaN(x.p25) && x.p75 && !isNaN(x.p75)
+            ? Math.abs(x.p75 - x.p25)
             : null,
-        average: x.Value && !isNaN(x.Value) ? +x.Value : null,
-        type: x.Type,
-        percentile25: x.Final_25 && !isNaN(x.Final_25) ? +x.Final_25 : null,
-        percentile75: x.Final_75 && !isNaN(x.Final_75) ? +x.Final_75 : null,
-        directionality: x.Directionality,
-        compliance: x.Compliance === 'Yes',
+        average: x.mean && !isNaN(x.mean) ? +x.mean : null,
+        percentile25: x.p25 && !isNaN(x.p25) ? +x.p25 : null,
+        percentile75: x.p75 && !isNaN(x.p75) ? +x.p75 : null,
+        compliance: x.group === 'compliance_yes',
+        group: x.group,
       };
       return obj;
     });
-    return transformed.filter((x: FinalMlrDatum) => x.strat === 'NULL');
+    return transformed.filter(
+      (x) =>
+        x.year !== 'all years' && x.group !== 'overall' && x.average !== null
+    );
   }
 }
