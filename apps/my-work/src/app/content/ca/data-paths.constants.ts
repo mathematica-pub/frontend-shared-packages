@@ -76,6 +76,7 @@ const finalPath = {
     plan: `${caDataFolder}Improvement_Results_Final_measures_noraceeth.csv`,
     county: `${caDataFolder}Improvement_Results_Final_county.csv`,
     stratified: `${caDataFolder}Improvement_Results_Final_raceeth.csv`,
+    mlr: `${caDataFolder}mlr.csv`,
   },
   mock: {
     statewide: `${caDataFolder}Mock_Final_Results.csv`,
@@ -88,4 +89,4 @@ const finalPath = {
 
 export const dataPath = caAccessPath.mock;
 export const mlbDataPath = mlbPath.current;
-export const finalDataPath = finalPath.mock;
+export const finalDataPath = finalPath.current;
