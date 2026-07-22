@@ -31,10 +31,8 @@ export class FinalMlrComponent implements OnInit {
   finalDataPath = finalDataPath.mlr;
   filters = {
     delivSyss: [],
-    measureCodes: [],
-    stratVals: [],
   };
-  filterTypes = ['delivSys', 'measureCode', 'stratVal'];
+  filterTypes = ['delivSys'];
 
   constructor(public caChartService: CaChartService) {}
 
