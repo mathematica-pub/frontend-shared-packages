@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -8,7 +9,6 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormControl, FormsModule } from '@angular/forms';
 import { BehaviorSubject, skip } from 'rxjs';
@@ -46,6 +46,7 @@ export class EditableTextboxComponent
   @Input() ngFormControl: FormControl<string>;
   @Input() placeholder = '';
   @Input() clearOnClick = false;
+  @Input() clearOnSelectionEmits = true;
   @Output() valueChanges = new EventEmitter<string>();
   moveFocusToTextboxKeys = ['RightArrow', 'LeftArrow', 'Home', 'End'];
   value = new BehaviorSubject<string>('');

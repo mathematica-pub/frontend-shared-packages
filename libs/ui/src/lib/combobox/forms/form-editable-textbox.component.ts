@@ -53,7 +53,16 @@ export class FormEditableTextboxComponent
   override onSelectionChange(selectedOptions: ListboxOptionComponent[]): void {
     // When displaySelected is false (default for forms), clear the textbox
     if (!this.displaySelected) {
-      this.control.setValue('');
+      if (this.clearOnSelectionEmits) {
+        this.control.setValue('');
+      } else {
+        this.setValue('');
+        const optionAction =
+          this.autoSelect && this.autoSelectTrigger === 'any'
+            ? OptionAction.zeroActiveIndex
+            : OptionAction.nullActiveIndex;
+        this.service.emitOptionAction(optionAction);
+      }
       return;
     }
     // Otherwise use the default behavior (set to selected label)
