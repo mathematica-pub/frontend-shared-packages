@@ -151,34 +151,33 @@ export class EditableTextboxComponent
     }
   }
 
-  override getActionFromKeydownEvent(event: KeyboardEvent): ComboboxAction {
+  override getActionFromKeydownEvent(event) {
     if (event.ctrlKey || event.key === 'Shift') {
       return null;
     }
 
-    if (!this.service.isOpen && this.openKeys.includes(event.key)) {
-      return ListboxAction.open;
-    } else if (!this.service.isOpen && event.key === Key.Tab) {
-      return null;
-    } else if (
-      event.key === Key.Enter &&
-      (this.service.shouldAutoSelectOnListboxClose
-        ? !this.service.isOpen
-        : true)
-    ) {
-      return ListboxAction.close;
-    } else {
-      if (
-        event.key === Key.RightArrow ||
-        event.key === Key.LeftArrow ||
-        event.key === Key.Space
-      ) {
-        this.service.emitTextboxFocus();
+    if (!this.service.isOpen) {
+      if (this.openKeys.includes(event.key)) {
+        return ListboxAction.open;
+      }
+      if (event.key === Key.Tab) {
         return null;
-      } else {
-        return this.getActionFromKeydownEventWhenOpen(event);
+      }
+      if (event.key === Key.Enter) {
+        return ListboxAction.close;
       }
     }
+
+    if (
+      event.key === Key.RightArrow ||
+      event.key === Key.LeftArrow ||
+      event.key === Key.Space
+    ) {
+      this.service.emitTextboxFocus();
+      return null;
+    }
+
+    return this.getActionFromKeydownEventWhenOpen(event);
   }
 
   getActionFromKeydownEventWhenOpen(event: KeyboardEvent): ComboboxAction {
