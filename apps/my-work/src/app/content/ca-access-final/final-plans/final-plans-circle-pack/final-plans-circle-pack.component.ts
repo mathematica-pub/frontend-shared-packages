@@ -359,7 +359,7 @@ export class FinalPlansCirclePackComponent implements OnChanges {
     );
 
     this.legendGroup
-      .attr('transform', `translate(${this.width / 2}, ${-10})`)
+      .attr('transform', `translate(${this.width / 2}, ${0})`)
       .selectAll('circle')
       .data(data)
       .join('circle')
