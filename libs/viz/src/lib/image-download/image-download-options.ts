@@ -8,7 +8,6 @@ export interface ImageDownloadOptions {
    * Supply with custom css fallback; or set to undefined to read external fonts
    * (will oftentimes get security errors)
    */
-  fontEmbedCSS: string;
   imageType: string;
   quality: number;
 }
