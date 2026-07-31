@@ -49,7 +49,13 @@ export class TabsComponent<T> implements AfterContentInit {
 
   initializeActiveTab(): void {
     if (!this.service.activeTab.value) {
-      this.service.activeTab.next(this.tabs.first);
+      const firstEnabledTab = this.tabs
+        .toArray()
+        .find((tabItem) => !tabItem.isDisabled);
+
+      if (firstEnabledTab) {
+        this.service.activeTab.next(firstEnabledTab);
+      }
     }
   }
 
