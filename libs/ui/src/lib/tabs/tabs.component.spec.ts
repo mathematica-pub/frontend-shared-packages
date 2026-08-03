@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { QueryList } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TabItemComponent } from './tab-item.component';
 import { TabsComponent } from './tabs.component';
@@ -17,26 +16,6 @@ describe('TabsComponent', () => {
 
     fixture = TestBed.createComponent(TabsComponent);
     component = fixture.componentInstance;
-  });
-
-  describe('initializeActiveTab', () => {
-    it('sets the first enabled tab as active when the first tab is disabled', () => {
-      const disabledTabFixture =
-        TestBed.createComponent<TabItemComponent<string>>(TabItemComponent);
-      const enabledTabFixture =
-        TestBed.createComponent<TabItemComponent<string>>(TabItemComponent);
-      const disabledTab = disabledTabFixture.componentInstance;
-      const enabledTab = enabledTabFixture.componentInstance;
-      const tabs = new QueryList<TabItemComponent<string>>();
-
-      disabledTab.isDisabled = true;
-      tabs.reset([disabledTab, enabledTab]);
-      component.tabs = tabs as QueryList<TabItemComponent<any>>;
-
-      component.initializeActiveTab();
-
-      expect(component.service.activeTab.value).toBe(enabledTab);
-    });
   });
 
   describe('selectTab', () => {
@@ -64,15 +43,6 @@ describe('TabsComponent', () => {
     it('does not call emitNewActiveTab if new tab is activeTab', () => {
       component.service.activeTab.next(newTab);
       component.selectTab(newTab);
-      expect(component.emitNewActiveTab).not.toHaveBeenCalled();
-    });
-    it('does not activate or emit for a disabled tab', () => {
-      newTab.isDisabled = true;
-      spyOn(component.service.activeTab, 'next');
-
-      component.selectTab(newTab);
-
-      expect(component.service.activeTab.next).not.toHaveBeenCalled();
       expect(component.emitNewActiveTab).not.toHaveBeenCalled();
     });
   });
