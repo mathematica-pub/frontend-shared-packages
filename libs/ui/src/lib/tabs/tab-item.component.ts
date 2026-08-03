@@ -25,7 +25,7 @@ export class TabItemComponent<T> implements OnChanges {
   private service = inject(TabsService<T>);
 
   ngOnChanges(): void {
-    if (this.isActive && !this.isDisabled) {
+    if (this.isActive) {
       this.service.activeTab.next(this);
     }
   }

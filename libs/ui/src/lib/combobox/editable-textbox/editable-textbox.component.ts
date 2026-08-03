@@ -151,7 +151,7 @@ export class EditableTextboxComponent
     }
   }
 
-  override getActionFromKeydownEvent(event: KeyboardEvent): ComboboxAction {
+  override getActionFromKeydownEvent(event) {
     if (event.ctrlKey || event.key === 'Shift') {
       return null;
     }
