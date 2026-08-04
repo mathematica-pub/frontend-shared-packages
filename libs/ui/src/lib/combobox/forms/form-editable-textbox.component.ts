@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { filter } from 'rxjs';
 import { OptionAction } from '../combobox.service';
 import { EditableTextboxComponent } from '../editable-textbox/editable-textbox.component';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
@@ -95,18 +96,16 @@ export class FormEditableTextboxComponent
 
   private setupControlListener(): void {
     this.control.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        if (value === '') {
-          this.setAutoSelectWhenInputIsEmpty();
-          const optionAction =
-            this.autoSelect && this.autoSelectTrigger === 'any'
-              ? OptionAction.zeroActiveIndex
-              : OptionAction.nullActiveIndex;
-          this.service.emitOptionAction(optionAction);
-        } else {
-          this.service.shouldAutoSelectOnListboxClose = this.autoSelect;
-        }
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((value) => value === '')
+      )
+      .subscribe(() => {
+        const optionAction =
+          this.autoSelect && this.autoSelectTrigger === 'any'
+            ? OptionAction.zeroActiveIndex
+            : OptionAction.nullActiveIndex;
+        this.service.emitOptionAction(optionAction);
       });
   }
 }
