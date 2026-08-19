@@ -95,13 +95,12 @@ export class MlbBarComponent implements OnInit {
       const obj: MlbRaceDatum = {
         series: 'percentile',
         measureCode: x.MSR,
-        units: x.UNITS,
+        units: x.Unit,
         directionality: x.Directionality,
         strat: x.STRAT,
         stratVal: x.STRATVAL,
         lob: x.LOB,
-        value:
-          x.summary_value && !isNaN(x.summary_value) ? +x.summary_value : null,
+        value: x.Value && !isNaN(x.Value) ? +x.Value : null,
         average: null,
       };
       return obj;
@@ -133,6 +132,17 @@ export class MlbBarComponent implements OnInit {
   }
 
   getDataConfig(data: MlbRaceDatum[]): GroupedBarsConfig<MlbRaceDatum, string> {
+    const yDomain = [...new Set(data.map((d) => d.lob))].reverse();
+    const yRange = structuredClone(mlbColorRange);
+    if (!yDomain.includes('Medi-Cal')) {
+      yRange.splice(2, 1);
+    }
+    if (!yDomain.includes('Medicare Advantage')) {
+      yRange.splice(1, 1);
+    }
+    if (!yDomain.includes('Private Market')) {
+      yRange.splice(0, 1);
+    }
     const trueMax = max(data, (d) => d.value) * 1.1;
     return this.groupedBars
       .data(data.reverse())
@@ -149,7 +159,10 @@ export class MlbBarComponent implements OnInit {
           )
       )
       .color((dimension) =>
-        dimension.valueAccessor((d) => d.lob).range(mlbColorRange)
+        dimension
+          .valueAccessor((d) => d.lob)
+          .domain(yDomain)
+          .range(yRange)
       )
       .labels((labels) => labels.display(true))
       .getConfig();

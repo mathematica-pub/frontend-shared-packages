@@ -28,7 +28,7 @@ export interface MlbRaceDatum extends MlbDatum {
   encapsulation: ViewEncapsulation.None,
 })
 export class MlbRaceEthnicityComponent implements OnInit {
-  mlbDataPath = mlbDataPath.mlb;
+  mlbDataPath = mlbDataPath.race;
   filters = {
     measureCodes: [],
   };
@@ -52,14 +52,13 @@ export class MlbRaceEthnicityComponent implements OnInit {
       const obj: MlbRaceDatum = {
         series: 'percentile',
         measureCode: x.MSR,
-        units: x.UNITS,
+        units: x.Unit,
         directionality: x.Directionality,
         strat: x.STRAT,
         stratVal: x.STRATVAL,
         lob: x.LOB,
         value: null, // null to avoid bars
-        average:
-          x.summary_value && !isNaN(x.summary_value) ? +x.summary_value : null,
+        average: x.Value && !isNaN(x.Value) ? +x.Value : null,
       };
       return obj;
     });
