@@ -54,7 +54,6 @@ export class DotPlotService {
       invisibleStack.value = this.getInvisibleStackValue(d);
       this.rollupData.push(invisibleStack);
     });
-    console.log('this.rollupData.length in setMlbData', this.rollupData.length);
   }
 
   getTickFormat(nonRollupData?: any[]): string {
@@ -119,10 +118,6 @@ export class DotPlotService {
     invisibleCategory.series = 'invisible';
 
     this.rollupData.push(...[emptyCategory, invisibleCategory]);
-    console.log(
-      'this.rollupData.length in addCategory',
-      this.rollupData.length
-    );
   }
 
   setExtents(trendUnit?: string): void {
