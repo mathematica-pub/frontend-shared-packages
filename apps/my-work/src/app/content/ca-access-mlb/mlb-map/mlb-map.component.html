@@ -39,7 +39,15 @@
 </form>
 @if (caChartService.filteredData$ | async; as data) {
   <app-export-content
-    [fileName]="'MLB Map ' + caChartService.myForm.value[filterTypes[0]]"
+    [fileName]="
+      'MLB Map ' +
+      ' ' +
+      caChartService.myForm.value[filterTypes[0]] +
+      ' ' +
+      caChartService.myForm.value[filterTypes[1]] +
+      ' ' +
+      caChartService.myForm.value[filterTypes[2]]
+    "
   >
     @if (vm$ | async; as vm) {
       <vic-map-chart class="chart-component" [config]="vm.chartConfig">

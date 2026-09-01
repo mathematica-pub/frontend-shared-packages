@@ -128,15 +128,15 @@ export class MlbMapComponent implements OnInit {
     const transformed: MlbCountyDatum[] = data.map((x: any) => {
       const obj: MlbCountyDatum = {
         series: 'percentile',
-        measureCode: x.Measure_Code,
-        units: x.Units,
-        county: x.County,
+        measureCode: x.MSR,
+        units: x.Unit,
+        county: x.COUNTY,
         directionality: x.Directionality,
-        stratVal: x.StratVal,
+        stratVal: x.STRATVAL,
         lob: x.LOB,
         value:
-          x['Diff_Medi-Cal'] && !isNaN(x['Diff_Medi-Cal'])
-            ? +x['Diff_Medi-Cal']
+          x['Diff_MediCal'] && !isNaN(x['Diff_MediCal'])
+            ? +x['Diff_MediCal']
             : null,
         average: null,
       };
@@ -207,6 +207,7 @@ export class MlbMapComponent implements OnInit {
     const breakValues = [...maxVals.map((d) => d * -1), 0, ...maxVals].sort(
       ascending
     );
+    const digits = absoluteMax > 10 ? 1 : absoluteMax > 0.05 ? 2 : 3;
     return layer
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
@@ -215,7 +216,7 @@ export class MlbMapComponent implements OnInit {
         dimension
           .valueAccessor((d) => d.value)
           .breakValues(breakValues)
-          .formatSpecifier('+,.2f')
+          .formatSpecifier(`+,.${digits}f`)
           .range(this.colors.diverging)
           .nullColor(this.colors.noData)
       );
@@ -229,10 +230,11 @@ export class MlbMapComponent implements OnInit {
   }
 
   getDataGeographiesFeatures(data: MlbCountyDatum[]): any {
-    const countiesInData = data.map((x) => x.county);
-    return this.counties.features.filter((x) =>
-      countiesInData.includes(x.properties.name)
-    );
+    // const countiesInData = data.map((x) => x.county);
+    // return this.counties.features.filter((x) =>
+    //   countiesInData.includes(x.properties.name)
+    // );
+    return this.counties.features;
   }
 
   setMapObjects(): void {

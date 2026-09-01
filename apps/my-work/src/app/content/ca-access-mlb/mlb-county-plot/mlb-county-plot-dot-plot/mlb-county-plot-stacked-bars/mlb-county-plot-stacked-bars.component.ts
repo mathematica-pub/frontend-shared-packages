@@ -54,21 +54,30 @@ export class MlbCountyPlotStackedBarsComponent
   }
 
   override createAverageHeaderGroup(): void {
-    const labels = this.headerGroup
+    this.headerGroup
       .append('g')
       .attr('class', 'average-header')
-      .attr('transform', `translate(${20}, 26)`)
-      .selectAll('.label')
+      .attr('transform', `translate(${20}, 26)`);
+  }
+
+  override updateAverageHeaderGroup(): void {
+    const labels = this.headerGroup
+      .select('.average-header')
+      .selectAll('.average-label')
       .data(this.colorScale.domain())
       .join('g')
       .attr('class', 'average-label')
-      .attr('transform', (d, i) => `translate(${i * 270}, 0)`);
+      .attr('transform', (d, i) => `translate(${i * 250}, 0)`);
     labels
-      .append('text')
+      .selectAll('text')
+      .data((d) => [d])
+      .join('text')
       .attr('dx', (lob: string) => this.getR(lob) + 5)
       .text((d) => d);
     labels
-      .append('circle')
+      .selectAll('.average')
+      .data((d) => [d])
+      .join('circle')
       .attr('class', 'average')
       .attr('r', (lob: string) => this.getR(lob))
       .style('fill', (d) => this.colorScale(d) as string);

@@ -55,13 +55,21 @@ export class MlbPercentilesStackedBarsComponent extends MlbStackedBarsComponent 
 
   updateHeader(): void {
     this.headerGroup
-      .attr('transform', `translate(0, -70)`)
+      .attr('transform', `translate(0, -110)`)
       .selectAll('.legend-label')
       .data(['legend'])
       .join('text')
       .attr('class', 'legend-label')
       .attr('y', -12)
       .text((d) => d);
+    this.headerGroup
+      .selectAll('.legend-border')
+      .data([1])
+      .join('line')
+      .attr('class', 'legend-border')
+      .attr('x1', 340)
+      .attr('y1', 50)
+      .attr('y2', 50);
     this.headerGroup
       .select('.average-header')
       .attr('transform', `translate(230, 26)`);

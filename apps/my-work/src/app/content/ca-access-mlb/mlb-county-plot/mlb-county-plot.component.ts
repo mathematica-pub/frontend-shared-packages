@@ -56,11 +56,11 @@ export class MlbCountyPlotComponent implements OnInit {
       .map((x: any) => {
         const obj: MlbCountyDatum = {
           series: 'percentile',
-          measureCode: x.Measure_Code,
-          units: x.Units,
-          county: x.County,
+          measureCode: x.MSR,
+          units: x.Unit,
+          county: x.COUNTY,
           directionality: x.Directionality,
-          stratVal: x.StratVal,
+          stratVal: x.STRATVAL,
           lob: x.LOB,
           value: null, // null to avoid bars
           average: x.Value && !isNaN(x.Value) ? +x.Value : null,

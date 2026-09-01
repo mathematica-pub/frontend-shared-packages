@@ -1,7 +1,8 @@
 @use '../../ca-access-interim/csa/csa.component.scss';
+@use '../../ca/color.scss';
 
 .image {
-  padding-top: 100px !important;
+  padding-top: 150px !important;
   padding-left: 200px !important;
 }
 
@@ -29,4 +30,13 @@
 
 circle {
   stroke-opacity: 1;
+}
+
+.legend-label {
+  text-decoration: underline;
+}
+
+.legend-border {
+  stroke: color.$gray;
+  stroke-width: 2px;
 }

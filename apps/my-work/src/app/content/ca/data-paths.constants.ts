@@ -61,9 +61,10 @@ const caAccessPath = {
 
 const mlbPath = {
   current: {
-    mlb: `${caDataFolder}MLB_Results_Network_PSA.csv`,
+    mlb: `${caDataFolder}MLB_Results_Overall.csv`,
+    // mlb: `${caDataFolder}MLB_Results_Network_PSA.csv`,
     race: `${caDataFolder}MLB_Results_Race_Ethnicity.csv`,
-    county: `${caDataFolder}MLB_County_Results.csv`,
+    county: `${caDataFolder}MLB_Results_County.csv`,
   },
   mock: {
     mlb: `${caDataFolder}Mock_MLB_Results.csv`,

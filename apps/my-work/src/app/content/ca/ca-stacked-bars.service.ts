@@ -7,7 +7,7 @@ import {
   XyChartScales,
 } from '@mathstack/viz';
 import { scaleOrdinal, ScaleOrdinal, select, Selection } from 'd3';
-import { mlbColorRange, stateName } from '../ca-access-mlb/mlb.constants';
+import { mlbColorRange } from '../ca-access-mlb/mlb.constants';
 
 export const barbellStackElementHeight = 3;
 
@@ -34,9 +34,7 @@ export class CaStackedBarsService {
   ): Selection<SVGTextElement, unknown, null, undefined> {
     return select(chart.svgRef.nativeElement)
       .append('text')
-      .attr('class', 'x-label')
-      .attr('x', this.isChartVertical(chart) ? 0 : chart.config.width)
-      .style('text-anchor', this.isChartVertical(chart) ? 'start' : 'end');
+      .attr('class', 'x-label');
   }
 
   createHeaderGroup(
@@ -59,7 +57,7 @@ export class CaStackedBarsService {
         config.data.find((category) => category.directionality !== null)
           .directionality
       )
-      .attr('y', this.getLabelY(chart));
+      .attr('y', this.getLabelY(chart, config));
   }
 
   updateXLabel(
@@ -75,13 +73,33 @@ export class CaStackedBarsService {
         return units === 'Percentage' ? null : units;
       })
       .attr(
+        'x',
+        this.isChartVertical(chart) && !this.isLob(config)
+          ? 0
+          : chart.config.width
+      )
+      .attr(
         'y',
-        this.getLabelY(chart) + (this.isChartVertical(chart) ? -20 : 0)
+        this.getLabelY(chart, config) +
+          (this.isChartVertical(chart) && !this.isLob(config) ? -20 : 0)
+      )
+      .style(
+        'text-anchor',
+        this.isChartVertical(chart) && !this.isLob(config) ? 'start' : 'end'
       );
   }
 
-  getLabelY(chart: XyChartComponent): number {
-    return this.isChartVertical(chart) ? -10 : chart.config.height + 40;
+  getLabelY(
+    chart: XyChartComponent,
+    config?: StackedBarsConfig<any, string>
+  ): number {
+    return this.isChartVertical(chart) && !this.isLob(config)
+      ? -10
+      : chart.config.height + 40;
+  }
+
+  isLob(config: StackedBarsConfig<any, string>): boolean {
+    return config.data[0]?.lob;
   }
 
   isChartVertical(chart: XyChartComponent): boolean {
@@ -147,15 +165,20 @@ export class CaStackedBarsService {
   getMlbColorScale(
     config: StackedBarsConfig<any, string>
   ): ScaleOrdinal<string, unknown, never> {
-    const domain = [
-      ...new Set(config.data.map((d) => d.lob).filter((d) => d !== null)),
-    ].sort((a) => {
-      return a === stateName.mock || a === stateName.real ? 1 : -1;
-    });
+    // const domain = [
+    //   ...new Set(config.data.map((d) => d.lob).filter((d) => d !== null)),
+    // ];
+    //.sort((a) => {
+    //   return a === stateName.mock || a === stateName.real ? 1 : -1;
+    // });
+    // const colorRange = structuredClone(mlbColorRange);
+    // if (domain.length === 2) {
+    //   colorRange.splice(0, 1);
+    // }
+    // return scaleOrdinal().domain(domain).range(colorRange);
+
+    const colorDomain = ['Private Market', 'Medicare Advantage', 'Medi-Cal'];
     const colorRange = structuredClone(mlbColorRange);
-    if (domain.length === 2) {
-      colorRange.splice(0, 1);
-    }
-    return scaleOrdinal().domain(domain).range(colorRange);
+    return scaleOrdinal().domain(colorDomain).range(colorRange);
   }
 }
