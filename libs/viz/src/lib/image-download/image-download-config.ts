@@ -3,7 +3,6 @@ import { VicImage } from './image-download-enums';
 import { ImageDownloadOptions } from './image-download-options';
 
 const DEFAULT = {
-  fontEmbedCSS: undefined,
   backgroundColor: '#fff',
   quality: 1,
 };
@@ -13,7 +12,6 @@ export class VicJpegImageConfig implements ImageDownloadOptions {
   containerNode: HTMLElement;
   fileName: string;
   filter: (domNode: HTMLElement) => boolean;
-  fontEmbedCSS: string;
   imageType: string;
   quality: number;
 
@@ -29,7 +27,6 @@ export class VicPngImageConfig implements ImageDownloadOptions {
   containerNode: HTMLElement;
   fileName: string;
   filter: (domNode: HTMLElement) => boolean;
-  fontEmbedCSS: string;
   imageType: string;
   quality: number;
 
@@ -45,7 +42,6 @@ export class VicSvgImageConfig implements ImageDownloadOptions {
   containerNode: HTMLElement;
   fileName: string;
   filter: (domNode: HTMLElement) => boolean;
-  fontEmbedCSS: string;
   imageType: string;
   quality: number;
 
