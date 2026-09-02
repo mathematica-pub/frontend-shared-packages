@@ -15,9 +15,7 @@
     "html"
   ],
   "workbench.colorCustomizations": {
-    "titleBar.activeBackground": "#e0fc8a",
     "titleBar.activeForeground": "#000000",
-    "titleBar.inactiveBackground": "#e0fc8a",
     "titleBar.inactiveForeground": "#000000"
   },
   "angular-schematics.schematicsDefaultOptions": {

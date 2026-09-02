@@ -234,6 +234,7 @@ export class MlbMapComponent implements OnInit {
     // return this.counties.features.filter((x) =>
     //   countiesInData.includes(x.properties.name)
     // );
+    console.log('data', data);
     return this.counties.features;
   }
 
