@@ -17,6 +17,7 @@ export class VicImageDownloadService {
       embedFonts: true,
       cache: 'full',
     });
+
     await result.download({
       format: imageConfig.imageType as domToImage.BlobType,
       filename: imageConfig.fileName,
