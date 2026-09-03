@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ComboboxService, HsiUiComboboxModule } from '@mathstack/ui';
 import 'cypress-real-events';
@@ -469,5 +469,156 @@ describe('NgFormListboxMultiTestComponent', () => {
     cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
     cy.get('.display-control-values').realClickAndWait();
     cy.get('.display-control-values').should('have.text', 'appl, bana');
+  });
+});
+
+// Multi-select with FormControl integration
+@Component({
+  selector: 'hsi-ui-form-listbox-multi-test',
+  template: `
+    <p class="form-value">{{ control.value | json }}</p>
+    <hsi-ui-combobox>
+      <hsi-ui-textbox>
+        <span boxLabel>Select fruits</span>
+      </hsi-ui-textbox>
+      <hsi-ui-form-listbox-multi [control]="control">
+        <hsi-ui-listbox-label>
+          <span>Select fruits</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option [value]="option.id">
+            <span class="material-symbols-outlined icon checkbox" selectedIcon>
+              check_box
+            </span>
+            <span
+              unselectedIcon
+              class="material-symbols-outlined icon checkbox"
+            >
+              check_box_outline_blank
+            </span>
+            {{ option.displayName }}
+          </hsi-ui-listbox-option>
+        }
+      </hsi-ui-form-listbox-multi>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [HsiUiComboboxModule, CommonModule, ReactiveFormsModule],
+})
+class FormListboxMultiTestComponent extends ComboboxBaseTestComponent {
+  control = new FormControl<string[]>([]);
+}
+
+describe('Multi-select with FormControl', () => {
+  beforeEach(() => {
+    cy.mount(FormListboxMultiTestComponent);
+    cy.wait(100);
+  });
+
+  it('should initialize with empty array', () => {
+    cy.get('.form-value').should('have.text', '[]');
+  });
+
+  it('should update form control when option is clicked', () => {
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    cy.get('.form-value').should('contain.text', '"appl"');
+  });
+
+  it('should support multiple selections', () => {
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
+    cy.get('.form-value').should('contain.text', '"appl"');
+    cy.get('.form-value').should('contain.text', '"coco"');
+  });
+
+  it('should toggle selection on click', () => {
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    cy.get('.hsi-ui-listbox-option').first().should('have.class', 'selected');
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    cy.get('.hsi-ui-listbox-option')
+      .first()
+      .should('not.have.class', 'selected');
+    cy.get('.form-value').should('have.text', '[]');
+  });
+});
+
+// Multi-select with boolean array FormControl
+@Component({
+  selector: 'hsi-ui-form-listbox-multi-boolean-test',
+  template: `
+    <p class="form-value">{{ '[' + formArray.value.join(',') + ']' }}</p>
+    <hsi-ui-combobox>
+      <hsi-ui-textbox>
+        <span boxLabel>Select fruits</span>
+      </hsi-ui-textbox>
+      <hsi-ui-form-listbox-multi-boolean [control]="formArray">
+        <hsi-ui-listbox-label>
+          <span>Select fruits</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option [value]="option.id">
+            <span class="material-symbols-outlined icon checkbox" selectedIcon>
+              check_box
+            </span>
+            <span
+              unselectedIcon
+              class="material-symbols-outlined icon checkbox"
+            >
+              check_box_outline_blank
+            </span>
+            {{ option.displayName }}
+          </hsi-ui-listbox-option>
+        }
+      </hsi-ui-form-listbox-multi-boolean>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [HsiUiComboboxModule, CommonModule, ReactiveFormsModule],
+})
+class FormListboxMultiBooleanTestComponent extends ComboboxBaseTestComponent {
+  formArray = new FormArray([
+    new FormControl(false),
+    new FormControl(false),
+    new FormControl(false),
+    new FormControl(false),
+    new FormControl(false),
+  ]);
+}
+
+describe('Multi-select with boolean array FormControl', () => {
+  beforeEach(() => {
+    cy.mount(FormListboxMultiBooleanTestComponent);
+    cy.wait(100);
+  });
+
+  it('should initialize with all false values', () => {
+    cy.get('.form-value').should(
+      'have.text',
+      '[false,false,false,false,false]'
+    );
+  });
+
+  it('should update form array when option is clicked', () => {
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    cy.get('.form-value').should('have.text', '[true,false,false,false,false]');
+  });
+
+  it('should support multiple selections with boolean array', () => {
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
+    cy.get('.form-value').should('have.text', '[true,false,true,false,false]');
+  });
+
+  it('should properly map selections by index', () => {
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option').eq(4).realClickAndWait();
+    cy.get('.form-value').should('have.text', '[false,false,false,false,true]');
   });
 });
