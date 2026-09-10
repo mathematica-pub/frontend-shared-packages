@@ -11,7 +11,7 @@ export class VicJpegImageConfig implements ImageDownloadOptions {
   backgroundColor: string;
   containerNode: HTMLElement;
   fileName: string;
-  filter: (domNode: HTMLElement) => boolean;
+  filter: (domNode: Element) => boolean;
   imageType: string;
   quality: number;
 
@@ -26,7 +26,7 @@ export class VicPngImageConfig implements ImageDownloadOptions {
   backgroundColor: string;
   containerNode: HTMLElement;
   fileName: string;
-  filter: (domNode: HTMLElement) => boolean;
+  filter: (domNode: Element) => boolean;
   imageType: string;
   quality: number;
 
@@ -41,7 +41,7 @@ export class VicSvgImageConfig implements ImageDownloadOptions {
   backgroundColor: string;
   containerNode: HTMLElement;
   fileName: string;
-  filter: (domNode: HTMLElement) => boolean;
+  filter: (domNode: Element) => boolean;
   imageType: string;
   quality: number;
 
