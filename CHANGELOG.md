@@ -1,3 +1,13 @@
+## 2.3.1 (2026-09-03)
+
+### 🩹 Fixes
+
+- update image export ([4572610d](https://github.com/mathematica-pub/frontend-shared-packages/commit/4572610d))
+
+### ❤️ Thank You
+
+- Claire McShane
+
 ## 2.3.0 (2026-07-09)
 
 ### 🚀 Features

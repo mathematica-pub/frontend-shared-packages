@@ -1,70 +1,40 @@
 import { Injectable } from '@angular/core';
-import * as domToImage from 'html-to-image';
+import type { BlobType, SnapdomOptions } from '@zumer/snapdom';
+import { snapdom } from '@zumer/snapdom';
 import {
   VicJpegImageConfig,
   VicPngImageConfig,
   VicSvgImageConfig,
 } from './image-download-config';
-import { VicImage } from './image-download-enums';
 
 @Injectable({ providedIn: 'root' })
 export class VicImageDownloadService {
-  domToImage = domToImage;
-
-  /**
-   * @param imageConfig
-   * @returns fontEmbedCSS -- scans stylesheets for font files and base64 encodes them,
-   * reuse this value in imageConfig for subsequent downloads to avoid
-   * re-encoding fonts (slight performance boost)
-   */
   async downloadImage(
     imageConfig: VicJpegImageConfig | VicPngImageConfig | VicSvgImageConfig
-  ): Promise<string | void> {
-    let dataUrl;
-    if (imageConfig.fontEmbedCSS === undefined) {
-      imageConfig.fontEmbedCSS = await domToImage.getFontEmbedCSS(
-        imageConfig.containerNode
-      );
-    }
-    const sizedImageConfig = {
-      ...imageConfig,
-      width: imageConfig.containerNode.scrollWidth,
-      height: imageConfig.containerNode.scrollHeight,
+  ): Promise<void> {
+    const options: SnapdomOptions = {
+      fast: true,
+      filterMode: 'remove',
+      filter: (domNode: Element) => {
+        if (getComputedStyle(domNode).display === 'none') {
+          return false;
+        }
+
+        return imageConfig.filter ? imageConfig.filter(domNode) : true;
+      },
+      backgroundColor: imageConfig.backgroundColor,
     };
-    switch (imageConfig.imageType) {
-      case VicImage.jpeg:
-        dataUrl = await this.domToImage.toJpeg(
-          imageConfig.containerNode,
-          sizedImageConfig
-        );
-        break;
-      case VicImage.png:
-        dataUrl = await this.domToImage.toPng(
-          imageConfig.containerNode,
-          sizedImageConfig
-        );
-        break;
-      case VicImage.svg:
-        dataUrl = await this.domToImage.toSvg(
-          imageConfig.containerNode,
-          sizedImageConfig
-        );
-        break;
-      default:
-        break;
+
+    if (!imageConfig.backgroundColor) {
+      delete options.backgroundColor;
     }
 
-    this.createLinkAndClick(
-      dataUrl,
-      `${imageConfig.fileName}.${imageConfig.imageType}`
-    );
-    return imageConfig.fontEmbedCSS;
-  }
+    const result = await snapdom(imageConfig.containerNode, options);
 
-  createLinkAndClick(dataUrl: string, fileName: string) {
-    const link = document.createElement('a');
-    link.download = fileName;
-    link.href = dataUrl;
-    link.click();
+    await result.download({
+      format: imageConfig.imageType as BlobType,
+      filename: imageConfig.fileName,
+      quality: imageConfig.quality,
+    });
   }
 }
