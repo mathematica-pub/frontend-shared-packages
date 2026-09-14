@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ExportContentComponent } from 'apps/my-work/src/app/platform/export-content/export-content.component';
 import { CaChartService } from '../../ca/ca-chart.service';
 import { CaStackedBarsService } from '../../ca/ca-stacked-bars.service';
+import { mlbDataPath } from '../../ca/data-paths.constants';
 import { MlbRaceEthnicityDotPlotComponent } from '../mlb-race-ethnicity/mlb-race-ethnicity-dot-plot/mlb-race-ethnicity-dot-plot.component';
 import { MlbRaceEthnicityComponent } from '../mlb-race-ethnicity/mlb-race-ethnicity.component';
 
@@ -22,6 +23,7 @@ import { MlbRaceEthnicityComponent } from '../mlb-race-ethnicity/mlb-race-ethnic
   encapsulation: ViewEncapsulation.None,
 })
 export class MlbShortageComponent extends MlbRaceEthnicityComponent {
+  override mlbDataPath = mlbDataPath.strats;
   override chartName = 'Provider Shortage';
 
   override isMatchingStrat(strat: string): boolean {
