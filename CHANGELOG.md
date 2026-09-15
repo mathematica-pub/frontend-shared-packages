@@ -1,3 +1,13 @@
+## 2.3.2 (2026-09-11)
+
+### 🩹 Fixes
+
+- add snapdom to peerdeps ([29098b61](https://github.com/mathematica-pub/frontend-shared-packages/commit/29098b61))
+
+### ❤️ Thank You
+
+- Claire McShane
+
 ## 2.3.1 (2026-09-03)
 
 ### 🩹 Fixes
