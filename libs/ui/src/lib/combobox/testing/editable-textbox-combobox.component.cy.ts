@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { HsiUiComboboxModule } from '@mathstack/ui';
 import 'cypress-real-events';
@@ -586,5 +586,180 @@ class EditableTextboxFormControlTestComponent
       // selection remains unchanged
       cy.get('.combobox-value').should('have.text', 'Coconuts');
     });
+  });
+});
+
+// Editable textbox with FormControl integration
+@Component({
+  selector: 'hsi-ui-form-editable-textbox-test',
+  template: `
+    <p class="form-value">{{ control.value }}</p>
+    <hsi-ui-combobox>
+      <hsi-ui-form-editable-textbox
+        [control]="control"
+        placeholder="Type to search..."
+      >
+      </hsi-ui-form-editable-textbox>
+      <hsi-ui-listbox>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option [value]="option.id">
+            {{ option.displayName }}
+          </hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [HsiUiComboboxModule, CommonModule, ReactiveFormsModule],
+})
+class FormEditableTextboxTestComponent {
+  options = [
+    { displayName: 'Apples', id: 'appl' },
+    { displayName: 'Bananas', id: 'bana' },
+    { displayName: 'Coconuts', id: 'coco' },
+  ];
+  control = new FormControl<string>('');
+}
+
+describe('Editable textbox with FormControl', () => {
+  beforeEach(() => {
+    cy.mount(FormEditableTextboxTestComponent);
+    cy.wait(100);
+  });
+
+  it('should initialize with empty value', () => {
+    cy.get('.form-value').should('have.text', '');
+  });
+
+  it('should update form control when user types', () => {
+    cy.get('input').type('hello');
+    cy.get('.form-value').should('have.text', 'hello');
+  });
+
+  it('should update form value when user types', () => {
+    cy.get('input').type('test');
+    cy.get('.form-value').should('have.text', 'test');
+    cy.get('input').clear().type('another value');
+    cy.get('.form-value').should('have.text', 'another value');
+  });
+});
+
+// Full combobox with editable textbox + listbox FormControl integration (real-world pattern)
+@Component({
+  selector: 'hsi-ui-full-combobox-form-test',
+  template: `
+    <p class="search-value">Search: {{ searchControl.value }}</p>
+    <p class="selected-value">Selected: {{ selectionControl.value | json }}</p>
+
+    <hsi-ui-combobox>
+      <hsi-ui-form-editable-textbox
+        [control]="searchControl"
+        [autoSelect]="true"
+        autoSelectTrigger="character"
+        placeholder="Type to search..."
+      >
+      </hsi-ui-form-editable-textbox>
+
+      <hsi-ui-form-listbox-single [control]="selectionControl">
+        <hsi-ui-listbox-label>
+          <span>Search Results</span>
+        </hsi-ui-listbox-label>
+        @for (option of filteredOptions; track option.id) {
+          <hsi-ui-listbox-option [value]="option">
+            {{ option.displayName }}
+          </hsi-ui-listbox-option>
+        }
+      </hsi-ui-form-listbox-single>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [HsiUiComboboxModule, CommonModule, ReactiveFormsModule],
+})
+class FullComboboxFormTestComponent implements OnInit {
+  options = [
+    { displayName: 'Apples', id: 'appl', keywords: ['fruit', 'red'] },
+    { displayName: 'Bananas', id: 'bana', keywords: ['fruit', 'yellow'] },
+    { displayName: 'Coconuts', id: 'coco', keywords: ['fruit', 'tropical'] },
+    { displayName: 'Carrots', id: 'carr', keywords: ['vegetable', 'orange'] },
+  ];
+
+  searchControl = new FormControl<string>('');
+  selectionControl = new FormControl<any>(null);
+  filteredOptions: any[] = [];
+
+  ngOnInit(): void {
+    // Filter options based on search text (similar to the app's pattern)
+    this.searchControl.valueChanges.subscribe((searchText) => {
+      this.filteredOptions = this.filterOptions(searchText || '');
+    });
+
+    this.filteredOptions = this.options;
+  }
+
+  private filterOptions(searchText: string): any[] {
+    if (!searchText) {
+      return this.options;
+    }
+    const lowerSearch = searchText.toLowerCase();
+    return this.options.filter(
+      (opt) =>
+        opt.displayName.toLowerCase().includes(lowerSearch) ||
+        opt.keywords.some((kw: string) =>
+          kw.toLowerCase().includes(lowerSearch)
+        )
+    );
+  }
+}
+
+describe('Full combobox with FormControl (real-world pattern)', () => {
+  beforeEach(() => {
+    cy.mount(FullComboboxFormTestComponent);
+    cy.wait(100);
+  });
+
+  it('should filter options as user types in search', () => {
+    cy.get('input').type('ban');
+    cy.get('.search-value').should('contain.text', 'ban');
+    cy.get('.hsi-ui-listbox-option').should('have.length', 1);
+    cy.get('.hsi-ui-listbox-option').first().should('contain.text', 'Bananas');
+  });
+
+  it('should update selection control when option is clicked', () => {
+    cy.get('input').type('fruit');
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    cy.get('.selected-value').should('contain.text', 'Apples');
+  });
+
+  it('should clear search text after selection', () => {
+    cy.get('input').type('app');
+    cy.get('.search-value').should('contain.text', 'app');
+    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    cy.wait(50);
+    cy.get('.search-value').should('contain.text', 'Search: ');
+    cy.get('input').should('have.value', '');
+  });
+
+  it('should filter by keywords', () => {
+    cy.get('input').type('tropical');
+    cy.get('.hsi-ui-listbox-option').should('have.length', 1);
+    cy.get('.hsi-ui-listbox-option').first().should('contain.text', 'Coconuts');
+  });
+
+  it('should show all options when search is empty', () => {
+    cy.get('input').type('xyz');
+    cy.get('.hsi-ui-listbox-option').should('have.length', 0);
+    cy.get('input').clear();
+    cy.get('.hsi-ui-listbox-option').should('have.length', 4);
+  });
+
+  it('should update selected value when user makes multiple selections', () => {
+    cy.get('input').click();
+    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    cy.get('.selected-value').should('contain.text', 'Bananas');
+    cy.get('input').click();
+    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
+    cy.get('.selected-value').should('contain.text', 'Coconuts');
   });
 });

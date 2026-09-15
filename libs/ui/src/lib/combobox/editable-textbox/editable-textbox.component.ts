@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -8,7 +9,6 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormControl, FormsModule } from '@angular/forms';
 import { BehaviorSubject, skip } from 'rxjs';
@@ -46,6 +46,7 @@ export class EditableTextboxComponent
   @Input() ngFormControl: FormControl<string>;
   @Input() placeholder = '';
   @Input() clearOnClick = false;
+  @Input() clearOnSelectionEmits = true;
   @Output() valueChanges = new EventEmitter<string>();
   moveFocusToTextboxKeys = ['RightArrow', 'LeftArrow', 'Home', 'End'];
   value = new BehaviorSubject<string>('');
@@ -155,29 +156,28 @@ export class EditableTextboxComponent
       return null;
     }
 
-    if (!this.service.isOpen && this.openKeys.includes(event.key)) {
-      return ListboxAction.open;
-    } else if (!this.service.isOpen && event.key === Key.Tab) {
-      return null;
-    } else if (
-      event.key === Key.Enter &&
-      (this.service.shouldAutoSelectOnListboxClose
-        ? !this.service.isOpen
-        : true)
-    ) {
-      return ListboxAction.close;
-    } else {
-      if (
-        event.key === Key.RightArrow ||
-        event.key === Key.LeftArrow ||
-        event.key === Key.Space
-      ) {
-        this.service.emitTextboxFocus();
+    if (!this.service.isOpen) {
+      if (this.openKeys.includes(event.key)) {
+        return ListboxAction.open;
+      }
+      if (event.key === Key.Tab) {
         return null;
-      } else {
-        return this.getActionFromKeydownEventWhenOpen(event);
+      }
+      if (event.key === Key.Enter) {
+        return ListboxAction.close;
       }
     }
+
+    if (
+      event.key === Key.RightArrow ||
+      event.key === Key.LeftArrow ||
+      event.key === Key.Space
+    ) {
+      this.service.emitTextboxFocus();
+      return null;
+    }
+
+    return this.getActionFromKeydownEventWhenOpen(event);
   }
 
   getActionFromKeydownEventWhenOpen(event: KeyboardEvent): ComboboxAction {
