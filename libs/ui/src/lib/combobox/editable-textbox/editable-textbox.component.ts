@@ -1,3 +1,4 @@
+import { Combobox } from '@angular/aria/combobox';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
@@ -25,7 +26,7 @@ import { TextboxComponent } from '../textbox/textbox.component';
 
 @Component({
   selector: 'hsi-ui-editable-textbox',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, Combobox],
   templateUrl: './editable-textbox.component.html',
   styleUrls: ['./editable-textbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -116,13 +117,13 @@ export class EditableTextboxComponent
 
   override handleClick(): void {
     this.service.setIsKeyboardEvent(false);
-    if (this.service.isOpen) {
-      this.service.closeListbox();
+    if (this.expanded) {
+      this.expanded = false;
     } else {
       if (this.clearOnClick) {
         this.setAndEmitValue('');
       }
-      this.service.openListbox();
+      this.expanded = true;
       if (this.autoSelect) {
         const inputValue = this.inputElRef.nativeElement.value;
         if (inputValue === '') {
@@ -141,12 +142,41 @@ export class EditableTextboxComponent
       : false;
   }
 
+  protected emitActiveIndexAction(
+    action: OptionAction.zeroActiveIndex | OptionAction.nullActiveIndex
+  ): void {
+    if (this.service.usesLegacyTriggerAria) {
+      this.service.emitOptionAction(action);
+    }
+  }
+
+  protected getResetActiveIndexAction():
+    | OptionAction.zeroActiveIndex
+    | OptionAction.nullActiveIndex {
+    return this.autoSelect && this.autoSelectTrigger === 'any'
+      ? OptionAction.zeroActiveIndex
+      : OptionAction.nullActiveIndex;
+  }
+
+  protected emitResetActiveIndexAction(): void {
+    this.emitActiveIndexAction(this.getResetActiveIndexAction());
+  }
+
+  protected updateLegacyActiveIndexForTextboxAction(action: string): void {
+    if (this.autoSelect && action === TextboxAction.addChar) {
+      this.emitActiveIndexAction(OptionAction.zeroActiveIndex);
+      return;
+    }
+
+    this.emitResetActiveIndexAction();
+  }
+
   override onEscape(): void {
-    if (!this.service.isOpen) {
+    if (!this.expanded) {
       this.setAndEmitValue('');
-      this.service.emitOptionAction(OptionAction.nullActiveIndex);
+      this.emitActiveIndexAction(OptionAction.nullActiveIndex);
     } else {
-      this.service.closeListbox();
+      this.expanded = false;
       this.service.emitTextboxFocus();
     }
   }
@@ -156,7 +186,7 @@ export class EditableTextboxComponent
       return null;
     }
 
-    if (!this.service.isOpen) {
+    if (!this.expanded) {
       if (this.openKeys.includes(event.key)) {
         return ListboxAction.open;
       }
@@ -208,11 +238,11 @@ export class EditableTextboxComponent
       event.stopPropagation();
       event.preventDefault();
       this.service.emitOptionAction(OptionAction.select);
-      this.service.closeListbox();
+      this.expanded = false;
       if (event.key !== Key.Tab) {
         this.service.emitTextboxFocus();
       }
-      this.service.emitOptionAction(OptionAction.nullActiveIndex);
+      this.emitActiveIndexAction(OptionAction.nullActiveIndex);
     } else if (
       action === OptionAction.next ||
       action === OptionAction.previous ||
@@ -224,23 +254,23 @@ export class EditableTextboxComponent
     } else if (action === ListboxAction.open) {
       event.stopPropagation();
       event.preventDefault();
-      this.service.emitOptionAction(OptionAction.zeroActiveIndex);
-      this.service.openListbox();
+      this.emitActiveIndexAction(OptionAction.zeroActiveIndex);
+      this.expanded = true;
       this.service.emitTextboxFocus();
     } else if (action === ListboxAction.close) {
       event.stopPropagation();
       event.preventDefault();
-      this.service.closeListbox();
+      this.expanded = false;
       this.service.emitTextboxFocus();
-      this.service.emitOptionAction(OptionAction.nullActiveIndex);
+      this.emitActiveIndexAction(OptionAction.nullActiveIndex);
     } else if (
       action === TextboxAction.cursorFirst ||
       action === TextboxAction.cursorLast ||
       action === TextboxAction.addChar
     ) {
       this.service.emitTextboxFocus();
-      if (!this.service.isOpen) {
-        this.service.openListbox();
+      if (!this.expanded) {
+        this.expanded = true;
       }
       if (action === TextboxAction.cursorFirst) {
         this.inputElRef.nativeElement.setSelectionRange(0, 0);
@@ -250,11 +280,7 @@ export class EditableTextboxComponent
           this.inputElRef.nativeElement.value.length
         );
       }
-      if (this.autoSelect && action === TextboxAction.addChar) {
-        this.service.emitOptionAction(OptionAction.zeroActiveIndex);
-      } else {
-        this.service.emitOptionAction(OptionAction.nullActiveIndex);
-      }
+      this.updateLegacyActiveIndexForTextboxAction(action);
     }
   }
 

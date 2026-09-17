@@ -69,6 +69,13 @@ describe('Default multi-select combobox', () => {
   beforeEach(() => {
     cy.mount(ComboboxSimpleMultiSelectTestComponent);
   });
+  it('should expose listbox and option roles from directive wiring', () => {
+    cy.get('.hsi-ui-textbox').realClickAndWait();
+    cy.get('.hsi-ui-listbox').should('have.attr', 'role', 'listbox');
+    cy.get('.hsi-ui-listbox-option')
+      .first()
+      .should('have.attr', 'role', 'option');
+  });
   it('the current class is on the first selected option if there is one or on the 0th option once opened', () => {
     cy.get('.hsi-ui-textbox').realClickAndWait();
     cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
@@ -335,17 +342,39 @@ class ComboboxMultiSelectDisabledOptionsComponent extends ComboboxBaseTestCompon
     this.addToArray(2, 'selected');
   }
 
+  deselectCoconut() {
+    this.removeFromArray(2, 'selected');
+  }
+
   addToArray(i: number, array: 'selected' | 'disabled'): void {
     const curr = this[array].value;
     if (!curr.includes(this.options[i].displayName)) {
       this[array].next([...curr, this.options[i].displayName]);
     }
   }
+
+  removeFromArray(i: number, array: 'selected' | 'disabled'): void {
+    this[array].next(
+      this[array].value.filter((x) => x !== this.options[i].displayName)
+    );
+  }
 }
 
 describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxMultiSelectDisabledOptionsComponent);
+  });
+  it('exposes disabled option semantics', () => {
+    cy.get('.hsi-ui-textbox').click();
+    cy.get('.hsi-ui-listbox-option')
+      .eq(2)
+      .should('have.attr', 'aria-disabled', 'true');
+    cy.get('.hsi-ui-listbox-option')
+      .eq(4)
+      .should('have.attr', 'aria-disabled', 'true');
+    cy.get('.hsi-ui-listbox-option')
+      .eq(0)
+      .should('have.attr', 'aria-disabled', 'false');
   });
   it('can select non-disabled options', () => {
     cy.get('.hsi-ui-textbox').click();

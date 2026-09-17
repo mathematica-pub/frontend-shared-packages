@@ -1,4 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  Combobox,
+  ComboboxPopup,
+  ComboboxWidget,
+} from '@angular/aria/combobox';
+import {
+  Listbox as AriaListbox,
+  Option as AriaOption,
+} from '@angular/aria/listbox';
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -643,6 +652,20 @@ describe('Editable textbox with FormControl', () => {
     cy.get('input').clear().type('another value');
     cy.get('.form-value').should('have.text', 'another value');
   });
+
+  it('should toggle aria-expanded through ngCombobox', () => {
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').click();
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'true'
+    );
+  });
 });
 
 // Full combobox with editable textbox + listbox FormControl integration (real-world pattern)
@@ -761,5 +784,403 @@ describe('Full combobox with FormControl (real-world pattern)', () => {
     cy.get('input').click();
     cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
     cy.get('.selected-value').should('contain.text', 'Coconuts');
+  });
+});
+
+@Component({
+  selector: 'hsi-ui-editable-textbox-angular-aria-trigger-test',
+  template: `
+    <p class="outside-element">Outside element</p>
+    <p class="textbox-value">{{ textboxValue$ | async }}</p>
+    <p class="combobox-value">{{ value$ | async }}</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Fruits</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-editable-textbox
+        [useAngularAria]="true"
+        placeholder="Select a fruit, A-E"
+        (valueChanges)="onTyping($event)"
+      >
+      </hsi-ui-editable-textbox>
+      <hsi-ui-listbox (valueChanges)="onSelection($event)">
+        <hsi-ui-listbox-label>
+          <span>Select a fruit</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [HsiUiComboboxModule, CommonModule],
+})
+class EditableTextboxAngularAriaTriggerTestComponent extends ComboboxBaseTestComponent {
+  textboxValue = new BehaviorSubject<string>('');
+  textboxValue$ = this.textboxValue.asObservable();
+
+  onTyping(value: string): void {
+    this.textboxValue.next(value);
+  }
+}
+
+@Component({
+  selector: 'hsi-ui-editable-textbox-legacy-trigger-test',
+  template: `
+    <p class="outside-element">Outside element</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Fruits</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-editable-textbox
+        [useAngularAria]="false"
+        placeholder="Select a fruit, A-E"
+      >
+      </hsi-ui-editable-textbox>
+      <hsi-ui-listbox>
+        <hsi-ui-listbox-label>
+          <span>Select a fruit</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [HsiUiComboboxModule, CommonModule],
+})
+class EditableTextboxLegacyTriggerTestComponent extends ComboboxBaseTestComponent {}
+
+@Component({
+  selector: 'hsi-ui-editable-textbox-runtime-toggle-trigger-test',
+  template: `
+    <p class="aria-mode">{{ useAngularAria ? 'directive' : 'legacy' }}</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Fruits</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-editable-textbox
+        [useAngularAria]="useAngularAria"
+        placeholder="Select a fruit, A-E"
+      >
+      </hsi-ui-editable-textbox>
+      <hsi-ui-listbox>
+        <hsi-ui-listbox-label>
+          <span>Select a fruit</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+
+    <button type="button" class="toggle-aria-mode" (click)="toggleMode()">
+      Toggle Aria Mode
+    </button>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [HsiUiComboboxModule, CommonModule],
+})
+class EditableTextboxRuntimeToggleTriggerTestComponent extends ComboboxBaseTestComponent {
+  useAngularAria = true;
+
+  toggleMode(): void {
+    this.useAngularAria = !this.useAngularAria;
+  }
+}
+
+describe('EditableTextboxAngularAriaTriggerTestComponent', () => {
+  beforeEach(() => {
+    cy.mount(EditableTextboxAngularAriaTriggerTestComponent);
+    cy.wait(100);
+  });
+
+  it('should expose combobox role semantics in Angular Aria trigger mode', () => {
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'role',
+      'combobox'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'not.have.attr',
+      'aria-controls'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'not.have.attr',
+      'aria-haspopup'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'not.have.attr',
+      'aria-activedescendant'
+    );
+  });
+
+  it('should toggle aria-expanded while opening and closing', () => {
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').realClickAndWait();
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'true'
+    );
+    cy.get('.outside-element').realClickAndWait();
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+  });
+
+  it('should preserve typing and selection behavior with Angular Aria trigger', () => {
+    cy.get('[data-cy="editable-textbox-input"]').type('ban');
+    cy.get('.textbox-value').should('have.text', 'ban');
+    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    cy.get('.combobox-value').should('have.text', 'Bananas');
+  });
+});
+
+describe('EditableTextboxLegacyTriggerTestComponent', () => {
+  beforeEach(() => {
+    cy.mount(EditableTextboxLegacyTriggerTestComponent);
+    cy.wait(100);
+  });
+
+  it('should retain legacy editable trigger ARIA attributes', () => {
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-controls'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-haspopup',
+      'listbox'
+    );
+  });
+
+  it('should keep legacy editable aria-activedescendant behavior on keyboard navigation', () => {
+    cy.get('[data-cy="editable-textbox-input"]').type('{downArrow}');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-activedescendant'
+    );
+  });
+});
+
+describe('EditableTextboxRuntimeToggleTriggerTestComponent', () => {
+  beforeEach(() => {
+    cy.mount(EditableTextboxRuntimeToggleTriggerTestComponent);
+    cy.wait(100);
+  });
+
+  it('switches editable trigger ARIA attributes when toggling useAngularAria at runtime', () => {
+    cy.get('.aria-mode').should('have.text', 'directive');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'not.have.attr',
+      'aria-controls'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'not.have.attr',
+      'aria-haspopup'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'not.have.attr',
+      'aria-activedescendant'
+    );
+
+    cy.get('[data-cy="editable-textbox-input"]').type('{downArrow}');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'true'
+    );
+    cy.get('.hsi-ui-listbox').should('be.visible');
+    cy.get('[data-cy="editable-textbox-input"]').type('{downArrow}');
+    cy.get('.hsi-ui-listbox-option.current').should('exist');
+    cy.get('.hsi-ui-listbox-option.keyboard-current').should('exist');
+    cy.get('[data-cy="editable-textbox-input"]').type('{esc}');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+    cy.get('.hsi-ui-listbox').should('not.be.visible');
+
+    cy.get('.toggle-aria-mode').realClickAndWait();
+    cy.get('.aria-mode').should('have.text', 'legacy');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-controls'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-haspopup',
+      'listbox'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+
+    cy.get('[data-cy="editable-textbox-input"]').type('{downArrow}');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'true'
+    );
+    cy.get('.hsi-ui-listbox').should('be.visible');
+    cy.get('[data-cy="editable-textbox-input"]').type('{downArrow}');
+    cy.get('.hsi-ui-listbox-option.current').should('exist');
+    cy.get('.hsi-ui-listbox-option.keyboard-current').should('exist');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-activedescendant'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').type('{esc}');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+    cy.get('.hsi-ui-listbox').should('not.be.visible');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'not.have.attr',
+      'aria-activedescendant'
+    );
+
+    cy.get('[data-cy="editable-textbox-input"]').type('{downArrow}');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'true'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').type('{downArrow}');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-activedescendant'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').type('{esc}');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+
+    cy.get('.toggle-aria-mode').realClickAndWait();
+    cy.get('.aria-mode').should('have.text', 'directive');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'not.have.attr',
+      'aria-controls'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'not.have.attr',
+      'aria-haspopup'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'not.have.attr',
+      'aria-activedescendant'
+    );
+  });
+});
+
+@Component({
+  selector: 'hsi-ui-angular-aria-combobox-spike-test',
+  template: `
+    <p class="selected-value">{{ selectedValueText }}</p>
+    <input
+      class="aria-combobox-input"
+      ngCombobox
+      #combobox="ngCombobox"
+      [(expanded)]="expanded"
+      [value]="query"
+      (input)="onQueryInput($event)"
+      placeholder="Select one"
+    />
+    <ng-template ngComboboxPopup [combobox]="combobox" popupType="listbox">
+      <div
+        class="aria-popup-listbox"
+        ngComboboxWidget
+        ngListbox
+        #listbox="ngListbox"
+        [(value)]="selectedValues"
+        [activeDescendant]="listbox.activeDescendant()"
+      >
+        @for (option of filteredOptions; track option.id) {
+          <div ngOption [value]="option.value" [label]="option.label">
+            {{ option.label }}
+          </div>
+        }
+      </div>
+    </ng-template>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [
+    CommonModule,
+    Combobox,
+    ComboboxPopup,
+    ComboboxWidget,
+    AriaListbox,
+    AriaOption,
+  ],
+})
+class AngularAriaComboboxSpikeTestComponent {
+  expanded = false;
+  query = '';
+  selectedValues: string[] = [];
+  options = [
+    { id: 'a', label: 'Apples', value: 'appl' },
+    { id: 'b', label: 'Bananas', value: 'bana' },
+    { id: 'c', label: 'Coconuts', value: 'coco' },
+  ];
+
+  get filteredOptions(): { id: string; label: string; value: string }[] {
+    const search = this.query.toLowerCase();
+    return this.options.filter((option) =>
+      option.label.toLowerCase().includes(search)
+    );
+  }
+
+  get selectedValueText(): string {
+    return this.selectedValues.join(',');
+  }
+
+  onQueryInput(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.query = target.value;
+  }
+}
+
+describe('AngularAriaComboboxSpikeTestComponent', () => {
+  beforeEach(() => {
+    cy.mount(AngularAriaComboboxSpikeTestComponent);
+    cy.wait(100);
+  });
+
+  it('opens popup and selects an option using Angular Aria directives', () => {
+    cy.get('.aria-combobox-input').click();
+    cy.get('.aria-popup-listbox').should('be.visible');
+    cy.contains('.aria-popup-listbox div', 'Bananas').click();
+    cy.get('.selected-value').should('contain.text', 'bana');
   });
 });

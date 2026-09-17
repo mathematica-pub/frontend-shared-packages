@@ -7,7 +7,8 @@
     #box
     class="hsi-ui-editable-textbox-input"
     [attr.type]="inputType"
-    role="combobox"
+    ngCombobox
+    [(expanded)]="expanded"
     tabindex="0"
     [id]="service.id + '-textbox'"
     (click)="handleClick()"
@@ -24,11 +25,7 @@
     [attr.aria-labelledby]="
       (service.label$ | async) !== null ? service.comboboxLabelId : null
     "
-    [attr.aria-activedescendant]="service.activeDescendant$ | async"
-    [attr.aria-expanded]="service.isOpen$ | async"
     [attr.aria-autocomplete]="service.autoComplete"
-    [attr.aria-controls]="service.id + '-listbox'"
-    aria-haspopup="listbox"
     data-cy="editable-textbox-input"
     [placeholder]="placeholder"
     [formControl]="control"
