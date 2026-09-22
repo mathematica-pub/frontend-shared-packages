@@ -300,7 +300,7 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
         </hsi-ui-listbox-group>
       </hsi-ui-listbox>
     </hsi-ui-combobox>
-    <p class="combobox-value">Selected id value: {{ selected$ | async }}</p>
+    <p class="combobox-value">Selected id value: {{ value$ | async }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
