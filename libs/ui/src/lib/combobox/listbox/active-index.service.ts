@@ -5,6 +5,7 @@ import {
   distinctUntilChanged,
   map,
   Observable,
+  of,
   withLatestFrom,
 } from 'rxjs';
 import {
@@ -41,7 +42,10 @@ export class ActiveIndexService {
   }
 
   initActiveId(): void {
-    if (!this.service.nullActiveIdOnClose) {
+    if (
+      !this.service.nullActiveIdOnClose &&
+      this.isLegacyTriggerAriaEnabled()
+    ) {
       this.activeIndex.next(0);
     }
   }
@@ -56,6 +60,10 @@ export class ActiveIndexService {
         withLatestFrom(this.activeIndex$, allOptions$)
       )
       .subscribe(([action, activeIndex, options]) => {
+        if (this.handleLegacyOnlyAction(action, options)) {
+          return;
+        }
+
         if (!this.actionIsTypingChar(action)) {
           if (
             action === OptionAction.last ||
@@ -69,18 +77,39 @@ export class ActiveIndexService {
             action === OptionAction.previous
           ) {
             this.setPrevActiveIndex(action, activeIndex, options);
-          } else if (action === OptionAction.zeroActiveIndex) {
-            this.setActiveIndex(0, OptionAction.next, options);
-          } else if (action === OptionAction.nullActiveIndex) {
-            // should only be emitted from editable textboxes
-            if (this.service.nullActiveIdOnClose) {
-              this.setActiveIndex(null, OptionAction.next, options);
-            }
           }
         } else if (action.length === 1) {
           this.updateActiveIndexFromKeyChar(action, options);
         }
       });
+  }
+
+  private handleLegacyOnlyAction(
+    action: OptionAction | string,
+    options: ListboxOptionComponent[]
+  ): boolean {
+    if (
+      action !== OptionAction.zeroActiveIndex &&
+      action !== OptionAction.nullActiveIndex
+    ) {
+      return false;
+    }
+
+    if (!this.isLegacyTriggerAriaEnabled()) {
+      return true;
+    }
+
+    if (action === OptionAction.zeroActiveIndex) {
+      this.setActiveIndex(0, OptionAction.next, options);
+      return true;
+    }
+
+    // nullActiveIndex should only be emitted from editable textboxes.
+    if (this.service.nullActiveIdOnClose) {
+      this.setActiveIndex(null, OptionAction.next, options);
+    }
+
+    return true;
   }
 
   private setNextActiveIndex(
@@ -243,6 +272,11 @@ export class ActiveIndexService {
   }
 
   private setActiveDescendant(): void {
+    if (!this.isLegacyTriggerAriaEnabled()) {
+      this.service.initActiveDescendant(of(null));
+      return;
+    }
+
     const activeDescendant$ = this.activeIndex$.pipe(
       map((i) => {
         if (i === null || i < 0) {
@@ -255,6 +289,10 @@ export class ActiveIndexService {
     this.service.initActiveDescendant(activeDescendant$);
   }
 
+  private isLegacyTriggerAriaEnabled(): boolean {
+    return this.service.usesLegacyTriggerAria;
+  }
+
   setActiveIndexToFirstSelectedOrDefault(
     options: ListboxOptionComponent[]
   ): void {
@@ -262,6 +300,8 @@ export class ActiveIndexService {
     if (firstSelected === -1) {
       if (this.service.shouldAutoSelectOnListboxClose) {
         firstSelected = 0;
+      } else if (!this.isLegacyTriggerAriaEnabled()) {
+        firstSelected = null;
       } else {
         firstSelected = this.service.nullActiveIdOnClose ? null : 0;
       }

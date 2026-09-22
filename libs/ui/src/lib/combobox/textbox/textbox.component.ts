@@ -1,3 +1,4 @@
+import { Combobox } from '@angular/aria/combobox';
 import { Platform } from '@angular/cdk/platform';
 import { CommonModule } from '@angular/common';
 import {
@@ -10,7 +11,10 @@ import {
   inject,
   Input,
   NgZone,
+  OnChanges,
+  OnDestroy,
   OnInit,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -30,16 +34,20 @@ import { SelectedCountLabel } from '../listbox/listbox.component';
 
 @Component({
   selector: 'hsi-ui-textbox',
-  imports: [CommonModule],
+  imports: [CommonModule, Combobox],
   styleUrls: ['./textbox.component.scss'],
   templateUrl: './textbox.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'hsi-ui-textbox',
+    '(keydown)': 'handleHostKeydown($event)',
   },
 })
-export class TextboxComponent implements OnInit, AfterViewInit {
+export class TextboxComponent
+  implements OnInit, OnChanges, AfterViewInit, OnDestroy
+{
   @Input() ariaLabel: string;
+  @Input() useAngularAria = true;
   @Input() selectedCountLabel?: SelectedCountLabel;
   @Input() customLabel: (selectedOptions: ListboxOptionComponent[]) => string;
   /*
@@ -52,6 +60,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   @Input() dynamicLabel = true;
   @Input() findsOptionOnTyping = true;
   @ViewChild('box') box: ElementRef<HTMLDivElement>;
+  @ViewChild(Combobox) comboboxDirective: Combobox;
   @ViewChild('boxIcon') boxIcon: ElementRef<HTMLDivElement>;
   openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' '];
   label: BehaviorSubject<string> = new BehaviorSubject('');
@@ -62,7 +71,29 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   protected zone = inject(NgZone);
   private cdr = inject(ChangeDetectorRef);
 
+  private syncTriggerModeState(): void {
+    this.service.setUsesLegacyTriggerAria(!this.useAngularAria);
+
+    // Clear directive bridge immediately when switching to legacy mode.
+    if (!this.useAngularAria) {
+      this.service.setComboboxDirective(null);
+    }
+  }
+
+  get expanded(): boolean {
+    return this.service.isOpen;
+  }
+
+  set expanded(isOpen: boolean) {
+    if (isOpen) {
+      this.service.openListbox();
+    } else {
+      this.service.closeListbox();
+    }
+  }
+
   ngOnInit(): void {
+    this.syncTriggerModeState();
     this.service.projectedContentIsInDOM$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
@@ -77,8 +108,20 @@ export class TextboxComponent implements OnInit, AfterViewInit {
       });
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['useAngularAria']) {
+      this.syncTriggerModeState();
+    }
+  }
+
   ngAfterViewInit(): void {
+    this.service.setComboboxDirective(this.comboboxDirective ?? null);
     this.setFocusListener();
+  }
+
+  ngOnDestroy(): void {
+    this.service.setComboboxDirective(null);
+    this.service.setUsesLegacyTriggerAria(false);
   }
 
   setFocusListener(): void {
@@ -140,12 +183,18 @@ export class TextboxComponent implements OnInit, AfterViewInit {
 
   handleClick(): void {
     this.service.setIsKeyboardEvent(false);
-    if (this.service.isOpen) {
-      this.service.closeListbox();
-    } else {
+    if (!this.expanded) {
       this.service.setTouched();
-      this.service.openListbox();
     }
+
+    // In Angular Aria mode, ngCombobox manages expanded state from click.
+    // Manually toggling here causes open->close flicker and leaves the popup closed.
+    if (this.useAngularAria) {
+      this.focusBox();
+      return;
+    }
+
+    this.expanded = !this.expanded;
     this.focusBox();
   }
 
@@ -162,13 +211,29 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     }
   }
 
+  handleHostKeydown(event: KeyboardEvent): void {
+    if (event.target !== this.box?.nativeElement) {
+      this.handleKeydown(event);
+    }
+  }
+
   onEscape(): void {
-    this.service.closeListbox();
+    this.expanded = false;
     this.service.emitTextboxFocus();
   }
 
+  private isOpenKey(key: string): boolean {
+    return (
+      this.openKeys.includes(key) ||
+      key === 'Down' ||
+      key === 'Up' ||
+      key === 'Spacebar' ||
+      key.toLowerCase() === 'enter'
+    );
+  }
+
   getActionFromKeydownEvent(event: KeyboardEvent): ComboboxAction {
-    if (!this.service.isOpen && this.openKeys.includes(event.key)) {
+    if (!this.expanded && this.isOpenKey(event.key)) {
       return ListboxAction.open;
     }
     if (event.key === Key.Home) {
@@ -180,7 +245,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     if (this.findsOptionOnTyping && this.isTypingCharacter(event)) {
       return TextboxAction.type;
     }
-    if (this.service.isOpen) {
+    if (this.expanded) {
       return this.getActionFromKeyEventWhenOpen(event);
     } else {
       return null;
@@ -200,15 +265,15 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     const { key, altKey } = event;
     if (key === Key.ArrowUp && altKey) {
       return ListboxAction.closeSelect;
-    } else if (key === Key.ArrowDown && !altKey) {
+    } else if ((key === Key.ArrowDown || key === 'Down') && !altKey) {
       return OptionAction.next;
-    } else if (key === Key.ArrowUp) {
+    } else if (key === Key.ArrowUp || key === 'Up') {
       return OptionAction.previous;
     } else if (key === Key.PageUp) {
       return OptionAction.pageUp;
     } else if (key === Key.PageDown) {
       return OptionAction.pageDown;
-    } else if (key === Key.Enter || key === Key.Space) {
+    } else if (key === Key.Enter || key === Key.Space || key === 'Spacebar') {
       return this.service.isMultiSelect
         ? OptionAction.select
         : ListboxAction.closeSelect;
@@ -221,7 +286,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
     switch (action) {
       case OptionAction.first:
       case OptionAction.last:
-        this.service.openListbox();
+        this.expanded = true;
         this.focusBox();
         event.preventDefault();
         this.service.emitOptionAction(action);
@@ -239,25 +304,26 @@ export class TextboxComponent implements OnInit, AfterViewInit {
       case ListboxAction.closeSelect:
         event.preventDefault();
         this.service.emitOptionAction(OptionAction.select);
-        this.service.closeListbox();
+        this.expanded = false;
         this.focusBox();
         break;
 
       case ListboxAction.close:
         event.preventDefault();
-        this.service.closeListbox();
+        this.expanded = false;
         this.focusBox();
         break;
 
       case TextboxAction.type:
-        this.service.openListbox();
+        this.expanded = true;
         this.focusBox();
         this.service.emitOptionAction(event.key);
         break;
 
       case ListboxAction.open:
         event.preventDefault();
-        this.service.openListbox();
+        this.expanded = true;
+        this.service.emitOptionAction(OptionAction.next);
         this.focusBox();
     }
   }

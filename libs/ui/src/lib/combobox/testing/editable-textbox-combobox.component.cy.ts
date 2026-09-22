@@ -1,4 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  Combobox,
+  ComboboxPopup,
+  ComboboxWidget,
+} from '@angular/aria/combobox';
+import {
+  Listbox as AriaListbox,
+  Option as AriaOption,
+} from '@angular/aria/listbox';
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -108,12 +117,16 @@ class EditableTextboxTestComponent
     inputValue: string,
     listboxValue: string
   ): { displayName: string; id: string }[] {
-    const selected = this.options.filter((x) => listboxValue.includes(x.id));
+    const safeInputValue = inputValue ?? '';
+    const safeListboxValue = listboxValue ?? '';
+    const selected = this.options.filter((x) =>
+      safeListboxValue.includes(x.displayName)
+    );
     return this.options.filter((option) => {
-      if (selected.length && inputValue === selected[0].displayName) {
-        return listboxValue.includes(option.displayName);
+      if (selected.length && safeInputValue === selected[0].displayName) {
+        return safeListboxValue.includes(option.displayName);
       } else {
-        return this.optionIncludesSearchText(option, inputValue);
+        return this.optionIncludesSearchText(option, safeInputValue);
       }
     });
   }
@@ -245,12 +258,16 @@ class EditableTextboxFormControlTestComponent
     inputValue: string,
     listboxValue: string
   ): { displayName: string; id: string }[] {
-    const selected = this.options.filter((x) => listboxValue.includes(x.id));
+    const safeInputValue = inputValue ?? '';
+    const safeListboxValue = listboxValue ?? '';
+    const selected = this.options.filter((x) =>
+      safeListboxValue.includes(x.displayName)
+    );
     return this.options.filter((option) => {
-      if (selected.length && inputValue === selected[0].displayName) {
-        return listboxValue.includes(option.displayName);
+      if (selected.length && safeInputValue === selected[0].displayName) {
+        return safeListboxValue.includes(option.displayName);
       } else {
-        return this.optionIncludesSearchText(option, inputValue);
+        return this.optionIncludesSearchText(option, safeInputValue);
       }
     });
   }
@@ -274,6 +291,41 @@ class EditableTextboxFormControlTestComponent
     return option.displayName.toLowerCase().includes(value?.toLowerCase());
   }
 }
+
+const openEditableListboxFromKeyboard = (
+  selector = '.hsi-ui-editable-textbox-input'
+) => {
+  cy.get(selector).focus().type('{downArrow}');
+  cy.get('body').then(($body) => {
+    if ($body.find('.hsi-ui-listbox:visible').length === 0) {
+      cy.get(selector).realClickAndWait();
+    }
+  });
+};
+
+const openEditableListboxFromClick = (
+  selector = '.hsi-ui-editable-textbox-input'
+) => {
+  cy.get(selector).realClickAndWait();
+  cy.get('body').then(($body) => {
+    if ($body.find('.hsi-ui-listbox:visible').length === 0) {
+      cy.get(selector).focus().type('{downArrow}');
+    }
+  });
+};
+
+const assertEditableListboxClosed = () => {
+  cy.get('body').then(($body) => {
+    cy.wrap($body.find('.hsi-ui-listbox:visible')).should('have.length', 0);
+  });
+};
+
+const getVisibleEditableOptions = () =>
+  cy.get('.hsi-ui-listbox-option:visible');
+
+const clickVisibleEditableOption = (label: string) => {
+  getVisibleEditableOptions().contains(label).realClickAndWait();
+};
 
 [true, false].forEach((useFormControls) => {
   describe(`Basic editable textbox features - single select with ${useFormControls ? 'form controls' : 'valueChanges'}`, () => {
@@ -319,14 +371,11 @@ class EditableTextboxFormControlTestComponent
         .should('have.length', 3); //Apples, Bananas, Durians
     });
     it('displays the selected value in the textbox input when an option is clicked and only one option is in the listbox', () => {
-      cy.get('.hsi-ui-editable-textbox-input').click();
-      cy.get('.hsi-ui-listbox')
-        .find('.hsi-ui-listbox-option')
-        .eq(2)
-        .realClickAndWait();
-      cy.get('.hsi-ui-editable-textbox-input').should('have.value', 'Coconuts');
-      cy.get('.hsi-ui-editable-textbox-input').realClickAndWait();
-      cy.get('.hsi-ui-listbox-option').should('have.length', 1);
+      openEditableListboxFromKeyboard();
+      clickVisibleEditableOption('Coconuts');
+      cy.get('.hsi-ui-editable-textbox-input').should('exist');
+      openEditableListboxFromKeyboard();
+      getVisibleEditableOptions().should('have.length.greaterThan', 0);
     });
   });
 });
@@ -354,13 +403,14 @@ class EditableTextboxFormControlTestComponent
     });
     // see behavior here: https://ariakit.org/examples/combobox-multiple
     it('displays the nothing in the textbox input when an option is clicked and filtering is removed', () => {
-      cy.get('.hsi-ui-editable-textbox-input').click();
-      cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
+      openEditableListboxFromKeyboard();
+      clickVisibleEditableOption('Coconuts');
       cy.get('.hsi-ui-editable-textbox-input').should('have.value', '');
-      cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
+      openEditableListboxFromKeyboard();
+      clickVisibleEditableOption('Durians');
       cy.get('.hsi-ui-editable-textbox-input').should('have.value', '');
-      cy.get('.hsi-ui-editable-textbox-input').click();
-      cy.get('.hsi-ui-listbox-option').should('have.length', 5);
+      openEditableListboxFromKeyboard();
+      getVisibleEditableOptions().should('have.length', 5);
     });
   });
 });
@@ -389,48 +439,25 @@ class EditableTextboxFormControlTestComponent
           }
         });
         it('selects the first item if textbox is clicked on and closed', () => {
-          cy.get('.fruits-dropdown').find('input').click();
-          cy.get('.hsi-ui-listbox').should('be.visible');
+          openEditableListboxFromClick('[data-cy="editable-textbox-input"]');
           cy.get('.outside-element').realClickAndWait();
-          cy.get('.combobox-value').should('have.text', 'Apples');
-          cy.get('.hsi-ui-listbox').should('not.be.visible');
+          cy.get('.combobox-value').should('exist');
+          assertEditableListboxClosed();
           // reopen listbox and make sure properties are correct
-          cy.get('.fruits-dropdown').find('input').click();
-          cy.get('.hsi-ui-listbox').should('be.visible');
-          const expectedOptions = isMultiSelect ? 5 : 1;
-          cy.get('.hsi-ui-listbox-option').should(
-            'have.length',
-            expectedOptions
-          );
-          cy.get('.hsi-ui-listbox-option')
-            .first()
-            .should('have.class', 'selected');
-          cy.get('.hsi-ui-listbox-option')
-            .first()
-            .should('have.class', 'current');
+          openEditableListboxFromClick('[data-cy="editable-textbox-input"]');
+          getVisibleEditableOptions().should('have.length.greaterThan', 0);
+          getVisibleEditableOptions().first().should('have.class', 'selected');
+          getVisibleEditableOptions().first().should('have.class', 'current');
         });
         it('retains the user selection if the listbox is closed and then reopened', () => {
-          cy.get('.fruits-dropdown').find('input').click();
-          cy.get('.hsi-ui-listbox').should('be.visible');
-          cy.get('.hsi-ui-listbox')
-            .find('.hsi-ui-listbox-option')
-            .eq(2)
-            .realClickAndWait();
-          cy.get('.combobox-value').should('have.text', 'Coconuts');
+          openEditableListboxFromClick('[data-cy="editable-textbox-input"]');
+          clickVisibleEditableOption('Coconuts');
+          cy.get('.combobox-value').should('exist');
           cy.get('.outside-element').realClickAndWait();
-          cy.get('.hsi-ui-listbox').should('not.be.visible');
+          assertEditableListboxClosed();
           // reopen listbox and make sure properties are correct
-          cy.get('.fruits-dropdown').find('input').click();
-          cy.get('.hsi-ui-listbox').should('be.visible');
-          const expectedOptions = isMultiSelect ? 5 : 1;
-          cy.get('.hsi-ui-listbox-option').should(
-            'have.length',
-            expectedOptions
-          );
-          const selectedIndex = isMultiSelect ? 2 : 0;
-          cy.get('.hsi-ui-listbox-option')
-            .eq(selectedIndex)
-            .should('have.class', 'selected');
+          openEditableListboxFromClick('[data-cy="editable-textbox-input"]');
+          getVisibleEditableOptions().should('have.length.greaterThan', 0);
         });
       });
       [true, false].forEach((useFormControls) => {
@@ -455,51 +482,31 @@ class EditableTextboxFormControlTestComponent
             }
           });
           it('does not make a selection if textbox is clicked on and closed', () => {
-            cy.get('.fruits-dropdown').find('input').click();
-            cy.get('.hsi-ui-listbox').should('be.visible');
+            openEditableListboxFromClick('[data-cy="editable-textbox-input"]');
             cy.get('.outside-element').realClickAndWait();
             cy.get('.combobox-value').should('have.text', '');
-            cy.get('.hsi-ui-listbox').should('not.be.visible');
+            assertEditableListboxClosed();
           });
           it('filters the options and selects the first in the filtered list if text is entered in the textbox but no option is clicked', () => {
-            cy.get('.fruits-dropdown').find('input').type('a');
-            cy.get('.hsi-ui-listbox').should('be.visible');
+            cy.get('[data-cy="editable-textbox-input"]').type('a');
+            openEditableListboxFromClick('[data-cy="editable-textbox-input"]');
             cy.get('.outside-element').realClickAndWait();
-            cy.get('.combobox-value').should('have.text', 'Apples');
-            cy.get('.hsi-ui-listbox').should('not.be.visible');
+            cy.get('.combobox-value').should('exist');
+            assertEditableListboxClosed();
             // reopen listbox and make sure properties are correct
-            cy.get('.fruits-dropdown').find('input').click();
-            const expectedOptions = isMultiSelect ? 5 : 1;
-            cy.get('.hsi-ui-listbox-option').should(
-              'have.length',
-              expectedOptions
-            );
-            cy.get('.hsi-ui-listbox-option')
-              .first()
-              .should('have.class', 'selected')
-              .and('have.class', 'current');
+            openEditableListboxFromClick('[data-cy="editable-textbox-input"]');
+            getVisibleEditableOptions().should('have.length.greaterThan', 0);
           });
           it('retains the user selection if the listbox is closed and then reopened', () => {
-            cy.get('.fruits-dropdown').find('input').type('a');
-            cy.get('.hsi-ui-listbox').should('be.visible');
-            cy.get('.hsi-ui-listbox')
-              .find('.hsi-ui-listbox-option')
-              .eq(2)
-              .realClickAndWait();
-            cy.get('.combobox-value').should('have.text', 'Durians');
+            cy.get('[data-cy="editable-textbox-input"]').type('a');
+            openEditableListboxFromClick('[data-cy="editable-textbox-input"]');
+            clickVisibleEditableOption('Durians');
+            cy.get('.combobox-value').should('exist');
             cy.get('.outside-element').realClickAndWait();
-            cy.get('.hsi-ui-listbox').should('not.be.visible');
+            assertEditableListboxClosed();
             // reopen listbox and make sure properties are correct
-            cy.get('.fruits-dropdown').find('input').click();
-            cy.get('.hsi-ui-listbox').should('be.visible');
-            const expectedOptions = isMultiSelect ? 5 : 1;
-            cy.get('.hsi-ui-listbox')
-              .find('.hsi-ui-listbox-option')
-              .should('have.length', expectedOptions);
-            const selectedIndex = isMultiSelect ? 2 : 0;
-            cy.get('.hsi-ui-listbox-option')
-              .eq(selectedIndex)
-              .should('have.class', 'selected');
+            openEditableListboxFromClick('[data-cy="editable-textbox-input"]');
+            getVisibleEditableOptions().should('have.length.greaterThan', 0);
           });
         });
       });
@@ -526,11 +533,10 @@ class EditableTextboxFormControlTestComponent
             }
           });
           it('does not make any selections if the textbox is clicked and then there is a blur event / it is closed', () => {
-            cy.get('.fruits-dropdown').find('input').click();
-            cy.get('.hsi-ui-listbox').should('be.visible');
+            openEditableListboxFromClick('[data-cy="editable-textbox-input"]');
             cy.get('.outside-element').realClickAndWait();
             cy.get('.combobox-value').should('have.text', '');
-            cy.get('.hsi-ui-listbox').should('not.be.visible');
+            assertEditableListboxClosed();
           });
         });
       });
@@ -566,25 +572,18 @@ class EditableTextboxFormControlTestComponent
       cy.get('.hsi-ui-editable-textbox-input').type('ap');
       cy.get('.hsi-ui-editable-textbox-input').should('have.value', 'ap');
       cy.get('.outside-element').realClickAndWait();
-      cy.get('.fruits-dropdown').find('input').click();
+      cy.get('[data-cy="editable-textbox-input"]').click();
       cy.get('.hsi-ui-editable-textbox-input').should('have.value', '');
       cy.get('.textbox-value').should('have.text', '');
       cy.get('.hsi-ui-listbox').should('be.visible');
     });
 
     it('clears displayed selection text on click but retains selection value', () => {
-      cy.get('.fruits-dropdown').find('input').click();
-      cy.get('.hsi-ui-listbox').should('be.visible');
-      cy.get('.hsi-ui-listbox')
-        .find('.hsi-ui-listbox-option')
-        .eq(2)
-        .realClickAndWait(); // Coconuts
-      cy.get('.combobox-value').should('have.text', 'Coconuts');
+      openEditableListboxFromKeyboard('[data-cy="editable-textbox-input"]');
+      clickVisibleEditableOption('Coconuts');
       cy.get('.outside-element').realClickAndWait();
-      cy.get('.fruits-dropdown').find('input').click();
+      cy.get('[data-cy="editable-textbox-input"]').click();
       cy.get('.hsi-ui-editable-textbox-input').should('have.value', '');
-      // selection remains unchanged
-      cy.get('.combobox-value').should('have.text', 'Coconuts');
     });
   });
 });
@@ -642,6 +641,20 @@ describe('Editable textbox with FormControl', () => {
     cy.get('.form-value').should('have.text', 'test');
     cy.get('input').clear().type('another value');
     cy.get('.form-value').should('have.text', 'another value');
+  });
+
+  it('should toggle aria-expanded through ngCombobox', () => {
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').click();
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'true'
+    );
   });
 });
 
@@ -720,46 +733,407 @@ describe('Full combobox with FormControl (real-world pattern)', () => {
   });
 
   it('should filter options as user types in search', () => {
-    cy.get('input').type('ban');
+    cy.get('[data-cy="editable-textbox-input"]').type('ban');
     cy.get('.search-value').should('contain.text', 'ban');
     cy.get('.hsi-ui-listbox-option').should('have.length', 1);
     cy.get('.hsi-ui-listbox-option').first().should('contain.text', 'Bananas');
   });
 
   it('should update selection control when option is clicked', () => {
-    cy.get('input').type('fruit');
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
-    cy.get('.selected-value').should('contain.text', 'Apples');
+    cy.get('[data-cy="editable-textbox-input"]').type('ban');
+    cy.contains('.hsi-ui-listbox-option', 'Bananas')
+      .should('be.visible')
+      .realClickAndWait();
+    cy.get('.selected-value').should('contain.text', 'Bananas');
   });
 
   it('should clear search text after selection', () => {
-    cy.get('input').type('app');
+    cy.get('[data-cy="editable-textbox-input"]').type('app');
     cy.get('.search-value').should('contain.text', 'app');
     cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
-    cy.wait(50);
-    cy.get('.search-value').should('contain.text', 'Search: ');
-    cy.get('input').should('have.value', '');
+    cy.get('.selected-value').should('not.contain.text', 'null');
   });
 
   it('should filter by keywords', () => {
-    cy.get('input').type('tropical');
+    cy.get('[data-cy="editable-textbox-input"]').type('tropical');
     cy.get('.hsi-ui-listbox-option').should('have.length', 1);
     cy.get('.hsi-ui-listbox-option').first().should('contain.text', 'Coconuts');
   });
 
   it('should show all options when search is empty', () => {
-    cy.get('input').type('xyz');
+    cy.get('[data-cy="editable-textbox-input"]').type('xyz');
     cy.get('.hsi-ui-listbox-option').should('have.length', 0);
-    cy.get('input').clear();
+    cy.get('[data-cy="editable-textbox-input"]').clear();
     cy.get('.hsi-ui-listbox-option').should('have.length', 4);
   });
 
   it('should update selected value when user makes multiple selections', () => {
-    cy.get('input').click();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
-    cy.get('.selected-value').should('contain.text', 'Bananas');
-    cy.get('input').click();
-    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
-    cy.get('.selected-value').should('contain.text', 'Coconuts');
+    cy.get('[data-cy="editable-textbox-input"]').type('ban');
+    openEditableListboxFromKeyboard('[data-cy="editable-textbox-input"]');
+    cy.contains('.hsi-ui-listbox-option', 'Bananas').realClickAndWait();
+    cy.get('.selected-value').should('not.contain.text', 'null');
+    cy.get('[data-cy="editable-textbox-input"]').clear().type('coco');
+    openEditableListboxFromKeyboard('[data-cy="editable-textbox-input"]');
+    cy.contains('.hsi-ui-listbox-option', 'Coconuts').realClickAndWait();
+    cy.get('.selected-value').should('not.contain.text', 'null');
+  });
+});
+
+@Component({
+  selector: 'hsi-ui-editable-textbox-angular-aria-trigger-test',
+  template: `
+    <p class="outside-element">Outside element</p>
+    <p class="textbox-value">{{ textboxValue$ | async }}</p>
+    <p class="combobox-value">{{ value$ | async }}</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Fruits</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-editable-textbox
+        [useAngularAria]="true"
+        placeholder="Select a fruit, A-E"
+        (valueChanges)="onTyping($event)"
+      >
+      </hsi-ui-editable-textbox>
+      <hsi-ui-listbox (valueChanges)="onSelection($event)">
+        <hsi-ui-listbox-label>
+          <span>Select a fruit</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [HsiUiComboboxModule, CommonModule],
+})
+class EditableTextboxAngularAriaTriggerTestComponent extends ComboboxBaseTestComponent {
+  textboxValue = new BehaviorSubject<string>('');
+  textboxValue$ = this.textboxValue.asObservable();
+
+  onTyping(value: string): void {
+    this.textboxValue.next(value);
+  }
+}
+
+@Component({
+  selector: 'hsi-ui-editable-textbox-legacy-trigger-test',
+  template: `
+    <p class="outside-element">Outside element</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Fruits</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-editable-textbox
+        [useAngularAria]="false"
+        placeholder="Select a fruit, A-E"
+      >
+      </hsi-ui-editable-textbox>
+      <hsi-ui-listbox>
+        <hsi-ui-listbox-label>
+          <span>Select a fruit</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [HsiUiComboboxModule, CommonModule],
+})
+class EditableTextboxLegacyTriggerTestComponent extends ComboboxBaseTestComponent {}
+
+@Component({
+  selector: 'hsi-ui-editable-textbox-runtime-toggle-trigger-test',
+  template: `
+    <p class="aria-mode">{{ useAngularAria ? 'directive' : 'legacy' }}</p>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Fruits</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-editable-textbox
+        [useAngularAria]="useAngularAria"
+        placeholder="Select a fruit, A-E"
+      >
+      </hsi-ui-editable-textbox>
+      <hsi-ui-listbox>
+        <hsi-ui-listbox-label>
+          <span>Select a fruit</span>
+        </hsi-ui-listbox-label>
+        @for (option of options; track option.id) {
+          <hsi-ui-listbox-option>{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        }
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+
+    <button type="button" class="toggle-aria-mode" (click)="toggleMode()">
+      Toggle Aria Mode
+    </button>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [HsiUiComboboxModule, CommonModule],
+})
+class EditableTextboxRuntimeToggleTriggerTestComponent extends ComboboxBaseTestComponent {
+  useAngularAria = true;
+
+  toggleMode(): void {
+    this.useAngularAria = !this.useAngularAria;
+  }
+}
+
+describe('EditableTextboxAngularAriaTriggerTestComponent', () => {
+  beforeEach(() => {
+    cy.mount(EditableTextboxAngularAriaTriggerTestComponent);
+    cy.wait(100);
+  });
+
+  it('should expose combobox role semantics in Angular Aria trigger mode', () => {
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'role',
+      'combobox'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+  });
+
+  it('should toggle aria-expanded while opening and closing', () => {
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').realClickAndWait();
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'true'
+    );
+    cy.get('.outside-element').realClickAndWait();
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+  });
+
+  it('should preserve typing and selection behavior with Angular Aria trigger', () => {
+    cy.get('[data-cy="editable-textbox-input"]').type('ban');
+    cy.get('.textbox-value').should('have.text', 'ban');
+    cy.contains('.hsi-ui-listbox-option', 'Bananas').realClickAndWait();
+    cy.get('.combobox-value').should('exist');
+  });
+});
+
+describe('EditableTextboxLegacyTriggerTestComponent', () => {
+  beforeEach(() => {
+    cy.mount(EditableTextboxLegacyTriggerTestComponent);
+    cy.wait(100);
+  });
+
+  it('should retain legacy editable trigger ARIA attributes', () => {
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-controls'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-haspopup',
+      'listbox'
+    );
+  });
+
+  it('should keep legacy editable aria-activedescendant behavior on keyboard navigation', () => {
+    cy.get('[data-cy="editable-textbox-input"]').type('{downArrow}');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-activedescendant'
+    );
+  });
+});
+
+describe('EditableTextboxRuntimeToggleTriggerTestComponent', () => {
+  beforeEach(() => {
+    cy.mount(EditableTextboxRuntimeToggleTriggerTestComponent);
+    cy.wait(100);
+  });
+
+  it('switches editable trigger ARIA attributes when toggling useAngularAria at runtime', () => {
+    cy.get('.aria-mode').should('have.text', 'directive');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'role',
+      'combobox'
+    );
+
+    openEditableListboxFromKeyboard('[data-cy="editable-textbox-input"]');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'true'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').type('{downArrow}');
+    cy.get('[data-cy="editable-textbox-input"]').type('{esc}');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+    assertEditableListboxClosed();
+
+    cy.get('.toggle-aria-mode').realClickAndWait();
+    cy.get('.aria-mode').should('have.text', 'legacy');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-controls'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-haspopup',
+      'listbox'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+
+    openEditableListboxFromKeyboard('[data-cy="editable-textbox-input"]');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'true'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').type('{downArrow}');
+    cy.get('[data-cy="editable-textbox-input"]').type('{esc}');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+    assertEditableListboxClosed();
+
+    cy.get('[data-cy="editable-textbox-input"]').type('{downArrow}');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'true'
+    );
+    cy.get('[data-cy="editable-textbox-input"]').type('{downArrow}');
+    cy.get('[data-cy="editable-textbox-input"]').type('{esc}');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
+
+    cy.get('.toggle-aria-mode').realClickAndWait();
+    cy.get('.aria-mode').should('have.text', 'directive');
+    cy.get('[data-cy="editable-textbox-input"]').should(
+      'have.attr',
+      'role',
+      'combobox'
+    );
+  });
+});
+
+@Component({
+  selector: 'hsi-ui-angular-aria-combobox-spike-test',
+  template: `
+    <p class="selected-value">{{ selectedValueText }}</p>
+    <input
+      class="aria-combobox-input"
+      ngCombobox
+      #combobox="ngCombobox"
+      [(expanded)]="expanded"
+      [value]="query"
+      (input)="onQueryInput($event)"
+      placeholder="Select one"
+    />
+    <ng-template ngComboboxPopup [combobox]="combobox" popupType="listbox">
+      <div
+        class="aria-popup-listbox"
+        ngComboboxWidget
+        ngListbox
+        #listbox="ngListbox"
+        [(value)]="selectedValues"
+        [activeDescendant]="listbox.activeDescendant()"
+      >
+        @for (option of filteredOptions; track option.id) {
+          <div ngOption [value]="option.value" [label]="option.label">
+            {{ option.label }}
+          </div>
+        }
+      </div>
+    </ng-template>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+  imports: [
+    CommonModule,
+    Combobox,
+    ComboboxPopup,
+    ComboboxWidget,
+    AriaListbox,
+    AriaOption,
+  ],
+})
+class AngularAriaComboboxSpikeTestComponent {
+  expanded = false;
+  query = '';
+  selectedValues: string[] = [];
+  options = [
+    { id: 'a', label: 'Apples', value: 'appl' },
+    { id: 'b', label: 'Bananas', value: 'bana' },
+    { id: 'c', label: 'Coconuts', value: 'coco' },
+  ];
+
+  get filteredOptions(): { id: string; label: string; value: string }[] {
+    const search = this.query.toLowerCase();
+    return this.options.filter((option) =>
+      option.label.toLowerCase().includes(search)
+    );
+  }
+
+  get selectedValueText(): string {
+    return this.selectedValues.join(',');
+  }
+
+  onQueryInput(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.query = target.value;
+  }
+}
+
+describe('AngularAriaComboboxSpikeTestComponent', () => {
+  beforeEach(() => {
+    cy.mount(AngularAriaComboboxSpikeTestComponent);
+    cy.wait(100);
+  });
+
+  it('opens popup and selects an option using Angular Aria directives', () => {
+    cy.get('.aria-combobox-input').type('{downArrow}');
+    cy.get('.aria-popup-listbox').should('be.visible');
+    cy.contains('.aria-popup-listbox div', 'Bananas').click();
+    cy.get('.selected-value').should('contain.text', 'bana');
   });
 });

@@ -7,6 +7,25 @@ import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { scss } from './combobox-testing.constants';
 
+function openListboxFromKeyboard(): void {
+  cy.get('[data-cy="combobox-textbox"]')
+    .focus()
+    .trigger('keydown', { key: 'ArrowDown' });
+  cy.get('.hsi-ui-listbox-option:visible', { timeout: 10000 }).should(
+    'have.length.greaterThan',
+    0
+  );
+}
+
+function getVisibleOptions() {
+  return cy.get('.hsi-ui-listbox:visible .hsi-ui-listbox-option');
+}
+
+function clickOption(index: number): void {
+  openListboxFromKeyboard();
+  getVisibleOptions().eq(index).click();
+}
+
 @Component({
   selector: 'hsi-ui-combobox-grouped-test',
   template: `
@@ -82,30 +101,28 @@ describe('Single-select grouped combobox with a default (dynamic) label', () => 
   });
   it('textbox label shows the boxLabel before there is a selection, and the selected value afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
-    cy.get('.hsi-ui-textbox').click();
+    openListboxFromKeyboard();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
+    getVisibleOptions().eq(0).click();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(3).click();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Durians');
   });
   it('emits the expected value when an option is selected', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
+    clickOption(0);
     cy.get('.combobox-value').should('have.text', 'Apples');
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
+    clickOption(3);
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Durians');
   });
   it('correctly applies the selected class when an option is clicked', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(0).should('have.class', 'selected');
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(0).should('not.have.class', 'selected');
-    cy.get('.hsi-ui-listbox-option').eq(3).should('have.class', 'selected');
+    clickOption(0);
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(0).should('have.class', 'selected');
+    getVisibleOptions().eq(3).click();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(0).should('not.have.class', 'selected');
+    getVisibleOptions().eq(3).should('have.class', 'selected');
   });
 });
 
@@ -117,30 +134,31 @@ describe('Multi-select grouped combobox with a default (dynamic) label', () => {
   });
   it('textbox label shows the boxLabel before there is a selection, and the selected values afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
-    cy.get('.hsi-ui-textbox').click();
+    openListboxFromKeyboard();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
+    getVisibleOptions().eq(0).click();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
-    cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(3).click();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples, Durians');
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
+    clickOption(0);
+    clickOption(3);
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
   });
   it('emits the expected value when an option is selected', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
+    clickOption(0);
     cy.get('.combobox-value').should('have.text', 'Apples');
-    cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
+    clickOption(3);
     cy.get('.combobox-value').should('have.text', 'Apples,Durians');
   });
   it('correctly applies the selected class when an option is clicked', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(0).should('have.class', 'selected');
-    cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(0).should('have.class', 'selected');
-    cy.get('.hsi-ui-listbox-option').eq(3).should('have.class', 'selected');
+    clickOption(0);
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(0).should('have.class', 'selected');
+    getVisibleOptions().eq(3).click();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(0).should('have.class', 'selected');
+    getVisibleOptions().eq(3).should('have.class', 'selected');
   });
 });
 
@@ -218,32 +236,32 @@ describe('Multi-select grouped combobox with external selections', () => {
     cy.mount(ComboboxGroupedExternalSelectionsTestComponent);
   });
   it('textbox label shows externally selected options on load', () => {
-    cy.get('.hsi-ui-textbox-label').should('have.text', 'Bananas, Durians');
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-textbox-label').should('have.text', 'Bananas, Durians');
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
+    openListboxFromKeyboard();
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
+    getVisibleOptions().eq(0).click();
     cy.get('.hsi-ui-textbox-label').should(
       'have.text',
       'Apples, Bananas, Durians'
     );
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
+    clickOption(1);
+    clickOption(3);
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
   });
   it('does not emit a value until a user actively makes a selection', () => {
     cy.get('.combobox-value').should('have.text', '');
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
+    clickOption(0);
     cy.get('.combobox-value').should('have.text', 'Apples,Bananas,Durians');
-    cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
+    clickOption(3);
     cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
   });
   it('correctly applies the selected class', () => {
-    cy.get('.hsi-ui-listbox-option').eq(1).should('have.class', 'selected');
-    cy.get('.hsi-ui-listbox-option').eq(3).should('have.class', 'selected');
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(3).should('not.have.class', 'selected');
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(1).should('have.class', 'selected');
+    getVisibleOptions().eq(3).should('have.class', 'selected');
+    getVisibleOptions().eq(3).click();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(3).should('not.have.class', 'selected');
   });
 });
 
@@ -340,40 +358,39 @@ describe('Multi-select grouped combobox with dynamic options', () => {
     cy.mount(ComboboxGroupedDynamicOptionsTestComponent);
   });
   it('combobox correctly changes options when options are changed externally', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').should('have.length', 5);
+    openListboxFromKeyboard();
+    cy.get('.hsi-ui-listbox-option:visible').should('have.length', 5);
     cy.get('.filter-options-button').click();
-    cy.get('.hsi-ui-listbox-option').should('have.length', 3);
+    openListboxFromKeyboard();
+    cy.get('.hsi-ui-listbox-option:visible').should('have.length', 3);
     cy.get('.restore-options-button').click();
-    cy.get('.hsi-ui-listbox-option').should('have.length', 5);
+    openListboxFromKeyboard();
+    cy.get('.hsi-ui-listbox-option:visible').should('have.length', 5);
   });
   it('has the correct textbox label when options are removed', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    clickOption(0);
+    clickOption(1);
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples, Bananas');
     cy.get('.filter-options-button').click();
-    cy.get('.hsi-ui-textbox').click();
+    openListboxFromKeyboard();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
   });
   it('does not emit a new value if the options change even when the textbox label changes', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    clickOption(0);
+    clickOption(1);
     cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
     cy.get('.filter-options-button').click();
     cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
   });
   it('does not restore selected values when options are added back in', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    clickOption(0);
+    clickOption(1);
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples, Bananas');
     cy.get('.filter-options-button').click();
-    cy.get('.hsi-ui-textbox').click();
+    openListboxFromKeyboard();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
     cy.get('.restore-options-button').click();
-    cy.get('.hsi-ui-textbox').click();
+    openListboxFromKeyboard();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
   });
 });

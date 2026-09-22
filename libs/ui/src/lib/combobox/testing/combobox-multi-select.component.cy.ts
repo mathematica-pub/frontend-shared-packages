@@ -9,6 +9,25 @@ import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
+function openListboxFromKeyboard(): void {
+  cy.get('[data-cy="combobox-textbox"]')
+    .focus()
+    .trigger('keydown', { key: 'ArrowDown' });
+  cy.get('.hsi-ui-listbox-option:visible', { timeout: 10000 }).should(
+    'have.length.greaterThan',
+    0
+  );
+}
+
+function getVisibleOptions() {
+  return cy.get('.hsi-ui-listbox:visible .hsi-ui-listbox-option');
+}
+
+function clickOption(index: number): void {
+  openListboxFromKeyboard();
+  getVisibleOptions().eq(index).click();
+}
+
 @Component({
   selector: 'hsi-ui-combobox-simple-multi-test',
   template: `
@@ -69,28 +88,36 @@ describe('Default multi-select combobox', () => {
   beforeEach(() => {
     cy.mount(ComboboxSimpleMultiSelectTestComponent);
   });
+  it('should expose listbox and option roles from directive wiring', () => {
+    openListboxFromKeyboard();
+    cy.get('.hsi-ui-listbox').should('have.attr', 'role', 'listbox');
+    getVisibleOptions().first().should('have.attr', 'role', 'option');
+  });
   it('the current class is on the first selected option if there is one or on the 0th option once opened', () => {
-    cy.get('.hsi-ui-textbox').realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').first().should('have.class', 'current');
+    openListboxFromKeyboard();
+    getVisibleOptions().first().should('have.class', 'current');
     cy.get('.hsi-ui-textbox').type('{esc}');
-    cy.get('.hsi-ui-listbox').should('not.be.visible');
-    cy.get('.hsi-ui-textbox').realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(2).should('have.class', 'selected');
-    cy.get('.hsi-ui-listbox-option').eq(2).should('have.class', 'current');
+    cy.get('body').then(($body) => {
+      cy.wrap($body.find('.hsi-ui-listbox:visible')).should('have.length', 0);
+    });
+    clickOption(2);
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(2).should('have.class', 'selected');
     cy.get('.hsi-ui-textbox').type('{esc}');
-    cy.get('.hsi-ui-textbox').realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(2).should('have.class', 'current');
-    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(2).click();
     cy.get('.hsi-ui-textbox').type('{esc}');
-    cy.get('.hsi-ui-textbox').realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(0).should('have.class', 'current');
-    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(3).should('have.class', 'current');
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(2).should('not.have.class', 'selected');
+    getVisibleOptions().eq(2).click();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(3).click();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(2).should('have.class', 'selected');
+    getVisibleOptions().eq(3).should('have.class', 'selected');
     cy.get('.hsi-ui-textbox').type('{esc}');
-    cy.get('.hsi-ui-textbox').realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(2).should('have.class', 'current');
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(2).should('have.class', 'selected');
   });
 });
 
@@ -221,8 +248,7 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
 
   it('the textbox has the correct label and it changes with change in input selected property', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', '0 fruits selected');
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
+    clickOption(0);
     cy.get('.hsi-ui-textbox-label').should('have.text', '1 fruit selected');
     cy.get('.select-coconut-button').realClickAndWait();
     cy.get('.hsi-ui-textbox-label').should('have.text', '2 fruits selected');
@@ -231,21 +257,19 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
   });
 
   it('the combobox should not emit with external change in input selected property', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
+    clickOption(0);
     cy.get('.combobox-value').should('have.text', 'Apples');
     cy.get('.select-coconut-button').click();
     cy.get('.combobox-value').should('have.text', 'Apples');
   });
 
   it('the combobox should emit with clicking on options', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
+    clickOption(0);
     cy.get('.combobox-value').should('have.text', 'Apples');
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(4).realClickAndWait();
+    clickOption(1);
+    clickOption(2);
+    clickOption(3);
+    clickOption(4);
     cy.get('.combobox-value').should(
       'have.text',
       'Apples,Bananas,Coconuts,Durians,Elderberries'
@@ -254,13 +278,11 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
   });
 
   it('combobox should emit the correct selection if there is a click after the selection status is changed programmatically', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
+    clickOption(0);
     cy.get('.hsi-ui-textbox-label').should('have.text', '1 fruit selected');
     cy.get('.select-coconut-button').click();
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(3).realClickAndWait();
+    clickOption(1);
+    clickOption(3);
     cy.get('.combobox-value').should(
       'have.text',
       'Apples,Bananas,Coconuts,Durians'
@@ -268,15 +290,13 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
   });
 
   it('combobox should emit correctly if there is a click after the selection status is changed programmatically and the new value is the same as the old', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
+    clickOption(0);
     cy.get('.hsi-ui-textbox-label').should('have.text', '1 fruit selected');
     cy.get('.select-coconut-button').realClickAndWait();
     cy.get('.combobox-value').should('have.text', 'Apples');
     cy.get('.clear-value-button').click();
     cy.get('.combobox-value').should('have.text', '');
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
+    clickOption(2);
     cy.get('.combobox-value').should('have.text', 'Apples');
   });
 });
@@ -335,11 +355,21 @@ class ComboboxMultiSelectDisabledOptionsComponent extends ComboboxBaseTestCompon
     this.addToArray(2, 'selected');
   }
 
+  deselectCoconut() {
+    this.removeFromArray(2, 'selected');
+  }
+
   addToArray(i: number, array: 'selected' | 'disabled'): void {
     const curr = this[array].value;
     if (!curr.includes(this.options[i].displayName)) {
       this[array].next([...curr, this.options[i].displayName]);
     }
+  }
+
+  removeFromArray(i: number, array: 'selected' | 'disabled'): void {
+    this[array].next(
+      this[array].value.filter((x) => x !== this.options[i].displayName)
+    );
   }
 }
 
@@ -347,27 +377,35 @@ describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxMultiSelectDisabledOptionsComponent);
   });
+  it('exposes disabled option semantics', () => {
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(2).should('have.attr', 'aria-disabled', 'true');
+    getVisibleOptions().eq(4).should('have.attr', 'aria-disabled', 'true');
+    getVisibleOptions().eq(0).should('have.attr', 'aria-disabled', 'false');
+  });
   it('can select non-disabled options', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    clickOption(0);
+    clickOption(1);
     cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
   });
   it('cannot select disabled options / disabled options have correct class', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(2).should('have.class', 'disabled');
-    cy.get('.hsi-ui-listbox-option').eq(4).should('have.class', 'disabled');
-    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(4).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(2).should('not.have.class', 'selected');
-    cy.get('.hsi-ui-listbox-option').eq(4).should('not.have.class', 'selected');
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(2).should('have.class', 'disabled');
+    getVisibleOptions().eq(4).should('have.class', 'disabled');
+    getVisibleOptions().eq(2).click();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(4).click();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(2).should('not.have.class', 'selected');
+    getVisibleOptions().eq(4).should('not.have.class', 'selected');
     cy.get('.combobox-value').should('not.have.text', 'Coconuts,Elderberries');
   });
   it('cannot change selected property of disabled options from the outside', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(2).should('have.class', 'disabled');
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(2).should('have.class', 'disabled');
     cy.get('.select-coconut-button').click();
-    cy.get('.hsi-ui-listbox-option').eq(2).should('not.have.class', 'selected');
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(2).should('not.have.class', 'selected');
     cy.get('.combobox-value').should('not.have.text', 'Coconuts');
   });
 });
@@ -435,38 +473,37 @@ describe('NgFormListboxMultiTestComponent', () => {
     cy.mount(NgFormListboxMultiTestComponent);
   });
   it('can make more than one selection', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    clickOption(0);
+    clickOption(1);
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples, Bananas');
-    cy.get('.hsi-ui-listbox-option').first().should('have.class', 'selected');
-    cy.get('.hsi-ui-listbox-option').eq(1).should('have.class', 'selected');
+    openListboxFromKeyboard();
+    getVisibleOptions().first().should('have.class', 'selected');
+    getVisibleOptions().eq(1).should('have.class', 'selected');
   });
   it('can unselect selections', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    clickOption(0);
+    clickOption(1);
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples, Bananas');
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    clickOption(0);
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Bananas');
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    clickOption(1);
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit, A-E');
-    cy.get('.hsi-ui-listbox-option')
-      .first()
-      .should('not.have.class', 'selected');
-    cy.get('.hsi-ui-listbox-option').eq(1).should('not.have.class', 'selected');
+    openListboxFromKeyboard();
+    getVisibleOptions().first().should('not.have.class', 'selected');
+    getVisibleOptions().eq(1).should('not.have.class', 'selected');
   });
   it('clicking outside the combobox should close the listbox', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    clickOption(0);
+    openListboxFromKeyboard();
     cy.get('.hsi-ui-listbox').should('be.visible');
     cy.get('.display-control-values').realClickAndWait();
-    cy.get('.hsi-ui-listbox').should('not.be.visible');
+    cy.get('body').then(($body) => {
+      cy.wrap($body.find('.hsi-ui-listbox:visible')).should('have.length', 0);
+    });
   });
   it('should have correct control values', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    clickOption(0);
+    clickOption(1);
     cy.get('.display-control-values').realClickAndWait();
     cy.get('.display-control-values').should('have.text', 'appl, bana');
   });
@@ -521,27 +558,24 @@ describe('Multi-select with FormControl', () => {
   });
 
   it('should update form control when option is clicked', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    clickOption(0);
     cy.get('.form-value').should('contain.text', '"appl"');
   });
 
   it('should support multiple selections', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
+    clickOption(0);
+    clickOption(2);
     cy.get('.form-value').should('contain.text', '"appl"');
     cy.get('.form-value').should('contain.text', '"coco"');
   });
 
   it('should toggle selection on click', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').first().should('have.class', 'selected');
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
-    cy.get('.hsi-ui-listbox-option')
-      .first()
-      .should('not.have.class', 'selected');
+    clickOption(0);
+    openListboxFromKeyboard();
+    getVisibleOptions().first().should('have.class', 'selected');
+    getVisibleOptions().first().click();
+    openListboxFromKeyboard();
+    getVisibleOptions().first().should('not.have.class', 'selected');
     cy.get('.form-value').should('have.text', '[]');
   });
 });
@@ -604,21 +638,18 @@ describe('Multi-select with boolean array FormControl', () => {
   });
 
   it('should update form array when option is clicked', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    clickOption(0);
     cy.get('.form-value').should('have.text', '[true,false,false,false,false]');
   });
 
   it('should support multiple selections with boolean array', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
+    clickOption(0);
+    clickOption(2);
     cy.get('.form-value').should('have.text', '[true,false,true,false,false]');
   });
 
   it('should properly map selections by index', () => {
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(4).realClickAndWait();
+    clickOption(4);
     cy.get('.form-value').should('have.text', '[false,false,false,false,true]');
   });
 });

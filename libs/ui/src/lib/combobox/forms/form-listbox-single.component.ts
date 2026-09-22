@@ -1,3 +1,5 @@
+import { ComboboxPopup, ComboboxWidget } from '@angular/aria/combobox';
+import { Listbox, Option } from '@angular/aria/listbox';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -24,7 +26,7 @@ import { ListboxComponent } from '../listbox/listbox.component';
 @Component({
   selector: 'hsi-ui-form-listbox-single',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ComboboxPopup, ComboboxWidget, Listbox, Option],
   providers: [
     ListboxFilteringService,
     ListboxScrollService,
