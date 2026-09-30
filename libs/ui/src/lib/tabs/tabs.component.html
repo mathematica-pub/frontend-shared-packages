@@ -9,6 +9,8 @@
         (keydown)="handleKeydown($event, item)"
         [attr.aria-selected]="activeTab === item"
         [class.active]="activeTab === item"
+        [attr.aria-disabled]="item.isDisabled"
+        [class.disabled]="item.isDisabled"
         aria-controls="tabs-component-body"
         data-cy="level"
       >

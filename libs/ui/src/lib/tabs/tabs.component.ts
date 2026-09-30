@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
+  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   DestroyRef,
+  ElementRef,
   EventEmitter,
   Output,
   QueryList,
   inject,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable, map, startWith } from 'rxjs';
@@ -31,6 +32,7 @@ export class TabsComponent<T> implements AfterContentInit {
 
   public readonly service: TabsService<T>;
   private destroyRef = inject(DestroyRef);
+  private elRef = inject(ElementRef<HTMLElement>);
 
   constructor() {
     this.service = inject(TabsService<T>);
@@ -47,12 +49,18 @@ export class TabsComponent<T> implements AfterContentInit {
 
   initializeActiveTab(): void {
     if (!this.service.activeTab.value) {
-      this.service.activeTab.next(this.tabs.first);
+      const firstEnabledTab = this.tabs
+        .toArray()
+        .find((tabItem) => !tabItem.isDisabled);
+
+      if (firstEnabledTab) {
+        this.service.activeTab.next(firstEnabledTab);
+      }
     }
   }
 
   selectTab(tabItem: TabItemComponent<T>): void {
-    if (this.service.activeTab.value !== tabItem) {
+    if (this.service.activeTab.value !== tabItem && !tabItem.isDisabled) {
       this.service.activeTab.next(tabItem);
       this.emitNewActiveTab(tabItem);
     }
@@ -61,7 +69,7 @@ export class TabsComponent<T> implements AfterContentInit {
   emitNewActiveTab(tabItem: TabItemComponent<T>): void {
     const value =
       tabItem.value ??
-      tabItem.labelComponent.labelElement.nativeElement.innerText;
+      tabItem.labelComponent?.labelElement?.nativeElement?.innerText;
     this.tabChange.emit(value);
   }
 
@@ -109,7 +117,18 @@ export class TabsComponent<T> implements AfterContentInit {
   }
 
   focusTab(tabItem: TabItemComponent<T>): void {
-    tabItem.labelComponent.labelElement.nativeElement.parentElement?.focus();
+    const tabIndex = this.tabs.toArray().indexOf(tabItem);
+    const tabElements = this.elRef.nativeElement.querySelectorAll(
+      '.tab-label-container'
+    );
+    const tabElement = tabElements.item(tabIndex) as HTMLElement | null;
+
+    if (tabElement) {
+      tabElement.focus();
+      return;
+    }
+
+    tabItem.labelComponent?.labelElement?.nativeElement?.parentElement?.focus();
   }
 
   focusNextTab(tabIndex: number): void {

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ContentChild,
   ContentChildren,
@@ -15,7 +16,6 @@ import {
   QueryList,
   SimpleChanges,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
@@ -319,7 +319,10 @@ export class ListboxComponent
     option: ListboxOptionComponent,
     options: ListboxOptionComponent[]
   ): void {
-    if (option.isSelected()) return;
+    if (option.isSelected()) {
+      this.updateSelectedOptionsToEmit(options);
+      return;
+    }
     options.forEach((o) => {
       if (o !== option) {
         o.deselect();

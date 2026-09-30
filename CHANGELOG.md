@@ -1,3 +1,18 @@
+## 2.4.0 (2026-09-30)
+
+### 🚀 Features
+
+- add ng form wrapper to combobox components ([5a102ea9](https://github.com/mathematica-pub/frontend-shared-packages/commit/5a102ea9))
+- support disabling on tabs ([fb6e02e5](https://github.com/mathematica-pub/frontend-shared-packages/commit/fb6e02e5))
+
+### 🩹 Fixes
+
+- preserve input text on selection ([979d2c07](https://github.com/mathematica-pub/frontend-shared-packages/commit/979d2c07))
+
+### ❤️ Thank You
+
+- Claire McShane
+
 ## 2.3.2 (2026-09-11)
 
 ### 🩹 Fixes

@@ -1,10 +1,10 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ContentChild,
   Input,
   OnChanges,
   inject,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { TabBodyComponent } from './tab-body.component';
 import { TabLabelComponent } from './tab-label.component';
@@ -17,6 +17,7 @@ import { TabsService } from './tabs.service';
 })
 export class TabItemComponent<T> implements OnChanges {
   @Input() isActive = false;
+  @Input() isDisabled = false;
   @Input() value: T;
   @ContentChild(TabBodyComponent) bodyComponent: TabBodyComponent;
   @ContentChild(TabLabelComponent) labelComponent: TabLabelComponent;
@@ -24,7 +25,7 @@ export class TabItemComponent<T> implements OnChanges {
   private service = inject(TabsService<T>);
 
   ngOnChanges(): void {
-    if (this.isActive) {
+    if (this.isActive && !this.isDisabled) {
       this.service.activeTab.next(this);
     }
   }
