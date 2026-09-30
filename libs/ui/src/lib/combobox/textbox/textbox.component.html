@@ -1,41 +1,82 @@
-<div
-  #box
-  class="hsi-ui-textbox-container"
-  role="combobox"
-  tabindex="0"
-  [id]="service.id + '-textbox'"
-  data-cy="combobox-textbox"
-  (click)="handleClick()"
-  (blur)="handleBlur($event)"
-  (keydown)="handleKeydown($event)"
-  [attr.aria-label]="
-    (service.label$ | async) === null
-      ? ariaLabel || service.isMultiSelect
-        ? 'Select options'
-        : 'Select an option'
-      : null
-  "
-  [attr.aria-labelledby]="
-    (service.label$ | async) !== null ? service.comboboxLabelId : null
-  "
-  [attr.aria-activedescendant]="service.activeDescendant$ | async"
-  [attr.aria-expanded]="service.isOpen$ | async"
-  [attr.aria-controls]="service.id + '-listbox'"
-  aria-haspopup="listbox"
-  [class.open]="service.isOpen$ | async"
-  >@if (dynamicLabel && !!(label$ | async)) {
-    <div
-      class="hsi-ui-textbox-label"
-      data-cy="textbox-label"
-      >{{ label$ | async }}</div>
-  } @else {
-    <div class="hsi-ui-textbox-label" data-cy="textbox-label">
-      <ng-content select="[boxLabel]"></ng-content>
-    </div>
-  }
+@if (useAngularAria) {
   <div
-    #boxIcon
-    class="hsi-ui-textbox-icon"
+    #box
+    class="hsi-ui-textbox-container"
+    ngCombobox
+    [(expanded)]="expanded"
+    tabindex="0"
+    [id]="service.id + '-textbox'"
+    data-cy="combobox-textbox"
+    (click)="handleClick()"
+    (blur)="handleBlur($event)"
+    (keydown)="handleKeydown($event)"
+    [attr.aria-label]="
+      (service.label$ | async) === null
+        ? ariaLabel || service.isMultiSelect
+          ? 'Select options'
+          : 'Select an option'
+        : null
+    "
+    [attr.aria-labelledby]="
+      (service.label$ | async) !== null ? service.comboboxLabelId : null
+    "
     [class.open]="service.isOpen$ | async"
-    ><ng-content select="[boxIcon]"></ng-content></div
-></div>
+  >
+    @if (dynamicLabel && !!(label$ | async)) {
+      <div class="hsi-ui-textbox-label" data-cy="textbox-label">{{
+        label$ | async
+      }}</div>
+    } @else {
+      <div class="hsi-ui-textbox-label" data-cy="textbox-label">
+        <ng-content select="[boxLabel]"></ng-content>
+      </div>
+    }
+    <div
+      #boxIcon
+      class="hsi-ui-textbox-icon"
+      [class.open]="service.isOpen$ | async"
+      ><ng-content select="[boxIcon]"></ng-content></div
+  ></div>
+} @else {
+  <div
+    #box
+    class="hsi-ui-textbox-container"
+    role="combobox"
+    tabindex="0"
+    [id]="service.id + '-textbox'"
+    data-cy="combobox-textbox"
+    (click)="handleClick()"
+    (blur)="handleBlur($event)"
+    (keydown)="handleKeydown($event)"
+    [attr.aria-label]="
+      (service.label$ | async) === null
+        ? ariaLabel || service.isMultiSelect
+          ? 'Select options'
+          : 'Select an option'
+        : null
+    "
+    [attr.aria-labelledby]="
+      (service.label$ | async) !== null ? service.comboboxLabelId : null
+    "
+    [attr.aria-activedescendant]="service.activeDescendant$ | async"
+    [attr.aria-expanded]="service.isOpen$ | async"
+    [attr.aria-controls]="service.id + '-listbox'"
+    aria-haspopup="listbox"
+    [class.open]="service.isOpen$ | async"
+  >
+    @if (dynamicLabel && !!(label$ | async)) {
+      <div class="hsi-ui-textbox-label" data-cy="textbox-label">{{
+        label$ | async
+      }}</div>
+    } @else {
+      <div class="hsi-ui-textbox-label" data-cy="textbox-label">
+        <ng-content select="[boxLabel]"></ng-content>
+      </div>
+    }
+    <div
+      #boxIcon
+      class="hsi-ui-textbox-icon"
+      [class.open]="service.isOpen$ | async"
+      ><ng-content select="[boxIcon]"></ng-content></div
+  ></div>
+}

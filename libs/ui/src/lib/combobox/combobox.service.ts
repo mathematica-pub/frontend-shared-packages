@@ -1,3 +1,4 @@
+import type { Combobox as AriaCombobox } from '@angular/aria/combobox';
 import { Platform } from '@angular/cdk/platform';
 import { inject, Injectable, QueryList } from '@angular/core';
 import {
@@ -100,6 +101,8 @@ export class ComboboxService {
   nullActiveIdOnClose = false;
   scrollWhenOpened = false;
   shouldAutoSelectOnListboxClose = false;
+  usesLegacyTriggerAria = false;
+  comboboxDirective: AriaCombobox | null = null;
   activeDescendant$: Observable<string>;
   allOptions: ListboxOptionComponent[];
   allOptions$: Observable<ListboxOptionComponent[]>;
@@ -145,6 +148,14 @@ export class ComboboxService {
 
   setLabel(label: ComboboxLabelComponent): void {
     this.label.next(label);
+  }
+
+  setUsesLegacyTriggerAria(usesLegacyTriggerAria: boolean): void {
+    this.usesLegacyTriggerAria = usesLegacyTriggerAria;
+  }
+
+  setComboboxDirective(comboboxDirective: AriaCombobox | null): void {
+    this.comboboxDirective = comboboxDirective;
   }
 
   openListbox(): void {

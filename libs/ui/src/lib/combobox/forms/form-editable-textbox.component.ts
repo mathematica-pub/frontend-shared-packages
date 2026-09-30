@@ -1,3 +1,4 @@
+import { Combobox } from '@angular/aria/combobox';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -10,7 +11,6 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { filter } from 'rxjs';
-import { OptionAction } from '../combobox.service';
 import { EditableTextboxComponent } from '../editable-textbox/editable-textbox.component';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 
@@ -28,7 +28,7 @@ import { ListboxOptionComponent } from '../listbox-option/listbox-option.compone
 @Component({
   selector: 'hsi-ui-form-editable-textbox',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, Combobox],
   templateUrl: './form-editable-textbox.component.html',
   styleUrls: ['../editable-textbox/editable-textbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -57,11 +57,7 @@ export class FormEditableTextboxComponent
         this.control.setValue('');
       } else {
         this.setValue('');
-        const optionAction =
-          this.autoSelect && this.autoSelectTrigger === 'any'
-            ? OptionAction.zeroActiveIndex
-            : OptionAction.nullActiveIndex;
-        this.service.emitOptionAction(optionAction);
+        this.emitResetActiveIndexAction();
       }
       return;
     }
@@ -101,11 +97,7 @@ export class FormEditableTextboxComponent
         filter((value) => value === '')
       )
       .subscribe(() => {
-        const optionAction =
-          this.autoSelect && this.autoSelectTrigger === 'any'
-            ? OptionAction.zeroActiveIndex
-            : OptionAction.nullActiveIndex;
-        this.service.emitOptionAction(optionAction);
+        this.emitResetActiveIndexAction();
       });
   }
 }

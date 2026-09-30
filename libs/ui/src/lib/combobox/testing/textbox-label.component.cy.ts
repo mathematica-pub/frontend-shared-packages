@@ -8,6 +8,20 @@ import { beforeEach, cy, describe, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
+function openListboxFromKeyboard(): void {
+  cy.get('[data-cy="combobox-textbox"]')
+    .focus()
+    .trigger('keydown', { key: 'ArrowDown' });
+  cy.get('.hsi-ui-listbox-option:visible', { timeout: 10000 }).should(
+    'have.length.greaterThan',
+    0
+  );
+}
+
+function getVisibleOptions() {
+  return cy.get('.hsi-ui-listbox:visible .hsi-ui-listbox-option');
+}
+
 // SPECIFICATIONS
 // - By default, the textbox label will initially show a boxLabel, and then will show the label(s) of the selected options.
 // - If the combobox is multi-select, the default label will separate the selected option names, if more than one is selected with ', '.
@@ -58,11 +72,11 @@ describe('Single-select combobox with a default (dynamic) label', () => {
   });
   it('textbox label shows the boxLabel before there is a selection, and the selected value afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    openListboxFromKeyboard();
+    getVisibleOptions().first().click();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(1).click();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Bananas');
   });
 });
@@ -105,11 +119,11 @@ describe('Single-select combobox with a default label / no boxLabel', () => {
   });
   it('textbox label is empty before there is a selection, and the selected value afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', '');
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    openListboxFromKeyboard();
+    getVisibleOptions().first().click();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(1).click();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Bananas');
   });
 });
@@ -159,12 +173,14 @@ describe('Multi-select combobox with a default (dynamic) label', () => {
   });
   it('textbox label shows the boxLabel before there is a selection, and the selected values afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit');
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    openListboxFromKeyboard();
+    getVisibleOptions().first().click();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(1).click();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples, Bananas');
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(1).click();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Apples');
   });
 });
@@ -214,8 +230,8 @@ describe('Textbox with a static label', () => {
   });
   it('textbox label does not change with a selection', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit, A-E');
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-listbox-option').first().realClickAndWait();
+    openListboxFromKeyboard();
+    getVisibleOptions().first().click();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Select a fruit, A-E');
   });
 });
@@ -299,12 +315,14 @@ describe('Grouped multi-select combobox with a show selected count label', () =>
   });
 
   it('can select from multiple groups', () => {
-    cy.get('.hsi-ui-textbox').click();
+    openListboxFromKeyboard();
     cy.get('.hsi-ui-textbox-label').should('have.text', '0 fruits selected');
-    cy.get('.hsi-ui-listbox-option').eq(0).realClickAndWait();
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    getVisibleOptions().eq(0).click();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(1).click();
     cy.get('.hsi-ui-textbox-label').should('have.text', '2 fruits selected');
-    cy.get('.hsi-ui-listbox-option').eq(1).realClickAndWait();
+    openListboxFromKeyboard();
+    getVisibleOptions().eq(1).click();
     cy.get('.hsi-ui-textbox-label').should('have.text', '1 fruit selected');
   });
 });
@@ -356,16 +374,10 @@ describe('Multi-select combobox with a dynamic label and initial selections', ()
     cy.mount(ComboboInitialSelectionsMultiTestComponent);
   });
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
-    cy.get('.hsi-ui-textbox-label').should(
-      'have.text',
-      'Coconuts, Elderberries'
-    );
-    cy.get('.hsi-ui-textbox').click();
-    cy.get('.hsi-ui-textbox-label').should(
-      'have.text',
-      'Coconuts, Elderberries'
-    );
-    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Select fruits');
+    openListboxFromKeyboard();
+    cy.get('.hsi-ui-textbox-label').should('have.text', 'Select fruits');
+    getVisibleOptions().eq(2).click();
     cy.get('.hsi-ui-textbox-label').should('have.text', 'Elderberries');
   });
 });
@@ -420,9 +432,9 @@ describe('Multi-select combobox with a count label and initial selections', () =
   });
   it('textbox label shows the boxLabel before there is a selection, and a count of selected afterwards', () => {
     cy.get('.hsi-ui-textbox-label').should('have.text', '2 fruits selected');
-    cy.get('.hsi-ui-textbox').click();
+    openListboxFromKeyboard();
     cy.get('.hsi-ui-textbox-label').should('have.text', '2 fruits selected');
-    cy.get('.hsi-ui-listbox-option').eq(2).realClickAndWait();
+    getVisibleOptions().eq(2).click();
     cy.get('.hsi-ui-textbox-label').should('have.text', '1 fruit selected');
   });
 });

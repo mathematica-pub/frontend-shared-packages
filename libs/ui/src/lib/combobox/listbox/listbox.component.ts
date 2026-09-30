@@ -1,3 +1,5 @@
+import { ComboboxPopup, ComboboxWidget } from '@angular/aria/combobox';
+import { Listbox, Option } from '@angular/aria/listbox';
 import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
@@ -49,7 +51,7 @@ export type SelectedCountLabel = {
 
 @Component({
   selector: 'hsi-ui-listbox',
-  imports: [CommonModule],
+  imports: [CommonModule, ComboboxPopup, ComboboxWidget, Listbox, Option],
   providers: [
     ListboxFilteringService,
     ListboxScrollService,
@@ -238,10 +240,13 @@ export class ListboxComponent
   }
 
   resetScroll(): void {
-    if (this.scrolling.isScrollable(this.scrollableContentRef.nativeElement)) {
-      this.scrolling.scrollToTop(
-        this.scrollableContentRef.nativeElement.parentElement
-      );
+    const scrollableContent = this.scrollableContentRef?.nativeElement;
+    if (!scrollableContent) {
+      return;
+    }
+
+    if (this.scrolling.isScrollable(scrollableContent)) {
+      this.scrolling.scrollToTop(scrollableContent.parentElement);
     }
   }
 

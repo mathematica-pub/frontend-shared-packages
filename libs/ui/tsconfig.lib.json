@@ -20,9 +20,7 @@
     "**/*.cy.jsx",
     "**/*.spec.ts"
   ],
-  "include": [
-    "src/**/*.ts"
-  ],
+  "include": ["src/**/*.ts"],
   "angularCompilerOptions": {
     "extendedDiagnostics": {
       "checks": {
