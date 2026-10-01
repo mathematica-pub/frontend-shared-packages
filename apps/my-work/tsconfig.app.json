@@ -6,13 +6,11 @@
     "types": [],
     "paths": {
       "@mathstack/*": ["dist/*"]
-    }
+    },
+    "rootDir": "src"
   },
   "files": ["src/main.ts"],
-  "include": [
-    "src/**/*.d.ts",
-    "src/app/content/**/*.ts"
-  ],
+  "include": ["src/**/*.d.ts", "src/app/content/**/*.ts"],
   "angularCompilerOptions": {
     "extendedDiagnostics": {
       "checks": {
