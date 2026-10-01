@@ -569,10 +569,9 @@ export class BarsComponent<
 
   getLabelDomRect(d: BarDatum<TOrdinalValue>): DOMRect {
     const selection = this.barGroups
-      .selectAll<
-        SVGTextElement,
-        BarDatum<TOrdinalValue>
-      >(`.${this.class.label}`)
+      .selectAll<SVGTextElement, BarDatum<TOrdinalValue>>(
+        `.${this.class.label}`
+      )
       .filter((datum) => datum.index === d.index);
     return selection.node().getBoundingClientRect();
   }

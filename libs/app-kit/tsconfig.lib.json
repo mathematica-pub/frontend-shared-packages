@@ -10,11 +10,10 @@
     "types": [],
     "paths": {
       "@mathstack/*": ["dist/*"]
-    }
+    },
+    "rootDir": "src"
   },
-  "exclude": [
-    "**/*.spec.ts"
-  ],
+  "exclude": ["**/*.spec.ts"],
   "angularCompilerOptions": {
     "extendedDiagnostics": {
       "checks": {

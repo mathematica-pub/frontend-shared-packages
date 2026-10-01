@@ -29,7 +29,9 @@
     },
     "useDefineForClassFields": false,
     "ignoreDeprecations": "6.0",
-    "noUncheckedSideEffectImports": false
+    "noUncheckedSideEffectImports": false,
+    "types": ["*"],
+    "esModuleInterop": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -46,12 +46,10 @@ export class LinesEventsDirective<
 {
   @Input()
   hoverMoveActions:
-    | HoverMoveAction<LinesHost<Datum>, LinesInteractionOutput<Datum>>[]
-    | null;
+    HoverMoveAction<LinesHost<Datum>, LinesInteractionOutput<Datum>>[] | null;
   @Input()
   clickActions:
-    | EventAction<LinesHost<Datum>, LinesInteractionOutput<Datum>>[]
-    | null;
+    EventAction<LinesHost<Datum>, LinesInteractionOutput<Datum>>[] | null;
   @Input()
   inputEventActions: InputEventAction<
     LinesHost<Datum>,

@@ -8,7 +8,8 @@
     "types": [],
     "paths": {
       "@mathstack/*": ["dist/*"]
-    }
+    },
+    "rootDir": "src"
   },
   "baseUrl": "./",
   "exclude": [
@@ -19,9 +20,7 @@
     "**/*.cy.tsx",
     "**/*.cy.jsx"
   ],
-  "include": [
-    "src/**/*.ts"
-  ],
+  "include": ["src/**/*.ts"],
   "angularCompilerOptions": {
     "extendedDiagnostics": {
       "checks": {

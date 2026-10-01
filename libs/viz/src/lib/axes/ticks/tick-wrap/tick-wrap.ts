@@ -11,9 +11,7 @@ export class TickWrap {
   breakOnChars: string[];
   spaceAroundBreakChars: boolean;
   width:
-    | 'bandwidth'
-    | number
-    | ((chartWidth: number, numOfTicks: number) => number);
+    'bandwidth' | number | ((chartWidth: number, numOfTicks: number) => number);
 
   constructor(options: TickWrapOptions) {
     safeAssign(this, options);

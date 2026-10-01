@@ -30,8 +30,7 @@ export class LinesConfig<Datum>
   readonly pointMarkers: PointMarkers<Datum>;
   readonly stroke: LinesStroke<Datum>;
   readonly x:
-    | DateChartPositionDimension<Datum>
-    | NumberChartPositionDimension<Datum>;
+    DateChartPositionDimension<Datum> | NumberChartPositionDimension<Datum>;
   readonly y: NumberChartPositionDimension<Datum>;
 
   constructor(options: LinesOptions<Datum>) {
