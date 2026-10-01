@@ -8,9 +8,7 @@ const DEFAULT = {
 
 export class TickWrapBuilder {
   _width:
-    | 'bandwidth'
-    | number
-    | ((chartWidth: number, numOfTicks: number) => number);
+    'bandwidth' | number | ((chartWidth: number, numOfTicks: number) => number);
   _maintainXPosition: boolean;
   _maintainYPosition: boolean;
   _lineHeight: number;

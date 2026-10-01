@@ -43,11 +43,9 @@ interface ViewModel {
   chartConfig: ChartConfig;
   dataConfig: BarsConfig<MetroUnemploymentDatum, string>;
   xAxisConfig:
-    | VicXOrdinalAxisConfig<string>
-    | VicXQuantitativeAxisConfig<number>;
+    VicXOrdinalAxisConfig<string> | VicXQuantitativeAxisConfig<number>;
   yAxisConfig:
-    | VicYOrdinalAxisConfig<string>
-    | VicYQuantitativeAxisConfig<number>;
+    VicYOrdinalAxisConfig<string> | VicYQuantitativeAxisConfig<number>;
 }
 
 enum Orientation {

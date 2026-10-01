@@ -118,8 +118,7 @@ export class VicDotsConfigBuilder<
   ): this;
   fillNumeric(
     fill:
-      | ((fill: NumberVisualValueDimensionBuilder<Datum, string>) => void)
-      | null
+      ((fill: NumberVisualValueDimensionBuilder<Datum, string>) => void) | null
   ): this {
     if (fill === null) {
       this.fillBuilderNumber = undefined;

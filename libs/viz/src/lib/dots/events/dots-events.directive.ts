@@ -32,16 +32,13 @@ export class DotsEventsDirective<
 > extends EventsDirective<DotsHost<Datum>> {
   @Input()
   hoverActions:
-    | EventAction<DotsHost<Datum>, DotsInteractionOutput<Datum>>[]
-    | null;
+    EventAction<DotsHost<Datum>, DotsInteractionOutput<Datum>>[] | null;
   @Input()
   hoverMoveActions:
-    | HoverMoveAction<DotsHost<Datum>, DotsInteractionOutput<Datum>>[]
-    | null;
+    HoverMoveAction<DotsHost<Datum>, DotsInteractionOutput<Datum>>[] | null;
   @Input()
   clickActions:
-    | EventAction<DotsHost<Datum>, DotsInteractionOutput<Datum>>[]
-    | null;
+    EventAction<DotsHost<Datum>, DotsInteractionOutput<Datum>>[] | null;
   @Input()
   inputEventActions: InputEventAction<
     DotsHost<Datum>,

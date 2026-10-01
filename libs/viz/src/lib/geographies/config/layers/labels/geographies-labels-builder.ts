@@ -41,8 +41,7 @@ export class GeographiesLabelsBuilder<
   private _display: (featureIndex: string) => boolean;
   private _dominantBaseline: CSSType.Property.DominantBaseline;
   private _fontWeight:
-    | GeographiesLabelsFontWeightOptions
-    | CSSType.Property.FontWeight;
+    GeographiesLabelsFontWeightOptions | CSSType.Property.FontWeight;
   private _fontScale: ScaleLinear<number, number, never>;
   private _pointerEvents: CSSType.Property.PointerEvents;
   private _position: (

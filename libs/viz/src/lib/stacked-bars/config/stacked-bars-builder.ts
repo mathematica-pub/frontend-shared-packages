@@ -65,8 +65,7 @@ export class VicStackedBarsConfigBuilder<
   stackOrder(stackOrder: null): this;
   stackOrder(
     stackOrder:
-      | ((series: Series<Datum, TOrdinalValue>) => Iterable<number>)
-      | null
+      ((series: Series<Datum, TOrdinalValue>) => Iterable<number>) | null
   ): this;
   stackOrder(
     stackOrder:

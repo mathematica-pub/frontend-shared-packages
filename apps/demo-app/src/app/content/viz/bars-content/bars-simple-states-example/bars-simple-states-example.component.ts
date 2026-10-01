@@ -36,11 +36,9 @@ interface ViewModel {
   chartConfig: ChartConfig;
   dataConfig: BarsConfig<LocationCategoryDatum, string>;
   ordinalAxisConfig:
-    | VicXOrdinalAxisConfig<string>
-    | VicYOrdinalAxisConfig<string>;
+    VicXOrdinalAxisConfig<string> | VicYOrdinalAxisConfig<string>;
   quantitativeAxisConfig:
-    | VicXQuantitativeAxisConfig<number>
-    | VicYQuantitativeAxisConfig<number>;
+    VicXQuantitativeAxisConfig<number> | VicYQuantitativeAxisConfig<number>;
 }
 
 @Component({
@@ -92,11 +90,9 @@ export class BarsSimpleStatesExampleComponent implements OnInit {
 
   getViewModel(): void {
     let ordinalAxisConfig:
-      | VicXOrdinalAxisConfig<string>
-      | VicYOrdinalAxisConfig<string>;
+      VicXOrdinalAxisConfig<string> | VicYOrdinalAxisConfig<string>;
     let quantitativeAxisConfig:
-      | VicXQuantitativeAxisConfig<number>
-      | VicYQuantitativeAxisConfig<number>;
+      VicXQuantitativeAxisConfig<number> | VicYQuantitativeAxisConfig<number>;
 
     const chartConfig = this.chart
       .margin(this.margin)
