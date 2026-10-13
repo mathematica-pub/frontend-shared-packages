@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import {
+  BarsComponent,
   BarsConfig,
   ChartConfig,
   VicBarsConfigBuilder,
@@ -178,6 +179,122 @@ const mountVerticalBarsComponent = (
     },
   });
 };
+
+@Component({
+  selector: 'app-test-bar-label-measurement-reuse',
+  template: `
+    <button class="cold-draw" (click)="coldDraw()">Cold draw</button>
+    <button class="unchanged-redraw" (click)="redraw()">Redraw</button>
+    <button class="warm-update" (click)="warmUpdate()">Warm update</button>
+    <button class="changed-text-update" (click)="changedTextUpdate()">
+      Changed text update
+    </button>
+    <vic-xy-chart [config]="chartConfig">
+      <ng-container svg-elements>
+        <svg:g vic-primary-marks-bars [config]="barsConfig"></svg:g>
+      </ng-container>
+    </vic-xy-chart>
+  `,
+  imports: [VicChartModule, VicBarsModule],
+})
+class TestBarLabelMeasurementReuseComponent {
+  @ViewChild(BarsComponent) bars: BarsComponent<Datum, string>;
+  chartConfig = new VicChartConfigBuilder()
+    .maxWidth(600)
+    .maxHeight(300)
+    .margin({ top: 20, right: 40, bottom: 20, left: 100 })
+    .transitionDuration(0)
+    .getConfig();
+  data = [
+    { state: 'Alabama', value: 1 },
+    { state: 'Alaska', value: 2 },
+  ];
+  barsConfig = new VicBarsConfigBuilder<Datum, string>()
+    .data(this.data)
+    .horizontal((bars) =>
+      bars
+        .x((dimension) =>
+          dimension
+            .valueAccessor((datum) => datum.value)
+            .formatFunction((datum) => datum.value.toFixed(1))
+        )
+        .y((dimension) => dimension.valueAccessor((datum) => datum.state))
+    )
+    .color((dimension) => dimension.range(['royalblue']))
+    .labels((labels) => labels.display(true))
+    .getConfig();
+
+  coldDraw(): void {
+    (
+      this.bars as unknown as {
+        labelMeasurements: WeakMap<SVGTextElement, unknown>;
+      }
+    ).labelMeasurements = new WeakMap();
+    this.redraw();
+  }
+
+  redraw(): void {
+    this.bars.drawLabels(0);
+  }
+
+  warmUpdate(): void {
+    this.updateValues((value) => value + 0.01);
+  }
+
+  changedTextUpdate(): void {
+    this.updateValues((value, index) => (index === 0 ? value + 0.2 : value));
+  }
+
+  private updateValues(update: (value: number, index: number) => number): void {
+    this.data.forEach((datum, index) => {
+      datum.value = update(datum.value, index);
+      this.barsConfig.quantitative.values[index] = datum.value;
+    });
+    this.redraw();
+  }
+}
+
+describe('bar label measurement reuse', () => {
+  it('measures cold labels, reuses unchanged text, selectively invalidates changed text, and uses current geometry', () => {
+    cy.window().then((window) => {
+      const getBBox = window.SVGTextElement.prototype.getBBox;
+      Object.defineProperty(window.document.fonts, 'ready', {
+        configurable: true,
+        value: new Promise<unknown>(() => undefined),
+      });
+      cy.stub(window.document.fonts, 'addEventListener');
+      cy.stub(window.SVGTextElement.prototype, 'getBBox')
+        .callsFake(function (this: SVGTextElement) {
+          return getBBox.call(this);
+        })
+        .as('getBBox');
+    });
+    cy.mount(TestBarLabelMeasurementReuseComponent);
+    cy.get(labelSelector).should('have.length', 2);
+    cy.get('@getBBox').invoke('resetHistory');
+    cy.get('.cold-draw').click();
+    cy.get('@getBBox').should('have.callCount', 2);
+    cy.get('@getBBox').invoke('resetHistory');
+    cy.get('.unchanged-redraw').click();
+    cy.get('@getBBox').should('have.callCount', 0);
+    cy.get(labelSelector)
+      .eq(0)
+      .invoke('attr', 'x')
+      .then((initialX) => {
+        cy.get('.warm-update').click();
+        cy.get(labelSelector).eq(0).should('have.text', '1.0');
+        cy.get(labelSelector).eq(1).should('have.text', '2.0');
+        cy.get('@getBBox').should('have.callCount', 0);
+        cy.get(labelSelector)
+          .eq(0)
+          .invoke('attr', 'x')
+          .should('not.equal', initialX);
+      });
+    cy.get('.changed-text-update').click();
+    cy.get(labelSelector).eq(0).should('have.text', '1.2');
+    cy.get('@getBBox').should('have.callCount', 1);
+  });
+});
 
 describe('it correctly positions the vertical bar chart data labels', () => {
   let barsConfig: BarsConfig<Datum, string>;

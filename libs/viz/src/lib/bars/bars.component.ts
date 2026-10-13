@@ -69,6 +69,32 @@ export interface BarsTooltipDatum<Datum> {
 
 type BarsSvgElement = 'g' | 'bar' | 'label' | 'background';
 
+interface TypographyFingerprint {
+  fontFamily: string;
+  fontSize: string;
+  fontWeight: string;
+  fontStyle: string;
+  fontStretch: string;
+  fontVariant: string;
+  lineHeight: string;
+  letterSpacing: string;
+  wordSpacing: string;
+  textTransform: string;
+  textRendering: string;
+  writingMode: string;
+}
+
+interface RenderedLabelMeasurement<Datum> {
+  renderedText: string;
+  typographyFingerprint: TypographyFingerprint;
+  formatFunctionIdentity: ((datum: Datum) => string) | null;
+  formatSpecifier: string | null;
+  noValueFunctionIdentity: (datum: Datum) => string;
+  fontGeneration: number;
+  width: number;
+  height: number;
+}
+
 @Component({
   selector: '[vic-primary-marks-bars]',
   template: '',
@@ -103,6 +129,19 @@ export class BarsComponent<
   };
   protected zone = inject(NgZone);
   public elRef = inject(ElementRef<SVGGElement>);
+  private fontGeneration = 0;
+  private labelMeasurements = new WeakMap<
+    SVGTextElement,
+    RenderedLabelMeasurement<Datum>
+  >();
+  private hasLabelMeasurements = false;
+  private fontInvalidationRegistered = false;
+  private destroyed = false;
+
+  override ngOnInit(): void {
+    super.ngOnInit();
+    this.registerFontInvalidation();
+  }
 
   get class(): Record<BarsSvgElement, string> {
     return {
@@ -257,7 +296,7 @@ export class BarsComponent<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.barGroups
+    const labelJoin = this.barGroups
       .selectAll<SVGTextElement, BarDatum<TOrdinalValue>>(
         `.${this.class.label}`
       )
@@ -271,48 +310,177 @@ export class BarsComponent<
       ])
       .join(
         (enter) =>
-          enter
-            .append<SVGTextElement>('text')
-            .attr('class', this.class.label)
-            .style('display', this.config.labels.display ? null : 'none')
-            .text((d) => this.getLabelText(d))
-            .style('visiblity', 'hidden')
-            .call((selection) => {
-              selection.each((d, i, nodes) => {
-                const bbox = nodes[i].getBBox();
-                select<SVGTextElement, BarDatum<TOrdinalValue>>(nodes[i])
-                  .style('fill', (d) => this.getLabelColor(d, bbox))
-                  .attr('text-anchor', (d) => this.getLabelTextAnchor(d, bbox))
-                  .attr('dominant-baseline', (d) =>
-                    this.getLabelDominantBaseline(d, bbox)
-                  )
-                  .attr('x', this.getLabelX(d, bbox))
-                  .attr('y', this.getLabelY(d, bbox))
-                  .attr('visibility', 'visible');
-              });
-            }),
-        (update) =>
-          update
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            .transition(t as any)
-            .text((d) => this.getLabelText(d))
-            .style('visiblity', 'hidden')
-            .call((selection) => {
-              selection.each((d, i, nodes) => {
-                const bbox = nodes[i].getBBox();
-                select<SVGTextElement, BarDatum<TOrdinalValue>>(nodes[i])
-                  .style('fill', (d) => this.getLabelColor(d, bbox))
-                  .attr('text-anchor', (d) => this.getLabelTextAnchor(d, bbox))
-                  .attr('dominant-baseline', (d) =>
-                    this.getLabelDominantBaseline(d, bbox)
-                  )
-                  .attr('x', this.getLabelX(d, bbox))
-                  .attr('y', this.getLabelY(d, bbox))
-                  .attr('visibility', 'visible');
-              });
-            }),
+          enter.append<SVGTextElement>('text').attr('class', this.class.label),
+        (update) => update,
         (exit) => exit.remove()
-      );
+      )
+      .interrupt()
+      .style('display', this.config.labels.display ? null : 'none')
+      .text((d) => this.getLabelText(d))
+      .attr('visibility', 'hidden');
+
+    if (!this.config.labels.display) {
+      this.replaceLabelMeasurements();
+      return;
+    }
+
+    const currentMeasurements = new Map<
+      SVGTextElement,
+      RenderedLabelMeasurement<Datum>
+    >();
+    labelJoin.each((_, index, nodes) => {
+      const element = nodes[index];
+      const renderedText = element.textContent ?? '';
+      const typographyFingerprint = this.getTypographyFingerprint(element);
+      let measurement = this.labelMeasurements.get(element);
+      if (
+        !this.isLabelMeasurementValid(
+          measurement,
+          renderedText,
+          typographyFingerprint
+        )
+      ) {
+        const bounds = element.getBBox();
+        measurement = {
+          renderedText,
+          typographyFingerprint,
+          formatFunctionIdentity:
+            this.config.quantitative.formatFunction ?? null,
+          formatSpecifier: this.config.quantitative.formatSpecifier ?? null,
+          noValueFunctionIdentity: this.config.labels.noValueFunction,
+          fontGeneration: this.fontGeneration,
+          width: Math.max(0, bounds.width),
+          height: Math.max(0, bounds.height),
+        };
+        this.labelMeasurements.set(element, measurement);
+        this.hasLabelMeasurements = true;
+      }
+      currentMeasurements.set(element, measurement);
+    });
+
+    labelJoin
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .transition(t as any)
+      .call((selection) => {
+        selection.each((datum, index, nodes) => {
+          const element = nodes[index];
+          const measurement = currentMeasurements.get(element);
+          const bounds = new DOMRect(
+            0,
+            0,
+            measurement.width,
+            measurement.height
+          );
+          select<SVGTextElement, BarDatum<TOrdinalValue>>(element)
+            .style('fill', this.getLabelColor(datum, bounds))
+            .attr('text-anchor', this.getLabelTextAnchor(datum, bounds))
+            .attr(
+              'dominant-baseline',
+              this.getLabelDominantBaseline(datum, bounds)
+            )
+            .attr('x', this.getLabelX(datum, bounds))
+            .attr('y', this.getLabelY(datum, bounds))
+            .attr('visibility', 'visible');
+        });
+      });
+  }
+
+  private getTypographyFingerprint(
+    element: SVGTextElement
+  ): TypographyFingerprint {
+    const style = getComputedStyle(element);
+    return {
+      fontFamily: this.normalizeTypographyValue(style.fontFamily),
+      fontSize: this.normalizeTypographyValue(style.fontSize),
+      fontWeight: this.normalizeTypographyValue(style.fontWeight),
+      fontStyle: this.normalizeTypographyValue(style.fontStyle),
+      fontStretch: this.normalizeTypographyValue(style.fontStretch),
+      fontVariant: this.normalizeTypographyValue(style.fontVariant),
+      lineHeight: this.normalizeTypographyValue(style.lineHeight),
+      letterSpacing: this.normalizeTypographyValue(style.letterSpacing),
+      wordSpacing: this.normalizeTypographyValue(style.wordSpacing),
+      textTransform: this.normalizeTypographyValue(style.textTransform),
+      textRendering: this.normalizeTypographyValue(
+        style.getPropertyValue('text-rendering')
+      ),
+      writingMode: this.normalizeTypographyValue(style.writingMode),
+    };
+  }
+
+  private isLabelMeasurementValid(
+    measurement: RenderedLabelMeasurement<Datum> | undefined,
+    renderedText: string,
+    typographyFingerprint: TypographyFingerprint
+  ): boolean {
+    return (
+      !!measurement &&
+      measurement.renderedText === renderedText &&
+      this.typographyFingerprintsMatch(
+        measurement.typographyFingerprint,
+        typographyFingerprint
+      ) &&
+      measurement.formatFunctionIdentity ===
+        (this.config.quantitative.formatFunction ?? null) &&
+      measurement.formatSpecifier ===
+        (this.config.quantitative.formatSpecifier ?? null) &&
+      measurement.noValueFunctionIdentity ===
+        this.config.labels.noValueFunction &&
+      measurement.fontGeneration === this.fontGeneration
+    );
+  }
+
+  private normalizeTypographyValue(value: string): string {
+    return value
+      .trim()
+      .replace(/\s+/g, ' ')
+      .replace(/\s*,\s*/g, ',');
+  }
+
+  private typographyFingerprintsMatch(
+    previous: TypographyFingerprint,
+    current: TypographyFingerprint
+  ): boolean {
+    return (Object.keys(previous) as (keyof TypographyFingerprint)[]).every(
+      (key) => previous[key] === current[key]
+    );
+  }
+
+  private registerFontInvalidation(): void {
+    if (
+      this.fontInvalidationRegistered ||
+      typeof document === 'undefined' ||
+      !document.fonts
+    ) {
+      return;
+    }
+    this.fontInvalidationRegistered = true;
+    const invalidate = (): void => this.invalidateForFontChange();
+    document.fonts.ready.then(invalidate);
+    document.fonts.addEventListener('loadingdone', invalidate);
+    this.destroyRef.onDestroy(() => {
+      this.destroyed = true;
+      document.fonts.removeEventListener('loadingdone', invalidate);
+      this.replaceLabelMeasurements();
+    });
+  }
+
+  private invalidateForFontChange(): void {
+    if (this.destroyed || !this.hasLabelMeasurements) {
+      return;
+    }
+    this.fontGeneration += 1;
+    this.replaceLabelMeasurements();
+    if (this.config?.labels && this.barGroups) {
+      this.drawLabels(0);
+    }
+  }
+
+  private replaceLabelMeasurements(): void {
+    this.labelMeasurements = new WeakMap<
+      SVGTextElement,
+      RenderedLabelMeasurement<Datum>
+    >();
+    this.hasLabelMeasurements = false;
   }
 
   getBarX(d: BarDatum<TOrdinalValue>): number {

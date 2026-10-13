@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { select } from 'd3';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 import { ColorUtilities } from '../core/utilities/colors';
 import { FillUtilities } from '../core/utilities/fill-utilities';
@@ -173,6 +174,71 @@ describe('BarsComponent', () => {
     it('calls updateBarElements', () => {
       component.drawMarks();
       expect(component.updateBarElements).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('drawLabels() measurement reuse', () => {
+    let getBBoxSpy: jasmine.Spy;
+    let labelText: string[];
+
+    beforeEach(() => {
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      const marks = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      svg.appendChild(marks);
+      component.chart = { svgRef: { nativeElement: svg } } as any;
+      component.config = horizontalConfig();
+      component.barGroups = select(marks)
+        .selectAll<SVGGElement, number>('g')
+        .data([0, 1])
+        .join('g') as any;
+      labelText = ['1.0', '2.0'];
+      spyOn(component, 'getLabelText').and.callFake(
+        (datum) => labelText[datum.index]
+      );
+      spyOn(component, 'getLabelColor').and.returnValue('black');
+      spyOn(component, 'getLabelTextAnchor').and.returnValue('start');
+      spyOn(component, 'getLabelDominantBaseline').and.returnValue('central');
+      spyOn(component, 'getLabelX').and.returnValue(10);
+      spyOn(component, 'getLabelY').and.returnValue(20);
+      getBBoxSpy = spyOn(SVGTextElement.prototype, 'getBBox').and.returnValue({
+        width: 12,
+        height: 8,
+      } as DOMRect);
+    });
+
+    it('measures each visible label on its cold render', () => {
+      component.drawLabels(0);
+
+      expect(getBBoxSpy).toHaveBeenCalledTimes(2);
+    });
+
+    it('reuses measurements when rendered text is unchanged', () => {
+      component.drawLabels(0);
+      component.drawLabels(0);
+
+      expect(getBBoxSpy).toHaveBeenCalledTimes(2);
+    });
+
+    it('remeasures only the label whose rendered string changes', () => {
+      component.drawLabels(0);
+      labelText[0] = '1.2';
+      component.drawLabels(0);
+
+      expect(getBBoxSpy).toHaveBeenCalledTimes(3);
+    });
+
+    it('owns valid measurement records weakly by label element', () => {
+      component.drawLabels(0);
+
+      const cache = (component as any).labelMeasurements;
+      const label = component.barGroups.select('text').node();
+      const measurement = cache.get(label);
+      expect(cache).toEqual(jasmine.any(WeakMap));
+      expect(measurement.renderedText).toEqual(jasmine.any(String));
+      expect(Number.isInteger(measurement.fontGeneration)).toBeTrue();
+      expect(measurement.fontGeneration).toBeGreaterThanOrEqual(0);
+      expect(measurement.width).toBeGreaterThanOrEqual(0);
+      expect(measurement.height).toBeGreaterThanOrEqual(0);
     });
   });
 
