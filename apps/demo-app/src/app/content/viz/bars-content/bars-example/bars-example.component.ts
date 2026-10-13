@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
