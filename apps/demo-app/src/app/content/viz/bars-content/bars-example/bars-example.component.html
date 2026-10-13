@@ -9,6 +9,43 @@
       ><mat-button-toggle value="horizontal">Horizontal</mat-button-toggle
       ><mat-button-toggle value="vertical">Vertical</mat-button-toggle>
     </mat-button-toggle-group>
+    <div
+      class="performance-controls"
+      role="group"
+      aria-label="Bar label performance scenarios. Run one deterministic update at a time."
+      aria-describedby="bar-label-performance-status"
+    >
+      <button
+        mat-button
+        type="button"
+        (click)="runPerformanceScenario('warm-update')"
+      >
+        Warm update
+      </button>
+      <button
+        mat-button
+        type="button"
+        (click)="runPerformanceScenario('changed-text')"
+      >
+        Change one label
+      </button>
+      <button
+        mat-button
+        type="button"
+        (click)="runPerformanceScenario('scale-only')"
+      >
+        Resize chart
+      </button>
+    </div>
+    <p
+      id="bar-label-performance-status"
+      class="performance-status"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      {{ performanceStatus$ | async }}
+    </p>
     <vic-xy-chart [config]="vm.chartConfig">
       <ng-container svg-elements>
         @if ((layoutProperties$ | async).orientation === 'horizontal') {

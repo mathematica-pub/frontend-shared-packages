@@ -6,6 +6,16 @@ The `BarsComponent` allows you to create `SvgRectElement`s within an `XyChart`, 
 styled according to up to three dimensions of data that control the ordering of the bars, the length
 of the bars, and, optionally, the fill color of the bars.
 
+The main example renders labels for 45 metro divisions and includes deterministic controls for a
+warm value update with unchanged label text, a one-label text change, and a chart resize. Use one
+control at a time to review label text, placement, visibility, and transitions. The status below the
+controls announces when an update completes.
+
+For local performance investigation, use a production build and record each named User Timing
+measure in the browser Performance panel. Keep the browser, viewport, dataset, throttling, and
+warm-up procedure fixed between comparisons. Results from one machine and browser describe only that
+setup and are not general performance guarantees.
+
 ```custom-angular
 small examples
 ```

@@ -68,7 +68,7 @@
         "cypressConfig": "libs/viz/cypress.config.ts",
         "testingType": "component",
         "skipServe": true,
-        "devServerTarget": "demo-app:build:devleopment"
+        "devServerTarget": "demo-app:build:development"
       }
     },
     "cypress-local": {

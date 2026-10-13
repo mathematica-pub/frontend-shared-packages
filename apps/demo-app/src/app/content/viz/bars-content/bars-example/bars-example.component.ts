@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -57,6 +57,16 @@ interface LayoutProperties {
   orientation: Orientation;
   margin: ElementSpacing;
 }
+
+type PerformanceScenario = 'warm-update' | 'changed-text' | 'scale-only';
+
+interface PerformanceState {
+  labelChangeOffset: number;
+  geometryOffset: number;
+  scaleVariant: 'default' | 'compact';
+  sequence: number;
+}
+
 @Component({
   selector: 'app-bars-example',
   imports: [
@@ -108,6 +118,22 @@ export class BarsExampleComponent implements OnInit {
       },
     });
   layoutProperties$ = this.layoutProperties.asObservable();
+  performanceState = new BehaviorSubject<PerformanceState>({
+    labelChangeOffset: 0,
+    geometryOffset: 0,
+    scaleVariant: 'default',
+    sequence: 0,
+  });
+  performanceState$ = this.performanceState.asObservable();
+  performanceStatus = new BehaviorSubject(
+    'Ready to run a labeled bar chart update.'
+  );
+  performanceStatus$ = this.performanceStatus.asObservable();
+  private initialMeasurementScheduled = false;
+  private performanceRun = 0;
+  private quantitativeValueFormatter = (
+    datum: MetroUnemploymentDatum
+  ): string => this.getQuantitativeValueFormat(datum);
   private dataService = inject(DataService);
   private bars = inject(VicBarsConfigBuilder<MetroUnemploymentDatum, string>);
   private chart = inject(VicChartConfigBuilder);
@@ -118,28 +144,45 @@ export class BarsExampleComponent implements OnInit {
   private tooltip = inject(VicHtmlTooltipConfigBuilder);
 
   ngOnInit(): void {
+    performance.mark('bars-label-initial-render-start');
     const data$ = this.dataService.metroUnemploymentData$.pipe(
       filter((x) => !!x)
     );
 
-    this.vm$ = combineLatest([data$, this.layoutProperties$]).pipe(
-      map(([data, layoutProperties]) =>
-        this.getViewModel(data, layoutProperties)
-      )
+    this.vm$ = combineLatest([
+      data$,
+      this.layoutProperties$,
+      this.performanceState$,
+    ]).pipe(
+      map(([data, layoutProperties, performanceState]) => {
+        if (!this.initialMeasurementScheduled) {
+          this.initialMeasurementScheduled = true;
+          this.completePerformanceMeasure(
+            'initial-render',
+            'bars-label-initial-render-start'
+          );
+        }
+        return this.getViewModel(data, layoutProperties, performanceState);
+      })
     );
   }
 
   getViewModel(
     data: MetroUnemploymentDatum[],
-    layout: LayoutProperties
+    layout: LayoutProperties,
+    performanceState: PerformanceState
   ): ViewModel {
-    const filteredData = data.filter(
-      (d) => d.date.getFullYear() === 2008 && d.date.getMonth() === 3
-    );
+    const filteredData = this.getPerformanceData(data, performanceState);
 
     const chartConfig = this.chart
       .margin(layout.margin)
-      .maxWidth(layout.orientation === 'horizontal' ? 800 : 960)
+      .maxWidth(
+        performanceState.scaleVariant === 'compact'
+          ? 640
+          : layout.orientation === 'horizontal'
+            ? 800
+            : 960
+      )
       .maxHeight(layout.orientation === 'horizontal' ? 800 : 500)
       .scalingStrategy('responsive-width')
       .getConfig();
@@ -171,7 +214,7 @@ export class BarsExampleComponent implements OnInit {
                 .x((dimension) =>
                   dimension
                     .valueAccessor((d) => d.value)
-                    .formatFunction((d) => this.getQuantitativeValueFormat(d))
+                    .formatFunction(this.quantitativeValueFormatter)
                     .domainPaddingPixels()
                 )
                 .y((dimension) => dimension.valueAccessor((d) => d.division))
@@ -185,7 +228,7 @@ export class BarsExampleComponent implements OnInit {
                 .y((dimension) =>
                   dimension
                     .valueAccessor((d) => d.value)
-                    .formatFunction((d) => this.getQuantitativeValueFormat(d))
+                    .formatFunction(this.quantitativeValueFormatter)
                     .domainPaddingPixels()
                 )
           : null
@@ -238,5 +281,84 @@ export class BarsExampleComponent implements OnInit {
         left: value === Orientation.horizontal ? 300 : 160,
       },
     });
+  }
+
+  runPerformanceScenario(scenario: PerformanceScenario): void {
+    const current = this.performanceState.value;
+    const nextSequence = current.sequence + 1;
+    const markPrefix = `bars-label-${scenario}-${++this.performanceRun}`;
+    performance.mark(`${markPrefix}-start`);
+
+    this.performanceState.next({
+      labelChangeOffset:
+        scenario === 'changed-text'
+          ? current.labelChangeOffset === 0
+            ? 0.2
+            : 0
+          : current.labelChangeOffset,
+      geometryOffset:
+        scenario === 'warm-update'
+          ? current.geometryOffset <= 0
+            ? 0.01
+            : -0.01
+          : current.geometryOffset,
+      scaleVariant:
+        scenario === 'scale-only'
+          ? current.scaleVariant === 'default'
+            ? 'compact'
+            : 'default'
+          : current.scaleVariant,
+      sequence: nextSequence,
+    });
+    this.performanceStatus.next(`Running ${scenario.replace('-', ' ')}.`);
+    this.completePerformanceMeasure(
+      scenario,
+      `${markPrefix}-start`,
+      markPrefix
+    );
+  }
+
+  private getPerformanceData(
+    data: MetroUnemploymentDatum[],
+    state: PerformanceState
+  ): MetroUnemploymentDatum[] {
+    const snapshot = data.filter(
+      (datum) =>
+        datum.date.getFullYear() === 2008 && datum.date.getMonth() === 3
+    );
+
+    return snapshot.map((datum, index) => {
+      const labelOffset = index === 0 ? state.labelChangeOffset : 0;
+      const valueBeforeGeometryUpdate = datum.value + labelOffset;
+      const proposedValue = valueBeforeGeometryUpdate + state.geometryOffset;
+      const preservesRenderedText =
+        this.getQuantitativeValueFormat({ ...datum, value: proposedValue }) ===
+        this.getQuantitativeValueFormat({
+          ...datum,
+          value: valueBeforeGeometryUpdate,
+        });
+      const geometryOffset = preservesRenderedText
+        ? state.geometryOffset
+        : -state.geometryOffset;
+      return {
+        ...datum,
+        value: valueBeforeGeometryUpdate + geometryOffset,
+      };
+    });
+  }
+
+  private completePerformanceMeasure(
+    scenario: string,
+    startMark: string,
+    markPrefix = 'bars-label-initial-render'
+  ): void {
+    window.setTimeout(() => {
+      const endMark = `${markPrefix}-end`;
+      performance.mark(endMark);
+      performance.measure(`bars-label-${scenario}`, startMark, endMark);
+      this.performanceStatus.next(
+        `${scenario.replace('-', ' ')} complete. Performance mark recorded.`
+      );
+    }, 300);
   }
 }

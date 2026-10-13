@@ -1,0 +1,650 @@
+{
+  "initialRender": [
+    {
+      "run": 1,
+      "trace": "post-change-initial-render-01.json.gz",
+      "mainThreadMilliseconds": 136.235,
+      "synchronousLayoutMilliseconds": 36.601,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 2,
+      "trace": "post-change-initial-render-02.json.gz",
+      "mainThreadMilliseconds": 222.044,
+      "synchronousLayoutMilliseconds": 42.127,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 3,
+      "trace": "post-change-initial-render-03.json.gz",
+      "mainThreadMilliseconds": 206.649,
+      "synchronousLayoutMilliseconds": 46.573,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 4,
+      "trace": "post-change-initial-render-04.json.gz",
+      "mainThreadMilliseconds": 191.967,
+      "synchronousLayoutMilliseconds": 52.444,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 5,
+      "trace": "post-change-initial-render-05.json.gz",
+      "mainThreadMilliseconds": 183.723,
+      "synchronousLayoutMilliseconds": 52.592,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 6,
+      "trace": "post-change-initial-render-06.json.gz",
+      "mainThreadMilliseconds": 351.778,
+      "synchronousLayoutMilliseconds": 48.938,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 7,
+      "trace": "post-change-initial-render-07.json.gz",
+      "mainThreadMilliseconds": 202.437,
+      "synchronousLayoutMilliseconds": 53.924,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 8,
+      "trace": "post-change-initial-render-08.json.gz",
+      "mainThreadMilliseconds": 210.495,
+      "synchronousLayoutMilliseconds": 53.25,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 9,
+      "trace": "post-change-initial-render-09.json.gz",
+      "mainThreadMilliseconds": 202.722,
+      "synchronousLayoutMilliseconds": 51.856,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 10,
+      "trace": "post-change-initial-render-10.json.gz",
+      "mainThreadMilliseconds": 212.831,
+      "synchronousLayoutMilliseconds": 55.301,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 11,
+      "trace": "post-change-initial-render-11.json.gz",
+      "mainThreadMilliseconds": 203.976,
+      "synchronousLayoutMilliseconds": 56.837,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 12,
+      "trace": "post-change-initial-render-12.json.gz",
+      "mainThreadMilliseconds": 366.064,
+      "synchronousLayoutMilliseconds": 49.431,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 13,
+      "trace": "post-change-initial-render-13.json.gz",
+      "mainThreadMilliseconds": 183.966,
+      "synchronousLayoutMilliseconds": 42.522,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 14,
+      "trace": "post-change-initial-render-14.json.gz",
+      "mainThreadMilliseconds": 214.796,
+      "synchronousLayoutMilliseconds": 45.781,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 15,
+      "trace": "post-change-initial-render-15.json.gz",
+      "mainThreadMilliseconds": 225.32,
+      "synchronousLayoutMilliseconds": 52.949,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 16,
+      "trace": "post-change-initial-render-16.json.gz",
+      "mainThreadMilliseconds": 203.762,
+      "synchronousLayoutMilliseconds": 48.879,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 17,
+      "trace": "post-change-initial-render-17.json.gz",
+      "mainThreadMilliseconds": 206.307,
+      "synchronousLayoutMilliseconds": 52.041,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 18,
+      "trace": "post-change-initial-render-18.json.gz",
+      "mainThreadMilliseconds": 209.622,
+      "synchronousLayoutMilliseconds": 53.279,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 19,
+      "trace": "post-change-initial-render-19.json.gz",
+      "mainThreadMilliseconds": 242.599,
+      "synchronousLayoutMilliseconds": 54.383,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 20,
+      "trace": "post-change-initial-render-20.json.gz",
+      "mainThreadMilliseconds": 651.064,
+      "synchronousLayoutMilliseconds": 55.195,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    }
+  ],
+  "warm-update": [
+    {
+      "run": 1,
+      "trace": "post-change-warm-update-01.json.gz",
+      "mainThreadMilliseconds": 101.28,
+      "synchronousLayoutMilliseconds": 15.43,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 2,
+      "trace": "post-change-warm-update-02.json.gz",
+      "mainThreadMilliseconds": 116.738,
+      "synchronousLayoutMilliseconds": 15.39,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 3,
+      "trace": "post-change-warm-update-03.json.gz",
+      "mainThreadMilliseconds": 115.755,
+      "synchronousLayoutMilliseconds": 16.689,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 4,
+      "trace": "post-change-warm-update-04.json.gz",
+      "mainThreadMilliseconds": 122.965,
+      "synchronousLayoutMilliseconds": 15.386,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 5,
+      "trace": "post-change-warm-update-05.json.gz",
+      "mainThreadMilliseconds": 110.095,
+      "synchronousLayoutMilliseconds": 16.167,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 6,
+      "trace": "post-change-warm-update-06.json.gz",
+      "mainThreadMilliseconds": 93.601,
+      "synchronousLayoutMilliseconds": 14.719,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 7,
+      "trace": "post-change-warm-update-07.json.gz",
+      "mainThreadMilliseconds": 126.252,
+      "synchronousLayoutMilliseconds": 15.571,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 8,
+      "trace": "post-change-warm-update-08.json.gz",
+      "mainThreadMilliseconds": 118.996,
+      "synchronousLayoutMilliseconds": 17.89,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 9,
+      "trace": "post-change-warm-update-09.json.gz",
+      "mainThreadMilliseconds": 113.114,
+      "synchronousLayoutMilliseconds": 16.055,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 10,
+      "trace": "post-change-warm-update-10.json.gz",
+      "mainThreadMilliseconds": 125.339,
+      "synchronousLayoutMilliseconds": 15.98,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 11,
+      "trace": "post-change-warm-update-11.json.gz",
+      "mainThreadMilliseconds": 116.097,
+      "synchronousLayoutMilliseconds": 15.315,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 12,
+      "trace": "post-change-warm-update-12.json.gz",
+      "mainThreadMilliseconds": 124.584,
+      "synchronousLayoutMilliseconds": 18.229,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 13,
+      "trace": "post-change-warm-update-13.json.gz",
+      "mainThreadMilliseconds": 121.367,
+      "synchronousLayoutMilliseconds": 17.916,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 14,
+      "trace": "post-change-warm-update-14.json.gz",
+      "mainThreadMilliseconds": 132.45,
+      "synchronousLayoutMilliseconds": 22.563,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 15,
+      "trace": "post-change-warm-update-15.json.gz",
+      "mainThreadMilliseconds": 117.528,
+      "synchronousLayoutMilliseconds": 17.496,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 16,
+      "trace": "post-change-warm-update-16.json.gz",
+      "mainThreadMilliseconds": 119.005,
+      "synchronousLayoutMilliseconds": 16.125,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 17,
+      "trace": "post-change-warm-update-17.json.gz",
+      "mainThreadMilliseconds": 120.896,
+      "synchronousLayoutMilliseconds": 15.912,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 18,
+      "trace": "post-change-warm-update-18.json.gz",
+      "mainThreadMilliseconds": 117.87,
+      "synchronousLayoutMilliseconds": 16.355,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 19,
+      "trace": "post-change-warm-update-19.json.gz",
+      "mainThreadMilliseconds": 109.072,
+      "synchronousLayoutMilliseconds": 15.434,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 20,
+      "trace": "post-change-warm-update-20.json.gz",
+      "mainThreadMilliseconds": 103.438,
+      "synchronousLayoutMilliseconds": 14.202,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    }
+  ],
+  "changed-text": [
+    {
+      "run": 1,
+      "trace": "post-change-changed-text-01.json.gz",
+      "mainThreadMilliseconds": 90.124,
+      "synchronousLayoutMilliseconds": 14.298,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 2,
+      "trace": "post-change-changed-text-02.json.gz",
+      "mainThreadMilliseconds": 85.399,
+      "synchronousLayoutMilliseconds": 14.86,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 3,
+      "trace": "post-change-changed-text-03.json.gz",
+      "mainThreadMilliseconds": 96.046,
+      "synchronousLayoutMilliseconds": 15.186,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 4,
+      "trace": "post-change-changed-text-04.json.gz",
+      "mainThreadMilliseconds": 92.669,
+      "synchronousLayoutMilliseconds": 16.165,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 5,
+      "trace": "post-change-changed-text-05.json.gz",
+      "mainThreadMilliseconds": 96.274,
+      "synchronousLayoutMilliseconds": 14.753,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 6,
+      "trace": "post-change-changed-text-06.json.gz",
+      "mainThreadMilliseconds": 95.821,
+      "synchronousLayoutMilliseconds": 17.353,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 7,
+      "trace": "post-change-changed-text-07.json.gz",
+      "mainThreadMilliseconds": 96.002,
+      "synchronousLayoutMilliseconds": 17.468,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 8,
+      "trace": "post-change-changed-text-08.json.gz",
+      "mainThreadMilliseconds": 107.469,
+      "synchronousLayoutMilliseconds": 18.833,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 9,
+      "trace": "post-change-changed-text-09.json.gz",
+      "mainThreadMilliseconds": 99.801,
+      "synchronousLayoutMilliseconds": 15.676,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 10,
+      "trace": "post-change-changed-text-10.json.gz",
+      "mainThreadMilliseconds": 97.773,
+      "synchronousLayoutMilliseconds": 15.295,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 11,
+      "trace": "post-change-changed-text-11.json.gz",
+      "mainThreadMilliseconds": 93.645,
+      "synchronousLayoutMilliseconds": 15.521,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 12,
+      "trace": "post-change-changed-text-12.json.gz",
+      "mainThreadMilliseconds": 114.013,
+      "synchronousLayoutMilliseconds": 16.745,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 13,
+      "trace": "post-change-changed-text-13.json.gz",
+      "mainThreadMilliseconds": 114.176,
+      "synchronousLayoutMilliseconds": 18.597,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 14,
+      "trace": "post-change-changed-text-14.json.gz",
+      "mainThreadMilliseconds": 97.484,
+      "synchronousLayoutMilliseconds": 17.041,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 15,
+      "trace": "post-change-changed-text-15.json.gz",
+      "mainThreadMilliseconds": 105.261,
+      "synchronousLayoutMilliseconds": 16.29,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 16,
+      "trace": "post-change-changed-text-16.json.gz",
+      "mainThreadMilliseconds": 100.55,
+      "synchronousLayoutMilliseconds": 17.448,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 17,
+      "trace": "post-change-changed-text-17.json.gz",
+      "mainThreadMilliseconds": 96.831,
+      "synchronousLayoutMilliseconds": 15.408,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 18,
+      "trace": "post-change-changed-text-18.json.gz",
+      "mainThreadMilliseconds": 100.728,
+      "synchronousLayoutMilliseconds": 16.458,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 19,
+      "trace": "post-change-changed-text-19.json.gz",
+      "mainThreadMilliseconds": 96.043,
+      "synchronousLayoutMilliseconds": 15.26,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 20,
+      "trace": "post-change-changed-text-20.json.gz",
+      "mainThreadMilliseconds": 104.761,
+      "synchronousLayoutMilliseconds": 14.877,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    }
+  ],
+  "scale-only": [
+    {
+      "run": 1,
+      "trace": "post-change-scale-only-01.json.gz",
+      "mainThreadMilliseconds": 313.048,
+      "synchronousLayoutMilliseconds": 6.378,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 2,
+      "trace": "post-change-scale-only-02.json.gz",
+      "mainThreadMilliseconds": 76.702,
+      "synchronousLayoutMilliseconds": 6.484,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 3,
+      "trace": "post-change-scale-only-03.json.gz",
+      "mainThreadMilliseconds": 73.898,
+      "synchronousLayoutMilliseconds": 7.218,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 4,
+      "trace": "post-change-scale-only-04.json.gz",
+      "mainThreadMilliseconds": 75.632,
+      "synchronousLayoutMilliseconds": 6.565,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 5,
+      "trace": "post-change-scale-only-05.json.gz",
+      "mainThreadMilliseconds": 69.643,
+      "synchronousLayoutMilliseconds": 6.581,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 6,
+      "trace": "post-change-scale-only-06.json.gz",
+      "mainThreadMilliseconds": 74.929,
+      "synchronousLayoutMilliseconds": 6.2,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 7,
+      "trace": "post-change-scale-only-07.json.gz",
+      "mainThreadMilliseconds": 84.285,
+      "synchronousLayoutMilliseconds": 6.198,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 8,
+      "trace": "post-change-scale-only-08.json.gz",
+      "mainThreadMilliseconds": 78.25,
+      "synchronousLayoutMilliseconds": 6.074,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 9,
+      "trace": "post-change-scale-only-09.json.gz",
+      "mainThreadMilliseconds": 75.828,
+      "synchronousLayoutMilliseconds": 6.931,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 10,
+      "trace": "post-change-scale-only-10.json.gz",
+      "mainThreadMilliseconds": 80.643,
+      "synchronousLayoutMilliseconds": 6.546,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 11,
+      "trace": "post-change-scale-only-11.json.gz",
+      "mainThreadMilliseconds": 80.777,
+      "synchronousLayoutMilliseconds": 6.446,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 12,
+      "trace": "post-change-scale-only-12.json.gz",
+      "mainThreadMilliseconds": 79.372,
+      "synchronousLayoutMilliseconds": 6.036,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 13,
+      "trace": "post-change-scale-only-13.json.gz",
+      "mainThreadMilliseconds": 79.329,
+      "synchronousLayoutMilliseconds": 6.404,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 14,
+      "trace": "post-change-scale-only-14.json.gz",
+      "mainThreadMilliseconds": 81.467,
+      "synchronousLayoutMilliseconds": 8.835,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 15,
+      "trace": "post-change-scale-only-15.json.gz",
+      "mainThreadMilliseconds": 103.038,
+      "synchronousLayoutMilliseconds": 6.127,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 16,
+      "trace": "post-change-scale-only-16.json.gz",
+      "mainThreadMilliseconds": 88.63,
+      "synchronousLayoutMilliseconds": 7.519,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 17,
+      "trace": "post-change-scale-only-17.json.gz",
+      "mainThreadMilliseconds": 87.865,
+      "synchronousLayoutMilliseconds": 6.926,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 18,
+      "trace": "post-change-scale-only-18.json.gz",
+      "mainThreadMilliseconds": 81.152,
+      "synchronousLayoutMilliseconds": 6.547,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 19,
+      "trace": "post-change-scale-only-19.json.gz",
+      "mainThreadMilliseconds": 92.195,
+      "synchronousLayoutMilliseconds": 6.275,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    },
+    {
+      "run": 20,
+      "trace": "post-change-scale-only-20.json.gz",
+      "mainThreadMilliseconds": 80.821,
+      "synchronousLayoutMilliseconds": 7.293,
+      "longTaskCount": 0,
+      "longestTaskMilliseconds": 0
+    }
+  ]
+}

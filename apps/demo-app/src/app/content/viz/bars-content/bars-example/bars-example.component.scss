@@ -19,8 +19,23 @@
     margin-bottom: grid(4);
   }
 
+  .performance-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: grid(1);
+    min-height: 36px;
+    margin-bottom: grid(1);
+  }
+
+  .performance-status {
+    min-height: 1.5em;
+    margin: 0 0 grid(2);
+  }
+
   .vic-xy-chart {
     display: block;
+    width: 100%;
+    min-width: 0;
   }
 
   .vic-bars-label {
