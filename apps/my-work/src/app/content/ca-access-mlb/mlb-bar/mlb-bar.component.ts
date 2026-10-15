@@ -132,6 +132,7 @@ export class MlbBarComponent implements OnInit {
   }
 
   getDataConfig(data: MlbRaceDatum[]): GroupedBarsConfig<MlbRaceDatum, string> {
+    console.log('data', data);
     const yDomain = [...new Set(data.map((d) => d.lob))].reverse();
     const yRange = structuredClone(mlbColorRange);
     if (!yDomain.includes('Medi-Cal')) {
