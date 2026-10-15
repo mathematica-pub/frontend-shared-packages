@@ -34,7 +34,6 @@ import { CaChartDataConfig, CaChartService } from '../../ca/ca-chart.service';
 import { caDataFolder, mlbDataPath } from '../../ca/data-paths.constants';
 import { NotesComponent } from '../../ca/notes/notes.component';
 import { MlbCountyDatum } from '../mlb-county-plot/mlb-county-plot.component';
-import { MlbDatum } from '../mlb-stacked-bars.component';
 
 interface ViewModel {
   chartConfig: ChartConfig;
@@ -150,7 +149,7 @@ export class MlbMapComponent implements OnInit {
       map((data) => ({
         chartConfig: this.getChartConfig(),
         geographiesConfig: this.getPrimaryMarksConfig(data as MlbCountyDatum[]),
-        isNoData: data.some((d: MlbDatum) => d.value === null),
+        isNoData: data.length < 58,
         units: data[0]?.units,
         directionality: data[0]?.directionality,
       })),
