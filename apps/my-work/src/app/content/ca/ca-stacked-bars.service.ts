@@ -163,6 +163,7 @@ export class CaStackedBarsService {
   }
 
   getMlbColorScale(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     config: StackedBarsConfig<any, string>
   ): ScaleOrdinal<string, unknown, never> {
     // const domain = [
